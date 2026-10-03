@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
   pull-requests: read
 
 concurrency:
@@ -16,6 +17,7 @@ concurrency:
 
 jobs:
   reconcile-main:
+    name: current-host-controller / reconcile-main
     runs-on: ubuntu-latest
     outputs:
       changed: ${{ steps.merge.outputs.changed }}
@@ -34,13 +36,16 @@ jobs:
             echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
+
           projection="canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
           set +e
           git merge --no-ff --no-commit refs/remotes/origin/main
           rc=$?
           set -e
+
           if [ "$rc" -ne 0 ]; then
             mapfile -t conflicts < <(git diff --name-only --diff-filter=U)
             for conflict in "${conflicts[@]}"; do
@@ -54,124 +59,26 @@ jobs:
                   git add "$conflict"
                   ;;
                 *)
-                  printf 'BLOCKED non-reconcilable conflict: %s\n' "$conflict" >&2
+                  echo "BLOCKED non-reconcilable conflict: $conflict" >&2
                   git merge --abort || true
                   exit 2
                   ;;
               esac
             done
             test -z "$(git diff --name-only --diff-filter=U)"
-            if printf '%s\n' "${conflicts[@]}" | grep -q '^src/fa3_donor_readiness.py          git commit -m "Merge main into Current Host closure generation"
-          git push origin "HEAD:refs/heads/${GITHUB_REF_NAME}"
-          echo "changed=true" >> "$GITHUB_OUTPUT"
 
-  plan:
-    needs: reconcile-main
-    if: needs.reconcile-main.outputs.changed != 'true'
-    runs-on: ubuntu-latest
-    outputs:
-      mode: ${{ steps.plan.outputs.mode }}
-      batch_id: ${{ steps.plan.outputs.batch_id }}
-      subjects: ${{ steps.plan.outputs.subjects }}
-      execute: ${{ steps.plan.outputs.execute }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.sha }}
-          fetch-depth: 0
-          persist-credentials: false
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - id: lineage
-        name: Resolve live-main exact generation
-        shell: bash
-        run: |
-          set -euo pipefail
-          git fetch --no-tags origin +refs/heads/main:refs/remotes/origin/main
-          main="$(git rev-parse refs/remotes/origin/main)"
-          base="$(git merge-base "$main" HEAD)"
-          git merge-base --is-ancestor "$main" HEAD
-          echo "main=$main" >> "$GITHUB_OUTPUT"
-          echo "base=$base" >> "$GITHUB_OUTPUT"
-      - name: Delta planner regressions
-        run: |
-          PYTHONPATH=src python -m unittest             tests.test_current_host_structural_impact_gate             tests.test_current_host_requalification_plan             tests.test_current_host_batch_integrity             tests.test_current_host_scoped_assertion             tests.test_global_current_host_workflow_trigger             tests.test_current_host_closure_controller -v
-      - name: Enforce hosted P0 boundaries
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-          FA3_CHANGE_BASE_SHA: ${{ steps.lineage.outputs.base }}
-          FA3_CHANGE_HEAD_SHA: ${{ github.sha }}
-          FA3_PUBLISHED_MAIN_SHA: ${{ steps.lineage.outputs.main }}
-        run: |
-          set -euo pipefail
-          PYTHONPATH=src python src/fa3_current_host_structural_impact_gate.py             --root . --base "$FA3_CHANGE_BASE_SHA" --head "$FA3_CHANGE_HEAD_SHA"
-          PYTHONPATH=src python src/fa3_donor_readiness.py --root . --phase status
-          ./bin/fa3-enforce reuse-discovery
-          PYTHONPATH=src python src/fa3_capability_model_175_gate.py
-      - id: projection
-        name: Projection stability barrier
-        shell: bash
-        run: |
-          set -euo pipefail
-          chmod +x bin/fa3-enforce
-          if ./bin/fa3-enforce release-projection; then
-            echo "valid=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "valid=false" >> "$GITHUB_OUTPUT"
-            echo "Physical execution deferred until repository-native projection reconciliation is adopted."
-          fi
-      - id: plan
-        name: Build exact generation requalification plan
-        shell: bash
-        run: |
-          set -euo pipefail
-          args=(--root . --main-in-lineage)
-          if [ "${{ steps.projection.outputs.valid }}" = "true" ]; then args+=(--projection-valid); fi
-          PYTHONPATH=src python src/fa3_current_host_requalification_plan.py "${args[@]}"
-
-  physical:
-    needs: plan
-    if: needs.plan.outputs.execute == 'true'
-    uses: ./.github/workflows/fa3-global-current-host-closure.yml
-    with:
-      execute_current_host: true
-      execution_batch_id: ${{ needs.plan.outputs.batch_id }}
-      execution_subjects: ${{ needs.plan.outputs.subjects }}
-      source_sha: ${{ github.sha }}
-
-  verify-generation:
-    needs: [plan, physical]
-    if: always() && needs.plan.outputs.execute == 'true'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.sha }}
-          fetch-depth: 0
-          persist-credentials: false
-      - name: Reject stale generation
-        env:
-          PHYSICAL_RESULT: ${{ needs.physical.result }}
-          EXPECTED_SHA: ${{ github.sha }}
-          BRANCH_NAME: ${{ github.ref_name }}
-        run: |
-          set -euo pipefail
-          test "$PHYSICAL_RESULT" = success
-          git fetch --no-tags origin             "+refs/heads/main:refs/remotes/origin/main"             "+refs/heads/$BRANCH_NAME:refs/remotes/origin/current"
-          test "$(git rev-parse refs/remotes/origin/current)" = "$EXPECTED_SHA"
-          git merge-base --is-ancestor refs/remotes/origin/main "$EXPECTED_SHA"
-          echo "Generation remains exact and merge-lineage current."
-; then
+            if printf '%s\n' "${conflicts[@]}" | grep -qx 'src/fa3_donor_readiness.py'; then
               grep -q 'pending_prs_graphql' src/fa3_donor_readiness.py
               PYTHONPATH=src python -m unittest tests.test_donor_readiness -v
             fi
           fi
+
           git commit -m "Merge main into Current Host closure generation"
           git push origin "HEAD:refs/heads/${GITHUB_REF_NAME}"
           echo "changed=true" >> "$GITHUB_OUTPUT"
 
   plan:
+    name: current-host-controller / plan
     needs: reconcile-main
     if: needs.reconcile-main.outputs.changed != 'true'
     runs-on: ubuntu-latest
@@ -189,6 +96,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+
       - id: lineage
         name: Resolve live-main exact generation
         shell: bash
@@ -200,9 +108,11 @@ jobs:
           git merge-base --is-ancestor "$main" HEAD
           echo "main=$main" >> "$GITHUB_OUTPUT"
           echo "base=$base" >> "$GITHUB_OUTPUT"
+
       - name: Delta planner regressions
         run: |
           PYTHONPATH=src python -m unittest             tests.test_current_host_structural_impact_gate             tests.test_current_host_requalification_plan             tests.test_current_host_batch_integrity             tests.test_current_host_scoped_assertion             tests.test_global_current_host_workflow_trigger             tests.test_current_host_closure_controller -v
+
       - name: Enforce hosted P0 boundaries
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -215,6 +125,7 @@ jobs:
           PYTHONPATH=src python src/fa3_donor_readiness.py --root . --phase status
           ./bin/fa3-enforce reuse-discovery
           PYTHONPATH=src python src/fa3_capability_model_175_gate.py
+
       - id: projection
         name: Projection stability barrier
         shell: bash
@@ -227,17 +138,54 @@ jobs:
             echo "valid=false" >> "$GITHUB_OUTPUT"
             echo "Physical execution deferred until repository-native projection reconciliation is adopted."
           fi
+
       - id: plan
         name: Build exact generation requalification plan
         shell: bash
         run: |
           set -euo pipefail
           args=(--root . --main-in-lineage)
-          if [ "${{ steps.projection.outputs.valid }}" = "true" ]; then args+=(--projection-valid); fi
+          if [ "${{ steps.projection.outputs.valid }}" = "true" ]; then
+            args+=(--projection-valid)
+          fi
           PYTHONPATH=src python src/fa3_current_host_requalification_plan.py "${args[@]}"
 
-  physical:
+  retire-stale:
+    name: current-host-controller / retire-stale-generations
     needs: plan
+    if: needs.plan.outputs.execute == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cancel active Current Host runs from older heads
+        uses: actions/github-script@v7
+        env:
+          TARGET_SHA: ${{ github.sha }}
+          BRANCH_NAME: ${{ github.ref_name }}
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const target = process.env.TARGET_SHA;
+            const branch = process.env.BRANCH_NAME;
+            const runs = await github.paginate(github.rest.actions.listWorkflowRunsForRepo, {
+              owner, repo, branch, per_page: 100
+            });
+            for (const run of runs) {
+              if (run.id === context.runId) continue;
+              if (!["queued", "in_progress", "waiting", "pending", "requested"].includes(run.status)) continue;
+              if (run.head_sha === target) continue;
+              if (!/current[- ]host/i.test((run.name || "") + " " + (run.path || ""))) continue;
+              core.info(`Cancelling stale generation run ${run.id}: ${run.name} @ ${run.head_sha}`);
+              try {
+                await github.rest.actions.cancelWorkflowRun({owner, repo, run_id: run.id});
+              } catch (error) {
+                if (error.status !== 409) throw error;
+              }
+            }
+
+  physical:
+    name: current-host-controller / physical
+    needs: [plan, retire-stale]
     if: needs.plan.outputs.execute == 'true'
     uses: ./.github/workflows/fa3-global-current-host-closure.yml
     with:
@@ -247,6 +195,7 @@ jobs:
       source_sha: ${{ github.sha }}
 
   verify-generation:
+    name: current-host-controller / verify-generation
     needs: [plan, physical]
     if: always() && needs.plan.outputs.execute == 'true'
     runs-on: ubuntu-latest
@@ -263,7 +212,7 @@ jobs:
           BRANCH_NAME: ${{ github.ref_name }}
         run: |
           set -euo pipefail
-          test "$PHYSICAL_RESULT" = success
+          test "$PHYSICAL_RESULT" = "success"
           git fetch --no-tags origin             "+refs/heads/main:refs/remotes/origin/main"             "+refs/heads/$BRANCH_NAME:refs/remotes/origin/current"
           test "$(git rev-parse refs/remotes/origin/current)" = "$EXPECTED_SHA"
           git merge-base --is-ancestor refs/remotes/origin/main "$EXPECTED_SHA"

@@ -243,8 +243,8 @@ permissions:
   contents: read
 
 concurrency:
-  group: fa3-current-host-physical-${{ github.event.pull_request.head.ref || github.ref_name }}
-  cancel-in-progress: true
+  group: ${{ (github.event_name == 'workflow_call' || github.event_name == 'workflow_dispatch') && format('fa3-current-host-physical-{0}-{1}', github.ref_name, inputs.source_sha || github.sha) || format('fa3-global-current-host-regression-{0}', github.event.pull_request.number || github.ref_name) }}
+  cancel-in-progress: ${{ github.event_name != 'pull_request' }}
 
 jobs:
   closure-regression:
