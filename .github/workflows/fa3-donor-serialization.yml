@@ -6,7 +6,9 @@ on:
   workflow_dispatch:
   workflow_call:
 concurrency:
-  group: fa3-donor-intake-global
+  # Per-PR serialization prevents duplicate runs for the same intake while the
+  # readiness gate enforces the global rolling five-slot admission window.
+  group: fa3-donor-intake-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: false
 permissions:
   contents: read
