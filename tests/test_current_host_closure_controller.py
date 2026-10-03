@@ -8,6 +8,12 @@ class T(unittest.TestCase):
   self.assertIn("cancel-in-progress: true",x); self.assertIn("git merge --no-ff --no-commit",x)
   self.assertIn("Projection stability barrier",x); self.assertIn("needs.plan.outputs.execute == 'true'",x)
   self.assertIn("fa3_current_host_requalification_plan.py",x)
+ def test_projection_adopter_is_exact_parent_projection_only(self):
+  x=(ROOT/".github/workflows/fa3-current-host-projection-adopt.yml").read_text()
+  self.assertIn('test "$(git rev-parse "$rec^")" = "$SOURCE_SHA"',x)
+  self.assertIn('test "${#changed[@]}" -eq 1',x)
+  self.assertIn('test "${changed[0]}" = "$projection"',x)
+  self.assertIn("./bin/fa3-enforce release-projection",x)
  def test_shared_physical_lock(self):
   token="fa3-current-host-physical-${{ github.event.pull_request.head.ref || github.ref_name }}"
   for p in [
