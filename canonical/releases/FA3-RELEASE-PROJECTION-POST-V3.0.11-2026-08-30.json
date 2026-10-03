@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "e7c9df62a42112b1ffab0f7c3856bc7c12513deb",
-    "pre_projection_root_tree_sha": "25d5270e777f3bd928397d7c5a2dadcea9a328bc",
-    "pre_projection_canonical_tree_sha": "fd2bfe6cb7650f449862e2a98aef3634ef72fde9",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2766,
-    "total_post_baseline_commits": 2766,
-    "delta_file_count": 2900,
-    "delta_added_files": 2894,
+    "pre_projection_head_sha": "e5a01cf304dc2aeeddbaba39de2eac368703ddc5",
+    "pre_projection_root_tree_sha": "cc7098a1bbca3f9f1b14f904382cf0079e5aa4f3",
+    "pre_projection_canonical_tree_sha": "8f7762bf0eaccecd1c6cab70c07c5864c5097e92",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2768,
+    "total_post_baseline_commits": 2768,
+    "delta_file_count": 2901,
+    "delta_added_files": 2895,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,7 +46,7 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1357,
+    "canonical_files_in_post_baseline_delta": 1358,
     "evidence_files_in_post_baseline_delta": 172,
     "source_files_in_post_baseline_delta": 368,
     "test_files_in_post_baseline_delta": 339,
@@ -1067,7 +1067,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2890,
+  "manifest_entry_count": 2891,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -4487,6 +4487,11 @@
     {
       "path": "canonical/assessments/FA3-DEV-UPDATE-DECISION-ASSESSMENT-2026-09-23.json",
       "git_blob_sha": "ba1982c830c5efc2cb02d628bb5b9998acad0ea1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/assessments/FA3-DONOR-INTAKE-CONCURRENCY-REUSE-ASSESSMENT-2026-10-03.json",
+      "git_blob_sha": "244836f398a5f530cb5521d8d5932facaaab7ece",
       "baseline_delta_status": "added"
     },
     {
