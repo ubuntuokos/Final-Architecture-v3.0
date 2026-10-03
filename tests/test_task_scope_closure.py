@@ -145,14 +145,14 @@ class TaskScopeClosureTests(unittest.TestCase):
         self.assertEqual(closed["user_closure_state"], NEW_TASK_DISCOVERED)
         self.assertEqual(closed["internal_terminal_state"], "VERIFIED")
 
-    def test_nonverified_terminal_requires_human_action(self):
+    def test_nonverified_terminal_freezes_and_requires_human_intervention(self):
         _, control = self.control()
-        with self.assertRaises(TaskScopeClosureError):
-            close_task_control(control, "FAILED")
-        blocked = close_task_control(
-            control, "FAILED", human_action="Review the failure and explicitly decide how to continue."
-        )
+        blocked = close_task_control(control, "FAILED")
         self.assertEqual(blocked["state"], HUMAN_INTERVENTION_REQUIRED)
+        self.assertTrue(blocked["execution_frozen"])
+        self.assertTrue(blocked["human_action_required"])
+        with self.assertRaises(TaskScopeClosureError):
+            assert_execution_allowed(blocked)
 
     def test_tampered_active_control_with_three_attempts_is_rejected(self):
         _, control = self.control()
