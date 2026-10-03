@@ -4,8 +4,10 @@ import json
 import sys
 from pathlib import Path
 
+from fa3_release_baseline import module_active_capability_count
+
 ROOT = Path(__file__).resolve().parents[1]
-CAP = 175
+CAP = module_active_capability_count(__file__)
 
 def load(rel: str):
     return json.loads((ROOT / rel).read_text(encoding="utf-8"))
