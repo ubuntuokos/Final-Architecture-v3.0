@@ -1,0 +1,30 @@
+{
+  "schema": "fa3.architecture-decision.v1",
+  "id": "FA3-DEC-SHARED-HAIR-GROOM-2026-10-03",
+  "status": "OWNER_APPROVED_MATERIALIZATION",
+  "date": "2026-10-03",
+  "title": "Shared Hair, Groom and Strand Asset Fabric",
+  "decision": "Materialize one cross-family provider-neutral shared Hair/Groom Fabric with canonical Hair Asset and typed reconstruction, grooming, dynamics and DCC/render handoff contracts. Reuse existing geometry, DCC, routing, resource, workflow, rights, security and evidence authorities. Do not create a standalone Hair application, a geometry child authority, a new capability, a runtime provider or a donor intake in this change.",
+  "invariants": {
+    "capability_baseline": 175,
+    "capability_delta": 0,
+    "architectural_authority_delta": 0,
+    "geometry_authority": "FA3-3D-GEOM-001",
+    "dcc_authority": "FA3-DCC-RT3D-001",
+    "pending_donors_consumed": false,
+    "donor_usage_edges_created": 0,
+    "donor_registry_modified": false,
+    "runtime_activation_by_this_change": false,
+    "physical_current_host_pass_claimed": false
+  },
+  "cross_family_scope": [
+    "FA3-FAMILY-CREATIVE-MEDIA-001",
+    "FA3-FAMILY-STUDIO-FILM-001"
+  ],
+  "runtime_effect": "STATIC_CONTRACT_MAPPING_AND_VALIDATION_ONLY_NO_EXECUTION_RUNTIME",
+  "serialized_donor_boundary": {
+    "active_intake_pr": 644,
+    "rule": "DO_NOT_MODIFY_CANONICAL_DONOR_REGISTRY_OR_DONOR_INTAKE_DELTA_WHILE_SLOT_IS_OCCUPIED",
+    "post_merge_action": "REBASE_AND_REEVALUATE_THE_SEVEN_OWNER_MARKED_HAIR_SOURCES_FROM_PUBLISHED_MAIN_BEFORE_SEPARATE_INTAKE"
+  }
+}
