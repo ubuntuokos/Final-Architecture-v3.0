@@ -1,0 +1,33 @@
+{
+  "schema": "fa3.application-gui-design-gate.v1",
+  "id": "FA3-GATE-APPLICATION-GUI-DESIGN-001",
+  "gateset_id": "FA3-APPLICATION-GUI-DESIGN-GATESET-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "fail_closed": true,
+  "policy_id": "FA3-APPLICATION-GUI-DESIGN-POLICY-001",
+  "subgates": [
+    "FA3-GATE-APPLICATION-GUI-DESIGN-001",
+    "FA3-GATE-GUI-FUNCTIONAL-SYNC-001",
+    "FA3-GATE-GUI-DESIGN-SYSTEM-COMPLIANCE-001"
+  ],
+  "blocking_findings": [
+    "GUI_CLASSIFICATION_MISSING",
+    "GUI_DESIGN_MISSING",
+    "FA3_GUI_PLACEMENT_MISSING",
+    "APPLICATION_MENU_PLACEMENT_MISSING",
+    "GUI_PLACEMENT_APPROVAL_MISSING",
+    "FUNCTION_ADDED_WITHOUT_GUI_ASSESSMENT",
+    "FUNCTION_REMOVED_BUT_GUI_REMAINS",
+    "FUNCTION_CHANGED_BUT_GUI_NOT_REVIEWED",
+    "GUI_REVISION_BEHIND_APPLICATION_REVISION",
+    "NON_FA3_VISUAL_STYLE",
+    "DUPLICATE_SHARED_GUI_COMPONENT",
+    "MANUAL_GUI_MISMATCH",
+    "RETROACTIVE_GUI_REVIEW_MISSING"
+  ],
+  "capability_count": 175,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "current_host_runtime_promotion_claim": false
+}
