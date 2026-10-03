@@ -6,7 +6,7 @@ from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"src"))
 from fa3_donor_readiness import (inspect_registry,pending_prs,gate,is_donor_pr,
-    is_donor_intake_pr,REGISTRY,REJECTION_AUDIT,git_blob_sha,planning_snapshot_findings)
+    is_donor_intake_pr,effective_donor_intake_pr,REGISTRY,REJECTION_AUDIT,git_blob_sha,planning_snapshot_findings)
 
 def source():
     v={"donor_id":"FA3-DONOR-X-001","source":{"normalized_key":"github:x/y"},
@@ -189,6 +189,41 @@ class Tests(unittest.TestCase):
                 return [{"filename":REGISTRY}]
             raise AssertionError(url)
         self.assertEqual([x["number"] for x in pending_prs(get)],[31,999])
+
+    def test_stale_base_byte_identical_donor_file_does_not_steal_intake_slot(self):
+        donor_sha="a"*40
+        files=[{"filename":REGISTRY,"sha":donor_sha}]
+        def get(url):
+            if "/contents/"+REGISTRY in url:
+                return {"sha":donor_sha}
+            raise AssertionError(url)
+        self.assertTrue(is_donor_intake_pr({"title":"stale current-host"},files))
+        self.assertFalse(effective_donor_intake_pr(
+            {"title":"stale current-host","head":{"sha":"b"*40}},files,get))
+
+    def test_real_donor_delta_still_claims_intake_slot(self):
+        files=[{"filename":REGISTRY,"sha":"b"*40}]
+        def get(url):
+            if "/contents/"+REGISTRY in url:
+                return {"sha":"a"*40}
+            raise AssertionError(url)
+        self.assertTrue(effective_donor_intake_pr(
+            {"title":"Donor intake","head":{"sha":"c"*40}},files,get))
+
+    def test_stale_base_pr_remains_visible_but_not_pending_intake(self):
+        donor_sha="a"*40
+        def get(url):
+            if "pulls?state=open" in url:
+                return [{"number":559,"title":"Current Host stale base",
+                         "head":{"sha":"b"*40}}]
+            if "/pulls/559/files?" in url:
+                return [{"filename":REGISTRY,"sha":donor_sha}]
+            if "/contents/"+REGISTRY in url:
+                return {"sha":donor_sha}
+            raise AssertionError(url)
+        rows=pending_prs(get)
+        self.assertEqual([r["number"] for r in rows],[559])
+        self.assertFalse(rows[0]["intake"])
 
     def test_hidden_reference_in_live_scan(self):
         def get(url):
