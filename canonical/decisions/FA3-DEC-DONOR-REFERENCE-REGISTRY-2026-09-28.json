@@ -47,7 +47,10 @@
     "NO_MANDATORY_RETROSPECTIVE_PR_DONOR_EXTRACTION",
     "UNMARKED_LINKS_AND_RESEARCH_HINTS_ARE_ANALYSIS_ONLY_NO_REGISTRY_MUTATION",
     "STRICT_OWNER_DONORNAK_MARKER_MUST_PRECEDE_REGISTERED_LINK",
-    "ONLY_ONE_ACTIVE_DONOR_INTAKE_CONVERSATION_OLDEST_OPEN_PR_OWNS_SLOT",
+    "MAXIMUM_FIVE_ACTIVE_DONOR_INTAKES_ROLLING_WINDOW",
+    "FREED_INTAKE_SLOT_IS_IMMEDIATELY_AVAILABLE_TO_NEXT_FIFO_WAITING_REQUEST",
+    "ACTIVE_DONOR_INTAKES_FINALIZE_BY_ASCENDING_ESTIMATED_WORKLOAD_THEN_FIFO",
+    "PENDING_DONOR_INTAKES_REMAIN_EXCLUDED_FROM_PUBLISHED_MAIN_PLANNING_SNAPSHOT",
     "PENDING_DONOR_CHANGES_EXCLUDED_FROM_VERIFIED_PUBLISHED_MAIN_PLANNING_SNAPSHOT",
     "PENDING_DONOR_MAINTENANCE_DOES_NOT_BLOCK_PLANNING_OR_FINALIZATION_ON_PUBLISHED_SNAPSHOT",
     "FINALIZATION_STILL_REQUIRES_EXPLICIT_APPROVED_PLAN_AND_EXACT_HEAD"
@@ -60,7 +63,7 @@
       "FINALIZATION"
     ],
     "pending_or_corrupt_registry": "PENDING_PR_IGNORED_FOR_PUBLISHED_MAIN_DESIGN_CORRUPT_OR_STALE_MAIN_BLOCKS",
-    "registered_maintenance": "EXCLUSIVE",
+    "registered_maintenance": "ROLLING_MAX_5",
     "maintenance_validation_grants_planning": false,
     "live_pr_inventory_required": true,
     "offline_unknown_state": "BLOCK",
@@ -97,13 +100,18 @@
     "owner_direct_submitted_link_requires_second_registry_approval": false,
     "pending_donor_pr_blocks_planning": false,
     "published_main_registry_required": true,
-    "one_donor_intake_conversation_at_a_time": true,
-    "intake_lock": "OLDEST_OPEN_CANONICAL_REGISTRY_OR_INTAKE_DELTA_PR_WITH_GLOBAL_GITHUB_ACTIONS_CONCURRENCY",
+    "one_donor_intake_conversation_at_a_time": false,
+    "intake_lock": "ROLLING_FIVE_SLOT_LIVE_PR_INVENTORY_WITH_EXACT_HEAD_CHECKS",
     "unmerged_donor_records_visible_for_design": false,
     "replan_after_new_donors_only_by_owner_request": true,
     "policy_only_prs_reserve_intake_slot": false,
     "reference_only_prs_reserve_intake_slot": false,
-    "intake_slot_claim_requires_real_canonical_donor_mutation": true
+    "intake_slot_claim_requires_real_canonical_donor_mutation": true,
+    "max_active_donor_intakes": 5,
+    "intake_queue_admission": "FIFO_BY_OPEN_PR_NUMBER",
+    "intake_slot_replacement": "IMMEDIATE_ON_FINALIZATION_OR_CLOSURE",
+    "finalization_order": "ASCENDING_ESTIMATED_WORKLOAD_THEN_FIFO",
+    "workload_metric": "SUM_GITHUB_CHANGED_LINES_WITH_ADDITIONS_DELETIONS_OR_FILE_FALLBACK"
   },
   "historical_extraction_exempt_prs": [
     24,
@@ -126,10 +134,16 @@
   "owner_unmarked_link_policy": "ANALYSIS_ONLY_NO_REGISTRY_MUTATION",
   "policy_supersedes": [
     "AUTOMATIC_POTENTIAL_DONOR_CANDIDATE_CAPTURE",
-    "GLOBAL_DONOR_PENDING_PR_DESIGN_AND_FINALIZATION_LOCK"
+    "GLOBAL_DONOR_PENDING_PR_DESIGN_AND_FINALIZATION_LOCK",
+    "SINGLE_ACTIVE_DONOR_INTAKE_SERIALIZATION"
   ],
   "legacy_embedded_registry_capture_flag": "HISTORICAL_SUPERSEDED_NO_AUTO_CAPTURE",
   "effective_capture_authority": "EXPLICIT_OWNER_DONORNAK_MARKER_ONLY",
   "unmarked_links_disposition": "ANALYSIS_ONLY_NO_REGISTRY_MUTATION",
-  "pending_registry_publication": "INVISIBLE_UNTIL_VERIFIED_MERGE_TO_MAIN"
+  "pending_registry_publication": "INVISIBLE_UNTIL_VERIFIED_MERGE_TO_MAIN",
+  "amended_2026_10_03": {
+    "status": "CANONICAL",
+    "change": "ROLLING_MAX_5_DONOR_INTAKES_WITH_SMALLEST_WORKLOAD_FIRST_FINALIZATION",
+    "explicit_user_approval": true
+  }
 }
