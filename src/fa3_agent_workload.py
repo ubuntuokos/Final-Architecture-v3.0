@@ -91,6 +91,9 @@ def validate_task(task: dict[str, Any]) -> dict[str, Any]:
         raise WorkloadContractError("authorized_ai_participants invalid")
     validate_fanout_limits(task["fanout_limits"])
     binding=task.get("goal_scope_binding")
+    goal_bound = task["root_task_id"] != task["task_id"]
+    if goal_bound and binding is None:
+        raise WorkloadContractError("root/goal-bound workload requires immutable goal_scope_binding")
     if binding is not None:
         try:
             validate_goal_scope_binding(binding, expected_root_task_id=task["root_task_id"])
@@ -268,7 +271,12 @@ def compile_execution_plan(
 ) -> dict[str, Any]:
     checked_task = validate_task(task)
     binding = checked_task.get("goal_scope_binding")
-    if binding is not None:
+    scope_control_required = (
+        checked_task["root_task_id"] != checked_task["task_id"] or binding is not None
+    )
+    if scope_control_required:
+        if binding is None:
+            raise WorkloadContractError("root/goal-bound workload requires immutable goal_scope_binding")
         if task_control is None:
             raise WorkloadContractError("goal-bound workload requires active task scope control")
         try:
@@ -302,7 +310,7 @@ def compile_execution_plan(
         "required_model_capabilities": sorted(set(required_caps)),
         "ledger": ledger,
         "task_scope_policy_id": binding.get("policy_id") if binding is not None else None,
-        "task_scope_control_required": binding is not None,
+        "task_scope_control_required": scope_control_required,
         "authorities": {
             "durable_workflow": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY",
             "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
