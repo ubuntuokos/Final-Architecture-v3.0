@@ -1,0 +1,34 @@
+name: FA3 MLT HeyGen Extended Media
+
+on:
+  pull_request:
+    paths:
+      - 'canonical/profiles/FA3-MLT-EXTENDED-MEDIA-SERVICE-001.json'
+      - 'canonical/profiles/FA3-DIGITAL-HUMAN-PROVIDER-FABRIC-001.json'
+      - 'canonical/contracts/FA3-MLT-EXTENDED-MEDIA-SERVICE-CONTRACTS-001.json'
+      - 'canonical/contracts/FA3-DIGITAL-HUMAN-PROVIDER-CONTRACTS-001.json'
+      - 'canonical/providers/FA3-PROVIDER-HEYGEN-001.json'
+      - 'canonical/FA3-ENGINE-REGISTRY-001.json'
+      - 'canonical/FA3-APPLICATION-DONOR-LINKS-001.json'
+      - 'canonical/mlt-heygen-enforcement.json'
+      - 'src/fa3_mlt_extended_media.py'
+      - 'src/fa3_mlt_heygen_gate.py'
+      - 'tests/test_mlt_heygen_extended_media.py'
+  workflow_dispatch:
+
+jobs:
+  static-gates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: MLT/HeyGen gate
+        run: python3 src/fa3_mlt_heygen_gate.py
+      - name: Dedicated regressions
+        run: python3 -m unittest tests.test_mlt_heygen_extended_media -v
+      - name: Engine selector regressions
+        run: python3 -m unittest tests.test_engine_selector -v
+      - name: Application donor usage graph regressions
+        run: python3 -m unittest tests.test_application_donor_index -v
