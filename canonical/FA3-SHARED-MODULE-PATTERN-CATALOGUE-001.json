@@ -322,7 +322,10 @@
         "music-ducking",
         "take-versioning",
         "voice-activity-overlay"
-      ]
+      ],
+      "materialization_profile_id": "FA3-VOICE-001",
+      "materialization_contract_id": "FA3-VOICE-CONTRACTS-001",
+      "materialization_status": "GUI_HOST_CONTRACT_MATERIALIZED_RUNTIME_ADAPTER_GATED"
     }
   ],
   "analysis_only_sources": [
@@ -705,19 +708,6 @@
       ],
       "binding_semantics": "DERIVED_FROM_CANONICAL_PROFILE_CONTRACT_ONLY",
       "current_host_impact": "NO_RUNTIME_IMPACT"
-    },
-    {
-      "id": "FA3-SHARED-VOICE-PLUGIN-001",
-      "profile_id": "FA3-VOICE-001",
-      "contract_id": "FA3-VOICE-CONTRACTS-001",
-      "pattern_references": [
-        "FA3-SHARED-TEMPORAL-MEDIA-PATTERN-001",
-        "FA3-SHARED-CREATIVE-PROVENANCE-PATTERN-001",
-        "FA3-SHARED-STATEFUL-WORKFLOW-PATTERN-001",
-        "FA3-SHARED-AI-COMPOSITION-PATTERN-001"
-      ],
-      "binding_semantics": "DERIVED_FROM_CANONICAL_PROFILE_CONTRACT_ONLY",
-      "current_host_impact": "STRUCTURAL_GUI_REASSESSMENT_REQUIRED"
     }
   ]
 }
