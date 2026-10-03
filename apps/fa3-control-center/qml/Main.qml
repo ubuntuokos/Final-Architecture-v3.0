@@ -696,6 +696,8 @@ ApplicationWindow {
                         NavButton { iconText: "AI"; label: "AI Module Factory"; routeId: "create.ai-module-factory" }
                         NavButton { iconText: "CC"; label: "Subtitle Studio"; routeId: "create.subtitle-studio" }
                         NavButton { iconText: "VO"; label: "Narration Studio"; routeId: "create.narration-studio" }
+                        NavButton { iconText: "VS"; label: "Voice Studio"; routeId: "create.voice-studio" }
+                        NavButton { iconText: "QV"; label: "Quick Voice Plugin"; routeId: "create.quick-voice-plugin" }
                         NavButton { iconText: "⌘"; label: "Knowledge & Retrieval"; routeId: "create.knowledge" }
 
                         Item { Layout.preferredHeight: 8 }
