@@ -18,6 +18,7 @@ SOURCES = (
     "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
     "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
     "canonical/FA3-PRODUCT-FAMILY-REGISTRY-001.json",
+    "canonical/FA3-APPLICATION-GUI-DESIGN-POLICY-001.json",
     "canonical/FA3-RELEASE-CAPABILITY-BASELINE-001.json",
     "canonical/profiles/FA3-SHARED-AI-INTERACTION-001.json",
     "canonical/contracts/FA3-SHARED-AI-INTERACTION-CONTRACTS-001.json",
@@ -111,10 +112,29 @@ class ApplicationDonorIndexTests(unittest.TestCase):
         for app in report["applications"]:
             gui = app["gui_governance"]
             self.assertEqual(gui["policy_id"], "FA3-APPLICATION-GUI-DESIGN-POLICY-001")
-            self.assertTrue(gui["retroactive"])
-            self.assertTrue(gui["continuous_change_sync_required"])
-            self.assertTrue(gui["fa3_design_system_required"])
-            self.assertTrue(gui["approval_fabrication_forbidden"])
+            if app.get("lifecycle") == "REFERENCE_ONLY":
+                self.assertFalse(gui["fa3_gui_obligation"])
+                self.assertEqual(gui["review_status"], "REFERENCE_ONLY_NO_FA3_GUI_MUTATION")
+                self.assertNotIn("fa3_design_system_required", gui)
+            else:
+                self.assertTrue(gui["fa3_gui_obligation"])
+                self.assertTrue(gui["retroactive"])
+                self.assertTrue(gui["continuous_change_sync_required"])
+                self.assertTrue(gui["fa3_design_system_required"])
+                self.assertTrue(gui["approval_fabrication_forbidden"])
+
+    def test_canonical_gui_policy_drift_fails_closed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            fixture(root)
+            path = root / "canonical/FA3-APPLICATION-GUI-DESIGN-POLICY-001.json"
+            policy = json.loads(path.read_text())
+            policy["design_system"]["mode"] = "APPLICATION_LOCAL"
+            path.write_text(json.dumps(policy))
+            findings = {
+                row["code"] for row in build_index(root)["validation"]["findings"]
+            }
+            self.assertIn("APPLICATION_GUI_CANONICAL_POLICY_INVALID", findings)
 
     def test_gui_governance_policy_drift_fails_closed(self):
         with tempfile.TemporaryDirectory() as tmp:
