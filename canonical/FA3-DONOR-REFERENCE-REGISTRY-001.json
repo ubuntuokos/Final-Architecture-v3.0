@@ -46424,6 +46424,126 @@
       "automatic_model_selection": false
     },
     {
+      "donor_id": "FA3-DONOR-MAGGI-CHEN-INSPECTOR-001",
+      "name": "Inspector long-read assembly verification reference",
+      "source": {
+        "kind": "GITHUB_REPOSITORY",
+        "locator": "https://github.com/Maggi-Chen/Inspector",
+        "normalized_key": "github:maggi-chen/inspector",
+        "discovery_urls": [
+          "https://github.com/Maggi-Chen/Inspector"
+        ]
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false,
+        "approval_ref": "docs/donor-maggi-chen-inspector-2026-10-03.md"
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-10-03-maggi-chen-inspector"
+      ],
+      "first_seen": "2026-10-03",
+      "last_seen": "2026-10-03",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_RIGHTS_SECURITY_PROVENANCE_COEXISTENCE_AND_ADMISSION_REVIEW",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "QUALITY_REFERENCE",
+        "TEST_PATTERN",
+        "WORKFLOW_PATTERN",
+        "REFERENCE_IMPLEMENTATION"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_REPOSITORY_DECLARED"
+      },
+      "source_snapshot": {
+        "commit": "2d813d96eb38adec9b8fb25388a3f4f1a2c63573",
+        "observed_at": "2026-10-03"
+      },
+      "selection_scope": {
+        "mode": "SELECTIVE_FA3_QUALITY_VERIFICATION_PATTERNS_ONLY",
+        "full_upstream_application_adoption": false,
+        "runtime_adoption": false,
+        "code_copy": false,
+        "selected_capabilities": [
+          "reference-free-validation",
+          "reference-backed-validation",
+          "structural-error-localization",
+          "local-error-localization",
+          "evidence-supported-confidence",
+          "error-classification",
+          "correction-revalidation-loop",
+          "quality-summary-reporting"
+        ],
+        "intended_fa3_targets": [
+          "FA3 Verification Service",
+          "FA3 Shared Media Review and Annotation",
+          "FA3 Creative Provenance",
+          "FA3 shared artifact-quality workflows"
+        ]
+      },
+      "capability_hints": [
+        "reference-free-validation",
+        "reference-backed-validation",
+        "structural-error-localization",
+        "local-error-localization",
+        "evidence-supported-confidence",
+        "error-classification",
+        "correction-revalidation-loop",
+        "quality-summary-reporting"
+      ],
+      "domain_hints": [
+        "verification",
+        "quality-assurance",
+        "artifact-integrity",
+        "error-detection",
+        "bioinformatics"
+      ],
+      "problem_hints": [
+        "validation-without-ground-truth",
+        "multi-scale-error-classification",
+        "localized-defect-detection",
+        "evidence-backed-confidence",
+        "repair-and-revalidation"
+      ],
+      "target_hints": [
+        "FA3 Verification Service",
+        "FA3 Shared Media Review and Annotation",
+        "FA3 Creative Provenance",
+        "FA3 shared artifact-quality workflows"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "github-repository",
+        "inspector",
+        "quality-verification",
+        "reference-only-no-runtime"
+      ],
+      "notes": [
+        "The owner explicitly marked https://github.com/Maggi-Chen/Inspector with donornak on 2026-10-03.",
+        "GitHub upstream identity verification confirms Maggi-Chen/Inspector is the non-fork repository; ChongLab/Inspector is a fork and is not separately admitted by this intake.",
+        "Upstream master was observed at 2d813d96eb38adec9b8fb25388a3f4f1a2c63573 on 2026-10-03; upstream LICENSE declares MIT.",
+        "This intake canonicalizes the donor identity only. It does not install Inspector, copy Inspector code, adopt its bioinformatics runtime/dependencies, admit providers/models/services, create architectural authority, or create a donor usage edge.",
+        "Reusable FA3 lessons are reference-free/reference-backed validation, multi-scale error localization/classification, evidence-supported confidence, and detect-propose-correct-revalidate workflow patterns.",
+        "Capability bindings are not manually inferred from donor names; any materialized use must derive bindings from canonical FA3 profile/contract capability_bindings and record an explicit usage edge.",
+        "Existing FA3 Evidence, Human approval, Security, HRB, Model Router, Reuse Discovery and workflow authorities remain unchanged.",
+        "No concrete FA3 application is selected or reconciled by this reference-only intake; application adoption remains deferred to a post-publication Reuse Assessment plus explicit usage edge."
+      ]
+    },
+    {
       "donor_id": "FA3-DONOR-MAIL-0-ZERO-001",
       "name": "Mail-0/Zero",
       "source": {
@@ -88495,127 +88615,6 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
-    },
-    {
-      "donor_id": "FA3-DONOR-MAGGI-CHEN-INSPECTOR-001",
-      "name": "Inspector long-read assembly verification reference",
-      "source": {
-        "kind": "GITHUB_REPOSITORY",
-        "locator": "https://github.com/Maggi-Chen/Inspector",
-        "normalized_key": "github:maggi-chen/inspector",
-        "discovery_urls": [
-          "https://github.com/Maggi-Chen/Inspector"
-        ]
-      },
-      "status": "ACCEPTED_REFERENCE",
-      "submission_review": {
-        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
-        "scope": "REFERENCE_REGISTRATION_ONLY",
-        "second_registry_approval_required": false,
-        "approval_ref": "docs/donor-maggi-chen-inspector-2026-10-03.md"
-      },
-      "discovered_from": [
-        "owner-explicit-donornak-2026-10-03-maggi-chen-inspector"
-      ],
-      "first_seen": "2026-10-03",
-      "last_seen": "2026-10-03",
-      "discoverable_for_planning": true,
-      "authority": false,
-      "automatic_selection": false,
-      "automatic_fetch": false,
-      "automatic_install": false,
-      "automatic_activation": false,
-      "automatic_dependency": false,
-      "automatic_code_import": false,
-      "automatic_provider_admission": false,
-      "automatic_model_selection": false,
-      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_RIGHTS_SECURITY_PROVENANCE_COEXISTENCE_AND_ADMISSION_REVIEW",
-      "donor_modes": [
-        "ARCHITECTURE_PATTERN",
-        "QUALITY_REFERENCE",
-        "TEST_PATTERN",
-        "WORKFLOW_PATTERN",
-        "REFERENCE_IMPLEMENTATION"
-      ],
-      "license": {
-        "declared": "MIT",
-        "status": "UPSTREAM_REPOSITORY_DECLARED"
-      },
-      "source_snapshot": {
-        "commit": "2d813d96eb38adec9b8fb25388a3f4f1a2c63573",
-        "observed_at": "2026-10-03"
-      },
-      "selection_scope": {
-        "mode": "SELECTIVE_FA3_QUALITY_VERIFICATION_PATTERNS_ONLY",
-        "full_upstream_application_adoption": false,
-        "runtime_adoption": false,
-        "code_copy": false,
-        "selected_capabilities": [
-          "reference-free-validation",
-          "reference-backed-validation",
-          "structural-error-localization",
-          "local-error-localization",
-          "evidence-supported-confidence",
-          "error-classification",
-          "correction-revalidation-loop",
-          "quality-summary-reporting"
-        ],
-        "intended_fa3_targets": [
-          "FA3 Verification Service",
-          "FA3 Shared Media Review and Annotation",
-          "FA3 Creative Provenance",
-          "FA3 AI Module Factory",
-          "FA3 shared artifact-quality workflows"
-        ]
-      },
-      "capability_hints": [
-        "reference-free-validation",
-        "reference-backed-validation",
-        "structural-error-localization",
-        "local-error-localization",
-        "evidence-supported-confidence",
-        "error-classification",
-        "correction-revalidation-loop",
-        "quality-summary-reporting"
-      ],
-      "domain_hints": [
-        "verification",
-        "quality-assurance",
-        "artifact-integrity",
-        "error-detection",
-        "bioinformatics"
-      ],
-      "problem_hints": [
-        "validation-without-ground-truth",
-        "multi-scale-error-classification",
-        "localized-defect-detection",
-        "evidence-backed-confidence",
-        "repair-and-revalidation"
-      ],
-      "target_hints": [
-        "FA3 Verification Service",
-        "FA3 Shared Media Review and Annotation",
-        "FA3 Creative Provenance",
-        "FA3 AI Module Factory",
-        "FA3 shared artifact-quality workflows"
-      ],
-      "tags": [
-        "explicit-owner-donornak",
-        "metadata-only",
-        "github-repository",
-        "inspector",
-        "quality-verification",
-        "reference-only-no-runtime"
-      ],
-      "notes": [
-        "The owner explicitly marked https://github.com/Maggi-Chen/Inspector with donornak on 2026-10-03.",
-        "GitHub upstream identity verification confirms Maggi-Chen/Inspector is the non-fork repository; ChongLab/Inspector is a fork and is not separately admitted by this intake.",
-        "Upstream master was observed at 2d813d96eb38adec9b8fb25388a3f4f1a2c63573 on 2026-10-03; upstream LICENSE declares MIT.",
-        "This intake canonicalizes the donor identity only. It does not install Inspector, copy Inspector code, adopt its bioinformatics runtime/dependencies, admit providers/models/services, create architectural authority, or create a donor usage edge.",
-        "Reusable FA3 lessons are reference-free/reference-backed validation, multi-scale error localization/classification, evidence-supported confidence, and detect-propose-correct-revalidate workflow patterns.",
-        "Capability bindings are not manually inferred from donor names; any materialized use must derive bindings from canonical FA3 profile/contract capability_bindings and record an explicit usage edge.",
-        "Existing FA3 Evidence, Human approval, Security, HRB, Model Router, Reuse Discovery and workflow authorities remain unchanged."
-      ]
     }
   ],
   "historical_partial_reuse_review": {
