@@ -421,6 +421,10 @@ def close_task_control(
     else:
         result["state"] = HUMAN_INTERVENTION_REQUIRED
         result["user_closure_state"] = HUMAN_INTERVENTION_REQUIRED
-        result["human_action_required"] = _required(human_action, "human_action")
+        result["human_action_required"] = (
+            human_action.strip()
+            if isinstance(human_action, str) and human_action.strip()
+            else f"Review terminal state {internal_terminal_state} and explicitly decide whether and how to continue."
+        )
         result["stop_reason"] = f"INTERNAL_{internal_terminal_state}"
     return validate_task_control(result)
