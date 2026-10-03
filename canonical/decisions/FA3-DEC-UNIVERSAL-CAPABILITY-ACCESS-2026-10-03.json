@@ -1,0 +1,29 @@
+{
+  "schema": "fa3.architecture-decision.v1",
+  "id": "FA3-DEC-UNIVERSAL-CAPABILITY-ACCESS-2026-10-03",
+  "date": "2026-10-03",
+  "status": "ACCEPTED",
+  "title": "Apply Universal Capability Access to the full FA3 donor registry",
+  "explicit_user_approval": true,
+  "user_request_ref": "conversation-2026-10-03-full-donor-list-universal-access-and-execution",
+  "decision": [
+    "Apply the Universal Capability Access rule retroactively to every current donor record and prospectively to every future donor record.",
+    "A donor-imposed geographic, territorial, noncommercial, account, cloud, platform or hardware restriction must never become the sole implementation path of an FA3 user-facing capability.",
+    "Keep restricted donors as references when useful, but require a globally usable FA3-native or independently rights-cleared substitute before restricted material adoption.",
+    "Do not evade upstream restrictions with VPN, proxying, foreign hosting, artifact relocation or equivalent circumvention.",
+    "Unknown or unverified access rights fail closed for material adoption.",
+    "Preserve the existing License & Rights Authority, Donor Registry, Model Router, HRB and other canonical authorities; create no parallel authority.",
+    "Keep the capability baseline at 175."
+  ],
+  "bindings": {
+    "policy": "FA3-UNIVERSAL-CAPABILITY-ACCESS-POLICY-001",
+    "gate": "FA3-GATE-UNIVERSAL-CAPABILITY-ACCESS-001",
+    "donor_registry": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "license_rights": "FA3-LICENSE-RIGHTS-001",
+    "application_donor_links": "FA3-APPLICATION-DONOR-LINKS-001"
+  },
+  "capability_count_before": 175,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}
