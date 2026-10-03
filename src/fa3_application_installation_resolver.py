@@ -59,12 +59,17 @@ def _candidate(
 
 
 def _dedupe(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Collapse aliases for one physical installation.
+
+    The caller orders candidates from strongest packaging provenance to weakest.
+    A PATH alias must therefore never duplicate a DEB/RPM/AppImage/manual instance
+    that resolves to the same execution command.
+    """
     out: list[dict[str, Any]] = []
-    seen: set[tuple[str, str, str]] = set()
+    seen: set[tuple[str, str]] = set()
     for row in rows:
         key = (
             str(row.get("application_id")),
-            str(row.get("packaging")),
             json.dumps(row.get("command_prefix", []), separators=(",", ":")),
         )
         if key not in seen:
@@ -244,13 +249,13 @@ def discover_registered_application(
 ) -> list[dict[str, Any]]:
     spec = application_spec(root, application_id)
     rows = _dedupe([
-        *_native_candidates(spec),
         *_deb_candidates(spec, runner),
         *_rpm_candidates(spec, runner),
         *_flatpak_candidates(spec, runner),
         *_snap_candidates(spec, runner),
         *_portable_candidates(spec),
         *_manual_candidates(spec),
+        *_native_candidates(spec),
     ])
     if perform_health_check:
         rows = [_health(row, spec, runner) for row in rows]
