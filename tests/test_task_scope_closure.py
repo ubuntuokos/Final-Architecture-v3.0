@@ -4,6 +4,8 @@ from __future__ import annotations
 import copy
 import unittest
 
+from fa3_agent_workload import WorkloadContractError, compile_execution_plan
+
 from fa3_task_scope_closure import (
     CLOSED,
     DONE,
@@ -152,6 +154,61 @@ class TaskScopeClosureTests(unittest.TestCase):
         control["blocker_attempts"][fp] = 3
         with self.assertRaises(TaskScopeClosureError):
             validate_task_control(control)
+
+    def test_goal_bound_execution_plan_requires_active_control(self):
+        binding, control = self.control()
+        task = {
+            "schema": "fa3.agent-workload-task.v1",
+            "task_id": "task-1",
+            "root_task_id": "goal-scope-1",
+            "action_ref": "orchestration.execute",
+            "agent_definition_ref": "agent:a",
+            "workspace_refs": [],
+            "resource_requirements": {},
+            "network_envelope_ref": "net:1",
+            "model_intent": {"required_capabilities": ["tools"]},
+            "authorized_ai_participants": ["agent:a"],
+            "fanout_limits": {
+                "max_children": 1, "max_depth": 1, "max_concurrent_children": 1,
+                "max_runtime_seconds": 60, "max_retries": 1,
+                "max_tool_calls": 2, "max_model_requests": 2,
+            },
+            "goal_scope_binding": binding,
+        }
+        graph = {
+            "schema": "fa3.agent-workflow-graph.v1",
+            "graph_id": "g",
+            "entry_node": "n1",
+            "yaml_is_canonical": False,
+            "nodes": [{"node_id": "n1", "kind": "AGENT", "side_effecting": False}],
+            "edges": [],
+        }
+        model = {
+            "schema": "fa3.model-capability-descriptor.v1",
+            "logical_model_id": "default",
+            "source": "PROVIDER_DECLARED",
+            "router_authority": "FA3-AUTH-MODEL-ROUTER-001",
+            "model_id_heuristic": False,
+            "capabilities": {
+                "tools": True, "structured_output": False, "media_input": False,
+                "media_output": False, "streaming": True,
+            },
+        }
+        with self.assertRaises(WorkloadContractError):
+            compile_execution_plan(
+                task, graph, model, task_spec_digest="sha256:task", max_transfer_hops=1
+            )
+        plan = compile_execution_plan(
+            task, graph, model, task_spec_digest="sha256:task", max_transfer_hops=1,
+            task_control=control,
+        )
+        self.assertTrue(plan["task_scope_control_required"])
+        closed = close_task_control(control, "VERIFIED")
+        with self.assertRaises(WorkloadContractError):
+            compile_execution_plan(
+                task, graph, model, task_spec_digest="sha256:task", max_transfer_hops=1,
+                task_control=closed,
+            )
 
 
 if __name__ == "__main__":
