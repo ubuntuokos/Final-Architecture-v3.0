@@ -201,7 +201,6 @@
         "request_id",
         "mode",
         "source_audio_ref",
-        "target_voice_identity_ref",
         "execution_mode",
         "output_intent",
         "consent_proof",
@@ -228,7 +227,11 @@
         "formant_intent": "bounded provider-neutral formant intent",
         "prosody_intent": "bounded provider-neutral prosody intent",
         "language": "explicit language/locale when linguistic content is relevant",
-        "provider_constraints": "optional allow/deny and local-only constraints; never direct execution authority"
+        "provider_constraints": "optional allow/deny and local-only constraints; never direct execution authority",
+        "license_and_rights_status": "resolved admission status; MUST equal PASS before execution",
+        "resource_admission_ref": "required for any accelerator execution; issued only by Host Resource Broker",
+        "silent_fallback": "MUST be false",
+        "provider_eligibility": "selected provider MUST be independently admitted; reference-only providers are forbidden"
       },
       "rules": [
         "no provider, model, device, cloud or language fallback may occur silently",
@@ -237,7 +240,18 @@
         "device placement and accelerator leases remain exclusive to FA3-AUTH-HOST-RESOURCE-BROKER-001",
         "unknown or incompatible rights fail closed",
         "reference-only donor children cannot be selected as providers"
-      ]
+      ],
+      "conditional_required": {
+        "target_voice_identity_ref": [
+          "VOICE_CONVERSION",
+          "REALTIME_VOICE_CONVERSION",
+          "SINGING_VOICE_CONVERSION",
+          "STYLE_TRANSFER"
+        ],
+        "latency_requirement": [
+          "REALTIME_VOICE_CONVERSION"
+        ]
+      }
     },
     "transformation_result": {
       "schema": "fa3.voice-transformation-result.v1",
@@ -252,16 +266,24 @@
         "sample_rate_hz",
         "channels",
         "source_audio_ref",
-        "target_voice_identity_ref",
         "license_and_rights_ref",
-        "execution_evidence"
+        "execution_evidence",
+        "synthetic_disclosure"
       ],
       "rules": [
         "result MUST bind request, source audio, target voice identity when applicable, provider, model, device and output lineage",
         "native-rate master MUST be preserved when media projection resamples",
         "synthetic or transformed-audio disclosure MUST be retained",
         "result MUST NOT create provider-specific consent, identity, routing or hardware authority"
-      ]
+      ],
+      "conditional_required": {
+        "target_voice_identity_ref": [
+          "VOICE_CONVERSION",
+          "REALTIME_VOICE_CONVERSION",
+          "SINGING_VOICE_CONVERSION",
+          "STYLE_TRANSFER"
+        ]
+      }
     },
     "realtime_session": {
       "schema": "fa3.realtime-voice-session.v1",
