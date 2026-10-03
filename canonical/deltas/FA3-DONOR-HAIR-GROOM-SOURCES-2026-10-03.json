@@ -9,29 +9,24 @@
   "submitted_url_count": 16,
   "duplicate_submission_count": 0,
   "canonical_alias_collapse_count": 0,
-  "source_resolution_count": 1,
-  "unique_source_count": 16,
-  "new_source_count": 16,
-  "resulting_entry_count": 1421,
+  "source_resolution_count": 0,
+  "unique_source_count": 15,
+  "new_source_count": 15,
+  "resulting_entry_count": 1420,
   "capability_baseline": 175,
   "capability_delta": 0,
   "authority_delta": 0,
   "usage_edges_created": 0,
-  "source_resolutions": [
-    {
-      "submitted": "https://github.com/Vanessi k",
-      "canonical": "https://github.com/Vanessik",
-      "reason": "MALFORMED_WHITESPACE_LOCATOR_RESOLVED_TO_VERIFIED_PROFILE"
-    }
-  ],
+  "source_resolutions": [],
   "requirements": [
-    "All owner-marked links are reference-registration metadata only.",
+    "Fifteen valid owner-marked links are reference-registration metadata only; the malformed Vanessi k submission remains unresolved analysis-only provenance.",
     "GitHub profile, organization and topic pages are discovery indexes and do not recursively admit child repositories.",
     "Concrete repositories and research project pages do not imply code, model, weight, dataset, provider or runtime admission.",
     "License and rights remain fail-closed for material reuse; UNKNOWN or non-commercial/research-only terms block source copying until reviewed.",
     "GPU/CUDA-oriented upstream implementations cannot become mandatory because FA3 retains CPU-only viability and Hardware Safety governance.",
     "No donor usage edge is created by this intake.",
-    "Capability baseline remains 175 and no architectural authority is created."
+    "Capability baseline remains 175 and no architectural authority is created.",
+    "The corrected https://github.com/Vanessik locator requires a new explicit owner donor-marking before registry admission."
   ],
   "sources": [
     [
@@ -49,10 +44,6 @@
     [
       "https://github.com/facebookresearch/CT2Hair",
       "FA3-DONOR-FACEBOOKRESEARCH-CT2HAIR-001"
-    ],
-    [
-      "https://github.com/Vanessik",
-      "FA3-DONOR-VANESSIK-001"
     ],
     [
       "https://haiminluo.github.io/hairgpt/",
@@ -117,10 +108,6 @@
       "FA3-DONOR-FACEBOOKRESEARCH-CT2HAIR-001"
     ],
     [
-      "https://github.com/Vanessi k",
-      "FA3-DONOR-VANESSIK-001"
-    ],
-    [
       "https://haiminluo.github.io/hairgpt/",
       "FA3-DONOR-HAIRGPT-001"
     ],
@@ -166,5 +153,15 @@
     ]
   ],
   "serialization_scope": "EXCLUSIVE_DONOR_MAINTENANCE",
-  "serialization_order": "OLDEST_OPEN_INTAKE_FIRST"
+  "serialization_order": "OLDEST_OPEN_INTAKE_FIRST",
+  "unresolved_submitted_source_count": 1,
+  "submitted_unique_source_count": 16,
+  "unresolved_submissions": [
+    {
+      "submitted": "https://github.com/Vanessi k",
+      "status": "ANALYSIS_ONLY_UNRESOLVED_MALFORMED_LINK",
+      "reason": "CORRECTED_URL_NOT_EXPLICITLY_OWNER_MARKED_FOR_DONOR_REGISTRATION",
+      "corrected_candidate": "https://github.com/Vanessik"
+    }
+  ]
 }
