@@ -424,8 +424,25 @@
       "secret_authority": "FA3-AUTH-SECRETS-001",
       "authority": false,
       "runtime_promotion_claim": false
+    },
+    {
+      "route_id": "product.my-fa3",
+      "title": "My FA3",
+      "group": "HOME",
+      "projection": "PRODUCT_ENTITLEMENT_AND_APPLICATION_PORTFOLIO",
+      "profile_id": "FA3-ENTITLEMENT-POLICY-001",
+      "portfolio_id": "FA3-APPLICATION-PORTFOLIO-001",
+      "operating_level_id": "FA3-OPERATING-LEVEL-MODEL-001",
+      "mode": "READ_ONLY_PRODUCT_CONFIGURATION_PROJECTION",
+      "mutation": "NONE",
+      "direct_runtime_execution": false,
+      "direct_license_override": false,
+      "direct_security_override": false,
+      "authority": false,
+      "runtime_promotion_claim": false
     }
   ],
   "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
-  "workload_mode_framework_id": "FA3-WORKLOAD-MODE-FRAMEWORK-001"
+  "workload_mode_framework_id": "FA3-WORKLOAD-MODE-FRAMEWORK-001",
+  "surface_count": 41
 }

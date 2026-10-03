@@ -1,0 +1,154 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-REUSE-ASSESSMENT-2026-10-03",
+  "project_id": "FA3-APPLICATION-PORTFOLIO-001",
+  "intent_id": "FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-INTENT-2026-10-03",
+  "intent_path": "canonical/intents/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-INTENT-2026-10-03.json",
+  "covered_ids": [
+    "FA3-APPLICATION-PORTFOLIO-001",
+    "FA3-OPERATING-LEVEL-MODEL-001",
+    "FA3-DOMAIN-PACK-REGISTRY-001",
+    "FA3-PRODUCT-CATALOG-001",
+    "FA3-APPLICATION-DEPENDENCY-REGISTRY-001",
+    "FA3-ENTITLEMENT-POLICY-001",
+    "FA3-PRODUCT-FAMILY-REGISTRY-001"
+  ],
+  "result": "PASS",
+  "donor_review": "REVIEWED_NO_MATCH",
+  "selected_reuse": [
+    {
+      "id": "FA3-PRODUCT-FAMILY-REGISTRY-001",
+      "use": "EXISTING_CANONICAL_PRODUCT_FAMILY_TAXONOMY_AND_APPLICATION_PLACEMENT_CLASSIFICATION"
+    },
+    {
+      "id": "FA3-APP-LIFECYCLE-001",
+      "use": "PRESERVE_PROVISIONING_STATE_MACHINE_SEPARATELY_FROM_PORTFOLIO_STATE"
+    },
+    {
+      "id": "FA3-APPLICATION-DONOR-LINKS-001",
+      "use": "REUSE_EXISTING_APPLICATION_DONOR_RELATIONSHIPS_WITHOUT_DUPLICATING_DONOR_AUTHORITY"
+    },
+    {
+      "id": "FA3-ENGINE-SELECTION-FABRIC-001",
+      "use": "REUSE_EXISTING_APPLICATION_AND_TASK_SCOPE_ENGINE_INTENT_MODEL"
+    },
+    {
+      "id": "FA3-LICENSE-RIGHTS-001",
+      "use": "EXISTING_FAIL_CLOSED_RIGHTS_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "EXISTING_RESOURCE_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "EXISTING_MODEL_PROVIDER_ROUTING_AUTHORITY"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "SECOND_PRODUCT_FAMILY_AUTHORITY",
+      "reason": "REUSE_FA3_PRODUCT_FAMILY_REGISTRY_001"
+    },
+    {
+      "id": "SEPARATE_CAPABILITY_MODEL_PER_PACKAGE",
+      "reason": "ONE_175_CAPABILITY_PLATFORM_REQUIRED"
+    },
+    {
+      "id": "BUNDLE_AS_RUNTIME_DEPENDENCY",
+      "reason": "BUNDLES_OPTIONAL_ONLY"
+    },
+    {
+      "id": "ENTITLEMENT_AS_SECURITY_OR_RIGHTS_AUTHORITY",
+      "reason": "EXISTING_AUTHORITIES_REMAIN_EXCLUSIVE"
+    },
+    {
+      "id": "HIGHER_TIER_AUTOMATICALLY_GRANTS_ALL_APPS",
+      "reason": "OPERATING_LEVEL_AND_APPLICATION_ENTITLEMENT_ARE_ORTHOGONAL"
+    }
+  ],
+  "donor_adoption": [],
+  "pending_or_unmerged_donors_consumed": false,
+  "gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hrb_bound": true
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false
+  },
+  "donor_planning_snapshot": {
+    "published_main_commit": "fd8adf5ab2ef12882c47250ecb5d5f22ff8e796b",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "6ca92f89dba92910b202d51e607b68cfee0cb488",
+    "donor_registry_sha256": "f20260dc85bf9bf78f6456a2f2fbce426991832412a82cb8c66e8c347819488f",
+    "donor_registry_entry_count": 1423
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "retrospective_consumer_impact_reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "shared_component_ids": [
+      "FA3-APPLICATION-PORTFOLIO-001",
+      "FA3-ENTITLEMENT-POLICY-001",
+      "FA3-APPLICATION-DEPENDENCY-REGISTRY-001"
+    ],
+    "consumer_scope": [
+      "PLANNED_APPLICATIONS",
+      "IN_PROGRESS_APPLICATIONS",
+      "MATERIALIZED_APPLICATIONS"
+    ],
+    "local_duplicate_created": false
+  },
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "implementation_readiness": "READY_FOR_STATIC_MATERIALIZATION_EXACT_MAIN",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "available_candidate_ids": [],
+      "matched_candidate_ids": [],
+      "roles": [
+        "PRODUCT_PORTFOLIO_AND_ENTITLEMENT_INTEROPERABILITY_BOUNDARY_REVIEW"
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_activation": false
+    }
+  ],
+  "live_preflight": {
+    "checked_at": "2026-10-03",
+    "published_main_commit": "fd8adf5ab2ef12882c47250ecb5d5f22ff8e796b",
+    "open_pull_request_count": 116,
+    "file_level_inventory_complete": true,
+    "effective_pending_donor_intake_pull_requests": [
+      651,
+      655,
+      657
+    ],
+    "pending_donor_intake_consumed": false,
+    "direct_product_model_overlap_pull_requests": [
+      643,
+      646
+    ],
+    "merged_taxonomy_reuse_pull_request": 642,
+    "overlap_disposition": {
+      "642": "REUSE_MERGED_PLATFORM_AND_PRODUCT_FAMILY_TAXONOMY_NO_DUPLICATION",
+      "643": "OLDER_BASE_OVERLAPPING_IMPLEMENTATION_NOT_USED_AS_CANONICAL_BRANCH",
+      "646": "EXACT_MAIN_IMPLEMENTATION_BRANCH"
+    }
+  },
+  "release_eligibility_claim": false,
+  "license_rights_retroactive_audit_closed": false
+}

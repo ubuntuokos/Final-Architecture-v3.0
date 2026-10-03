@@ -1,0 +1,22 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-OPERATING-LEVEL-DEPENDENCY-001",
+  "name": "Operating Level and dependency separation",
+  "status": "MANDATORY_REFERENCE_SUBGATE",
+  "parent_gateset_id": "FA3-PRODUCT-ENTITLEMENT-GATESET-001",
+  "enforcement_id": "FA3-PRODUCT-ENTITLEMENT-GATESET-001",
+  "fail_closed": true,
+  "capability_count": 175,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "executable": "src/fa3_product_entitlement_gate.py",
+  "blocks_on": [
+    "INVALID_OPERATING_LEVEL_BINDING",
+    "SUPPORTED_LEVELS_MUST_BE_MONOTONIC_FROM_MINIMUM",
+    "UNKNOWN_OPERATIONAL_REQUIREMENT",
+    "APPLICATION_BELOW_MINIMUM_OPERATING_LEVEL",
+    "APPLICATION_AS_TECHNICAL_DEPENDENCY_FORBIDDEN",
+    "DEPENDENCY_ENTITLEMENT_SEPARATION_MISSING"
+  ],
+  "runtime_promotion_claim": false
+}

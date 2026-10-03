@@ -1,0 +1,42 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-INTENT-2026-10-03",
+  "project_id": "FA3-APPLICATION-PORTFOLIO-001",
+  "title": "Application portfolio, operating levels and individually selectable entitlements",
+  "status": "APPROVED_FOR_IMPLEMENTATION",
+  "date": "2026-10-03",
+  "owner_approval_basis": "Explicit owner approval followed by \"Készítsd el!\" in active FA3 conversation.",
+  "target_capabilities": [
+    "CAP-043",
+    "CAP-130",
+    "CAP-175"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "CANONICAL_APPLICATION_PORTFOLIO",
+    "OPERATING_LEVEL_MODEL",
+    "APPLICATION_ENTITLEMENT_RESOLVER",
+    "PORTFOLIO_DRIFT_GATE"
+  ],
+  "shared_capability": true,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-APP-LIFECYCLE-001",
+    "FA3-PRODUCT-FAMILY-REGISTRY-001",
+    "FA3-APPLICATION-DONOR-LINKS-001",
+    "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "FA3-ENGINE-SELECTION-FABRIC-001",
+    "FA3-LICENSE-RIGHTS-001",
+    "FA3-AUTH-SECURITY-GOV-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-MODEL-ROUTER-001"
+  ]
+}

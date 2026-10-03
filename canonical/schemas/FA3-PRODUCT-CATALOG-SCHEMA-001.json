@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "FA3 Product Catalog",
+  "type": "object",
+  "required": [
+    "schema",
+    "id",
+    "authority",
+    "bundles",
+    "optional_addons",
+    "rules"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.product-catalog.v1"
+    },
+    "id": {
+      "const": "FA3-PRODUCT-CATALOG-001"
+    },
+    "authority": {
+      "const": false
+    },
+    "bundles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "domain",
+          "optional",
+          "applications"
+        ]
+      }
+    },
+    "optional_addons": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "type": "object",
+        "required": [
+          "class",
+          "display_name",
+          "optional",
+          "authority",
+          "grants_application_entitlement",
+          "runtime_activation_grant",
+          "upstream_rights_grant"
+        ]
+      }
+    }
+  }
+}
