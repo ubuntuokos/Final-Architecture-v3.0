@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "801979d13bb1e200fc0cc1dbfd71b0624ce82f86",
-    "pre_projection_root_tree_sha": "faca69a05ca0e1abe4d10863acae1e0933875f27",
-    "pre_projection_canonical_tree_sha": "fdb7b47628be0acc603cacb5a2a47cad9a7c3544",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2789,
-    "total_post_baseline_commits": 2789,
-    "delta_file_count": 2905,
-    "delta_added_files": 2899,
+    "pre_projection_head_sha": "7e7c66f0f3fe58f38589292c9291c9e1b70d6af7",
+    "pre_projection_root_tree_sha": "082d884a0a97a9e96f1b43a7d0a1f848eb04f2ef",
+    "pre_projection_canonical_tree_sha": "bbfcd1366b2799cac720c8b95ebfb40c8b9fcfbd",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2795,
+    "total_post_baseline_commits": 2795,
+    "delta_file_count": 2908,
+    "delta_added_files": 2902,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,10 +46,10 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1359,
+    "canonical_files_in_post_baseline_delta": 1360,
     "evidence_files_in_post_baseline_delta": 172,
     "source_files_in_post_baseline_delta": 368,
-    "test_files_in_post_baseline_delta": 340,
+    "test_files_in_post_baseline_delta": 341,
     "workflow_files_in_post_baseline_delta": 138,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -1067,7 +1067,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2895,
+  "manifest_entry_count": 2898,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -5525,6 +5525,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/deltas/FA3-DONOR-AI-VOICE-CLONING-GIST-2026-10-03.json",
+      "git_blob_sha": "811abee0dc67fc0656761d26f71244c503822632",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/deltas/FA3-DONOR-ALTERNATIVETO-OCTANE-PAGES-2026-09-30.json",
       "git_blob_sha": "a3599d9fd9d8c85801199442f3f15dbe05171962",
       "baseline_delta_status": "added"
@@ -5846,7 +5851,7 @@
     },
     {
       "path": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
-      "git_blob_sha": "6fcd9a7f5b3e3c5c54b1ae1b5227b37a9bb6a951",
+      "git_blob_sha": "6ca92f89dba92910b202d51e607b68cfee0cb488",
       "baseline_delta_status": "added"
     },
     {
@@ -9957,6 +9962,11 @@
     {
       "path": "docs/donor-ai-text-mindmap-render-shader-2026-09-29.md",
       "git_blob_sha": "94c9ed874af2834d77059892abd416c9c994fffc",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/donor-ai-voice-cloning-gist-2026-10-03.md",
+      "git_blob_sha": "79981f6f3d87ad64f07cff4c779e631e5d1f0314",
       "baseline_delta_status": "added"
     },
     {
@@ -14200,6 +14210,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_donor_ai_voice_cloning_gist_20261003.py",
+      "git_blob_sha": "65962fda89feafa29f87a1b4096d5b9dcc1666d1",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_donor_amd_rocm_registry.py",
       "git_blob_sha": "9a41e870e0a0c1241f7925bd63f4576540379b37",
       "baseline_delta_status": "added"
@@ -17262,7 +17277,7 @@
     "reconciliation_status": "CANONICAL_REUSE_DISCOVERY_STATIC_MATERIALIZED_RUNTIME_PROMOTION_NOT_APPLICABLE",
     "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
     "donor_registry_decision_id": "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28",
-    "donor_registry_entry_count": 1422,
+    "donor_registry_entry_count": 1423,
     "donor_rejection_audit_id": "FA3-DONOR-REJECTION-AUDIT-001",
     "donor_rejection_audit_count": 1,
     "donor_lifecycle_decision_id": "FA3-DEC-DONOR-LIFECYCLE-APPLICATION-SYNC-2026-09-30",
