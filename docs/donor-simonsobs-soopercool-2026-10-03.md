@@ -1,7 +1,7 @@
 # FA3 simonsobs/SOOPERCOOL donor intake — 2026-10-03
 
-**Authority:** owner-explicit `donornak` registration.  
-**Source:** https://github.com/simonsobs/SOOPERCOOL  
+**Authority:** owner-explicit `donornak` registration.
+**Source:** https://github.com/simonsobs/SOOPERCOOL
 **Scope:** canonical donor/reference registration plus applicability analysis; no code, runtime, dependency, provider, model or dataset admission.
 
 ## Upstream identity
@@ -49,10 +49,10 @@ It does not install or admit SOOPERCOOL, NumPy/SciPy/healpy/NaMaster/SACC/CAMB/p
 
 Any later material adoption requires a fresh Reuse Assessment bound to a published registry snapshot containing this donor, then an explicit typed donor usage edge. Direct code/runtime use additionally requires License & Rights/provenance, security/supply-chain, Software Coexistence, Hardware Safety and Current Host review.
 
-Parent published main: `fd8adf5ab2ef12882c47250ecb5d5f22ff8e796b`  
-Parent registry blob: `6ca92f89dba92910b202d51e607b68cfee0cb488`  
-Parent donor count: **1423**  
-Proposed donor count: **1424**  
-Capability baseline: **175**  
-Capability delta: **0**  
+Parent published main: `fd8adf5ab2ef12882c47250ecb5d5f22ff8e796b`
+Parent registry blob: `6ca92f89dba92910b202d51e607b68cfee0cb488`
+Parent donor count: **1423**
+Proposed donor count: **1424**
+Capability baseline: **175**
+Capability delta: **0**
 Authority delta: **0**
