@@ -1,0 +1,38 @@
+name: FA3 Universal Capability Access
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  universal-capability-access:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Syntax
+        run: python -m py_compile src/fa3_universal_capability_access.py
+      - name: Regressions
+        env:
+          PYTHONPATH: src
+        run: python -m unittest tests.test_universal_capability_access -v
+      - name: Fail-closed donor and usage audit
+        env:
+          PYTHONPATH: src
+        run: python src/fa3_universal_capability_access.py --root .
+      - name: Diff whitespace
+        run: git diff --check HEAD^ HEAD
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fa3-universal-capability-access
+          path: reports/universal-capability-access-gate-report.json
+          if-no-files-found: error
