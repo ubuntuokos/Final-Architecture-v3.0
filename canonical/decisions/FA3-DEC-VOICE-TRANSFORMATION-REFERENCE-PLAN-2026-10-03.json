@@ -1,0 +1,66 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-VOICE-TRANSFORMATION-REFERENCE-PLAN-2026-10-03",
+  "date": "2026-10-03",
+  "status": "CANONICAL_MATERIALIZED",
+  "subject": "Extend existing FA3-VOICE-001 with provider-neutral voice transformation contracts and shared intent UI using the published AI Voice Cloning Gist as a functional architecture reference",
+  "decision": "MATERIALIZE_EXISTING_VOICE_FABRIC_TRANSFORMATION_SURFACE_WITHOUT_CHILD_PROVIDER_ADMISSION",
+  "published_donor_snapshot": {
+    "donor_id": "FA3-DONOR-0XDEVALIAS-AI-VOICE-CLONING-GIST-001",
+    "registry_count": 1423,
+    "published_main_commit": "fd8adf5ab2ef12882c47250ecb5d5f22ff8e796b"
+  },
+  "profile_id": "FA3-VOICE-001",
+  "contract_id": "FA3-VOICE-CONTRACTS-001",
+  "usage_edge_id": "FA3-USAGE-AI-VOICE-CLONING-GIST-VOICE-TRANSFORMATION-001",
+  "reuse_assessment_id": "FA3-VOICE-TRANSFORMATION-GIST-REUSE-ASSESSMENT-2026-10-03",
+  "modes": [
+    "VOICE_CONVERSION",
+    "REALTIME_VOICE_CONVERSION",
+    "SINGING_VOICE_CONVERSION",
+    "STYLE_TRANSFER",
+    "SPEECH_REPRESENTATION"
+  ],
+  "canonical_consumers": [],
+  "gui_projection": {
+    "component": "apps/shared/voice/qml/VoiceTransformationPanel.qml",
+    "first_consumer": "apps/fa3-control-center/qml/NarrationStudioPage.qml",
+    "authority": false,
+    "runtime_buttons_disabled_until_admitted_provider_binding": true
+  },
+  "mandatory_policy": [
+    "FA3-VOICE-001 remains the single provider-neutral voice fabric; no parallel authority is created.",
+    "Model Router remains exclusive AI provider/model routing authority.",
+    "Host Resource Broker remains exclusive CPU/GPU/NPU placement and lease authority.",
+    "Human-target transformation requires explicit purpose-scoped non-expired non-revoked consent.",
+    "Code, runtime, model, voice/dataset and output rights remain independently admitted and fail closed when unknown.",
+    "CPU-capable path remains mandatory before optional accelerator promotion.",
+    "No silent provider, model, device, language or cloud fallback.",
+    "The donor Gist is used only as a functional architecture reference; no source code is copied.",
+    "Child projects and services listed by the Gist remain non-admitted until independently owner-marked and reviewed.",
+    "Static contract/UI materialization does not claim Current Host runtime PASS for any transformation engine.",
+    "The Gist has unknown reuse rights and remains reference-only; no donor-derived material implementation, code, runtime or provider dependency is created."
+  ],
+  "current_host_impact": "STRUCTURAL_REASSESSMENT_REQUIRED_NO_RUNTIME_PROVIDER_PROMOTION",
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 175,
+  "owner_approval": {
+    "status": "EXPLICIT",
+    "scope": "FULL_CLOSURE_OF_APPROVED_VOICE_REFERENCE_PLAN",
+    "evidence": [
+      "owner explicitly marked the Gist donornak in this conversation",
+      "owner instructed Készítsd el after the donor analysis and plan",
+      "owner instructed Készítsd el a teljes lezárásig. de ezt már írtam"
+    ],
+    "approval_date": "2026-10-03"
+  },
+  "donor_disposition": "REFERENCE_ONLY_NO_MATERIAL_ADOPTION",
+  "planned_application_impacts": [
+    "fa3.music-studio",
+    "fa3.character-studio",
+    "fa3.story-screenplay",
+    "fa3.video-editor",
+    "fa3.quickclip"
+  ]
+}
