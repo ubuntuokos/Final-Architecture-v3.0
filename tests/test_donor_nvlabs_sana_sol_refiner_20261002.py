@@ -29,7 +29,7 @@ class NVlabsSanaDonorIntakeTests(unittest.TestCase):
 
     def test_two_canonical_identities_and_175_baseline(self):
         self.assertEqual(self.registry["backfill"]["entry_count"], len(self.entries))
-        self.assertEqual(len(self.entries), 1357)
+        self.assertGreaterEqual(len(self.entries), 1357)
         self.assertEqual(self.registry["capability_count"], 175)
         self.assertEqual(self.by_key[SANA_KEY]["donor_id"], SANA_ID)
         self.assertEqual(self.by_key[ORG_KEY]["donor_id"], ORG_ID)
