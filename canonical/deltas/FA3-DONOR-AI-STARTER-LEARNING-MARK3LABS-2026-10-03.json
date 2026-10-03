@@ -1,0 +1,128 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-AI-STARTER-LEARNING-MARK3LABS-2026-10-03",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "STAGED_PENDING_EXACT_HEAD_GATES",
+  "mode": "APPEND_ONLY_OWNER_EXPLICIT_REFERENCE_INTAKE",
+  "parent_commit": "fd8adf5ab2ef12882c47250ecb5d5f22ff8e796b",
+  "parent_registry_blob_sha": "6ca92f89dba92910b202d51e607b68cfee0cb488",
+  "parent_entry_count": 1423,
+  "source_count": 6,
+  "unique_source_key_count": 6,
+  "matched_existing_count": 0,
+  "proposed_entry_count": 1429,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "provider_count_policy": "DYNAMIC_UNCHANGED",
+  "approval_ref": "docs/donor-ai-starter-learning-mark3labs-2026-10-03.md",
+  "requirements": [
+    "Preserve the six exact owner-designated URLs as six canonical donor/reference identities.",
+    "GitHub topic and organization sources are discovery indexes only and never recursively admit child repositories.",
+    "SixArm/ai-starter-guide remains knowledge/tutorial reference-only with source/content copying blocked while repository rights are unresolved.",
+    "jbsoftware-io/gen-ai-starter is an MIT-declared implementation/blueprint reference only; runtime, service, dependency, model and provider admission remain separate.",
+    "Any material adoption requires source-specific license/provenance, security, Software Coexistence, Hardware Safety where applicable, architectural placement and explicit usage-edge review.",
+    "Fixed capability baseline 175, dynamic provider-count policy unchanged, and no new architectural authority.",
+    "No automatic fetch, install, activation, code/content copy, dependency adoption, provider/model selection, child-source admission, Current Host PASS or runtime promotion."
+  ],
+  "sources": [
+    {
+      "url": "https://github.com/topics/ai-starter-kit",
+      "normalized_key": "github:topics/ai-starter-kit",
+      "donor_id": "FA3-DONOR-AI-STARTER-KIT-TOPIC-001",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      }
+    },
+    {
+      "url": "https://github.com/mark3labs",
+      "normalized_key": "github:mark3labs",
+      "donor_id": "FA3-DONOR-MARK3LABS-ORG-001",
+      "kind": "GITHUB_ORGANIZATION",
+      "status": "ACCEPTED_REFERENCE",
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      }
+    },
+    {
+      "url": "https://github.com/topics/ai-starter",
+      "normalized_key": "github:topics/ai-starter",
+      "donor_id": "FA3-DONOR-AI-STARTER-TOPIC-001",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      }
+    },
+    {
+      "url": "https://github.com/topics/ai-for-beginners",
+      "normalized_key": "github:topics/ai-for-beginners",
+      "donor_id": "FA3-DONOR-AI-FOR-BEGINNERS-TOPIC-001",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      }
+    },
+    {
+      "url": "https://github.com/SixArm/ai-starter-guide",
+      "normalized_key": "github:sixarm/ai-starter-guide",
+      "donor_id": "FA3-DONOR-SIXARM-AI-STARTER-GUIDE-001",
+      "kind": "GITHUB_REPOSITORY",
+      "status": "ACCEPTED_REFERENCE",
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "NO_REPOSITORY_LICENSE_DECLARED_AT_OBSERVATION"
+      }
+    },
+    {
+      "url": "https://github.com/jbsoftware-io/gen-ai-starter",
+      "normalized_key": "github:jbsoftware-io/gen-ai-starter",
+      "donor_id": "FA3-DONOR-JBSOFTWARE-GEN-AI-STARTER-001",
+      "kind": "GITHUB_REPOSITORY",
+      "status": "ACCEPTED_REFERENCE",
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_REPOSITORY_DECLARED"
+      }
+    }
+  ],
+  "discovery_classes": [
+    "AI_APPLICATION_STARTER",
+    "APPLICATION_BLUEPRINT",
+    "STARTER_DISCOVERY_PROTOCOL",
+    "MCP_AGENT_TOOLING",
+    "LIGHTWEIGHT_WORKFLOW",
+    "AI_BEGINNER_ONBOARDING",
+    "KNOWLEDGE_TAXONOMY",
+    "TUTORIAL_AND_MANUAL",
+    "LOCAL_GENAI_STACK",
+    "RAG",
+    "OPENAPI_TO_MCP",
+    "TEST_SCAFFOLD",
+    "OPTIONAL_OBSERVABILITY"
+  ],
+  "boundaries": {
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "automatic_code_import": false,
+    "automatic_content_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "child_repository_auto_registration": false,
+    "child_service_auto_registration": false,
+    "usage_edge_created": false,
+    "capability_count_change": false,
+    "authority_change": false,
+    "runtime_change": false,
+    "current_host_pass_claimed": false
+  }
+}
