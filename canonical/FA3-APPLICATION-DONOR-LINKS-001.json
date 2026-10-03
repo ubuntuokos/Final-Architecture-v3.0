@@ -10,7 +10,8 @@
     "canonical/FA3-AI-STUDIO-APP-CATALOG-001.json",
     "canonical/FA3-GUI-SURFACE-REGISTRY-001.json",
     "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
-    "canonical/FA3-PRODUCT-FAMILY-REGISTRY-001.json"
+    "canonical/FA3-PRODUCT-FAMILY-REGISTRY-001.json",
+    "canonical/FA3-APPLICATION-GUI-DESIGN-POLICY-001.json"
   ],
   "policy": {
     "auto_register_all_curated_applications": true,
@@ -72,7 +73,19 @@
     "orphaned_product_family_placement_fail_closed": true,
     "product_family_is_context_not_authority": true,
     "product_family_membership_does_not_grant_permission": true,
-    "retroactive_platform_placement_required": true
+    "retroactive_platform_placement_required": true,
+    "application_gui_design_policy_required": true,
+    "application_gui_design_policy_id": "FA3-APPLICATION-GUI-DESIGN-POLICY-001",
+    "retroactive_application_gui_audit_required": true,
+    "gui_change_impact_assessment_required": true,
+    "gui_functional_revision_sync_required": true,
+    "fa3_design_system_compliance_required": true,
+    "independent_application_design_system_forbidden": true,
+    "gui_placement_owner_approval_required": true,
+    "missing_prior_gui_placement_approval_requires_review": true,
+    "fabricated_gui_placement_approval_forbidden": true,
+    "removed_function_orphan_gui_forbidden": true,
+    "application_manual_gui_sync_required": true
   },
   "hardware_audit": {
     "vendor_neutral": true,
