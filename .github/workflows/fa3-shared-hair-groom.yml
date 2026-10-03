@@ -1,0 +1,36 @@
+name: FA3 Shared Hair Groom
+
+on:
+  pull_request:
+    paths:
+      - 'canonical/profiles/FA3-SHARED-HAIR-GROOM-001.json'
+      - 'canonical/contracts/FA3-SHARED-HAIR-GROOM-CONTRACTS-001.json'
+      - 'canonical/FA3-SHARED-HAIR-GROOM-*.json'
+      - 'canonical/decisions/FA3-DEC-SHARED-HAIR-GROOM-2026-10-03.json'
+      - 'canonical/intents/FA3-SHARED-HAIR-GROOM-APPLICATION-INTENT-2026-10-03.json'
+      - 'canonical/assessments/FA3-SHARED-HAIR-GROOM-*.json'
+      - 'canonical/FA3-APPLICATION-DONOR-LINKS-001.json'
+      - 'canonical/FA3-SHARED-MODULE-PATTERN-CATALOGUE-001.json'
+      - 'src/fa3_hair_groom_gate.py'
+      - 'src/fa3_shared_module_pattern_catalogue.py'
+      - 'tests/test_hair_groom.py'
+      - 'tests/test_shared_module_pattern_catalogue.py'
+      - 'tests/test_application_donor_index.py'
+  workflow_dispatch:
+
+jobs:
+  static-conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax
+        run: python -m py_compile src/fa3_hair_groom_gate.py src/fa3_shared_module_pattern_catalogue.py src/fa3_application_donor_index.py
+      - name: Hair/Groom gate tests
+        run: python -m unittest tests.test_hair_groom -v
+      - name: Shared catalogue tests
+        run: python -m unittest tests.test_shared_module_pattern_catalogue -v
+      - name: Application donor index tests
+        run: python -m unittest tests.test_application_donor_index -v
