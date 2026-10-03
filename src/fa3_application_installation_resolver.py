@@ -84,7 +84,7 @@ def _native_candidates(spec: dict[str, Any]) -> list[dict[str, Any]]:
     return rows
 
 
-def _deb_candidates(spec: dict[str, Any]) -> list[dict[str, Any]]:
+def _deb_candidates(spec: dict[str, Any], runner: Callable[[list[str], int], subprocess.CompletedProcess[str]]) -> list[dict[str, Any]]:
     if not shutil.which("dpkg-query"):
         return []
     basenames = set(spec.get("deb_executable_basenames", []))
@@ -92,7 +92,7 @@ def _deb_candidates(spec: dict[str, Any]) -> list[dict[str, Any]]:
     for package in spec.get("deb_packages", []):
         if not isinstance(package, str) or not package:
             continue
-        proc = _run(["dpkg-query", "-L", package])
+        proc = runner(["dpkg-query", "-L", package], 20)
         if proc.returncode != 0:
             continue
         for raw in proc.stdout.splitlines():
@@ -109,7 +109,7 @@ def _deb_candidates(spec: dict[str, Any]) -> list[dict[str, Any]]:
     return rows
 
 
-def _rpm_candidates(spec: dict[str, Any]) -> list[dict[str, Any]]:
+def _rpm_candidates(spec: dict[str, Any], runner: Callable[[list[str], int], subprocess.CompletedProcess[str]]) -> list[dict[str, Any]]:
     if not shutil.which("rpm"):
         return []
     basenames = set(spec.get("rpm_executable_basenames", []))
@@ -117,7 +117,7 @@ def _rpm_candidates(spec: dict[str, Any]) -> list[dict[str, Any]]:
     for package in spec.get("rpm_packages", []):
         if not isinstance(package, str) or not package:
             continue
-        proc = _run(["rpm", "-ql", package])
+        proc = runner(["rpm", "-ql", package], 20)
         if proc.returncode != 0:
             continue
         for raw in proc.stdout.splitlines():
@@ -134,14 +134,14 @@ def _rpm_candidates(spec: dict[str, Any]) -> list[dict[str, Any]]:
     return rows
 
 
-def _flatpak_candidates(spec: dict[str, Any]) -> list[dict[str, Any]]:
+def _flatpak_candidates(spec: dict[str, Any], runner: Callable[[list[str], int], subprocess.CompletedProcess[str]]) -> list[dict[str, Any]]:
     if not shutil.which("flatpak"):
         return []
     rows = []
     for app_id in spec.get("flatpak_app_ids", []):
         if not isinstance(app_id, str) or not app_id:
             continue
-        proc = _run(["flatpak", "info", app_id])
+        proc = runner(["flatpak", "info", app_id], 20)
         if proc.returncode == 0:
             rows.append(_candidate(
                 spec["application_id"], spec["display_name"], "FLATPAK", app_id,
@@ -150,14 +150,14 @@ def _flatpak_candidates(spec: dict[str, Any]) -> list[dict[str, Any]]:
     return rows
 
 
-def _snap_candidates(spec: dict[str, Any]) -> list[dict[str, Any]]:
+def _snap_candidates(spec: dict[str, Any], runner: Callable[[list[str], int], subprocess.CompletedProcess[str]]) -> list[dict[str, Any]]:
     if not shutil.which("snap"):
         return []
     rows = []
     for snap_name in spec.get("snap_names", []):
         if not isinstance(snap_name, str) or not snap_name:
             continue
-        proc = _run(["snap", "list", snap_name])
+        proc = runner(["snap", "list", snap_name], 20)
         if proc.returncode == 0:
             rows.append(_candidate(
                 spec["application_id"], spec["display_name"], "SNAP", snap_name,
@@ -245,10 +245,10 @@ def discover_registered_application(
     spec = application_spec(root, application_id)
     rows = _dedupe([
         *_native_candidates(spec),
-        *_deb_candidates(spec),
-        *_rpm_candidates(spec),
-        *_flatpak_candidates(spec),
-        *_snap_candidates(spec),
+        *_deb_candidates(spec, runner),
+        *_rpm_candidates(spec, runner),
+        *_flatpak_candidates(spec, runner),
+        *_snap_candidates(spec, runner),
         *_portable_candidates(spec),
         *_manual_candidates(spec),
     ])
