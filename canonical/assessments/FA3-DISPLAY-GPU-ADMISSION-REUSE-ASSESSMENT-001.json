@@ -1,0 +1,115 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-DISPLAY-GPU-ADMISSION-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-HW-MGPU-001",
+  "intent_id": "FA3-DISPLAY-GPU-ADMISSION-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-DISPLAY-GPU-ADMISSION-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-HW-MGPU-001"
+  ],
+  "project_status": "STATIC_MATERIALIZED_CURRENT_HOST_RUNTIME_NOT_CLAIMED",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-HW-MGPU-001",
+      "use": "EXTEND_EXISTING_HETEROGENEOUS_MULTI_ACCELERATOR_POLICY"
+    },
+    {
+      "id": "FA3-HARDWARE-BASELINE-001",
+      "use": "EXISTING_VENDOR_NEUTRAL_CPU_ONLY_CONFORMANT_HARDWARE_AUDIT"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "SOLE_TRUSTED_LIVE_INVENTORY_RESOURCE_RESERVATION_AND_LEASE_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "EXISTING_MODEL_PROVIDER_RUNTIME_SELECTION_AND_RECEIPT"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "CURRENT_HOST_EXECUTION_EVIDENCE"
+    },
+    {
+      "id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+      "use": "REQUIRED_SOURCE_DISCOVERY_CHECKED_NO_EXTERNAL_CODE_NEEDED"
+    },
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "MANDATORY_REUSE_AND_GAP_ASSESSMENT"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "PARALLEL_GPU_SCHEDULER_AUTHORITY",
+      "reason": "HRB_EXCLUSIVELY_OWNS_DEVICE_PLACEMENT_AND_LEASES"
+    },
+    {
+      "id": "AUTOMATIC_DISPLAY_GPU_LOAD_BALANCING",
+      "reason": "DISPLAY_GPU_MAY_NOT_JOIN_COMPUTE_JUST_BECAUSE_OTHER_ACCELERATORS_ARE_PRESENT"
+    },
+    {
+      "id": "FIXED_GPU_ORDINAL_OR_VENDOR_PIN",
+      "reason": "HARDWARE_POLICY_REQUIRES_STABLE_DEVICE_IDENTITY_AND_VENDOR_NEUTRALITY"
+    }
+  ],
+  "pattern_reuse": [
+    "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001",
+    "FA3-PATTERN-PROVIDER-NEUTRAL-ADAPTER-001"
+  ],
+  "existing_authority_bindings": {
+    "hardware_profile": "FA3-HW-MGPU-001",
+    "resource_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_router": "FA3-AUTH-MODEL-ROUTER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "gaps": [
+    "PRODUCTION_AUTHENTICATED_INVENTORY_ROUTER_AND_APPLICATION_SELECTION_ADAPTERS",
+    "PHYSICAL_CURRENT_HOST_MODEL_TASK_GPU_PROVENANCE"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false
+  },
+  "implementation_readiness": "STATIC_IMPLEMENTED_PRODUCTION_CALLBACK_AND_PHYSICAL_EVIDENCE_PENDING",
+  "gap_resolution": [
+    {
+      "gap": "DISPLAY_GPU_AI_ADMISSION_RULE_UNDER_EXISTING_HRB_AND_CENTRAL_MODEL_ROUTER",
+      "status": "STATIC_MATERIALIZED",
+      "decision": "FA3-DEC-DISPLAY-GPU-ADMISSION-2026-09-28",
+      "gate": "FA3-HARDWARE-PORTABILITY-GATESET-001"
+    },
+    {
+      "gap": "PRODUCTION_AUTHENTICATED_INVENTORY_ROUTER_AND_APPLICATION_SELECTION_ADAPTERS",
+      "status": "PENDING_DEPLOYED_INTEGRATION"
+    },
+    {
+      "gap": "PHYSICAL_CURRENT_HOST_MODEL_TASK_GPU_PROVENANCE",
+      "status": "PENDING_CURRENT_HOST_EVIDENCE"
+    }
+  ],
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "authority": false,
+      "automatic_selection": false,
+      "rationale": "GPU role, explicit application intent and HRB lease policy do not require adoption of a graphics interchange or compute standards SDK; provider runtime remains separately negotiated."
+    }
+  ]
+}

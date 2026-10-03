@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any
 
 from fa3_release_baseline import module_active_capability_count
+from fa3_display_gpu_admission import POLICY_ID as DISPLAY_GPU_POLICY_ID, evaluate_display_gpu_admission
 
 PROFILE = "canonical/profiles/FA3-HARDWARE-BASELINE-001.json"
 CONTRACT = "canonical/contracts/FA3-HARDWARE-DISCOVERY-CONTRACTS-001.json"
@@ -24,6 +25,8 @@ EVIDENCE_REGISTRY = "evidence/evidence-registry.json"
 HOST_ADAPTATION_PROFILE = "canonical/profiles/FA3-HOST-ADAPTATION-001.json"
 HOST_ADAPTATION_CONTRACT = "canonical/contracts/FA3-HOST-ADAPTATION-CONTRACTS-001.json"
 HOST_ADAPTATION_DECISION = "canonical/decisions/FA3-DEC-HOST-ADAPTATION-2026-09-27.json"
+DISPLAY_GPU_CONTRACT = "canonical/contracts/FA3-DISPLAY-GPU-ADMISSION-001.json"
+DISPLAY_GPU_DECISION = "canonical/decisions/FA3-DEC-DISPLAY-GPU-ADMISSION-2026-09-28.json"
 
 GATE_ID = "FA3-HARDWARE-PORTABILITY-GATESET-001"
 EXECUTABLE_GATE_ID = "FA3-GATE-HARDWARE-PORTABILITY-001"
@@ -242,6 +245,8 @@ def evaluate(root: Path) -> dict[str, Any]:
     host_adaptation=loadj(root,HOST_ADAPTATION_PROFILE)
     host_adaptation_contract=loadj(root,HOST_ADAPTATION_CONTRACT)
     host_adaptation_decision=loadj(root,HOST_ADAPTATION_DECISION)
+    display_contract=loadj(root,DISPLAY_GPU_CONTRACT)
+    display_decision=loadj(root,DISPLAY_GPU_DECISION)
 
     cpu=profile.get("portable_minimum",{}).get("cpu",{}); accelerator=profile.get("portable_minimum",{}).get("accelerator",{})
     discovery=contract.get("discovery_semantics",{}); envelope=contract.get("portable_minimum_envelope",{})
@@ -320,6 +325,31 @@ def evaluate(root: Path) -> dict[str, Any]:
       check("evidence-bindings", len(bound)==len(CAPABILITY_BINDINGS) and all(DECISION_ID in x.get("source_decision_ids",[]) for x in bound), "evidence bindings retained"),
       check("gate-record", gate_record.get("id")==EXECUTABLE_GATE_ID and gate_record.get("gateset_id")==GATE_ID and gate_record.get("fail_closed") is True, "gate record bound"),
     ]
+    checks.append(check(
+        "display-gpu-explicit-ai-admission",
+        display_contract.get("id")==DISPLAY_GPU_POLICY_ID
+        and display_contract.get("new_capability") is False
+        and display_contract.get("new_architectural_authority") is False
+        and display_contract.get("authorities",{}).get("live_inventory_and_placement")=="FA3-AUTH-HOST-RESOURCE-BROKER-001"
+        and display_contract.get("authorities",{}).get("model_selection")=="FA3-AUTH-MODEL-ROUTER-001"
+        and display_decision.get("contract_id")==DISPLAY_GPU_POLICY_ID
+        and mgpu.get("display_gpu_ai_admission",{}).get("contract_id")==DISPLAY_GPU_POLICY_ID
+        and gate_record.get("display_gpu_policy_contract_id")==DISPLAY_GPU_POLICY_ID
+        and evaluate_display_gpu_admission(
+            inventory={"schema":"fa3.hrb-live-accelerator-inventory.v1",
+                       "verified_by":"FA3-AUTH-HOST-RESOURCE-BROKER-001",
+                       "topology_revalidated":True,
+                       "devices":[{"stable_id":"display-only","kind":"GPU","display_active":True}]},
+            accelerator_id="display-only",
+            workload={"application_id":"gate","task_id":"smoke","model_id":"selected",
+                      "display_reserve_confirmed":True,
+                      "router_binding":{"authority_id":"FA3-AUTH-MODEL-ROUTER-001",
+                                        "selection_receipt_verified":True,
+                                        "route_id":"smoke","provider_id":"smoke",
+                                        "runtime_id":"smoke","model_id":"selected"}},
+        ).get("result")=="PASS",
+        "display GPU AI admission contract stays HRB/Router-bound and fail-closed",
+    ))
     audit=scan_repository(root)
     checks.append(check(
         "legacy-host-and-audit-artifacts-absent",

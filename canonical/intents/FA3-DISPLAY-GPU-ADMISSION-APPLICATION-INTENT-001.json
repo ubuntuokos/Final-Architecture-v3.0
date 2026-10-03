@@ -1,0 +1,71 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-DISPLAY-GPU-ADMISSION-APPLICATION-INTENT-001",
+  "project_id": "FA3-HW-MGPU-001",
+  "project_type": "PROFILE",
+  "goal": "Extend existing heterogeneous multi-accelerator policy: a display GPU may run admitted AI work if it is the sole GPU and no NPU exists, or when a specific application explicitly selects this physical GPU for a named task and centrally selected model. Never automatically enlist a display GPU for extra throughput.",
+  "required_capabilities": [],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "display-gpu-ai-admission",
+    "heterogeneous-resource-governance",
+    "explicit-application-consent",
+    "model-task-device-binding"
+  ],
+  "task_classes": [
+    "trusted-live-hardware-discovery",
+    "display-headroom-preservation",
+    "hrb-reservation-and-lease",
+    "central-model-router-selection",
+    "explicit-application-selection-verification"
+  ],
+  "skill_triggers": [],
+  "input_modalities": [
+    "CANONICAL_METADATA",
+    "TRUSTED_HRB_INVENTORY",
+    "AUTHENTICATED_APP_SELECTION"
+  ],
+  "output_modalities": [
+    "MACHINE_READABLE_ADMISSION_DECISION",
+    "HRB_LEASE_CONFORMANCE_REPORT"
+  ],
+  "execution_classes": [
+    "CPU_ONLY",
+    "OPTIONAL_ACCELERATOR"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "DISPLAY_GPU_AI_ADMISSION_RULE_UNDER_EXISTING_HRB_AND_CENTRAL_MODEL_ROUTER",
+    "PRODUCTION_TRUSTED_CALLBACK_AND_CURRENT_HOST_VALIDATION_REQUIRED"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "display_safety_reserve_required": true
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-hw-mgpu",
+    "service_prefix": "fa3-hw-mgpu",
+    "config_root": "$XDG_CONFIG_HOME/fa3/hw-mgpu",
+    "cache_root": "$XDG_CACHE_HOME/fa3/hw-mgpu",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/hw-mgpu",
+    "socket_namespace": "fa3/hw-mgpu",
+    "data_root": "$XDG_DATA_HOME/fa3/hw-mgpu",
+    "desktop_prefix": "org.fa3.hw.mgpu",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "FA3-HW-MGPU-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-AUTH-OBS-EVIDENCE-001"
+  ]
+}

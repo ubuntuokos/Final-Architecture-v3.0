@@ -1,0 +1,29 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-DISPLAY-GPU-ADMISSION-2026-09-28",
+  "date": "2026-09-28",
+  "status": "ACCEPTED_DESIGN_STATIC_IMPLEMENTATION",
+  "title": "Display GPU AI permitted as sole GPU/NPU or with explicit application binding",
+  "decision": "DISPLAY_GPU_AI_SOLE_DEVICE_OR_EXPLICIT_APP_MODEL_TASK_DEVICE_BINDING",
+  "contract_id": "FA3-DISPLAY-GPU-ADMISSION-001",
+  "parent_profile_id": "FA3-HW-MGPU-001",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "accepted": [
+    "One display GPU with zero other GPUs and zero NPUs may run AI with normal HRB/Router admission",
+    "Any other GPU or NPU, even if unavailable, requires affirmative per-application, per-model, per-task and per-stable-device selection",
+    "Never automatically use display GPU for aggregate throughput, load balancing, or fallback",
+    "Protect display responsiveness with HRB display safety reserve",
+    "Live inventory, central model selection, HRB lease and fresh current-host evidence remain required"
+  ],
+  "forbidden": [
+    "Implicit multi-GPU compute use of display GPU",
+    "An unavailable second GPU/NPU being treated as absent",
+    "Automatic model or GPU substitution",
+    "Hardcoded device ordinal, vendor or desktop session assumption"
+  ],
+  "promotion": {
+    "repository_static_gate_is_runtime_proof": false,
+    "current_host_workload_evidence_required": true
+  }
+}

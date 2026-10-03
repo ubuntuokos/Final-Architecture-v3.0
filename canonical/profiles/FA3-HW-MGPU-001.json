@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-HW-MGPU-001",
   "name": "Heterogeneous Multi-Accelerator Placement & Binding Profile",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -15,7 +15,8 @@
   "new_architectural_authority": false,
   "capability_count": 143,
   "contracts": [
-    "FA3-HW-MGPU-CONTRACTS-001"
+    "FA3-HW-MGPU-CONTRACTS-001",
+    "FA3-DISPLAY-GPU-ADMISSION-001"
   ],
   "authority": {
     "admission_placement_reservation_lease": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
@@ -36,7 +37,9 @@
     "MULTI_ACCELERATOR_PLACEMENT_APPLIES_ONLY_WHEN_WORKLOAD_REQUIRES_AND_AT_LEAST_TWO_COMPATIBLE_DEVICES_EXIST",
     "FIXED_ACCELERATOR_COUNT_OR_RUNTIME_ORDINAL_FORBIDDEN",
     "ACCELERATOR_VENDOR_AND_RUNTIME_API_ARE_WORKLOAD_PROVIDER_SCOPED",
-    "ACCELERATOR_VENDOR_OR_MARKETING_SERIES_IS_NOT_GLOBAL_ADMISSION_AUTHORITY"
+    "ACCELERATOR_VENDOR_OR_MARKETING_SERIES_IS_NOT_GLOBAL_ADMISSION_AUTHORITY",
+    "DISPLAY_GPU_AI_WITH_OTHER_GPU_OR_NPU_REQUIRES_EXPLICIT_APP_MODEL_TASK_DEVICE_BINDING",
+    "DISPLAY_GPU_MUST_NEVER_BE_IMPLICIT_MULTI_ACCELERATOR_COMPUTE_FALLBACK"
   ],
   "implementation_status": "CANONICAL_BASELINE_MATERIALIZED",
   "cardinality_policy": {
@@ -50,5 +53,16 @@
   "reconciliation": {
     "id": "FA3-DEC-HARDWARE-AUDIT-2026-09-20",
     "date": "2026-09-20"
+  },
+  "display_gpu_ai_admission": {
+    "contract_id": "FA3-DISPLAY-GPU-ADMISSION-001",
+    "decision_id": "FA3-DEC-DISPLAY-GPU-ADMISSION-2026-09-28",
+    "default_role": "DISPLAY_ONLY",
+    "sole_gpu_and_no_npu": "MAY_COMPUTE_WITH_NORMAL_HRB_ROUTER_ADMISSION",
+    "other_gpu_or_npu_present": "EXPLICIT_APPLICATION_MODEL_TASK_DEVICE_SELECTION_REQUIRED",
+    "automatic_augmentation": false,
+    "silent_fallback": false,
+    "display_reserve": "HRB_VERIFIED_REQUIRED",
+    "runtime_evidence": "SEPARATE_CURRENT_HOST_PROOF_REQUIRED"
   }
 }
