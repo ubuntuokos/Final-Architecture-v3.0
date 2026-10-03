@@ -11,9 +11,9 @@ permissions:
   contents: write
 
 jobs:
-  verify:
+  materialize:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -21,17 +21,27 @@ jobs:
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
           python-version: '3.12'
-      - name: Verify exact parent
+      - name: Verify exact published parent
         run: |
           set -euo pipefail
           test "$(git rev-parse origin/main)" = "0a5641204c6f8caaf65e2e4bfc4af928b5579d54"
           test "$(git rev-parse origin/main:canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json)" = "ee3a274e842471a3362c343f1ffa2eee935f85f0"
-          python3 - <<'PY'
-          import json
-          from pathlib import Path
-          p=Path("canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json")
-          d=json.loads(p.read_text(encoding="utf-8"))
-          assert len(d["entries"]) == 1405
-          assert d["backfill"]["entry_count"] == 1405
-          print("parent-ok")
-          PY
+      - name: Materialize owner-marked donor batch
+        run: python3 scripts/fa3_temp_hair_donor_materialize.py
+      - name: Run intake regressions
+        run: |
+          set -euo pipefail
+          PYTHONPATH=src python3 -m unittest tests.test_donor_hair_groom_sources_20261003 -v
+          PYTHONPATH=src python3 -m unittest tests.test_donor_count_refresh tests.test_donor_registry_identity_uniqueness -v
+      - name: Commit canonical intake
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json \
+                  canonical/deltas/FA3-DONOR-HAIR-GROOM-SOURCES-2026-10-03.json \
+                  docs/donor-hair-groom-sources-2026-10-03.md \
+                  tests/test_donor_hair_groom_sources_20261003.py
+          git diff --cached --check
+          git commit -m "Donor intake: hair and groom reference sources"
+          git push origin HEAD:fa3/donor-hair-groom-sources-20261003
