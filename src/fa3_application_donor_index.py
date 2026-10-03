@@ -33,6 +33,20 @@ REQUIRED_TUTORIAL_SHARED_POLICY = {
     "capability_loss_during_shared_migration_forbidden": True,
 }
 
+REQUIRED_APPLICATION_GUI_POLICY = {
+    "application_gui_design_policy_required": True,
+    "retroactive_application_gui_audit_required": True,
+    "gui_change_impact_assessment_required": True,
+    "gui_functional_revision_sync_required": True,
+    "fa3_design_system_compliance_required": True,
+    "independent_application_design_system_forbidden": True,
+    "gui_placement_owner_approval_required": True,
+    "missing_prior_gui_placement_approval_requires_review": True,
+    "fabricated_gui_placement_approval_forbidden": True,
+    "removed_function_orphan_gui_forbidden": True,
+    "application_manual_gui_sync_required": True,
+}
+
 
 def load(path: Path) -> dict[str, Any]:
     row = json.loads(path.read_text(encoding="utf-8"))
@@ -246,6 +260,13 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
     if missing_tutorial_policy:
         errors.append({"code": "TUTORIAL_SHARED_POLICY_INVALID",
                        "detail": ",".join(sorted(missing_tutorial_policy))})
+    missing_gui_policy = [
+        key for key, expected in REQUIRED_APPLICATION_GUI_POLICY.items()
+        if policy.get(key) is not expected
+    ]
+    if missing_gui_policy or policy.get("application_gui_design_policy_id") != GUI_POLICY:
+        errors.append({"code": "APPLICATION_GUI_POLICY_INVALID",
+                       "detail": ",".join(sorted(missing_gui_policy)) or "policy_id"})
     donors = registry.get("entries", [])
     if registry.get("id") != "FA3-DONOR-REFERENCE-REGISTRY-001" or registry.get("backfill", {}).get("entry_count") != len(donors):
         errors.append({"code": "DONOR_REGISTRY_DRIFT", "detail": DONOR})
