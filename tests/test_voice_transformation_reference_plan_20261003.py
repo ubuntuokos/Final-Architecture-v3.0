@@ -10,6 +10,7 @@ LINKS = ROOT / "canonical/FA3-APPLICATION-DONOR-LINKS-001.json"
 DECISION = ROOT / "canonical/decisions/FA3-DEC-VOICE-TRANSFORMATION-REFERENCE-PLAN-2026-10-03.json"
 ASSESSMENT = ROOT / "canonical/assessments/FA3-VOICE-TRANSFORMATION-GIST-REUSE-ASSESSMENT-2026-10-03.json"
 PANEL = ROOT / "apps/shared/voice/qml/VoiceTransformationPanel.qml"
+NARRATION = ROOT / "apps/fa3-control-center/qml/NarrationStudioPage.qml"
 
 DONOR = "FA3-DONOR-0XDEVALIAS-AI-VOICE-CLONING-GIST-001"
 USAGE = "FA3-USAGE-AI-VOICE-CLONING-GIST-VOICE-TRANSFORMATION-001"
@@ -47,6 +48,12 @@ class VoiceTransformationReferenceTests(unittest.TestCase):
         self.assertTrue(MODES.issubset(set(req["mode_enum"])))
         self.assertIn("realtime_session", self.contracts["contracts"])
         self.assertIn("speech_representation", self.contracts["contracts"])
+        result = self.contracts["contracts"]["transformation_result"]
+        self.assertNotIn("target_voice_identity_ref", req["required"])
+        self.assertIn("target_voice_identity_ref", req["conditional_required"])
+        self.assertNotIn("target_voice_identity_ref", result["required"])
+        self.assertIn("target_voice_identity_ref", result["conditional_required"])
+        self.assertIn("synthetic_disclosure", result["required"])
         self.assertTrue(self.contracts["security"]["cuda_requires_hrb_lease"])
 
     def test_explicit_usage_edge_and_no_runtime_adoption(self):
@@ -78,12 +85,20 @@ class VoiceTransformationReferenceTests(unittest.TestCase):
         self.assertFalse(self.assessment["reference_only_donor_input"]["material_adoption"])
         self.assertFalse(self.decision["gui_projection"]["authority"])
         self.assertEqual(self.decision["donor_disposition"], "REFERENCE_ONLY_NO_MATERIAL_ADOPTION")
+        self.assertEqual(self.decision["owner_approval"]["status"], "EXPLICIT")
+        self.assertEqual(
+            self.decision["owner_approval"]["scope"],
+            "FULL_CLOSURE_OF_APPROVED_VOICE_REFERENCE_PLAN",
+        )
 
     def test_shared_panel_is_non_executing_until_admission(self):
         qml = PANEL.read_text(encoding="utf-8")
         self.assertIn("FA3-VOICE-001", qml)
         self.assertIn("Reference-only donor engines are never selectable", qml)
         self.assertIn('Button { text: "Apply"; enabled: false }', qml)
+        narration = NARRATION.read_text(encoding="utf-8")
+        self.assertIn("ScrollView {", narration)
+        self.assertIn("VoiceTransformationPanel", narration)
 
 if __name__ == "__main__":
     unittest.main()
