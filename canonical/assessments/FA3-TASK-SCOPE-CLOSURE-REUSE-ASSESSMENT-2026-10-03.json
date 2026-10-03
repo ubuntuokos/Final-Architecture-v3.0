@@ -1,0 +1,116 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-TASK-SCOPE-CLOSURE-REUSE-ASSESSMENT-2026-10-03",
+  "project_id": "FA3-GOAL-EXECUTION-CONTRACTS-001",
+  "subject_id": "FA3-TASK-SCOPE-CLOSURE-POLICY-2026-10-03",
+  "intent_id": "FA3-GOAL-EXECUTION-APPLICATION-INTENT-2026-09-28",
+  "intent_path": "canonical/intents/FA3-GOAL-EXECUTION-APPLICATION-INTENT-2026-09-28.json",
+  "covered_ids": [
+    "FA3-GOAL-EXECUTION-CONTRACTS-001",
+    "FA3-CLOSED-LOOP-AGENT-OPERATIONS-CONTRACTS-001",
+    "FA3-AGENT-WORKLOAD-RUNTIME-CONTRACTS-001",
+    "FA3-AGENT-WORKLOAD-RUNTIME-GATESET-001"
+  ],
+  "result": "PASS",
+  "review_disposition": "REVIEWED_MATCH_EXISTING_FA3_AUTHORITIES_AND_PATTERNS",
+  "selected_reuse": [
+    {
+      "id": "FA3-GOAL-EXECUTION-CONTRACTS-001",
+      "use": "EXISTING_EXPLICIT_SCOPE_ACCEPTANCE_AND_GOAL_REVISION_BINDING"
+    },
+    {
+      "id": "FA3-CLOSED-LOOP-AGENT-OPERATIONS-001",
+      "use": "EXISTING_BOUNDED_RETRY_CIRCUIT_BREAKER_AND_HUMAN_ESCALATION"
+    },
+    {
+      "id": "FA3-AGENT-WORKLOAD-RUNTIME-001",
+      "use": "EXISTING_EXECUTION_ADMISSION_AND_FAIL_CLOSED_RUNTIME_CONTRACT"
+    },
+    {
+      "id": "FA3-ORCHESTRATION-WORKFORCE-001",
+      "use": "EXISTING_TASK_ROUTING_ONLY_NO_NEW_LIFECYCLE_AUTHORITY"
+    },
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "EXISTING_PUBLISHED_MAIN_DONOR_SNAPSHOT_REVIEW"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "SECOND_TASK_OR_WORKFLOW_AUTHORITY",
+      "reason": "TEMPORAL_REMAINS_THE_SOLE_DURABLE_WORKFLOW_LIFECYCLE_AUTHORITY"
+    },
+    {
+      "id": "PROMPT_ONLY_SCOPE_RULE",
+      "reason": "POLICY_MUST_BE_MACHINE_VALIDATED_AT_GOAL_AND_WORKLOAD_BOUNDARIES"
+    },
+    {
+      "id": "AUTOMATIC_FOLLOWUP_CHILD_TASK",
+      "reason": "OUT_OF_SCOPE_WORK_REQUIRES_A_NEW_TASK_ID_AND_EXPLICIT_USER_START"
+    },
+    {
+      "id": "UNBOUNDED_OR_SELF_RAISED_RETRY",
+      "reason": "SAME_BLOCKER_LIMIT_IS_FIXED_AT_THREE_AND_FAILS_CLOSED"
+    }
+  ],
+  "pattern_reuse": [
+    "EXPLICIT_DEFINITION_OF_DONE_AND_SCOPE_LOCK",
+    "BOUNDED_RETRY_AND_CIRCUIT_BREAKER",
+    "HUMAN_ESCALATION_WITH_EXECUTION_FREEZE",
+    "TYPED_HANDOFF_WITHOUT_AUTOSTART",
+    "TEMPORAL_DURABLE_STATE_REUSE"
+  ],
+  "gaps": [],
+  "existing_authority_bindings": {
+    "durable_lifecycle": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY",
+    "unified_actions": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "authorization": "FA3-AUTH-SECURITY-GOV-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "host_or_driver_mutation": false,
+    "current_host_runtime_execution_required_for_this_static_policy_delta": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_environment_mutation": false,
+    "default_port_claim": false,
+    "host_hardware_mutation": false
+  },
+  "donor_planning_snapshot": {
+    "published_main_commit": "fd8adf5ab2ef12882c47250ecb5d5f22ff8e796b",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "6ca92f89dba92910b202d51e607b68cfee0cb488",
+    "donor_registry_sha256": "f20260dc85bf9bf78f6456a2f2fbce426991832412a82cb8c66e8c347819488f",
+    "donor_registry_entry_count": 1423
+  },
+  "pending_or_unmerged_donors_consumed": false,
+  "donor_usage_edges_created": 0,
+  "shared_capability_placement": {
+    "reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED_PLATFORM_GOVERNANCE",
+    "local_duplicate_created": false,
+    "retrospective_consumer_impact_reviewed": true,
+    "rationale": "Task scope, retry, handoff and closure semantics apply across Goal Execution and agent workloads; a shared policy module avoids application-local duplication.",
+    "shared_component_ids": [
+      "FA3-GOAL-EXECUTION-CONTRACTS-001",
+      "FA3-CLOSED-LOOP-AGENT-OPERATIONS-001",
+      "FA3-AGENT-WORKLOAD-RUNTIME-001"
+    ]
+  },
+  "implementation_readiness": "READY_FOR_STATIC_MATERIALIZATION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}
