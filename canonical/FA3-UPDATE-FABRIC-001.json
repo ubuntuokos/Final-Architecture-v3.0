@@ -12,7 +12,11 @@
   "classes": {
     "OS_MANAGED": [
       "APT",
-      "distribution_repository"
+      "distribution_repository",
+      "DNF",
+      "ZYPPER",
+      "PACMAN",
+      "RPM"
     ],
     "FA3_MANAGED": [
       "FA3_release",
@@ -26,7 +30,11 @@
       "AppImage",
       "deb",
       "binary_archive",
-      "custom_provider"
+      "custom_provider",
+      "Flatpak",
+      "Snap",
+      "portable_application",
+      "manual_external_application"
     ],
     "MODEL": [
       "model_revision",
@@ -139,8 +147,29 @@
     "UPDATE_ACTIVATION_REQUIRES_HEALTH_VALIDATION",
     "GUI_AGENT_AUTOMATION_EXECUTION_ENTERS_THROUGH_UAF",
     "NO_GLOBAL_ACCELERATOR_VENDOR_PIN",
-    "CPU_ONLY_HOST_IS_VALID"
+    "CPU_ONLY_HOST_IS_VALID",
+    "APPLICATION_DISTRIBUTION_DISCOVERY_DOES_NOT_AUTHORIZE_INSTALL_OR_UPDATE",
+    "MULTIPLE_APPLICATION_DISTRIBUTIONS_MAY_COEXIST"
   ],
   "capability_baseline_release": "2026-09-26/v3.1.0",
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "application_distribution_discovery": {
+    "registry": "FA3-APPLICATION-RUNTIME-DISCOVERY-001",
+    "discovery_only": true,
+    "install_or_update_authority": false,
+    "package_presence_is_health": false,
+    "supported_classes": [
+      "NATIVE",
+      "DEB",
+      "RPM",
+      "PACMAN",
+      "FLATPAK",
+      "SNAP",
+      "APPIMAGE",
+      "PORTABLE",
+      "MANUAL"
+    ],
+    "multi_install_coexistence": true,
+    "silent_fallback": false
+  }
 }
