@@ -1,0 +1,32 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-APPLICATION-RUNTIME-MULTIDISTRIBUTION-APPLICATION-INTENT-2026-10-03",
+  "project_id": "FA3-APPLICATION-RUNTIME-DISCOVERY-001",
+  "project_type": "MATERIAL_EXTENSION",
+  "goal": "Extend the existing Host Adaptation and Engine Selection fabrics with shared non-authoritative discovery and physical health validation for external desktop/application runtimes installed through native packages, DEB/RPM/Pacman, Flatpak, Snap, AppImage, portable archives or explicit manual paths, beginning with CAP-016 DCC qualification and reusable by GIMP, Krita, LibreOffice and future applications.",
+  "required_capabilities": [
+    "CAP-016"
+  ],
+  "shared_function": true,
+  "retroactive_consumers": "ALL_FA3_APPLICATIONS_THAT_BIND_EXTERNAL_DESKTOP_OR_EXECUTABLE_APPLICATIONS",
+  "reuse_requirements": [
+    "FA3-HOST-ADAPTATION-001",
+    "FA3-ENGINE-SELECTION-FABRIC-001",
+    "FA3-UPDATE-FABRIC-001",
+    "FA3-DONOR-REFERENCE-REGISTRY-001"
+  ],
+  "invariants": [
+    "NO_NEW_CAPABILITY",
+    "NO_NEW_ARCHITECTURAL_AUTHORITY",
+    "NO_SILENT_FALLBACK",
+    "NO_UPSTREAM_UNINSTALL_REQUIREMENT",
+    "PACKAGE_PRESENCE_IS_NOT_RUNTIME_HEALTH",
+    "MULTIPLE_DISTRIBUTION_INSTANCES_MAY_COEXIST",
+    "CURRENT_HOST_RUNTIME_SELECTION_REQUIRES_PHYSICAL_HEALTH_EVIDENCE"
+  ],
+  "capability_count": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false
+}
