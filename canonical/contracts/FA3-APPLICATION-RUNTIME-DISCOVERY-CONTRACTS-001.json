@@ -1,0 +1,52 @@
+{
+  "schema": "fa3.application-runtime-discovery-contracts.v1",
+  "id": "FA3-APPLICATION-RUNTIME-DISCOVERY-CONTRACTS-001",
+  "status": "CANONICAL",
+  "authority": false,
+  "capability_count": 175,
+  "contracts": [
+    {
+      "id": "FA3-APPDIST-001",
+      "requirement": "MUST",
+      "rule": "Discovery MUST treat native package, Flatpak, Snap, AppImage, portable and manual instances as parallel installation identities rather than mutually exclusive global states."
+    },
+    {
+      "id": "FA3-APPDIST-002",
+      "requirement": "MUST",
+      "rule": "Package registration, PATH visibility or desktop-entry presence MUST NOT be treated as runtime health; a consumer requiring execution MUST obtain a bounded physical health probe."
+    },
+    {
+      "id": "FA3-APPDIST-003",
+      "requirement": "MUST",
+      "rule": "A broken candidate MUST remain observable as UNHEALTHY and MUST NOT satisfy a Current Host execution prerequisite."
+    },
+    {
+      "id": "FA3-APPDIST-004",
+      "requirement": "MUST",
+      "rule": "Discovery and qualification selection MUST NOT become user runtime selection authority and MUST NOT silently replace an explicitly selected application."
+    },
+    {
+      "id": "FA3-APPDIST-005",
+      "requirement": "MUST",
+      "rule": "Application discovery MUST NOT install, update, remove, replace, hijack MIME/default associations, mutate global environment, or require upstream application uninstall."
+    },
+    {
+      "id": "FA3-APPDIST-006",
+      "requirement": "MUST",
+      "rule": "Desktop-entry execution discovery may accept only direct executable commands; shell or privilege-escalation wrappers are not an admissible discovery shortcut."
+    },
+    {
+      "id": "FA3-APPDIST-007",
+      "requirement": "MUST",
+      "rule": "Manual and portable paths MUST be explicit configuration inputs; arbitrary recursive filesystem execution discovery is forbidden."
+    },
+    {
+      "id": "FA3-APPDIST-008",
+      "requirement": "MUST",
+      "rule": "Preflight and physical producer code for the same application requirement MUST resolve through the same shared runtime resolver."
+    }
+  ],
+  "current_host_runtime_promotion_claim": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}
