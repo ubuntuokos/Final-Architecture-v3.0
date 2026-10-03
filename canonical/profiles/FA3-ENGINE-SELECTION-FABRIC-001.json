@@ -12,13 +12,15 @@
   "capability_count": 175,
   "capabilities": [
     "CAP-043",
+    "CAP-113",
     "CAP-121",
     "CAP-126",
     "CAP-159",
     "CAP-160",
     "CAP-161",
     "CAP-163",
-    "CAP-164"
+    "CAP-164",
+    "CAP-168"
   ],
   "contract_id": "FA3-ENGINE-SELECTION-CONTRACTS-001",
   "registry_id": "FA3-ENGINE-REGISTRY-001",
@@ -52,7 +54,9 @@
     "host_global_environment_mutation": false,
     "silent_fallback": false,
     "silent_format_loss": false,
-    "project_engine_lock_in": false
+    "project_engine_lock_in": false,
+    "mlt_extended_media_service": "FA3-MLT-EXTENDED-MEDIA-SERVICE-001",
+    "digital_human_provider_fabric": "FA3-DIGITAL-HUMAN-PROVIDER-FABRIC-001"
   },
   "gui": {
     "shared_qml": "apps/shared/engine-selector/qml/EngineSelectorPanel.qml",
