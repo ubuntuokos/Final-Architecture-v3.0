@@ -4,7 +4,9 @@ from __future__ import annotations
 from copy import deepcopy
 from typing import Any
 
-CAPABILITY_COUNT = 175
+from fa3_release_baseline import module_active_capability_count
+
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 MODEL_ROUTER = "FA3-AUTH-MODEL-ROUTER-001"
 HRB = "FA3-AUTH-HOST-RESOURCE-BROKER-001"
 SECRET_BROKER = "FA3-AUTH-SECRETS-001"
