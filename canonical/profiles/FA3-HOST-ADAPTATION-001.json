@@ -95,9 +95,37 @@
     "XDG_FREEDESKTOP_PRESERVES_NON_QT_INTEROPERABILITY",
     "WAYLAND_PREFERRED_X11_SUPPORTED",
     "SOFTWARE_COEXISTENCE_AND_HOST_NON_INTERFERENCE_REQUIRED",
-    "CURRENT_HOST_PASS_REQUIRES_PHYSICAL_EVIDENCE_OUTSIDE_THIS_DISCOVERY_LAYER"
+    "CURRENT_HOST_PASS_REQUIRES_PHYSICAL_EVIDENCE_OUTSIDE_THIS_DISCOVERY_LAYER",
+    "APPLICATION_RUNTIME_DISCOVERY_IS_NON_AUTHORITY",
+    "PACKAGE_PRESENCE_IS_NOT_RUNTIME_HEALTH",
+    "MULTI_DISTRIBUTION_APPLICATION_INSTANCES_MAY_COEXIST",
+    "BROKEN_EXECUTABLE_CANNOT_SATISFY_CURRENT_HOST_RUNTIME_REQUIREMENT",
+    "NO_SILENT_APPLICATION_RUNTIME_FALLBACK"
   ],
   "current_host_runtime_promotion_claim": false,
   "capability_baseline_release": "2026-09-26/v3.1.0",
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "application_runtime_discovery": {
+    "registry": "canonical/FA3-APPLICATION-RUNTIME-DISCOVERY-001.json",
+    "resolver": "src/fa3_application_runtime_resolver.py",
+    "packaging_classes": [
+      "NATIVE",
+      "DEB",
+      "RPM",
+      "PACMAN",
+      "FLATPAK",
+      "SNAP",
+      "APPIMAGE",
+      "PORTABLE",
+      "MANUAL"
+    ],
+    "desktop_entry_discovery": true,
+    "package_presence_is_runtime_health": false,
+    "runtime_health_probe_required_before_current_host_selection": true,
+    "multiple_installations_may_coexist": true,
+    "automatic_upstream_uninstall": false,
+    "silent_runtime_fallback": false,
+    "runtime_selection_authority": "EXISTING_ENGINE_OR_APPLICATION_SELECTION_POLICY",
+    "current_host_physical_evidence_required": true
+  }
 }
