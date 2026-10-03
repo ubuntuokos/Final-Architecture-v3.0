@@ -203,6 +203,42 @@ def gate(root: Path) -> dict[str, Any]:
     ):
         findings.append(_finding("GUI-POLICY-017", "canonical GUI surface registry baseline drift"))
 
+    gui_rules = gui_registry.get("rules", {})
+    if not (
+        gui_rules.get("application_gui_design_policy") == POLICY_ID
+        and gui_rules.get("fa3_design_system_required_for_all_fa3_application_gui") is True
+        and gui_rules.get("independent_application_visual_system_forbidden") is True
+        and gui_rules.get("exact_application_local_placement_owner_approval_required") is True
+        and gui_rules.get("functional_delta_gui_impact_assessment_required") is True
+        and gui_rules.get("removed_function_orphan_gui_forbidden") is True
+        and gui_rules.get("retroactive_application_gui_review_required") is True
+        and gui_rules.get("fabricated_placement_approval_forbidden") is True
+    ):
+        findings.append(_finding("GUI-POLICY-020", "GUI surface registry policy binding drift"))
+
+    link_policy = links.get("policy", {})
+    if not (
+        link_policy.get("application_gui_design_policy_required") is True
+        and link_policy.get("application_gui_design_policy_id") == POLICY_ID
+        and link_policy.get("retroactive_application_gui_audit_required") is True
+        and link_policy.get("gui_change_impact_assessment_required") is True
+        and link_policy.get("fa3_design_system_compliance_required") is True
+        and link_policy.get("independent_application_design_system_forbidden") is True
+        and link_policy.get("gui_placement_owner_approval_required") is True
+        and link_policy.get("fabricated_gui_placement_approval_forbidden") is True
+        and link_policy.get("removed_function_orphan_gui_forbidden") is True
+        and link_policy.get("application_manual_gui_sync_required") is True
+    ):
+        findings.append(_finding("GUI-POLICY-021", "application inventory GUI policy binding drift"))
+
+    if not (
+        enforcement.get("application_gui_design_policy_id") == POLICY_ID
+        and enforcement.get("application_gui_design_gate_id") == GATESET_ID
+        and isinstance(enforcement.get("application_gui_design_mandatory_p0_rules"), list)
+        and len(enforcement.get("application_gui_design_mandatory_p0_rules", [])) >= 10
+    ):
+        findings.append(_finding("GUI-POLICY-022", "global enforcement GUI policy binding drift"))
+
     required_doc_terms = [
         "RETROACTIVE", "CHANGE-SYNCHRONIZED", "DESIGN-SYSTEM-LOCKED",
         "GUI_PLACEMENT_REVIEW_REQUIRED", "explicit owner approval",
