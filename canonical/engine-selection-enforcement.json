@@ -1,0 +1,24 @@
+{
+  "schema": "fa3.engine-selection-enforcement.v1",
+  "gate_id": "FA3-ENGINE-SELECTION-GATESET-001",
+  "profile_id": "FA3-ENGINE-SELECTION-FABRIC-001",
+  "contract_id": "FA3-ENGINE-SELECTION-CONTRACTS-001",
+  "registry_id": "FA3-ENGINE-REGISTRY-001",
+  "decision_id": "FA3-DEC-ENGINE-SELECTION-FABRIC-2026-10-03",
+  "capability_count": 175,
+  "fail_closed": true,
+  "rules": [
+    "BASE_ENGINE_PRESERVATION",
+    "FA3_NATIVE_PARALLEL_NOT_REPLACEMENT",
+    "NO_DEFAULT_ENGINE_MANDATE",
+    "NO_SILENT_FALLBACK",
+    "MODEL_ROUTER_AUTHORITY_PRESERVED",
+    "HRB_AUTHORITY_PRESERVED",
+    "SECRET_AUTHORITY_PRESERVED",
+    "REFERENCE_ONLY_NOT_EXECUTION_READY",
+    "MULTI_SCOPE_USER_SELECTION",
+    "CUSTOM_ENGINE_NORMAL_ADMISSION",
+    "CURRENT_HOST_NOT_PROMOTED_BY_STATIC_MATERIALIZATION"
+  ],
+  "current_host_runtime_promotion_claim": false
+}
