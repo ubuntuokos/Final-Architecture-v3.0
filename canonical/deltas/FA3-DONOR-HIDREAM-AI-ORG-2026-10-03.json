@@ -1,0 +1,78 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-HIDREAM-AI-ORG-2026-10-03",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "MATERIALIZED_WAITING_ROLLING_WINDOW",
+  "mode": "APPEND_ONLY_OWNER_EXPLICIT_REFERENCE_INTAKE",
+  "parent_commit": "33f230096ea8bd3a37dedb3cbce29b9a3a4b7b24",
+  "parent_registry_blob_sha": "4d7641a6caf194db50162cbb3a25ef3930c4ad0b",
+  "parent_entry_count": 1425,
+  "source_count": 1,
+  "unique_source_key_count": 1,
+  "matched_existing_count": 0,
+  "proposed_entry_count": 1426,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "provider_count_policy": "DYNAMIC_UNCHANGED",
+  "approval_ref": "docs/donor-hidream-ai-org-2026-10-03.md",
+  "observed_child_repository_count": 27,
+  "requirements": [
+    "Preserve the exact owner-marked HiDream-ai GitHub organization URL as one canonical organization-level donor/reference identity.",
+    "Treat the organization as a discovery index only; child repositories are not recursively admitted.",
+    "Any selected child repository requires independent exact-source provenance plus License & Rights, security, Software Coexistence, Hardware Safety/model-runtime and dependency review.",
+    "Model/provider execution remains under Model Router and HRB authority; GPU-first upstream assumptions do not override the FA3 CPU-only baseline or display-GPU policy.",
+    "Model weights, datasets, benchmarks and external services are not admitted by organization-level registration.",
+    "Material adoption requires a typed canonical donor usage edge and application/capability impact reconciliation.",
+    "Fixed capability baseline 175 and dynamic provider-count policy remain unchanged.",
+    "No automatic fetch, install, code copy, dependency adoption, provider/model selection, runtime activation or Current Host claim."
+  ],
+  "sources": [
+    {
+      "url": "https://github.com/HiDream-ai",
+      "normalized_key": "github:hidream-ai",
+      "donor_id": "FA3-DONOR-HIDREAM-AI-ORG-001",
+      "kind": "GITHUB_ORGANIZATION",
+      "status": "ACCEPTED_REFERENCE",
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      }
+    }
+  ],
+  "discovery_classes": [
+    "UNIFIED_IMAGE_GENERATION_AND_EDITING",
+    "SUBJECT_PERSONALIZATION_AND_STORYBOARD",
+    "INSTRUCTION_GUIDED_IMAGE_EDITING",
+    "IMAGE_TO_VIDEO_MOTION_CONTROL",
+    "REGIONAL_VIDEO_EDITING",
+    "VIDEO_SUPER_RESOLUTION",
+    "VIRTUAL_TRY_ON",
+    "DIFFUSION_TRAINING_AND_SAMPLING",
+    "MULTIMODAL_SKILL_ROUTING",
+    "BENCHMARK_AND_EVALUATION"
+  ],
+  "boundaries": {
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "automatic_code_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "child_repository_auto_registration": false,
+    "child_model_auto_registration": false,
+    "child_dataset_auto_registration": false,
+    "usage_edge_created": false,
+    "capability_count_change": false,
+    "authority_change": false,
+    "runtime_change": false,
+    "current_host_pass_claimed": false
+  },
+  "submitted_url_count": 1,
+  "new_source_count": 1,
+  "serialization_scope": "ROLLING_FIVE_SLOT_DONOR_MAINTENANCE",
+  "serialization_order": "ASCENDING_ESTIMATED_INTAKE_WORKLOAD_THEN_FIFO",
+  "max_active_donor_intakes": 5,
+  "expected_initial_state": "FIFO_WAITING_WHILE_ACTIVE_WINDOW_FULL"
+}
