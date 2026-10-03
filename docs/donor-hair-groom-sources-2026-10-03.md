@@ -6,17 +6,17 @@ The owner explicitly marked **16 submitted sources** as `donornak`.
 
 - published parent main: `0a5641204c6f8caaf65e2e4bfc4af928b5579d54`
 - parent donor registry blob: `ee3a274e842471a3362c343f1ffa2eee935f85f0`
-- registry: **1405 → 1421**
+- registry: **1405 → 1420**
 - capability baseline: **175**
 - capability delta: **0**
 - architectural authority delta: **0**
 - donor usage edges created: **0**
 
-All 16 records are metadata/reference-only `ACCEPTED_REFERENCE` entries.
+Fifteen valid submitted links are metadata/reference-only `ACCEPTED_REFERENCE` entries. One malformed submitted locator remains analysis-only and unresolved.
 
-## Canonical source resolution
+## Unresolved malformed submission
 
-The submitted `https://github.com/Vanessi k` locator contained whitespace and is not a valid GitHub URL. It is preserved in intake provenance and canonically registered as the verified profile `https://github.com/Vanessik`.
+The submitted `https://github.com/Vanessi k` locator contains whitespace and is not a valid GitHub URL. The corrected candidate `https://github.com/Vanessik` is **not** registered by this intake because that distinct corrected link was not explicitly owner-marked as `donornak`. The malformed submission is preserved as analysis-only provenance and requires a new explicit owner donor-marking before any corrected URL can enter the registry.
 
 ## Sources
 
@@ -26,7 +26,7 @@ The submitted `https://github.com/Vanessi k` locator contained whitespace and is
 | https://github.com/facebookresearch/iphg | https://github.com/facebookresearch/iphg | repository-reference | `FA3-DONOR-FACEBOOKRESEARCH-IPHG-001` |
 | https://github.com/SamurAIGPT/ai-hair-style-simulator | https://github.com/SamurAIGPT/ai-hair-style-simulator | repository-reference | `FA3-DONOR-SAMURAIGPT-AI-HAIR-STYLE-SIMULATOR-001` |
 | https://github.com/facebookresearch/CT2Hair | https://github.com/facebookresearch/CT2Hair | repository-reference | `FA3-DONOR-FACEBOOKRESEARCH-CT2HAIR-001` |
-| https://github.com/Vanessi k | https://github.com/Vanessik | profile-discovery | `FA3-DONOR-VANESSIK-001` |
+| https://github.com/Vanessi k | — | unresolved malformed submission | — |
 | https://haiminluo.github.io/hairgpt/ | https://haiminluo.github.io/hairgpt/ | research-project | `FA3-DONOR-HAIRGPT-001` |
 | https://github.com/c-he | https://github.com/c-he | profile-discovery | `FA3-DONOR-C-HE-001` |
 | https://github.com/MengZephyr | https://github.com/MengZephyr | profile-discovery | `FA3-DONOR-MENGZEPHYR-001` |
@@ -56,4 +56,4 @@ The open Shared Hair & Groom Fabric work is separate from this registry intake. 
 
 The first full PR gate pass correctly failed closed because the previous serialized donor-intake regression pinned the global registry to exactly 1405 entries and the unified release projection still described the pre-intake registry blob and release surface.
 
-This branch therefore makes the prior intake regression append-only safe while preserving its own delta result at 1405, and regenerates the existing unified release projection for the 1421-entry registry. This reconciliation adds no capability, architectural authority, provider/runtime admission or donor usage edge.
+This branch therefore makes the prior intake regression append-only safe while preserving its own delta result at 1405, and regenerates the existing unified release projection for the 1420-entry registry. This reconciliation adds no capability, architectural authority, provider/runtime admission or donor usage edge.
