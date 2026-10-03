@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "8419c711f89d016cc48ee60387155a5614e9f3b2",
-    "pre_projection_root_tree_sha": "4301e7cd294b34922dbcb19e6fa131f510b4c291",
-    "pre_projection_canonical_tree_sha": "5a6ad70c3cb45f301949cca6207f7003e6016d5e",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2837,
-    "total_post_baseline_commits": 2837,
-    "delta_file_count": 2914,
-    "delta_added_files": 2908,
+    "pre_projection_head_sha": "2af85d992ff591581a3cfba43c7f1192f9871481",
+    "pre_projection_root_tree_sha": "57d1c15265450207320074575eea1fb28170503e",
+    "pre_projection_canonical_tree_sha": "beb78a16481b9321216bb1245fec2908b7ced22a",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2818,
+    "total_post_baseline_commits": 2818,
+    "delta_file_count": 2923,
+    "delta_added_files": 2917,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,10 +46,10 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1363,
+    "canonical_files_in_post_baseline_delta": 1366,
     "evidence_files_in_post_baseline_delta": 172,
     "source_files_in_post_baseline_delta": 368,
-    "test_files_in_post_baseline_delta": 342,
+    "test_files_in_post_baseline_delta": 343,
     "workflow_files_in_post_baseline_delta": 138,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -631,6 +631,7 @@
       "canonical/decisions/FA3-DEC-SESSION-VAULT-2026-09-20.json",
       "canonical/decisions/FA3-DEC-SHARED-HAIR-GROOM-2026-10-03.json",
       "canonical/decisions/FA3-DEC-SHARED-MODULE-PATTERN-DONOR-CATALOGUE-2026-10-01.json",
+      "canonical/decisions/FA3-DEC-SHARED-VOICE-STUDIO-QUICKVIDEO-2026-10-03.json",
       "canonical/decisions/FA3-DEC-SILLYTAVERN-KDE-DESKTOP-2026-09-07.json",
       "canonical/decisions/FA3-DEC-SKILL-DISCOVERY-DISTRIBUTION-FABRIC-2026-09-23.json",
       "canonical/decisions/FA3-DEC-SKILL-FABRIC-MENGTO-CLOSURE-2026-09-17.json",
@@ -1068,7 +1069,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2904,
+  "manifest_entry_count": 2913,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1852,7 +1853,7 @@
     },
     {
       "path": "apps/fa3-control-center/CMakeLists.txt",
-      "git_blob_sha": "9cd741c9c16d767248176fd8442ffc693c08d1f9",
+      "git_blob_sha": "010c93279b1a398b24e8ccb4996cbec7748b86b7",
       "baseline_delta_status": "added"
     },
     {
@@ -1952,7 +1953,7 @@
     },
     {
       "path": "apps/fa3-control-center/qml/Main.qml",
-      "git_blob_sha": "a2453a049414638fba762660856dc5576e65008d",
+      "git_blob_sha": "dfadb1a11f2f8a386d4562a5f59936ffe7264596",
       "baseline_delta_status": "added"
     },
     {
@@ -2023,6 +2024,11 @@
     {
       "path": "apps/fa3-control-center/qml/UpdateCenterPage.qml",
       "git_blob_sha": "d8983750f619140cccc08a9dcdbf97c46e1070cd",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/qml/VoiceStudioPage.qml",
+      "git_blob_sha": "c14d9a3ee95f92dce9135ce36f1b8467ca0e87df",
       "baseline_delta_status": "added"
     },
     {
@@ -2198,6 +2204,21 @@
     {
       "path": "apps/shared/engine-selector/qml/EngineSelectorPanel.qml",
       "git_blob_sha": "1ba4c9134baecdf4ee46cee347b46cee59a006b7",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/shared/voice/qml/VoiceActivityOverlay.qml",
+      "git_blob_sha": "be5af2db41751f8b71bde11f2ad14a97e0457793",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/shared/voice/qml/VoicePluginPanel.qml",
+      "git_blob_sha": "2c117d0f05c224c75b5f497ce32815f12e690808",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/shared/voice/qml/VoiceProfileManagerPanel.qml",
+      "git_blob_sha": "840899e40c2210f27279aa7e9833ccac09fd1ab0",
       "baseline_delta_status": "added"
     },
     {
@@ -2887,7 +2908,7 @@
     },
     {
       "path": "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
-      "git_blob_sha": "a2ad72d4fbf53d718a596c344b1a7f90843a2735",
+      "git_blob_sha": "33cafc24ee1a6847e9743c9f2e4d54609d530dc7",
       "baseline_delta_status": "added"
     },
     {
@@ -3602,7 +3623,7 @@
     },
     {
       "path": "canonical/FA3-GUI-SURFACE-REGISTRY-001.json",
-      "git_blob_sha": "ee56e113002a60d92625b938357155e29c4ad027",
+      "git_blob_sha": "3146dc287d67ec58f58786f822841c25ebe27026",
       "baseline_delta_status": "added"
     },
     {
@@ -3807,7 +3828,7 @@
     },
     {
       "path": "canonical/FA3-PRODUCT-FAMILY-REGISTRY-001.json",
-      "git_blob_sha": "221a27ca118e13068b55b4d8d07a7c8591322607",
+      "git_blob_sha": "272b3a723fa908fe6a38fcee170f332c9daae5e1",
       "baseline_delta_status": "added"
     },
     {
@@ -3892,7 +3913,7 @@
     },
     {
       "path": "canonical/FA3-SHARED-MODULE-PATTERN-CATALOGUE-001.json",
-      "git_blob_sha": "9c26033dc9144c94b8fc74f8c3030e24726238a4",
+      "git_blob_sha": "93a42b8539e70dee7cfa698ec0d7a5a89abe4d77",
       "baseline_delta_status": "added"
     },
     {
@@ -4723,6 +4744,11 @@
     {
       "path": "canonical/assessments/FA3-SHARED-MODULE-PATTERN-CATALOGUE-REUSE-ASSESSMENT-001.json",
       "git_blob_sha": "103eca285748dacc58396d4bfc2cac3d25701548",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/assessments/FA3-SHARED-VOICE-STUDIO-QUICKVIDEO-REUSE-ASSESSMENT-2026-10-03.json",
+      "git_blob_sha": "6e8ca19304cee7cc3c79f69bd08301819d5fe415",
       "baseline_delta_status": "added"
     },
     {
@@ -5717,7 +5743,7 @@
     },
     {
       "path": "canonical/contracts/FA3-VOICE-CONTRACTS-001.json",
-      "git_blob_sha": "cfe641f3929d8b09e649b1735eec6be256cc490e",
+      "git_blob_sha": "d42fb9cc89e258ab88a13b7501d9391171a2e653",
       "baseline_delta_status": "added"
     },
     {
@@ -6561,6 +6587,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-SHARED-VOICE-STUDIO-QUICKVIDEO-2026-10-03.json",
+      "git_blob_sha": "3235ffd99f3be23290851b326810eac694b169dc",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-SILLYTAVERN-KDE-DESKTOP-2026-09-07.json",
       "git_blob_sha": "af9060f50a6becf045d8311bd02510e7fb2a9b2e",
       "baseline_delta_status": "added"
@@ -7243,6 +7274,11 @@
     {
       "path": "canonical/intents/FA3-SHARED-HAIR-GROOM-APPLICATION-INTENT-2026-10-03.json",
       "git_blob_sha": "6475a119ab67f324da69523af8de5111a756ece2",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/intents/FA3-SHARED-VOICE-STUDIO-QUICKVIDEO-APPLICATION-INTENT-2026-10-03.json",
+      "git_blob_sha": "726e23cb02ae49837b14d8c75d203a18e1501b93",
       "baseline_delta_status": "added"
     },
     {
@@ -8167,7 +8203,7 @@
     },
     {
       "path": "canonical/profiles/FA3-VOICE-001.json",
-      "git_blob_sha": "a8f704972e702123e42b24bbf1bbf5587058ea0f",
+      "git_blob_sha": "0e9237e53df726c572767c0b4269cf90a7c3fa01",
       "baseline_delta_status": "added"
     },
     {
@@ -10783,6 +10819,11 @@
     {
       "path": "docs/shared-module-pattern-donor-catalogue.md",
       "git_blob_sha": "9bcce8abe253cec60a536bce8fff87fc3f03ccc1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/shared-voice-studio-quickvideo-2026-10-03.md",
+      "git_blob_sha": "a90d1b9f9e1479257688753481e65ec7ae45d38e",
       "baseline_delta_status": "added"
     },
     {
@@ -15293,6 +15334,11 @@
     {
       "path": "tests/test_shared_module_pattern_catalogue.py",
       "git_blob_sha": "152ac8660867c58f71c49a35103df53513e88025",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_shared_voice_studio_quickvideo_20261003.py",
+      "git_blob_sha": "641a31bee4f119404e14e2482a0b656d68641d4f",
       "baseline_delta_status": "added"
     },
     {
