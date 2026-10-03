@@ -1,0 +1,41 @@
+{
+  "schema": "fa3.gate.v1",
+  "id": "FA3-GATE-SHARED-HAIR-GROOM-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "enforcement_id": "FA3-SHARED-HAIR-GROOM-GATESET-001",
+  "entrypoint": "src/fa3_hair_groom_gate.py::gate",
+  "capability_bindings": [
+    "CAP-015",
+    "CAP-016",
+    "CAP-032",
+    "CAP-163",
+    "CAP-164",
+    "CAP-166"
+  ],
+  "fail_closed": true,
+  "static_pass_promotes_runtime": false,
+  "tests": [
+    "tests/test_hair_groom.py"
+  ],
+  "required_boundaries": [
+    "FA3-3D-GEOM-001",
+    "FA3-DCC-RT3D-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-ENGINE-SELECTION-FABRIC-001",
+    "FA3-LICENSE-RIGHTS-001",
+    "FA3-AUTH-OBS-EVIDENCE-001",
+    "CAP-175",
+    "FA3-DEC-SHARED-HAIR-GROOM-2026-10-03"
+  ],
+  "current_host_runtime_promotion_claim": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only": true,
+    "accelerator_cardinality": "0..N",
+    "hardware_mutation": false
+  }
+}
