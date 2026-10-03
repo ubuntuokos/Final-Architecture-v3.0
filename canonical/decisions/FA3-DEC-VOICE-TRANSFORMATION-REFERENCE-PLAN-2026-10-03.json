@@ -21,13 +21,7 @@
     "STYLE_TRANSFER",
     "SPEECH_REPRESENTATION"
   ],
-  "canonical_consumers": [
-    "fa3.music-studio",
-    "fa3.character-studio",
-    "fa3.story-screenplay",
-    "fa3.video-editor",
-    "fa3.quickclip"
-  ],
+  "canonical_consumers": [],
   "gui_projection": {
     "component": "apps/shared/voice/qml/VoiceTransformationPanel.qml",
     "first_consumer": "apps/fa3-control-center/qml/NarrationStudioPage.qml",
@@ -44,10 +38,29 @@
     "No silent provider, model, device, language or cloud fallback.",
     "The donor Gist is used only as a functional architecture reference; no source code is copied.",
     "Child projects and services listed by the Gist remain non-admitted until independently owner-marked and reviewed.",
-    "Static contract/UI materialization does not claim Current Host runtime PASS for any transformation engine."
+    "Static contract/UI materialization does not claim Current Host runtime PASS for any transformation engine.",
+    "The Gist has unknown reuse rights and remains reference-only; no donor-derived material implementation, code, runtime or provider dependency is created."
   ],
   "current_host_impact": "STRUCTURAL_REASSESSMENT_REQUIRED_NO_RUNTIME_PROVIDER_PROMOTION",
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
-  "capability_count_after": 175
+  "capability_count_after": 175,
+  "owner_approval": {
+    "status": "EXPLICIT",
+    "scope": "FULL_CLOSURE_OF_APPROVED_VOICE_REFERENCE_PLAN",
+    "evidence": [
+      "owner explicitly marked the Gist donornak in this conversation",
+      "owner instructed Készítsd el after the donor analysis and plan",
+      "owner instructed Készítsd el a teljes lezárásig. de ezt már írtam"
+    ],
+    "approval_date": "2026-10-03"
+  },
+  "donor_disposition": "REFERENCE_ONLY_NO_MATERIAL_ADOPTION",
+  "planned_application_impacts": [
+    "fa3.music-studio",
+    "fa3.character-studio",
+    "fa3.story-screenplay",
+    "fa3.video-editor",
+    "fa3.quickclip"
+  ]
 }
