@@ -160,6 +160,6 @@ list donor files in a long-lived pull request when those exact bytes were
 independently published to `main` after the pull request's merge base.
 
 Such byte-identical stale-base entries remain visible to donor maintenance
-reporting but do **not** constitute a second live intake. Missing, unreadable or
-different blob identity fails closed and continues to reserve/block the intake
-slot.
+reporting but do **not** consume an active intake-window slot. Missing, unreadable
+or different blob identity fails closed and continues to consume a slot until
+the live mutation can be disproven.
