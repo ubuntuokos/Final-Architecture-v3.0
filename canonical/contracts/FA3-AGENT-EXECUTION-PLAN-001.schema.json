@@ -66,7 +66,40 @@
         }
       },
       "additionalProperties": false
+    },
+    "task_scope_policy_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "task_scope_control_required": {
+      "type": "boolean"
     }
   },
-  "additionalProperties": false
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "task_scope_control_required": {
+            "const": true
+          }
+        },
+        "required": [
+          "task_scope_control_required"
+        ]
+      },
+      "then": {
+        "properties": {
+          "task_scope_policy_id": {
+            "const": "FA3-TASK-SCOPE-CLOSURE-POLICY-2026-10-03"
+          }
+        },
+        "required": [
+          "task_scope_policy_id"
+        ]
+      }
+    }
+  ]
 }
