@@ -1,0 +1,20 @@
+{
+  "schema": "fa3.product-entitlement-gate-scope.v1",
+  "id": "FA3-GATE-APPLICATION-PORTFOLIO-DRIFT-001",
+  "status": "CANONICAL",
+  "parent_gate_id": "FA3-GATE-PRODUCT-ENTITLEMENT-001",
+  "enforcement_id": "FA3-PRODUCT-ENTITLEMENT-GATESET-001",
+  "name": "Application Portfolio drift",
+  "fail_closed": true,
+  "entrypoint": "src/fa3_product_entitlement_gate.py::gate",
+  "finding_codes": [
+    "UNCLASSIFIED_MATERIALIZED_APPLICATION_ROOT",
+    "APPLICATION_INVENTORY_DECLARATION_MISSING",
+    "PRODUCT_FAMILY_PLACEMENT_MISSING",
+    "PRODUCT_FAMILY_PLACEMENT_DRIFT"
+  ],
+  "capability_count": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "current_host_runtime_promotion_claim": false
+}

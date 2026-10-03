@@ -1,0 +1,22 @@
+{
+  "schema": "fa3.product-entitlement-gate-scope.v1",
+  "id": "FA3-GATE-OPERATING-LEVEL-DEPENDENCY-001",
+  "status": "CANONICAL",
+  "parent_gate_id": "FA3-GATE-PRODUCT-ENTITLEMENT-001",
+  "enforcement_id": "FA3-PRODUCT-ENTITLEMENT-GATESET-001",
+  "name": "Operating Level and dependency separation",
+  "fail_closed": true,
+  "entrypoint": "src/fa3_product_entitlement_gate.py::gate",
+  "finding_codes": [
+    "INVALID_OPERATING_LEVEL_BINDING",
+    "SUPPORTED_LEVELS_MUST_BE_MONOTONIC_FROM_MINIMUM",
+    "APPLICATION_DEPENDENCY_RECORD_MISSING",
+    "UNKNOWN_PLATFORM_DEPENDENCY",
+    "APPLICATION_AS_TECHNICAL_DEPENDENCY_FORBIDDEN",
+    "TECHNICAL_DEPENDENCY_MAY_NOT_BE_USER_FACING_APPLICATION"
+  ],
+  "capability_count": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "current_host_runtime_promotion_claim": false
+}

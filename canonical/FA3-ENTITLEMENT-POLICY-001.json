@@ -1,0 +1,47 @@
+{
+  "schema": "fa3.entitlement-policy.v1",
+  "id": "FA3-ENTITLEMENT-POLICY-001",
+  "status": "CANONICAL_FAIL_CLOSED_PRODUCT_POLICY",
+  "authority": false,
+  "execution_authority": false,
+  "capability_count": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "operating_level_ref": "FA3-OPERATING-LEVEL-MODEL-001",
+  "portfolio_ref": "FA3-APPLICATION-PORTFOLIO-001",
+  "dependency_registry_ref": "FA3-APPLICATION-DEPENDENCY-REGISTRY-001",
+  "domain_pack_registry_ref": "FA3-DOMAIN-PACK-REGISTRY-001",
+  "principles": {
+    "individual_application_selection": true,
+    "higher_operating_level_auto_unlocks_unrelated_applications": false,
+    "required_platform_dependency_grants_user_facing_application": false,
+    "bundle_required_for_application": false,
+    "bundle_hidden_entitlement_grant": false,
+    "security_safety_rights_core_nonpremium": true,
+    "external_application_upstream_rights_inherited_not_relicensed": true,
+    "silent_fallback": false,
+    "downgrade_silent_project_data_loss": false
+  },
+  "authority_precedence": [
+    "SECURITY_AND_SAFETY_HARD_GATES",
+    "LICENSE_AND_RIGHTS_HARD_GATE",
+    "HARDWARE_RUNTIME_ADMISSION",
+    "PRODUCT_ENTITLEMENT",
+    "ORGANIZATION_POLICY",
+    "WORKSPACE_PROJECT_POLICY",
+    "APPLICATION_PRODUCT_FAMILY_POLICY",
+    "WORKFLOW_TASK_POLICY",
+    "USER_PREFERENCE",
+    "ENGINE_PROVIDER_SELECTION_INTENT"
+  ],
+  "lower_precedence_layer_may_restrict": true,
+  "lower_precedence_layer_may_widen": false,
+  "resolver": {
+    "minimum_level_rule": "MAX_SELECTED_APPLICATION_MINIMUM_AND_REQUESTED_FEATURE_MINIMUM",
+    "unknown_application": "DENY",
+    "retired_application": "DENY",
+    "unsupported_operating_level": "DENY",
+    "non_entitleable_application": "DENY",
+    "empty_selection": "ALLOW_PLATFORM_ONLY"
+  }
+}

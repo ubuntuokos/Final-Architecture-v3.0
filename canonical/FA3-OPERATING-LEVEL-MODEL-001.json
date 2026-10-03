@@ -1,0 +1,85 @@
+{
+  "schema": "fa3.operating-level-model.v1",
+  "id": "FA3-OPERATING-LEVEL-MODEL-001",
+  "status": "CANONICAL_PRODUCT_POLICY",
+  "authority": false,
+  "source_of_execution_truth": false,
+  "capability_count": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "semantics": "OPERATING_SCOPE_NOT_APPLICATION_BUNDLE",
+  "levels": [
+    {
+      "level_id": "MINIMAL",
+      "rank": 0,
+      "scope": [
+        "LOCAL_BASE_PLATFORM",
+        "FAIL_CLOSED_CORE_GOVERNANCE"
+      ],
+      "auto_unlock_unrelated_applications": false
+    },
+    {
+      "level_id": "PERSONAL",
+      "rank": 1,
+      "scope": [
+        "PERSONAL_PROJECTS",
+        "MULTI_APPLICATION_PERSONAL_WORKFLOW"
+      ],
+      "auto_unlock_unrelated_applications": false
+    },
+    {
+      "level_id": "PROFESSIONAL",
+      "rank": 2,
+      "scope": [
+        "PROFESSIONAL_WORKFLOW",
+        "LOCAL_AUTOMATION",
+        "PROFESSIONAL_COMPUTE"
+      ],
+      "auto_unlock_unrelated_applications": false
+    },
+    {
+      "level_id": "STUDIO",
+      "rank": 3,
+      "scope": [
+        "TEAM_COLLABORATION",
+        "LAN_DISTRIBUTED_EXECUTION",
+        "PRODUCTION_REVIEW"
+      ],
+      "auto_unlock_unrelated_applications": false
+    },
+    {
+      "level_id": "BUSINESS",
+      "rank": 4,
+      "scope": [
+        "ORGANIZATION_GOVERNANCE",
+        "CENTRAL_POLICY",
+        "AUDIT_COST_QUOTA"
+      ],
+      "auto_unlock_unrelated_applications": false
+    },
+    {
+      "level_id": "ENTERPRISE",
+      "rank": 5,
+      "scope": [
+        "MULTI_SITE_FEDERATION",
+        "HA_ORCHESTRATION",
+        "FLEET_MANAGEMENT",
+        "COMPLIANCE_EXPORT"
+      ],
+      "auto_unlock_unrelated_applications": false
+    }
+  ],
+  "feature_minimums": {
+    "SINGLE_USER_PERSONAL": "PERSONAL",
+    "PROFESSIONAL_WORKFLOW": "PROFESSIONAL",
+    "LAN_DISTRIBUTED_EXECUTION": "STUDIO",
+    "TEAM_COLLABORATION": "STUDIO",
+    "ORGANIZATION_GOVERNANCE": "BUSINESS",
+    "CENTRAL_AUDIT_COST_POLICY": "BUSINESS",
+    "MULTI_SITE_FEDERATION": "ENTERPRISE",
+    "HA_ORCHESTRATION": "ENTERPRISE",
+    "FLEET_MANAGEMENT": "ENTERPRISE"
+  },
+  "resolution_rule": "MAX_APPLICATION_MINIMUM_AND_REQUESTED_FEATURE_MINIMUM",
+  "security_and_safety_features_nonpremium": true
+}

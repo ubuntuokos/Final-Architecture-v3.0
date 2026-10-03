@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "fa3.operating-level-model.v1",
+  "title": "FA3 Operating Level Model",
+  "type": "object",
+  "required": [
+    "schema",
+    "id",
+    "capability_count",
+    "levels",
+    "feature_minimums"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.operating-level-model.v1"
+    },
+    "id": {
+      "const": "FA3-OPERATING-LEVEL-MODEL-001"
+    },
+    "capability_count": {
+      "const": 175
+    },
+    "levels": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6
+    }
+  }
+}
