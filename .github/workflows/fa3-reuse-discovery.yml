@@ -10,6 +10,13 @@ on:
       - "canonical/decisions/FA3-DEC-DONOR-LIFECYCLE-APPLICATION-SYNC-2026-09-30.json"
       - "canonical/FA3-APPLICATION-DONOR-LINKS-001.json"
       - "canonical/FA3-APP-LIFECYCLE-001.json"
+      - "canonical/FA3-APPLICATION-GUI-DESIGN-POLICY-001.json"
+      - "canonical/FA3-APPLICATION-GUI-RETROACTIVE-AUDIT-001.json"
+      - "canonical/FA3-GATE-APPLICATION-GUI-DESIGN-001.json"
+      - "canonical/contracts/FA3-APPLICATION-GUI-DESIGN-RECORD-001.schema.json"
+      - "src/fa3_application_gui_design_gate.py"
+      - "tests/test_application_gui_design_policy.py"
+      - "docs/FA3-APPLICATION-GUI-DESIGN-POLICY-001.md"
       - "canonical/FA3-AI-STUDIO-APP-CATALOG-001.json"
       - "src/fa3_application_donor_index.py"
       - "docs/application-donor-inventory.md"
@@ -83,7 +90,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Syntax
-        run: python -m py_compile src/fa3_reuse_catalog.py src/fa3_reuse_resolver.py src/fa3_reuse_assessment.py src/fa3_reuse_gate.py src/fa3_donor_registry.py src/fa3_donor_chat_import.py src/fa3_donor_chat_inbox.py
+        run: python -m py_compile src/fa3_reuse_catalog.py src/fa3_reuse_resolver.py src/fa3_reuse_assessment.py src/fa3_reuse_gate.py src/fa3_donor_registry.py src/fa3_donor_chat_import.py src/fa3_donor_chat_inbox.py src/fa3_application_gui_design_gate.py
       - name: Donor import wrapper and installer shell syntax
         run: bash -n bin/fa3-donor-chat-import bin/fa3-donor-chat-inbox bin/fa3-donor-chat-watch-install
       - name: Donor capture dry-run
@@ -100,6 +107,8 @@ jobs:
         run: PYTHONPATH=src python -m unittest tests.test_donor_intel_ecosystem -v
       - name: Reuse discovery regressions
         run: PYTHONPATH=src python -m unittest tests.test_reuse_discovery_gate -v
+      - name: Application GUI design policy regressions
+        run: PYTHONPATH=src python -m unittest tests.test_application_gui_design_policy -v
       - name: Full repository unit regression
         run: bash bin/fa3-test -v
       - name: Hardware audit remains vendor-neutral

@@ -16,6 +16,8 @@ GUI = "canonical/FA3-GUI-SURFACE-REGISTRY-001.json"
 DONOR = "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"
 LINKS = "canonical/FA3-APPLICATION-DONOR-LINKS-001.json"
 PLATFORM = "canonical/FA3-PRODUCT-FAMILY-REGISTRY-001.json"
+GUI_POLICY = "FA3-APPLICATION-GUI-DESIGN-POLICY-001"
+GUI_POLICY_PATH = "canonical/FA3-APPLICATION-GUI-DESIGN-POLICY-001.json"
 AUTO = ("automatic_selection", "automatic_fetch", "automatic_install",
         "automatic_activation", "automatic_dependency", "automatic_code_import",
         "automatic_provider_admission", "automatic_model_selection")
@@ -30,6 +32,20 @@ REQUIRED_TUTORIAL_SHARED_POLICY = {
     "affected_application_manual_update_required": True,
     "structural_change_current_host_alignment_required": True,
     "capability_loss_during_shared_migration_forbidden": True,
+}
+
+REQUIRED_APPLICATION_GUI_POLICY = {
+    "application_gui_design_policy_required": True,
+    "retroactive_application_gui_audit_required": True,
+    "gui_change_impact_assessment_required": True,
+    "gui_functional_revision_sync_required": True,
+    "fa3_design_system_compliance_required": True,
+    "independent_application_design_system_forbidden": True,
+    "gui_placement_owner_approval_required": True,
+    "missing_prior_gui_placement_approval_requires_review": True,
+    "fabricated_gui_placement_approval_forbidden": True,
+    "removed_function_orphan_gui_forbidden": True,
+    "application_manual_gui_sync_required": True,
 }
 
 
@@ -171,12 +187,53 @@ def capability_refresh_status(registry: dict[str, Any], today: date | None = Non
     }
 
 
+def application_gui_governance_projection(application: dict[str, Any], gui_policy: dict[str, Any]) -> dict[str, Any]:
+    lifecycle = str(application.get("lifecycle", "UNKNOWN"))
+    reference_only = lifecycle == "REFERENCE_ONLY"
+    scope = gui_policy.get("scope", {})
+    placement = gui_policy.get("placement", {})
+    design = gui_policy.get("design_system", {})
+    change = gui_policy.get("change_synchronization", {})
+    documentation = gui_policy.get("documentation", {})
+    retro = gui_policy.get("retroactive_audit", {})
+    if reference_only:
+        return {
+            "policy_id": GUI_POLICY,
+            "fa3_gui_obligation": False,
+            "review_status": "REFERENCE_ONLY_NO_FA3_GUI_MUTATION",
+            "reference_status_alone_creates_gui_obligation": False,
+        }
+    return {
+        "policy_id": gui_policy.get("id"),
+        "fa3_gui_obligation": True,
+        "retroactive": scope.get("retroactive") is True,
+        "continuous_change_sync_required": scope.get("continuous_change_sync") is True,
+        "fa3_design_system_required": design.get("mode") == "FA3_DESIGN_SYSTEM_LOCKED",
+        "exact_application_local_placement_owner_approval_required":
+            placement.get("exact_final_application_local_placement_requires_owner_approval") is True,
+        "functional_delta_gui_impact_assessment_required":
+            change.get("functional_delta_requires_gui_impact_assessment") is True,
+        "manual_gui_sync_required": documentation.get("materialized_gui_and_application_manual_must_match") is True,
+        "review_status": "GUI_PLACEMENT_REVIEW_REQUIRED_UNLESS_APPROVED_RECORD_EXISTS",
+        "approval_fabrication_forbidden": retro.get("approval_may_not_be_fabricated") is True,
+    }
+
+
 def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str, Any]:
     root = root.resolve()
-    catalog, surfaces, registry, declaration, platform = (
-        load(root / rel) for rel in (APP, GUI, DONOR, LINKS, PLATFORM)
+    catalog, surfaces, registry, declaration, platform, gui_policy = (
+        load(root / rel) for rel in (APP, GUI, DONOR, LINKS, PLATFORM, GUI_POLICY_PATH)
     )
     capability_count = load_active_release_baseline(root).capability_count
+    if not (
+        gui_policy.get("id") == GUI_POLICY
+        and gui_policy.get("status") == "CANONICAL"
+        and gui_policy.get("priority") == "P0"
+        and gui_policy.get("scope", {}).get("retroactive") is True
+        and gui_policy.get("design_system", {}).get("mode") == "FA3_DESIGN_SYSTEM_LOCKED"
+        and gui_policy.get("placement", {}).get("exact_final_application_local_placement_requires_owner_approval") is True
+    ):
+        errors.append({"code": "APPLICATION_GUI_CANONICAL_POLICY_INVALID", "detail": GUI_POLICY_PATH})
     errors: list[dict[str, str]] = []
     errors.extend(validate_product_family_registry(platform, capability_count))
     if declaration.get("id") != "FA3-APPLICATION-DONOR-LINKS-001" or declaration.get("authority") is not False:
@@ -225,6 +282,13 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
     if missing_tutorial_policy:
         errors.append({"code": "TUTORIAL_SHARED_POLICY_INVALID",
                        "detail": ",".join(sorted(missing_tutorial_policy))})
+    missing_gui_policy = [
+        key for key, expected in REQUIRED_APPLICATION_GUI_POLICY.items()
+        if policy.get(key) is not expected
+    ]
+    if missing_gui_policy or policy.get("application_gui_design_policy_id") != GUI_POLICY:
+        errors.append({"code": "APPLICATION_GUI_POLICY_INVALID",
+                       "detail": ",".join(sorted(missing_gui_policy)) or "policy_id"})
     donors = registry.get("entries", [])
     if registry.get("id") != "FA3-DONOR-REFERENCE-REGISTRY-001" or registry.get("backfill", {}).get("entry_count") != len(donors):
         errors.append({"code": "DONOR_REGISTRY_DRIFT", "detail": DONOR})
@@ -269,6 +333,9 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
         }
 
     product_family_views = apply_product_family_placement(applications, platform, errors)
+
+    for application in applications.values():
+        application["gui_governance"] = application_gui_governance_projection(application, gui_policy)
 
     gui_surfaces = []
     seen_surfaces: set[str] = set()

@@ -1,0 +1,138 @@
+{
+  "schema": "fa3.application-gui-design-policy.v1",
+  "id": "FA3-APPLICATION-GUI-DESIGN-POLICY-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "capability_count": 175,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "scope": {
+    "fa3_applications": "ALL",
+    "lifecycle_states": [
+      "PLANNED",
+      "IN_PROGRESS",
+      "MATERIALIZED",
+      "UPDATED",
+      "FUTURE"
+    ],
+    "retroactive": true,
+    "forward_enforced": true,
+    "continuous_change_sync": true,
+    "grandfathering_allowed": false
+  },
+  "gui_classification": {
+    "allowed": [
+      "GUI_REQUIRED",
+      "GUI_POSSIBLE",
+      "HEADLESS_ONLY"
+    ],
+    "gui_required_or_possible_requires_design": true,
+    "headless_only_requires_explicit_justification": true
+  },
+  "placement": {
+    "global_fa3_placement_required": true,
+    "global_path_model": "FA3_PLATFORM -> PRODUCT_FAMILY -> APPLICATION -> SURFACE",
+    "application_local_placement_required": true,
+    "application_local_targets": [
+      "MENU",
+      "SUBMENU",
+      "TOOLBAR",
+      "PANEL",
+      "WORKSPACE",
+      "CONTEXT_MENU",
+      "COMMAND_PALETTE",
+      "SETTINGS",
+      "STATUS_PROGRESS",
+      "SHORTCUT",
+      "HELP_MANUAL"
+    ],
+    "proposal_may_be_machine_generated": true,
+    "exact_final_application_local_placement_requires_owner_approval": true,
+    "automatic_final_placement_forbidden": true,
+    "finalization_without_owner_approved_placement_forbidden": true
+  },
+  "design_system": {
+    "mode": "FA3_DESIGN_SYSTEM_LOCKED",
+    "profile_id": "FA3-UI-COMPONENT-FABRIC-001",
+    "contract_id": "FA3-UI-COMPONENT-FABRIC-CONTRACTS-001",
+    "surface_registry_id": "FA3-GUI-SURFACE-REGISTRY-001",
+    "deviation_allowed": false,
+    "fa3_visual_and_interaction_language_required": true,
+    "application_specific_independent_design_system_forbidden": true,
+    "non_fa3_typography_forbidden": true,
+    "non_fa3_color_system_forbidden": true,
+    "non_fa3_component_style_forbidden": true,
+    "non_fa3_iconography_standard_forbidden": true,
+    "non_fa3_navigation_language_forbidden": true,
+    "fa3_accessibility_and_input_rules_required": true,
+    "application_specific_functional_layout_allowed_within_fa3_design_system": true,
+    "external_or_donor_gui_requires_fa3_native_adaptation": true
+  },
+  "change_synchronization": {
+    "functional_delta_requires_gui_impact_assessment": true,
+    "triggers": [
+      "FUNCTION_ADDED",
+      "FUNCTION_REMOVED",
+      "FUNCTION_CHANGED",
+      "FUNCTION_MERGED",
+      "FUNCTION_SPLIT",
+      "FUNCTION_MOVED",
+      "WORKFLOW_CHANGED",
+      "SHARED_CAPABILITY_CHANGED",
+      "PLUGIN_EXTENSION_CHANGED",
+      "SETTING_CHANGED",
+      "ENGINE_PROVIDER_CHOICE_CHANGED",
+      "PERMISSION_MODEL_CHANGED",
+      "APPLICATION_STRUCTURE_CHANGED"
+    ],
+    "dispositions": [
+      "NO_GUI_CHANGE",
+      "GUI_UPDATE_REQUIRED",
+      "GUI_REDESIGN_REQUIRED",
+      "NEW_GUI_SURFACE_REQUIRED",
+      "GUI_ELEMENT_REMOVAL_REQUIRED"
+    ],
+    "removed_function_may_not_leave_orphan_gui": true,
+    "gui_revision_may_not_lag_required_functional_revision": true,
+    "application_and_required_gui_change_same_change_set": true
+  },
+  "shared_gui": {
+    "shared_first": true,
+    "duplicate_shared_gui_component_forbidden_without_reviewed_justification": true,
+    "application_specific_context_adapter_allowed": true
+  },
+  "documentation": {
+    "materialized_gui_and_application_manual_must_match": true,
+    "real_gui_names_required": true,
+    "real_menu_toolbar_placement_required": true,
+    "removed_gui_may_not_remain_documented": true,
+    "unmaterialized_gui_may_not_be_documented_as_available": true
+  },
+  "retroactive_audit": {
+    "required": true,
+    "preserve_existing_compliant_gui": true,
+    "missing_prior_placement_approval_becomes_review_required": true,
+    "approval_may_not_be_fabricated": true,
+    "functional_gui_design_system_and_manual_sync_checked": true,
+    "reference_only_external_applications_do_not_gain_fa3_gui_obligations_by_reference_status_alone": true
+  },
+  "gates": {
+    "gateset_id": "FA3-APPLICATION-GUI-DESIGN-GATESET-001",
+    "application_gui_design": "FA3-GATE-APPLICATION-GUI-DESIGN-001",
+    "functional_sync": "FA3-GATE-GUI-FUNCTIONAL-SYNC-001",
+    "design_system_compliance": "FA3-GATE-GUI-DESIGN-SYSTEM-COMPLIANCE-001",
+    "fail_closed": true
+  },
+  "runtime": {
+    "static_governance_change": true,
+    "current_host_runtime_promotion_claim": false,
+    "physical_current_host_pass_not_inferred": true
+  },
+  "application_finalization": {
+    "governed_gui_design_record_required": true,
+    "gui_required_or_possible_owner_approved_exact_local_placement_required": true,
+    "missing_or_unresolved_record": "FAIL_CLOSED",
+    "historical_approval_inference_forbidden": true
+  }
+}

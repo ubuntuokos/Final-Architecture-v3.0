@@ -181,3 +181,34 @@ Every material donor usage edge is subject to `FA3-GATE-UNIVERSAL-CAPABILITY-ACC
 - architecture/reference-only usage remains non-material and does not imply runtime or source admission.
 
 The reverse donor→capability→consumer graph is therefore also the remediation surface: when a donor becomes restricted, substitution is performed once at the shared capability layer and propagated to all consumers.
+
+
+## Application GUI governance projection
+
+Every FA3 application in the derived inventory carries the cross-cutting
+`FA3-APPLICATION-GUI-DESIGN-POLICY-001` projection. The policy is P0,
+retroactive, forward-enforced and continuously re-evaluated when application
+functionality changes.
+
+For an FA3 application, the inventory projection records that:
+
+- GUI classification is required as `GUI_REQUIRED`, `GUI_POSSIBLE` or
+  explicitly justified `HEADLESS_ONLY`;
+- GUI-required or GUI-possible applications require GUI design as part of the
+  application plan;
+- FA3-level placement and application-local placement are both required;
+- exact final application-local placement requires explicit owner approval;
+- missing historical placement approval creates
+  `GUI_PLACEMENT_REVIEW_REQUIRED` rather than fabricating approval;
+- every functional delta requires a GUI impact assessment;
+- removed functionality may not leave orphan GUI;
+- all FA3 application GUI is locked to the common FA3 Design System and an
+  independent application-specific visual system is forbidden;
+- shared GUI components are reused before local duplication;
+- materialized GUI and the application manual must stay synchronized.
+
+Reference-only external applications remain reference records and do not gain
+FA3 GUI mutation obligations merely because they appear in the inventory.
+
+The projection is governance metadata, not runtime evidence. It never creates
+Current Host PASS or runtime promotion.

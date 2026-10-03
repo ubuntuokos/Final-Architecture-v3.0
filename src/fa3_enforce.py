@@ -87,6 +87,7 @@ from fa3_browser_action_gate import gate as browser_action_runtime_gate
 from fa3_browser_cdp_gate import gate as browser_cdp_provider_gate
 from fa3_neural_rendering_gate import gate as neural_rendering_gate
 from fa3_hair_groom_gate import gate as hair_groom_gate
+from fa3_application_gui_design_gate import gate as application_gui_design_gate
 from fa3_khronos_open_standards_gate import gate as khronos_open_standards_gate
 from fa3_audacity_mcp_gate import gate as audacity_mcp_gate
 from fa3_agent_instructions_gate import gate as agent_instructions_gate
@@ -228,6 +229,10 @@ def static_check(root:Path):
     hair_groom_ref=hair_groom_gate(root)
     if hair_groom_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-149","Shared Hair/Groom mandatory static gate failed",hair_groom_gate=hair_groom_ref))
+
+    application_gui_design_ref=application_gui_design_gate(root)
+    if application_gui_design_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-151","Application GUI design / retroactive / functional-sync / FA3-design-system gate failed",application_gui_design_gate=application_gui_design_ref))
     agent_instructions_ref=agent_instructions_gate(root)
     if agent_instructions_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-114","Repository agent-instruction projection governance gate failed",agent_instructions_gate=agent_instructions_ref))

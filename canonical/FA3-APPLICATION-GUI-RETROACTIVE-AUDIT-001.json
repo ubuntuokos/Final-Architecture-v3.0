@@ -1,0 +1,49 @@
+{
+  "schema": "fa3.application-gui-retroactive-audit-policy.v1",
+  "id": "FA3-APPLICATION-GUI-RETROACTIVE-AUDIT-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "policy_id": "FA3-APPLICATION-GUI-DESIGN-POLICY-001",
+  "applies_retroactively": true,
+  "inventory_sources": [
+    "canonical/FA3-AI-STUDIO-APP-CATALOG-001.json",
+    "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
+    "canonical/FA3-GUI-SURFACE-REGISTRY-001.json",
+    "canonical/FA3-PRODUCT-FAMILY-REGISTRY-001.json"
+  ],
+  "required_review_dimensions": [
+    "GUI_CLASSIFICATION",
+    "FUNCTION_TO_GUI_TRACEABILITY",
+    "FA3_GLOBAL_PLACEMENT",
+    "APPLICATION_LOCAL_PLACEMENT",
+    "OWNER_PLACEMENT_APPROVAL",
+    "FA3_DESIGN_SYSTEM_COMPLIANCE",
+    "SHARED_GUI_REUSE",
+    "FUNCTIONAL_GUI_REVISION_SYNC",
+    "MANUAL_GUI_SYNC"
+  ],
+  "lifecycle_disposition": {
+    "PLANNED": "GUI_DESIGN_AND_PLACEMENT_REVIEW_REQUIRED_BEFORE_FINAL_PLAN",
+    "IN_PROGRESS": "GUI_DELTA_RECONCILIATION_REQUIRED_BEFORE_FINALIZATION",
+    "MATERIALIZED": "VERIFY_EXISTING_GUI_THEN_CANONIZE_OR_REDESIGN",
+    "UPDATED": "FUNCTIONAL_DELTA_REQUIRES_GUI_IMPACT_ASSESSMENT",
+    "FUTURE": "POLICY_APPLIES_FROM_APPLICATION_INTENT",
+    "REFERENCE_ONLY": "REFERENCE_STATUS_ALONE_DOES_NOT_CREATE_FA3_GUI_MUTATION"
+  },
+  "existing_gui_rule": "PRESERVE_IF_FUNCTIONALLY_CORRECT_PLACEMENT_COMPLIANT_FA3_DESIGN_SYSTEM_COMPLIANT_AND_DOCUMENTED",
+  "missing_prior_approval": "GUI_PLACEMENT_REVIEW_REQUIRED",
+  "fabricated_approval_forbidden": true,
+  "grandfathering_allowed": false,
+  "capability_count": 175,
+  "new_capability": false,
+  "current_host_runtime_promotion_claim": false,
+  "audit_execution": {
+    "legacy_missing_approval_disposition": "GUI_PLACEMENT_REVIEW_REQUIRED",
+    "fabricated_approval_forbidden": true,
+    "application_finalization_requires_governed_design_record": true,
+    "missing_design_record_at_finalization": "FAIL_CLOSED",
+    "unresolved_design_record_at_finalization": "FAIL_CLOSED",
+    "materialized_application_next_change_requires_reconciliation": true,
+    "policy_materialization_does_not_fabricate_historical_approval": true
+  }
+}
