@@ -1,0 +1,345 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-label="FA3 Mind Map Studio GUI concept showing a dark-mode mind map canvas connected to Story, Knowledge, Character, World, Task, Shot and Presentation branches, with a project tree, inspector, and AI suggestions.">
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#101c2a"/><stop offset="1" stop-color="#091521"/></linearGradient>
+<radialGradient id="center"><stop stop-color="#17374f"/><stop offset="0.78" stop-color="#0a2235"/><stop offset="1" stop-color="#131d39"/></radialGradient>
+<pattern id="dots" width="16" height="16" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="0.65" fill="#31506a" opacity=".55"/></pattern>
+<filter id="glow"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<clipPath id="canvas"><rect x="235" y="89" width="1044" height="606" rx="8"/></clipPath>
+</defs>
+<rect x="0" y="0" width="1600" height="900" rx="10" fill="url(#bg)" stroke="none" />
+<rect x="0" y="0" width="1600" height="55" rx="10" fill="#0a1523" stroke="none" />
+<path d="M0 54H1600" fill="none" stroke="#243a4c" stroke-width="1" stroke-linecap="round" />
+<path d="M15 33L25 15L35 33Z" fill="none" stroke="#39d8d3" stroke-width="3" stroke-linecap="round" />
+<circle cx="15" cy="33" r="4" fill="#39d8d3" stroke="none" stroke-width="1" />
+<circle cx="25" cy="15" r="4" fill="#39d8d3" stroke="none" stroke-width="1" />
+<circle cx="35" cy="33" r="4" fill="#39d8d3" stroke="none" stroke-width="1" />
+<text x="54" y="35" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="19" fill="#f0f7ff" font-weight="650" text-anchor="start" >FA3 Mind Map Studio</text>
+<text x="265" y="34" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="13" fill="#b6cad8" font-weight="400" text-anchor="start" >▣  New     ▢  Open      ▤  Save      ↶  Undo      ↷  Redo</text>
+<rect x="650" y="11" width="255" height="34" rx="7" fill="#1b2a3c" stroke="#33485f" />
+<text x="666" y="33" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="13" fill="#91a6bc" font-weight="400" text-anchor="start" >⌕   Search this map ...</text>
+<text x="881" y="32" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#667d96" font-weight="normal" text-anchor="end" >Ctrl+K</text>
+<text x="930" y="34" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="14" fill="#d9a6ff" font-weight="650" text-anchor="start" >✦ AI Assist</text>
+<text x="1060" y="34" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="13" fill="#c3d2e0" font-weight="400" text-anchor="start" >⇧ Export</text>
+<rect x="1182" y="10" width="119" height="35" rx="7" fill="#125f63" stroke="#25c9be" />
+<text x="1241" y="33" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="13" fill="#e9ffff" font-weight="650" text-anchor="middle" >Map view</text>
+<rect x="1306" y="10" width="116" height="35" rx="7" fill="#182838" stroke="#30485a" />
+<text x="1364" y="33" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="13" fill="#9ab5ca" font-weight="500" text-anchor="middle" >Graph view</text>
+<rect x="1428" y="10" width="105" height="35" rx="7" fill="#182838" stroke="#30485a" />
+<text x="1480" y="33" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="13" fill="#9ab5ca" font-weight="500" text-anchor="middle" >Timeline</text>
+<text x="1553" y="34" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="18" fill="#abc6d8" font-weight="400" text-anchor="start" >⚙  ×</text>
+<rect x="0" y="55" width="229" height="845" rx="4" fill="#0d1d2c" stroke="#2a4154" />
+<rect x="6" y="62" width="216" height="38" rx="7" fill="#173a49" stroke="#34bcbf" />
+<text x="23" y="86" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="14" fill="#9deff0" font-weight="650" text-anchor="start" >▤  Project tree</text>
+<text x="22" y="132" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="14" fill="#c4d4df" font-weight="400" text-anchor="start" >♧  Maps</text>
+<text x="22" y="170" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="14" fill="#c4d4df" font-weight="400" text-anchor="start" >▧  Tags</text>
+<text x="22" y="207" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="14" fill="#c4d4df" font-weight="400" text-anchor="start" >⌕  Search</text>
+<text x="22" y="244" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="14" fill="#c4d4df" font-weight="400" text-anchor="start" >▦  Templates</text>
+<path d="M8 261H221" fill="none" stroke="#243b50" stroke-width="1" stroke-linecap="round" />
+<text x="22" y="291" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="14" fill="#f0f6fa" font-weight="650" text-anchor="start" >⌄  FA3 Demo Project</text>
+<text x="25" y="324" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="13" fill="#a5b6c9" font-weight="400" text-anchor="start" >▾</text>
+<rect x="44" y="311" width="16" height="14" rx="3" fill="#f88eaf" stroke="none" />
+<text x="67" y="324" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#dae7f2" font-weight="600" text-anchor="start" >01  Story &amp; Screenplay</text>
+<text x="62" y="349" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#f88eaf" font-weight="400" text-anchor="start" >▪</text>
+<text x="78" y="349" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#9fb4c7" font-weight="400" text-anchor="start" >Story outline</text>
+<text x="62" y="372" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#f88eaf" font-weight="400" text-anchor="start" >▪</text>
+<text x="78" y="372" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#9fb4c7" font-weight="400" text-anchor="start" >Scenes</text>
+<text x="62" y="395" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#f88eaf" font-weight="400" text-anchor="start" >▪</text>
+<text x="78" y="395" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#9fb4c7" font-weight="400" text-anchor="start" >Character arcs</text>
+<text x="25" y="433" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="13" fill="#a5b6c9" font-weight="400" text-anchor="start" >▾</text>
+<rect x="44" y="420" width="16" height="14" rx="3" fill="#8dbbff" stroke="none" />
+<text x="67" y="433" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#dae7f2" font-weight="600" text-anchor="start" >02  World Building</text>
+<text x="62" y="458" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#8dbbff" font-weight="400" text-anchor="start" >▪</text>
+<text x="78" y="458" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#9fb4c7" font-weight="400" text-anchor="start" >Locations</text>
+<text x="62" y="481" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#8dbbff" font-weight="400" text-anchor="start" >▪</text>
+<text x="78" y="481" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#9fb4c7" font-weight="400" text-anchor="start" >History</text>
+<text x="62" y="504" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#8dbbff" font-weight="400" text-anchor="start" >▪</text>
+<text x="78" y="504" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#9fb4c7" font-weight="400" text-anchor="start" >Factions</text>
+<text x="25" y="542" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="13" fill="#a5b6c9" font-weight="400" text-anchor="start" >▾</text>
+<rect x="44" y="529" width="16" height="14" rx="3" fill="#91edb0" stroke="none" />
+<text x="67" y="542" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#dae7f2" font-weight="600" text-anchor="start" >03  Characters</text>
+<text x="62" y="567" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#91edb0" font-weight="400" text-anchor="start" >▪</text>
+<text x="78" y="567" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#9fb4c7" font-weight="400" text-anchor="start" >Protagonists</text>
+<text x="62" y="590" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#91edb0" font-weight="400" text-anchor="start" >▪</text>
+<text x="78" y="590" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#9fb4c7" font-weight="400" text-anchor="start" >Supporting roles</text>
+<text x="62" y="613" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#91edb0" font-weight="400" text-anchor="start" >▪</text>
+<text x="78" y="613" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#9fb4c7" font-weight="400" text-anchor="start" >Relations</text>
+<text x="25" y="651" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="13" fill="#a5b6c9" font-weight="400" text-anchor="start" >▾</text>
+<rect x="44" y="638" width="16" height="14" rx="3" fill="#ffbc69" stroke="none" />
+<text x="67" y="651" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#dae7f2" font-weight="600" text-anchor="start" >04  Tasks</text>
+<text x="62" y="676" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#ffbc69" font-weight="400" text-anchor="start" >▪</text>
+<text x="78" y="676" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#9fb4c7" font-weight="400" text-anchor="start" >Project plan</text>
+<text x="62" y="699" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#ffbc69" font-weight="400" text-anchor="start" >▪</text>
+<text x="78" y="699" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#9fb4c7" font-weight="400" text-anchor="start" >Milestones</text>
+<text x="62" y="722" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#ffbc69" font-weight="400" text-anchor="start" >▪</text>
+<text x="78" y="722" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#9fb4c7" font-weight="400" text-anchor="start" >To-do items</text>
+<text x="25" y="760" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="13" fill="#a5b6c9" font-weight="400" text-anchor="start" >▾</text>
+<rect x="44" y="747" width="16" height="14" rx="3" fill="#c7a5ff" stroke="none" />
+<text x="67" y="760" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#dae7f2" font-weight="600" text-anchor="start" >05  Research</text>
+<text x="62" y="785" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#c7a5ff" font-weight="400" text-anchor="start" >▪</text>
+<text x="78" y="785" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#9fb4c7" font-weight="400" text-anchor="start" >References</text>
+<text x="62" y="808" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#c7a5ff" font-weight="400" text-anchor="start" >▪</text>
+<text x="78" y="808" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#9fb4c7" font-weight="400" text-anchor="start" >Ideas</text>
+<text x="62" y="831" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#c7a5ff" font-weight="400" text-anchor="start" >▪</text>
+<text x="78" y="831" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#9fb4c7" font-weight="400" text-anchor="start" >Notes</text>
+<rect x="235" y="55" width="1044" height="35" rx="0" fill="#102232" stroke="#294155" />
+<rect x="240" y="61" width="145" height="29" rx="6" fill="#123941" stroke="#35bab9" />
+<text x="253" y="81" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#d7ffff" font-weight="600" text-anchor="start" >▧  Main map      ×</text>
+<text x="399" y="81" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#9db7cd" font-weight="400" text-anchor="start" >♧  Characters    ×      +</text>
+<rect x="235" y="89" width="1044" height="606" rx="10" fill="url(#dots)" stroke="none" />
+<rect x="1285" y="55" width="315" height="845" rx="4" fill="#0e1d2b" stroke="#29465a" />
+<text x="1304" y="84" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="14" fill="#d7e8ef" font-weight="650" text-anchor="start" >Properties</text>
+<text x="1438" y="84" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#aac2d5" font-weight="400" text-anchor="start" >Notes</text>
+<text x="1505" y="84" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#aac2d5" font-weight="400" text-anchor="start" >Links</text>
+<path d="M1297 96H1394" fill="none" stroke="#45d2c9" stroke-width="2" stroke-linecap="round" />
+<rect x="1302" y="108" width="281" height="71" rx="9" fill="#172a3c" stroke="#263e54" />
+<rect x="1315" y="124" width="37" height="39" rx="8" fill="#46205e" stroke="#bd71e5" />
+<text x="1334" y="149" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="22" fill="#ffdeff" font-weight="600" text-anchor="middle" >▤</text>
+<text x="1365" y="140" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="16" fill="#f4f5ff" font-weight="650" text-anchor="start" >FA3 Mind Map</text>
+<text x="1365" y="159" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#99b0c4" font-weight="400" text-anchor="start" >Central node</text>
+<text x="1304" y="209" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#b6c8da" font-weight="400" text-anchor="start" >Title</text>
+<rect x="1392" y="191" width="181" height="31" rx="5" fill="#142638" stroke="#355067" />
+<text x="1402" y="211" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#e4f0f6" font-weight="400" text-anchor="start" >FA3 Mind Map</text>
+<text x="1304" y="258" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#b6c8da" font-weight="400" text-anchor="start" >Type</text>
+<rect x="1392" y="240" width="181" height="31" rx="5" fill="#142638" stroke="#355067" />
+<text x="1402" y="260" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#e4f0f6" font-weight="400" text-anchor="start" >Central node    ▾</text>
+<text x="1304" y="299" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#b6c8da" font-weight="400" text-anchor="start" >Description</text>
+<rect x="1304" y="308" width="274" height="94" rx="7" fill="#142638" stroke="#355067" />
+<text x="1315" y="333" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#d2e4ef" font-weight="400" text-anchor="start" >Visual planning hub for FA3</text>
+<text x="1315" y="350" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#d2e4ef" font-weight="400" text-anchor="start" >creative workflows, knowledge,</text>
+<text x="1315" y="367" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#d2e4ef" font-weight="400" text-anchor="start" >characters, locations and</text>
+<text x="1315" y="384" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#d2e4ef" font-weight="400" text-anchor="start" >project tasks.</text>
+<text x="1304" y="433" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#b6c8da" font-weight="400" text-anchor="start" >Tags</text>
+<rect x="1305" y="443" width="60" height="28" rx="6" fill="#134859" stroke="#276e78" />
+<text x="1313" y="461" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#a9f4f5" font-weight="400" text-anchor="start" >FA3 ×</text>
+<rect x="1376" y="443" width="79" height="28" rx="6" fill="#134859" stroke="#276e78" />
+<text x="1384" y="461" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#a9f4f5" font-weight="400" text-anchor="start" >project ×</text>
+<rect x="1461" y="443" width="98" height="28" rx="6" fill="#134859" stroke="#276e78" />
+<text x="1469" y="461" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#a9f4f5" font-weight="400" text-anchor="start" >overview ×</text>
+<text x="1304" y="512" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#b6c8da" font-weight="400" text-anchor="start" >Status</text>
+<rect x="1392" y="494" width="181" height="31" rx="5" fill="#142638" stroke="#355067" />
+<text x="1402" y="514" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#e4f0f6" font-weight="400" text-anchor="start" >●  Active</text>
+<text x="1304" y="560" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#b6c8da" font-weight="400" text-anchor="start" >Priority</text>
+<rect x="1392" y="542" width="181" height="31" rx="5" fill="#142638" stroke="#355067" />
+<text x="1402" y="562" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#e4f0f6" font-weight="400" text-anchor="start" >Normal    ▾</text>
+<text x="1304" y="608" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="13" fill="#dbeaf3" font-weight="650" text-anchor="start" >Connected items</text>
+<rect x="1302" y="622" width="278" height="32" rx="5" fill="#132637" stroke="#2a4155" />
+<rect x="1310" y="629" width="18" height="18" rx="5" fill="#ef648e" stroke="none" />
+<text x="1319" y="643" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#112232" font-weight="700" text-anchor="middle" >◇</text>
+<text x="1337" y="643" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#d9e7f1" font-weight="400" text-anchor="start" >Story / Screenplay</text>
+<rect x="1302" y="657" width="278" height="32" rx="5" fill="#132637" stroke="#2a4155" />
+<rect x="1310" y="664" width="18" height="18" rx="5" fill="#b67aec" stroke="none" />
+<text x="1319" y="678" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#112232" font-weight="700" text-anchor="middle" >◇</text>
+<text x="1337" y="678" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#d9e7f1" font-weight="400" text-anchor="start" >Knowledge Fabric</text>
+<rect x="1302" y="692" width="278" height="32" rx="5" fill="#132637" stroke="#2a4155" />
+<rect x="1310" y="699" width="18" height="18" rx="5" fill="#ffab48" stroke="none" />
+<text x="1319" y="713" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#112232" font-weight="700" text-anchor="middle" >◇</text>
+<text x="1337" y="713" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#d9e7f1" font-weight="400" text-anchor="start" >Task Manager</text>
+<rect x="1302" y="727" width="278" height="32" rx="5" fill="#132637" stroke="#2a4155" />
+<rect x="1310" y="734" width="18" height="18" rx="5" fill="#67d78e" stroke="none" />
+<text x="1319" y="748" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#112232" font-weight="700" text-anchor="middle" >◇</text>
+<text x="1337" y="748" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#d9e7f1" font-weight="400" text-anchor="start" >Character Studio</text>
+<rect x="1302" y="762" width="278" height="32" rx="5" fill="#132637" stroke="#2a4155" />
+<rect x="1310" y="769" width="18" height="18" rx="5" fill="#5babff" stroke="none" />
+<text x="1319" y="783" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#112232" font-weight="700" text-anchor="middle" >◇</text>
+<text x="1337" y="783" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#d9e7f1" font-weight="400" text-anchor="start" >World Studio</text>
+<rect x="1302" y="797" width="278" height="32" rx="5" fill="#132637" stroke="#2a4155" />
+<rect x="1310" y="804" width="18" height="18" rx="5" fill="#44d8d1" stroke="none" />
+<text x="1319" y="818" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#112232" font-weight="700" text-anchor="middle" >◇</text>
+<text x="1337" y="818" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#d9e7f1" font-weight="400" text-anchor="start" >Shot Designer</text>
+<rect x="1302" y="832" width="278" height="32" rx="5" fill="#132637" stroke="#2a4155" />
+<rect x="1310" y="839" width="18" height="18" rx="5" fill="#7eb2ff" stroke="none" />
+<text x="1319" y="853" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#112232" font-weight="700" text-anchor="middle" >◇</text>
+<text x="1337" y="853" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#d9e7f1" font-weight="400" text-anchor="start" >Presentation</text>
+<g clip-path="url(#canvas)">
+<path d="M672 294.03999999999996 C611 294.03999999999996,611 223,550 223" fill="none" stroke="#ff6199" stroke-width="4" stroke-linecap="round" opacity=".93"/>
+<path d="M840 294.56 C902 294.56,902 224,964 224" fill="none" stroke="#b777fa" stroke-width="4" stroke-linecap="round" opacity=".93"/>
+<path d="M672 374.64 C588.5 374.64,588.5 378,505 378" fill="none" stroke="#7be89f" stroke-width="4" stroke-linecap="round" opacity=".93"/>
+<path d="M840 372.56 C925 372.56,925 374,1010 374" fill="none" stroke="#ffad4f" stroke-width="4" stroke-linecap="round" opacity=".93"/>
+<path d="M672 465.64 C591 465.64,591 553,510 553" fill="none" stroke="#60acff" stroke-width="4" stroke-linecap="round" opacity=".93"/>
+<path d="M840 464.6 C920 464.6,920 551,1000 551" fill="none" stroke="#75b7ff" stroke-width="4" stroke-linecap="round" opacity=".93"/>
+<path d="M756 460C758 480 760 501 760 527" fill="none" stroke="#38d6d0" stroke-width="4" stroke-linecap="round" />
+<path d="M535 223 C475 223,465 143,416 143" fill="none" stroke="#ff6199" stroke-width="1.8" stroke-linecap="round" opacity=".85"/>
+<rect x="278" y="131" width="138" height="24" rx="11" fill="#132a3c" stroke="#ff6199" />
+<text x="347" y="147" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#dfedf6" font-weight="520" text-anchor="middle" >Story outline</text>
+<path d="M535 223 C475 223,465 172,416 172" fill="none" stroke="#ff6199" stroke-width="1.8" stroke-linecap="round" opacity=".85"/>
+<rect x="278" y="160" width="138" height="24" rx="11" fill="#132a3c" stroke="#ff6199" />
+<text x="347" y="176" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#dfedf6" font-weight="520" text-anchor="middle" >Scene list</text>
+<path d="M535 223 C475 223,465 201,416 201" fill="none" stroke="#ff6199" stroke-width="1.8" stroke-linecap="round" opacity=".85"/>
+<rect x="278" y="189" width="138" height="24" rx="11" fill="#132a3c" stroke="#ff6199" />
+<text x="347" y="205" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#dfedf6" font-weight="520" text-anchor="middle" >Three acts</text>
+<path d="M535 223 C475 223,465 230,416 230" fill="none" stroke="#ff6199" stroke-width="1.8" stroke-linecap="round" opacity=".85"/>
+<rect x="278" y="218" width="138" height="24" rx="11" fill="#132a3c" stroke="#ff6199" />
+<text x="347" y="234" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#dfedf6" font-weight="520" text-anchor="middle" >Dialogue</text>
+<path d="M535 223 C475 223,465 259,416 259" fill="none" stroke="#ff6199" stroke-width="1.8" stroke-linecap="round" opacity=".85"/>
+<rect x="278" y="247" width="138" height="24" rx="11" fill="#132a3c" stroke="#ff6199" />
+<text x="347" y="263" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#dfedf6" font-weight="520" text-anchor="middle" >Dramaturgy</text>
+<circle cx="550" cy="223" r="40" fill="#10283b" stroke="#ff6199" stroke-width="3" filter="url(#glow)"/>
+<text x="550" y="228" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="25" fill="#ff6199" font-weight="650" text-anchor="middle" >▤</text>
+<text x="550" y="283" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="18" fill="#f5f9ff" font-weight="700" text-anchor="middle" >Story / Screenplay</text>
+<text x="550" y="302" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="10" fill="#afc0d0" font-weight="400" text-anchor="middle" >Narrative · Scenes · Structure</text>
+<path d="M979 224 C1039 224,1049 138,1119 138" fill="none" stroke="#b777fa" stroke-width="1.8" stroke-linecap="round" opacity=".85"/>
+<rect x="1119" y="126" width="138" height="24" rx="11" fill="#132a3c" stroke="#b777fa" />
+<text x="1188" y="142" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#dfedf6" font-weight="520" text-anchor="middle" >Concepts</text>
+<path d="M979 224 C1039 224,1049 168,1119 168" fill="none" stroke="#b777fa" stroke-width="1.8" stroke-linecap="round" opacity=".85"/>
+<rect x="1119" y="156" width="138" height="24" rx="11" fill="#132a3c" stroke="#b777fa" />
+<text x="1188" y="172" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#dfedf6" font-weight="520" text-anchor="middle" >Research sources</text>
+<path d="M979 224 C1039 224,1049 198,1119 198" fill="none" stroke="#b777fa" stroke-width="1.8" stroke-linecap="round" opacity=".85"/>
+<rect x="1119" y="186" width="138" height="24" rx="11" fill="#132a3c" stroke="#b777fa" />
+<text x="1188" y="202" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#dfedf6" font-weight="520" text-anchor="middle" >Research notes</text>
+<path d="M979 224 C1039 224,1049 228,1119 228" fill="none" stroke="#b777fa" stroke-width="1.8" stroke-linecap="round" opacity=".85"/>
+<rect x="1119" y="216" width="138" height="24" rx="11" fill="#132a3c" stroke="#b777fa" />
+<text x="1188" y="232" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#dfedf6" font-weight="520" text-anchor="middle" >Relationships</text>
+<path d="M979 224 C1039 224,1049 258,1119 258" fill="none" stroke="#b777fa" stroke-width="1.8" stroke-linecap="round" opacity=".85"/>
+<rect x="1119" y="246" width="138" height="24" rx="11" fill="#132a3c" stroke="#b777fa" />
+<text x="1188" y="262" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#dfedf6" font-weight="520" text-anchor="middle" >AI insights</text>
+<circle cx="964" cy="224" r="40" fill="#10283b" stroke="#b777fa" stroke-width="3" filter="url(#glow)"/>
+<text x="964" y="229" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="25" fill="#b777fa" font-weight="650" text-anchor="middle" >⌘</text>
+<text x="964" y="284" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="18" fill="#f5f9ff" font-weight="700" text-anchor="middle" >Knowledge Fabric</text>
+<text x="964" y="303" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="10" fill="#afc0d0" font-weight="400" text-anchor="middle" >Concepts · Research · AI</text>
+<path d="M490 378 C430 378,420 322,416 322" fill="none" stroke="#7be89f" stroke-width="1.8" stroke-linecap="round" opacity=".85"/>
+<rect x="278" y="310" width="138" height="24" rx="11" fill="#132a3c" stroke="#7be89f" />
+<text x="347" y="326" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#dfedf6" font-weight="520" text-anchor="middle" >Protagonists</text>
+<path d="M490 378 C430 378,420 349,416 349" fill="none" stroke="#7be89f" stroke-width="1.8" stroke-linecap="round" opacity=".85"/>
+<rect x="278" y="337" width="138" height="24" rx="11" fill="#132a3c" stroke="#7be89f" />
+<text x="347" y="353" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#dfedf6" font-weight="520" text-anchor="middle" >Supporting roles</text>
+<path d="M490 378 C430 378,420 376,416 376" fill="none" stroke="#7be89f" stroke-width="1.8" stroke-linecap="round" opacity=".85"/>
+<rect x="278" y="364" width="138" height="24" rx="11" fill="#132a3c" stroke="#7be89f" />
+<text x="347" y="380" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#dfedf6" font-weight="520" text-anchor="middle" >Character arcs</text>
+<path d="M490 378 C430 378,420 403,416 403" fill="none" stroke="#7be89f" stroke-width="1.8" stroke-linecap="round" opacity=".85"/>
+<rect x="278" y="391" width="138" height="24" rx="11" fill="#132a3c" stroke="#7be89f" />
+<text x="347" y="407" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#dfedf6" font-weight="520" text-anchor="middle" >Motivations</text>
+<path d="M490 378 C430 378,420 430,416 430" fill="none" stroke="#7be89f" stroke-width="1.8" stroke-linecap="round" opacity=".85"/>
+<rect x="278" y="418" width="138" height="24" rx="11" fill="#132a3c" stroke="#7be89f" />
+<text x="347" y="434" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#dfedf6" font-weight="520" text-anchor="middle" >Relations</text>
+<circle cx="505" cy="378" r="40" fill="#10283b" stroke="#7be89f" stroke-width="3" filter="url(#glow)"/>
+<text x="505" y="383" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="25" fill="#7be89f" font-weight="650" text-anchor="middle" >♟</text>
+<text x="505" y="438" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="18" fill="#f5f9ff" font-weight="700" text-anchor="middle" >Character Studio</text>
+<text x="505" y="457" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="10" fill="#afc0d0" font-weight="400" text-anchor="middle" >Characters · Relations · Arcs</text>
+<path d="M1025 374 C1085 374,1095 319,1119 319" fill="none" stroke="#ffad4f" stroke-width="1.8" stroke-linecap="round" opacity=".85"/>
+<rect x="1119" y="307" width="138" height="24" rx="11" fill="#132a3c" stroke="#ffad4f" />
+<text x="1188" y="323" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#dfedf6" font-weight="520" text-anchor="middle" >To-do items</text>
+<path d="M1025 374 C1085 374,1095 346,1119 346" fill="none" stroke="#ffad4f" stroke-width="1.8" stroke-linecap="round" opacity=".85"/>
+<rect x="1119" y="334" width="138" height="24" rx="11" fill="#132a3c" stroke="#ffad4f" />
+<text x="1188" y="350" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#dfedf6" font-weight="520" text-anchor="middle" >Milestones</text>
+<path d="M1025 374 C1085 374,1095 373,1119 373" fill="none" stroke="#ffad4f" stroke-width="1.8" stroke-linecap="round" opacity=".85"/>
+<rect x="1119" y="361" width="138" height="24" rx="11" fill="#132a3c" stroke="#ffad4f" />
+<text x="1188" y="377" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#dfedf6" font-weight="520" text-anchor="middle" >Resources</text>
+<path d="M1025 374 C1085 374,1095 400,1119 400" fill="none" stroke="#ffad4f" stroke-width="1.8" stroke-linecap="round" opacity=".85"/>
+<rect x="1119" y="388" width="138" height="24" rx="11" fill="#132a3c" stroke="#ffad4f" />
+<text x="1188" y="404" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#dfedf6" font-weight="520" text-anchor="middle" >Deadlines</text>
+<path d="M1025 374 C1085 374,1095 427,1119 427" fill="none" stroke="#ffad4f" stroke-width="1.8" stroke-linecap="round" opacity=".85"/>
+<rect x="1119" y="415" width="138" height="24" rx="11" fill="#132a3c" stroke="#ffad4f" />
+<text x="1188" y="431" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#dfedf6" font-weight="520" text-anchor="middle" >Status tracking</text>
+<circle cx="1010" cy="374" r="40" fill="#10283b" stroke="#ffad4f" stroke-width="3" filter="url(#glow)"/>
+<text x="1010" y="379" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="25" fill="#ffad4f" font-weight="650" text-anchor="middle" >☑</text>
+<text x="1010" y="434" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="18" fill="#f5f9ff" font-weight="700" text-anchor="middle" >Task Manager</text>
+<text x="1010" y="453" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="10" fill="#afc0d0" font-weight="400" text-anchor="middle" >Planning · Production · Progress</text>
+<path d="M495 553 C435 553,425 490,416 490" fill="none" stroke="#60acff" stroke-width="1.8" stroke-linecap="round" opacity=".85"/>
+<rect x="278" y="478" width="138" height="24" rx="11" fill="#132a3c" stroke="#60acff" />
+<text x="347" y="494" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#dfedf6" font-weight="520" text-anchor="middle" >Locations</text>
+<path d="M495 553 C435 553,425 518,416 518" fill="none" stroke="#60acff" stroke-width="1.8" stroke-linecap="round" opacity=".85"/>
+<rect x="278" y="506" width="138" height="24" rx="11" fill="#132a3c" stroke="#60acff" />
+<text x="347" y="522" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#dfedf6" font-weight="520" text-anchor="middle" >History</text>
+<path d="M495 553 C435 553,425 546,416 546" fill="none" stroke="#60acff" stroke-width="1.8" stroke-linecap="round" opacity=".85"/>
+<rect x="278" y="534" width="138" height="24" rx="11" fill="#132a3c" stroke="#60acff" />
+<text x="347" y="550" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#dfedf6" font-weight="520" text-anchor="middle" >Factions</text>
+<path d="M495 553 C435 553,425 574,416 574" fill="none" stroke="#60acff" stroke-width="1.8" stroke-linecap="round" opacity=".85"/>
+<rect x="278" y="562" width="138" height="24" rx="11" fill="#132a3c" stroke="#60acff" />
+<text x="347" y="578" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#dfedf6" font-weight="520" text-anchor="middle" >Cultures</text>
+<path d="M495 553 C435 553,425 602,416 602" fill="none" stroke="#60acff" stroke-width="1.8" stroke-linecap="round" opacity=".85"/>
+<rect x="278" y="590" width="138" height="24" rx="11" fill="#132a3c" stroke="#60acff" />
+<text x="347" y="606" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#dfedf6" font-weight="520" text-anchor="middle" >World rules</text>
+<circle cx="510" cy="553" r="40" fill="#10283b" stroke="#60acff" stroke-width="3" filter="url(#glow)"/>
+<text x="510" y="558" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="25" fill="#60acff" font-weight="650" text-anchor="middle" >◎</text>
+<text x="510" y="613" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="18" fill="#f5f9ff" font-weight="700" text-anchor="middle" >World Studio</text>
+<text x="510" y="632" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="10" fill="#afc0d0" font-weight="400" text-anchor="middle" >World · Locations · Rules</text>
+<path d="M1015 551 C1075 551,1085 486,1119 486" fill="none" stroke="#75b7ff" stroke-width="1.8" stroke-linecap="round" opacity=".85"/>
+<rect x="1119" y="474" width="138" height="24" rx="11" fill="#132a3c" stroke="#75b7ff" />
+<text x="1188" y="490" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#dfedf6" font-weight="520" text-anchor="middle" >Presentations</text>
+<path d="M1015 551 C1075 551,1085 515,1119 515" fill="none" stroke="#75b7ff" stroke-width="1.8" stroke-linecap="round" opacity=".85"/>
+<rect x="1119" y="503" width="138" height="24" rx="11" fill="#132a3c" stroke="#75b7ff" />
+<text x="1188" y="519" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#dfedf6" font-weight="520" text-anchor="middle" >Moodboards</text>
+<path d="M1015 551 C1075 551,1085 544,1119 544" fill="none" stroke="#75b7ff" stroke-width="1.8" stroke-linecap="round" opacity=".85"/>
+<rect x="1119" y="532" width="138" height="24" rx="11" fill="#132a3c" stroke="#75b7ff" />
+<text x="1188" y="548" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#dfedf6" font-weight="520" text-anchor="middle" >Image gallery</text>
+<path d="M1015 551 C1075 551,1085 573,1119 573" fill="none" stroke="#75b7ff" stroke-width="1.8" stroke-linecap="round" opacity=".85"/>
+<rect x="1119" y="561" width="138" height="24" rx="11" fill="#132a3c" stroke="#75b7ff" />
+<text x="1188" y="577" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#dfedf6" font-weight="520" text-anchor="middle" >Export</text>
+<path d="M1015 551 C1075 551,1085 602,1119 602" fill="none" stroke="#75b7ff" stroke-width="1.8" stroke-linecap="round" opacity=".85"/>
+<rect x="1119" y="590" width="138" height="24" rx="11" fill="#132a3c" stroke="#75b7ff" />
+<text x="1188" y="606" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#dfedf6" font-weight="520" text-anchor="middle" >Sharing</text>
+<circle cx="1000" cy="551" r="40" fill="#10283b" stroke="#75b7ff" stroke-width="3" filter="url(#glow)"/>
+<text x="1000" y="556" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="25" fill="#75b7ff" font-weight="650" text-anchor="middle" >▣</text>
+<text x="1000" y="611" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="18" fill="#f5f9ff" font-weight="700" text-anchor="middle" >Presentation</text>
+<text x="1000" y="630" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="10" fill="#afc0d0" font-weight="400" text-anchor="middle" >Showcase · Export · Sharing</text>
+<path d="M616 223C665 143 843 140 898 224" fill="none" stroke="#c777ed" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="4 8" opacity=".65"/>
+<text x="756" y="165" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#c792e3" font-weight="500" text-anchor="middle" >inspires</text>
+<path d="M595 530C659 468 662 445 688 430" fill="none" stroke="#6fabff" stroke-width="1.4" stroke-linecap="round" stroke-dasharray="4 8" opacity=".65"/>
+<path d="M924 533C884 473 862 446 825 437" fill="none" stroke="#77baff" stroke-width="1.4" stroke-linecap="round" stroke-dasharray="4 8" opacity=".65"/>
+<circle cx="756" cy="371" r="98" fill="url(#center)" stroke="#45e7e2" stroke-width="3" filter="url(#glow)"/>
+<path d="M739 335L756 304L775 335Z" fill="none" stroke="#46e4dd" stroke-width="3" stroke-linecap="round" />
+<circle cx="756" cy="304" r="6" fill="#53e7e8" stroke="none" stroke-width="1" />
+<circle cx="739" cy="335" r="6" fill="#53e7e8" stroke="none" stroke-width="1" />
+<circle cx="775" cy="335" r="6" fill="#53e7e8" stroke="none" stroke-width="1" />
+<text x="756" y="371" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="25" fill="#f4f8ff" font-weight="750" text-anchor="middle" >FA3</text>
+<text x="756" y="402" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="26" fill="#f4f8ff" font-weight="750" text-anchor="middle" >Mind Map</text>
+<text x="756" y="425" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#b9cce3" font-weight="500" text-anchor="middle" >Story  ·  World  ·  AI</text>
+<text x="756" y="441" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#b9cce3" font-weight="450" text-anchor="middle" >Create  ·  Organize  ·  Produce</text>
+<circle cx="760" cy="552" r="29" fill="#123a44" stroke="#46dcd8" stroke-width="3" />
+<text x="760" y="561" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="24" fill="#55eee5" font-weight="650" text-anchor="middle" >▣</text>
+<text x="760" y="602" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="17" fill="#f3fafc" font-weight="700" text-anchor="middle" >Shot Designer</text>
+<text x="760" y="619" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="10" fill="#a7c8d2" font-weight="500" text-anchor="middle" >Scenes · Cameras · Animatics</text>
+<path d="M760 626C760 637 584 637 584 653" fill="none" stroke="#42d5cc" stroke-width="1.5" stroke-linecap="round" />
+<rect x="545" y="645" width="83" height="24" rx="9" fill="#12363d" stroke="#39c7bd" />
+<text x="586.5" y="661" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="10" fill="#d1f4f1" font-weight="550" text-anchor="middle" >Storyboard</text>
+<path d="M760 626C760 637 673 637 673 653" fill="none" stroke="#42d5cc" stroke-width="1.5" stroke-linecap="round" />
+<rect x="634" y="645" width="83" height="24" rx="9" fill="#12363d" stroke="#39c7bd" />
+<text x="675.5" y="661" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="10" fill="#d1f4f1" font-weight="550" text-anchor="middle" >Blocking</text>
+<path d="M760 626C760 637 762 637 762 653" fill="none" stroke="#42d5cc" stroke-width="1.5" stroke-linecap="round" />
+<rect x="723" y="645" width="83" height="24" rx="9" fill="#12363d" stroke="#39c7bd" />
+<text x="764.5" y="661" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="10" fill="#d1f4f1" font-weight="550" text-anchor="middle" >Camera</text>
+<path d="M760 626C760 637 851 637 851 653" fill="none" stroke="#42d5cc" stroke-width="1.5" stroke-linecap="round" />
+<rect x="812" y="645" width="83" height="24" rx="9" fill="#12363d" stroke="#39c7bd" />
+<text x="853.5" y="661" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="10" fill="#d1f4f1" font-weight="550" text-anchor="middle" >Mood</text>
+<path d="M760 626C760 637 940 637 940 653" fill="none" stroke="#42d5cc" stroke-width="1.5" stroke-linecap="round" />
+<rect x="901" y="645" width="83" height="24" rx="9" fill="#12363d" stroke="#39c7bd" />
+<text x="942.5" y="661" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="10" fill="#d1f4f1" font-weight="550" text-anchor="middle" >Animatic</text>
+<rect x="1090" y="618" width="156" height="65" rx="6" fill="#0b1a29" stroke="#3c5064" />
+<rect x="1099" y="627" width="138" height="47" rx="3" fill="url(#bg)" stroke="#375168" />
+<rect x="1155" y="643" width="32" height="17" rx="1" fill="#1e6574" stroke="#42c4cb" />
+<text x="1168" y="677" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="9" fill="#91b6c8" font-weight="400" text-anchor="middle" >Mini-map</text>
+<rect x="252" y="652" width="123" height="29" rx="5" fill="#1c2d40" stroke="#3a5268" />
+<text x="269" y="671" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#cfe3ef" font-weight="400" text-anchor="start" >−       100%      +</text>
+<text x="388" y="672" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="19" fill="#cfe3ef" font-weight="400" text-anchor="start" >⊞</text>
+</g>
+<rect x="235" y="701" width="1044" height="199" rx="5" fill="#101f2e" stroke="#294054" />
+<text x="252" y="728" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="14" fill="#d8b2ff" font-weight="650" text-anchor="start" >✦ AI suggestions</text>
+<text x="425" y="728" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#a4bacd" font-weight="400" text-anchor="start" >↶  Changes</text>
+<text x="558" y="728" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#a4bacd" font-weight="400" text-anchor="start" >▤  Sources</text>
+<text x="664" y="728" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#a4bacd" font-weight="400" text-anchor="start" >☷  Log</text>
+<path d="M239 738H1278" fill="none" stroke="#243a50" stroke-width="1" stroke-linecap="round" />
+<rect x="250" y="757" width="241" height="39" rx="5" fill="#1c354a" stroke="none" />
+<text x="260" y="773" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#dfbcfa" font-weight="600" text-anchor="start" >✦ Story depth</text>
+<text x="280" y="788" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="10" fill="#8faabb" font-weight="400" text-anchor="start" >3 character motivation ideas</text>
+<rect x="250" y="801" width="241" height="39" rx="5" fill="#142738" stroke="none" />
+<text x="260" y="817" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#d7e6f0" font-weight="600" text-anchor="start" >✦ World building</text>
+<text x="280" y="832" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="10" fill="#8faabb" font-weight="400" text-anchor="start" >Missing locations and relations</text>
+<rect x="250" y="845" width="241" height="39" rx="5" fill="#142738" stroke="none" />
+<text x="260" y="861" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#d7e6f0" font-weight="600" text-anchor="start" >✦ Scene breakdown</text>
+<text x="280" y="876" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="10" fill="#8faabb" font-weight="400" text-anchor="start" >5 new scene proposals</text>
+<text x="517" y="773" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="14" fill="#f2f5f8" font-weight="650" text-anchor="start" >✧  Story depth</text>
+<rect x="626" y="757" width="93" height="21" rx="7" fill="#3a225d" stroke="none" />
+<text x="672" y="772" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="10" fill="#dbbdff" font-weight="500" text-anchor="middle" >AI suggestion</text>
+<text x="517" y="798" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#afc6d5" font-weight="400" text-anchor="start" >The protagonist's motivation could be clearer in the second act.</text>
+<rect x="523" y="810" width="528" height="23" rx="6" fill="#1b2b3c" stroke="none" />
+<text x="535" y="826" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#d1e1eb" font-weight="400" text-anchor="start" >1   Add a concrete personal goal beyond the mission.</text>
+<rect x="523" y="837" width="528" height="23" rx="6" fill="#1b2b3c" stroke="none" />
+<text x="535" y="853" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#d1e1eb" font-weight="400" text-anchor="start" >2   Connect a past event to the character's decision.</text>
+<rect x="523" y="864" width="528" height="23" rx="6" fill="#1b2b3c" stroke="none" />
+<text x="535" y="880" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#d1e1eb" font-weight="400" text-anchor="start" >3   Introduce a clear internal conflict.</text>
+<rect x="1090" y="803" width="166" height="29" rx="6" fill="#27c0b5" stroke="#39e4d7" />
+<text x="1173" y="822" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="12" fill="#072b35" font-weight="700" text-anchor="middle" >✓  Accept preview</text>
+<rect x="1090" y="841" width="166" height="26" rx="6" fill="#213348" stroke="#3b5668" />
+<text x="1173" y="858" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="11" fill="#d7e6f1" font-weight="550" text-anchor="middle" >More variations</text>
+<text x="1109" y="886" font-family="Inter,DejaVu Sans,Arial,sans-serif" font-size="10" fill="#97aebf" font-weight="400" text-anchor="start" >Review required before use</text>
+</svg>
