@@ -232,6 +232,16 @@
     "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
     "cpu_only_viable": true,
     "vendor_neutral": true,
-    "accelerator_cardinality": "0..N"
+    "accelerator_cardinality": "0..N",
+    "task_scope_closure_policy_id": "FA3-TASK-SCOPE-CLOSURE-POLICY-2026-10-03",
+    "one_task_session_one_explicit_task": true,
+    "goal_scope_bound_to_revision_and_digest": true,
+    "automatic_scope_expansion": false,
+    "out_of_scope_followup": "NEW_TASK_REQUIRED",
+    "automatic_followup_execution": false,
+    "same_blocker_attempt_limit": 3,
+    "fourth_same_blocker_attempt": "FORBIDDEN",
+    "human_intervention_freezes_execution": true,
+    "closed_task_execution": "FORBIDDEN"
   }
 }
