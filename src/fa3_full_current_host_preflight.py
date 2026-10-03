@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Any
 
 from fa3_accelerator_backend_probe import enrich_accelerator_backends
+from fa3_application_installation_resolver import discover_group
 from fa3_current_host_batch_planner import build_plan
 from fa3_current_host_runtime_resolver import resolve_python_runtime
 from fa3_desktop_admission import (
@@ -185,15 +186,18 @@ def preflight(root: Path) -> dict[str, Any]:
 
     any_groups: dict[str, dict[str, Any]] = {}
     if {"graphics_3d", "metric_3d_reconstruction"} & primitives:
-        found = any_command(("bforartists", "bforartists-bin", "blender"))
+        dcc_instances = discover_group(root, "DCC", perform_health_check=True)
+        healthy_dcc = [row for row in dcc_instances if row.get("health") == "HEALTHY"]
         any_groups["graphics_3d"] = {
-            "candidates": ["bforartists", "bforartists-bin", "blender"],
-            "selected": found[0] if found else None,
-            "path": found[1] if found else None,
+            "discovery": "FA3-APPLICATION-INSTALLATION-REGISTRY-001",
+            "instances": dcc_instances,
+            "healthy_instance_count": len(healthy_dcc),
+            "selected": None,
+            "selection_semantics": "NO_PREFLIGHT_RUNTIME_SELECTION_NO_SILENT_FALLBACK",
             "used_by": sorted({"graphics_3d", "metric_3d_reconstruction"} & primitives),
         }
-        if not found:
-            findings.append("Bforartists or Blender executable missing")
+        if not healthy_dcc:
+            findings.append("no healthy registered DCC installation instance")
     if "toolchain_build" in primitives:
         found = any_command(("cc", "gcc", "clang"))
         any_groups["toolchain_build"] = {
