@@ -1,0 +1,37 @@
+{
+  "schema": "fa3.universal-capability-access-audit-status.v1",
+  "id": "FA3-UNIVERSAL-CAPABILITY-ACCESS-AUDIT-001",
+  "as_of": "2026-10-03",
+  "status": "IN_PROGRESS_RETROACTIVE_RIGHTS_REVIEW",
+  "policy_coverage": "PASS_ALL_REGISTRY_RECORDS_CLASSIFIED_STRUCTURALLY",
+  "registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+  "registry_git_blob_sha": "9e0b70edc5bff6733389bc2dbec13d9d9b5fb94e",
+  "registry_entry_count": 1384,
+  "classification_counts": {
+    "INDEX_OR_DISCOVERY_ONLY": 309,
+    "KNOWN_ACCESS_BARRIER_SIGNAL": 47,
+    "ACCESS_RIGHTS_REVIEW_REQUIRED": 886,
+    "NO_KNOWN_ACCESS_BARRIER_SIGNAL": 142
+  },
+  "known_access_barrier_reason_counts": {
+    "NONCOMMERCIAL": 26,
+    "PROPRIETARY": 14,
+    "CUSTOM_RESTRICTED_LICENSE": 9,
+    "GEOGRAPHIC_OR_FIELD_RESTRICTION": 1,
+    "SERVICE_OR_PAID_CONDITION": 5,
+    "VENDOR_OR_HARDWARE_LOCK": 0
+  },
+  "active_usage_edge_count": 9,
+  "active_material_usage_edge_count": 0,
+  "restricted_material_usage_blocker_count": 0,
+  "current_usage_graph_universal_access_status": "PASS_NO_MATERIAL_RESTRICTED_USAGE",
+  "rights_clearance_complete": false,
+  "global_runtime_promotion_claim": false,
+  "release_eligibility_claim": false,
+  "important_semantics": [
+    "NO_KNOWN_ACCESS_BARRIER_SIGNAL is not legal clearance.",
+    "ACCESS_RIGHTS_REVIEW_REQUIRED blocks material adoption but not reference registration.",
+    "KNOWN_ACCESS_BARRIER_SIGNAL permits reference-only use and optional material use only after a global substitute and normal admission pass.",
+    "The 175 capability baseline remains unchanged."
+  ]
+}
