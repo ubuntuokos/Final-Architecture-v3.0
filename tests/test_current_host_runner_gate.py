@@ -75,6 +75,13 @@ class CurrentHostRunnerGateTests(unittest.TestCase):
         self.assertIn('loginctl show-user "$USER" -p Linger --value', doctor)
         self.assertIn('"systemd_user_linger_enabled": True', doctor)
 
+    def test_runner_recovers_after_clean_listener_shutdown(self) -> None:
+        conf = json.loads((ROOT / "canonical/FA3-CURRENT-HOST-RUNNER-CONFORMANCE-001.json").read_text())
+        self.assertEqual("always", conf["service"]["restart_policy"])
+        bootstrap = (ROOT / "bin/fa3-current-host-runner-bootstrap.sh").read_text()
+        self.assertIn("Restart=always", bootstrap)
+        self.assertNotIn("Restart=on-failure", bootstrap)
+
     def test_runner_doctor_normalizes_default_label_case(self) -> None:
         text = (ROOT / "bin/fa3-current-host-runner-doctor").read_text()
         self.assertIn("labels = {label.lower() for label in raw_labels}", text)
