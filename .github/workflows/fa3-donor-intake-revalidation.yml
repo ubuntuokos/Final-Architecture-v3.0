@@ -68,6 +68,7 @@ jobs:
 
           finalizer=order[0]
           waiting=set(report.get("waiting_donor_prs") or [])
+          main_sha=getter(f"/repos/{REPO}/branches/main")["commit"]["sha"]
 
           def api(method,path,payload):
               req=urllib.request.Request(
@@ -85,49 +86,90 @@ jobs:
                   if response.status not in (200,201,204):
                       raise RuntimeError("GitHub write failed: "+str(response.status))
 
-          for row in rows:
-              number=row["number"]
+          def fail_required_check(row,title,summary):
               head_sha=row.get("head_sha")
               if not isinstance(head_sha,str) or len(head_sha)!=40:
-                  raise SystemExit(f"PR #{number}: missing exact head SHA")
-              if number != finalizer:
-                  reason=("DONOR_INTAKE_ACTIVE_WINDOW_FULL_WAIT_FOR_SLOT"
-                          if number in waiting else
-                          "DONOR_INTAKE_ACTIVE_WAIT_FOR_SMALLER_FINALIZATION")
-                  api("POST",f"/repos/{REPO}/check-runs",{
-                      "name":"canonical-regression / P0",
-                      "head_sha":head_sha,
-                      "status":"completed",
-                      "conclusion":"failure",
-                      "output":{
-                          "title":"Donor intake ordering changed",
-                          "summary":(
-                              f"PR #{number} is not the current canonical donor finalizer. "
-                              f"Required check invalidated by live rolling-window revalidation: {reason}. "
-                              f"Current finalizer: PR #{finalizer}."
-                          ),
-                      },
-                  })
-                  print(f"Invalidated stale canonical readiness for PR #{number}: {reason}")
-
-          final=next(row for row in rows if row["number"]==finalizer)
-          head_ref=final.get("head_ref")
-          head_repo=final.get("head_repo_full_name")
-          if head_repo != REPO or not isinstance(head_ref,str) or not head_ref:
+                  raise SystemExit(f"PR #{row.get('number')}: missing exact head SHA")
               api("POST",f"/repos/{REPO}/check-runs",{
                   "name":"canonical-regression / P0",
-                  "head_sha":final["head_sha"],
+                  "head_sha":head_sha,
                   "status":"completed",
                   "conclusion":"failure",
-                  "output":{
-                      "title":"Donor finalizer cannot be revalidated",
-                      "summary":"The current donor finalizer is not dispatchable from the canonical repository; fail closed.",
-                  },
+                  "output":{"title":title,"summary":summary},
               })
-              raise SystemExit(f"PR #{finalizer}: finalizer head is not a dispatchable repository branch")
 
-          api("POST",f"/repos/{REPO}/actions/workflows/fa3-permanent-enforcement.yml/dispatches",{
-              "ref":head_ref,
-          })
-          print(f"Dispatched required Permanent Canonical revalidation for PR #{finalizer} @ {final['head_sha']}")
+          for row in rows:
+              number=row["number"]
+              if number == finalizer:
+                  continue
+              reason=("DONOR_INTAKE_ACTIVE_WINDOW_FULL_WAIT_FOR_SLOT"
+                      if number in waiting else
+                      "DONOR_INTAKE_ACTIVE_WAIT_FOR_SMALLER_FINALIZATION")
+              fail_required_check(
+                  row,
+                  "Donor intake ordering changed",
+                  (
+                      f"PR #{number} is not the current canonical donor finalizer. "
+                      f"Required check invalidated by live rolling-window revalidation: {reason}. "
+                      f"Current finalizer: PR #{finalizer}."
+                  ),
+              )
+              print(f"Invalidated stale canonical readiness for PR #{number}: {reason}")
+
+          final=next(row for row in rows if row["number"]==finalizer)
+          head_sha=final.get("head_sha")
+          if not isinstance(head_sha,str) or len(head_sha)!=40:
+              raise SystemExit(f"PR #{finalizer}: missing exact head SHA")
+
+          compare=getter(f"/repos/{REPO}/compare/{main_sha}...{head_sha}")
+          merge_base=(compare.get("merge_base_commit") or {}).get("sha")
+          behind=compare.get("behind_by")
+          if merge_base != main_sha or behind != 0:
+              fail_required_check(
+                  final,
+                  "Donor finalizer must reconcile published main",
+                  (
+                      f"PR #{finalizer} is the current donor finalizer but its exact head "
+                      f"{head_sha} does not contain published main {main_sha}. "
+                      "Reconcile main, then let the normal pull_request Permanent Canonical "
+                      "gate revalidate the updated exact head."
+                  ),
+              )
+              print(f"Invalidated finalizer PR #{finalizer}: published-main reconciliation required")
+              raise SystemExit(0)
+
+          runs=getter(
+              f"/repos/{REPO}/actions/runs?event=pull_request&head_sha={head_sha}&per_page=100")
+          candidates=[
+              run for run in runs.get("workflow_runs",[])
+              if run.get("name")=="FA3 Permanent Canonical + Promotion Gate"
+              and run.get("event")=="pull_request"
+              and run.get("head_sha")==head_sha
+          ]
+          if not candidates:
+              fail_required_check(
+                  final,
+                  "Donor finalizer requires PR-context canonical revalidation",
+                  (
+                      f"PR #{finalizer} is the current donor finalizer, but no exact-head "
+                      "pull_request Permanent Canonical run is available to re-run. "
+                      "Synchronize the PR head to trigger the required gate."
+                  ),
+              )
+              print(f"Invalidated finalizer PR #{finalizer}: no PR-context canonical run")
+              raise SystemExit(0)
+
+          candidates.sort(key=lambda run:(run.get("created_at") or "",run.get("id") or 0),
+                          reverse=True)
+          current=candidates[0]
+          if current.get("status") != "completed":
+              print(
+                  f"PR #{finalizer} already has PR-context Permanent Canonical "
+                  f"revalidation in progress: run {current['id']}")
+              raise SystemExit(0)
+
+          api("POST",f"/repos/{REPO}/actions/runs/{current['id']}/rerun",{})
+          print(
+              f"Re-running PR-context Permanent Canonical for current finalizer "
+              f"PR #{finalizer} @ {head_sha}: run {current['id']}")
           PY
