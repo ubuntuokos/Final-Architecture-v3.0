@@ -18,7 +18,7 @@
   "usage_edges_created": 0,
   "requirements": [
     "All seven owner-marked URLs are registered as exact source identities.",
-    "GitHub organization/profile records and the arXiv root are discovery indexes only and do not recursively admit child repositories or articles.",
+    "GitHub profile records and the arXiv root are discovery indexes only and do not recursively admit child repositories or articles.",
     "Digital Salon project registration does not admit code, models, datasets, meshes, assets, services, providers or runtimes.",
     "License & Rights, provenance, security, Software Coexistence and Hardware Safety remain independent fail-closed gates for material reuse.",
     "CPU-only viability and existing Model Router/HRB authorities remain unchanged.",
@@ -28,7 +28,7 @@
   "sources": [
     [
       "https://github.com/digital-salon",
-      "FA3-DONOR-DIGITAL-SALON-ORG-001"
+      "FA3-DONOR-DIGITAL-SALON-PROFILE-001"
     ],
     [
       "https://github.com/zhoushiwei",
@@ -55,6 +55,7 @@
       "FA3-DONOR-ARXIV-RESEARCH-INDEX-001"
     ]
   ],
-  "serialization_scope": "EXCLUSIVE_DONOR_MAINTENANCE",
-  "serialization_order": "OLDEST_OPEN_INTAKE_FIRST"
+  "serialization_scope": "ROLLING_FIVE_SLOT_DONOR_MAINTENANCE",
+  "serialization_order": "ASCENDING_ESTIMATED_INTAKE_WORKLOAD_THEN_FIFO",
+  "max_active_donor_intakes": 5
 }

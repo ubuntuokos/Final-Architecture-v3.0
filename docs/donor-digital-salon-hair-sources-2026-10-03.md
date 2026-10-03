@@ -24,7 +24,7 @@ Registers seven links explicitly marked `donornak` by the owner.
 - authority delta: **0**
 - usage edges: **0**
 
-GitHub organization/profile records and the arXiv root are discovery indexes only. They do not recursively register repositories or papers.
+GitHub profile records and the arXiv root are discovery indexes only. They do not recursively register repositories or papers. `digital-salon` is classified as a GitHub profile, not an organization.
 
 Digital Salon's project site is a research/workflow reference only. This intake does not copy or admit code, weights, datasets, meshes, assets, providers, services or runtimes.
 

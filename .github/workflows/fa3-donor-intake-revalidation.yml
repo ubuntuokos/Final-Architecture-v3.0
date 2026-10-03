@@ -1,0 +1,288 @@
+name: FA3 Donor Intake Cross-PR Revalidation
+
+on:
+  pull_request_target:
+    types: [opened, reopened, synchronize, closed, ready_for_review]
+    paths:
+      - 'canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json'
+      - 'canonical/deltas/FA3-DONOR-*'
+      - 'src/fa3_donor_readiness.py'
+      - '.github/workflows/fa3-donor-serialization.yml'
+      - '.github/workflows/fa3-donor-intake-revalidation.yml'
+  push:
+    branches: [main]
+
+permissions:
+  actions: write
+  checks: write
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: fa3-donor-intake-cross-pr-revalidation
+  cancel-in-progress: false
+
+jobs:
+  revalidate-active-intake-order:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout protected published main only
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 1
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+      - name: Invalidate stale required checks and re-run the current finalizer
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          import sys
+          import time
+          import urllib.request
+          from datetime import datetime, timedelta, timezone
+          from pathlib import Path
+
+          sys.path.insert(0, "src")
+          from fa3_donor_readiness import REPO, gate, github_get
+
+          token=os.environ["GITHUB_TOKEN"]
+          getter=lambda path: github_get(path,token)
+          report=gate(Path(".").resolve(),"intake",get=getter)
+          rows=report.get("pending_intake_prs")
+          order=report.get("finalization_order") or []
+          findings=report.get("findings") or []
+          proof_failures=[f for f in findings
+                          if f=="MAIN_MOVED_DURING_SCAN" or f.startswith("PROOF_UNAVAILABLE:")]
+          if rows is None or proof_failures:
+              raise SystemExit("live donor inventory proof unavailable; refusing cross-PR revalidation")
+          if not rows:
+              print("No live donor-intake PRs require cross-PR revalidation.")
+              raise SystemExit(0)
+          if not order:
+              raise SystemExit("live donor inventory has intake PRs but no finalization order")
+
+          finalizer=order[0]
+          waiting=set(report.get("waiting_donor_prs") or [])
+          main_sha=getter(f"/repos/{REPO}/branches/main")["commit"]["sha"]
+
+          def api(method,path,payload):
+              req=urllib.request.Request(
+                  "https://api.github.com"+path,
+                  data=json.dumps(payload).encode("utf-8"),
+                  method=method,
+                  headers={
+                      "Authorization":"Bearer "+token,
+                      "Accept":"application/vnd.github+json",
+                      "X-GitHub-Api-Version":"2022-11-28",
+                      "Content-Type":"application/json",
+                      "User-Agent":"fa3-donor-cross-pr-revalidation",
+                  })
+              with urllib.request.urlopen(req,timeout=20) as response:
+                  if response.status not in (200,201,204):
+                      raise RuntimeError("GitHub write failed: "+str(response.status))
+
+          def fail_required_check(row,title,summary):
+              head_sha=row.get("head_sha")
+              if not isinstance(head_sha,str) or len(head_sha)!=40:
+                  raise SystemExit(f"PR #{row.get('number')}: missing exact head SHA")
+              api("POST",f"/repos/{REPO}/check-runs",{
+                  "name":"canonical-regression / P0",
+                  "head_sha":head_sha,
+                  "status":"completed",
+                  "conclusion":"failure",
+                  "output":{"title":title,"summary":summary},
+              })
+
+          for row in rows:
+              number=row["number"]
+              if number == finalizer:
+                  continue
+              reason=("DONOR_INTAKE_ACTIVE_WINDOW_FULL_WAIT_FOR_SLOT"
+                      if number in waiting else
+                      "DONOR_INTAKE_ACTIVE_WAIT_FOR_SMALLER_FINALIZATION")
+              fail_required_check(
+                  row,
+                  "Donor intake ordering changed",
+                  (
+                      f"PR #{number} is not the current canonical donor finalizer. "
+                      f"Required check invalidated by live rolling-window revalidation: {reason}. "
+                      f"Current finalizer: PR #{finalizer}."
+                  ),
+              )
+              print(f"Invalidated stale canonical readiness for PR #{number}: {reason}")
+
+          final=next(row for row in rows if row["number"]==finalizer)
+          head_sha=final.get("head_sha")
+          if not isinstance(head_sha,str) or len(head_sha)!=40:
+              raise SystemExit(f"PR #{finalizer}: missing exact head SHA")
+
+          compare=getter(f"/repos/{REPO}/compare/{main_sha}...{head_sha}")
+          merge_base=(compare.get("merge_base_commit") or {}).get("sha")
+          behind=compare.get("behind_by")
+          if merge_base != main_sha or behind != 0:
+              fail_required_check(
+                  final,
+                  "Donor finalizer must reconcile published main",
+                  (
+                      f"PR #{finalizer} is the current donor finalizer but its exact head "
+                      f"{head_sha} does not contain published main {main_sha}. "
+                      "Reconcile main, then let the normal pull_request Permanent Canonical "
+                      "gate revalidate the updated exact head."
+                  ),
+              )
+              print(f"Invalidated finalizer PR #{finalizer}: published-main reconciliation required")
+              raise SystemExit(0)
+
+          runs=getter(
+              f"/repos/{REPO}/actions/runs?event=pull_request&head_sha={head_sha}&per_page=100")
+          candidates=[
+              run for run in runs.get("workflow_runs",[])
+              if run.get("name")=="FA3 Permanent Canonical + Promotion Gate"
+              and run.get("event")=="pull_request"
+              and run.get("head_sha")==head_sha
+          ]
+          if not candidates:
+              fail_required_check(
+                  final,
+                  "Donor finalizer requires PR-context canonical revalidation",
+                  (
+                      f"PR #{finalizer} is the current donor finalizer, but no exact-head "
+                      "pull_request Permanent Canonical run is available to re-run. "
+                      "Synchronize the PR head to trigger the required gate."
+                  ),
+              )
+              print(f"Invalidated finalizer PR #{finalizer}: no PR-context canonical run")
+              raise SystemExit(0)
+
+          candidates.sort(key=lambda run:(run.get("created_at") or "",run.get("id") or 0),
+                          reverse=True)
+          current=candidates[0]
+          current_id=current.get("id")
+          if not isinstance(current_id,int):
+              fail_required_check(
+                  final,
+                  "Donor finalizer requires fresh PR-context canonical revalidation",
+                  f"PR #{finalizer} has an unreadable Permanent Canonical run identity. "
+                  "Synchronize or reopen the PR to create a fresh exact-head pull_request run.",
+              )
+              raise SystemExit(0)
+
+          if current.get("status") != "completed":
+              deadline=time.monotonic()+480
+              print(
+                  f"PR #{finalizer} has an in-progress PR-context Permanent Canonical run "
+                  f"{current_id}; waiting for completion before mandatory rerun.")
+              while current.get("status") != "completed" and time.monotonic() < deadline:
+                  time.sleep(10)
+                  current=getter(f"/repos/{REPO}/actions/runs/{current_id}")
+                  if (current.get("name")!="FA3 Permanent Canonical + Promotion Gate"
+                          or current.get("event")!="pull_request"
+                          or current.get("head_sha")!=head_sha):
+                      fail_required_check(
+                          final,
+                          "Donor finalizer canonical run identity changed",
+                          f"PR #{finalizer} lost exact-head PR-context identity while waiting. "
+                          "Synchronize or reopen the PR to create a fresh canonical run.",
+                      )
+                      raise SystemExit(0)
+              if current.get("status") != "completed":
+                  fail_required_check(
+                      final,
+                      "Donor finalizer canonical run did not finish in revalidation window",
+                      f"PR #{finalizer} run {current_id} did not complete within the bounded "
+                      "cross-PR revalidation window. Synchronize or reopen the PR after it "
+                      "finishes to create fresh PR-context evidence.",
+                  )
+                  raise SystemExit(0)
+
+          # The donor inventory may have changed while an older run was finishing.
+          refreshed=gate(Path(".").resolve(),"intake",get=getter)
+          refreshed_rows=refreshed.get("pending_intake_prs")
+          refreshed_order=refreshed.get("finalization_order") or []
+          refreshed_findings=refreshed.get("findings") or []
+          refreshed_proof_failures=[
+              f for f in refreshed_findings
+              if f=="MAIN_MOVED_DURING_SCAN" or f.startswith("PROOF_UNAVAILABLE:")
+          ]
+          if refreshed_rows is None or refreshed_proof_failures:
+              fail_required_check(
+                  final,
+                  "Donor finalizer live inventory proof became unavailable",
+                  f"PR #{finalizer} cannot be revalidated because live donor inventory proof "
+                  "changed or became unavailable while waiting. Synchronize or reopen the PR.",
+              )
+              raise SystemExit(0)
+          refreshed_finalizer=refreshed_order[0] if refreshed_order else None
+          refreshed_row=next(
+              (row for row in refreshed_rows if row.get("number")==finalizer),None)
+          if (refreshed_finalizer != finalizer or refreshed_row is None
+                  or refreshed_row.get("head_sha") != head_sha):
+              fail_required_check(
+                  final,
+                  "Donor intake ordering changed during revalidation",
+                  f"PR #{finalizer} is no longer the same exact-head donor finalizer after "
+                  "the bounded wait. A newer inventory event must perform revalidation.",
+              )
+              raise SystemExit(0)
+
+          created_at=current.get("created_at")
+          run_attempt=current.get("run_attempt")
+          try:
+              created=datetime.fromisoformat(str(created_at).replace("Z","+00:00"))
+              if created.tzinfo is None:
+                  raise ValueError("naive created_at")
+          except (TypeError,ValueError):
+              fail_required_check(
+                  final,
+                  "Donor finalizer canonical run age is unverifiable",
+                  f"PR #{finalizer} run {current_id} has no trustworthy creation timestamp. "
+                  "Synchronize or reopen the PR to create a fresh PR-context run.",
+              )
+              raise SystemExit(0)
+          if not isinstance(run_attempt,int) or run_attempt < 1:
+              fail_required_check(
+                  final,
+                  "Donor finalizer canonical rerun count is unverifiable",
+                  f"PR #{finalizer} run {current_id} has no trustworthy run_attempt value. "
+                  "Synchronize or reopen the PR to create a fresh PR-context run.",
+              )
+              raise SystemExit(0)
+
+          rerun_count=run_attempt-1
+          age=datetime.now(timezone.utc)-created.astimezone(timezone.utc)
+          if age > timedelta(days=30) or rerun_count >= 50:
+              reason=(
+                  f"age={age.days}d exceeds the 30-day rerun window"
+                  if age > timedelta(days=30)
+                  else f"rerun_count={rerun_count} reached the 50-rerun limit"
+              )
+              fail_required_check(
+                  final,
+                  "Donor finalizer requires a fresh PR-context canonical run",
+                  f"PR #{finalizer} run {current_id} cannot be safely rerun: {reason}. "
+                  "Synchronize or reopen the PR to create a fresh exact-head pull_request run.",
+              )
+              raise SystemExit(0)
+
+          try:
+              api("POST",f"/repos/{REPO}/actions/runs/{current_id}/rerun",{})
+          except Exception as exc:
+              fail_required_check(
+                  final,
+                  "Donor finalizer canonical rerun was rejected",
+                  f"PR #{finalizer} run {current_id} could not be rerun ({type(exc).__name__}). "
+                  "Synchronize or reopen the PR to create a fresh exact-head pull_request run.",
+              )
+              print(f"Canonical rerun rejected for PR #{finalizer}: {type(exc).__name__}")
+              raise SystemExit(0)
+          print(
+              f"Re-running PR-context Permanent Canonical for current finalizer "
+              f"PR #{finalizer} @ {head_sha}: run {current_id}, prior reruns={rerun_count}")
+          PY

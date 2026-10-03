@@ -1,0 +1,53 @@
+{
+  "id": "FA3-DEC-DONOR-INTAKE-CONCURRENCY-2026-10-03",
+  "status": "APPROVED",
+  "decision_date": "2026-10-03",
+  "explicit_user_approval": true,
+  "scope": "DONOR_INTAKE_CONCURRENCY_QUEUE_AND_FINALIZATION_ORDER",
+  "rules": {
+    "max_active_donor_intakes": 5,
+    "active_window": "ROLLING",
+    "slot_admission_order": "FIFO",
+    "slot_refill": "IMMEDIATE_NEXT_WAITING_WHEN_ANY_ACTIVE_INTAKE_FINALIZES",
+    "waiting_requests_are_preserved": true,
+    "finalization_order": "ASCENDING_ESTIMATED_INTAKE_WORKLOAD_THEN_FIFO",
+    "single_canonical_finalizer": true,
+    "active_intake_start_does_not_override_finalization_priority": true,
+    "policy_only_prs_reserve_intake_slot": false,
+    "reference_only_prs_reserve_intake_slot": false,
+    "slot_claim_requires_real_canonical_donor_mutation": true
+  },
+  "workload_metric": {
+    "source": "LIVE_GITHUB_PR_CANONICAL_DONOR_MUTATION_FILE_STATS",
+    "included_paths": [
+      "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+      "canonical/deltas/FA3-DONOR-*"
+    ],
+    "primary": "GITHUB_FILE_CHANGES",
+    "fallback": "ADDITIONS_PLUS_DELETIONS",
+    "missing_stats": "ONE_CONSERVATIVE_UNIT",
+    "tie_breaker": "FIFO_BY_PR_NUMBER"
+  },
+  "safety_and_authority": {
+    "published_planning_registry": "LATEST_VERIFIED_COMMITTED_MAIN_ONLY",
+    "pending_donors_are_not_planning_inputs": true,
+    "explicit_donornak_marker_still_required": true,
+    "donor_intake_does_not_authorize_adoption": true,
+    "usage_edge_required_for_actual_adoption": true,
+    "license_rights_security_software_coexistence_and_hardware_safety_gates_preserved": true,
+    "capability_baseline": 175,
+    "no_new_runtime_or_provider_authority": true
+  },
+  "implementation": {
+    "gate": "src/fa3_donor_readiness.py",
+    "workflow": ".github/workflows/fa3-donor-serialization.yml",
+    "contract": "canonical/contracts/FA3-DONOR-CHAT-INGEST-001.json",
+    "enforcement_policy": "canonical/enforcement-policy.json"
+  },
+  "supersedes_policy_clauses": [
+    "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28:ONLY_ONE_ACTIVE_DONOR_INTAKE_CONVERSATION_OLDEST_OPEN_PR_OWNS_SLOT",
+    "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28:one_donor_intake_conversation_at_a_time",
+    "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28:intake_lock"
+  ],
+  "supersedes_policy_clauses_note": "These are clause identifiers inside the still-active donor registry decision; this decision overrides only those clauses, not the entire prior decision record."
+}

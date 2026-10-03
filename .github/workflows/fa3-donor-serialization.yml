@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
   workflow_call:
 concurrency:
-  group: fa3-donor-intake-global
+  group: fa3-donor-intake-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: false
 permissions:
   contents: read
@@ -108,7 +108,7 @@ jobs:
           mkdir -p reports
           set -o pipefail
           if [ "$DONOR_PHASE" = mixed ]; then
-            echo "::error::MIXED_DONOR_INTAKE_NOT_ALLOWED: split donor changes into an exclusive maintenance PR"
+            echo "::error::MIXED_DONOR_INTAKE_NOT_ALLOWED: split donor changes into a bounded donor-intake maintenance PR"
             exit 2
           fi
           if [ "$DONOR_PHASE" = intake ]; then

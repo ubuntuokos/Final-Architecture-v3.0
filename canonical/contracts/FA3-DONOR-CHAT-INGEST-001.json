@@ -57,8 +57,12 @@
     "speaker_role=user",
     "literal_donornak_precedes_link"
   ],
-  "local_intake_exclusion": "NONBLOCKING_FLOCK_PER_CHECKOUT",
-  "github_intake_serialization": "OLDEST_OPEN_CANONICAL_REGISTRY_OR_INTAKE_DELTA_PR_PLUS_GLOBAL_WORKFLOW_CONCURRENCY",
+  "local_intake_exclusion": "NONBLOCKING_FLOCK_PER_CHECKOUT_SINGLE_WRITER",
+  "max_active_donor_intakes": 5,
+  "github_intake_coordination": "ROLLING_MAX_5_ACTIVE_CANONICAL_INTAKES_FIFO_SLOT_ADMISSION_SIZE_ORDER_FINALIZATION",
+  "slot_refill": "NEXT_WAITING_FIFO_WHEN_ANY_ACTIVE_INTAKE_FINALIZES",
+  "finalization_order": "ASCENDING_CANONICAL_DONOR_MUTATION_WORKLOAD_THEN_FIFO",
+  "single_canonical_finalizer": true,
   "published_registry_scope": "COMMITTED_MAIN_ONLY",
   "potential_research_reference_auto_capture": false,
   "unmarked_auto_candidate_registration": false
