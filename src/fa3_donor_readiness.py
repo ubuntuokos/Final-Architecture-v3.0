@@ -158,6 +158,45 @@ def github_graphql(query,variables,token):
         raise ValueError("GITHUB_GRAPHQL_PROOF_INVALID")
     return body["data"]
 
+
+_GRAPHQL_MAIN_SHA = """
+query($owner:String!,$name:String!) {
+  repository(owner:$owner,name:$name) {
+    defaultBranchRef { target { ... on Commit { oid } } }
+  }
+}
+"""
+
+_GRAPHQL_SINGLE_BLOB = """
+query($owner:String!,$name:String!,$expr:String!) {
+  repository(owner:$owner,name:$name) {
+    object(expression:$expr) { ... on Blob { oid } }
+  }
+}
+"""
+
+def github_graphql_main_sha(graph,repo=REPO):
+    owner,name=repo.split("/",1)
+    data=graph(_GRAPHQL_MAIN_SHA,{"owner":owner,"name":name})
+    repository=data.get("repository") if isinstance(data,dict) else None
+    default=repository.get("defaultBranchRef") if isinstance(repository,dict) else None
+    target=default.get("target") if isinstance(default,dict) else None
+    oid=target.get("oid") if isinstance(target,dict) else None
+    if not isinstance(oid,str) or len(oid)!=40:
+        raise ValueError("GRAPHQL_MAIN_SHA_UNAVAILABLE")
+    return oid
+
+def github_graphql_blob_sha(graph,expression,repo=REPO):
+    owner,name=repo.split("/",1)
+    data=graph(_GRAPHQL_SINGLE_BLOB,
+               {"owner":owner,"name":name,"expr":expression})
+    repository=data.get("repository") if isinstance(data,dict) else None
+    obj=repository.get("object") if isinstance(repository,dict) else None
+    oid=obj.get("oid") if isinstance(obj,dict) else None
+    if not isinstance(oid,str) or len(oid)!=40:
+        raise ValueError("GRAPHQL_BLOB_SHA_UNAVAILABLE")
+    return oid
+
 _GRAPHQL_OPEN_PRS = """
 query($owner:String!,$name:String!,$after:String) {
   repository(owner:$owner,name:$name) {
@@ -562,22 +601,28 @@ def gate(root,phase="status",token="",assessment=None,plan=None,approval=None,
             return result
         if not token and get is None:raise RuntimeError("LIVE_GITHUB_TOKEN_REQUIRED")
         getter=get if get is not None else lambda p:github_get(p,token)
-        before=getter(f"/repos/{REPO}/branches/main")["commit"]["sha"]
+        graphql_transport=None
         try:
+            before=getter(f"/repos/{REPO}/branches/main")["commit"]["sha"]
             result["pending_prs"]=pending_prs(getter)
+            after=getter(f"/repos/{REPO}/branches/main")["commit"]["sha"]
         except urllib.error.HTTPError:
             # Parallel FA3 workflows can temporarily exhaust the installation
-            # REST budget. Re-prove the same complete live inventory through
-            # GitHub's separately metered authenticated GraphQL API. Any
-            # GraphQL truncation, pagination gap or proof error still fails closed.
+            # REST budget even before the PR inventory scan starts. Re-prove
+            # the complete transaction through GitHub's separately metered
+            # authenticated GraphQL API: main SHA before, every open PR/file,
+            # canonical donor blob identity, then main SHA after. Any GraphQL
+            # pagination/truncation/proof error still fails closed.
             fallback_token=token or os.getenv("GITHUB_TOKEN") or os.getenv("GH_TOKEN","")
             if not fallback_token:
                 raise
-            result["pending_prs"]=pending_prs_graphql(
-                lambda query,variables: github_graphql(query,variables,fallback_token))
+            graphql_transport=lambda query,variables: github_graphql(
+                query,variables,fallback_token)
+            before=github_graphql_main_sha(graphql_transport)
+            result["pending_prs"]=pending_prs_graphql(graphql_transport)
+            after=github_graphql_main_sha(graphql_transport)
             result["proof_transport"]="AUTHENTICATED_GRAPHQL_FALLBACK_AFTER_REST_HTTPERROR"
         result["pending_intake_prs"]=[p for p in result["pending_prs"] if p["intake"]]
-        after=getter(f"/repos/{REPO}/branches/main")["commit"]["sha"]
         if before!=after:result["findings"].append("MAIN_MOVED_DURING_SCAN")
         if result["findings"]:return result
         if phase=="intake":
@@ -628,7 +673,11 @@ def gate(root,phase="status",token="",assessment=None,plan=None,approval=None,
         # A locally coherent but stale branch must never authorize planning after
         # a newer canonical main registry is published. Fetch the blob identity
         # at the exact main SHA observed during the live pending-PR scan.
-        remote=getter(f"/repos/{REPO}/contents/{REGISTRY}?ref={after}")
+        if graphql_transport is not None:
+            remote={"sha":github_graphql_blob_sha(
+                graphql_transport,after+":"+REGISTRY)}
+        else:
+            remote=getter(f"/repos/{REPO}/contents/{REGISTRY}?ref={after}")
         if (not isinstance(remote,dict) or not isinstance(remote.get("sha"),str)
                 or len(remote["sha"]) != 40):
             raise ValueError("CANONICAL_MAIN_REGISTRY_BLOB_UNAVAILABLE")
