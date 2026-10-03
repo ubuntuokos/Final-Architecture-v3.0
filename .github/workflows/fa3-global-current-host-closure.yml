@@ -32,6 +32,7 @@ on:
       - 'src/fa3_current_host_batch_integrity.py'
       - 'src/fa3_current_host_requalification_plan.py'
       - 'src/fa3_current_host_scoped_assertion.py'
+      - '.github/workflows/fa3-current-host-closure-controller.yml'
       - 'canonical/FA3-CURRENT-HOST-STRUCTURAL-CHANGE-POLICY-001.json'
       - 'src/fa3_current_host_structural_impact_gate.py'
       - 'tests/test_current_host_structural_impact_gate.py'
@@ -128,6 +129,7 @@ on:
       - 'src/fa3_current_host_batch_integrity.py'
       - 'src/fa3_current_host_requalification_plan.py'
       - 'src/fa3_current_host_scoped_assertion.py'
+      - '.github/workflows/fa3-current-host-closure-controller.yml'
       - 'canonical/FA3-CURRENT-HOST-STRUCTURAL-CHANGE-POLICY-001.json'
       - 'src/fa3_current_host_structural_impact_gate.py'
       - 'tests/test_current_host_structural_impact_gate.py'
@@ -239,7 +241,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: fa3-global-current-host-closure-${{ github.ref }}
+  group: fa3-current-host-physical-${{ github.event.pull_request.head.ref || github.ref_name }}
   cancel-in-progress: true
 
 jobs:
