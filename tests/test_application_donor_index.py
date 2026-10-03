@@ -108,6 +108,13 @@ class ApplicationDonorIndexTests(unittest.TestCase):
                          {("studio." + app["id"]) for app in catalog["applications"]})
         self.assertEqual(len(report["gui_surfaces"]), len(gui["surfaces"]))
         self.assertTrue(all(not row["is_application"] for row in report["gui_surfaces"]))
+        for app in report["applications"]:
+            gui = app["gui_governance"]
+            self.assertEqual(gui["policy_id"], "FA3-APPLICATION-GUI-DESIGN-POLICY-001")
+            self.assertTrue(gui["retroactive"])
+            self.assertTrue(gui["continuous_change_sync_required"])
+            self.assertTrue(gui["fa3_design_system_required"])
+            self.assertTrue(gui["approval_fabrication_forbidden"])
 
     def test_new_curated_application_automatically_registered(self):
         with tempfile.TemporaryDirectory() as tmp:
