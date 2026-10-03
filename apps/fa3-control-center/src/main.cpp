@@ -77,7 +77,8 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("fa3AppCatalog", &appCatalog);
     engine.rootContext()->setContextProperty("fa3SessionVault", &sessionVault);
     engine.rootContext()->setContextProperty("fa3DecisionFabric", &decisionFabric);
-    engine.rootContext()->setContextProperty("fa3ExternalLlmCatalog", &externalLlmCatalog);\n    engine.rootContext()->setContextProperty("fa3EngineSelector", &engineSelector);
+    engine.rootContext()->setContextProperty("fa3ExternalLlmCatalog", &externalLlmCatalog);
+    engine.rootContext()->setContextProperty("fa3EngineSelector", &engineSelector);
     engine.rootContext()->setContextProperty("fa3WorkloadMode", &workloadMode);
     engine.load(QUrl(QStringLiteral("qrc:/qt/qml/FA3/ControlCenter/Main.qml")));
 
