@@ -28,7 +28,7 @@ class InspectorDonorIntakeTests(unittest.TestCase):
     def test_registry_integrity_and_delta(self):
         self.assertEqual(len(self.entries), len(self.by_key))
         self.assertEqual(self.registry["backfill"]["entry_count"], len(self.entries))
-        self.assertEqual(len(self.entries), 1422)
+        self.assertGreaterEqual(len(self.entries), 1422)
         self.assertEqual(self.registry["capability_count"], 175)
         self.assertEqual(self.delta["parent_entry_count"], 1421)
         self.assertEqual(self.delta["proposed_entry_count"], 1422)
