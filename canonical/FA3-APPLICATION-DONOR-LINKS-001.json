@@ -9,7 +9,8 @@
   "canonical_inputs": [
     "canonical/FA3-AI-STUDIO-APP-CATALOG-001.json",
     "canonical/FA3-GUI-SURFACE-REGISTRY-001.json",
-    "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"
+    "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+    "canonical/FA3-PRODUCT-FAMILY-REGISTRY-001.json"
   ],
   "policy": {
     "auto_register_all_curated_applications": true,
@@ -65,7 +66,13 @@
     "restricted_donor_requires_global_substitute": true,
     "restricted_donor_may_not_be_sole_capability_implementation": true,
     "unknown_access_rights_block_material_adoption": true,
-    "restriction_circumvention_forbidden": true
+    "restriction_circumvention_forbidden": true,
+    "platform_product_family_classification_required": true,
+    "unclassified_application_fail_closed": true,
+    "orphaned_product_family_placement_fail_closed": true,
+    "product_family_is_context_not_authority": true,
+    "product_family_membership_does_not_grant_permission": true,
+    "retroactive_platform_placement_required": true
   },
   "hardware_audit": {
     "vendor_neutral": true,

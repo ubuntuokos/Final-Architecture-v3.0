@@ -1,0 +1,87 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-PLATFORM-PRODUCT-FAMILY-REUSE-ASSESSMENT-2026-10-03",
+  "project_id": "FA3-PLATFORM-001",
+  "covered_ids": [
+    "FA3-PLATFORM-001",
+    "FA3-PRODUCT-FAMILY-REGISTRY-001",
+    "FA3-APPLICATION-DONOR-LINKS-001",
+    "FA3-ENGINE-REGISTRY-001"
+  ],
+  "project_status": "OWNER_APPROVED_STATIC_MATERIALIZATION",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "MANDATORY_EXISTING_REUSE_DISCOVERY"
+    },
+    {
+      "id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+      "use": "PUBLISHED_MAIN_DONOR_PLANNING_INPUT_ONLY"
+    },
+    {
+      "id": "FA3-APPLICATION-DONOR-LINKS-001",
+      "use": "EXISTING_APPLICATION_INVENTORY_AND_RETROACTIVE_IMPACT_SURFACE"
+    },
+    {
+      "id": "FA3-TUTORIAL-SHARED-CAPABILITY-POLICY-001",
+      "use": "EXISTING_SHARED_FIRST_AND_RETROACTIVE_APPLICATION_IMPACT_POLICY"
+    },
+    {
+      "id": "FA3-ENGINE-REGISTRY-001",
+      "use": "EXISTING_ENGINE_SELECTION_CATALOG_EXTENDED_WITH_PRODUCT_FAMILY_SCOPE"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "EXCLUSIVE_AI_PROVIDER_MODEL_ROUTING_AUTHORITY_UNCHANGED"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "EXCLUSIVE_RESOURCE_ADMISSION_PLACEMENT_LEASE_AUTHORITY_UNCHANGED"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "SECOND_APPLICATION_INVENTORY",
+      "reason": "EXISTING_APPLICATION_DONOR_INVENTORY_IS_EXTENDED_IN_PLACE"
+    },
+    {
+      "id": "PRODUCT_FAMILY_AS_AUTHORITY",
+      "reason": "PRODUCT_FAMILY_IS_CLASSIFICATION_AND_POLICY_CONTEXT_ONLY"
+    },
+    {
+      "id": "NEW_CAPABILITY_FOR_CLASSIFICATION",
+      "reason": "TAXONOMY_AND_BINDING_DELTA_REUSES_EXISTING_175_CAPABILITY_MODEL"
+    },
+    {
+      "id": "AUTOMATIC_PERMISSION_INHERITANCE",
+      "reason": "FAMILY_MEMBERSHIP_MUST_NOT_GRANT_RUNTIME_OR_PROVIDER_PERMISSION"
+    }
+  ],
+  "donor_planning_snapshot": {
+    "published_main_commit": "7253583087f1a10cf14e6b18959b9f64a467c28b",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "9e0b70edc5bff6733389bc2dbec13d9d9b5fb94e",
+    "donor_registry_sha256": "e3f9b0068d475b4e3e33344590d49ccd48dc3b77cfa5561c0f10763cbe9fd8ad",
+    "donor_registry_entry_count": 1384
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "shared_component_ids": [
+      "FA3-PLATFORM-001",
+      "FA3-ENGINE-SELECTION-FABRIC-001"
+    ],
+    "retrospective_consumer_impact_reviewed": true,
+    "local_duplicate_created": false,
+    "rationale": "The platform/product-family taxonomy is a single shared platform context for all applications, and PRODUCT_FAMILY selection extends the existing shared Engine Selection Fabric rather than duplicating application-local functional cores."
+  },
+  "pending_or_unmerged_donors_consumed": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "implementation_readiness": "READY_FOR_STATIC_MATERIALIZATION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false
+}

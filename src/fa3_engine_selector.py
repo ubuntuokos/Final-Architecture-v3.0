@@ -8,7 +8,8 @@ from pathlib import Path
 from typing import Any
 
 REGISTRY_REL = Path("canonical/FA3-ENGINE-REGISTRY-001.json")
-ALLOWED_SCOPES = {"GLOBAL","APPLICATION","WORKSPACE","PROJECT","SEQUENCE","SCENE","TRACK","CLIP","NODE","TASK"}
+ALLOWED_SCOPES = {"GLOBAL","PRODUCT_FAMILY","APPLICATION","WORKSPACE","PROJECT","SEQUENCE","SCENE","TRACK","CLIP","NODE","TASK"}
+PRODUCT_FAMILY_REGISTRY = "canonical/FA3-PRODUCT-FAMILY-REGISTRY-001.json"
 FALLBACK_MODES = {"OFF","ASK","APPROVED_ONLY"}
 SELECTABLE_HEALTH = {"READY","AVAILABLE_CONDITIONAL"}
 
@@ -17,6 +18,16 @@ class EngineSelectionError(RuntimeError):
 
 def _load(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
+
+def product_family_ids(root: Path) -> set[str]:
+    registry=_load(root/PRODUCT_FAMILY_REGISTRY)
+    if registry.get("id")!="FA3-PRODUCT-FAMILY-REGISTRY-001" or registry.get("authority") is not False:
+        raise EngineSelectionError("invalid product-family registry")
+    return {
+        str(row["family_id"])
+        for row in registry.get("product_families",[])
+        if isinstance(row,dict) and row.get("family_id")
+    }
 
 def _pointer(obj: Any, dotted: str) -> Any:
     cur = obj
@@ -247,6 +258,7 @@ def selection_intent(
     required_capabilities: list[str] | None = None,
     fallback_mode: str = "OFF",
     approved_fallback_engine_ids: list[str] | None = None,
+    valid_product_family_ids: set[str] | None = None,
 ) -> dict[str, Any]:
     if scope not in ALLOWED_SCOPES:
         raise EngineSelectionError("invalid selection scope")
@@ -255,6 +267,9 @@ def selection_intent(
         target="GLOBAL"
     elif not target:
         raise EngineSelectionError("non-GLOBAL selection scope requires scope_target_id")
+    if scope == "PRODUCT_FAMILY":
+        if valid_product_family_ids is None or target not in valid_product_family_ids:
+            raise EngineSelectionError("unknown product-family scope target")
     if fallback_mode not in FALLBACK_MODES:
         raise EngineSelectionError("invalid fallback mode")
     by_id={e["engine_id"]:e for e in catalog}
@@ -384,7 +399,8 @@ def main() -> int:
         out=selection_intent(
             catalog,engine_id=args.engine,scope=args.scope,scope_target_id=args.scope_target,
             required_capabilities=args.capability,fallback_mode=args.fallback,
-            approved_fallback_engine_ids=args.approved_fallback_engine)
+            approved_fallback_engine_ids=args.approved_fallback_engine,
+            valid_product_family_ids=product_family_ids(root))
     print(json.dumps(out,indent=2,ensure_ascii=False))
     return 0
 
