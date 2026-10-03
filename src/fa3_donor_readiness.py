@@ -49,6 +49,8 @@ EXEMPT_HISTORICAL_HEADS = {
 DONOR_PREFIXES = ("docs/donor-repair/", "docs/donor-", "docs/donors-",
                   "bin/fa3-donor-", "tests/test_donor_", "tests/test_donors_",
                   "canonical/deltas/FA3-DONOR-")
+MAX_ACTIVE_DONOR_INTAKES = 5
+MAX_GITHUB_PR_FILES = 3000
 
 def inspect_registry(root):
     raw = (root / REGISTRY).read_bytes()
@@ -149,35 +151,65 @@ def is_donor_intake_pr(pr,files):
             return True
     return False
 
-def effective_donor_intake_pr(pr,files,get,repo=REPO):
-    """Reserve the live intake slot only for donor bytes that differ from main.
+def live_donor_intake_files(files,get,repo=REPO):
+    """Return canonical donor mutations whose candidate bytes still differ from main.
 
     GitHub's pull-request file list is relative to the PR's merge base. A long-
-    lived PR can therefore list donor files that were independently published
-    to main later. Those byte-identical stale-base files must not reserve the
-    single donor-intake slot. Missing/unreadable blob identity fails closed and
-    continues to count as a live donor mutation.
+    lived PR can therefore retain donor files that were independently published
+    to main later. Those byte-identical stale-base files must neither reserve a
+    rolling-window slot nor inflate finalization workload. Missing or unreadable
+    blob identity fails closed and remains a live mutation.
     """
-    candidates=[]
+    live=[]
+    for f in files:
+        name=f.get("filename") if isinstance(f,dict) else None
+        if not isinstance(name,str):
+            raise ValueError("UNREADABLE_PR_FILE")
+        if name!=REGISTRY and not name.startswith("canonical/deltas/FA3-DONOR-"):
+            continue
+        head_blob=f.get("sha")
+        if not isinstance(head_blob,str) or len(head_blob)!=40:
+            live.append(f)
+            continue
+        try:
+            main=get(f"/repos/{repo}/contents/{name}?ref=main")
+        except Exception:
+            live.append(f)
+            continue
+        main_blob=main.get("sha") if isinstance(main,dict) else None
+        if not isinstance(main_blob,str) or len(main_blob)!=40 or main_blob!=head_blob:
+            live.append(f)
+    return live
+
+def effective_donor_intake_pr(pr,files,get,repo=REPO):
+    """Reserve a rolling intake slot only for canonical donor bytes live vs main."""
+    return bool(live_donor_intake_files(files,get,repo))
+
+def donor_intake_workload(files):
+    """Estimate intake size from canonical donor-mutation diff units.
+
+    Only canonical registry/intake-delta changes count toward the ordering.
+    GitHub per-file changes is preferred; additions+deletions are the fallback,
+    and unreadable or missing stats fail conservatively to one unit.
+    """
+    units=0
+    found=False
     for f in files:
         name=f.get("filename") if isinstance(f,dict) else None
         if not isinstance(name,str):
             raise ValueError("UNREADABLE_PR_FILE")
         if name==REGISTRY or name.startswith("canonical/deltas/FA3-DONOR-"):
-            candidates.append((name,f.get("sha")))
-    if not candidates:
-        return False
-    for name,head_blob in candidates:
-        if not isinstance(head_blob,str) or len(head_blob)!=40:
-            return True
-        try:
-            main=get(f"/repos/{repo}/contents/{name}?ref=main")
-        except Exception:
-            return True
-        main_blob=main.get("sha") if isinstance(main,dict) else None
-        if not isinstance(main_blob,str) or len(main_blob)!=40 or main_blob!=head_blob:
-            return True
-    return False
+            found=True
+            changes=f.get("changes")
+            if not isinstance(changes,int) or changes < 0:
+                additions=f.get("additions")
+                deletions=f.get("deletions")
+                if isinstance(additions,int) and additions >= 0 and isinstance(deletions,int) and deletions >= 0:
+                    changes=additions+deletions
+                else:
+                    changes=1
+            units += max(1,changes)
+    return units if found else 0
 
 def is_donor_pr(pr,files):
     title=str(pr.get("title","")).lower()
@@ -205,15 +237,27 @@ def pending_prs(get,repo=REPO):
                 if not isinstance(part,list) or len(part)>100:
                     raise ValueError("INCOMPLETE_PR_FILE_LIST:"+str(n))
                 files.extend(part)
+                # GitHub caps the PR-files endpoint at 3,000 files. Reaching
+                # that boundary is indistinguishable from truncation, so do
+                # not derive donor workload or slot priority from partial data.
+                if len(files)>=MAX_GITHUB_PR_FILES:
+                    raise ValueError("PR_FILE_LIST_AT_GITHUB_API_CAP:"+str(n))
                 if len(part)<100: break
             else: raise ValueError("TOO_MANY_PR_FILES:"+str(n))
             if (n in EXEMPT_HISTORICAL_PRS and
                     pr.get("head",{}).get("sha")==EXEMPT_HISTORICAL_HEADS[n]):
                 continue
             if is_donor_pr(pr,files):
+                live_intake_files=live_donor_intake_files(files,get,repo)
+                intake=bool(live_intake_files)
+                head=pr.get("head",{}) if isinstance(pr.get("head"),dict) else {}
+                head_repo=head.get("repo",{}) if isinstance(head.get("repo"),dict) else {}
                 found.append({"number":n,"title":pr.get("title"),
-                              "head_sha":pr.get("head",{}).get("sha"),
-                              "intake":effective_donor_intake_pr(pr,files,get,repo)})
+                              "head_sha":head.get("sha"),
+                              "head_ref":head.get("ref"),
+                              "head_repo_full_name":head_repo.get("full_name"),
+                              "intake":intake,
+                              "workload_units":donor_intake_workload(live_intake_files) if intake else None})
         if len(prs)<100: return sorted(found,key=lambda p:p["number"])
     raise ValueError("TOO_MANY_OPEN_PRS")
 
@@ -320,22 +364,46 @@ def gate(root,phase="status",token="",assessment=None,plan=None,approval=None,
         if before!=after:result["findings"].append("MAIN_MOVED_DURING_SCAN")
         if result["findings"]:return result
         if phase=="intake":
-            # Only an actual canonical registry or intake-delta mutation
-            # owns the cross-conversation slot. A governance-only donor PR
-            # must not block the first genuine intake.
-            # GitHub Actions concurrency serializes admission evaluations.
+            # Owner-approved rolling donor-intake window:
+            # - at most five genuine canonical intake PRs are active;
+            # - FIFO controls admission into a newly freed slot;
+            # - within the active window, the smallest canonical donor-mutation
+            #   workload finalizes first, with FIFO as the tie-breaker.
+            # Registry publication itself therefore remains single-finalizer
+            # even though up to five intake requests may be active.
             pending=result["pending_intake_prs"]
-            if pending:
-                first=pending[0]
-                if pr_number is None or first["number"] != pr_number:
-                    result["findings"].append("DONOR_INTAKE_IN_PROGRESS_WAIT_FOR_COMPLETION")
-                    result["active_donor_pr"]=first["number"]
+            active=pending[:MAX_ACTIVE_DONOR_INTAKES]
+            waiting=pending[MAX_ACTIVE_DONOR_INTAKES:]
+            finalization=sorted(
+                active,key=lambda p:(p.get("workload_units",1),p["number"]))
+            result["max_active_donor_intakes"]=MAX_ACTIVE_DONOR_INTAKES
+            result["active_donor_prs"]=[p["number"] for p in active]
+            result["waiting_donor_prs"]=[p["number"] for p in waiting]
+            result["finalization_order"]=[p["number"] for p in finalization]
+            result["available_intake_slots"]=MAX_ACTIVE_DONOR_INTAKES-len(active)
+            result["active_donor_pr"]=finalization[0]["number"] if finalization else None
+
+            if pr_number is None:
+                if len(active) >= MAX_ACTIVE_DONOR_INTAKES:
+                    result["findings"].append("DONOR_INTAKE_ACTIVE_WINDOW_FULL_WAIT_FOR_SLOT")
                     return result
-            elif pr_number is not None:
+                result["result"]="DONOR_INTAKE_SLOT_AVAILABLE"
+                return result
+
+            row=next((p for p in pending if p["number"]==pr_number),None)
+            if row is None:
                 result["findings"].append("INTAKE_PR_NOT_OPEN_OR_NOT_DONOR")
                 return result
-            result["result"]="EXCLUSIVE_DONOR_INTAKE_READY"
-            result["active_donor_pr"]=pr_number
+            if pr_number not in result["active_donor_prs"]:
+                result["findings"].append("DONOR_INTAKE_ACTIVE_WINDOW_FULL_WAIT_FOR_SLOT")
+                return result
+            if finalization and finalization[0]["number"] != pr_number:
+                result["findings"].append("DONOR_INTAKE_ACTIVE_WAIT_FOR_SMALLER_FINALIZATION")
+                result["next_finalizable_donor_pr"]=finalization[0]["number"]
+                return result
+            result["result"]="DONOR_INTAKE_READY_TO_FINALIZE"
+            result["intake_workload_units"]=row.get("workload_units")
+            result["next_finalizable_donor_pr"]=pr_number
             return result
         # Pending intake is deliberately NOT a global planning lock:
         # unmerged donor entries are absent from the published main snapshot.
@@ -383,6 +451,7 @@ def main():
            a.assessment,a.plan,a.approval,a.pr)
     print(json.dumps(x,ensure_ascii=False,indent=2))
     return 0 if x["result"] in ("MAINTENANCE_INTEGRITY_PASS",
-                                 "EXCLUSIVE_DONOR_INTAKE_READY",
+                                 "DONOR_INTAKE_SLOT_AVAILABLE",
+                                 "DONOR_INTAKE_READY_TO_FINALIZE",
                                  "READY_FOR_SEPARATE_FA3_ADMISSION_GATES") else 2
 if __name__=="__main__":raise SystemExit(main())

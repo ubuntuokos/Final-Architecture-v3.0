@@ -1,0 +1,102 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-SHARED-HAIR-GROOM-001",
+  "name": "Shared Hair, Groom & Strand Asset Fabric",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST_IF_COMPONENT_USED",
+  "canonical_root": false,
+  "provider_neutral": true,
+  "shared_component": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-015",
+    "CAP-016",
+    "CAP-032",
+    "CAP-163",
+    "CAP-164",
+    "CAP-166"
+  ],
+  "contract_family": "FA3-SHARED-HAIR-GROOM-CONTRACTS-001",
+  "authority_bindings": {
+    "geometry_semantics": "FA3-3D-GEOM-001",
+    "dcc_scene_and_final_asset": "FA3-DCC-RT3D-001",
+    "workflow": "FA3-AUTH-DURABLE-ORCHESTRATION-001",
+    "model_provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "engine_selection": "FA3-ENGINE-SELECTION-FABRIC-001",
+    "action_execution": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "license_rights": "FA3-LICENSE-RIGHTS-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "human_review": "AUTH-HUMAN"
+  },
+  "capability_surface": [
+    "hair.asset.describe",
+    "hair.reconstruction.plan",
+    "hair.groom.edit",
+    "hair.groom.history",
+    "hair.dynamics.plan",
+    "hair.appearance.describe",
+    "hair.dcc.handoff",
+    "hair.render.handoff",
+    "hair.interchange.verify"
+  ],
+  "consumer_scope": {
+    "multi_application": true,
+    "cross_product_family": true,
+    "shared_first": true,
+    "application_specific_adapters_required": true,
+    "retrospective_consumer_review_required": true,
+    "primary_consumers": [
+      "fa3.character-studio",
+      "studio.bforartists"
+    ],
+    "creative_media_consumers": [
+      "fa3.video-editor",
+      "reference.krita"
+    ]
+  },
+  "ai_policy": {
+    "application_module_function_switchable": true,
+    "disabled_means_no_model_launch": true,
+    "disabled_means_no_provider_call": true,
+    "disabled_means_no_background_ai_service": true,
+    "non_ai_manual_and_procedural_path_required": true,
+    "silent_fallback": false
+  },
+  "runtime_materialization": {
+    "new_service": false,
+    "new_daemon": false,
+    "new_port": false,
+    "new_socket": false,
+    "new_package_dependency": false,
+    "provider_activation": false,
+    "model_selection": false,
+    "hardware_mutation": false,
+    "physical_application_binding": false,
+    "semantics": "STATIC_SHARED_CONTRACT_AND_MAPPING_ONLY"
+  },
+  "invariants": [
+    "CAPABILITY_BASELINE_175_UNCHANGED",
+    "NO_PARALLEL_GEOMETRY_AUTHORITY",
+    "DCC_FINAL_SCENE_AND_ASSET_AUTHORITY_PRESERVED",
+    "MODEL_ROUTER_REMAINS_SOLE_MODEL_PROVIDER_ROUTING_AUTHORITY",
+    "HRB_REMAINS_SOLE_HOST_RESOURCE_DEVICE_PLACEMENT_AUTHORITY",
+    "ENGINE_PROVIDER_SELECTION_REMAINS_EXTERNAL",
+    "NO_DIRECT_MODEL_PROVIDER_OR_ACCELERATOR_SELECTION",
+    "NO_SILENT_FALLBACK",
+    "DISPLAY_GPU_IMPLICIT_AI_ENLISTMENT_FORBIDDEN",
+    "MANUAL_PROCEDURAL_NON_AI_PATH_REQUIRED",
+    "NATIVE_PROJECT_PRESERVATION_REQUIRED",
+    "RIGHTS_AND_PROVENANCE_REFERENCED_NOT_REOWNED",
+    "STATIC_MATERIALIZATION_IS_NOT_CURRENT_HOST_RUNTIME_PASS",
+    "PENDING_OR_UNMERGED_DONORS_MUST_NOT_BE_CONSUMED"
+  ],
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}
