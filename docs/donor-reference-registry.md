@@ -17,7 +17,7 @@ A verified owner-marked link is pre-reviewed for reference registration and beco
   --name "Example Project" --source "https://github.com/example/project"
 ```
 
-This command requires a real prior user marker; the flag is an operator attestation, not a way to infer donor status from an unmarked message. Only one donor intake conversation is allowed at a time; GitHub publication must pass the exclusive live intake gate.
+This command requires a real prior user marker; the flag is an operator attestation, not a way to infer donor status from an unmarked message. Up to **5** donor-intake requests may be active at once. The live gate maintains a rolling five-slot window: when one intake finalizes, the next waiting request enters immediately. Finalization is ascending by canonical donor-mutation workload, with FIFO for equal size. Canonical registry publication remains single-finalizer.
 
 ## Tutorial references and shared-function reuse (owner decision, 2026-09-30)
 
@@ -49,7 +49,7 @@ Every donor remains non-authoritative. Code or runtime reuse requires separate l
 
 ## Conversation-adapter contract
 
-The ChatGPT export importer requires the actual `user` message role and an explicit `donornak` label, with or without a colon, before any imported link. Approved local events need both explicit owner-marker attestation and owner role. Raw strings, assistant suggestions and general research signals can be analyzed but cannot mutate the registry. No automatic ChatGPT subscription is provided. Only metadata from authenticated marked links may be imported; no private conversation text is persisted. Same-host imports use a nonblocking lock. GitHub donor PR intake uses the oldest open PR actually changing the canonical registry or canonical donor-intake delta, plus a globally serialized Actions check; policy, research and reference-only PRs do not reserve the slot. A later competing conversation must stop and report the active PR rather than create competing donor changes.
+The ChatGPT export importer requires the actual `user` message role and an explicit `donornak` label, with or without a colon, before any imported link. Approved local events need both explicit owner-marker attestation and owner role. Raw strings, assistant suggestions and general research signals can be analyzed but cannot mutate the registry. No automatic ChatGPT subscription is provided. Only metadata from authenticated marked links may be imported; no private conversation text is persisted. Same-host imports use a nonblocking single-writer lock. GitHub donor PR intake admits the first five genuine canonical registry/intake-delta mutations into a rolling active window; policy, research and reference-only PRs do not reserve slots. Waiting requests are FIFO. Within the active five, the smallest canonical donor-mutation workload finalizes first, then progressively larger work; equal workloads use FIFO. A sixth or later request waits until a slot is released.
 
 Planning, verification and finalization during maintenance use ONLY the last exact, verified, published main snapshot. Pending PR donor entries are invisible. A new published donor batch does not automatically restart an earlier approved workflow.
 
@@ -137,7 +137,7 @@ The following imported upstream curation reports are historical/research referen
 
 ## 2026-09-29 prospective-only donor intake
 
-Mandatory retrospective source extraction from previous PRs is abolished. PRs #24 #31 #52 #70 #71 #125 #180 #181 #245 #252 #392 #427 #434 #438 are explicit exact-head extraction exemptions and closed unmerged. Registry expansion, history-preserving removal and synchronization are serialized donor maintenance and cannot be blocked by application planning/development locks. The existing canonical registry and 175-capability baseline are preserved. `./bin/fa3-donor-capture --owner-submitted-link --source URL --name NAME` is the explicit operator intake path for an already-reviewed direct owner link; it sets reference-registration status, not application adoption.
+Mandatory retrospective source extraction from previous PRs is abolished. PRs #24 #31 #52 #70 #71 #125 #180 #181 #245 #252 #392 #427 #434 #438 are explicit exact-head extraction exemptions and closed unmerged. Registry expansion, history-preserving removal and synchronization are bounded donor maintenance: at most five intake requests may be active, while canonical finalization remains one-at-a-time in size/workload order. They cannot be blocked by application planning/development locks. The existing canonical registry and 175-capability baseline are preserved. `./bin/fa3-donor-capture --owner-submitted-link --source URL --name NAME` is the explicit operator intake path for an already-reviewed direct owner link; it sets reference-registration status, not application adoption.
 
 ## Usage graph and downstream impact
 
@@ -153,7 +153,7 @@ This is not permission to evade upstream restrictions. VPN, proxy, foreign-hosti
 
 ### Stale-base intake identity
 
-The exclusive donor-intake slot is reserved by a pull request only when its
+An active donor-intake window slot is consumed by a pull request only when its
 canonical donor-registry or `canonical/deltas/FA3-DONOR-*` blob differs from
 the currently published `main` blob at the same path. GitHub may continue to
 list donor files in a long-lived pull request when those exact bytes were
