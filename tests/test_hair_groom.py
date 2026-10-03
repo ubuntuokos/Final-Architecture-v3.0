@@ -44,6 +44,38 @@ class HairGroomGateTests(unittest.TestCase):
             codes={x["code"] for x in gate(root)["findings"]}
             self.assertIn("HAIR-009",codes)
 
+    def test_intent_and_enforcement_tamper_fail_closed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp); fixture(root)
+            intent_path=root/PATHS["intent"]
+            intent=json.loads(intent_path.read_text())
+            intent["declared_new_capabilities"]=["CAP-176"]
+            intent_path.write_text(json.dumps(intent))
+            codes={x["code"] for x in gate(root)["findings"]}
+            self.assertIn("HAIR-006A",codes)
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp); fixture(root)
+            enforcement_path=root/PATHS["enforcement"]
+            enforcement=json.loads(enforcement_path.read_text())
+            enforcement["fail_closed"]=False
+            enforcement["p0_invariants"]=[]
+            enforcement_path.write_text(json.dumps(enforcement))
+            codes={x["code"] for x in gate(root)["findings"]}
+            self.assertIn("HAIR-006B",codes)
+
+    def test_current_host_impact_runtime_flags_fail_closed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp); fixture(root)
+            path=root/PATHS["impact"]
+            row=json.loads(path.read_text())
+            row["runtime_change"]=True
+            row["provider_or_model_activation"]=True
+            row["hardware_mutation"]=True
+            path.write_text(json.dumps(row))
+            codes={x["code"] for x in gate(root)["findings"]}
+            self.assertIn("HAIR-020",codes)
+
     def test_manual_application_capability_binding_fails_closed(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp); fixture(root)
