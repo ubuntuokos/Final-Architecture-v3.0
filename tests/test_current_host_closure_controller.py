@@ -7,7 +7,14 @@ class T(unittest.TestCase):
   x=(ROOT/".github/workflows/fa3-current-host-closure-controller.yml").read_text()
   self.assertIn("cancel-in-progress: true",x); self.assertIn("git merge --no-ff --no-commit",x)
   self.assertIn("Projection stability barrier",x); self.assertIn("needs.plan.outputs.execute == 'true'",x)
+  self.assertIn("pending_prs_graphql",x)
   self.assertIn("fa3_current_host_requalification_plan.py",x)
+ def test_repository_projection_reconciler_auto_adopts_only_current_host_generation(self):
+  x=(ROOT/".github/workflows/fa3-release-projection-reconcile.yml").read_text()
+  self.assertIn("fa3/current-host-*",x)
+  self.assertIn('test "$(git rev-parse HEAD^)" = "$source_sha"',x)
+  self.assertIn('test "${#changed[@]}" -eq 1',x)
+  self.assertIn('test "${changed[0]}" = "$projection"',x)
  def test_projection_adopter_is_exact_parent_projection_only(self):
   x=(ROOT/".github/workflows/fa3-current-host-projection-adopt.yml").read_text()
   self.assertIn('test "$(git rev-parse "$rec^")" = "$SOURCE_SHA"',x)
