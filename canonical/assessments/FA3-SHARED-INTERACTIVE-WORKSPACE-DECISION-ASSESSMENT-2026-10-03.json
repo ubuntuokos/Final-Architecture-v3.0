@@ -1,0 +1,43 @@
+{
+  "schema": "fa3.decision-fabric-assessment.v1",
+  "project_id": "FA3-SHARED-INTERACTIVE-WORKSPACE-DECISION-ASSESSMENT-2026-10-03",
+  "covered_ids": [
+    "FA3-SHARED-INTERACTIVE-WORKSPACE-001",
+    "FA3-SHARED-INTERACTIVE-WORKSPACE-CONTRACTS-001"
+  ],
+  "assessment": "NOT_APPLICABLE",
+  "rationale": "The Shared Interactive Workspace defines typed context/action/generative/review/theme contracts and deterministic capability-driven UI eligibility. It does not own candidate ranking, provider/model selection, permissions, application mutation authorization, durable lifecycle control or host-resource placement. Natural-language proposals remain bounded by existing Model Router, UAF/MCP, Security, Human Approval and Evidence authorities; therefore no new Decision Fabric decision point is required at this shared canonical layer.",
+  "decision_points": [],
+  "not_delegated": [
+    "provider or model selection",
+    "permission or authorization grant",
+    "mutating action approval",
+    "application capability admission",
+    "runtime/provider admission",
+    "durable workflow lifecycle authority",
+    "host resource/device placement",
+    "MMG Context IR authority",
+    "theme visual identity authority"
+  ],
+  "project_radar_checked": true,
+  "project_radar_review": {
+    "scope": "Shared Interactive Workspace against Model Router, UAF/MCP Gateway, MMG Context IR, HRB, Security, Human Approval, Evidence and Temporal boundaries",
+    "result": "NO_NEW_DECISION_FABRIC_DECISION_POINT_REQUIRED",
+    "note": "Any later application-specific ranking may use an already-canonical bounded decision mechanism only after deterministic eligibility and policy checks."
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "global_accelerator_requirement": false
+  },
+  "security_boundary": {
+    "may_grant_permission": false,
+    "may_expand_candidate_set": false,
+    "may_create_agent": false,
+    "may_admit_model": false,
+    "may_admit_provider": false
+  },
+  "shadow_mode_required": false,
+  "capability_delta": 0,
+  "authority_delta": 0
+}
