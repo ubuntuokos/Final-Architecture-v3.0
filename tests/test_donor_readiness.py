@@ -1,5 +1,7 @@
 """FA3 donor readiness negative and source-identity regressions."""
 import json
+import os
+import urllib.error
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -7,7 +9,7 @@ from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"src"))
 import fa3_donor_readiness as readiness
-from fa3_donor_readiness import (inspect_registry,pending_prs,gate,is_donor_pr,
+from fa3_donor_readiness import (inspect_registry,pending_prs,pending_prs_graphql,gate,is_donor_pr,
     is_donor_intake_pr,effective_donor_intake_pr,donor_intake_workload,
     MAX_ACTIVE_DONOR_INTAKES,REGISTRY,REJECTION_AUDIT,git_blob_sha,planning_snapshot_findings)
 
@@ -373,6 +375,61 @@ class Tests(unittest.TestCase):
         self.assertEqual(row["workload_units"],7)
         self.assertEqual(row["head_ref"],"fa3/donor-77")
         self.assertEqual(row["head_repo_full_name"],"ubuntuokos/Final-Architecture-v3.0")
+
+
+    def test_graphql_fallback_preserves_complete_live_donor_proof(self):
+        def graph(query,variables):
+            if "pullRequests(states:OPEN" in query:
+                return {"repository":{
+                    "defaultBranchRef":{"name":"main","target":{"oid":"a"*40}},
+                    "pullRequests":{
+                        "nodes":[{
+                            "number":655,
+                            "title":"Donor intake: exact source",
+                            "headRefOid":"b"*40,
+                            "headRefName":"fa3/donor-655",
+                            "headRepository":{"nameWithOwner":"ubuntuokos/Final-Architecture-v3.0"},
+                            "files":{
+                                "totalCount":2,
+                                "nodes":[
+                                    {"path":REGISTRY,"additions":7,"deletions":0},
+                                    {"path":"docs/donor-reference.md","additions":1000,"deletions":0},
+                                ],
+                                "pageInfo":{"hasNextPage":False,"endCursor":None},
+                            },
+                        }],
+                        "pageInfo":{"hasNextPage":False,"endCursor":None},
+                    },
+                }}
+            if "headRepository:repository" in query:
+                return {
+                    "headRepository":{"object":{"oid":"c"*40}},
+                    "baseRepository":{"object":{"oid":"d"*40}},
+                }
+            raise AssertionError(query)
+        rows=pending_prs_graphql(graph)
+        self.assertEqual(len(rows),1)
+        self.assertEqual(rows[0]["number"],655)
+        self.assertTrue(rows[0]["intake"])
+        self.assertEqual(rows[0]["workload_units"],7)
+        self.assertEqual(rows[0]["head_ref"],"fa3/donor-655")
+
+    def test_rest_http_error_uses_authenticated_graphql_proof_and_stays_fail_closed(self):
+        t,root,_=fixture()
+        with t, patch.object(readiness,"pending_prs",
+                             side_effect=urllib.error.HTTPError(
+                                 "https://api.github.com",403,"rate",{},None)), \
+                patch.object(readiness,"pending_prs_graphql",return_value=[]) as fallback, \
+                patch.dict(os.environ,{"GITHUB_TOKEN":"test-token"},clear=False):
+            def get(url):
+                if "/branches/main" in url:
+                    return {"commit":{"sha":"a"*40}}
+                raise AssertionError(url)
+            result=gate(root,"intake",get=get)
+            self.assertEqual(result["result"],"DONOR_INTAKE_SLOT_AVAILABLE")
+            self.assertEqual(result["proof_transport"],
+                             "AUTHENTICATED_GRAPHQL_FALLBACK_AFTER_REST_HTTPERROR")
+            fallback.assert_called_once()
 
     def test_cli_ready_results_return_success(self):
         for result in ("DONOR_INTAKE_SLOT_AVAILABLE","DONOR_INTAKE_READY_TO_FINALIZE"):
