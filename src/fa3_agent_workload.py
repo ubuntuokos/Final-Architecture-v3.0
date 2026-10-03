@@ -6,6 +6,11 @@ import re
 from typing import Any
 
 from fa3_agent_runtime_semantics import capabilities_satisfy, make_execution_ledger, validate_graph, validate_model_capability_descriptor
+from fa3_task_scope_closure import (
+    TaskScopeClosureError,
+    assert_execution_allowed as assert_task_scope_execution_allowed,
+    validate_goal_scope_binding,
+)
 
 TASK_SCHEMA = "fa3.agent-workload-task.v1"
 WORKSPACE_SCHEMA = "fa3.agent-workspace.v1"
@@ -85,6 +90,12 @@ def validate_task(task: dict[str, Any]) -> dict[str, Any]:
     if not isinstance(participants,list) or not all(_nonempty(x) for x in participants):
         raise WorkloadContractError("authorized_ai_participants invalid")
     validate_fanout_limits(task["fanout_limits"])
+    binding=task.get("goal_scope_binding")
+    if binding is not None:
+        try:
+            validate_goal_scope_binding(binding, expected_root_task_id=task["root_task_id"])
+        except TaskScopeClosureError as exc:
+            raise WorkloadContractError(str(exc)) from exc
     _walk_forbidden(task)
     return copy.deepcopy(task)
 
@@ -253,8 +264,22 @@ def compile_execution_plan(
     *,
     task_spec_digest: str,
     max_transfer_hops: int,
+    task_control: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     checked_task = validate_task(task)
+    binding = checked_task.get("goal_scope_binding")
+    if binding is not None:
+        if task_control is None:
+            raise WorkloadContractError("goal-bound workload requires active task scope control")
+        try:
+            assert_task_scope_execution_allowed(
+                task_control,
+                expected_task_id=checked_task["task_id"],
+                expected_root_task_id=checked_task["root_task_id"],
+                expected_binding=binding,
+            )
+        except TaskScopeClosureError as exc:
+            raise WorkloadContractError(str(exc)) from exc
     if not _nonempty(task_spec_digest):
         raise WorkloadContractError("task_spec_digest required for execution plan")
     checked_graph = validate_graph(workflow_graph)
@@ -276,6 +301,8 @@ def compile_execution_plan(
         "model_capability_descriptor": checked_model,
         "required_model_capabilities": sorted(set(required_caps)),
         "ledger": ledger,
+        "task_scope_policy_id": binding.get("policy_id") if binding is not None else None,
+        "task_scope_control_required": binding is not None,
         "authorities": {
             "durable_workflow": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY",
             "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
