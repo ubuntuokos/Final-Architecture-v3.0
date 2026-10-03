@@ -1,0 +1,91 @@
+{
+  "schema": "fa3.decision.v1",
+  "id": "FA3-DEC-SHARED-VOICE-STUDIO-QUICKVIDEO-2026-10-03",
+  "date": "2026-10-03",
+  "status": "APPROVED_MATERIALIZATION",
+  "subject": "Shared Voice I/O, Voice Studio and context-sensitive Shared Voice Plugin including QuickClip quick-video voice workflows",
+  "decision": "MATERIALIZE_SHARED_FIRST_GUI_AND_HOST_CONTRACTS_OVER_EXISTING_FA3_VOICE_AUTHORITY",
+  "owner_approval": {
+    "status": "EXPLICIT",
+    "scope": "FULL_CLOSURE_OF_APPROVED_SHARED_VOICE_STUDIO_AND_QUICKVIDEO_PLAN"
+  },
+  "base_profile": "FA3-VOICE-001",
+  "base_contract": "FA3-VOICE-CONTRACTS-001",
+  "capability_count_before": 175,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "surfaces": {
+    "voice_studio": {
+      "route_id": "create.voice-studio",
+      "application_id": "fa3.voice-studio",
+      "authority": false,
+      "direct_provider_execution": false
+    },
+    "shared_voice_plugin": {
+      "modes": [
+        "QUICK",
+        "STANDARD",
+        "ADVANCED"
+      ],
+      "authority": false,
+      "direct_provider_execution": false
+    },
+    "quickclip": {
+      "application_id": "fa3.quickclip",
+      "features": [
+        "QUICK_VOICE",
+        "FIT_TO_CLIP",
+        "GENERATE_AND_INSERT",
+        "TAKES",
+        "EDITABLE_CAPTIONS",
+        "MUSIC_DUCKING",
+        "QUICK_DUB",
+        "QUICK_NARRATION"
+      ]
+    },
+    "activity_overlay": {
+      "states": [
+        "LISTENING",
+        "RECORDING",
+        "TRANSCRIBING",
+        "REFINING",
+        "GENERATING",
+        "SPEAKING",
+        "PAUSED",
+        "BLOCKED",
+        "ERROR"
+      ],
+      "hidden_agent_speech_forbidden": true
+    }
+  },
+  "authority_boundaries": {
+    "voice": "FA3-VOICE-001",
+    "model_provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "durable_workflow": "TEMPORAL",
+    "tool_mediation": "CENTRAL_MCP_GATEWAY_UAF",
+    "rights": "FA3-LICENSE-RIGHTS-001"
+  },
+  "donor_boundary": {
+    "voicebox_source": "https://github.com/jamiepine/voicebox",
+    "status": "OWNER_MARKED_PENDING_CANONICAL_INTAKE_NOT_REQUIRED_FOR_NATIVE_MATERIALIZATION",
+    "usage_edge_created": false,
+    "code_imported": false,
+    "runtime_dependency": false,
+    "provider_admission": false,
+    "materialization_basis": "FA3_NATIVE_PLUS_ALREADY_PUBLISHED_CANONICAL_PATTERNS"
+  },
+  "hardware": {
+    "cpu_only_path_required": true,
+    "accelerator_cardinality": "0..N",
+    "application_device_selection_forbidden": true,
+    "display_gpu_policy": "EXISTING_FA3_DISPLAY_GPU_RULE",
+    "silent_device_fallback": false
+  },
+  "current_host": {
+    "structural_gui_reassessment_required": true,
+    "physical_pass_claimed": false,
+    "runtime_promotion_claimed": false
+  }
+}
