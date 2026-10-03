@@ -9,14 +9,24 @@
   "new_architectural_authority": false,
   "scope": {
     "fa3_applications": "ALL",
-    "lifecycle_states": ["PLANNED", "IN_PROGRESS", "MATERIALIZED", "UPDATED", "FUTURE"],
+    "lifecycle_states": [
+      "PLANNED",
+      "IN_PROGRESS",
+      "MATERIALIZED",
+      "UPDATED",
+      "FUTURE"
+    ],
     "retroactive": true,
     "forward_enforced": true,
     "continuous_change_sync": true,
     "grandfathering_allowed": false
   },
   "gui_classification": {
-    "allowed": ["GUI_REQUIRED", "GUI_POSSIBLE", "HEADLESS_ONLY"],
+    "allowed": [
+      "GUI_REQUIRED",
+      "GUI_POSSIBLE",
+      "HEADLESS_ONLY"
+    ],
     "gui_required_or_possible_requires_design": true,
     "headless_only_requires_explicit_justification": true
   },
@@ -25,8 +35,17 @@
     "global_path_model": "FA3_PLATFORM -> PRODUCT_FAMILY -> APPLICATION -> SURFACE",
     "application_local_placement_required": true,
     "application_local_targets": [
-      "MENU", "SUBMENU", "TOOLBAR", "PANEL", "WORKSPACE", "CONTEXT_MENU",
-      "COMMAND_PALETTE", "SETTINGS", "STATUS_PROGRESS", "SHORTCUT", "HELP_MANUAL"
+      "MENU",
+      "SUBMENU",
+      "TOOLBAR",
+      "PANEL",
+      "WORKSPACE",
+      "CONTEXT_MENU",
+      "COMMAND_PALETTE",
+      "SETTINGS",
+      "STATUS_PROGRESS",
+      "SHORTCUT",
+      "HELP_MANUAL"
     ],
     "proposal_may_be_machine_generated": true,
     "exact_final_application_local_placement_requires_owner_approval": true,
@@ -53,14 +72,26 @@
   "change_synchronization": {
     "functional_delta_requires_gui_impact_assessment": true,
     "triggers": [
-      "FUNCTION_ADDED", "FUNCTION_REMOVED", "FUNCTION_CHANGED", "FUNCTION_MERGED",
-      "FUNCTION_SPLIT", "FUNCTION_MOVED", "WORKFLOW_CHANGED", "SHARED_CAPABILITY_CHANGED",
-      "PLUGIN_EXTENSION_CHANGED", "SETTING_CHANGED", "ENGINE_PROVIDER_CHOICE_CHANGED",
-      "PERMISSION_MODEL_CHANGED", "APPLICATION_STRUCTURE_CHANGED"
+      "FUNCTION_ADDED",
+      "FUNCTION_REMOVED",
+      "FUNCTION_CHANGED",
+      "FUNCTION_MERGED",
+      "FUNCTION_SPLIT",
+      "FUNCTION_MOVED",
+      "WORKFLOW_CHANGED",
+      "SHARED_CAPABILITY_CHANGED",
+      "PLUGIN_EXTENSION_CHANGED",
+      "SETTING_CHANGED",
+      "ENGINE_PROVIDER_CHOICE_CHANGED",
+      "PERMISSION_MODEL_CHANGED",
+      "APPLICATION_STRUCTURE_CHANGED"
     ],
     "dispositions": [
-      "NO_GUI_CHANGE", "GUI_UPDATE_REQUIRED", "GUI_REDESIGN_REQUIRED",
-      "NEW_GUI_SURFACE_REQUIRED", "GUI_ELEMENT_REMOVAL_REQUIRED"
+      "NO_GUI_CHANGE",
+      "GUI_UPDATE_REQUIRED",
+      "GUI_REDESIGN_REQUIRED",
+      "NEW_GUI_SURFACE_REQUIRED",
+      "GUI_ELEMENT_REMOVAL_REQUIRED"
     ],
     "removed_function_may_not_leave_orphan_gui": true,
     "gui_revision_may_not_lag_required_functional_revision": true,
@@ -97,5 +128,11 @@
     "static_governance_change": true,
     "current_host_runtime_promotion_claim": false,
     "physical_current_host_pass_not_inferred": true
+  },
+  "application_finalization": {
+    "governed_gui_design_record_required": true,
+    "gui_required_or_possible_owner_approved_exact_local_placement_required": true,
+    "missing_or_unresolved_record": "FAIL_CLOSED",
+    "historical_approval_inference_forbidden": true
   }
 }
