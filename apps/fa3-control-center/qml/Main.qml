@@ -76,7 +76,9 @@ ApplicationWindow {
         "create.narration-studio": 38,
         "agents.orchestration-monitor": 39,
         "create.ai-module-factory": 40,
-        "models.engines": 41
+        "models.engines": 41,
+        "create.voice-studio": 42,
+        "create.quick-voice-plugin": 43
     })
 
     function routeIndex(routeId) {
@@ -163,6 +165,8 @@ ApplicationWindow {
         {title: "AI Module Factory", detail: "Jóváhagyott FA3 munkákból rights- és provenance-gated modultervek CAP-095 handoffal", category: "FUNCTION", routeId: "create.ai-module-factory"},
         {title: "Subtitle Studio", detail: "Fókuszált felirat authoring, sync, QC és formátumkezelés", category: "FUNCTION", routeId: "create.subtitle-studio"},
         {title: "Narration Studio", detail: "Feliratból narráció, voice-over és dubbing tervezés", category: "FUNCTION", routeId: "create.narration-studio"},
+        {title: "Voice Studio", detail: "Shared Voice I/O: generálás, profilok, capture, transform, Stories és dubbing", category: "FUNCTION", routeId: "create.voice-studio"},
+        {title: "Quick Voice Plugin", detail: "QuickClip / gyorsvideó voice plugin, Fit-to-Clip, takes és Quick Dub", category: "FUNCTION", routeId: "create.quick-voice-plugin"},
         {title: "Image", detail: "AI Studio kép pipeline", category: "FUNCTION", routeId: "create.ai-studio"},
         {title: "Video", detail: "AI Studio videó pipeline", category: "FUNCTION", routeId: "create.ai-studio"},
         {title: "Animation", detail: "AI Studio animáció", category: "FUNCTION", routeId: "create.ai-studio"},
@@ -1778,6 +1782,28 @@ ApplicationWindow {
                     ]
                 }
 
+                VoiceStudioPage {
+                    panel: window.panel
+                    panelRaised: window.panelRaised
+                    border: window.border
+                    textPrimary: window.textPrimary
+                    textMuted: window.textMuted
+                    accent: window.magenta
+                    green: window.green
+                    orange: window.orange
+                }
+
+                QuickVoicePluginPage {
+                    panel: window.panel
+                    panelRaised: window.panelRaised
+                    border: window.border
+                    textPrimary: window.textPrimary
+                    textMuted: window.textMuted
+                    accent: window.accent
+                    green: window.green
+                    orange: window.orange
+                }
+
                 EngineManagerPage {
                     engineController: fa3EngineSelector
                 }
@@ -1804,6 +1830,23 @@ ApplicationWindow {
                 }
             }
         }
+    }
+
+    VoiceActivityOverlay {
+        id: voiceActivityOverlay
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.rightMargin: 22
+        anchors.bottomMargin: window.statusStripVisible ? 56 : 22
+        activityState: "IDLE"
+        applicationName: "QuickClip"
+        actorName: "Assistant"
+        voiceName: "Narrator (hu-HU)"
+        panel: "#111318"
+        border: window.border
+        textPrimary: window.textPrimary
+        textMuted: window.textMuted
+        accent: window.accent
     }
 
     Dialog {
