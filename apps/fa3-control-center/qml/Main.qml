@@ -175,7 +175,7 @@ ApplicationWindow {
         {title: "Agent Action Center", detail: "Agent Native / UAF action contractok, approval és evidence flow", category: "FUNCTION", routeId: "agents.action-center"},
         {title: "Agents & Workflows", detail: "Agentek, taskok és durable workflow-k", category: "FUNCTION", routeId: "agents.workflows"},
         {title: "Orchestration Monitor", detail: "Temporal, hét vezérlési profil, liveness és felügyelt DRAFT átállítások", category: "FUNCTION", routeId: "agents.orchestration-monitor"},
-        {title: "Models & Providers", detail: "Provider registry és inference felületek", category: "FUNCTION", routeId: "models.providers"},
+        {title: "Models & Providers", detail: "Provider registry és inference felületek", category: "FUNCTION", routeId: "models.providers"},\n        {title: "Engine & Provider Manager", detail: "Motorleltár, capability-szűrés, scope-os preferenciák és statikus összehasonlítás", category: "FUNCTION", routeId: "models.engines"},
         {title: "Model Manager", detail: "Modellek felderítése és nyilvántartása", category: "FUNCTION", routeId: "models.manager"},
         {title: "Checkpoint Manager", detail: "Checkpoint, LoRA, VAE és adapter artifact governance", category: "FUNCTION", routeId: "models.checkpoints"},
         {title: "External Providers Setup", detail: "Külső/fizetős provider engedélyezés, budget és credential state", category: "FUNCTION", routeId: "models.external-providers"},
@@ -699,7 +699,7 @@ ApplicationWindow {
 
                         Item { Layout.preferredHeight: 8 }
                         Label { text: "MODELS & DATA"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
-                        NavButton { iconText: "◫"; label: "Models & Providers"; routeId: "models.providers" }
+                        NavButton { iconText: "◫"; label: "Models & Providers"; routeId: "models.providers" }\n                        NavButton { iconText: "E"; label: "Engine Manager"; routeId: "models.engines" }
                         NavButton { iconText: "▦"; label: "Model Manager"; routeId: "models.manager" }
                         NavButton { iconText: "◧"; label: "Checkpoint Manager"; routeId: "models.checkpoints" }
                         NavButton { iconText: "☁"; label: "Remote AI Hub"; routeId: "models.remote-ai" }

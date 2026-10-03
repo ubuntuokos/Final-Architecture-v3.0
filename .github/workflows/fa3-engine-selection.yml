@@ -14,6 +14,13 @@ on:
       - 'src/fa3_engine_selector_gate.py'
       - 'tests/test_engine_selector.py'
       - 'apps/shared/engine-selector/qml/EngineSelectorPanel.qml'
+      - 'apps/fa3-control-center/CMakeLists.txt'
+      - 'apps/fa3-control-center/src/EngineSelectorService.cpp'
+      - 'apps/fa3-control-center/src/EngineSelectorService.h'
+      - 'apps/fa3-control-center/src/main.cpp'
+      - 'apps/fa3-control-center/qml/EngineManagerPage.qml'
+      - 'apps/fa3-control-center/qml/Main.qml'
+      - 'canonical/FA3-GUI-SURFACE-REGISTRY-001.json'
       - 'docs/engine-selector.md'
       - '.github/workflows/fa3-engine-selection.yml'
   workflow_dispatch:

@@ -74,6 +74,18 @@ class EngineSelectorTests(unittest.TestCase):
                 self.catalog,engine_id="FA3-ENGINE-MLT-001",scope="PROJECT",
                 required_capabilities=["CAP-043"])
 
+    def test_control_center_engine_manager_wiring(self):
+        main=(ROOT/"apps/fa3-control-center/qml/Main.qml").read_text(encoding="utf-8")
+        main_cpp=(ROOT/"apps/fa3-control-center/src/main.cpp").read_text(encoding="utf-8")
+        cmake=(ROOT/"apps/fa3-control-center/CMakeLists.txt").read_text(encoding="utf-8")
+        service=(ROOT/"apps/fa3-control-center/src/EngineSelectorService.cpp").read_text(encoding="utf-8")
+        self.assertIn('"models.engines"',main)
+        self.assertIn("EngineManagerPage",main)
+        self.assertIn('setContextProperty("fa3EngineSelector"',main_cpp)
+        self.assertIn("EngineSelectorService.cpp",cmake)
+        self.assertIn("prepareSelection",service)
+        self.assertIn("execution_requested",service)
+
     def test_static_compare_does_not_execute(self):
         rows=compare_static(self.catalog,[
             "FA3-ENGINE-MLT-001",

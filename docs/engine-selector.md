@@ -59,7 +59,7 @@ Fallback modes are `OFF`, `ASK` and `APPROVED_ONLY`.
 - compare selection;
 - explicit preference setting.
 
-Application adapters supply a controller that exposes the canonical catalog and converts GUI actions into `fa3.engine-selection-intent.v1` objects.
+Application adapters supply a controller that exposes the canonical catalog and converts GUI actions into `fa3.engine-selection-intent.v1` objects. The first concrete adapter is `EngineSelectorService` in FA3 Control Center, exposed at the stable `models.engines` route. It loads the static registry plus provider projections from canonical profile/provider records and supports filtering, scoped preference intents and static comparison without direct execution.
 
 ## Reference implementation
 

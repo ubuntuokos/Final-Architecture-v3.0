@@ -29,6 +29,12 @@ def gate(root: Path) -> dict[str, Any]:
         "enforcement":root/"canonical/engine-selection-enforcement.json",
         "selector":root/"src/fa3_engine_selector.py",
         "qml":root/"apps/shared/engine-selector/qml/EngineSelectorPanel.qml",
+        "control_service":root/"apps/fa3-control-center/src/EngineSelectorService.cpp",
+        "control_page":root/"apps/fa3-control-center/qml/EngineManagerPage.qml",
+        "control_main":root/"apps/fa3-control-center/qml/Main.qml",
+        "control_main_cpp":root/"apps/fa3-control-center/src/main.cpp",
+        "control_cmake":root/"apps/fa3-control-center/CMakeLists.txt",
+        "gui_registry":root/"canonical/FA3-GUI-SURFACE-REGISTRY-001.json",
     }
     for name,path in paths.items():
         if not path.is_file():

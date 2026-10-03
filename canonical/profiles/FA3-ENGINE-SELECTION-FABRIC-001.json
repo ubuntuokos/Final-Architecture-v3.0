@@ -62,7 +62,11 @@
     "multi_scope_override": true,
     "compare_surface": true,
     "health_visibility": true,
-    "privacy_cost_license_hardware_filters": true
+    "privacy_cost_license_hardware_filters": true,
+    "control_center_route": "models.engines",
+    "control_center_page": "apps/fa3-control-center/qml/EngineManagerPage.qml",
+    "control_center_service": "apps/fa3-control-center/src/EngineSelectorService.cpp",
+    "runtime_projection": "CATALOG_FILTER_COMPARE_AND_NON_EXECUTING_SELECTION_INTENT"
   },
   "current_host_runtime_promotion_claim": false
-}
+}\n

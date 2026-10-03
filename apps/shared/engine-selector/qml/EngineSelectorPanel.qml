@@ -9,6 +9,7 @@ Item {
     property string selectionScope: scopeBox.currentText
     property var selectedEngine: ({})
     property var compareIds: []
+    property var lastOutput: ({})
 
     function refresh() {
         if (!controller) {
@@ -55,7 +56,7 @@ Item {
         }
 
         RowLayout {
-            CheckBox { id: localOnly; text: "Local"; checked: false; onToggled: root.refresh() }
+            CheckBox { id: localOnly; text: "Local"; checked: true; onToggled: root.refresh() }
             CheckBox { id: lanAllowed; text: "LAN"; checked: true; onToggled: root.refresh() }
             CheckBox { id: cloudAllowed; text: "Cloud"; checked: false; onToggled: root.refresh() }
             CheckBox { id: showUnavailable; text: "Show unavailable/planned"; checked: true; onToggled: root.refresh() }
@@ -147,7 +148,7 @@ Item {
                         Button {
                             text: "Compare selected"
                             enabled: !!controller
-                            onClicked: controller.prepareComparison()
+                            onClicked: root.lastOutput = controller.prepareComparison()
                         }
                     }
                     Item { Layout.fillHeight: true }
