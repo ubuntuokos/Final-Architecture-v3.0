@@ -1,0 +1,27 @@
+{
+  "schema": "fa3.product-catalog.v1",
+  "id": "FA3-PRODUCT-CATALOG-001",
+  "status": "CANONICAL_DERIVED_PRODUCT_CATALOG",
+  "authority": false,
+  "derived": true,
+  "source_of_execution_truth": false,
+  "capability_count": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "sources": [
+    "FA3-APPLICATION-PORTFOLIO-001",
+    "FA3-OPERATING-LEVEL-MODEL-001",
+    "FA3-DOMAIN-PACK-REGISTRY-001",
+    "FA3-ENTITLEMENT-POLICY-001",
+    "FA3-APPLICATION-DEPENDENCY-REGISTRY-001"
+  ],
+  "selection_modes": [
+    "INDIVIDUAL_APPLICATIONS",
+    "DOMAIN_PACK",
+    "MIXED"
+  ],
+  "operating_level_is_application_bundle": false,
+  "individual_selection_default": true,
+  "custom_composition_supported_through_enterprise": true,
+  "runtime_dependency_projection_is_separate_from_purchased_application_projection": true
+}

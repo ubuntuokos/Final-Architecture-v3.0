@@ -1,0 +1,28 @@
+name: FA3 Product Entitlement
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  product-entitlement:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {fetch-depth: 0, persist-credentials: false}
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with: {python-version: '3.12'}
+      - run: python3 -m py_compile src/fa3_product_entitlement.py src/fa3_product_entitlement_gate.py bin/fa3-product-entitlement
+      - env: {PYTHONPATH: src}
+        run: python3 -m unittest tests.test_product_entitlement -v
+      - env: {PYTHONPATH: src}
+        run: python3 src/fa3_product_entitlement_gate.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fa3-product-entitlement
+          path: reports/product-entitlement-gate-report.json
+          if-no-files-found: error

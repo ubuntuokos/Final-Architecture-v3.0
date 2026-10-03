@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "fa3.application-portfolio.v1",
+  "title": "FA3 Application Portfolio",
+  "type": "object",
+  "required": [
+    "schema",
+    "id",
+    "capability_count",
+    "portfolio_states",
+    "application_classes",
+    "applications"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.application-portfolio.v1"
+    },
+    "id": {
+      "const": "FA3-APPLICATION-PORTFOLIO-001"
+    },
+    "capability_count": {
+      "const": 175
+    },
+    "applications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "application_id",
+          "name",
+          "application_class",
+          "portfolio_state",
+          "minimum_operating_level",
+          "supported_operating_levels",
+          "individually_entitleable"
+        ],
+        "properties": {
+          "application_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "portfolio_state": {
+            "enum": [
+              "FUTURE",
+              "PLANNED",
+              "IN_PROGRESS",
+              "EXISTING",
+              "RETIRED"
+            ]
+          },
+          "minimum_operating_level": {
+            "enum": [
+              "MINIMAL",
+              "PERSONAL",
+              "PROFESSIONAL",
+              "STUDIO",
+              "BUSINESS",
+              "ENTERPRISE"
+            ]
+          },
+          "supported_operating_levels": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "MINIMAL",
+                "PERSONAL",
+                "PROFESSIONAL",
+                "STUDIO",
+                "BUSINESS",
+                "ENTERPRISE"
+              ]
+            },
+            "uniqueItems": true
+          },
+          "individually_entitleable": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  }
+}
