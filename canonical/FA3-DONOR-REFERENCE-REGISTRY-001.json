@@ -111,103 +111,6 @@
   },
   "entries": [
     {
-      "donor_id": "FA3-DONOR-0XDEVALIAS-AI-VOICE-CLONING-GIST-001",
-      "name": "0xdevalias AI Voice Cloning Gist",
-      "source": {
-        "kind": "GIST",
-        "locator": "https://gist.github.com/0xdevalias/bb618bba1f0c9038e4bf740de884ac99",
-        "normalized_key": "gist:0xdevalias/bb618bba1f0c9038e4bf740de884ac99"
-      },
-      "status": "ACCEPTED_REFERENCE",
-      "submission_review": {
-        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
-        "scope": "REFERENCE_REGISTRATION_ONLY",
-        "second_registry_approval_required": false,
-        "approval_ref": "docs/donor-ai-voice-cloning-gist-2026-10-03.md"
-      },
-      "discovered_from": [
-        "owner-explicit-donornak-2026-10-03-ai-voice-cloning-gist"
-      ],
-      "first_seen": "2026-10-03",
-      "last_seen": "2026-10-03",
-      "discoverable_for_planning": true,
-      "authority": false,
-      "automatic_selection": false,
-      "automatic_fetch": false,
-      "automatic_install": false,
-      "automatic_activation": false,
-      "automatic_dependency": false,
-      "automatic_code_import": false,
-      "automatic_provider_admission": false,
-      "automatic_model_selection": false,
-      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
-      "donor_modes": [
-        "DISCOVERY_INDEX",
-        "RESEARCH_REFERENCE",
-        "WORKFLOW_REFERENCE"
-      ],
-      "license": {
-        "declared": "UNKNOWN",
-        "status": "UNKNOWN"
-      },
-      "capability_hints": [
-        "voice-cloning-discovery",
-        "voice-conversion-discovery",
-        "realtime-voice-conversion-discovery",
-        "singing-voice-conversion-discovery",
-        "voice-style-and-prosody-discovery",
-        "speech-representation-discovery",
-        "voice-workflow-and-gui-discovery",
-        "multi-engine-provider-discovery"
-      ],
-      "domain_hints": [
-        "audio",
-        "voice",
-        "speech",
-        "music",
-        "dubbing",
-        "digital-human",
-        "realtime-ai"
-      ],
-      "problem_hints": [
-        "provider-neutral-voice-transformation",
-        "realtime-voice-routing",
-        "singing-voice-conversion",
-        "voice-identity-and-consent",
-        "engine-independent-speech-representation"
-      ],
-      "target_hints": [
-        "FA3-VOICE-001",
-        "FA3 Audio Fabric",
-        "Music Studio",
-        "Dubbing & Synchronization",
-        "Digital Human",
-        "Character Studio",
-        "Story/Screenplay",
-        "Video Editor",
-        "Meeting & Conference"
-      ],
-      "tags": [
-        "explicit-owner-donornak",
-        "metadata-only",
-        "gist",
-        "discovery-only",
-        "voice-cloning",
-        "voice-conversion",
-        "realtime-voice",
-        "singing-voice",
-        "speech-representation"
-      ],
-      "notes": [
-        "Owner explicitly marked this exact Gist URL with donornak on 2026-10-03; registration is reference/discovery only.",
-        "The Gist is a curated AI voice-cloning index and is forked from d00m4ace/ai-voice-cloning.md; it lists services, guides and tools including OpenVoice, RVC, AICoverGen, w-okada voice-changer, DDSP-SVC, MMVC Trainer, so-vits-svc, QuickVC and ContentVec.",
-        "Child repositories and services are not recursively registered, admitted, downloaded, installed or promoted. Source-specific donor/reuse requires the normal explicit-owner marker and independent admission review.",
-        "No license is declared for the Gist content itself in the inspected page; source copying remains blocked pending rights review. Functional discovery and clean FA3-native planning are allowed.",
-        "The existing FA3-VOICE-001 remains the only provider-neutral voice fabric. This intake creates no parallel voice, routing, identity, consent, hardware or evidence authority.",
-        "Capability baseline remains 175; Model Router, Host Resource Broker, License & Rights, Security and Current Host evidence boundaries remain unchanged."
-      ]
-    },
-    {
       "donor_id": "FA3-DONOR-0XSLINE-STORYGEN-ATELIER-001",
       "name": "0xsline/StoryGen-Atelier",
       "source": {
@@ -87230,98 +87133,6 @@
       ]
     },
     {
-      "donor_id": "FA3-DONOR-WORKFLOW-TOPIC-001",
-      "name": "GitHub workflow topic discovery index",
-      "source": {
-        "kind": "GITHUB_TOPIC",
-        "locator": "https://github.com/topics/workflow",
-        "normalized_key": "github:topics/workflow",
-        "discovery_urls": [
-          "https://github.com/topics/workflow"
-        ]
-      },
-      "status": "ACCEPTED_REFERENCE",
-      "submission_review": {
-        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
-        "scope": "REFERENCE_REGISTRATION_ONLY",
-        "second_registry_approval_required": false,
-        "approval_ref": "docs/donor-workflow-topic-2026-10-03.md"
-      },
-      "discovered_from": [
-        "owner-explicit-donornak-2026-10-03-workflow-topic"
-      ],
-      "first_seen": "2026-10-03",
-      "last_seen": "2026-10-03",
-      "discoverable_for_planning": true,
-      "authority": false,
-      "automatic_selection": false,
-      "automatic_fetch": false,
-      "automatic_install": false,
-      "automatic_activation": false,
-      "automatic_dependency": false,
-      "automatic_code_import": false,
-      "automatic_provider_admission": false,
-      "automatic_model_selection": false,
-      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
-      "donor_modes": [
-        "DISCOVERY_INDEX",
-        "RESEARCH_REFERENCE"
-      ],
-      "license": {
-        "declared": "NOT_APPLICABLE",
-        "status": "COLLECTION_INDEX"
-      },
-      "notes": [
-        "Owner explicitly marked this exact URL with donornak on 2026-10-03; registration is metadata/reference only.",
-        "The GitHub workflow topic is a discovery index. Child repositories are not recursively registered, adopted, downloaded, installed or promoted.",
-        "Any repository discovered through this source requires independent donor/reuse, license/provenance, security, Software Coexistence, Hardware Safety where applicable, shared-capability/layer placement and usage-edge review before material use.",
-        "Temporal remains the sole FA3 global durable lifecycle authority; discovery through this index cannot create or replace an architectural authority."
-      ],
-      "capability_hints": [
-        "workflow-orchestration-pattern-discovery",
-        "visual-workflow-authoring-discovery",
-        "state-lifecycle-model-discovery",
-        "event-scheduling-retry-discovery",
-        "automation-connector-discovery",
-        "human-approval-process-discovery",
-        "agent-mcp-workflow-discovery",
-        "browser-and-container-workflow-discovery"
-      ],
-      "domain_hints": [
-        "workflow",
-        "orchestration",
-        "automation",
-        "state-machine",
-        "scheduling",
-        "human-workflow",
-        "agent-workflow",
-        "browser-workflow",
-        "data-workflow"
-      ],
-      "problem_hints": [
-        "workflow-pattern-discovery",
-        "child-repository-requires-independent-review",
-        "duplicate-existing-donor-reconciliation-required"
-      ],
-      "target_hints": [
-        "Orchestration & Workflow Fabric",
-        "Workflow Designer",
-        "Workflow Observability",
-        "Task Group Policy",
-        "Agent / MCP Workflow",
-        "Human Approval Fabric"
-      ],
-      "tags": [
-        "explicit-owner-donornak",
-        "metadata-only",
-        "dynamic-github-topic",
-        "discovery-only",
-        "workflow",
-        "orchestration",
-        "topic"
-      ]
-    },
-    {
       "donor_id": "FA3-DONOR-XATLAS-001",
       "name": "xatlas",
       "source": {
@@ -88684,6 +88495,195 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-WORKFLOW-TOPIC-001",
+      "name": "GitHub workflow topic discovery index",
+      "source": {
+        "kind": "GITHUB_TOPIC",
+        "locator": "https://github.com/topics/workflow",
+        "normalized_key": "github:topics/workflow",
+        "discovery_urls": [
+          "https://github.com/topics/workflow"
+        ]
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false,
+        "approval_ref": "docs/donor-workflow-topic-2026-10-03.md"
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-10-03-workflow-topic"
+      ],
+      "first_seen": "2026-10-03",
+      "last_seen": "2026-10-03",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      },
+      "notes": [
+        "Owner explicitly marked this exact URL with donornak on 2026-10-03; registration is metadata/reference only.",
+        "The GitHub workflow topic is a discovery index. Child repositories are not recursively registered, adopted, downloaded, installed or promoted.",
+        "Any repository discovered through this source requires independent donor/reuse, license/provenance, security, Software Coexistence, Hardware Safety where applicable, shared-capability/layer placement and usage-edge review before material use.",
+        "Temporal remains the sole FA3 global durable lifecycle authority; discovery through this index cannot create or replace an architectural authority."
+      ],
+      "capability_hints": [
+        "workflow-orchestration-pattern-discovery",
+        "visual-workflow-authoring-discovery",
+        "state-lifecycle-model-discovery",
+        "event-scheduling-retry-discovery",
+        "automation-connector-discovery",
+        "human-approval-process-discovery",
+        "agent-mcp-workflow-discovery",
+        "browser-and-container-workflow-discovery"
+      ],
+      "domain_hints": [
+        "workflow",
+        "orchestration",
+        "automation",
+        "state-machine",
+        "scheduling",
+        "human-workflow",
+        "agent-workflow",
+        "browser-workflow",
+        "data-workflow"
+      ],
+      "problem_hints": [
+        "workflow-pattern-discovery",
+        "child-repository-requires-independent-review",
+        "duplicate-existing-donor-reconciliation-required"
+      ],
+      "target_hints": [
+        "Orchestration & Workflow Fabric",
+        "Workflow Designer",
+        "Workflow Observability",
+        "Task Group Policy",
+        "Agent / MCP Workflow",
+        "Human Approval Fabric"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "dynamic-github-topic",
+        "discovery-only",
+        "workflow",
+        "orchestration",
+        "topic"
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-0XDEVALIAS-AI-VOICE-CLONING-GIST-001",
+      "name": "0xdevalias AI Voice Cloning Gist",
+      "source": {
+        "kind": "GIST",
+        "locator": "https://gist.github.com/0xdevalias/bb618bba1f0c9038e4bf740de884ac99",
+        "normalized_key": "gist:0xdevalias/bb618bba1f0c9038e4bf740de884ac99"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
+        "scope": "REFERENCE_REGISTRATION_ONLY",
+        "second_registry_approval_required": false,
+        "approval_ref": "docs/donor-ai-voice-cloning-gist-2026-10-03.md"
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-10-03-ai-voice-cloning-gist"
+      ],
+      "first_seen": "2026-10-03",
+      "last_seen": "2026-10-03",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE",
+        "WORKFLOW_REFERENCE"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      },
+      "capability_hints": [
+        "voice-cloning-discovery",
+        "voice-conversion-discovery",
+        "realtime-voice-conversion-discovery",
+        "singing-voice-conversion-discovery",
+        "voice-style-and-prosody-discovery",
+        "speech-representation-discovery",
+        "voice-workflow-and-gui-discovery",
+        "multi-engine-provider-discovery"
+      ],
+      "domain_hints": [
+        "audio",
+        "voice",
+        "speech",
+        "music",
+        "dubbing",
+        "digital-human",
+        "realtime-ai"
+      ],
+      "problem_hints": [
+        "provider-neutral-voice-transformation",
+        "realtime-voice-routing",
+        "singing-voice-conversion",
+        "voice-identity-and-consent",
+        "engine-independent-speech-representation"
+      ],
+      "target_hints": [
+        "FA3-VOICE-001",
+        "FA3 Audio Fabric",
+        "Music Studio",
+        "Dubbing & Synchronization",
+        "Digital Human",
+        "Character Studio",
+        "Story/Screenplay",
+        "Video Editor",
+        "Meeting & Conference"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "metadata-only",
+        "gist",
+        "discovery-only",
+        "voice-cloning",
+        "voice-conversion",
+        "realtime-voice",
+        "singing-voice",
+        "speech-representation"
+      ],
+      "notes": [
+        "Owner explicitly marked this exact Gist URL with donornak on 2026-10-03; registration is reference/discovery only.",
+        "The Gist is a curated AI voice-cloning index and is forked from d00m4ace/ai-voice-cloning.md; it lists services, guides and tools including OpenVoice, RVC, AICoverGen, w-okada voice-changer, DDSP-SVC, MMVC Trainer, so-vits-svc, QuickVC and ContentVec.",
+        "Child repositories and services are not recursively registered, admitted, downloaded, installed or promoted. Source-specific donor/reuse requires the normal explicit-owner marker and independent admission review.",
+        "No license is declared for the Gist content itself in the inspected page; source copying remains blocked pending rights review. Functional discovery and clean FA3-native planning are allowed.",
+        "The existing FA3-VOICE-001 remains the only provider-neutral voice fabric. This intake creates no parallel voice, routing, identity, consent, hardware or evidence authority.",
+        "Capability baseline remains 175; Model Router, Host Resource Broker, License & Rights, Security and Current Host evidence boundaries remain unchanged."
+      ]
     }
   ],
   "historical_partial_reuse_review": {
