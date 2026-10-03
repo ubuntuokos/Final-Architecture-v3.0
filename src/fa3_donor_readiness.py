@@ -49,6 +49,7 @@ EXEMPT_HISTORICAL_HEADS = {
 DONOR_PREFIXES = ("docs/donor-repair/", "docs/donor-", "docs/donors-",
                   "bin/fa3-donor-", "tests/test_donor_", "tests/test_donors_",
                   "canonical/deltas/FA3-DONOR-")
+MAX_ACTIVE_DONOR_INTAKES = 5
 
 def inspect_registry(root):
     raw = (root / REGISTRY).read_bytes()
@@ -179,6 +180,32 @@ def effective_donor_intake_pr(pr,files,get,repo=REPO):
             return True
     return False
 
+def donor_intake_workload(files):
+    """Estimate intake size from canonical donor-mutation diff units.
+
+    Only canonical registry/intake-delta changes count toward the ordering.
+    GitHub per-file changes is preferred; additions+deletions are the fallback,
+    and unreadable or missing stats fail conservatively to one unit.
+    """
+    units=0
+    found=False
+    for f in files:
+        name=f.get("filename") if isinstance(f,dict) else None
+        if not isinstance(name,str):
+            raise ValueError("UNREADABLE_PR_FILE")
+        if name==REGISTRY or name.startswith("canonical/deltas/FA3-DONOR-"):
+            found=True
+            changes=f.get("changes")
+            if not isinstance(changes,int) or changes < 0:
+                additions=f.get("additions")
+                deletions=f.get("deletions")
+                if isinstance(additions,int) and additions >= 0 and isinstance(deletions,int) and deletions >= 0:
+                    changes=additions+deletions
+                else:
+                    changes=1
+            units += max(1,changes)
+    return units if found else 0
+
 def is_donor_pr(pr,files):
     title=str(pr.get("title","")).lower()
     if "donor" in title: return True
@@ -211,9 +238,11 @@ def pending_prs(get,repo=REPO):
                     pr.get("head",{}).get("sha")==EXEMPT_HISTORICAL_HEADS[n]):
                 continue
             if is_donor_pr(pr,files):
+                intake=effective_donor_intake_pr(pr,files,get,repo)
                 found.append({"number":n,"title":pr.get("title"),
                               "head_sha":pr.get("head",{}).get("sha"),
-                              "intake":effective_donor_intake_pr(pr,files,get,repo)})
+                              "intake":intake,
+                              "workload_units":donor_intake_workload(files) if intake else None})
         if len(prs)<100: return sorted(found,key=lambda p:p["number"])
     raise ValueError("TOO_MANY_OPEN_PRS")
 
@@ -320,22 +349,46 @@ def gate(root,phase="status",token="",assessment=None,plan=None,approval=None,
         if before!=after:result["findings"].append("MAIN_MOVED_DURING_SCAN")
         if result["findings"]:return result
         if phase=="intake":
-            # Only an actual canonical registry or intake-delta mutation
-            # owns the cross-conversation slot. A governance-only donor PR
-            # must not block the first genuine intake.
-            # GitHub Actions concurrency serializes admission evaluations.
+            # Owner-approved rolling donor-intake window:
+            # - at most five genuine canonical intake PRs are active;
+            # - FIFO controls admission into a newly freed slot;
+            # - within the active window, the smallest canonical donor-mutation
+            #   workload finalizes first, with FIFO as the tie-breaker.
+            # Registry publication itself therefore remains single-finalizer
+            # even though up to five intake requests may be active.
             pending=result["pending_intake_prs"]
-            if pending:
-                first=pending[0]
-                if pr_number is None or first["number"] != pr_number:
-                    result["findings"].append("DONOR_INTAKE_IN_PROGRESS_WAIT_FOR_COMPLETION")
-                    result["active_donor_pr"]=first["number"]
+            active=pending[:MAX_ACTIVE_DONOR_INTAKES]
+            waiting=pending[MAX_ACTIVE_DONOR_INTAKES:]
+            finalization=sorted(
+                active,key=lambda p:(p.get("workload_units",1),p["number"]))
+            result["max_active_donor_intakes"]=MAX_ACTIVE_DONOR_INTAKES
+            result["active_donor_prs"]=[p["number"] for p in active]
+            result["waiting_donor_prs"]=[p["number"] for p in waiting]
+            result["finalization_order"]=[p["number"] for p in finalization]
+            result["available_intake_slots"]=MAX_ACTIVE_DONOR_INTAKES-len(active)
+            result["active_donor_pr"]=finalization[0]["number"] if finalization else None
+
+            if pr_number is None:
+                if len(active) >= MAX_ACTIVE_DONOR_INTAKES:
+                    result["findings"].append("DONOR_INTAKE_ACTIVE_WINDOW_FULL_WAIT_FOR_SLOT")
                     return result
-            elif pr_number is not None:
+                result["result"]="DONOR_INTAKE_SLOT_AVAILABLE"
+                return result
+
+            row=next((p for p in pending if p["number"]==pr_number),None)
+            if row is None:
                 result["findings"].append("INTAKE_PR_NOT_OPEN_OR_NOT_DONOR")
                 return result
-            result["result"]="EXCLUSIVE_DONOR_INTAKE_READY"
-            result["active_donor_pr"]=pr_number
+            if pr_number not in result["active_donor_prs"]:
+                result["findings"].append("DONOR_INTAKE_ACTIVE_WINDOW_FULL_WAIT_FOR_SLOT")
+                return result
+            if finalization and finalization[0]["number"] != pr_number:
+                result["findings"].append("DONOR_INTAKE_ACTIVE_WAIT_FOR_SMALLER_FINALIZATION")
+                result["next_finalizable_donor_pr"]=finalization[0]["number"]
+                return result
+            result["result"]="DONOR_INTAKE_READY_TO_FINALIZE"
+            result["intake_workload_units"]=row.get("workload_units")
+            result["next_finalizable_donor_pr"]=pr_number
             return result
         # Pending intake is deliberately NOT a global planning lock:
         # unmerged donor entries are absent from the published main snapshot.
