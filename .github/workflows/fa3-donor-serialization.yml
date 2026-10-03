@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
   workflow_call:
 concurrency:
-  group: fa3-donor-intake-${{ github.event.pull_request.number || github.ref }}
+  group: fa3-donor-intake-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: false
 permissions:
   contents: read

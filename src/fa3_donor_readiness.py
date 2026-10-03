@@ -50,6 +50,7 @@ DONOR_PREFIXES = ("docs/donor-repair/", "docs/donor-", "docs/donors-",
                   "bin/fa3-donor-", "tests/test_donor_", "tests/test_donors_",
                   "canonical/deltas/FA3-DONOR-")
 MAX_ACTIVE_DONOR_INTAKES = 5
+MAX_GITHUB_PR_FILES = 3000
 
 def inspect_registry(root):
     raw = (root / REGISTRY).read_bytes()
@@ -236,6 +237,11 @@ def pending_prs(get,repo=REPO):
                 if not isinstance(part,list) or len(part)>100:
                     raise ValueError("INCOMPLETE_PR_FILE_LIST:"+str(n))
                 files.extend(part)
+                # GitHub caps the PR-files endpoint at 3,000 files. Reaching
+                # that boundary is indistinguishable from truncation, so do
+                # not derive donor workload or slot priority from partial data.
+                if len(files)>=MAX_GITHUB_PR_FILES:
+                    raise ValueError("PR_FILE_LIST_AT_GITHUB_API_CAP:"+str(n))
                 if len(part)<100: break
             else: raise ValueError("TOO_MANY_PR_FILES:"+str(n))
             if (n in EXEMPT_HISTORICAL_PRS and
