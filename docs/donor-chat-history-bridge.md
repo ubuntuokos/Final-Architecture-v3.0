@@ -8,7 +8,7 @@ the existing Donor & Reference Registry, not a new capability or architectural a
 1. User-supplied ChatGPT exports (ZIP, `conversations.json`, numbered JSON). Only authenticated user-role messages containing a explicit `donornak` label (with or without `:`) BEFORE each link may create entries. Generic donor hints, research links and assistant messages are analysis only.
 2. Owner-authorized local JSONL events. A full-text event must have `{"text":"donornak: https://github.com/example/tool","speaker_role":"user","owner_submitted_link":true}`. A structured event must include `{"potential_donor":true,"name":"example/tool","source":"https://github.com/example/tool","speaker_role":"user","owner_submitted_link":true,"owner_donor_marker":"donornak"}`. A potential-donor flag alone does not enroll a link.
 
-This importer is NOT subscribed to ChatGPT and cannot automatically monitor conversations, request exports or fetch account data. It never publishes a registry commit. The existing GitHub intake gate must be used before publishing the resultant changes; only one conversation may perform actual canonical donor intake while another is changing the registry or a canonical donor-intake delta. Policy-only and reference-only PRs do not claim the intake slot.
+This importer is NOT subscribed to ChatGPT and cannot automatically monitor conversations, request exports or fetch account data. It never publishes a registry commit. The existing GitHub intake gate must be used before publishing the resultant changes. Up to five conversations may have genuine canonical donor-intake requests active at once; policy-only and reference-only PRs do not claim a slot. Waiting requests enter FIFO as active slots are released.
 
 ## Local operator commands
 
@@ -29,7 +29,7 @@ Never commit the export, event stream or private workspace files.
 
 **Privacy:** Unmarked links and assistant suggestions are never inserted or queued. Any source-less name is analysis only. Only explicit authenticated `donornak:` owner-marked links are immediately eligible for reference registration. Import stores source metadata, generic provenance, never raw chats, titles, private token strings or attachments. Malformed input or a rejected-source conflict fails without partial registry writes.
 
-**Serialization and visibility:** Local concurrent imports against the same checkout return `DONOR_INTAKE_ALREADY_ACTIVE_WAIT_FOR_COMPLETION`; cross-conversation/cross-host GitHub publication requires the exclusive live donor-intake gate. Planning always uses the exact published main registry, never a pending import or unmerged donor PR. License, adoption and runtime gates remain separate.
+**Coordination and visibility:** Local concurrent imports against the same checkout return `DONOR_INTAKE_ALREADY_ACTIVE_WAIT_FOR_COMPLETION` because registry bytes remain single-writer per checkout. Cross-conversation/cross-host GitHub publication uses the rolling five-slot live donor-intake gate. Within the active window, the smallest canonical donor-mutation workload finalizes first, with FIFO ties. Planning always uses the exact published main registry, never a pending import or unmerged donor PR. License, adoption and runtime gates remain separate.
 
 ## Hardware Audit
 

@@ -2,11 +2,14 @@
 import json
 import tempfile
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"src"))
+import fa3_donor_readiness as readiness
 from fa3_donor_readiness import (inspect_registry,pending_prs,gate,is_donor_pr,
-    is_donor_intake_pr,effective_donor_intake_pr,REGISTRY,REJECTION_AUDIT,git_blob_sha,planning_snapshot_findings)
+    is_donor_intake_pr,effective_donor_intake_pr,donor_intake_workload,
+    MAX_ACTIVE_DONOR_INTAKES,REGISTRY,REJECTION_AUDIT,git_blob_sha,planning_snapshot_findings)
 
 def source():
     v={"donor_id":"FA3-DONOR-X-001","source":{"normalized_key":"github:x/y"},
@@ -137,8 +140,9 @@ class Tests(unittest.TestCase):
                     return [{"filename":REGISTRY}]
                 raise AssertionError(s)
             allowed=gate(root,"intake",get=get,pr_number=548)
-            self.assertEqual(allowed["result"],"EXCLUSIVE_DONOR_INTAKE_READY")
+            self.assertEqual(allowed["result"],"DONOR_INTAKE_READY_TO_FINALIZE")
             self.assertEqual(allowed["active_donor_pr"],548)
+            self.assertEqual(allowed["active_donor_prs"],[548])
             self.assertEqual([p["number"] for p in allowed["pending_intake_prs"]],[548])
             self.assertEqual([p["number"] for p in allowed["pending_prs"]],[547,548])
             blocked=gate(root,"intake",get=get,pr_number=547)
@@ -158,9 +162,10 @@ class Tests(unittest.TestCase):
                     return [{"filename":"src/fa3_donor_readiness.py"}]
                 raise AssertionError(s)
             ready=gate(root,"intake",get=get)
-            self.assertEqual(ready["result"],"EXCLUSIVE_DONOR_INTAKE_READY")
+            self.assertEqual(ready["result"],"DONOR_INTAKE_SLOT_AVAILABLE")
             self.assertIsNone(ready["active_donor_pr"])
             self.assertEqual(ready["pending_intake_prs"],[])
+            self.assertEqual(ready["available_intake_slots"],MAX_ACTIVE_DONOR_INTAKES)
             denied=gate(root,"intake",get=get,pr_number=547)
             self.assertIn("INTAKE_PR_NOT_OPEN_OR_NOT_DONOR",denied["findings"])
 
@@ -259,27 +264,129 @@ class Tests(unittest.TestCase):
             self.assertNotIn("PENDING_DONOR_MAINTENANCE",x["findings"])
             self.assertFalse(x["planning_allowed"])
 
-    def test_second_conversation_intake_waits_for_oldest_donor_pr(self):
+    def test_active_intakes_finalize_by_size_then_fifo(self):
         t,root,p=fixture()
         with t:
             def get(s):
                 if "/branches/main" in s:return {"commit":{"sha":"a"*40}}
                 if "pulls?state=open" in s:return [
-                    {"number":8,"title":"donor intake from conversation A",
-                     "head":{"sha":"a"*40}},
-                    {"number":9,"title":"donor intake from conversation B",
-                     "head":{"sha":"b"*40}}]
-                if "/pulls/" in s and "/files?" in s:return [{"filename":REGISTRY}]
+                    {"number":8,"title":"large donor intake","head":{"sha":"a"*40}},
+                    {"number":9,"title":"small donor intake A","head":{"sha":"b"*40}},
+                    {"number":10,"title":"small donor intake B","head":{"sha":"c"*40}}]
+                if "/pulls/8/files?" in s:return [{"filename":REGISTRY,"changes":50}]
+                if "/pulls/9/files?" in s:return [{"filename":REGISTRY,"changes":5}]
+                if "/pulls/10/files?" in s:return [{"filename":REGISTRY,"changes":5}]
                 raise AssertionError(s)
-            first=gate(root,"intake",get=get,pr_number=8)
-            self.assertEqual(first["result"],"EXCLUSIVE_DONOR_INTAKE_READY")
-            second=gate(root,"intake",get=get,pr_number=9)
-            self.assertEqual(second["result"],"BLOCKED")
-            self.assertEqual(second["active_donor_pr"],8)
-            self.assertIn("DONOR_INTAKE_IN_PROGRESS_WAIT_FOR_COMPLETION",
-                          second["findings"])
+            small=gate(root,"intake",get=get,pr_number=9)
+            self.assertEqual(small["result"],"DONOR_INTAKE_READY_TO_FINALIZE")
+            self.assertEqual(small["finalization_order"],[9,10,8])
+            self.assertEqual(small["intake_workload_units"],5)
+            tied=gate(root,"intake",get=get,pr_number=10)
+            self.assertEqual(tied["result"],"BLOCKED")
+            self.assertEqual(tied["next_finalizable_donor_pr"],9)
+            self.assertIn("DONOR_INTAKE_ACTIVE_WAIT_FOR_SMALLER_FINALIZATION",
+                          tied["findings"])
+            large=gate(root,"intake",get=get,pr_number=8)
+            self.assertEqual(large["result"],"BLOCKED")
             unclaimed=gate(root,"intake",get=get)
-            self.assertEqual(unclaimed["result"],"BLOCKED")
+            self.assertEqual(unclaimed["result"],"DONOR_INTAKE_SLOT_AVAILABLE")
+            self.assertEqual(unclaimed["available_intake_slots"],2)
+
+    def test_rolling_five_slot_window_refills_from_fifo_wait_queue(self):
+        t,root,p=fixture()
+        with t:
+            state={"include_first":True}
+            def open_prs():
+                nums=[20,21,22,23,24,25] if state["include_first"] else [21,22,23,24,25]
+                return [{"number":n,"title":"donor intake","head":{"sha":str(n)[-1]*40}}
+                        for n in nums]
+            def get(s):
+                if "/branches/main" in s:return {"commit":{"sha":"a"*40}}
+                if "pulls?state=open" in s:return open_prs()
+                if "/pulls/" in s and "/files?" in s:
+                    n=int(s.split("/pulls/")[1].split("/")[0])
+                    return [{"filename":REGISTRY,"changes":n-19}]
+                raise AssertionError(s)
+            sixth=gate(root,"intake",get=get,pr_number=25)
+            self.assertEqual(sixth["result"],"BLOCKED")
+            self.assertEqual(sixth["active_donor_prs"],[20,21,22,23,24])
+            self.assertEqual(sixth["waiting_donor_prs"],[25])
+            self.assertIn("DONOR_INTAKE_ACTIVE_WINDOW_FULL_WAIT_FOR_SLOT",
+                          sixth["findings"])
+            state["include_first"]=False
+            refilled=gate(root,"intake",get=get,pr_number=25)
+            self.assertEqual(refilled["active_donor_prs"],[21,22,23,24,25])
+            self.assertEqual(refilled["waiting_donor_prs"],[])
+            self.assertNotIn("DONOR_INTAKE_ACTIVE_WINDOW_FULL_WAIT_FOR_SLOT",
+                             refilled["findings"])
+            self.assertIn("DONOR_INTAKE_ACTIVE_WAIT_FOR_SMALLER_FINALIZATION",
+                          refilled["findings"])
+
+    def test_owner_approved_active_intake_limit_is_five(self):
+        self.assertEqual(MAX_ACTIVE_DONOR_INTAKES,5)
+
+    def test_intake_workload_uses_canonical_mutation_stats_only(self):
+        files=[
+            {"filename":REGISTRY,"changes":7},
+            {"filename":"canonical/deltas/FA3-DONOR-X.json","additions":3,"deletions":2},
+            {"filename":"docs/donor-x.md","changes":1000},
+        ]
+        self.assertEqual(donor_intake_workload(files),12)
+        self.assertEqual(donor_intake_workload([{"filename":REGISTRY}]),1)
+
+    def test_stale_base_files_are_excluded_from_live_workload(self):
+        stale_delta="canonical/deltas/FA3-DONOR-STALE.json"
+        def get(url):
+            if "pulls?state=open" in url:
+                return [{"number":77,"title":"Donor intake",
+                         "head":{"sha":"d"*40,"ref":"fa3/donor-77",
+                                 "repo":{"full_name":"ubuntuokos/Final-Architecture-v3.0"}}}]
+            if "/pulls/77/files?" in url:
+                return [
+                    {"filename":REGISTRY,"sha":"b"*40,"changes":7},
+                    {"filename":stale_delta,"sha":"c"*40,"changes":500},
+                ]
+            if "/contents/"+REGISTRY in url:
+                return {"sha":"a"*40}
+            if "/contents/"+stale_delta in url:
+                return {"sha":"c"*40}
+            raise AssertionError(url)
+        row=pending_prs(get)[0]
+        self.assertTrue(row["intake"])
+        self.assertEqual(row["workload_units"],7)
+        self.assertEqual(row["head_ref"],"fa3/donor-77")
+        self.assertEqual(row["head_repo_full_name"],"ubuntuokos/Final-Architecture-v3.0")
+
+    def test_cli_ready_results_return_success(self):
+        for result in ("DONOR_INTAKE_SLOT_AVAILABLE","DONOR_INTAKE_READY_TO_FINALIZE"):
+            with self.subTest(result=result), \
+                 patch.object(readiness,"gate",return_value={"result":result}), \
+                 patch.object(sys,"argv",["fa3_donor_readiness.py"]):
+                self.assertEqual(readiness.main(),0)
+
+    def test_cross_pr_revalidation_and_operator_docs_match_rolling_window(self):
+        root=Path(__file__).resolve().parents[1]
+        workflow=(root/".github/workflows/fa3-donor-intake-revalidation.yml").read_text()
+        serialization=(root/".github/workflows/fa3-donor-serialization.yml").read_text()
+        guide=(root/"docs/donor-repair/DONOR_READINESS.md").read_text()
+        self.assertIn("pull_request_target:",workflow)
+        self.assertIn("actions: write",workflow)
+        self.assertIn("checks: write",workflow)
+        self.assertIn("canonical-regression / P0",workflow)
+        self.assertIn("/actions/runs/{current_id}/rerun",workflow)
+        self.assertIn("/actions/runs/{current_id}",workflow)
+        self.assertIn("time.monotonic()+480",workflow)
+        self.assertIn("datetime.now(timezone.utc)-created.astimezone(timezone.utc)",workflow)
+        self.assertIn("timedelta(days=30)",workflow)
+        self.assertIn("rerun_count >= 50",workflow)
+        self.assertIn("refreshed=gate(Path(\".\").resolve(),\"intake\",get=getter)",workflow)
+        self.assertIn("Synchronize or reopen the PR",workflow)
+        self.assertIn("/compare/{main_sha}...{head_sha}",workflow)
+        self.assertIn("event=pull_request&head_sha={head_sha}",workflow)
+        self.assertNotIn("fa3-permanent-enforcement.yml/dispatches",workflow)
+        self.assertNotIn("actions: write",serialization)
+        self.assertNotIn("checks: write",serialization)
+        self.assertNotIn("A second intake remains BLOCKED",guide)
 
     def test_intake_without_live_inventory_is_fail_closed(self):
         t,root,p=fixture()

@@ -1,0 +1,109 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-DONOR-INTAKE-CONCURRENCY-REUSE-ASSESSMENT-2026-10-03",
+  "project_id": "FA3-REGISTRY-001",
+  "subject_id": "FA3-REGISTRY-001",
+  "intent_id": "FA3-CANONICAL-REGISTRY-GOVERNANCE-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-CANONICAL-REGISTRY-GOVERNANCE-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-REGISTRY-001",
+    "FA3-DONOR-CHAT-INGEST-001",
+    "FA3-DONOR-PLANNING-SNAPSHOT-GATESET-001"
+  ],
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-REGISTRY-001",
+      "use": "EXISTING_CANONICAL_DONOR_REGISTRY_AND_SSOT_GOVERNANCE"
+    },
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "EXISTING_PUBLISHED_MAIN_DONOR_PLANNING_SNAPSHOT_AND_REUSE_GATE"
+    },
+    {
+      "id": "FA3-GATE-REGISTRY-001",
+      "use": "EXISTING_MANDATORY_GATE_IDENTITY_AND_POLICY_MIRROR"
+    },
+    {
+      "id": "FA3-PERMANENT-GATE-HARDENING-001",
+      "use": "EXISTING_PROTECTED_CANONICAL_FINALIZATION_AND_PROVENANCE_GATE"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "SECOND_DONOR_REGISTRY_AUTHORITY",
+      "reason": "ROLLING_INTAKE_COORDINATION_REUSES_THE_EXISTING_CANONICAL_REGISTRY_AUTHORITY"
+    },
+    {
+      "id": "SECOND_WORKFLOW_AUTHORITY",
+      "reason": "INTAKE_SCHEDULING_IS_A_BOUNDED_GATE_POLICY_AND_DOES_NOT_CREATE_A_NEW_DURABLE_WORKFLOW_AUTHORITY"
+    },
+    {
+      "id": "PENDING_DONOR_AS_PLANNING_INPUT",
+      "reason": "PLANNING_REMAINS_BOUND_TO_THE_VERIFIED_PUBLISHED_MAIN_DONOR_SNAPSHOT_ONLY"
+    }
+  ],
+  "pattern_reuse": [
+    "PUBLISHED_MAIN_SNAPSHOT_ONLY",
+    "FAIL_CLOSED_INTAKE_ADMISSION",
+    "BOUNDED_ROLLING_WINDOW",
+    "FIFO_SLOT_ADMISSION",
+    "SIZE_ORDERED_SINGLE_FINALIZATION",
+    "NO_IMPLICIT_DONOR_ADOPTION"
+  ],
+  "existing_authority_bindings": {
+    "registry": "FA3-REGISTRY-001",
+    "reuse_discovery": "FA3-REUSE-DISCOVERY-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "release_authority": "EXISTING_FA3_CANONICAL_AND_PROMOTION_PATH"
+  },
+  "gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_claim": false
+  },
+  "mandatory_source_reviews": [],
+  "donor_planning_snapshot": {
+    "published_main_commit": "9ee6b81c232c279542342c36553a64784ad66b4d",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "4ac6c46935176c0e2027d771557cdec159e4c2bf",
+    "donor_registry_sha256": "1f62f01fd1249590f3834c5547a9f209c19a33f044f21d3696d4a572b9e79a8e",
+    "donor_registry_entry_count": 1421
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "retrospective_consumer_impact_reviewed": true,
+    "rationale": "The donor-intake concurrency rule is shared governance for all FA3 donor intake consumers and reuses the existing Registry, Reuse Discovery and Permanent Gate layers; no application-local duplicate is introduced.",
+    "shared_component_ids": [
+      "FA3-REGISTRY-001",
+      "FA3-REUSE-DISCOVERY-001"
+    ]
+  },
+  "governance_delta": {
+    "decision_id": "FA3-DEC-DONOR-INTAKE-CONCURRENCY-2026-10-03",
+    "max_active_donor_intakes": 5,
+    "slot_admission_order": "FIFO",
+    "finalization_order": "ASCENDING_CANONICAL_DONOR_MUTATION_WORKLOAD_THEN_FIFO",
+    "canonical_finalizer": "SINGLE_WRITER",
+    "donor_adoption_authorized": false,
+    "runtime_or_provider_admission_authorized": false
+  },
+  "implementation_readiness": "READY_FOR_STATIC_MATERIALIZATION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}

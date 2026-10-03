@@ -43,14 +43,14 @@
   "historical_evidence_semantics": "143_429_EVIDENCE_RETAINED_AS_IMMUTABLE_HISTORICAL_PROOF_ONLY",
   "current_host_status": "PENDING_FRESH_EXACT_HEAD_PHYSICAL_EXECUTION",
   "global_promotion_claim": false,
-  "rationale": "Active runtime/conformance descriptors were reconciled from the historical 143-capability accounting surface to the fixed 175-capability release baseline. Step-CA was explicitly reopened to PENDING_FRESH_CURRENT_HOST_REQUALIFICATION because its exact-source Current Host collector/gate changed; its 2026-09-20 evidence remains historical only. Current Host batch planning, proof coverage, preflight, closure assertions, hardware portability handling and control-plane verification were updated in the same changeset. Fresh physical 175/525 exact-head requalification is required before active runtime closure can be claimed. Reuse Discovery governance was reconciled for the materially modified Step-CA provider through a dedicated ApplicationIntent and PASS ReuseAssessment; this static governance PASS does not satisfy or replace the required fresh exact-head physical Current Host requalification. The 2026-10-03 reconciliation now binds this physical requalification vehicle to current main at 9ee6b81c232c279542342c36553a64784ad66b4d. The runtime-structural base includes the merged FA3 Platform/product-family taxonomy from PR #642 and the Shared Hair & Groom Fabric from PR #650; the b69d2f4c..8332a0fd interval remains donor/provenance-only, while PR #650 adds structural shared-module state that must be covered by the fresh exact-head FULL-525 run. Full 175/525 exact-head execution covers that merged structural state; structural_changes and current_host_changes remain limited to surfaces actually changed by PR #559. The 2026-10-03 multi-distribution reconciliation removes PATH-only DCC assumptions by introducing a non-authoritative application installation registry/resolver for native/DEB/RPM, Flatpak, Snap, AppImage/portable and manual instances. CAP-016 qualification and global Current Host preflight now require health-checked registered DCC instances without silent cross-application fallback; Bforartists and Blender may coexist or be independently absent/unhealthy. The same shared model is seeded for GIMP, Krita and LibreOffice without adding capabilities or architectural authority. Fresh exact-head 175/525 physical execution remains mandatory; the failed run 37109414350 remains immutable FAIL evidence. Run 37121541291 was launched on prior exact head 3b4249fc8b99f8052cd38bd3d13cb2e8b8ac3ef0 and became superseded for merge eligibility when main advanced to PR #650; no result from that superseded-base run is inherited.",
+  "rationale": "Active runtime/conformance descriptors were reconciled from the historical 143-capability accounting surface to the fixed 175-capability release baseline. Step-CA was explicitly reopened to PENDING_FRESH_CURRENT_HOST_REQUALIFICATION because its exact-source Current Host collector/gate changed; its 2026-09-20 evidence remains historical only. Current Host batch planning, proof coverage, preflight, closure assertions, hardware portability handling and control-plane verification were updated in the same changeset. Fresh physical 175/525 exact-head requalification is required before active runtime closure can be claimed. Reuse Discovery governance was reconciled for the materially modified Step-CA provider through a dedicated ApplicationIntent and PASS ReuseAssessment; this static governance PASS does not satisfy or replace the required fresh exact-head physical Current Host requalification. The 2026-10-03 reconciliation now binds this physical requalification vehicle to current main at 9ee6b81c232c279542342c36553a64784ad66b4d. The runtime-structural base includes the merged FA3 Platform/product-family taxonomy from PR #642 and the Shared Hair & Groom Fabric from PR #650; the b69d2f4c..8332a0fd interval remains donor/provenance-only, while PR #650 adds structural shared-module state that must be covered by the fresh exact-head FULL-525 run. Full 175/525 exact-head execution covers that merged structural state; structural_changes and current_host_changes remain limited to surfaces actually changed by PR #559. The 2026-10-03 multi-distribution reconciliation removes PATH-only DCC assumptions by introducing a non-authoritative application installation registry/resolver for native/DEB/RPM, Flatpak, Snap, AppImage/portable and manual instances. CAP-016 qualification and global Current Host preflight now require health-checked registered DCC instances without silent cross-application fallback; Bforartists and Blender may coexist or be independently absent/unhealthy. The same shared model is seeded for GIMP, Krita and LibreOffice without adding capabilities or architectural authority. Fresh exact-head 175/525 physical execution remains mandatory; the failed run 37109414350 remains immutable FAIL evidence. Run 37121541291 was launched on prior exact head 3b4249fc8b99f8052cd38bd3d13cb2e8b8ac3ef0 and became superseded for merge eligibility when main advanced to PR #650; no result from that superseded-base run is inherited. The 2026-10-03 reconciliation binds #559 to main through PR #654; PRs #652/#654 alter donor-intake governance/revalidation but do not add Current Host runtime authority. Physical FULL-525 evidence must bind to the resulting exact head.",
   "governance_reconciliation_records": [
     "canonical/intents/FA3-STEP-CA-CURRENT-HOST-APPLICATION-INTENT-001.json",
     "canonical/assessments/FA3-STEP-CA-CURRENT-HOST-REUSE-ASSESSMENT-001.json"
   ],
   "governance_reconciliation_semantics": "REUSE_DISCOVERY_APPLICATION_INTENT_AND_PASS_REUSE_ASSESSMENT_ADDED_FOR_MATERIALLY_MODIFIED_STEP_CA_PROVIDER_WITHOUT_WEAKENING_PHYSICAL_REQUALIFICATION",
   "last_reconciled_at": "2026-10-03",
-  "requalification_base_commit": "9ee6b81c232c279542342c36553a64784ad66b4d",
+  "requalification_base_commit": "3aad53f5a0b7b846117ae75da932337bef1bb5b4",
   "requalification_base_lineage": [
     {
       "pr": 633,
@@ -81,9 +81,21 @@
       "merge_commit": "9ee6b81c232c279542342c36553a64784ad66b4d",
       "classification": "STRUCTURAL_REASSESSMENT_REQUIRED",
       "note": "Shared Hair & Groom Fabric is included in the exact-head physical requalification base; capability baseline remains 175 and the merged structural Current Host impact must be covered by the fresh FULL-525 run."
+    },
+    {
+      "pr": 652,
+      "merge_commit": "bc72521009d90377ba45a6dc240bf11fc33b454f",
+      "classification": "NO_ADDITIONAL_RUNTIME_STRUCTURAL_SURFACE",
+      "note": "Rolling five-slot donor-intake governance advances the donor/governance base without adding Current Host runtime authority."
+    },
+    {
+      "pr": 654,
+      "merge_commit": "3aad53f5a0b7b846117ae75da932337bef1bb5b4",
+      "classification": "NO_ADDITIONAL_RUNTIME_STRUCTURAL_SURFACE",
+      "note": "Cross-PR donor-intake revalidation hotfix preserves PR context and freshness without adding Current Host runtime authority; #559 still requires fresh exact-head FULL-525 evidence after reconciliation."
     }
   ],
-  "base_lineage_semantics": "FULL_175_525_EXACT_HEAD_REQUALIFICATION_COVERS_ALL_RUNTIME_STRUCTURAL_STATE_ALREADY_MERGED_INTO_BASE; PR_650_SHARED_HAIR_GROOM_STRUCTURAL_STATE_INCLUDED; HISTORICAL_OR_SUPERSEDED_PHYSICAL_EVIDENCE_IS_NOT_RELABELED_OR_REUSED",
+  "base_lineage_semantics": "FULL_175_525_EXACT_HEAD_REQUALIFICATION_COVERS_ALL_RUNTIME_STRUCTURAL_STATE_ALREADY_MERGED_INTO_BASE; MAIN_THROUGH_PR_654_RECONCILED_WITH_DONOR_GOVERNANCE_ONLY_ADVANCE; HISTORICAL_EVIDENCE_IS_NOT_RELABELED_OR_REUSED",
   "donor_serialization_reconciliation": {
     "classification": "NO_RUNTIME_AUTHORITY_CHANGE_BUT_STRUCTURAL_GOVERNANCE_WORKFLOW_CHANGED",
     "path": ".github/workflows/fa3-donor-serialization.yml",
