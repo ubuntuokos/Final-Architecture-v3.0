@@ -21,7 +21,9 @@ Selection can be scoped at global, application, workspace, project, sequence, sc
 - License & Rights / Security: eligibility and fail-closed policy.
 - Current Host evidence: runtime promotion.
 
-The selector never directly executes a provider, chooses a physical GPU, stores raw credentials or silently falls back.
+The selector never directly executes a provider, chooses a physical GPU, stores raw credentials or substitutes another engine without the user's declared fallback policy.
+
+Decision Fabric applicability is currently `NOT_APPLICABLE`: eligibility filtering and explicit user selection are deterministic. A future advisory auto-ranking mode would require a fresh applicability assessment before Decision Fabric could rank an already-eligible set.
 
 ## Registry
 

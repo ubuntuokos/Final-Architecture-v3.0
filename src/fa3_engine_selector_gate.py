@@ -25,6 +25,7 @@ def gate(root: Path) -> dict[str, Any]:
         "registry":root/"canonical/FA3-ENGINE-REGISTRY-001.json",
         "decision":root/"canonical/decisions/FA3-DEC-ENGINE-SELECTION-FABRIC-2026-10-03.json",
         "assessment":root/"canonical/assessments/FA3-ENGINE-SELECTION-REUSE-ASSESSMENT-2026-10-03.json",
+        "decision_assessment":root/"canonical/assessments/FA3-ENGINE-SELECTION-DECISION-ASSESSMENT-2026-10-03.json",
         "enforcement":root/"canonical/engine-selection-enforcement.json",
         "selector":root/"src/fa3_engine_selector.py",
         "qml":root/"apps/shared/engine-selector/qml/EngineSelectorPanel.qml",
@@ -36,7 +37,7 @@ def gate(root: Path) -> dict[str, Any]:
         return {"schema":"fa3.engine-selection-gate-report.v1","gate_id":GATE_ID,"result":"FAIL","findings":findings}
 
     profile=_load(paths["profile"]); contract=_load(paths["contract"]); registry=_load(paths["registry"])
-    decision=_load(paths["decision"]); assessment=_load(paths["assessment"]); enforcement=_load(paths["enforcement"])
+    decision=_load(paths["decision"]); assessment=_load(paths["assessment"]); decision_assessment=_load(paths["decision_assessment"]); enforcement=_load(paths["enforcement"])
 
     if profile.get("id")!=PROFILE_ID or profile.get("new_capability") is not False or profile.get("new_architectural_authority") is not False:
         findings.append("profile authority/capability invariant")
@@ -52,6 +53,13 @@ def gate(root: Path) -> dict[str, Any]:
         findings.append("enforcement invariant")
     if assessment.get("result")!="PASS" or assessment.get("pending_or_unmerged_donors_consumed") is not False or assessment.get("capability_count_after")!=CAPABILITY_COUNT:
         findings.append("reuse assessment invariant")
+    if (decision_assessment.get("schema")!="fa3.decision-fabric-assessment.v1" or decision_assessment.get("assessment")!="NOT_APPLICABLE" or PROFILE_ID not in decision_assessment.get("covered_ids",[]):
+        findings.append("Decision Fabric applicability assessment invariant")
+    if decision_assessment.get("project_radar_checked") is not True:
+        findings.append("Decision Fabric Project Radar review invariant")
+    sb=decision_assessment.get("security_boundary",{})
+    if any(sb.get(k) is not False for k in ("may_grant_permission","may_expand_candidate_set","may_create_agent","may_admit_model","may_admit_provider")):
+        findings.append("Decision Fabric security boundary invariant")
     snap=assessment.get("donor_planning_snapshot",{})
     if snap.get("donor_registry_blob_sha")!="50580a9f3082161a3317383baa3e18879e98187e" or snap.get("donor_registry_entry_count")!=1357:
         findings.append("donor planning snapshot drift")

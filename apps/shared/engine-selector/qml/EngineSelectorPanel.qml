@@ -32,7 +32,7 @@ Item {
             Layout.fillWidth: true
             Label { text: "Engine & Provider Selector"; font.bold: true; font.pixelSize: 18 }
             Item { Layout.fillWidth: true }
-            Label { text: "No silent fallback"; font.bold: true }
+            Label { text: "Fallback requires explicit policy"; font.bold: true }
         }
 
         RowLayout {

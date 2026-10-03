@@ -23,6 +23,14 @@ class EngineSelectorTests(unittest.TestCase):
         self.assertEqual(report["result"],"PASS",report["findings"])
         self.assertEqual(report["capability_count"],175)
 
+    def test_decision_fabric_is_not_selection_authority(self):
+        import json
+        p=ROOT/"canonical/assessments/FA3-ENGINE-SELECTION-DECISION-ASSESSMENT-2026-10-03.json"
+        row=json.loads(p.read_text(encoding="utf-8"))
+        self.assertEqual(row["assessment"],"NOT_APPLICABLE")
+        self.assertIn("FA3-ENGINE-SELECTION-FABRIC-001",row["covered_ids"])
+        self.assertFalse(row["security_boundary"]["may_expand_candidate_set"])
+
     def test_base_and_native_engines_coexist(self):
         self.assertIn("FA3-ENGINE-MLT-001",self.by_id)
         self.assertIn("FA3-ENGINE-FA3-MEDIA-COMPOSITION-NATIVE-001",self.by_id)
