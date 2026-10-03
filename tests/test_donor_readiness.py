@@ -366,13 +366,16 @@ class Tests(unittest.TestCase):
 
     def test_cross_pr_revalidation_and_operator_docs_match_rolling_window(self):
         root=Path(__file__).resolve().parents[1]
-        workflow=(root/".github/workflows/fa3-donor-serialization.yml").read_text()
+        workflow=(root/".github/workflows/fa3-donor-intake-revalidation.yml").read_text()
+        serialization=(root/".github/workflows/fa3-donor-serialization.yml").read_text()
         guide=(root/"docs/donor-repair/DONOR_READINESS.md").read_text()
         self.assertIn("pull_request_target:",workflow)
         self.assertIn("actions: write",workflow)
         self.assertIn("checks: write",workflow)
         self.assertIn("canonical-regression / P0",workflow)
         self.assertIn("fa3-permanent-enforcement.yml/dispatches",workflow)
+        self.assertNotIn("actions: write",serialization)
+        self.assertNotIn("checks: write",serialization)
         self.assertNotIn("A second intake remains BLOCKED",guide)
 
     def test_intake_without_live_inventory_is_fail_closed(self):
