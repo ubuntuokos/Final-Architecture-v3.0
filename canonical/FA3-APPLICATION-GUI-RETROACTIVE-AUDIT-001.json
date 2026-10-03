@@ -36,5 +36,14 @@
   "grandfathering_allowed": false,
   "capability_count": 175,
   "new_capability": false,
-  "current_host_runtime_promotion_claim": false
+  "current_host_runtime_promotion_claim": false,
+  "audit_execution": {
+    "legacy_missing_approval_disposition": "GUI_PLACEMENT_REVIEW_REQUIRED",
+    "fabricated_approval_forbidden": true,
+    "application_finalization_requires_governed_design_record": true,
+    "missing_design_record_at_finalization": "FAIL_CLOSED",
+    "unresolved_design_record_at_finalization": "FAIL_CLOSED",
+    "materialized_application_next_change_requires_reconciliation": true,
+    "policy_materialization_does_not_fabricate_historical_approval": true
+  }
 }
