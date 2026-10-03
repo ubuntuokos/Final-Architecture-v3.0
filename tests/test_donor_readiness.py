@@ -143,7 +143,9 @@ class Tests(unittest.TestCase):
             self.assertEqual([p["number"] for p in allowed["pending_prs"]],[547,548])
             blocked=gate(root,"intake",get=get,pr_number=547)
             self.assertEqual(blocked["result"],"BLOCKED")
-            self.assertEqual(blocked["active_donor_pr"],548)
+            self.assertEqual(blocked["active_donor_prs"],[548])
+            self.assertEqual(blocked["waiting_donor_prs"],[])
+            self.assertIn("INTAKE_PR_NOT_OPEN_OR_NOT_DONOR",blocked["findings"])
 
     def test_policy_only_open_pr_allows_initial_unclaimed_intake(self):
         t,root,_=fixture()
