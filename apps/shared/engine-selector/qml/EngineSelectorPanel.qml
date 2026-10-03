@@ -64,7 +64,7 @@ Item {
             }
             ComboBox {
                 id: scopeBox
-                model: ["GLOBAL","APPLICATION","WORKSPACE","PROJECT","SEQUENCE","SCENE","TRACK","CLIP","NODE","TASK"]
+                model: ["GLOBAL","PRODUCT_FAMILY","APPLICATION","WORKSPACE","PROJECT","SEQUENCE","SCENE","TRACK","CLIP","NODE","TASK"]
             }
         }
 

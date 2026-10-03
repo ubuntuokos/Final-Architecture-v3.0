@@ -1,0 +1,113 @@
+{
+  "schema": "fa3.platform.v1",
+  "id": "FA3-PLATFORM-001",
+  "name": "FA3 Platform",
+  "status": "CANONICAL_STATIC_PLATFORM_TAXONOMY",
+  "authority": false,
+  "source_of_execution_truth": false,
+  "capability_count": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "hierarchy": [
+    "PLATFORM",
+    "PRODUCT_FAMILY",
+    "APPLICATION",
+    "SHARED_OR_DOMAIN_MODULE",
+    "ENGINE_PROVIDER_PLUGIN_EXTENSION"
+  ],
+  "common_platform_services": [
+    {
+      "service_id": "RUNTIME_RESOURCE_FABRIC",
+      "name": "Runtime & Resource Fabric",
+      "canonical_bindings": [
+        "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+      ],
+      "availability_not_authorization": true
+    },
+    {
+      "service_id": "ORCHESTRATION_WORKFLOW_FABRIC",
+      "name": "Orchestration & Workflow Fabric",
+      "canonical_bindings": [
+        "FA3-ORCHESTRATION-WORKFORCE-REGISTRY-001"
+      ],
+      "durable_engine": "TEMPORAL",
+      "availability_not_authorization": true
+    },
+    {
+      "service_id": "SECURITY_IDENTITY_SECRETS",
+      "name": "Security / Identity / Secrets",
+      "canonical_bindings": [],
+      "availability_not_authorization": true
+    },
+    {
+      "service_id": "RIGHTS_LICENSE_AUDIT",
+      "name": "Rights / License / Audit",
+      "canonical_bindings": [
+        "FA3-LICENSE-RIGHTS-001"
+      ],
+      "availability_not_authorization": true
+    },
+    {
+      "service_id": "MODEL_PROVIDER_FABRIC",
+      "name": "Model & Provider Management",
+      "canonical_bindings": [
+        "FA3-AUTH-MODEL-ROUTER-001"
+      ],
+      "availability_not_authorization": true
+    },
+    {
+      "service_id": "ENGINE_REGISTRY_SELECTOR",
+      "name": "Engine Registry & Selector",
+      "canonical_bindings": [
+        "FA3-ENGINE-REGISTRY-001"
+      ],
+      "availability_not_authorization": true
+    },
+    {
+      "service_id": "COLLABORATION_FABRIC",
+      "name": "Collaboration Fabric",
+      "canonical_bindings": [],
+      "availability_not_authorization": true
+    },
+    {
+      "service_id": "PLUGIN_EXTENSION_FABRIC",
+      "name": "Plugin & Extension Fabric",
+      "canonical_bindings": [],
+      "availability_not_authorization": true
+    },
+    {
+      "service_id": "KNOWLEDGE_DATA_ASSET_FABRIC",
+      "name": "Knowledge / Data / Asset Fabric",
+      "canonical_bindings": [],
+      "availability_not_authorization": true
+    },
+    {
+      "service_id": "GOVERNANCE_EVIDENCE_UPDATE_FABRIC",
+      "name": "Governance / Evidence / Update Fabric",
+      "canonical_bindings": [
+        "FA3-GATE-REGISTRY-001"
+      ],
+      "availability_not_authorization": true
+    }
+  ],
+  "product_family_registry": "FA3-PRODUCT-FAMILY-REGISTRY-001",
+  "application_inventory": "FA3-APPLICATION-DONOR-LINKS-001",
+  "invariants": [
+    "PRODUCT_FAMILY_IS_CONTEXT_NOT_ARCHITECTURAL_AUTHORITY",
+    "APPLICATION_RETAINS_IDENTITY_AND_NATIVE_PROJECT_OWNERSHIP",
+    "MULTI_APPLICATION_FUNCTIONAL_CORE_IS_SHARED_FIRST",
+    "PRODUCT_FAMILY_CLASSIFICATION_DOES_NOT_GRANT_PERMISSION",
+    "MODEL_ROUTER_REMAINS_EXCLUSIVE_AI_PROVIDER_MODEL_ROUTING_AUTHORITY",
+    "HRB_REMAINS_EXCLUSIVE_HOST_RESOURCE_ADMISSION_PLACEMENT_LEASE_AUTHORITY",
+    "ENGINE_SELECTOR_RECORDS_PREFERENCE_AND_COMPATIBILITY_NOT_EXECUTION_AUTHORITY",
+    "DONOR_REGISTRY_REMAINS_NON_AUTHORITATIVE",
+    "UNKNOWN_APPLICATION_PRODUCT_FAMILY_FAILS_CLOSED",
+    "CAPABILITY_BASELINE_CHANGE_REQUIRES_SEPARATE_EXPLICIT_RECONCILIATION",
+    "PHYSICAL_CURRENT_HOST_PROMOTION_CANNOT_BE_INFERRED_FROM_STATIC_CLASSIFICATION"
+  ],
+  "current_host_impact": {
+    "classification": "STRUCTURAL_REASSESSMENT_REQUIRED",
+    "runtime_promotion_claim": false,
+    "physical_pass_claim": false
+  }
+}

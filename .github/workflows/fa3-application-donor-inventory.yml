@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Static application inventory gate
+      - name: Static application inventory and product-family placement gate
         run: python3 src/fa3_application_donor_index.py --check --summary
       - name: Capability consumer map gate
         run: python3 src/fa3_application_donor_index.py --check --output capability-map.json
@@ -42,5 +42,6 @@ jobs:
       - name: Regression and safety negative tests
         run: |
           python3 -m unittest tests.test_application_donor_index -v
+          python3 -m unittest tests.test_engine_selector -v
           python3 -m unittest tests.test_tutorial_reuse_planner -v
           python3 -m unittest tests.test_donor_readiness -v
