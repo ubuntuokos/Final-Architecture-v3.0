@@ -16,6 +16,7 @@ GUI = "canonical/FA3-GUI-SURFACE-REGISTRY-001.json"
 DONOR = "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"
 LINKS = "canonical/FA3-APPLICATION-DONOR-LINKS-001.json"
 PLATFORM = "canonical/FA3-PRODUCT-FAMILY-REGISTRY-001.json"
+GUI_POLICY = "FA3-APPLICATION-GUI-DESIGN-POLICY-001"
 AUTO = ("automatic_selection", "automatic_fetch", "automatic_install",
         "automatic_activation", "automatic_dependency", "automatic_code_import",
         "automatic_provider_admission", "automatic_model_selection")
@@ -171,6 +172,26 @@ def capability_refresh_status(registry: dict[str, Any], today: date | None = Non
     }
 
 
+def application_gui_governance_projection(application: dict[str, Any]) -> dict[str, Any]:
+    lifecycle = str(application.get("lifecycle", "UNKNOWN"))
+    reference_only = lifecycle == "REFERENCE_ONLY"
+    return {
+        "policy_id": GUI_POLICY,
+        "retroactive": True,
+        "continuous_change_sync_required": True,
+        "fa3_design_system_required": True,
+        "exact_application_local_placement_owner_approval_required": True,
+        "functional_delta_gui_impact_assessment_required": True,
+        "manual_gui_sync_required": True,
+        "review_status": (
+            "REFERENCE_ONLY_NO_FA3_GUI_MUTATION"
+            if reference_only
+            else "GUI_PLACEMENT_REVIEW_REQUIRED_UNLESS_APPROVED_RECORD_EXISTS"
+        ),
+        "approval_fabrication_forbidden": True,
+    }
+
+
 def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str, Any]:
     root = root.resolve()
     catalog, surfaces, registry, declaration, platform = (
@@ -269,6 +290,9 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
         }
 
     product_family_views = apply_product_family_placement(applications, platform, errors)
+
+    for application in applications.values():
+        application["gui_governance"] = application_gui_governance_projection(application)
 
     gui_surfaces = []
     seen_surfaces: set[str] = set()
