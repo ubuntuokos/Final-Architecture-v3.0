@@ -15,6 +15,10 @@
   "result": "PASS",
   "selected_reuse": [
     {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "MANDATORY_EXISTING_REUSE_DISCOVERY"
+    },
+    {
       "id": "FA3-HOST-ADAPTATION-001",
       "use": "EXISTING_INSTALLATION_AND_STARTUP_DISCOVERY_LIFECYCLE"
     },
@@ -98,5 +102,19 @@
   "current_host_runtime_promotion_claim": false,
   "global_promotion_claim": false,
   "donor_review": "REVIEWED_NO_MATCH",
-  "adopted_donors": []
+  "adopted_donors": [],
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "available_candidate_ids": [],
+      "matched_candidate_ids": [],
+      "roles": [
+        "EXTERNAL_APPLICATION_RUNTIME_DISCOVERY_AND_DCC_EXECUTION_BOUNDARY_REVIEW"
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_activation": false
+    }
+  ]
 }
