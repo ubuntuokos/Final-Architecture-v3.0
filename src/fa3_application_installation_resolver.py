@@ -78,14 +78,35 @@ def _dedupe(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return out
 
 
-def _native_candidates(spec: dict[str, Any]) -> list[dict[str, Any]]:
+def _package_owner(path: str, runner: Callable[[list[str], int], subprocess.CompletedProcess[str]]) -> tuple[str, dict[str, Any]] | None:
+    if shutil.which("dpkg-query"):
+        proc = runner(["dpkg-query", "-S", path], 20)
+        if proc.returncode == 0 and ": " in proc.stdout:
+            owner = proc.stdout.split(": ", 1)[0].strip()
+            if owner:
+                return "DEB", {"package": owner, "ownership_probe": "dpkg-query -S"}
+    if shutil.which("rpm"):
+        proc = runner(["rpm", "-qf", path], 20)
+        if proc.returncode == 0 and proc.stdout.strip():
+            return "RPM", {"package": proc.stdout.strip().splitlines()[0], "ownership_probe": "rpm -qf"}
+    return None
+
+
+def _native_candidates(
+    spec: dict[str, Any],
+    runner: Callable[[list[str], int], subprocess.CompletedProcess[str]],
+) -> list[dict[str, Any]]:
     rows = []
     for name in spec.get("native_executables", []):
         if not isinstance(name, str) or not name:
             continue
         path = shutil.which(name)
         if path:
-            rows.append(_candidate(spec["application_id"], spec["display_name"], "NATIVE", path, [path]))
+            owner = _package_owner(path, runner)
+            packaging, provenance = owner if owner else ("NATIVE", {})
+            rows.append(_candidate(
+                spec["application_id"], spec["display_name"], packaging, path, [path], provenance
+            ))
     return rows
 
 
@@ -255,7 +276,7 @@ def discover_registered_application(
         *_snap_candidates(spec, runner),
         *_portable_candidates(spec),
         *_manual_candidates(spec),
-        *_native_candidates(spec),
+        *_native_candidates(spec, runner),
     ])
     if perform_health_check:
         rows = [_health(row, spec, runner) for row in rows]
