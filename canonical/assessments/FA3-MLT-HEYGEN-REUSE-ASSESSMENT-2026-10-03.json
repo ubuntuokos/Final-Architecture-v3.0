@@ -7,7 +7,8 @@
     "FA3-DIGITAL-HUMAN-PROVIDER-FABRIC-001",
     "FA3-MLT-EXTENDED-MEDIA-SERVICE-CONTRACTS-001",
     "FA3-DIGITAL-HUMAN-PROVIDER-CONTRACTS-001",
-    "FA3-PROVIDER-HEYGEN-001"
+    "FA3-PROVIDER-HEYGEN-001",
+    "FA3-ENGINE-SELECTION-FABRIC-001"
   ],
   "project_status": "STATIC_MATERIALIZATION_APPROVED",
   "result": "PASS",
@@ -92,11 +93,19 @@
     "disposition": "SHARED",
     "multi_application_reuse_detected": true,
     "consumer_scope": [
-      "fa3.video-editor",
-      "fa3.quickclip",
-      "fa3.character-studio"
+      "PLANNED_APPLICATIONS",
+      "IN_PROGRESS_APPLICATIONS",
+      "MATERIALIZED_APPLICATIONS"
     ],
-    "local_duplicate_created": false
+    "local_duplicate_created": false,
+    "retrospective_consumer_impact_reviewed": true,
+    "shared_component_ids": [
+      "FA3-MLT-EXTENDED-MEDIA-SERVICE-001",
+      "FA3-DIGITAL-HUMAN-PROVIDER-FABRIC-001",
+      "FA3-ENGINE-SELECTION-FABRIC-001",
+      "FA3-MLT-EXTENDED-MEDIA-SERVICE-CONTRACTS-001",
+      "FA3-DIGITAL-HUMAN-PROVIDER-CONTRACTS-001"
+    ]
   },
   "hardware_audit": {
     "vendor_neutral": true,
