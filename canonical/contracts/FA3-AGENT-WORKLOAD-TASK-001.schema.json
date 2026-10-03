@@ -90,6 +90,78 @@
         "type": "string",
         "minLength": 1
       }
+    },
+    "goal_scope_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "policy_id",
+        "goal_contract_id",
+        "goal_id",
+        "goal_revision",
+        "goal_digest",
+        "scope_digest",
+        "max_same_blocker_attempts",
+        "automatic_scope_expansion",
+        "out_of_scope_followup",
+        "automatic_followup_execution",
+        "human_intervention_freezes_execution",
+        "closed_task_execution",
+        "durable_state_authority",
+        "authority"
+      ],
+      "properties": {
+        "schema": {
+          "const": "fa3.goal-scope-binding.v1"
+        },
+        "policy_id": {
+          "const": "FA3-TASK-SCOPE-CLOSURE-POLICY-2026-10-03"
+        },
+        "goal_contract_id": {
+          "const": "FA3-GOAL-EXECUTION-CONTRACTS-001"
+        },
+        "goal_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "goal_revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "goal_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "scope_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "max_same_blocker_attempts": {
+          "const": 3
+        },
+        "automatic_scope_expansion": {
+          "const": false
+        },
+        "out_of_scope_followup": {
+          "const": "NEW_TASK_REQUIRED"
+        },
+        "automatic_followup_execution": {
+          "const": false
+        },
+        "human_intervention_freezes_execution": {
+          "const": true
+        },
+        "closed_task_execution": {
+          "const": "FORBIDDEN"
+        },
+        "durable_state_authority": {
+          "const": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY"
+        },
+        "authority": {
+          "const": false
+        }
+      }
     }
   },
   "additionalProperties": false
