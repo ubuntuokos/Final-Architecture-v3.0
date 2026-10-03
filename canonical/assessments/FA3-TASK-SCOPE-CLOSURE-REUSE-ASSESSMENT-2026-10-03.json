@@ -112,5 +112,29 @@
   "global_promotion_claim": false,
   "capability_count_after": 175,
   "new_capabilities": 0,
-  "new_architectural_authorities": 0
+  "new_architectural_authorities": 0,
+  "review_remediation": {
+    "reviewed_commit": "a3aa8e945a3219e3e771cc08be9ab6a596e375c7",
+    "review_source": "Codex automated PR review",
+    "addressed_comment_ids": [
+      4174528921,
+      4174528925,
+      4174528929,
+      4174528934,
+      4174528941,
+      4174528945,
+      4174528947
+    ],
+    "remediations": [
+      "ROOT_OR_GOAL_BOUND_WORKLOAD_CANNOT_DROP_SCOPE_BINDING",
+      "THIRD_SAME_BLOCKER_FAILURE_FREEZES_WITHOUT_PROMPT_DEPENDENCY",
+      "ATTEMPT_COUNTER_DERIVED_AND_VALIDATED_AGAINST_APPEND_ONLY_LEDGER",
+      "FOLLOWUP_SCOPE_MUST_MATCH_BOUND_SCOPE_DIGEST",
+      "ACTIVE_CONTROL_CANNOT_CARRY_TERMINAL_STATE",
+      "GLOBAL_GATE_REQUIRES_COMPLETE_TASK_SCOPE_P0_RULE_SET",
+      "CANONICAL_TASK_AND_EXECUTION_PLAN_SCHEMAS_INCLUDE_EMITTED_SCOPE_FIELDS",
+      "NONVERIFIED_TERMINAL_STATE_FREEZES_WITH_DEFAULT_HUMAN_ACTION"
+    ],
+    "status": "ADDRESSED_PENDING_EXACT_HEAD_GATES"
+  }
 }
