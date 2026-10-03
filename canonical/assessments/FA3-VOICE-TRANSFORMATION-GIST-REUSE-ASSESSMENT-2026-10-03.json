@@ -1,0 +1,46 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-VOICE-TRANSFORMATION-GIST-REUSE-ASSESSMENT-2026-10-03",
+  "date": "2026-10-03",
+  "status": "CANONICAL_ASSESSED",
+  "donor_id": "FA3-DONOR-0XDEVALIAS-AI-VOICE-CLONING-GIST-001",
+  "donor_snapshot": {
+    "published_main_commit": "fd8adf5ab2ef12882c47250ecb5d5f22ff8e796b",
+    "registry_entry_count": 1423,
+    "donor_status": "ACCEPTED_REFERENCE"
+  },
+  "disposition": "ADOPT_FUNCTIONAL_ARCHITECTURE_PATTERNS_ONLY",
+  "target_profile": "FA3-VOICE-001",
+  "target_contracts": "FA3-VOICE-CONTRACTS-001",
+  "adopted_patterns": [
+    "provider-neutral voice transformation taxonomy",
+    "separation of speech synthesis, voice conversion, realtime conversion, singing conversion and speech representation",
+    "shared context-sensitive voice workflow surface",
+    "explicit realtime latency intent",
+    "engine-independent speech representation as derived artifact"
+  ],
+  "excluded": [
+    "source-code copying from the Gist",
+    "recursive child-repository donor admission",
+    "provider or model admission",
+    "automatic download or installation",
+    "automatic GPU selection",
+    "silent fallback",
+    "new voice identity, routing, hardware, consent or evidence authority"
+  ],
+  "rights": {
+    "gist_license_status": "UNKNOWN",
+    "source_copy": "BLOCKED",
+    "clean_room_functional_reexpression": "ALLOWED_AS_REFERENCE_ONLY_SUBJECT_TO_FA3_POLICY",
+    "child_project_rights": "INDEPENDENT_REVIEW_REQUIRED"
+  },
+  "hardware": {
+    "cpu_only_path_required": true,
+    "accelerator_cardinality": "0..N",
+    "hrb_exclusive_resource_authority": true,
+    "current_host_runtime_promotion": false
+  },
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0
+}
