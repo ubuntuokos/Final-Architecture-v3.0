@@ -139,5 +139,25 @@
     "global_mutation": false,
     "default_port_claim": false,
     "runtime_change": false
-  }
+  },
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "available_candidate_ids": [
+        "FA3-KHRONOS-BINDING:ASSET_GRAPH",
+        "FA3-KHRONOS-BINDING:RENDER_FABRIC",
+        "FA3-KHRONOS-OPEN-STANDARDS-001",
+        "fa3.khronos.gltf-validator",
+        "fa3.khronos.ktx",
+        "fa3.khronos.anari"
+      ],
+      "matched_candidate_ids": [],
+      "roles": [],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_activation": false,
+      "disposition": "REVIEWED_NO_MATCH_SHARED_INTERACTION_CONTRACTS_DO_NOT_REQUIRE_KHRONOS_SDK_RUNTIME_OR_INTERCHANGE_BINDING_AT_STATIC_MATERIALIZATION"
+    }
+  ]
 }
