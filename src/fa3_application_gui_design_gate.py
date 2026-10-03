@@ -175,6 +175,18 @@ def gate(root: Path) -> dict[str, Any]:
     ):
         findings.append(_finding("GUI-POLICY-013", "retroactive audit contract drift"))
 
+    finalization = policy.get("application_finalization", {})
+    audit_exec = audit.get("audit_execution", {})
+    if not (
+        finalization.get("governed_gui_design_record_required") is True
+        and finalization.get("missing_or_unresolved_record") == "FAIL_CLOSED"
+        and finalization.get("historical_approval_inference_forbidden") is True
+        and audit_exec.get("application_finalization_requires_governed_design_record") is True
+        and audit_exec.get("missing_design_record_at_finalization") == "FAIL_CLOSED"
+        and audit_exec.get("unresolved_design_record_at_finalization") == "FAIL_CLOSED"
+    ):
+        findings.append(_finding("GUI-POLICY-023", "application finalization GUI record enforcement drift"))
+
     required_record_fields = {
         "application_id", "application_lifecycle_state", "gui_classification",
         "retroactive_policy_applies", "continuous_gui_sync_required",
