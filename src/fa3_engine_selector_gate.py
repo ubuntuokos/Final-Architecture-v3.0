@@ -59,7 +59,7 @@ def gate(root: Path) -> dict[str, Any]:
         findings.append("enforcement invariant")
     if assessment.get("result")!="PASS" or assessment.get("pending_or_unmerged_donors_consumed") is not False or assessment.get("capability_count_after")!=CAPABILITY_COUNT:
         findings.append("reuse assessment invariant")
-    if (decision_assessment.get("schema")!="fa3.decision-fabric-assessment.v1" or decision_assessment.get("assessment")!="NOT_APPLICABLE" or PROFILE_ID not in decision_assessment.get("covered_ids",[]):
+    if (decision_assessment.get("schema")!="fa3.decision-fabric-assessment.v1" or decision_assessment.get("assessment")!="NOT_APPLICABLE" or PROFILE_ID not in decision_assessment.get("covered_ids",[])):
         findings.append("Decision Fabric applicability assessment invariant")
     if decision_assessment.get("project_radar_checked") is not True:
         findings.append("Decision Fabric Project Radar review invariant")
