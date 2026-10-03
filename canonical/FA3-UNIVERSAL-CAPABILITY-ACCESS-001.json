@@ -1,0 +1,89 @@
+{
+  "schema": "fa3.universal-capability-access-policy.v1",
+  "id": "FA3-UNIVERSAL-CAPABILITY-ACCESS-POLICY-001",
+  "status": "CANONICAL_FAIL_CLOSED",
+  "priority": "P0",
+  "date": "2026-10-03",
+  "scope": "ALL_CURRENT_AND_FUTURE_DONOR_REFERENCE_RECORDS_AND_MATERIAL_DONOR_USAGE",
+  "capability_baseline": 175,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "authority_owner": "FA3-LICENSE-RIGHTS-001",
+  "principles": [
+    "NO_FA3_USER_FACING_CAPABILITY_MAY_DEPEND_EXCLUSIVELY_ON_AN_ACCESS_RESTRICTED_THIRD_PARTY_COMPONENT",
+    "EVERY_USER_FACING_CAPABILITY_REQUIRES_AT_LEAST_ONE_INDEPENDENTLY_USABLE_RIGHTS_CLEARED_GLOBAL_FA3_NATIVE_OR_COMPATIBLE_IMPLEMENTATION_PATH",
+    "RESTRICTED_DONORS_MAY_REMAIN_REFERENCE_OR_PATTERN_INPUTS_BUT_MAY_NOT_BE_THE_SOLE_MATERIAL_IMPLEMENTATION",
+    "UNKNOWN_OR_UNVERIFIED_ACCESS_RIGHTS_BLOCK_MATERIAL_ADOPTION",
+    "TECHNICAL_CIRCUMVENTION_OF_UPSTREAM_RESTRICTIONS_IS_FORBIDDEN",
+    "DONOR_CHANGE_MUST_NOT_REDUCE_AN_EXISTING_FA3_CAPABILITY_EXCEPT_FOR_VERIFIED_FA3_RISK"
+  ],
+  "restricted_dimensions": [
+    "GEOGRAPHIC",
+    "TERRITORIAL",
+    "NATIONAL",
+    "JURISDICTIONAL",
+    "NONCOMMERCIAL",
+    "RESEARCH_ONLY",
+    "SERVICE_ACCOUNT",
+    "CLOUD_ONLY",
+    "PLATFORM_EXCLUSIVE",
+    "HARDWARE_EXCLUSIVE"
+  ],
+  "donor_access_classes": [
+    "GLOBAL_DIRECT_REUSE",
+    "GLOBAL_CONDITIONAL_REUSE",
+    "RESTRICTED_REFERENCE",
+    "DISCOVERY_INDEX",
+    "UNVERIFIED_REFERENCE_ONLY"
+  ],
+  "material_usage_kinds": [
+    "CODE_REUSE",
+    "RUNTIME_DEPENDENCY"
+  ],
+  "material_usage_flags": [
+    "code_imported",
+    "runtime_dependency",
+    "provider_admission",
+    "model_admission"
+  ],
+  "restricted_material_usage": {
+    "allowed_only_as": "OPTIONAL_RESTRICTED_WITH_GLOBAL_SUBSTITUTE",
+    "global_substitute_refs_required": true,
+    "rights_evidence_refs_required": true,
+    "restriction_circumvention_forbidden": true,
+    "sole_capability_implementation_forbidden": true
+  },
+  "global_material_usage": {
+    "rights_evidence_refs_required": true,
+    "registration_is_not_legal_clearance": true
+  },
+  "non_material_pattern_usage": {
+    "permitted": true,
+    "source_code_model_weight_dataset_or_restricted_output_import_forbidden": true,
+    "clean_fa3_reexpression_allowed_subject_to_rights_and_patent_review": true
+  },
+  "global_baseline": {
+    "geography_neutral": true,
+    "mandatory_cloud_forbidden": true,
+    "mandatory_commercial_account_forbidden": true,
+    "cpu_only_path_required": true,
+    "accelerator_cardinality": "0..N",
+    "no_silent_provider_model_device_cloud_fallback": true
+  },
+  "substitute_precedence": [
+    "EXISTING_REGISTERED_GLOBALLY_USABLE_DONOR",
+    "COMBINATION_OF_INDEPENDENTLY_RIGHTS_CLEARED_DONORS",
+    "FA3_NATIVE_IMPLEMENTATION_FROM_GLOBALLY_USABLE_COMPONENTS",
+    "CLEAN_ROOM_FA3_NATIVE_IMPLEMENTATION",
+    "NEW_OWNER_MARKED_DONOR_DISCOVERY_AND_NORMAL_ADMISSION"
+  ],
+  "clean_room_reimplementation": {
+    "restricted_source_code_not_provided_to_implementation_side": true,
+    "restricted_weights_not_used": true,
+    "restricted_datasets_not_used": true,
+    "restricted_outputs_not_used_for_training_when_upstream_terms_forbid_it": true,
+    "functional_specification_only": true,
+    "independent_provenance_required": true,
+    "patent_and_other_ip_review_separate": true
+  }
+}\n

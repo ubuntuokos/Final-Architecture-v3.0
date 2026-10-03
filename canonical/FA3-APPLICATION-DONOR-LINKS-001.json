@@ -60,7 +60,12 @@
     "donor_usage_typed_primary_consumer_required": true,
     "explicit_canonical_donor_use_requires_usage_edge": true,
     "shared_capability_donor_adoption_requires_usage_edge": true,
-    "reference_only_pattern_is_not_adoption_without_usage_evidence": true
+    "reference_only_pattern_is_not_adoption_without_usage_evidence": true,
+    "universal_capability_access_required_for_material_adoption": true,
+    "restricted_donor_requires_global_substitute": true,
+    "restricted_donor_may_not_be_sole_capability_implementation": true,
+    "unknown_access_rights_block_material_adoption": true,
+    "restriction_circumvention_forbidden": true
   },
   "hardware_audit": {
     "vendor_neutral": true,
@@ -1016,7 +1021,13 @@
     ],
     "capability_map_authority": false,
     "automatic_adoption": false,
-    "automatic_runtime_activation": false
+    "automatic_runtime_activation": false,
+    "universal_access_evidence_required_for_material_usage": true,
+    "restricted_material_usage_requires_classification": "OPTIONAL_RESTRICTED_WITH_GLOBAL_SUBSTITUTE",
+    "restricted_material_usage_requires_global_substitute_refs": true,
+    "unknown_access_rights_material_usage": "BLOCK",
+    "discovery_index_material_usage": "BLOCK",
+    "restriction_circumvention": "FORBIDDEN"
   },
   "shared_capability_usage_contract": {
     "schema": "fa3.shared-capability-consumer-usage.v1",
@@ -1034,4 +1045,4 @@
     ],
     "authority": false
   }
-}
+}\n

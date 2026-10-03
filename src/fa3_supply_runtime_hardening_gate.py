@@ -8,7 +8,7 @@ from fa3_provider_runtime import validate_runtime_environment
 from fa3_upstream_patchset import evaluate_patchset
 from fa3_hrb_composite_lease import evaluate_reservation_plan,derive_child_lease,cascade_revocation,CompositeLeaseError,CompositeLeaseIssuer,RESOURCE_ORDER
 from fa3_release_baseline import module_active_capability_count
-from fa3_hrb_lease_lifecycle import LeaseKey, LeaseKeyring
+from fa3_hrb_lease_lifecycle import LeaseKey, LeaseKeyring\nfrom fa3_universal_capability_access_gate import gate as universal_access_gate
 
 GATESET_ID="FA3-SUPPLY-RUNTIME-HARDENING-GATESET-001"
 CAPABILITY_COUNT=module_active_capability_count(__file__)
@@ -128,7 +128,7 @@ def gate(root:Path)->dict[str,Any]:
         if op["result"]!="PASS" or data["opencut_patch"].get("disposition")!="REFERENCE_ONLY" or data["opencut_patch"].get("runtime_admission") is not False: findings.append(finding("SRH-013","OpenCut unstable interface disposition must remain reference-only"))
     reg=regressions()
     if reg["result"]!="PASS": findings.append(finding("SRH-011","fail-closed regression matrix failed"))
-    report={"schema":"fa3.supply-runtime-hardening-gate-report.v1","gate_id":"FA3-GATE-SUPPLY-RUNTIME-HARDENING-001","gateset_id":GATESET_ID,"result":"PASS" if not findings else "FAIL","blocking_findings":len(findings),"findings":findings,"regressions":reg,"capability_count":CAPABILITY_COUNT,"new_architectural_authorities":0,"current_host_hu_aqc_promotion_claim":False}
+    report={"schema":"fa3.supply-runtime-hardening-gate-report.v1","gate_id":"FA3-GATE-SUPPLY-RUNTIME-HARDENING-001","gateset_id":GATESET_ID,"result":"PASS" if not findings else "FAIL","blocking_findings":len(findings),"findings":findings,"regressions":reg,"capability_count":CAPABILITY_COUNT,"new_architectural_authorities":0,"current_host_hu_aqc_promotion_claim":False,"universal_capability_access":{"gate_id":"FA3-GATE-UNIVERSAL-CAPABILITY-ACCESS-001","result":universal_access.get("result"),"audited_record_count":universal_access.get("audited_record_count"),"registry_entry_count":universal_access.get("registry_entry_count")}}
     out=root/"reports/supply-runtime-hardening-gate-report.json"; out.parent.mkdir(parents=True,exist_ok=True); out.write_text(json.dumps(report,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
     return report
 def main()->int:

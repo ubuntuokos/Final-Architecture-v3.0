@@ -192,7 +192,7 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
         "donor_usage_typed_primary_consumer_required": True,
         "explicit_canonical_donor_use_requires_usage_edge": True,
         "shared_capability_donor_adoption_requires_usage_edge": True,
-        "reference_only_pattern_is_not_adoption_without_usage_evidence": True,
+        "reference_only_pattern_is_not_adoption_without_usage_evidence": True,\n        "universal_capability_access_required_for_material_adoption": True,\n        "restricted_donor_requires_global_substitute": True,\n        "restricted_donor_may_not_be_sole_capability_implementation": True,\n        "unknown_access_rights_block_material_adoption": True,\n        "restriction_circumvention_forbidden": True,
     }
     for key, expected in required_policy.items():
         if declaration.get("policy", {}).get(key) is not expected:

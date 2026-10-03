@@ -80,3 +80,4 @@ The current historical repository audit is deliberately recorded as
 `PENDING_RETROACTIVE_AUDIT`. Therefore the new authority can be statically
 materialized while release eligibility remains **false** until the audit is
 completed. Historical evidence must not be overwritten during reconciliation.
+\n## Universal Capability Access\n\nThe existing License & Rights Authority owns the P0 Universal Capability Access rule. Every current and future donor record is classified by the executable gate. Material reuse fails closed for unknown rights and for restricted donors without a global substitute. Upstream territorial or other restrictions must never be bypassed technically; FA3 preserves the user-facing capability through a globally usable donor path or an independent FA3-native implementation. See `docs/universal-capability-access.md`.\n
