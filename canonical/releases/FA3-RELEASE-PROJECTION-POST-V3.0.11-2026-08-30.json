@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "949bad24a1df20ae502fc93312bdd8e550ed99fb",
-    "pre_projection_root_tree_sha": "64a02a7ee47c872ba34a4d89297239f42acefcd2",
-    "pre_projection_canonical_tree_sha": "da3052cd450c13dd5d4e510d541e0636bf48cddd",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2823,
-    "total_post_baseline_commits": 2823,
-    "delta_file_count": 2928,
-    "delta_added_files": 2922,
+    "pre_projection_head_sha": "eece0da4f8fa3d78f76a4c8383a1387e7417dab3",
+    "pre_projection_root_tree_sha": "da1ed0f69cee32f969887ec18a060ea9903a6f33",
+    "pre_projection_canonical_tree_sha": "847bd25d6c892ea807bde32f13a0ced0591676ec",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2829,
+    "total_post_baseline_commits": 2829,
+    "delta_file_count": 2931,
+    "delta_added_files": 2925,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,10 +46,10 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1367,
+    "canonical_files_in_post_baseline_delta": 1368,
     "evidence_files_in_post_baseline_delta": 172,
     "source_files_in_post_baseline_delta": 368,
-    "test_files_in_post_baseline_delta": 345,
+    "test_files_in_post_baseline_delta": 346,
     "workflow_files_in_post_baseline_delta": 138,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -1068,7 +1068,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2918,
+  "manifest_entry_count": 2921,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -3002,7 +3002,7 @@
     },
     {
       "path": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
-      "git_blob_sha": "c93de13d91e32fa90a687f6d0cc1f6bed062713c",
+      "git_blob_sha": "1362d75186c6da74e5cf947fdf0b8867d462636a",
       "baseline_delta_status": "added"
     },
     {
@@ -6806,6 +6806,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/deltas/FA3-DONOR-HIDREAM-AI-ORG-2026-10-03.json",
+      "git_blob_sha": "b514045a9a3a913bdaaef3250b7d0a812d8bedd9",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/deltas/FA3-DONOR-LITELLM-H2O-LOCAL-LLM-SOURCES-2026-10-02.json",
       "git_blob_sha": "05ac73685db38b84c549e763b5151bbe88a291ae",
       "baseline_delta_status": "added"
@@ -10293,6 +10298,11 @@
     {
       "path": "docs/donor-hair-groom-sources-2026-10-03.md",
       "git_blob_sha": "f4ccaa23f49859c7f1d59590dbe50368290aa13e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/donor-hidream-ai-org-2026-10-03.md",
+      "git_blob_sha": "b90fa40ad7d947a2f8c1e32fa4d28062f60f192c",
       "baseline_delta_status": "added"
     },
     {
@@ -14396,6 +14406,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_donor_hidream_ai_org_20261003.py",
+      "git_blob_sha": "37ee41cd52854bef35bc0b5d30d690efd11ca987",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_donor_historical_partial_reuse.py",
       "git_blob_sha": "2d01e7042eca4994c972302540962fe80f87380b",
       "baseline_delta_status": "added"
@@ -17378,7 +17393,7 @@
     "reconciliation_status": "CANONICAL_REUSE_DISCOVERY_STATIC_MATERIALIZED_RUNTIME_PROMOTION_NOT_APPLICABLE",
     "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
     "donor_registry_decision_id": "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28",
-    "donor_registry_entry_count": 1426,
+    "donor_registry_entry_count": 1427,
     "donor_rejection_audit_id": "FA3-DONOR-REJECTION-AUDIT-001",
     "donor_rejection_audit_count": 1,
     "donor_lifecycle_decision_id": "FA3-DEC-DONOR-LIFECYCLE-APPLICATION-SYNC-2026-09-30",
