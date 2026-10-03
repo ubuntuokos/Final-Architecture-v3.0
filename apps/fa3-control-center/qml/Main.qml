@@ -76,9 +76,9 @@ ApplicationWindow {
         "create.narration-studio": 38,
         "agents.orchestration-monitor": 39,
         "create.ai-module-factory": 40,
-        "models.engines": 41,
-        "create.voice-studio": 42,
-        "create.quick-voice-plugin": 43
+        "models.engines": 43,
+        "create.voice-studio": 41,
+        "create.quick-voice-plugin": 42
     })
 
     function routeIndex(routeId) {
