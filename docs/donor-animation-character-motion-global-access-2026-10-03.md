@@ -48,3 +48,7 @@ The replacement is capability-level, not vendor-level: an independently rights-c
 The owner subsequently required this interpretation to apply to the **entire donor list**. The same change therefore binds the registry to `FA3-UNIVERSAL-CAPABILITY-ACCESS-POLICY-001` and introduces a retroactive audit/gate over all current and future donor records.
 
 The structural audit is not a claim that every donor is legally cleared. Unknown/unverified rights remain fail-closed for material adoption.
+
+## Exact-head verification note
+
+This intake is merge-eligible only when donor serialization, application-donor inventory, reuse/release projection and permanent canonical checks all pass on the same current PR head; earlier-SHA PASS results are not promotion evidence.
