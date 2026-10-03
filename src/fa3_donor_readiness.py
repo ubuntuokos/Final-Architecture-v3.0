@@ -436,6 +436,7 @@ def main():
            a.assessment,a.plan,a.approval,a.pr)
     print(json.dumps(x,ensure_ascii=False,indent=2))
     return 0 if x["result"] in ("MAINTENANCE_INTEGRITY_PASS",
-                                 "EXCLUSIVE_DONOR_INTAKE_READY",
+                                 "DONOR_INTAKE_SLOT_AVAILABLE",
+                                 "DONOR_INTAKE_READY_TO_FINALIZE",
                                  "READY_FOR_SEPARATE_FA3_ADMISSION_GATES") else 2
 if __name__=="__main__":raise SystemExit(main())
