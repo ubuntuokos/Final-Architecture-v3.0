@@ -1,7 +1,7 @@
 # FA3 Maggi-Chen Inspector donor intake — 2026-10-03
 
-**Authority:** owner-explicit `donornak` registration.  
-**Source:** https://github.com/Maggi-Chen/Inspector  
+**Authority:** owner-explicit `donornak` registration.
+**Source:** https://github.com/Maggi-Chen/Inspector
 **Scope:** canonical donor/reference registration only; no runtime, code, provider, model, dataset or bioinformatics-application admission.
 
 ## Upstream identity and provenance
@@ -50,10 +50,10 @@ Registration is not adoption. A later FA3-native use of Inspector-derived patter
 
 Any direct code/runtime use additionally requires the normal License & Rights/provenance, security, Software Coexistence, Hardware Safety, dependency and Current Host admission path.
 
-Parent published main: `3cff20ba446c06501b7195da86a7cdd2d3eb8a36`  
-Parent registry blob: `4ac6c46935176c0e2027d771557cdec159e4c2bf`  
-Parent donor count: **1421**  
-Proposed donor count: **1422**  
-Capability baseline: **175**  
-Capability delta: **0**  
+Parent published main: `3cff20ba446c06501b7195da86a7cdd2d3eb8a36`
+Parent registry blob: `4ac6c46935176c0e2027d771557cdec159e4c2bf`
+Parent donor count: **1421**
+Proposed donor count: **1422**
+Capability baseline: **175**
+Capability delta: **0**
 Authority delta: **0**
