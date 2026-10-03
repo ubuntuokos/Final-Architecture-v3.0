@@ -192,7 +192,12 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
         "donor_usage_typed_primary_consumer_required": True,
         "explicit_canonical_donor_use_requires_usage_edge": True,
         "shared_capability_donor_adoption_requires_usage_edge": True,
-        "reference_only_pattern_is_not_adoption_without_usage_evidence": True,\n        "universal_capability_access_required_for_material_adoption": True,\n        "restricted_donor_requires_global_substitute": True,\n        "restricted_donor_may_not_be_sole_capability_implementation": True,\n        "unknown_access_rights_block_material_adoption": True,\n        "restriction_circumvention_forbidden": True,
+        "reference_only_pattern_is_not_adoption_without_usage_evidence": True,
+        "universal_capability_access_required_for_material_adoption": True,
+        "restricted_donor_requires_global_substitute": True,
+        "restricted_donor_may_not_be_sole_capability_implementation": True,
+        "unknown_access_rights_block_material_adoption": True,
+        "restriction_circumvention_forbidden": True,
     }
     for key, expected in required_policy.items():
         if declaration.get("policy", {}).get(key) is not expected:
@@ -887,7 +892,8 @@ def main() -> int:
     if args.output:
         dst = args.output if args.output.is_absolute() else args.root / args.output
         dst.parent.mkdir(parents=True, exist_ok=True)
-        dst.write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        dst.write_text(json.dumps(result, indent=2, ensure_ascii=False) + "
+", encoding="utf-8")
     display = {"counts": result["counts"], "validation": result["validation"]} if args.summary and "counts" in result else result
     print(json.dumps(display, ensure_ascii=False, indent=2))
     failed = args.check and result["validation"]["result"] != "PASS"
