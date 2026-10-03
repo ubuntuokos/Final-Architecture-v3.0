@@ -604,15 +604,9 @@ def gate(root,phase="status",token="",assessment=None,plan=None,approval=None,
         graphql_transport=None
         try:
             before=getter(f"/repos/{REPO}/branches/main")["commit"]["sha"]
-            result["pending_prs"]=pending_prs(getter)
-            after=getter(f"/repos/{REPO}/branches/main")["commit"]["sha"]
         except urllib.error.HTTPError:
-            # Parallel FA3 workflows can temporarily exhaust the installation
-            # REST budget even before the PR inventory scan starts. Re-prove
-            # the complete transaction through GitHub's separately metered
-            # authenticated GraphQL API: main SHA before, every open PR/file,
-            # canonical donor blob identity, then main SHA after. Any GraphQL
-            # pagination/truncation/proof error still fails closed.
+            # REST failed before a main SHA was proven, so the complete
+            # before/inventory/after transaction must move to GraphQL.
             fallback_token=token or os.getenv("GITHUB_TOKEN") or os.getenv("GH_TOKEN","")
             if not fallback_token:
                 raise
@@ -622,6 +616,26 @@ def gate(root,phase="status",token="",assessment=None,plan=None,approval=None,
             result["pending_prs"]=pending_prs_graphql(graphql_transport)
             after=github_graphql_main_sha(graphql_transport)
             result["proof_transport"]="AUTHENTICATED_GRAPHQL_FALLBACK_AFTER_REST_HTTPERROR"
+        else:
+            try:
+                result["pending_prs"]=pending_prs(getter)
+                after=getter(f"/repos/{REPO}/branches/main")["commit"]["sha"]
+            except urllib.error.HTTPError:
+                # The REST main SHA is already proven. Preserve that proof,
+                # enumerate the complete PR/file inventory through GraphQL,
+                # then re-check main through REST when available. If the final
+                # REST check is also rate-limited, use GraphQL for that check.
+                fallback_token=token or os.getenv("GITHUB_TOKEN") or os.getenv("GH_TOKEN","")
+                if not fallback_token:
+                    raise
+                graphql_transport=lambda query,variables: github_graphql(
+                    query,variables,fallback_token)
+                result["pending_prs"]=pending_prs_graphql(graphql_transport)
+                try:
+                    after=getter(f"/repos/{REPO}/branches/main")["commit"]["sha"]
+                except urllib.error.HTTPError:
+                    after=github_graphql_main_sha(graphql_transport)
+                result["proof_transport"]="AUTHENTICATED_GRAPHQL_FALLBACK_AFTER_REST_HTTPERROR"
         result["pending_intake_prs"]=[p for p in result["pending_prs"] if p["intake"]]
         if before!=after:result["findings"].append("MAIN_MOVED_DURING_SCAN")
         if result["findings"]:return result
