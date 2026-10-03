@@ -1,0 +1,46 @@
+name: FA3 Engine Selection Fabric
+on:
+  pull_request:
+    paths:
+      - 'canonical/FA3-ENGINE-REGISTRY-001.json'
+      - 'canonical/profiles/FA3-ENGINE-SELECTION-FABRIC-001.json'
+      - 'canonical/contracts/FA3-ENGINE-SELECTION-CONTRACTS-001.json'
+      - 'canonical/intents/FA3-ENGINE-SELECTION-APPLICATION-INTENT-2026-10-03.json'
+      - 'canonical/assessments/FA3-ENGINE-SELECTION-REUSE-ASSESSMENT-2026-10-03.json'
+      - 'canonical/assessments/FA3-ENGINE-SELECTION-DECISION-ASSESSMENT-2026-10-03.json'
+      - 'canonical/decisions/FA3-DEC-ENGINE-SELECTION-FABRIC-2026-10-03.json'
+      - 'canonical/engine-selection-enforcement.json'
+      - 'src/fa3_engine_selector.py'
+      - 'src/fa3_engine_selector_gate.py'
+      - 'tests/test_engine_selector.py'
+      - 'apps/shared/engine-selector/qml/EngineSelectorPanel.qml'
+      - 'apps/fa3-control-center/CMakeLists.txt'
+      - 'apps/fa3-control-center/src/EngineSelectorService.cpp'
+      - 'apps/fa3-control-center/src/EngineSelectorService.h'
+      - 'apps/fa3-control-center/src/main.cpp'
+      - 'apps/fa3-control-center/qml/EngineManagerPage.qml'
+      - 'apps/fa3-control-center/qml/Main.qml'
+      - 'canonical/FA3-GUI-SURFACE-REGISTRY-001.json'
+      - 'docs/engine-selector.md'
+      - '.github/workflows/fa3-engine-selection.yml'
+  workflow_dispatch:
+jobs:
+  static:
+    runs-on: ubuntu-latest
+    env:
+      PYTHONPATH: src
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax
+        run: python -m py_compile src/fa3_engine_selector.py src/fa3_engine_selector_gate.py tests/test_engine_selector.py
+      - name: Engine selector regressions
+        run: python -m unittest tests.test_engine_selector
+      - name: Engine selector gate
+        run: python src/fa3_engine_selector_gate.py
+      - name: Reuse Discovery
+        run: ./bin/fa3-enforce reuse-discovery
