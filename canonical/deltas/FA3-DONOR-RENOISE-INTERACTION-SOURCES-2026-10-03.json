@@ -1,0 +1,110 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-RENOISE-INTERACTION-SOURCES-2026-10-03",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "STAGED_PENDING_EXACT_HEAD_GATES",
+  "mode": "APPEND_ONLY_OWNER_EXPLICIT_REFERENCE_INTAKE",
+  "parent_commit": "5d99e09b674877bcf4c057ec7af82e5d819ee616",
+  "parent_registry_blob_sha": "6fcd9a7f5b3e3c5c54b1ae1b5227b37a9bb6a951",
+  "parent_entry_count": 1422,
+  "source_count": 5,
+  "unique_source_key_count": 5,
+  "matched_existing_count": 0,
+  "proposed_entry_count": 1427,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "provider_count_policy": "DYNAMIC_UNCHANGED",
+  "approval_ref": "docs/donor-renoise-interaction-sources-2026-10-03.md",
+  "requirements": [
+    "Preserve all five owner-marked URLs as five canonical donor/reference identities.",
+    "GitHub organization records are discovery indexes only and do not recursively admit child repositories.",
+    "Concrete repository records remain reference-only; MIT declarations are repository-level provenance, not blanket clearance for embedded third-party material.",
+    "No arbitrary model-generated code execution, loadstring/eval execution, generic AI auto-execute or parallel provider/model routing authority may be adopted into FA3.",
+    "Any future material use requires a fresh published-main Reuse Assessment, License & Rights/provenance, security, Software Coexistence, Hardware Safety where applicable, shared-capability placement and explicit typed usage edge.",
+    "Fixed capability baseline remains 175; dynamic provider-count policy and all existing FA3 authorities remain unchanged."
+  ],
+  "sources": [
+    {
+      "url": "https://github.com/renoise-ai",
+      "normalized_key": "github:renoise-ai",
+      "donor_id": "FA3-DONOR-RENOISE-AI-ORG-001",
+      "kind": "GITHUB_ORGANIZATION",
+      "status": "ACCEPTED_REFERENCE",
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      }
+    },
+    {
+      "url": "https://github.com/nickcent/Renoise-AI-Assistant",
+      "normalized_key": "github:nickcent/renoise-ai-assistant",
+      "donor_id": "FA3-DONOR-NICKCENT-RENOISE-AI-ASSISTANT-001",
+      "kind": "GITHUB_REPOSITORY",
+      "status": "ACCEPTED_REFERENCE",
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_REPOSITORY_DECLARED"
+      },
+      "observed_revision": "cfce8d10434b9a69a88f767d99fe98d07cf1056c"
+    },
+    {
+      "url": "https://github.com/renoise",
+      "normalized_key": "github:renoise",
+      "donor_id": "FA3-DONOR-RENOISE-ORG-001",
+      "kind": "GITHUB_ORGANIZATION",
+      "status": "ACCEPTED_REFERENCE",
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      }
+    },
+    {
+      "url": "https://github.com/ArcoCodes",
+      "normalized_key": "github:arcocodes",
+      "donor_id": "FA3-DONOR-ARCOCODES-ORG-001",
+      "kind": "GITHUB_ORGANIZATION",
+      "status": "ACCEPTED_REFERENCE",
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      }
+    },
+    {
+      "url": "https://github.com/catppuccin/renoise",
+      "normalized_key": "github:catppuccin/renoise",
+      "donor_id": "FA3-DONOR-CATPPUCCIN-RENOISE-001",
+      "kind": "GITHUB_REPOSITORY",
+      "status": "ACCEPTED_REFERENCE",
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_REPOSITORY_DECLARED"
+      },
+      "observed_revision": "47d7b7ba9f282ae0b310b2b6186bed95466fecac"
+    }
+  ],
+  "discovery_classes": [
+    "GENERATIVE_MEDIA_WORKSPACE",
+    "NATURAL_LANGUAGE_APPLICATION_CONTROL",
+    "TYPED_APPLICATION_API_AND_MCP",
+    "CAPABILITY_DRIVEN_SKILL_PLUGIN_COMPOSITION",
+    "REVIEW_REVISION_CANVAS",
+    "SEMANTIC_THEME_AND_APPEARANCE"
+  ],
+  "boundaries": {
+    "child_repository_auto_registration": false,
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "automatic_code_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "arbitrary_generated_code_execution": false,
+    "generic_ai_auto_execute": false,
+    "usage_edge_created": false,
+    "capability_count_change": false,
+    "authority_change": false,
+    "current_host_pass_claimed": false
+  }
+}
