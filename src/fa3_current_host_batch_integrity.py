@@ -30,6 +30,18 @@ def validate_selection(
             findings.append("FULL-525 does not cover every active capability")
         if expected_obligations != plan.get("required_test_obligation_count"):
             findings.append("FULL-525 does not cover every active obligation")
+    elif batch_id == "SCOPED":
+        ready = set(plan.get("execution_ready_capabilities", []))
+        expected_subjects = subjects
+        unknown = sorted(set(subjects) - ready)
+        if not subjects:
+            findings.append("SCOPED batch requires at least one affected capability")
+        if len(subjects) != len(set(subjects)):
+            findings.append("SCOPED batch contains duplicate subjects")
+        if unknown:
+            findings.append(f"SCOPED batch contains non-execution-ready capabilities: {unknown}")
+        expected_digest = _selection_digest(subjects, plan.get("registry_sha256", {}))
+        expected_obligations = len(subjects) * len(TEST_KINDS)
     else:
         batch = next(
             (row for row in plan.get("execution_batches", []) if row.get("batch_id") == batch_id),

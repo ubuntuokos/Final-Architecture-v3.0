@@ -30,6 +30,8 @@ on:
       - 'src/fa3_current_host_capability_test_orchestrator.py'
       - 'src/fa3_current_host_batch_planner.py'
       - 'src/fa3_current_host_batch_integrity.py'
+      - 'src/fa3_current_host_requalification_plan.py'
+      - 'src/fa3_current_host_scoped_assertion.py'
       - 'canonical/FA3-CURRENT-HOST-STRUCTURAL-CHANGE-POLICY-001.json'
       - 'src/fa3_current_host_structural_impact_gate.py'
       - 'tests/test_current_host_structural_impact_gate.py'
@@ -124,6 +126,8 @@ on:
       - 'src/fa3_current_host_capability_test_orchestrator.py'
       - 'src/fa3_current_host_batch_planner.py'
       - 'src/fa3_current_host_batch_integrity.py'
+      - 'src/fa3_current_host_requalification_plan.py'
+      - 'src/fa3_current_host_scoped_assertion.py'
       - 'canonical/FA3-CURRENT-HOST-STRUCTURAL-CHANGE-POLICY-001.json'
       - 'src/fa3_current_host_structural_impact_gate.py'
       - 'tests/test_current_host_structural_impact_gate.py'
@@ -199,9 +203,36 @@ on:
         default: false
         type: boolean
       execution_batch_id:
-        description: 'Execution-ready batch ID, or FULL-525 for complete 175-capability physical closure'
+        description: 'Execution-ready batch ID, SCOPED, or FULL-525 for complete 175-capability physical closure'
         required: false
         default: 'FULL-525'
+        type: string
+      execution_subjects:
+        description: 'Comma-separated affected capability IDs when execution_batch_id=SCOPED'
+        required: false
+        default: ''
+        type: string
+      source_sha:
+        description: 'Exact source SHA to execute; defaults to triggering head'
+        required: false
+        default: ''
+        type: string
+  workflow_call:
+    inputs:
+      execute_current_host:
+        required: true
+        type: boolean
+      execution_batch_id:
+        required: false
+        default: 'FULL-525'
+        type: string
+      execution_subjects:
+        required: false
+        default: ''
+        type: string
+      source_sha:
+        required: false
+        default: ''
         type: string
 
 permissions:
@@ -209,7 +240,7 @@ permissions:
 
 concurrency:
   group: fa3-global-current-host-closure-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   closure-regression:
@@ -219,6 +250,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ inputs.source_sha || github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
           fetch-depth: 0
       - uses: actions/setup-python@v5
@@ -590,6 +622,7 @@ jobs:
             reports/current-host-capability-attestation-producer.json
             reports/current-host-capability-handoff.json
             reports/current-host-evidence-audit.json
+            reports/current-host-scoped-requalification.json
             reports/runtime-gate-report.json
             reports/terax-gate-report.json
             acceptance/acceptance-report.json
@@ -597,7 +630,7 @@ jobs:
 
   current-host-closure:
     name: current-host-closure / real-execution
-    if: ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.execute_current_host) }}
+    if: ${{ (github.event_name == 'workflow_dispatch' || github.event_name == 'workflow_call') && inputs.execute_current_host }}
     needs: closure-regression
     runs-on: [self-hosted, linux, x64, fa3-current-host]
     timeout-minutes: 360
@@ -678,7 +711,7 @@ jobs:
         shell: bash
         run: |
           python3 - <<'PY'
-          import json, os
+          import hashlib, json, os
           from pathlib import Path
           plan=json.loads(Path('reports/current-host-closure-batch-plan.json').read_text())
           requested=(os.environ.get('FA3_REQUESTED_BATCH_ID') or 'FULL-525').strip()
@@ -690,6 +723,17 @@ jobs:
               selection_sha256=plan['execution_ready_selection_sha256']
               if obligation_count != 525 or plan['pending_obligation_count'] != 0:
                   raise SystemExit(f'FULL-525 requires exact 525/525 definition materialization before physical execution: {plan}')
+          elif requested == 'SCOPED':
+              raw=(os.environ.get('FA3_REQUESTED_SUBJECTS') or '').strip()
+              subjects=[x.strip() for x in raw.split(',') if x.strip()]
+              if not subjects or len(subjects)!=len(set(subjects)):
+                  raise SystemExit('SCOPED requires a non-empty unique capability list')
+              subjects=sorted(subjects,key=lambda x:(int(x.split('-',1)[1]) if x.startswith('CAP-') and x.split('-',1)[1].isdigit() else 10**9,x))
+              unknown=sorted(set(subjects)-set(plan['execution_ready_capabilities']))
+              if unknown: raise SystemExit(f'SCOPED contains non-execution-ready capabilities: {unknown}')
+              obligation_count=len(subjects)*3
+              payload=json.dumps({'capabilities':subjects,'test_kinds':['positive','negative','rollback'],'registry_sha256':plan['registry_sha256']},sort_keys=True,separators=(',',':')).encode()
+              selection_sha256=hashlib.sha256(payload).hexdigest()
           else:
               batch=next((row for row in plan['execution_batches'] if row['batch_id']==requested), None)
               if batch is None:
@@ -707,7 +751,8 @@ jobs:
           print(json.dumps({'batch_id': requested, 'capabilities': subjects, 'obligation_count': obligation_count, 'selection_sha256': selection_sha256}, indent=2))
           PY
         env:
-          FA3_REQUESTED_BATCH_ID: ${{ github.event_name == 'push' && 'FULL-525' || inputs.execution_batch_id }}
+          FA3_REQUESTED_BATCH_ID: ${{ inputs.execution_batch_id || 'FULL-525' }}
+          FA3_REQUESTED_SUBJECTS: ${{ inputs.execution_subjects || '' }}
       - name: Validate digest-bound batch selection
         shell: bash
         run: |
@@ -766,10 +811,12 @@ jobs:
         run: |
           PYTHONPATH=src python3 src/fa3_current_host_capability_handoff.py --root .
       - name: Reconcile only qualified capability receipts
+        if: ${{ env.FA3_CURRENT_HOST_BATCH_ID == 'FULL-525' }}
         shell: bash
         run: |
           PYTHONPATH=src python3 src/fa3_current_host_evidence_audit.py --root . --apply-reconciliation
       - name: Run 19-point Acceptance Gate and promotion reconciliation
+        if: ${{ env.FA3_CURRENT_HOST_BATCH_ID == 'FULL-525' }}
         shell: bash
         run: |
           set +e
@@ -781,9 +828,15 @@ jobs:
           if [ "$acceptance_rc" -ne 0 ] && [ "$acceptance_rc" -ne 2 ]; then exit "$acceptance_rc"; fi
           if [ "$promotion_rc" -ne 0 ] && [ "$promotion_rc" -ne 2 ]; then exit "$promotion_rc"; fi
       - name: Assert runtime closure and promotion separation
+        if: ${{ env.FA3_CURRENT_HOST_BATCH_ID == 'FULL-525' }}
         shell: bash
         run: |
           PYTHONPATH=src python3 src/fa3_current_host_closure_assertion.py --root .
+      - name: Assert scoped affected-capability requalification
+        if: ${{ env.FA3_CURRENT_HOST_BATCH_ID == 'SCOPED' }}
+        shell: bash
+        run: |
+          PYTHONPATH=src python3 src/fa3_current_host_scoped_assertion.py --root . --subjects "$FA3_CURRENT_HOST_SUBJECTS"
       - name: Upload real current-host closure evidence
         if: always()
         uses: actions/upload-artifact@v4

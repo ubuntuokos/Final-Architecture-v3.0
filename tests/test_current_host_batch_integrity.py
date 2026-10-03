@@ -46,6 +46,20 @@ class CurrentHostBatchIntegrityTests(unittest.TestCase):
         )
         self.assertEqual("FAIL", report["result"])
 
+    def test_scoped_selection_accepts_exact_execution_ready_subset(self):
+        from fa3_current_host_batch_planner import _selection_digest
+        plan = build_plan(ROOT, batch_size=5)
+        subjects = plan["execution_ready_capabilities"][:2]
+        report = validate_selection(
+            ROOT,
+            batch_id="SCOPED",
+            subjects=subjects,
+            selection_sha256=_selection_digest(subjects, plan["registry_sha256"]),
+            batch_size=5,
+        )
+        self.assertEqual("PASS", report["result"], report)
+        self.assertEqual(6, report["obligation_count"])
+
 
 if __name__ == "__main__":
     unittest.main()
