@@ -21,7 +21,8 @@ Item {
      Label { text: "Original audio"; color: root.textMuted } ProgressBar { Layout.fillWidth: true; value: 0.72 }
      Label { text: "Generated narration"; color: root.textMuted } ProgressBar { Layout.fillWidth: true; value: 0.56 }
      RowLayout { Button { text: "Import captions" } Button { text: "Speaker map" } Button { text: "Build plan" } Button { text: "Send to Voice Fabric" } }
-     Label { Layout.fillWidth: true; wrapMode: Text.WordWrap; color: root.textMuted; font.pixelSize: 10; text: "Provider/model selection stays with Model Router + FA3-VOICE-001. Voice cloning requires existing consent proof. No application-owned TTS authority." }
+     Label { Layout.fillWidth: true; wrapMode: Text.WordWrap; color: root.textMuted; font.pixelSize: 10; text: "Provider/model selection stays with Model Router + FA3-VOICE-001. Voice cloning and transformation require existing consent proof. No application-owned voice authority." }
+     VoiceTransformationPanel { Layout.fillWidth: true; Layout.preferredHeight: 275 }
     }
    }
    Rectangle {
