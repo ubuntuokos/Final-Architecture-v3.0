@@ -33,7 +33,7 @@ Primary consumers: FA3 Character Studio and Bforartists-hosted DCC workflows.
 Creative/Media projections: FA3 Video Editor and image/photo editing via the existing application inventory.
 
 ## Donor serialization boundary
-PR #644 currently owns the serialized donor-intake slot. This materialization therefore does **not** modify the Donor & Reference Registry, create donor intake deltas, or create donor usage edges. The seven separately owner-marked Digital Salon / 3D hair sources must be re-evaluated from the published main snapshot after the active intake closes.
+PR #644 has merged into published main. This materialization still does **not** modify the Donor & Reference Registry, create donor intake deltas, or create donor usage edges. The seven separately owner-marked Digital Salon / 3D hair sources remain a separate serialized intake and require a fresh live-slot check before registration.
 
 ## Current Host
 This change is static metadata/contracts/mapping/validation only and claims `NO_RUNTIME_IMPACT`. Any executable worker, package/runtime dependency, provider/model activation, hardware execution, credential path or physical application binding escalates to mandatory physical Current Host positive/negative/rollback qualification.
