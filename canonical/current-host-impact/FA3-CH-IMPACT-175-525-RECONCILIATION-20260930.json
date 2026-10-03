@@ -18,11 +18,7 @@
     "canonical/providers/FA3-PROVIDER-STEP-CA-001.json",
     "canonical/step-ca-runtime-admission.json",
     "src/fa3_hardware_portability_gate.py",
-    "src/fa3_step_ca_gate.py",
-    "canonical/FA3-APPLICATION-INSTALLATION-REGISTRY-001.json",
-    "canonical/FA3-UPDATE-FABRIC-001.json",
-    "src/fa3_application_installation_resolver.py",
-    "src/fa3_host_adaptation.py"
+    "src/fa3_step_ca_gate.py"
   ],
   "current_host_changes": [
     "canonical/FA3-CURRENT-HOST-RUNNER-CONFORMANCE-001.json",
@@ -39,8 +35,7 @@
     "src/fa3_step_ca_current_host_gate.py",
     "canonical/current-host-capability-qualification-constituent-producers.json",
     "src/fa3_cap016_multi_distribution_dcc_current_host.py",
-    "src/fa3_multi_distribution_dcc_current_host.py",
-    "canonical/conformance-matrix.csv"
+    "src/fa3_multi_distribution_dcc_current_host.py"
   ],
   "physical_requalification_required": true,
   "physical_requalification_scope": "ACTIVE_175_CAPABILITIES_525_POSITIVE_NEGATIVE_ROLLBACK_OBLIGATIONS_EXACT_HEAD",
@@ -134,6 +129,19 @@
       "CAP-166"
     ],
     "shared_3d_producer_entries_rebound": 27,
-    "canonical_fallback_wording_removed": true
+    "canonical_fallback_wording_removed": true,
+    "structural_impact_classification": "SHARED_NON_STRUCTURAL_SUPPORT_PLUS_CURRENT_HOST_COMPANION_CHANGES",
+    "shared_non_structural_paths": [
+      "canonical/FA3-APPLICATION-INSTALLATION-REGISTRY-001.json",
+      "canonical/FA3-UPDATE-FABRIC-001.json",
+      "src/fa3_application_installation_resolver.py",
+      "src/fa3_host_adaptation.py"
+    ],
+    "current_host_companion_paths": [
+      "canonical/current-host-capability-qualification-constituent-producers.json",
+      "src/fa3_cap016_multi_distribution_dcc_current_host.py",
+      "src/fa3_multi_distribution_dcc_current_host.py",
+      "src/fa3_full_current_host_preflight.py"
+    ]
   }
 }
