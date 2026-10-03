@@ -17,7 +17,7 @@ from fa3_engine_selector import (
     materialize_catalog,
     selection_intent,
 )
-from fa3_engine_selector_gate import donor_registry_fingerprint, donor_snapshot_findings, gate
+from fa3_engine_selector_gate import donor_registry_fingerprint, gate
 
 class EngineSelectorTests(unittest.TestCase):
     @classmethod
@@ -40,10 +40,12 @@ class EngineSelectorTests(unittest.TestCase):
             row=json.loads((ROOT/rel).read_text(encoding="utf-8"))
             self.assertEqual(row["capability_count"],175,rel)
 
-    def test_donor_snapshot_fingerprint_matches_declared_published_main(self):
+    def test_donor_snapshot_fingerprint_matches_live_registry(self):
         assessment=json.loads((ROOT/"canonical/assessments/FA3-ENGINE-SELECTION-REUSE-ASSESSMENT-2026-10-03.json").read_text(encoding="utf-8"))
         snap=assessment["donor_planning_snapshot"]
-        self.assertEqual(donor_snapshot_findings(ROOT,snap),[])
+        live=donor_registry_fingerprint(ROOT/"canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json")
+        for key,value in live.items():
+            self.assertEqual(snap[key],value,key)
 
     def test_donor_snapshot_changes_on_registry_mutation(self):
         source=ROOT/"canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"
