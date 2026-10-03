@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Any
 
 from fa3_accelerator_backend_probe import enrich_accelerator_backends
+from fa3_application_runtime_resolver import dcc_qualification_candidate
 from fa3_current_host_batch_planner import build_plan
 from fa3_current_host_runtime_resolver import resolve_python_runtime
 from fa3_desktop_admission import (
@@ -136,15 +137,21 @@ def preflight(root: Path) -> dict[str, Any]:
 
     any_groups: dict[str, dict[str, Any]] = {}
     if {"graphics_3d", "metric_3d_reconstruction"} & primitives:
-        found = any_command(("bforartists", "bforartists-bin", "blender"))
+        dcc = dcc_qualification_candidate(root)
         any_groups["graphics_3d"] = {
-            "candidates": ["bforartists", "bforartists-bin", "blender"],
-            "selected": found[0] if found else None,
-            "path": found[1] if found else None,
+            "resolver": "FA3-APPLICATION-RUNTIME-DISCOVERY-001",
+            "selected_application_id": dcc.get("application_id") if dcc else None,
+            "selected_display_name": dcc.get("display_name") if dcc else None,
+            "packaging": dcc.get("packaging") if dcc else None,
+            "identity": dcc.get("identity") if dcc else None,
+            "launch_prefix": dcc.get("launch_prefix") if dcc else None,
+            "qualification_selection_reason": dcc.get("qualification_selection_reason") if dcc else None,
+            "healthy_group_instance_count": dcc.get("healthy_group_instance_count") if dcc else 0,
+            "runtime_selection_authority_exercised": False,
             "used_by": sorted({"graphics_3d", "metric_3d_reconstruction"} & primitives),
         }
-        if not found:
-            findings.append("Bforartists or Blender executable missing")
+        if not dcc:
+            findings.append("no healthy Bforartists or Blender installation available across admitted packaging forms")
     if "toolchain_build" in primitives:
         found = any_command(("cc", "gcc", "clang"))
         any_groups["toolchain_build"] = {
