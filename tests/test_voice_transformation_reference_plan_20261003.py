@@ -73,7 +73,7 @@ class VoiceTransformationPlanClosureTests(unittest.TestCase):
         self.assertTrue(self.decision["explicit_user_approval"])
         self.assertFalse(self.decision["invariants"]["provider_model_runtime_admission_from_this_decision"])
         self.assertFalse(self.decision["invariants"]["current_host_runtime_promotion_claim"])
-        self.assertFalse(self.plan["closure"]["current_host_runtime_promotion_claim"])
+        self.assertFalse(self.plan["closure"]["current_host_promotion_claim"])
 
     def test_existing_authorities_remain_exclusive(self):
         inv = self.plan["hard_invariants"]
