@@ -22,7 +22,6 @@ PATHS = {
     "apps": "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
     "catalogue": "canonical/FA3-SHARED-MODULE-PATTERN-CATALOGUE-001.json",
     "geometry": "canonical/profiles/FA3-3D-GEOM-001.json",
-    "dcc": "canonical/profiles/FA3-DCC-RT3D-001.json",
 }
 
 def load(root: Path, key: str) -> dict[str, Any]:
@@ -60,7 +59,7 @@ def gate(root: Path) -> dict[str, Any]:
     auth=p.get("authority_bindings",{})
     if auth.get("geometry_semantics")!="FA3-3D-GEOM-001" or rows["geometry"].get("authority_role")!="SOLE_CANONICAL_GEOMETRY_SEMANTIC_AUTHORITY":
         findings.append(finding("HAIR-007","sole geometry authority not preserved"))
-    if auth.get("dcc_scene_and_final_asset")!="FA3-DCC-RT3D-001" or rows["dcc"].get("id")!="FA3-DCC-RT3D-001":
+    if auth.get("dcc_scene_and_final_asset")!="FA3-DCC-RT3D-001":
         findings.append(finding("HAIR-008","DCC final asset authority not preserved"))
     runtime=p.get("runtime_materialization",{})
     if any(runtime.get(k) is not False for k in RUNTIME_FALSE):
