@@ -6,6 +6,7 @@ import hashlib
 import json
 import os
 import subprocess
+import urllib.error
 import urllib.request
 from pathlib import Path
 
@@ -136,6 +137,210 @@ def github_get(url,token):
         headers={"Authorization":"Bearer "+token,"Accept":"application/vnd.github+json",
                  "X-GitHub-Api-Version":"2022-11-28","User-Agent":"fa3-donor-readiness"})
     with urllib.request.urlopen(req,timeout=20) as r: return json.load(r)
+
+
+def github_graphql(query,variables,token):
+    """Authenticated GraphQL proof transport used only as a REST HTTP fallback."""
+    if not token: raise RuntimeError("GITHUB_TOKEN_REQUIRED")
+    req=urllib.request.Request(
+        "https://api.github.com/graphql",
+        data=json.dumps({"query":query,"variables":variables}).encode("utf-8"),
+        method="POST",
+        headers={"Authorization":"Bearer "+token,
+                 "Accept":"application/vnd.github+json",
+                 "Content-Type":"application/json",
+                 "X-GitHub-Api-Version":"2022-11-28",
+                 "User-Agent":"fa3-donor-readiness-graphql"})
+    with urllib.request.urlopen(req,timeout=30) as r:
+        body=json.load(r)
+    if (not isinstance(body,dict) or body.get("errors")
+            or not isinstance(body.get("data"),dict)):
+        raise ValueError("GITHUB_GRAPHQL_PROOF_INVALID")
+    return body["data"]
+
+_GRAPHQL_OPEN_PRS = """
+query($owner:String!,$name:String!,$after:String) {
+  repository(owner:$owner,name:$name) {
+    defaultBranchRef { name target { ... on Commit { oid } } }
+    pullRequests(states:OPEN,first:100,after:$after,
+                 orderBy:{field:CREATED_AT,direction:ASC}) {
+      nodes {
+        number
+        title
+        headRefOid
+        headRefName
+        headRepository { nameWithOwner }
+        files(first:100) {
+          totalCount
+          nodes { path additions deletions }
+          pageInfo { hasNextPage endCursor }
+        }
+      }
+      pageInfo { hasNextPage endCursor }
+    }
+  }
+}
+"""
+
+_GRAPHQL_MORE_FILES = """
+query($owner:String!,$name:String!,$number:Int!,$after:String!) {
+  repository(owner:$owner,name:$name) {
+    pullRequest(number:$number) {
+      files(first:100,after:$after) {
+        totalCount
+        nodes { path additions deletions }
+        pageInfo { hasNextPage endCursor }
+      }
+    }
+  }
+}
+"""
+
+_GRAPHQL_BLOB_PAIR = """
+query($headOwner:String!,$headName:String!,$headExpr:String!,
+      $baseOwner:String!,$baseName:String!,$mainExpr:String!) {
+  headRepository:repository(owner:$headOwner,name:$headName) {
+    object(expression:$headExpr) { ... on Blob { oid } }
+  }
+  baseRepository:repository(owner:$baseOwner,name:$baseName) {
+    object(expression:$mainExpr) { ... on Blob { oid } }
+  }
+}
+"""
+
+def _graphql_file_rows(block):
+    if not isinstance(block,dict) or not isinstance(block.get("nodes"),list):
+        raise ValueError("INCOMPLETE_GRAPHQL_PR_FILE_LIST")
+    total=block.get("totalCount")
+    if not isinstance(total,int) or total < 0:
+        raise ValueError("INVALID_GRAPHQL_PR_FILE_COUNT")
+    if total >= MAX_GITHUB_PR_FILES:
+        raise ValueError("PR_FILE_LIST_AT_GITHUB_API_CAP")
+    rows=[]
+    for item in block["nodes"]:
+        if not isinstance(item,dict) or not isinstance(item.get("path"),str):
+            raise ValueError("UNREADABLE_PR_FILE")
+        additions=item.get("additions")
+        deletions=item.get("deletions")
+        if not isinstance(additions,int) or additions < 0:
+            additions=0
+        if not isinstance(deletions,int) or deletions < 0:
+            deletions=0
+        rows.append({"filename":item["path"],"additions":additions,
+                     "deletions":deletions,"changes":additions+deletions})
+    return rows,total
+
+def pending_prs_graphql(graph,repo=REPO):
+    """Authenticated live donor inventory using GraphQL when REST proof is rate-limited.
+
+    This is not a permissive fallback: every open PR and every changed file is
+    still enumerated, nested pagination is completed, the 3,000-file cap fails
+    closed, and canonical donor bytes are compared with the published main
+    branch before slot/workload decisions are derived.
+    """
+    if repo!=REPO: raise ValueError("UNEXPECTED_REPOSITORY")
+    owner,name=repo.split("/",1)
+    found=[]
+    after=None
+    default_branch=None
+    page_count=0
+    while True:
+        page_count+=1
+        if page_count>20: raise ValueError("TOO_MANY_OPEN_PRS")
+        data=graph(_GRAPHQL_OPEN_PRS,{"owner":owner,"name":name,"after":after})
+        repository=data.get("repository") if isinstance(data,dict) else None
+        if not isinstance(repository,dict):
+            raise ValueError("GRAPHQL_REPOSITORY_UNAVAILABLE")
+        default=repository.get("defaultBranchRef")
+        if not isinstance(default,dict) or not isinstance(default.get("name"),str):
+            raise ValueError("GRAPHQL_DEFAULT_BRANCH_UNAVAILABLE")
+        if default_branch is None:
+            default_branch=default["name"]
+        elif default_branch!=default["name"]:
+            raise ValueError("MAIN_MOVED_DURING_SCAN")
+        prs=repository.get("pullRequests")
+        if not isinstance(prs,dict) or not isinstance(prs.get("nodes"),list):
+            raise ValueError("INCOMPLETE_PR_LIST")
+        for pr in prs["nodes"]:
+            if not isinstance(pr,dict) or not isinstance(pr.get("number"),int):
+                raise ValueError("UNREADABLE_PR")
+            number=pr["number"]
+            files,total=_graphql_file_rows(pr.get("files"))
+            file_info=pr["files"].get("pageInfo")
+            if not isinstance(file_info,dict):
+                raise ValueError("INCOMPLETE_GRAPHQL_PR_FILE_PAGE")
+            file_cursor=file_info.get("endCursor")
+            while file_info.get("hasNextPage") is True:
+                if not isinstance(file_cursor,str) or not file_cursor:
+                    raise ValueError("INCOMPLETE_GRAPHQL_PR_FILE_CURSOR:"+str(number))
+                extra=graph(_GRAPHQL_MORE_FILES,{
+                    "owner":owner,"name":name,"number":number,"after":file_cursor})
+                repo2=extra.get("repository") if isinstance(extra,dict) else None
+                pull=repo2.get("pullRequest") if isinstance(repo2,dict) else None
+                block=pull.get("files") if isinstance(pull,dict) else None
+                rows,total2=_graphql_file_rows(block)
+                if total2!=total:
+                    raise ValueError("GRAPHQL_PR_FILE_COUNT_DRIFT:"+str(number))
+                files.extend(rows)
+                file_info=block.get("pageInfo")
+                if not isinstance(file_info,dict):
+                    raise ValueError("INCOMPLETE_GRAPHQL_PR_FILE_PAGE:"+str(number))
+                file_cursor=file_info.get("endCursor")
+                if len(files)>=MAX_GITHUB_PR_FILES:
+                    raise ValueError("PR_FILE_LIST_AT_GITHUB_API_CAP:"+str(number))
+            if len(files)!=total:
+                raise ValueError("INCOMPLETE_GRAPHQL_PR_FILE_LIST:"+str(number))
+
+            head_sha=pr.get("headRefOid")
+            head_ref=pr.get("headRefName")
+            head_repo=(pr.get("headRepository") or {}).get("nameWithOwner")
+            compat={"number":number,"title":pr.get("title"),
+                    "head":{"sha":head_sha,"ref":head_ref,
+                            "repo":{"full_name":head_repo}}}
+            if (number in EXEMPT_HISTORICAL_PRS
+                    and head_sha==EXEMPT_HISTORICAL_HEADS[number]):
+                continue
+            if not is_donor_pr(compat,files):
+                continue
+
+            live=[]
+            for item in files:
+                path=item["filename"]
+                if path!=REGISTRY and not path.startswith("canonical/deltas/FA3-DONOR-"):
+                    continue
+                if (not isinstance(head_sha,str) or len(head_sha)!=40
+                        or not isinstance(head_repo,str) or "/" not in head_repo):
+                    live.append(item)
+                    continue
+                head_owner,head_name=head_repo.split("/",1)
+                pair=graph(_GRAPHQL_BLOB_PAIR,{
+                    "headOwner":head_owner,"headName":head_name,
+                    "headExpr":head_sha+":"+path,
+                    "baseOwner":owner,"baseName":name,
+                    "mainExpr":default_branch+":"+path})
+                head_repository=pair.get("headRepository") if isinstance(pair,dict) else None
+                base_repository=pair.get("baseRepository") if isinstance(pair,dict) else None
+                head_obj=head_repository.get("object") if isinstance(head_repository,dict) else None
+                main_obj=base_repository.get("object") if isinstance(base_repository,dict) else None
+                head_blob=head_obj.get("oid") if isinstance(head_obj,dict) else None
+                main_blob=main_obj.get("oid") if isinstance(main_obj,dict) else None
+                if head_blob!=main_blob:
+                    live.append(item)
+            intake=bool(live)
+            found.append({"number":number,"title":pr.get("title"),
+                          "head_sha":head_sha,"head_ref":head_ref,
+                          "head_repo_full_name":head_repo,
+                          "intake":intake,
+                          "workload_units":donor_intake_workload(live) if intake else None})
+        page_info=prs.get("pageInfo")
+        if not isinstance(page_info,dict):
+            raise ValueError("INCOMPLETE_PR_PAGE_INFO")
+        if page_info.get("hasNextPage") is not True:
+            return sorted(found,key=lambda p:p["number"])
+        after=page_info.get("endCursor")
+        if not isinstance(after,str) or not after:
+            raise ValueError("INCOMPLETE_PR_CURSOR")
+
 
 def is_donor_intake_pr(pr,files):
     """Claim the exclusive intake slot only for actual canonical donor mutation.
@@ -358,7 +563,19 @@ def gate(root,phase="status",token="",assessment=None,plan=None,approval=None,
         if not token and get is None:raise RuntimeError("LIVE_GITHUB_TOKEN_REQUIRED")
         getter=get if get is not None else lambda p:github_get(p,token)
         before=getter(f"/repos/{REPO}/branches/main")["commit"]["sha"]
-        result["pending_prs"]=pending_prs(getter)
+        try:
+            result["pending_prs"]=pending_prs(getter)
+        except urllib.error.HTTPError:
+            # Parallel FA3 workflows can temporarily exhaust the installation
+            # REST budget. Re-prove the same complete live inventory through
+            # GitHub's separately metered authenticated GraphQL API. Any
+            # GraphQL truncation, pagination gap or proof error still fails closed.
+            fallback_token=token or os.getenv("GITHUB_TOKEN") or os.getenv("GH_TOKEN","")
+            if not fallback_token:
+                raise
+            result["pending_prs"]=pending_prs_graphql(
+                lambda query,variables: github_graphql(query,variables,fallback_token))
+            result["proof_transport"]="AUTHENTICATED_GRAPHQL_FALLBACK_AFTER_REST_HTTPERROR"
         result["pending_intake_prs"]=[p for p in result["pending_prs"] if p["intake"]]
         after=getter(f"/repos/{REPO}/branches/main")["commit"]["sha"]
         if before!=after:result["findings"].append("MAIN_MOVED_DURING_SCAN")
