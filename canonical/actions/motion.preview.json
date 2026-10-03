@@ -1,0 +1,98 @@
+{
+  "schema": "fa3.uaf.action-contract.v1",
+  "id": "motion.preview",
+  "version": "1.0.0",
+  "description": "Produce an ephemeral preview without mutating the authoritative project.",
+  "input_schema": {
+    "type": "object",
+    "required": [
+      "motion_plan",
+      "engine_selection_intent",
+      "preview_range"
+    ],
+    "properties": {
+      "motion_plan": {
+        "type": "object"
+      },
+      "engine_selection_intent": {
+        "type": "object"
+      },
+      "preview_range": {
+        "type": "object"
+      }
+    },
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "artifact",
+      "evidence_refs"
+    ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "artifact": {
+        "type": "object"
+      },
+      "evidence_refs": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "semantics": {
+    "mutating": false,
+    "idempotent": true,
+    "retry_safe": true,
+    "long_running": true,
+    "ephemeral_artifact": true
+  },
+  "exposure": {
+    "gui": true,
+    "agent": true,
+    "cli": true,
+    "mcp": true,
+    "a2a": true,
+    "automation": true,
+    "http": false
+  },
+  "security": {
+    "authentication": "required",
+    "authorization": "required",
+    "approval": "policy",
+    "audit": "required"
+  },
+  "resources": {
+    "hrb_required": true,
+    "cpu": {
+      "physical_cores": {
+        "minimum": 0
+      },
+      "logical_processors": null
+    },
+    "accelerator": {
+      "required": false,
+      "cardinality": "0..N"
+    },
+    "memory": {
+      "admission": "provider-declared"
+    }
+  },
+  "provider": {
+    "selection": "existing-authorities-only",
+    "engine_preference_authority": false,
+    "model_router_authority": "FA3-AUTH-MODEL-ROUTER-001",
+    "engine_selector": "FA3-ENGINE-SELECTION-FABRIC-001"
+  },
+  "evidence": {
+    "required": true,
+    "decision_receipt_required": true
+  },
+  "profile_id": "FA3-SHARED-MOTION-VIDEO-QUALITY-001"
+}

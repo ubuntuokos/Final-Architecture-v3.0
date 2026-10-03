@@ -1,0 +1,51 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-MOTION-COMPONENT-LAB-CONTRACTS-001",
+  "status": "CANONICAL",
+  "profile_id": "FA3-SHARED-MOTION-VIDEO-QUALITY-001",
+  "provider_neutral": true,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-121",
+    "CAP-126",
+    "CAP-161"
+  ],
+  "types": {
+    "MotionComponentProof": {
+      "schema": "fa3.motion-component-proof.v1",
+      "component_types": [
+        "TRANSITION",
+        "MOTION_GRAPHIC",
+        "TITLE",
+        "UI_ANIMATION",
+        "CAMERA_MOVE",
+        "THREE_D_OR_DCC_MOTION",
+        "VFX_COMPONENT",
+        "AUDIO_TRANSITION"
+      ],
+      "required": [
+        "component_id",
+        "component_type",
+        "source_revision",
+        "parameters_digest",
+        "proof_frames",
+        "motion_proof_artifact",
+        "measurement_receipt",
+        "review_receipt",
+        "output_digest",
+        "status"
+      ],
+      "accepted_status": "ACCEPTED_FOR_COMPOSITION"
+    }
+  },
+  "rules": {
+    "component_isolation_before_composition_supported": true,
+    "accepted_component_requires_measurement_and_independent_review": true,
+    "failed_component_does_not_mutate_parent_project": true,
+    "changed_component_invalidates_only_proven_dependents": true,
+    "component_output_is_not_runtime_promotion": true
+  }
+}

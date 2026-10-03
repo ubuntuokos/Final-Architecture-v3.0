@@ -1,0 +1,105 @@
+{
+  "schema": "fa3.uaf.action-contract.v1",
+  "id": "motion.apply",
+  "version": "1.0.0",
+  "description": "Apply an approved typed MotionPlan EditProposal through the existing timeline command surface.",
+  "input_schema": {
+    "type": "object",
+    "required": [
+      "edit_proposal",
+      "expected_project_revision",
+      "expected_timeline_revision",
+      "rollback_ref"
+    ],
+    "properties": {
+      "edit_proposal": {
+        "type": "object"
+      },
+      "expected_project_revision": {
+        "type": "string"
+      },
+      "expected_timeline_revision": {
+        "type": "string"
+      },
+      "rollback_ref": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "new_project_revision",
+      "new_timeline_revision",
+      "evidence_refs"
+    ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "new_project_revision": {
+        "type": "string"
+      },
+      "new_timeline_revision": {
+        "type": "string"
+      },
+      "evidence_refs": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "semantics": {
+    "mutating": true,
+    "idempotent": false,
+    "retry_safe": false,
+    "long_running": false
+  },
+  "exposure": {
+    "gui": true,
+    "agent": true,
+    "cli": true,
+    "mcp": true,
+    "a2a": true,
+    "automation": true,
+    "http": false
+  },
+  "security": {
+    "authentication": "required",
+    "authorization": "required",
+    "approval": "policy",
+    "audit": "required"
+  },
+  "resources": {
+    "hrb_required": false,
+    "cpu": {
+      "physical_cores": {
+        "minimum": 0
+      },
+      "logical_processors": null
+    },
+    "accelerator": {
+      "required": false,
+      "cardinality": "0..N"
+    },
+    "memory": {
+      "admission": "provider-declared"
+    }
+  },
+  "provider": {
+    "selection": "existing-authorities-only",
+    "engine_preference_authority": false,
+    "model_router_authority": "FA3-AUTH-MODEL-ROUTER-001",
+    "engine_selector": "FA3-ENGINE-SELECTION-FABRIC-001"
+  },
+  "evidence": {
+    "required": true,
+    "decision_receipt_required": true
+  },
+  "profile_id": "FA3-SHARED-MOTION-VIDEO-QUALITY-001"
+}

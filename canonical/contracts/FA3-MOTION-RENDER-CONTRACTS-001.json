@@ -1,0 +1,68 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-MOTION-RENDER-CONTRACTS-001",
+  "status": "CANONICAL",
+  "profile_id": "FA3-SHARED-MOTION-VIDEO-QUALITY-001",
+  "provider_neutral": true,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-121",
+    "CAP-159",
+    "CAP-161"
+  ],
+  "types": {
+    "MotionRenderRequest": {
+      "required": [
+        "input_artifact_digest",
+        "motion_plan_digest",
+        "timeline_revision",
+        "frame_or_range",
+        "engine_selection_intent",
+        "render_profile"
+      ]
+    },
+    "DeterministicRenderReceipt": {
+      "required": [
+        "request_digest",
+        "engine_identity",
+        "engine_version",
+        "input_digest",
+        "motion_plan_digest",
+        "timeline_revision",
+        "output_digest",
+        "determinism_claim"
+      ]
+    },
+    "GenerativeRenderReceipt": {
+      "required": [
+        "request_digest",
+        "provider_identity",
+        "model_identity",
+        "output_digest",
+        "provenance",
+        "determinism_claim"
+      ]
+    }
+  },
+  "rules": {
+    "engine_selection_intent_must_not_request_execution": true,
+    "engine_selector_is_not_execution_authority": true,
+    "actual_ai_provider_model_route_delegates_to_model_router": true,
+    "physical_resource_route_delegates_to_hrb": true,
+    "render_execution_reuses_existing_motion_video_and_media_execution_contracts": true,
+    "deterministic_claim_requires_replay_or_seek_evidence": true,
+    "nondeterministic_or_generative_output_must_not_claim_pixel_determinism": true,
+    "seed_is_provenance_not_universal_determinism_proof": true,
+    "cpu_only_path_must_remain_valid_at_fabric_level": true,
+    "accelerator_cardinality": "0..N",
+    "silent_engine_provider_model_device_fallback_forbidden": true,
+    "output_digest_and_lineage_required": true
+  },
+  "reused_contracts": [
+    "FA3-MOTION-VIDEO-EXECUTION-CONTRACTS-001",
+    "FA3-ENGINE-SELECTION-CONTRACTS-001"
+  ]
+}

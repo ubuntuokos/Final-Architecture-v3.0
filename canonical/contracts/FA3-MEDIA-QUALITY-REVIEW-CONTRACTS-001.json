@@ -1,0 +1,90 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-MEDIA-QUALITY-REVIEW-CONTRACTS-001",
+  "status": "CANONICAL",
+  "profile_id": "FA3-SHARED-MOTION-VIDEO-QUALITY-001",
+  "provider_neutral": true,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-126",
+    "CAP-161"
+  ],
+  "types": {
+    "MediaQualityProfile": {
+      "schema": "fa3.media-quality-profile.v1",
+      "required": [
+        "profile_id",
+        "motion",
+        "temporal",
+        "audio",
+        "av_sync",
+        "layout",
+        "color",
+        "continuity",
+        "perceptual",
+        "determinism",
+        "delivery"
+      ],
+      "fixed_universal_numeric_thresholds_forbidden": true
+    },
+    "MediaReviewFinding": {
+      "required": [
+        "finding_id",
+        "artifact_digest",
+        "category",
+        "severity",
+        "description",
+        "status",
+        "measurement_refs",
+        "evidence_refs"
+      ]
+    },
+    "MediaReviewFindingSet": {
+      "schema": "fa3.media-review-findings.v1",
+      "required": [
+        "artifact_digest",
+        "producer_identity",
+        "reviewer_identity",
+        "findings",
+        "evidence_refs"
+      ]
+    },
+    "MediaVerificationReceipt": {
+      "required": [
+        "artifact_digest",
+        "prior_finding_set_digest",
+        "producer_identity",
+        "verifier_identity",
+        "statuses",
+        "evidence_refs"
+      ],
+      "statuses": [
+        "FIXED",
+        "PARTIAL",
+        "STILL_PRESENT",
+        "REGRESSION",
+        "NOT_VERIFIABLE"
+      ]
+    }
+  },
+  "rules": {
+    "quality_thresholds_are_profile_and_delivery_target_specific": true,
+    "measurements_do_not_replace_human_or_independent_review_where_required": true,
+    "reviewer_identity_must_differ_from_producer_identity": true,
+    "verifier_identity_must_differ_from_producer_identity": true,
+    "self_review_cannot_produce_pass": true,
+    "not_verifiable_is_not_pass": true,
+    "critic_may_recommend_but_not_authorize_timeline_mutation": true,
+    "measurement_and_review_receipts_require_artifact_digest": true,
+    "repair_verification_requires_prior_finding_set_digest": true,
+    "regression_status_blocks_delivery_pass": true,
+    "existing_ffmpeg_audio_vmaf_and_evidence_authorities_are_reused": true
+  },
+  "reused_contracts": [
+    "FA3-AGENT-APPLICATION-BLUEPRINT-CONTRACTS-001",
+    "FA3-VIDEO-REFINEMENT-CONTRACTS-001"
+  ]
+}

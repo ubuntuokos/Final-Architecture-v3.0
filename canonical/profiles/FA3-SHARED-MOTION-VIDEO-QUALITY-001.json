@@ -1,0 +1,115 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-SHARED-MOTION-VIDEO-QUALITY-001",
+  "name": "Shared Motion Planning, Deterministic Render Quality & Independent Media Review",
+  "version": "1.0.0",
+  "status": "CANONICAL_STATIC_MATERIALIZED_PHYSICAL_RUNTIME_REQUALIFICATION_PENDING",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "relationship": {
+    "type": "SUBPROFILE-OF",
+    "parent": "FA3-VIDEO-001"
+  },
+  "provider_neutral": true,
+  "authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-121",
+    "CAP-126",
+    "CAP-159",
+    "CAP-161"
+  ],
+  "contract_ids": [
+    "FA3-MOTION-PLAN-CONTRACTS-001",
+    "FA3-MOTION-RENDER-CONTRACTS-001",
+    "FA3-MEDIA-QUALITY-REVIEW-CONTRACTS-001",
+    "FA3-MOTION-COMPONENT-LAB-CONTRACTS-001"
+  ],
+  "reused_contracts": [
+    "FA3-MOTION-VIDEO-EXECUTION-CONTRACTS-001",
+    "FA3-VIDEO-REFINEMENT-CONTRACTS-001",
+    "FA3-CREATIVE-PROJECT-WORKFLOW-CONTRACTS-001",
+    "FA3-AGENT-APPLICATION-BLUEPRINT-CONTRACTS-001",
+    "FA3-ENGINE-SELECTION-CONTRACTS-001"
+  ],
+  "engine_selection": {
+    "profile_id": "FA3-ENGINE-SELECTION-FABRIC-001",
+    "registry_id": "FA3-ENGINE-REGISTRY-001",
+    "authority": false,
+    "selection_intent_only": true,
+    "runtime_execution_separate": true,
+    "silent_fallback": false
+  },
+  "authority_boundaries": {
+    "editorial_timeline": "EXISTING_FA3_VIDEO_EDITOR_COMMAND_BUS_AND_OTIO",
+    "ai_provider_model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "action_mediation": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "engine_preference": "FA3-ENGINE-SELECTION-FABRIC-001_NON_AUTHORITY_INTENT_ONLY",
+    "durable_lifecycle": "Temporal"
+  },
+  "motion_primitives": [
+    "PERSISTENT_ACTOR",
+    "OBJECT_HANDOFF",
+    "FOREGROUND_TRANSITION",
+    "MATCHED_DIRECTION",
+    "SELECTION_EXPANSION",
+    "MATERIALIZE_RESULT",
+    "EXPLODED_ASSEMBLY",
+    "REGISTERED_DECOMPOSITION",
+    "CONTINUOUS_CANVAS",
+    "CAMERA_CONTINUITY",
+    "CAUSE_EFFECT_BEAT",
+    "TYPE_CHOREOGRAPHY"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hrb_exclusive_resource_authority": true,
+    "display_gpu_policy_inherited": true
+  },
+  "review_policy": {
+    "independent_reviewer_required": true,
+    "independent_verifier_required_for_repair_claim": true,
+    "self_review_can_pass": false,
+    "authenticated_identity_separation_required": true,
+    "verification_statuses": [
+      "FIXED",
+      "PARTIAL",
+      "STILL_PRESENT",
+      "REGRESSION",
+      "NOT_VERIFIABLE"
+    ]
+  },
+  "native_project_policy": {
+    "project_fa3video_authoritative": true,
+    "otio_interchange_not_native_project_authority": true,
+    "direct_kdenlive_xml_mutation_forbidden": true,
+    "edit_proposal_dry_run_required": true,
+    "project_and_timeline_revision_binding_required": true,
+    "rollback_reference_required_for_mutation": true
+  },
+  "reference_boundary": {
+    "source": "https://github.com/echris6/motion-video-kit",
+    "canonical_donor_registered_by_this_change": false,
+    "analysis_only_pattern_use": true,
+    "source_copy": false,
+    "runtime_dependency": false,
+    "provider_admission": false,
+    "model_admission": false
+  },
+  "current_host": {
+    "structural_change": true,
+    "static_materialization": true,
+    "physical_runtime_requalification_required": true,
+    "physical_current_host_pass_claimed": false,
+    "global_promotion_claim": false
+  }
+}

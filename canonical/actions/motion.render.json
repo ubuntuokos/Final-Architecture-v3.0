@@ -1,0 +1,101 @@
+{
+  "schema": "fa3.uaf.action-contract.v1",
+  "id": "motion.render",
+  "version": "1.0.0",
+  "description": "Render a MotionPlan using non-executing Engine Selection intent and existing authorities.",
+  "input_schema": {
+    "type": "object",
+    "required": [
+      "motion_plan",
+      "engine_selection_intent",
+      "render_profile"
+    ],
+    "properties": {
+      "motion_plan": {
+        "type": "object"
+      },
+      "engine_selection_intent": {
+        "type": "object"
+      },
+      "render_profile": {
+        "type": "object"
+      }
+    },
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "artifact",
+      "render_receipt",
+      "evidence_refs"
+    ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "artifact": {
+        "type": "object"
+      },
+      "render_receipt": {
+        "type": "object"
+      },
+      "evidence_refs": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "semantics": {
+    "mutating": true,
+    "idempotent": false,
+    "retry_safe": false,
+    "long_running": true
+  },
+  "exposure": {
+    "gui": true,
+    "agent": true,
+    "cli": true,
+    "mcp": true,
+    "a2a": true,
+    "automation": true,
+    "http": false
+  },
+  "security": {
+    "authentication": "required",
+    "authorization": "required",
+    "approval": "policy",
+    "audit": "required"
+  },
+  "resources": {
+    "hrb_required": true,
+    "cpu": {
+      "physical_cores": {
+        "minimum": 0
+      },
+      "logical_processors": null
+    },
+    "accelerator": {
+      "required": false,
+      "cardinality": "0..N"
+    },
+    "memory": {
+      "admission": "provider-declared"
+    }
+  },
+  "provider": {
+    "selection": "existing-authorities-only",
+    "engine_preference_authority": false,
+    "model_router_authority": "FA3-AUTH-MODEL-ROUTER-001",
+    "engine_selector": "FA3-ENGINE-SELECTION-FABRIC-001"
+  },
+  "evidence": {
+    "required": true,
+    "decision_receipt_required": true
+  },
+  "profile_id": "FA3-SHARED-MOTION-VIDEO-QUALITY-001"
+}

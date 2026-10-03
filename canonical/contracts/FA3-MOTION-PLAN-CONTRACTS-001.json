@@ -1,0 +1,84 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-MOTION-PLAN-CONTRACTS-001",
+  "status": "CANONICAL",
+  "profile_id": "FA3-SHARED-MOTION-VIDEO-QUALITY-001",
+  "provider_neutral": true,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-121",
+    "CAP-126",
+    "CAP-159"
+  ],
+  "types": {
+    "MotionPlan": {
+      "schema": "fa3.motion-plan.v1",
+      "required": [
+        "motion_plan_id",
+        "revision",
+        "project_id",
+        "project_revision",
+        "timeline_revision",
+        "timebase",
+        "beats",
+        "actors",
+        "transitions",
+        "camera_constraints",
+        "motion_constraints",
+        "continuity_constraints",
+        "audio_cues",
+        "quality_profile",
+        "render_intent",
+        "source_artifact_refs",
+        "provenance",
+        "digest"
+      ]
+    },
+    "MotionPrimitive": {
+      "allowed": [
+        "PERSISTENT_ACTOR",
+        "OBJECT_HANDOFF",
+        "FOREGROUND_TRANSITION",
+        "MATCHED_DIRECTION",
+        "SELECTION_EXPANSION",
+        "MATERIALIZE_RESULT",
+        "EXPLODED_ASSEMBLY",
+        "REGISTERED_DECOMPOSITION",
+        "CONTINUOUS_CANVAS",
+        "CAMERA_CONTINUITY",
+        "CAUSE_EFFECT_BEAT",
+        "TYPE_CHOREOGRAPHY"
+      ]
+    },
+    "EditProposalProjection": {
+      "schema": "fa3.motion-edit-proposal.v1",
+      "required": [
+        "motion_plan_digest",
+        "expected_project_revision",
+        "expected_timeline_revision",
+        "dry_run_required",
+        "direct_native_project_mutation"
+      ]
+    }
+  },
+  "rules": {
+    "native_project_remains_authoritative": true,
+    "direct_native_project_file_mutation_forbidden": true,
+    "edit_proposal_only": true,
+    "dry_run_and_diff_required": true,
+    "expected_project_revision_required": true,
+    "expected_timeline_revision_required": true,
+    "stale_project_or_timeline_revision_fails_closed": true,
+    "engine_selection_is_non_executing_intent": true,
+    "provider_specific_motion_syntax_not_canonical": true,
+    "motion_plan_digest_required": true,
+    "source_artifact_lineage_required": true
+  },
+  "reused_contracts": [
+    "FA3-CREATIVE-PROJECT-WORKFLOW-CONTRACTS-001",
+    "FA3-ENGINE-SELECTION-CONTRACTS-001"
+  ]
+}

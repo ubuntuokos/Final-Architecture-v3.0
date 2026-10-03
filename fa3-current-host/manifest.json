@@ -253,7 +253,15 @@
     "tests/test_step_ca_session_vault_ceremony.py",
     "tests/test_sysctl_governance.py",
     "tools/fa3_approval_tool.py",
-    "tools/fa3_python_namespace_audit.py"
+    "tools/fa3_python_namespace_audit.py",
+    "canonical/profiles/FA3-SHARED-MOTION-VIDEO-QUALITY-001.json",
+    "canonical/contracts/FA3-MOTION-PLAN-CONTRACTS-001.json",
+    "canonical/contracts/FA3-MOTION-RENDER-CONTRACTS-001.json",
+    "canonical/contracts/FA3-MEDIA-QUALITY-REVIEW-CONTRACTS-001.json",
+    "canonical/contracts/FA3-MOTION-COMPONENT-LAB-CONTRACTS-001.json",
+    "canonical/motion-video-quality-enforcement.json",
+    "src/fa3_motion_video_quality.py",
+    "src/fa3_motion_video_quality_gate.py"
   ],
   "registered_current_host_surfaces": [
     {
@@ -499,6 +507,22 @@
       "physical_current_host_pass_claimed": false,
       "global_promotion_claim": false,
       "current_host_impact": "FA3-COMPUTER-INTERACTION-CURRENT-HOST-IMPACT-001"
+    },
+    {
+      "name": "motion-video-quality-shared",
+      "collector": null,
+      "gate": "motion-video-quality",
+      "activation": "STRUCTURAL_ALIGNMENT_STATIC_AND_UNIT_VALIDATION_ONLY",
+      "capability_ids": [
+        "CAP-121",
+        "CAP-126",
+        "CAP-159",
+        "CAP-161"
+      ],
+      "profile_id": "FA3-SHARED-MOTION-VIDEO-QUALITY-001",
+      "collection_status": "STATIC_MATERIALIZED_PHYSICAL_RUNTIME_REQUALIFICATION_PENDING",
+      "physical_current_host_pass_claimed": false,
+      "global_promotion_claim": false
     }
   ],
   "global_gate_sequence": [
@@ -532,5 +556,28 @@
     "monitor_projection_authority": false,
     "monitor_surface": "agents.orchestration-monitor",
     "monitor_runtime_evidence_required": true
+  },
+  "motion_video_quality_alignment": {
+    "profile_id": "FA3-SHARED-MOTION-VIDEO-QUALITY-001",
+    "contract_ids": [
+      "FA3-MOTION-PLAN-CONTRACTS-001",
+      "FA3-MOTION-RENDER-CONTRACTS-001",
+      "FA3-MEDIA-QUALITY-REVIEW-CONTRACTS-001",
+      "FA3-MOTION-COMPONENT-LAB-CONTRACTS-001"
+    ],
+    "gate_id": "FA3-MOTION-VIDEO-QUALITY-GATESET-001",
+    "capability_count": 175,
+    "capability_bindings": [
+      "CAP-121",
+      "CAP-126",
+      "CAP-159",
+      "CAP-161"
+    ],
+    "structural_change": true,
+    "static_materialization": true,
+    "physical_runtime_requalification_required": true,
+    "current_host_promotion_claim": false,
+    "engine_selector_execution_authority": false,
+    "temporal_remains_sole_global_durable_lifecycle_authority": true
   }
 }
