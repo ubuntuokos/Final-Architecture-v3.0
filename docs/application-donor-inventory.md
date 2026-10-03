@@ -145,7 +145,9 @@ Shared-capability rules remain separate but coupled: a multi-application
 functional core must live in one shared FA3 layer, and a donor-derived shared
 capability requires an explicit donor usage edge before donor adoption can be
 claimed. Reference-only pattern candidates do not create usage edges by
-themselves.\n\n## Universal access in the usage graph
+themselves.
+
+## Universal access in the usage graph
 
 Every material donor usage edge is subject to `FA3-GATE-UNIVERSAL-CAPABILITY-ACCESS-001`.
 
@@ -156,4 +158,4 @@ Every material donor usage edge is subject to `FA3-GATE-UNIVERSAL-CAPABILITY-ACC
 - restriction circumvention is forbidden;
 - architecture/reference-only usage remains non-material and does not imply runtime or source admission.
 
-The reverse donor→capability→consumer graph is therefore also the remediation surface: when a donor becomes restricted, substitution is performed once at the shared capability layer and propagated to all consumers.\n
+The reverse donor→capability→consumer graph is therefore also the remediation surface: when a donor becomes restricted, substitution is performed once at the shared capability layer and propagated to all consumers.
