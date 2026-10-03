@@ -44,16 +44,6 @@
       "use": "EXISTING_OBSERVABILITY_AND_EVIDENCE_AUTHORITY"
     }
   ],
-  "donor_pattern_reuse": [
-    {
-      "donor_id": "FA3-DONOR-0XDEVALIAS-AI-VOICE-CLONING-GIST-001",
-      "usage_edge_id": "FA3-USAGE-AI-VOICE-CLONING-GIST-VOICE-TRANSFORMATION-001",
-      "pattern": "VOICE_TRANSFORMATION_TAXONOMY_AND_SHARED_WORKFLOW_SURFACE",
-      "code_copy": false,
-      "runtime_dependency": false,
-      "provider_admission": false
-    }
-  ],
   "rejected_candidates": [
     {
       "id": "SECOND_VOICE_AUTHORITY",
@@ -123,11 +113,12 @@
       "VoiceTransformationPanel.qml"
     ],
     "consumer_scope": [
-      "fa3.music-studio",
-      "fa3.character-studio",
-      "fa3.story-screenplay",
-      "fa3.video-editor",
-      "fa3.quickclip"
+      "PLANNED:fa3.music-studio",
+      "PLANNED:fa3.character-studio",
+      "PLANNED:fa3.story-screenplay",
+      "PLANNED:fa3.video-editor",
+      "PLANNED:fa3.quickclip",
+      "MATERIALIZED_GUI:create.narration-studio"
     ],
     "local_duplicate_created": false
   },
@@ -145,14 +136,6 @@
       "automatic_activation": false
     }
   ],
-  "donor_adoption": [
-    {
-      "donor_id": "FA3-DONOR-0XDEVALIAS-AI-VOICE-CLONING-GIST-001",
-      "disposition": "FUNCTIONAL_ARCHITECTURE_PATTERN_ONLY",
-      "usage_edge_id": "FA3-USAGE-AI-VOICE-CLONING-GIST-VOICE-TRANSFORMATION-001",
-      "source_copy": false
-    }
-  ],
   "pending_or_unmerged_donors_consumed": false,
   "capability_count_after": 175,
   "new_capabilities": 0,
@@ -160,5 +143,15 @@
   "implementation_readiness": "READY_FOR_STATIC_MATERIALIZATION",
   "current_host_runtime_promotion_claim": false,
   "global_promotion_claim": false,
-  "donor_id": "FA3-DONOR-0XDEVALIAS-AI-VOICE-CLONING-GIST-001"
+  "donor_id": "FA3-DONOR-0XDEVALIAS-AI-VOICE-CLONING-GIST-001",
+  "reference_only_donor_input": {
+    "donor_id": "FA3-DONOR-0XDEVALIAS-AI-VOICE-CLONING-GIST-001",
+    "usage_edge_id": "FA3-USAGE-AI-VOICE-CLONING-GIST-VOICE-TRANSFORMATION-001",
+    "disposition": "REFERENCE_BINDING_ONLY",
+    "material_adoption": false,
+    "code_copy": false,
+    "runtime_dependency": false,
+    "provider_admission": false,
+    "rights_status": "UNKNOWN_FAIL_CLOSED_FOR_MATERIAL_USE"
+  }
 }
