@@ -21,6 +21,11 @@ class T(unittest.TestCase):
   self.assertIn('test "${#changed[@]}" -eq 1',x)
   self.assertIn('test "${changed[0]}" = "$projection"',x)
   self.assertIn("./bin/fa3-enforce release-projection",x)
+  self.assertIn("actions: write",x)
+  self.assertIn("createWorkflowDispatch",x)
+  self.assertIn("commit.parents.length !== 1",x)
+  self.assertIn("commit.parents[0].sha !== source",x)
+  self.assertIn("files.length !== 1 || files[0].filename !== projection",x)
  def test_physical_lock_and_hosted_regression_are_separated(self):
   global_text=(ROOT/".github/workflows/fa3-global-current-host-closure.yml").read_text()
   self.assertIn("fa3-current-host-physical-{0}-{1}",global_text)
