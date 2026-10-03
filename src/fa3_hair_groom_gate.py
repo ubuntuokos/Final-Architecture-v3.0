@@ -10,6 +10,31 @@ RUNTIME_FALSE = (
     "new_service","new_daemon","new_port","new_socket","new_package_dependency",
     "provider_activation","model_selection","hardware_mutation","physical_application_binding"
 )
+IMPACT_RUNTIME_FALSE = (
+    "runtime_change","service_change","daemon_change","port_or_socket_change",
+    "package_dependency_change","provider_or_model_activation","hardware_mutation",
+    "credential_path_change","physical_application_binding",
+    "current_host_runtime_promotion_claim","physical_current_host_pass_claimed",
+    "host_requalification_required_now",
+)
+ENFORCEMENT_P0 = {
+    "HAIR_GROOM_SHARED_NON_AUTHORITY",
+    "CAPABILITY_BASELINE_175_UNCHANGED",
+    "PROFILE_CONTRACT_BINDING_PARITY",
+    "SOLE_GEOMETRY_AUTHORITY_PRESERVED",
+    "DCC_FINAL_ASSET_AUTHORITY_PRESERVED",
+    "MODEL_ROUTER_HRB_ENGINE_SELECTION_AUTHORITIES_PRESERVED",
+    "CPU_ONLY_CONTROL_PATH_VALID",
+    "DISPLAY_GPU_IMPLICIT_AI_ENLISTMENT_FORBIDDEN",
+    "NO_SILENT_FALLBACK",
+    "NON_AI_MANUAL_PROCEDURAL_PATH_REQUIRED",
+    "CANONICAL_HAIR_ASSET_REPRESENTATION_SET_FIXED",
+    "NON_DESTRUCTIVE_GROOM_HISTORY_REQUIRED",
+    "APPLICATION_CAPABILITY_BINDING_DERIVED_ONLY",
+    "PENDING_DONORS_NOT_CONSUMED",
+    "DONOR_USAGE_EDGE_COUNT_ZERO_FOR_STATIC_MATERIALIZATION",
+    "STATIC_PASS_NOT_CURRENT_HOST_RUNTIME_PASS",
+}
 PATHS = {
     "baseline": "canonical/FA3-RELEASE-CAPABILITY-BASELINE-001.json",
     "profile": "canonical/profiles/FA3-SHARED-HAIR-GROOM-001.json",
@@ -46,6 +71,8 @@ def gate(root: Path) -> dict[str, Any]:
 
     baseline=rows["baseline"].get("current_release_capability_count")
     p,c=rows["profile"],rows["contract"]
+    intent=rows["intent"]
+    enforcement=rows["enforcement"]
     if baseline!=175 or p.get("capability_count")!=baseline or c.get("capability_count")!=baseline:
         findings.append(finding("HAIR-002","capability baseline/count drift"))
     if p.get("capability_bindings")!=CAPS or c.get("capability_bindings")!=CAPS:
@@ -56,6 +83,41 @@ def gate(root: Path) -> dict[str, Any]:
         findings.append(finding("HAIR-005","new architectural authority forbidden"))
     if p.get("provider_neutral") is not True or c.get("provider_neutral") is not True or p.get("shared_component") is not True:
         findings.append(finding("HAIR-006","shared/provider-neutral invariant failed"))
+
+    if not (
+        intent.get("schema")=="fa3.application-intent.v1"
+        and intent.get("id")=="FA3-SHARED-HAIR-GROOM-APPLICATION-INTENT-2026-10-03"
+        and intent.get("project_id")=="FA3-SHARED-HAIR-GROOM-001"
+        and intent.get("project_type")=="SHARED_SYSTEM_COMPONENT"
+        and intent.get("required_capabilities")==CAPS
+        and intent.get("declared_new_capabilities")==[]
+        and intent.get("proposed_authority_roles")==[]
+        and intent.get("execution_classes")==["STATIC_CONTRACT_AND_MAPPING"]
+        and intent.get("hardware_audit",{}).get("vendor_neutral") is True
+        and intent.get("hardware_audit",{}).get("cpu_only_viable") is True
+        and intent.get("hardware_audit",{}).get("global_accelerator_requirement") is False
+        and intent.get("hardware_audit",{}).get("hardware_mutation") is False
+        and intent.get("namespace_claims",{}).get("requires_upstream_uninstall") is False
+        and intent.get("namespace_claims",{}).get("global_environment_mutation") is False
+        and intent.get("namespace_claims",{}).get("claims_default_port") is False
+    ):
+        findings.append(finding("HAIR-006A","application intent identity/invariants failed"))
+
+    if not (
+        enforcement.get("schema")=="fa3.shared-hair-groom-enforcement.v1"
+        and enforcement.get("id")=="FA3-SHARED-HAIR-GROOM-ENFORCEMENT-001"
+        and enforcement.get("gate_id")=="FA3-SHARED-HAIR-GROOM-GATESET-001"
+        and enforcement.get("executable_gate_id")=="FA3-GATE-SHARED-HAIR-GROOM-001"
+        and enforcement.get("profile_id")=="FA3-SHARED-HAIR-GROOM-001"
+        and enforcement.get("contract_id")=="FA3-SHARED-HAIR-GROOM-CONTRACTS-001"
+        and enforcement.get("decision_id")=="FA3-DEC-SHARED-HAIR-GROOM-2026-10-03"
+        and enforcement.get("capability_bindings")==CAPS
+        and enforcement.get("capability_count")==baseline
+        and enforcement.get("fail_closed") is True
+        and enforcement.get("current_host_runtime_promotion_claim") is False
+        and ENFORCEMENT_P0.issubset(set(enforcement.get("p0_invariants",[])))
+    ):
+        findings.append(finding("HAIR-006B","enforcement record identity/P0 invariants failed"))
     auth=p.get("authority_bindings",{})
     if auth.get("geometry_semantics")!="FA3-3D-GEOM-001" or rows["geometry"].get("authority_role")!="SOLE_CANONICAL_GEOMETRY_SEMANTIC_AUTHORITY":
         findings.append(finding("HAIR-007","sole geometry authority not preserved"))
@@ -95,8 +157,19 @@ def gate(root: Path) -> dict[str, Any]:
         findings.append(finding("HAIR-019","static Hair/Groom profile/contract may not forge donor adoption"))
 
     impact=rows["impact"]
-    if impact.get("status")!="NO_RUNTIME_IMPACT" or impact.get("host_requalification_required_now") is not False or impact.get("current_host_runtime_promotion_claim") is not False:
-        findings.append(finding("HAIR-020","static materialization must not claim Current Host runtime promotion"))
+    if (
+        impact.get("schema")!="fa3.current-host-structural-impact.v1"
+        or impact.get("id")!="FA3-SHARED-HAIR-GROOM-CURRENT-HOST-IMPACT-001"
+        or impact.get("subject_id")!="FA3-SHARED-HAIR-GROOM-001"
+        or impact.get("status")!="NO_RUNTIME_IMPACT"
+        or impact.get("capability_baseline")!=baseline
+        or impact.get("capability_delta")!=0
+        or impact.get("authority_delta")!=0
+        or impact.get("runtime_delta")!="NONE"
+        or any(impact.get(k) is not False for k in IMPACT_RUNTIME_FALSE)
+        or impact.get("alignment_scope",{}).get("executable_current_host_path_added") is not False
+    ):
+        findings.append(finding("HAIR-020","static materialization Current Host impact/runtime flags invalid"))
     if rows["decision"].get("status")!="OWNER_APPROVED_MATERIALIZATION":
         findings.append(finding("HAIR-021","owner-approved materialization decision missing"))
 
