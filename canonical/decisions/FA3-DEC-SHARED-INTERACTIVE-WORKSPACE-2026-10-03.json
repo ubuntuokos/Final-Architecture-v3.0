@@ -1,0 +1,24 @@
+{
+  "schema": "fa3.architecture-decision.v1",
+  "id": "FA3-DEC-SHARED-INTERACTIVE-WORKSPACE-2026-10-03",
+  "status": "APPROVED",
+  "decision_status": "OWNER_APPROVED_MATERIALIZATION",
+  "date": "2026-10-03",
+  "title": "Shared Interactive Workspace and capability-driven application interaction",
+  "decision": "Materialize one provider-neutral shared interaction layer for typed natural-language actions, generative workspace projection, review/revision, skill/runtime surface composition and semantic appearance. Reuse existing FA3 authorities and MMG Context IR; do not create a parallel Prompt IR, provider/model router, MCP authority or durable orchestrator.",
+  "explicit_user_approval": true,
+  "user_request_ref": "2026-10-03 conversation: owner approved the donor-backed Shared Interactive Workspace plan and instructed completion through closure.",
+  "approved_plan_path": "docs/FA3-SHARED-INTERACTIVE-WORKSPACE-PLAN-2026-10-03.md",
+  "approved_plan_sha256": "50f38a7cc6e7cbe99cbae3b2b1c4d3d05b755942c9f525e6113741a9671b6385",
+  "invariants": {
+    "capability_baseline": 175,
+    "capability_delta": 0,
+    "architectural_authority_delta": 0,
+    "pending_donors_consumed": false,
+    "donor_usage_edges_created": 0,
+    "donor_registry_modified": false,
+    "runtime_activation_by_this_change": false,
+    "physical_current_host_pass_claimed": false
+  },
+  "runtime_effect": "STATIC_CONTRACT_MAPPING_AND_VALIDATION_ONLY_NO_EXECUTION_RUNTIME"
+}

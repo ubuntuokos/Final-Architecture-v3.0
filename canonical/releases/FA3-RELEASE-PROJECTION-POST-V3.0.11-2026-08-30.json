@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "801979d13bb1e200fc0cc1dbfd71b0624ce82f86",
-    "pre_projection_root_tree_sha": "faca69a05ca0e1abe4d10863acae1e0933875f27",
-    "pre_projection_canonical_tree_sha": "fdb7b47628be0acc603cacb5a2a47cad9a7c3544",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2789,
-    "total_post_baseline_commits": 2789,
-    "delta_file_count": 2905,
-    "delta_added_files": 2899,
+    "pre_projection_head_sha": "7f451cf9bc7769114fdbab95d5060ba3d90e874f",
+    "pre_projection_root_tree_sha": "459bc0d2a0580c8fbb09a77d42d2fb45b086ce11",
+    "pre_projection_canonical_tree_sha": "e07aaa1bc74d2b7c7e6af867331b52ac46883a86",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2805,
+    "total_post_baseline_commits": 2805,
+    "delta_file_count": 2914,
+    "delta_added_files": 2908,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,10 +46,10 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1359,
+    "canonical_files_in_post_baseline_delta": 1366,
     "evidence_files_in_post_baseline_delta": 172,
     "source_files_in_post_baseline_delta": 368,
-    "test_files_in_post_baseline_delta": 340,
+    "test_files_in_post_baseline_delta": 341,
     "workflow_files_in_post_baseline_delta": 138,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -282,6 +282,7 @@
       "canonical/profiles/FA3-SHARED-AI-INTERACTION-001.json",
       "canonical/profiles/FA3-SHARED-CONVERSATION-SESSION-001.json",
       "canonical/profiles/FA3-SHARED-HAIR-GROOM-001.json",
+      "canonical/profiles/FA3-SHARED-INTERACTIVE-WORKSPACE-001.json",
       "canonical/profiles/FA3-SHARED-KNOWLEDGE-RETRIEVAL-001.json",
       "canonical/profiles/FA3-SHARED-MULTIMODAL-SOURCE-001.json",
       "canonical/profiles/FA3-SHARED-TOOL-ACTION-MEDIATION-001.json",
@@ -436,6 +437,7 @@
       "canonical/contracts/FA3-SHARED-AI-INTERACTION-CONTRACTS-001.json",
       "canonical/contracts/FA3-SHARED-CONVERSATION-SESSION-CONTRACTS-001.json",
       "canonical/contracts/FA3-SHARED-HAIR-GROOM-CONTRACTS-001.json",
+      "canonical/contracts/FA3-SHARED-INTERACTIVE-WORKSPACE-CONTRACTS-001.json",
       "canonical/contracts/FA3-SHARED-KNOWLEDGE-RETRIEVAL-CONTRACTS-001.json",
       "canonical/contracts/FA3-SHARED-MULTIMODAL-SOURCE-CONTRACTS-001.json",
       "canonical/contracts/FA3-SHARED-TOOL-ACTION-MEDIATION-CONTRACTS-001.json",
@@ -630,6 +632,7 @@
       "canonical/decisions/FA3-DEC-SECRET-BROKER-REQUALIFICATION-2026-09-24.json",
       "canonical/decisions/FA3-DEC-SESSION-VAULT-2026-09-20.json",
       "canonical/decisions/FA3-DEC-SHARED-HAIR-GROOM-2026-10-03.json",
+      "canonical/decisions/FA3-DEC-SHARED-INTERACTIVE-WORKSPACE-2026-10-03.json",
       "canonical/decisions/FA3-DEC-SHARED-MODULE-PATTERN-DONOR-CATALOGUE-2026-10-01.json",
       "canonical/decisions/FA3-DEC-SILLYTAVERN-KDE-DESKTOP-2026-09-07.json",
       "canonical/decisions/FA3-DEC-SKILL-DISCOVERY-DISTRIBUTION-FABRIC-2026-09-23.json",
@@ -1067,7 +1070,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2895,
+  "manifest_entry_count": 2904,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -3535,6 +3538,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/FA3-SHARED-INTERACTIVE-WORKSPACE-DECISION-ASSESSMENT-2026-10-03.json",
+      "git_blob_sha": "76bf47914f27a6e469f2d2946ecb0e8295fd4655",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/assessments/FA3-SHARED-INTERACTIVE-WORKSPACE-REUSE-ASSESSMENT-2026-10-03.json",
+      "git_blob_sha": "3faddd5e111e8514d22cc7ff2cb3cd4d6d94459a",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/assessments/FA3-SHARED-MODULE-PATTERN-CATALOGUE-REUSE-ASSESSMENT-001.json",
       "git_blob_sha": "103eca285748dacc58396d4bfc2cac3d25701548",
       "baseline_delta_status": "added"
@@ -4337,6 +4350,11 @@
     {
       "path": "canonical/contracts/FA3-SHARED-HAIR-GROOM-CONTRACTS-001.json",
       "git_blob_sha": "0fca1a305923464b79c8784d6bb066b6ab591ffe",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-SHARED-INTERACTIVE-WORKSPACE-CONTRACTS-001.json",
+      "git_blob_sha": "988e3950cfad8688c40e0619d32dfa7a2d4306f7",
       "baseline_delta_status": "added"
     },
     {
@@ -5365,6 +5383,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-SHARED-INTERACTIVE-WORKSPACE-2026-10-03.json",
+      "git_blob_sha": "1504736d22b0eda00061d8f11af6a103089cbf5b",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-SHARED-MODULE-PATTERN-DONOR-CATALOGUE-2026-10-01.json",
       "git_blob_sha": "bdca92d3f4a71e7abbdcb6237c28ab83adef2e1b",
       "baseline_delta_status": "added"
@@ -5746,7 +5769,7 @@
     },
     {
       "path": "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
-      "git_blob_sha": "27c93b6b63694129e13de8c4cdb0ecd3a6b844c6",
+      "git_blob_sha": "cad19fbe036bbd9478666dd884d61a24b0349c6d",
       "baseline_delta_status": "added"
     },
     {
@@ -6755,6 +6778,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-SHARED-INTERACTIVE-WORKSPACE-CURRENT-HOST-IMPACT-001.json",
+      "git_blob_sha": "29ff369bd7781269ffad8259c3cccec7d28db626",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-SHARED-MODULE-PATTERN-CATALOGUE-001.json",
       "git_blob_sha": "9c26033dc9144c94b8fc74f8c3030e24726238a4",
       "baseline_delta_status": "added"
@@ -7187,6 +7215,11 @@
     {
       "path": "canonical/intents/FA3-SHARED-HAIR-GROOM-APPLICATION-INTENT-2026-10-03.json",
       "git_blob_sha": "6475a119ab67f324da69523af8de5111a756ece2",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/intents/FA3-SHARED-INTERACTIVE-WORKSPACE-APPLICATION-INTENT-2026-10-03.json",
+      "git_blob_sha": "b4fc6792d4430dbc053ffcdeb681c6300b55049c",
       "baseline_delta_status": "added"
     },
     {
@@ -8022,6 +8055,11 @@
     {
       "path": "canonical/profiles/FA3-SHARED-HAIR-GROOM-001.json",
       "git_blob_sha": "7593da4e903f18721c92e0330b6a1e1c5d7aecdf",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-SHARED-INTERACTIVE-WORKSPACE-001.json",
+      "git_blob_sha": "3478eb453f965a1bdac91a1182f0838715985e90",
       "baseline_delta_status": "added"
     },
     {
@@ -10382,6 +10420,11 @@
     {
       "path": "docs/FA3-SHARED-HAIR-GROOM-001.md",
       "git_blob_sha": "4304ec2e443e4d61eba0eed7110ce2d35f45cd40",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/FA3-SHARED-INTERACTIVE-WORKSPACE-PLAN-2026-10-03.md",
+      "git_blob_sha": "f242d9ef75c97876837869294c2f361d31944375",
       "baseline_delta_status": "added"
     },
     {
@@ -13866,7 +13909,7 @@
     },
     {
       "path": "tests/test_application_donor_index.py",
-      "git_blob_sha": "bb7f5aab230831596f566b05985765cf4c236af7",
+      "git_blob_sha": "eb0de0bfe8123e1b41c0417e316b9086b6a9602b",
       "baseline_delta_status": "added"
     },
     {
@@ -15242,6 +15285,11 @@
     {
       "path": "tests/test_session_vault.py",
       "git_blob_sha": "bf9c2167cec9c1003d2532295f5725daa6e316e5",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_shared_interactive_workspace_20261003.py",
+      "git_blob_sha": "54ac06617b64c0add29f7588520006e3ee78d9af",
       "baseline_delta_status": "added"
     },
     {

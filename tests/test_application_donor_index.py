@@ -33,6 +33,8 @@ SOURCES = (
     "canonical/contracts/FA3-AI-MODULE-FACTORY-CONTRACTS-001.json",
     "canonical/profiles/FA3-SHARED-HAIR-GROOM-001.json",
     "canonical/contracts/FA3-SHARED-HAIR-GROOM-CONTRACTS-001.json",
+    "canonical/profiles/FA3-SHARED-INTERACTIVE-WORKSPACE-001.json",
+    "canonical/contracts/FA3-SHARED-INTERACTIVE-WORKSPACE-CONTRACTS-001.json",
 )
 
 
