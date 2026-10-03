@@ -17,7 +17,8 @@ SOURCES = (
     "canonical/FA3-GUI-SURFACE-REGISTRY-001.json",
     "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
     "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
-    "canonical/FA3-PRODUCT-FAMILY-REGISTRY-001.json",\n    "canonical/FA3-APPLICATION-PORTFOLIO-001.json",
+    "canonical/FA3-PRODUCT-FAMILY-REGISTRY-001.json",
+    "canonical/FA3-APPLICATION-PORTFOLIO-001.json",
     "canonical/FA3-RELEASE-CAPABILITY-BASELINE-001.json",
     "canonical/profiles/FA3-SHARED-AI-INTERACTION-001.json",
     "canonical/contracts/FA3-SHARED-AI-INTERACTION-CONTRACTS-001.json",
@@ -107,7 +108,17 @@ class ApplicationDonorIndexTests(unittest.TestCase):
         self.assertEqual(len(report["gui_surfaces"]), len(gui["surfaces"]))
         self.assertTrue(all(not row["is_application"] for row in report["gui_surfaces"]))
 
-\n    def test_application_portfolio_extends_inventory_without_second_authority(self):\n        report = build_index(ROOT)\n        portfolio = json.loads((ROOT / "canonical/FA3-APPLICATION-PORTFOLIO-001.json").read_text())\n        ids = {app["application_id"] for app in report["applications"]}\n        self.assertTrue(all(app["application_id"] in ids for app in portfolio["applications"]))\n        self.assertEqual(report["counts"]["portfolio_apps"], len(portfolio["applications"]))\n        self.assertGreater(report["counts"]["portfolio_added_apps"], 0)\n        self.assertIn("canonical/FA3-APPLICATION-PORTFOLIO-001.json", report["source_catalogs"])\n\n    def test_new_curated_application_automatically_registered(self):
+
+    def test_application_portfolio_extends_inventory_without_second_authority(self):
+        report = build_index(ROOT)
+        portfolio = json.loads((ROOT / "canonical/FA3-APPLICATION-PORTFOLIO-001.json").read_text())
+        ids = {app["application_id"] for app in report["applications"]}
+        self.assertTrue(all(app["application_id"] in ids for app in portfolio["applications"]))
+        self.assertEqual(report["counts"]["portfolio_apps"], len(portfolio["applications"]))
+        self.assertGreater(report["counts"]["portfolio_added_apps"], 0)
+        self.assertIn("canonical/FA3-APPLICATION-PORTFOLIO-001.json", report["source_catalogs"])
+
+    def test_new_curated_application_automatically_registered(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             fixture(root)
