@@ -1,0 +1,149 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-CHARACTER-AI-ROLEPLAY-2026-10-03",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "STAGED_PENDING_EXACT_HEAD_GATES",
+  "mode": "APPEND_ONLY_OWNER_EXPLICIT_REFERENCE_INTAKE",
+  "parent_commit": "0284f0ae4d2609b1e46557414481b1062ac0aafc",
+  "parent_registry_blob_sha": "50580a9f3082161a3317383baa3e18879e98187e",
+  "parent_entry_count": 1357,
+  "submitted_url_count": 15,
+  "unique_source_key_count": 13,
+  "matched_existing_count": 0,
+  "proposed_entry_count": 1370,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "provider_count_policy": "DYNAMIC_UNCHANGED",
+  "approval_ref": "docs/donor-character-ai-roleplay-2026-10-03.md",
+  "requirements": [
+    "Preserve all 15 exact owner-marked submitted URLs while normalizing the three filtered characterai topic views to one canonical GitHub topic identity.",
+    "Account/profile and topic pages are discovery indexes and do not recursively admit child repositories, models, datasets, services, binaries or endpoints.",
+    "Registration grants no code, dependency, provider, model, runtime, MCP endpoint, hosted service or architectural authority admission.",
+    "Actual FA3 adoption requires source-specific review and explicit canonical usage edges.",
+    "Fixed capability baseline 175 and dynamic provider-count policy remain unchanged.",
+    "No automatic fetch, install, code copy, dependency adoption, provider/model selection, runtime activation or Current Host claim."
+  ],
+  "sources": [
+    {
+      "url": "https://github.com/character-ai",
+      "normalized_key": "github:character-ai",
+      "donor_id": "FA3-DONOR-CHARACTER-AI-ORG-001",
+      "kind": "GITHUB_ORGANIZATION",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "url": "https://github.com/topics/characterai?o=desc&s=updated",
+      "normalized_key": "github:topics/characterai",
+      "donor_id": "FA3-DONOR-CHARACTERAI-TOPIC-001",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "url": "https://github.com/topics/characterai?l=javascript&o=asc&s=forks",
+      "normalized_key": "github:topics/characterai",
+      "donor_id": "FA3-DONOR-CHARACTERAI-TOPIC-001",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "url": "https://github.com/topics/characterai?l=typescript&o=asc&s=stars",
+      "normalized_key": "github:topics/characterai",
+      "donor_id": "FA3-DONOR-CHARACTERAI-TOPIC-001",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "url": "https://github.com/topics/character-engine",
+      "normalized_key": "github:topics/character-engine",
+      "donor_id": "FA3-DONOR-CHARACTER-ENGINE-TOPIC-001",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "url": "https://github.com/harmony-ai-solutions",
+      "normalized_key": "github:harmony-ai-solutions",
+      "donor_id": "FA3-DONOR-HARMONY-AI-SOLUTIONS-PROFILE-001",
+      "kind": "GITHUB_PROFILE",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "url": "https://github.com/topics/ai-roleplay",
+      "normalized_key": "github:topics/ai-roleplay",
+      "donor_id": "FA3-DONOR-AI-ROLEPLAY-TOPIC-001",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "url": "https://github.com/Devanik21",
+      "normalized_key": "github:devanik21",
+      "donor_id": "FA3-DONOR-DEVANIK21-PROFILE-001",
+      "kind": "GITHUB_PROFILE",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "url": "https://github.com/kontextso",
+      "normalized_key": "github:kontextso",
+      "donor_id": "FA3-DONOR-KONTEXTSO-PROFILE-001",
+      "kind": "GITHUB_PROFILE",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "url": "https://github.com/topics/ai-character",
+      "normalized_key": "github:topics/ai-character",
+      "donor_id": "FA3-DONOR-AI-CHARACTER-TOPIC-001",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "url": "https://github.com/topics/ai-avatar",
+      "normalized_key": "github:topics/ai-avatar",
+      "donor_id": "FA3-DONOR-AI-AVATAR-TOPIC-001",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "url": "https://github.com/topics/roleplay-ai",
+      "normalized_key": "github:topics/roleplay-ai",
+      "donor_id": "FA3-DONOR-ROLEPLAY-AI-TOPIC-001",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "url": "https://github.com/SamurAIGPT",
+      "normalized_key": "github:samuraigpt",
+      "donor_id": "FA3-DONOR-SAMURAIGPT-PROFILE-001",
+      "kind": "GITHUB_PROFILE",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "url": "https://github.com/Mixar-AI",
+      "normalized_key": "github:mixar-ai",
+      "donor_id": "FA3-DONOR-MIXAR-AI-PROFILE-001",
+      "kind": "GITHUB_PROFILE",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "url": "https://github.com/topics/character-platform",
+      "normalized_key": "github:topics/character-platform",
+      "donor_id": "FA3-DONOR-CHARACTER-PLATFORM-TOPIC-001",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE"
+    }
+  ],
+  "boundaries": {
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "automatic_code_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "mcp_connector_admission": false,
+    "hosted_service_activation": false,
+    "usage_edge_created": false,
+    "capability_count_change": false,
+    "authority_change": false,
+    "current_host_pass_claimed": false
+  }
+}
