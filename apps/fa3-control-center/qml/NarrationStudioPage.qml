@@ -15,14 +15,19 @@ Item {
    Layout.fillWidth: true; Layout.fillHeight: true
    Rectangle {
     SplitView.preferredWidth: 520; color: root.panel; border.color: root.border; radius: 8
-    ColumnLayout {
-     anchors.fill: parent; anchors.margins: 12; spacing: 8
-     Rectangle { Layout.fillWidth: true; Layout.preferredHeight: 235; color: "#111318"; radius: 6; Label { anchors.centerIn: parent; text: "VIDEO PREVIEW"; color: root.textMuted } }
-     Label { text: "Original audio"; color: root.textMuted } ProgressBar { Layout.fillWidth: true; value: 0.72 }
-     Label { text: "Generated narration"; color: root.textMuted } ProgressBar { Layout.fillWidth: true; value: 0.56 }
-     RowLayout { Button { text: "Import captions" } Button { text: "Speaker map" } Button { text: "Build plan" } Button { text: "Send to Voice Fabric" } }
-     Label { Layout.fillWidth: true; wrapMode: Text.WordWrap; color: root.textMuted; font.pixelSize: 10; text: "Provider/model selection stays with Model Router + FA3-VOICE-001. Voice cloning and transformation require existing consent proof. No application-owned voice authority." }
-     VoiceTransformationPanel { Layout.fillWidth: true; Layout.preferredHeight: 275 }
+    ScrollView {
+     anchors.fill: parent; anchors.margins: 12
+     clip: true
+     contentWidth: availableWidth
+     ColumnLayout {
+      width: parent.width; spacing: 8
+      Rectangle { Layout.fillWidth: true; Layout.preferredHeight: Math.min(235, Math.max(150, root.height * 0.28)); color: "#111318"; radius: 6; Label { anchors.centerIn: parent; text: "VIDEO PREVIEW"; color: root.textMuted } }
+      Label { text: "Original audio"; color: root.textMuted } ProgressBar { Layout.fillWidth: true; value: 0.72 }
+      Label { text: "Generated narration"; color: root.textMuted } ProgressBar { Layout.fillWidth: true; value: 0.56 }
+      RowLayout { Button { text: "Import captions" } Button { text: "Speaker map" } Button { text: "Build plan" } Button { text: "Send to Voice Fabric" } }
+      Label { Layout.fillWidth: true; wrapMode: Text.WordWrap; color: root.textMuted; font.pixelSize: 10; text: "Provider/model selection stays with Model Router + FA3-VOICE-001. Voice cloning and transformation require existing consent proof. No application-owned voice authority." }
+      VoiceTransformationPanel { Layout.fillWidth: true; Layout.preferredHeight: 275 }
+     }
     }
    }
    Rectangle {
