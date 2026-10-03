@@ -83,9 +83,13 @@
   "shared_capability_placement": {
     "reviewed": true,
     "multi_application_reuse_detected": true,
-    "disposition": "SHARED_EXISTING_REGISTRY_AND_GATE_LAYER",
+    "disposition": "SHARED",
     "retrospective_consumer_impact_reviewed": true,
-    "rationale": "The donor-intake concurrency rule is shared governance for all FA3 donor intake consumers and reuses the existing Registry, Reuse Discovery and Permanent Gate layers; no application-local duplicate is introduced."
+    "rationale": "The donor-intake concurrency rule is shared governance for all FA3 donor intake consumers and reuses the existing Registry, Reuse Discovery and Permanent Gate layers; no application-local duplicate is introduced.",
+    "shared_component_ids": [
+      "FA3-REGISTRY-001",
+      "FA3-REUSE-DISCOVERY-001"
+    ]
   },
   "governance_delta": {
     "decision_id": "FA3-DEC-DONOR-INTAKE-CONCURRENCY-2026-10-03",
