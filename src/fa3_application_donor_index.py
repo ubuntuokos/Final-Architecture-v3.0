@@ -892,8 +892,7 @@ def main() -> int:
     if args.output:
         dst = args.output if args.output.is_absolute() else args.root / args.output
         dst.parent.mkdir(parents=True, exist_ok=True)
-        dst.write_text(json.dumps(result, indent=2, ensure_ascii=False) + "
-", encoding="utf-8")
+        dst.write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     display = {"counts": result["counts"], "validation": result["validation"]} if args.summary and "counts" in result else result
     print(json.dumps(display, ensure_ascii=False, indent=2))
     failed = args.check and result["validation"]["result"] != "PASS"
