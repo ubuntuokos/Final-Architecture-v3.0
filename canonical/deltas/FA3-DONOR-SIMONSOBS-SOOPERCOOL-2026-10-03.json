@@ -1,0 +1,62 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-SIMONSOBS-SOOPERCOOL-2026-10-03",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "MATERIALIZED_PENDING_EXACT_HEAD_GATES",
+  "mode": "APPEND_ONLY_OWNER_EXPLICIT_REFERENCE_INTAKE",
+  "parent_commit": "fd8adf5ab2ef12882c47250ecb5d5f22ff8e796b",
+  "parent_registry_blob_sha": "6ca92f89dba92910b202d51e607b68cfee0cb488",
+  "parent_entry_count": 1423,
+  "submitted_url_count": 1,
+  "source_count": 1,
+  "unique_source_key_count": 1,
+  "matched_existing_count": 0,
+  "new_source_count": 1,
+  "proposed_entry_count": 1424,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "provider_count_policy": "DYNAMIC_UNCHANGED",
+  "approval_ref": "docs/donor-simonsobs-soopercool-2026-10-03.md",
+  "requirements": [
+    "Register the exact owner-marked simonsobs/SOOPERCOOL repository as one canonical ACCEPTED_REFERENCE.",
+    "Reuse is selective and domain-general: scientific pipeline, metadata, spectral/filtering, transfer/calibration, covariance, simulation-validation and distributed-execution patterns only.",
+    "Do not create a CMB/astronomy capability or adopt the full upstream application.",
+    "Upstream license is unresolved; source copy, redistribution, dependency and runtime adoption remain fail-closed pending exact License & Rights/provenance review.",
+    "No MPI/SLURM runtime, scientific dependency, provider, model, dataset or service is admitted by this intake.",
+    "Temporal and HRB retain their existing orchestration and resource authorities; no parallel authority is created.",
+    "Any later material adoption requires a fresh published-main Reuse Assessment and explicit typed donor usage edge.",
+    "Fixed capability baseline remains 175; provider count remains dynamic; authority delta is zero."
+  ],
+  "sources": [
+    {
+      "url": "https://github.com/simonsobs/SOOPERCOOL",
+      "normalized_key": "github:simonsobs/soopercool",
+      "donor_id": "FA3-DONOR-SIMONSOBS-SOOPERCOOL-001",
+      "kind": "GITHUB_REPOSITORY",
+      "status": "ACCEPTED_REFERENCE",
+      "observed_head": "6191a79688392e1d57982c7697c54e110b32f49f",
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "NO_LICENSE_DECLARATION_OBSERVED"
+      }
+    }
+  ],
+  "boundaries": {
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "automatic_code_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "runtime_admission": false,
+    "usage_edge_created": false,
+    "capability_count_change": false,
+    "authority_change": false,
+    "current_host_pass_claimed": false
+  },
+  "serialization_scope": "ROLLING_FIVE_SLOT_DONOR_MAINTENANCE",
+  "serialization_order": "ASCENDING_ESTIMATED_INTAKE_WORKLOAD_THEN_FIFO",
+  "max_active_donor_intakes": 5
+}
