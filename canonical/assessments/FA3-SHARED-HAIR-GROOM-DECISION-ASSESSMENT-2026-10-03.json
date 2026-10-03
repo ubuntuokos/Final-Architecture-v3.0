@@ -1,0 +1,39 @@
+{
+  "schema": "fa3.decision-fabric-assessment.v1",
+  "project_id": "FA3-SHARED-HAIR-GROOM-DECISION-ASSESSMENT-2026-10-03",
+  "covered_ids": [
+    "FA3-SHARED-HAIR-GROOM-001",
+    "FA3-SHARED-HAIR-GROOM-CONTRACTS-001"
+  ],
+  "assessment": "NOT_APPLICABLE",
+  "rationale": "The Hair/Groom Fabric defines deterministic asset semantics and typed handoff boundaries. Provider/model eligibility, physical engine choice, resource placement, rights, security, human approval and runtime promotion remain with existing FA3 authorities; this shared static layer may not rank or expand eligible implementations.",
+  "decision_points": [],
+  "not_delegated": [
+    "model or provider eligibility and routing",
+    "physical engine selection",
+    "host resource or accelerator placement",
+    "license and rights decisions",
+    "tool authorization",
+    "human approval",
+    "runtime promotion"
+  ],
+  "project_radar_checked": true,
+  "project_radar_review": {
+    "scope": "Shared Hair/Groom static component against existing FA3 authority boundaries",
+    "result": "NO_NEW_DECISION_FABRIC_DECISION_POINT_REQUIRED"
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "global_accelerator_requirement": false
+  },
+  "security_boundary": {
+    "may_grant_permission": false,
+    "may_expand_candidate_set": false,
+    "may_admit_model": false,
+    "may_admit_provider": false
+  },
+  "shadow_mode_required": false,
+  "capability_delta": 0,
+  "authority_delta": 0
+}
