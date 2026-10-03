@@ -38,7 +38,9 @@
     "src/fa3_model_artifact_security_current_host_gate.py",
     "src/fa3_step_ca_current_host_gate.py",
     "canonical/current-host-capability-qualification-constituent-producers.json",
-    "src/fa3_cap016_multi_distribution_dcc_current_host.py"
+    "src/fa3_cap016_multi_distribution_dcc_current_host.py",
+    "src/fa3_multi_distribution_dcc_current_host.py",
+    "canonical/conformance-matrix.csv"
   ],
   "physical_requalification_required": true,
   "physical_requalification_scope": "ACTIVE_175_CAPABILITIES_525_POSITIVE_NEGATIVE_ROLLBACK_OBLIGATIONS_EXACT_HEAD",
@@ -119,6 +121,19 @@
     "automatic_update": false,
     "capability_baseline_after": 175,
     "required_test_obligation_count_after": 525,
-    "historical_evidence_reused": false
+    "historical_evidence_reused": false,
+    "shared_3d_capabilities": [
+      "CAP-025",
+      "CAP-027",
+      "CAP-032",
+      "CAP-043",
+      "CAP-118",
+      "CAP-119",
+      "CAP-164",
+      "CAP-165",
+      "CAP-166"
+    ],
+    "shared_3d_producer_entries_rebound": 27,
+    "canonical_fallback_wording_removed": true
   }
 }
