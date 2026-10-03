@@ -189,7 +189,7 @@ def run_conformance(root: Path) -> dict[str, Any]:
     transformation_result_required = set(contract.get("contracts", {}).get("transformation_result", {}).get("required", []))
     transformation_conditional = contract.get("contracts", {}).get("transformation_request", {}).get("conditional_required", {})
     transformation_result_conditional = contract.get("contracts", {}).get("transformation_result", {}).get("conditional_required", {})
-    check("VOICE-009", "VOICE_HRB_ACCELERATOR_ADMISSION" in rules and any("Host Resource Broker" in item for item in transformation_rules), "HRB accelerator admission for synthesis and transformation")
+    check("VOICE-009", "VOICE_HRB_ACCELERATOR_ADMISSION" in rules and "Host Resource Broker" in str(contract.get("contracts", {}).get("transformation_request", {}).get("fields", {}).get("resource_admission_ref", "")) and contract.get("security", {}).get("cuda_requires_hrb_lease") is True, "HRB accelerator admission for synthesis and transformation")
     check("VOICE-010", "VOICE_NO_SILENT_PROVIDER_MODEL_DEVICE_CLOUD_FALLBACK" in rules and admission.get("routing", {}).get("hu-HU", {}).get("forbidden_silent_fallbacks") and any("silently" in item for item in transformation_rules), "explicit fail-closed fallback for synthesis and transformation")
     check("VOICE-011", profile.get("hungarian_baseline", {}).get("locale") == "hu-HU", "explicit Hungarian baseline")
     check("VOICE-012", profile.get("hungarian_baseline", {}).get("voice_cloning_primary_candidate") == "FA3-PROVIDER-XTTS-001" and "hu" in providers["FA3-PROVIDER-XTTS-001"].get("model", {}).get("official_languages", []), "XTTS Hungarian cloning candidate")
