@@ -178,7 +178,7 @@ def compare_snapshots(accepted: dict[str, Any], live: dict[str, Any], *, physica
     def application_instances(snapshot: dict[str, Any]) -> set[str]:
         inventory = snapshot.get("application_runtimes", {})
         identities: set[str] = set()
-        for app in inventory.get("applications", []) if isinstance(inventory, dict) else []:
+        for app in (inventory.get("applications", []) if isinstance(inventory, dict) else []):
             if not isinstance(app, dict):
                 continue
             for candidate in app.get("candidates", []):
