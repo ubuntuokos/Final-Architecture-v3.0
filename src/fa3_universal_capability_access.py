@@ -8,12 +8,14 @@ import re
 from pathlib import Path
 from typing import Any
 
+from fa3_release_baseline import module_active_capability_count
+
 REGISTRY = "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"
 LINKS = "canonical/FA3-APPLICATION-DONOR-LINKS-001.json"
 POLICY = "canonical/universal-capability-access-policy.json"
 AUDIT = "canonical/universal-capability-access-audit-status.json"
 GATE = "canonical/FA3-GATE-UNIVERSAL-CAPABILITY-ACCESS-001.json"
-CAPABILITY_COUNT = 175
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 
 INDEX_KINDS = {
     "GITHUB_TOPIC", "GITHUB_ORGANIZATION", "GITHUB_ORG", "GITHUB_PROFILE",
