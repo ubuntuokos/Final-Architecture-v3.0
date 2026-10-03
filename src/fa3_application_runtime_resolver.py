@@ -109,7 +109,7 @@ def _desktop_roots() -> list[Path]:
     return out
 
 
-def _desktop_exec(path: Path) -> list[str] | None:
+def _desktop_exec(path: Path, spec: dict[str, Any]) -> list[str] | None:
     try:
         lines = path.read_text(encoding="utf-8", errors="replace").splitlines()
     except OSError:
@@ -136,6 +136,13 @@ def _desktop_exec(path: Path) -> list[str] | None:
     command = tokens[0]
     resolved = command if Path(command).is_absolute() and Path(command).is_file() else shutil.which(command)
     if not resolved:
+        return None
+    basename = Path(resolved).name.lower()
+    allowed = {str(x).lower() for x in spec.get("command_aliases", []) if isinstance(x, str)}
+    allowed.update(str(x).lower() for x in spec.get("desktop_exec_basenames", []) if isinstance(x, str))
+    if basename not in allowed:
+        return None
+    if any(token in {"sudo", "su", "pkexec", "sh", "bash", "env"} for token in tokens[:1]):
         return None
     return [str(Path(resolved).resolve()), *tokens[1:]]
 
@@ -235,7 +242,7 @@ def discover_candidates(root: Path, application_id: str) -> list[dict[str, Any]]
                 if key in seen_desktop:
                     continue
                 seen_desktop.add(key)
-                launch = _desktop_exec(desktop_file)
+                launch = _desktop_exec(desktop_file, spec)
                 if not launch:
                     continue
                 packaging, package_id = _package_class_for_path(launch[0])
