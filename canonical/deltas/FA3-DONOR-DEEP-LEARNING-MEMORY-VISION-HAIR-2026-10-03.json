@@ -1,0 +1,126 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-DEEP-LEARNING-MEMORY-VISION-HAIR-2026-10-03",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "MATERIALIZED_PENDING_EXACT_HEAD_GATES",
+  "parent_main": "b69d2f4c8cff55ead8470d5118a41a5c9bde820d",
+  "parent_registry_blob_sha": "9e0b70edc5bff6733389bc2dbec13d9d9b5fb94e",
+  "parent_entry_count": 1384,
+  "submitted_url_count": 23,
+  "duplicate_submission_count": 0,
+  "canonical_alias_collapse_count": 2,
+  "unique_source_count": 21,
+  "new_source_count": 21,
+  "resulting_entry_count": 1405,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "usage_edges_created": 0,
+  "requirements": [
+    "All 23 owner-marked submitted URLs are preserved through canonical source discovery_urls/provenance.",
+    "Filtered GitHub topic views collapse to one canonical topic identity without losing the submitted URLs.",
+    "Topic, organization and profile records are discovery indexes only and do not recursively admit child repositories.",
+    "Reference registration never implies source/model/runtime/provider admission.",
+    "Lip-Sync-Video-Generator remains rights-gated because its documented Wav2Lip component is not covered by the repository's top-level MIT terms.",
+    "DiffLocks remains optional/reference-only at runtime because the global FA3 CPU-only baseline may not depend on CUDA-only paths.",
+    "StrandDesigner remains reference-only pending actual upstream code/model release and rights review.",
+    "The submitted https-deeplearning-ai profile identity is preserved exactly but requires source resolution/revalidation before any material use.",
+    "Capability baseline remains 175 and no architectural authority is created."
+  ],
+  "sources": [
+    [
+      "https://github.com/topics/deep-learning-projects?o=asc&s=stars",
+      "FA3-DONOR-GITHUB-TOPIC-DEEP-LEARNING-PROJECTS-001"
+    ],
+    [
+      "https://github.com/topics/ai-deep-learning",
+      "FA3-DONOR-GITHUB-TOPIC-AI-DEEP-LEARNING-001"
+    ],
+    [
+      "https://github.com/topics/andrew-ng-deep-learning",
+      "FA3-DONOR-GITHUB-TOPIC-ANDREW-NG-DEEP-LEARNING-001"
+    ],
+    [
+      "https://github.com/topics/deep-learning-theory",
+      "FA3-DONOR-GITHUB-TOPIC-DEEP-LEARNING-THEORY-001"
+    ],
+    [
+      "https://github.com/topics/deep-learning-tutorial?o=desc&s=updated&utf8=%E2%9C%93",
+      "FA3-DONOR-GITHUB-TOPIC-DEEP-LEARNING-TUTORIAL-001"
+    ],
+    [
+      "https://github.com/topics/machine-learning-projects",
+      "FA3-DONOR-GITHUB-TOPIC-MACHINE-LEARNING-PROJECTS-001"
+    ],
+    [
+      "https://github.com/https-deeplearning-ai",
+      "FA3-DONOR-HTTPS-DEEPLEARNING-AI-PROFILE-001"
+    ],
+    [
+      "https://github.com/topics/ai-memory-system",
+      "FA3-DONOR-GITHUB-TOPIC-AI-MEMORY-SYSTEM-001"
+    ],
+    [
+      "https://github.com/topics/ai-memories",
+      "FA3-DONOR-GITHUB-TOPIC-AI-MEMORIES-001"
+    ],
+    [
+      "https://github.com/topics/ai-memory?o=desc&s=updated",
+      "FA3-DONOR-GITHUB-TOPIC-AI-MEMORY-001"
+    ],
+    [
+      "https://github.com/topics/ai-memory?o=asc&s=forks",
+      "FA3-DONOR-GITHUB-TOPIC-AI-MEMORY-001"
+    ],
+    [
+      "https://github.com/topics/ai-memory-system?l=html&o=asc&s=stars",
+      "FA3-DONOR-GITHUB-TOPIC-AI-MEMORY-SYSTEM-001"
+    ],
+    [
+      "https://github.com/topics/ai-memory-systems",
+      "FA3-DONOR-GITHUB-TOPIC-AI-MEMORY-SYSTEMS-001"
+    ],
+    [
+      "https://github.com/topics/memory-engine",
+      "FA3-DONOR-GITHUB-TOPIC-MEMORY-ENGINE-001"
+    ],
+    [
+      "https://github.com/topics/lip-sync?l=html",
+      "FA3-DONOR-GITHUB-TOPIC-LIP-SYNC-001"
+    ],
+    [
+      "https://github.com/Cl0ud-9/Lip-Sync-Video-Generator",
+      "FA3-DONOR-CL0UD-9-LIP-SYNC-VIDEO-GENERATOR-001"
+    ],
+    [
+      "https://github.com/topics/eye-tracking?l=matlab&o=asc&s=stars",
+      "FA3-DONOR-GITHUB-TOPIC-EYE-TRACKING-001"
+    ],
+    [
+      "https://github.com/pymovements/pymovements",
+      "FA3-DONOR-PYMOVEMENTS-PYMOVEMENTS-001"
+    ],
+    [
+      "https://github.com/deepti-96/Eye-movement-detection",
+      "FA3-DONOR-DEEPTI-96-EYE-MOVEMENT-DETECTION-001"
+    ],
+    [
+      "https://github.com/Meshcapade/difflocks",
+      "FA3-DONOR-MESHCAPADE-DIFFLOCKS-001"
+    ],
+    [
+      "https://github.com/Meshcapade",
+      "FA3-DONOR-MESHCAPADE-ORG-001"
+    ],
+    [
+      "https://github.com/topics/hair-segmentation?l=python&o=desc&s=updated",
+      "FA3-DONOR-GITHUB-TOPIC-HAIR-SEGMENTATION-001"
+    ],
+    [
+      "https://github.com/fighting-Zhang/StrandDesigner",
+      "FA3-DONOR-FIGHTING-ZHANG-STRANDDESIGNER-001"
+    ]
+  ],
+  "serialization_scope": "EXCLUSIVE_DONOR_MAINTENANCE",
+  "serialization_order": "OLDEST_OPEN_INTAKE_FIRST"
+}
