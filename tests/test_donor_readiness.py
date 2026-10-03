@@ -7,7 +7,7 @@ from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"src"))
 import fa3_donor_readiness as readiness
-from fa3_donor_readiness import (inspect_registry,pending_prs,gate,is_donor_pr,
+from fa3_donor_readiness import (inspect_registry,pending_prs,pending_prs_graphql,gate,is_donor_pr,
     is_donor_intake_pr,effective_donor_intake_pr,donor_intake_workload,
     MAX_ACTIVE_DONOR_INTAKES,REGISTRY,REJECTION_AUDIT,git_blob_sha,planning_snapshot_findings)
 
@@ -247,26 +247,62 @@ class Tests(unittest.TestCase):
             if "/pulls/8/files?" in s:return [{"filename":REGISTRY}]
             raise AssertionError(s)
         self.assertEqual([p["number"] for p in pending_prs(get)],[8])
-    def test_non_intake_status_uses_published_main_without_open_pr_scan(self):
+
+    def test_graphql_live_scan_batches_inventory_and_keeps_hidden_donor_detection(self):
+        head_sha="b"*40
+        head_blob="c"*40
+        main_blob="d"*40
+        calls={"graphql":0,"rest":[]}
+        def graphql(_query,variables):
+            calls["graphql"]+=1
+            self.assertEqual(variables["owner"],"ubuntuokos")
+            self.assertEqual(variables["name"],"Final-Architecture-v3.0")
+            return {"repository":{"pullRequests":{
+                "pageInfo":{"hasNextPage":False,"endCursor":None},
+                "nodes":[
+                    {"number":801,"title":"Generic editor","headRefOid":head_sha,
+                     "headRefName":"feature/generic",
+                     "headRepository":{"nameWithOwner":"ubuntuokos/Final-Architecture-v3.0"},
+                     "files":{"totalCount":1,
+                              "pageInfo":{"hasNextPage":False,"endCursor":None},
+                              "nodes":[{"path":REGISTRY,"additions":3,"deletions":1}]}},
+                    {"number":802,"title":"Ordinary feature","headRefOid":"e"*40,
+                     "headRefName":"feature/ordinary",
+                     "headRepository":{"nameWithOwner":"ubuntuokos/Final-Architecture-v3.0"},
+                     "files":{"totalCount":1,
+                              "pageInfo":{"hasNextPage":False,"endCursor":None},
+                              "nodes":[{"path":"src/example.py","additions":2,"deletions":0}]}}
+                ]}}}
+        def get(url):
+            calls["rest"].append(url)
+            if f"?ref={head_sha}" in url:
+                return {"sha":head_blob}
+            if "?ref=main" in url:
+                return {"sha":main_blob}
+            raise AssertionError(url)
+        rows=pending_prs_graphql("token",graphql=graphql,get=get)
+        self.assertEqual([r["number"] for r in rows],[801])
+        self.assertTrue(rows[0]["intake"])
+        self.assertEqual(rows[0]["workload_units"],4)
+        self.assertEqual(rows[0]["head_ref"],"feature/generic")
+        self.assertEqual(calls["graphql"],1)
+        self.assertEqual(len(calls["rest"]),2)
+    def test_pending_edit_allows_published_main_for_planning_preflight(self):
         t,root,p=fixture()
         with t:
-            calls=[]
             def get(s):
-                calls.append(s)
                 if "/branches/main" in s:return {"commit":{"sha":"a"*40}}
+                if "pulls?state=open" in s:return [{"number":8,"title":"New editor",
+                                                     "head":{"sha":"a"*40}}]
+                if "/pulls/8/files?" in s:return [{"filename":REGISTRY}]
                 if "/contents/"+REGISTRY in s:return {"sha":git_blob_sha(p.read_bytes())}
-                if "pulls?state=open" in s or "/pulls/" in s:
-                    self.fail("non-intake status must not enumerate open PRs")
                 return []
             x=gate(root,"status",get=get)
             self.assertEqual(x["result"],"READY_FOR_SEPARATE_FA3_ADMISSION_GATES")
             self.assertEqual(x["registry_snapshot"],"PUBLISHED_MAIN_ONLY")
-            self.assertEqual(x["pending_prs"],[])
-            self.assertEqual(x["pending_intake_prs"],[])
-            self.assertEqual(x["pending_pr_scan"],"SKIPPED_NON_INTAKE_PHASE")
+            self.assertEqual(x["pending_prs"][0]["number"],8)
             self.assertNotIn("PENDING_DONOR_MAINTENANCE",x["findings"])
             self.assertFalse(x["planning_allowed"])
-            self.assertEqual(sum("/branches/main" in c for c in calls),2)
 
     def test_active_intakes_finalize_by_size_then_fifo(self):
         t,root,p=fixture()
