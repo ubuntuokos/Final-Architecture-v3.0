@@ -20,7 +20,7 @@ The same semantics apply to other shared external applications. The initial regi
 
 Discovery never performs silent runtime fallback. For user work, the existing Engine Selection Fabric or application-specific policy remains authoritative for the requested engine/application. During physical qualification only, a deterministic healthy candidate may be selected to prove a generic capability; that selection is explicitly marked `QUALIFICATION_PROBE_ONLY_NOT_USER_RUNTIME_SELECTION`.
 
-An explicit `FA3_CURRENT_HOST_DCC_APPLICATION` can bind DCC qualification to `BFORARTISTS` or `BLENDER`. If that requested application is not healthy, qualification fails closed instead of silently changing engines.
+Current Host qualification uses a deterministic **proof-only** healthy-candidate preference. This does not alter the user's engine choice: application/project/task runtime selection remains with the existing Engine Selection Fabric or application-specific policy. A future explicit qualification override must be introduced through a typed, audited input path rather than an inherited ambient environment variable.
 
 ## Current Host
 
