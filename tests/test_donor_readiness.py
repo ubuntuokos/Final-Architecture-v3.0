@@ -431,6 +431,23 @@ class Tests(unittest.TestCase):
                              "AUTHENTICATED_GRAPHQL_FALLBACK_AFTER_REST_HTTPERROR")
             fallback.assert_called_once()
 
+
+    def test_rest_http_error_before_main_sha_uses_full_graphql_transaction(self):
+        t,root,_=fixture()
+        with t, patch.object(readiness,"pending_prs_graphql",return_value=[]) as inventory, \
+                patch.object(readiness,"github_graphql_main_sha",
+                             side_effect=["a"*40,"a"*40]) as main_sha, \
+                patch.dict(os.environ,{"GITHUB_TOKEN":"test-token"},clear=False):
+            def get(_url):
+                raise urllib.error.HTTPError(
+                    "https://api.github.com",403,"rate",{},None)
+            result=gate(root,"intake",get=get)
+            self.assertEqual(result["result"],"DONOR_INTAKE_SLOT_AVAILABLE")
+            self.assertEqual(result["proof_transport"],
+                             "AUTHENTICATED_GRAPHQL_FALLBACK_AFTER_REST_HTTPERROR")
+            inventory.assert_called_once()
+            self.assertEqual(main_sha.call_count,2)
+
     def test_cli_ready_results_return_success(self):
         for result in ("DONOR_INTAKE_SLOT_AVAILABLE","DONOR_INTAKE_READY_TO_FINALIZE"):
             with self.subTest(result=result), \
