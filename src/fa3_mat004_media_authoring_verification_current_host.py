@@ -18,6 +18,8 @@ from pathlib import Path
 from typing import Any
 from urllib.request import urlopen
 
+from fa3_application_runtime_resolver import dcc_qualification_candidate
+
 VERDICT_SCHEMA = "fa3.capability-current-host-qualification-constituent-verdict.v1"
 CAPABILITIES = ("CAP-016", "CAP-017", "CAP-018", "CAP-019", "CAP-020")
 MODES = ("positive", "negative", "rollback")
@@ -117,18 +119,6 @@ def media_job_allowed(job: dict[str, Any]) -> bool:
     )
 
 
-def _find_dcc() -> tuple[str, str] | None:
-    for name, label in (
-        ("bforartists", "Bforartists"),
-        ("bforartists-bin", "Bforartists"),
-        ("blender", "Blender"),
-    ):
-        path = shutil.which(name)
-        if path:
-            return label, path
-    return None
-
-
 def _ffprobe_json(ffprobe: str, path: Path) -> dict[str, Any]:
     proc = cmd(
         [
@@ -194,11 +184,11 @@ def cap016(root: Path, scope: Path, mode: str) -> dict[str, Any]:
 
     ffmpeg = shutil.which("ffmpeg")
     ffprobe = shutil.which("ffprobe")
-    dcc = _find_dcc()
+    dcc = dcc_qualification_candidate(root)
     if not ffmpeg or not ffprobe:
         raise RuntimeError("ffmpeg and ffprobe are required")
     if dcc is None:
-        raise RuntimeError("Bforartists or Blender executable is required")
+        raise RuntimeError("no healthy Bforartists or Blender installation is available across admitted packaging forms")
     if not media_job_allowed(good_job):
         raise RuntimeError("approved media job rejected")
 
@@ -231,11 +221,15 @@ def cap016(root: Path, scope: Path, mode: str) -> dict[str, Any]:
     if int(video_stream.get("width", 0)) != 160 or int(video_stream.get("height", 0)) != 90:
         raise RuntimeError("generated media dimensions mismatch")
 
-    dcc_name, dcc_path = dcc
+    dcc_name = str(dcc["display_name"])
+    dcc_application_id = str(dcc["application_id"])
+    dcc_packaging = str(dcc["packaging"])
+    dcc_launch_prefix = [str(x) for x in dcc["launch_prefix"]]
+    dcc_path = " ".join(dcc_launch_prefix)
     sentinel = "FA3_MAT004_DCC_SMOKE_PASS"
     dcc_proc = cmd(
         [
-            dcc_path,
+            *dcc_launch_prefix,
             "--background",
             "--factory-startup",
             "--python-expr",
@@ -246,7 +240,7 @@ def cap016(root: Path, scope: Path, mode: str) -> dict[str, Any]:
     combined = dcc_proc.stdout + "\n" + dcc_proc.stderr
     if dcc_proc.returncode != 0 or sentinel not in combined:
         raise RuntimeError(
-            f"DCC headless smoke failed app={dcc_name} rc={dcc_proc.returncode}: {dcc_proc.stderr[-1500:]}"
+            f"DCC headless smoke failed app={dcc_name} packaging={dcc_packaging} rc={dcc_proc.returncode}: {dcc_proc.stderr[-1500:]}"
         )
 
     return {
@@ -261,8 +255,14 @@ def cap016(root: Path, scope: Path, mode: str) -> dict[str, Any]:
         "video_width": video_stream.get("width"),
         "video_height": video_stream.get("height"),
         "dcc_application": dcc_name,
+        "dcc_application_id": dcc_application_id,
+        "dcc_packaging": dcc_packaging,
+        "dcc_identity": dcc.get("identity"),
         "dcc_path": dcc_path,
         "dcc_headless_smoke": True,
+        "dcc_qualification_selection_reason": dcc.get("qualification_selection_reason"),
+        "dcc_healthy_group_instance_count": dcc.get("healthy_group_instance_count"),
+        "runtime_selection_authority_exercised": False,
         "network_fetch": False,
         "source_overwritten": False,
         "unapproved_provider_fallback": False,

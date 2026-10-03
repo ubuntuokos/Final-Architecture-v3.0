@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Any
 
 from fa3_accelerator_backend_probe import enrich_accelerator_backends
+from fa3_application_runtime_resolver import discover_inventory
 from fa3_desktop_admission import collect_runtime_probes, discover_current_user_session_environment, evaluate_desktop
 from fa3_hardware_discovery import discover_accelerator_devices, discover_cpu_topology
 from fa3_release_baseline import module_active_capability_count
@@ -53,9 +54,16 @@ def os_release() -> dict[str, Any]:
 
 
 def package_managers() -> dict[str, Any]:
-    candidates = ("apt-get", "dnf", "zypper", "pacman")
-    available = [name for name in candidates if shutil.which(name)]
-    return {"available": available, "primary": available[0] if available else None, "authority": False}
+    native_candidates = ("apt-get", "dnf", "zypper", "pacman")
+    native_available = [name for name in native_candidates if shutil.which(name)]
+    application_frontends = [name for name in ("flatpak", "snap") if shutil.which(name)]
+    return {
+        "available": native_available,
+        "primary": native_available[0] if native_available else None,
+        "application_distribution_frontends": application_frontends,
+        "portable_application_discovery": ["APPIMAGE", "PORTABLE", "MANUAL"],
+        "authority": False,
+    }
 
 
 def capture_live_snapshot(root: Path) -> dict[str, Any]:
@@ -69,6 +77,7 @@ def capture_live_snapshot(root: Path) -> dict[str, Any]:
         "capability_count": CAPABILITY_COUNT,
         "os": os_release(),
         "package_managers": package_managers(),
+        "application_runtimes": discover_inventory(root, probe=False),
         "kernel_release": platform.release(),
         "cpu": discover_cpu_topology(),
         "accelerators": [device.as_dict() for device in devices],
@@ -166,6 +175,30 @@ def compare_snapshots(accepted: dict[str, Any], live: dict[str, Any], *, physica
         add_change(changes, "CONFIG_RECONCILE", "desktop", "DESKTOP_INTEGRATION_STRATEGY_CHANGED",
                    astrategy, lstrategy, "RECONCILE_QT_NATIVE_KF6_OR_XDG_ADAPTER_SELECTION")
 
+    def application_instances(snapshot: dict[str, Any]) -> set[str]:
+        inventory = snapshot.get("application_runtimes", {})
+        identities: set[str] = set()
+        for app in (inventory.get("applications", []) if isinstance(inventory, dict) else []):
+            if not isinstance(app, dict):
+                continue
+            for candidate in app.get("candidates", []):
+                if isinstance(candidate, dict) and candidate.get("identity"):
+                    identities.add(str(candidate["identity"]))
+        return identities
+
+    before_apps = application_instances(accepted)
+    after_apps = application_instances(live)
+    for identity in sorted(after_apps - before_apps):
+        add_change(
+            changes, "COMPONENT_ADMISSION", "application_runtime", "APPLICATION_RUNTIME_INSTANCE_ADDED",
+            None, identity, "REVALIDATE_APPLICATION_RUNTIME_WITHOUT_AUTOMATIC_ACTIVATION",
+        )
+    for identity in sorted(before_apps - after_apps):
+        add_change(
+            changes, "RUNTIME_REBIND", "application_runtime", "APPLICATION_RUNTIME_INSTANCE_REMOVED",
+            identity, None, "MARK_INSTANCE_UNAVAILABLE_AND_REQUIRE_EXPLICIT_RESELECTION",
+        )
+
     aos, los = accepted.get("os", {}), live.get("os", {})
     if aos.get("id") != los.get("id"):
         add_change(changes, "COMPONENT_ADMISSION", "distribution", "DISTRIBUTION_FAMILY_CHANGED",
@@ -212,6 +245,8 @@ def materialization_plan(snapshot: dict[str, Any]) -> dict[str, Any]:
         "accelerator_provider_selectors": selectors,
         "cpu_only": len(snapshot.get("accelerators", [])) == 0,
         "package_manager": snapshot.get("package_managers", {}).get("primary"),
+        "application_distribution_frontends": snapshot.get("package_managers", {}).get("application_distribution_frontends", []),
+        "application_runtime_registry": "FA3-APPLICATION-RUNTIME-DISCOVERY-001",
         "plan_is_install_authority": False, "automatic_uninstall": False,
         "global_environment_mutation": False, "fixed_default_port_claim": False,
         "capability_count": snapshot.get("capability_count"),

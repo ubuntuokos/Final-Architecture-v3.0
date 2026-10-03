@@ -1,0 +1,46 @@
+{
+  "schema": "fa3.current-host-structural-impact.v1",
+  "id": "FA3-CH-IMPACT-APPLICATION-RUNTIME-MULTIDISTRIBUTION-20261003",
+  "date": "2026-10-03",
+  "status": "PENDING_FRESH_EXACT_HEAD_PHYSICAL_EXECUTION",
+  "capability_count": 175,
+  "required_test_obligation_count": 525,
+  "structural_changes": [
+    "canonical/FA3-APPLICATION-RUNTIME-DISCOVERY-001.json",
+    "canonical/FA3-UPDATE-FABRIC-001.json",
+    "canonical/profiles/FA3-HOST-ADAPTATION-001.json",
+    "src/fa3_application_runtime_resolver.py",
+    "src/fa3_host_adaptation.py",
+    "canonical/contracts/FA3-APPLICATION-RUNTIME-DISCOVERY-CONTRACTS-001.json",
+    "canonical/current-host-capability-qualification-constituent-producers.json",
+    ".github/workflows/fa3-host-adaptation.yml",
+    ".github/workflows/fa3-global-current-host-closure.yml",
+    "tests/test_application_runtime_resolver.py"
+  ],
+  "current_host_changes": [
+    "src/fa3_full_current_host_preflight.py",
+    "src/fa3_mat004_media_authoring_verification_current_host.py",
+    "canonical/current-host-capability-qualification-constituent-producers.json",
+    "tests/test_full_current_host_preflight.py",
+    "tests/test_mat004_media_authoring_verification_current_host.py",
+    "tests/test_global_current_host_workflow_trigger.py"
+  ],
+  "physical_requalification_required": true,
+  "physical_requalification_scope": "ACTIVE_175_CAPABILITIES_525_POSITIVE_NEGATIVE_ROLLBACK_OBLIGATIONS_EXACT_HEAD",
+  "historical_evidence_reused": false,
+  "failed_run_preserved": {
+    "run_id": 37109414350,
+    "head_sha": "b4889ac139370391eea8dc780ee56d2be1b99998",
+    "blocker": "CAP016-POS-MEDIA-GENERATION-DCC producer adapter returncode 2",
+    "disposition": "IMMUTABLE_FAIL_EVIDENCE_NOT_RELABELED"
+  },
+  "expected_repair_semantics": [
+    "BFORARTISTS_ONLY_HOST_CAN_QUALIFY_IF_HEALTHY",
+    "BLENDER_ONLY_HOST_CAN_QUALIFY_IF_HEALTHY",
+    "MULTIPLE_DCC_INSTALLATIONS_MAY_COEXIST",
+    "BROKEN_NATIVE_EXECUTABLE_DOES_NOT_MASK_HEALTHY_ALTERNATE_PACKAGING_INSTANCE",
+    "PRECHECK_AND_CAP016_USE_SHARED_RUNTIME_RESOLVER"
+  ],
+  "baseline_changed": false,
+  "global_promotion_claim": false
+}

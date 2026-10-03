@@ -1,0 +1,44 @@
+{
+  "schema": "fa3.decision.v1",
+  "id": "FA3-DEC-APPLICATION-RUNTIME-MULTIDISTRIBUTION-2026-10-03",
+  "date": "2026-10-03",
+  "status": "MATERIALIZED_PENDING_PHYSICAL_REQUALIFICATION",
+  "subject": "Shared multi-distribution external application runtime discovery",
+  "decision": "EXTEND_HOST_ADAPTATION_WITH_SHARED_MULTI_DISTRIBUTION_APPLICATION_RUNTIME_DISCOVERY_AND_HEALTH",
+  "rationale": [
+    "External applications such as Bforartists, Blender, GIMP, Krita and LibreOffice may be installed through mutually independent packaging systems.",
+    "PATH or package presence alone cannot prove that an executable can start on the physical host.",
+    "Per-application discovery implementations would duplicate policy and produce inconsistent Current Host semantics.",
+    "Qualification discovery must preserve all installed alternatives and must not become runtime selection authority."
+  ],
+  "boundaries": {
+    "discovery_authority": false,
+    "install_authority": false,
+    "update_authority": false,
+    "runtime_selection_authority": false,
+    "execution_authority": false,
+    "evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001",
+    "user_selection": "FA3-ENGINE-SELECTION-FABRIC-001_OR_APPLICATION_SPECIFIC_EXISTING_POLICY"
+  },
+  "distribution_classes": [
+    "NATIVE",
+    "DEB",
+    "RPM",
+    "PACMAN",
+    "FLATPAK",
+    "SNAP",
+    "APPIMAGE",
+    "PORTABLE",
+    "MANUAL"
+  ],
+  "first_physical_consumer": "CAP-016",
+  "baseline": {
+    "capabilities": 175,
+    "obligations": 525
+  },
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "physical_requalification_required": true,
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false
+}

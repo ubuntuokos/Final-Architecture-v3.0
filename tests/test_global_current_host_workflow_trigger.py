@@ -7,6 +7,7 @@ WORKFLOW = ROOT / ".github/workflows/fa3-global-current-host-closure.yml"
 
 EXECUTION_SENSITIVE_PATHS = {
     "canonical/FA3-DESKTOP-PLASMA-001.json",
+    "canonical/FA3-APPLICATION-RUNTIME-DISCOVERY-001.json",
     "src/fa3_current_host_capability_qualification_constituent_orchestrator.py",
     "src/fa3_current_host_capability_test_orchestrator.py",
     "src/fa3_current_host_closure_assertion.py",
@@ -16,6 +17,7 @@ EXECUTION_SENSITIVE_PATHS = {
     "src/fa3_desktop_admission.py",
     "src/fa3_plasma_secret_service_diagnostic.py",
     "src/fa3_mat004_media_authoring_verification_current_host.py",
+    "src/fa3_application_runtime_resolver.py",
     "src/fa3_full_current_host_capability_producer.py",
     "src/fa3_full_current_host_preflight.py",
     "src/fa3_current_host_runtime_resolver.py",
@@ -29,6 +31,7 @@ EXECUTION_SENSITIVE_PATHS = {
     "tests/test_mat003_interaction_creative_current_host.py",
     "tests/test_desktop_portability.py",
     "tests/test_plasma_secret_service_diagnostic.py",
+    "tests/test_application_runtime_resolver.py",
     ".github/workflows/fa3-global-current-host-closure.yml",
 }
 

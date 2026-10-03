@@ -1,0 +1,120 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-APPLICATION-RUNTIME-MULTIDISTRIBUTION-REUSE-ASSESSMENT-2026-10-03",
+  "project_id": "FA3-APPLICATION-RUNTIME-DISCOVERY-001",
+  "intent_id": "FA3-APPLICATION-RUNTIME-MULTIDISTRIBUTION-APPLICATION-INTENT-2026-10-03",
+  "intent_path": "canonical/intents/FA3-APPLICATION-RUNTIME-MULTIDISTRIBUTION-APPLICATION-INTENT-2026-10-03.json",
+  "covered_ids": [
+    "FA3-APPLICATION-RUNTIME-DISCOVERY-001",
+    "FA3-HOST-ADAPTATION-001",
+    "FA3-ENGINE-SELECTION-FABRIC-001",
+    "FA3-UPDATE-FABRIC-001",
+    "FA3-APPLICATION-RUNTIME-DISCOVERY-CONTRACTS-001"
+  ],
+  "project_status": "MATERIAL_EXTENSION_APPROVED",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "MANDATORY_EXISTING_REUSE_DISCOVERY"
+    },
+    {
+      "id": "FA3-HOST-ADAPTATION-001",
+      "use": "EXISTING_INSTALLATION_AND_STARTUP_DISCOVERY_LIFECYCLE"
+    },
+    {
+      "id": "FA3-ENGINE-SELECTION-FABRIC-001",
+      "use": "EXISTING_USER_ENGINE_SELECTION_AND_NO_SILENT_FALLBACK_POLICY"
+    },
+    {
+      "id": "FA3-UPDATE-FABRIC-001",
+      "use": "EXISTING_DISTRIBUTION_CLASSIFICATION_WITHOUT_GRANTING_UPDATE_AUTHORITY"
+    },
+    {
+      "id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+      "use": "PUBLISHED_MAIN_DONOR_PLANNING_INPUT_ONLY"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "PER_APPLICATION_PACKAGE_DISCOVERY",
+      "reason": "WOULD_DUPLICATE_SHARED_HOST_DISCOVERY_AND_DRIFT_ACROSS_APPLICATIONS"
+    },
+    {
+      "id": "PACKAGE_PRESENCE_AS_PASS",
+      "reason": "INSTALLED_OR_PATH_VISIBLE_BINARY_MAY_BE_RUNTIME_BROKEN"
+    },
+    {
+      "id": "AUTOMATIC_ALTERNATE_APPLICATION_FALLBACK",
+      "reason": "VIOLATES_EXPLICIT_SELECTION_AND_COEXISTENCE_POLICY"
+    },
+    {
+      "id": "FORCED_NATIVE_OR_DEB_ONLY_BASELINE",
+      "reason": "EXTERNAL_APPLICATIONS_EXIST_IN_MULTIPLE_VALID_DISTRIBUTION_FORMS"
+    }
+  ],
+  "pattern_reuse": [
+    "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001",
+    "FA3-PATTERN-PROVIDER-NEUTRAL-ADAPTER-001",
+    "FA3-PATTERN-DERIVED-ARTIFACT-LINEAGE-001"
+  ],
+  "donor_planning_snapshot": {
+    "published_main_commit": "0a5641204c6f8caaf65e2e4bfc4af928b5579d54",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "ee3a274e842471a3362c343f1ffa2eee935f85f0",
+    "donor_registry_entry_count": 1405,
+    "donor_registry_sha256": "c1287b5a6222b72723a87fd527d50befc70fd387550b6afb844e46719eb1d39a"
+  },
+  "donor_adoption": [],
+  "pending_or_unmerged_donors_consumed": false,
+  "shared_capability_placement": {
+    "reviewed": true,
+    "retrospective_consumer_impact_reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "shared_component_ids": [
+      "FA3-APPLICATION-RUNTIME-DISCOVERY-001"
+    ],
+    "consumer_scope": [
+      "PLANNED_APPLICATIONS",
+      "IN_PROGRESS_APPLICATIONS",
+      "MATERIALIZED_APPLICATIONS"
+    ],
+    "local_duplicate_created": false
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "global_accelerator_requirement": false,
+    "discovery_mutates_hardware": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "multiple_installations_preserved": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "automatic_default_application_hijack": false
+  },
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "implementation_readiness": "READY_FOR_MATERIALIZATION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "donor_review": "REVIEWED_NO_MATCH",
+  "adopted_donors": [],
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "available_candidate_ids": [],
+      "matched_candidate_ids": [],
+      "roles": [
+        "EXTERNAL_APPLICATION_RUNTIME_DISCOVERY_AND_DCC_EXECUTION_BOUNDARY_REVIEW"
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_activation": false
+    }
+  ]
+}

@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - 'canonical/profiles/FA3-HOST-ADAPTATION-001.json'
+      - 'canonical/FA3-APPLICATION-RUNTIME-DISCOVERY-001.json'
+      - 'canonical/FA3-UPDATE-FABRIC-001.json'
       - 'canonical/contracts/FA3-HOST-ADAPTATION-CONTRACTS-001.json'
       - 'canonical/intents/FA3-HOST-ADAPTATION-APPLICATION-INTENT-001.json'
       - 'canonical/assessments/FA3-HOST-ADAPTATION-REUSE-ASSESSMENT-001.json'
@@ -12,6 +14,7 @@ on:
       - 'canonical/FA3-DESKTOP-PLASMA-001.json'
       - 'canonical/FA3-GATE-DESKTOP-PORTABILITY-001.json'
       - 'src/fa3_host_adaptation.py'
+      - 'src/fa3_application_runtime_resolver.py'
       - 'src/fa3_desktop_admission.py'
       - 'src/fa3_current_host_runtime_resolver.py'
       - 'src/fa3_full_current_host_preflight.py'
@@ -22,6 +25,7 @@ on:
       - 'deployment/fa3-gui/install.sh'
       - 'bin/fa3-host-adaptation'
       - 'tests/test_host_adaptation.py'
+      - 'tests/test_application_runtime_resolver.py'
       - 'tests/test_desktop_portability.py'
       - 'tests/test_current_host_runtime_resolver.py'
       - 'tests/test_full_current_host_capability_producer.py'
@@ -35,10 +39,13 @@ on:
     branches: [main]
     paths:
       - 'canonical/profiles/FA3-HOST-ADAPTATION-001.json'
+      - 'canonical/FA3-APPLICATION-RUNTIME-DISCOVERY-001.json'
+      - 'canonical/FA3-UPDATE-FABRIC-001.json'
       - 'canonical/contracts/FA3-HOST-ADAPTATION-CONTRACTS-001.json'
       - 'canonical/FA3-DESKTOP-BASE-001.json'
       - 'canonical/FA3-DESKTOP-PLASMA-001.json'
       - 'src/fa3_host_adaptation.py'
+      - 'src/fa3_application_runtime_resolver.py'
       - 'src/fa3_desktop_admission.py'
       - 'src/fa3_current_host_runtime_resolver.py'
       - 'src/fa3_full_current_host_preflight.py'
@@ -48,6 +55,7 @@ on:
       - 'src/fa3_enforce.py'
       - 'deployment/fa3-gui/install.sh'
       - 'tests/test_host_adaptation.py'
+      - 'tests/test_application_runtime_resolver.py'
       - 'tests/test_current_host_runtime_resolver.py'
       - 'tests/test_full_current_host_capability_producer.py'
       - 'tests/test_mat003_interaction_creative_current_host.py'
@@ -72,6 +80,7 @@ jobs:
         run: >-
           python -m py_compile
           src/fa3_host_adaptation.py
+          src/fa3_application_runtime_resolver.py
           src/fa3_desktop_admission.py
           src/fa3_current_host_runtime_resolver.py
           src/fa3_full_current_host_preflight.py
@@ -84,6 +93,7 @@ jobs:
         run: >-
           python -m unittest
           tests.test_host_adaptation
+          tests.test_application_runtime_resolver
           tests.test_desktop_portability
           tests.test_current_host_runtime_resolver
           tests.test_full_current_host_capability_producer

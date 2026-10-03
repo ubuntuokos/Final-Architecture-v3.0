@@ -1,0 +1,239 @@
+{
+  "schema": "fa3.application-runtime-discovery.v1",
+  "id": "FA3-APPLICATION-RUNTIME-DISCOVERY-001",
+  "status": "CANONICAL_NON_AUTHORITATIVE_DISCOVERY",
+  "authority": false,
+  "source_of_execution_truth": false,
+  "capability_count": 175,
+  "discovery_semantics": "OBSERVE_INSTALLED_APPLICATION_INSTANCES_THEN_PROBE_RUNTIME_HEALTH",
+  "supported_packaging_classes": [
+    "NATIVE",
+    "DEB",
+    "RPM",
+    "PACMAN",
+    "FLATPAK",
+    "SNAP",
+    "APPIMAGE",
+    "PORTABLE",
+    "MANUAL"
+  ],
+  "invariants": [
+    "PACKAGE_PRESENCE_IS_NOT_RUNTIME_HEALTH",
+    "BROKEN_EXECUTABLE_IS_NOT_SELECTABLE",
+    "MULTIPLE_INSTALLATIONS_MAY_COEXIST",
+    "NO_UPSTREAM_UNINSTALL_REQUIRED",
+    "NO_GLOBAL_ENVIRONMENT_MUTATION",
+    "NO_SILENT_RUNTIME_FALLBACK",
+    "DISCOVERY_IS_NOT_EXECUTION_AUTHORITY",
+    "USER_RUNTIME_SELECTION_REMAINS_WITH_EXISTING_ENGINE_OR_APPLICATION_POLICY",
+    "CURRENT_HOST_PASS_REQUIRES_FRESH_PHYSICAL_RUNTIME_EVIDENCE"
+  ],
+  "groups": [
+    {
+      "group_id": "DCC_3D",
+      "minimum_healthy_instances": 1,
+      "qualification_preference": [
+        "BFORARTISTS",
+        "BLENDER"
+      ],
+      "qualification_selection_semantics": "QUALIFICATION_PROBE_ONLY_NOT_USER_RUNTIME_SELECTION"
+    },
+    {
+      "group_id": "IMAGE_EDITOR",
+      "minimum_healthy_instances": 0,
+      "qualification_preference": [
+        "KRITA",
+        "GIMP"
+      ],
+      "qualification_selection_semantics": "DISCOVERY_ONLY_UNLESS_A_CONSUMER_REQUIRES_THE_GROUP"
+    },
+    {
+      "group_id": "OFFICE_SUITE",
+      "minimum_healthy_instances": 0,
+      "qualification_preference": [
+        "LIBREOFFICE"
+      ],
+      "qualification_selection_semantics": "DISCOVERY_ONLY_UNLESS_A_CONSUMER_REQUIRES_THE_GROUP"
+    }
+  ],
+  "applications": [
+    {
+      "application_id": "BFORARTISTS",
+      "display_name": "Bforartists",
+      "groups": [
+        "DCC_3D"
+      ],
+      "command_aliases": [
+        "bforartists",
+        "bforartists-bin"
+      ],
+      "desktop_file_globs": [
+        "*bforartists*.desktop",
+        "*Bforartists*.desktop"
+      ],
+      "flatpak_ids": [
+        "de.bforartists.Bforartists"
+      ],
+      "snap_names": [
+        "bforartists"
+      ],
+      "manual_env": [
+        "FA3_BFORARTISTS_EXECUTABLE"
+      ],
+      "smoke_argv": [
+        "--background",
+        "--factory-startup",
+        "--python-expr",
+        "print('FA3_APPLICATION_RUNTIME_PASS')"
+      ],
+      "smoke_stdout_sentinel": "FA3_APPLICATION_RUNTIME_PASS",
+      "smoke_timeout_seconds": 60,
+      "portable_env": [
+        "FA3_BFORARTISTS_PORTABLE_EXECUTABLE"
+      ]
+    },
+    {
+      "application_id": "BLENDER",
+      "display_name": "Blender",
+      "groups": [
+        "DCC_3D"
+      ],
+      "command_aliases": [
+        "blender"
+      ],
+      "desktop_file_globs": [
+        "*blender*.desktop",
+        "*Blender*.desktop"
+      ],
+      "flatpak_ids": [
+        "org.blender.Blender"
+      ],
+      "snap_names": [
+        "blender"
+      ],
+      "manual_env": [
+        "FA3_BLENDER_EXECUTABLE"
+      ],
+      "smoke_argv": [
+        "--background",
+        "--factory-startup",
+        "--python-expr",
+        "print('FA3_APPLICATION_RUNTIME_PASS')"
+      ],
+      "smoke_stdout_sentinel": "FA3_APPLICATION_RUNTIME_PASS",
+      "smoke_timeout_seconds": 60,
+      "portable_env": [
+        "FA3_BLENDER_PORTABLE_EXECUTABLE"
+      ]
+    },
+    {
+      "application_id": "GIMP",
+      "display_name": "GIMP",
+      "groups": [
+        "IMAGE_EDITOR"
+      ],
+      "command_aliases": [
+        "gimp",
+        "gimp-3.0"
+      ],
+      "desktop_file_globs": [
+        "*gimp*.desktop",
+        "*GIMP*.desktop"
+      ],
+      "flatpak_ids": [
+        "org.gimp.GIMP"
+      ],
+      "snap_names": [
+        "gimp"
+      ],
+      "manual_env": [
+        "FA3_GIMP_EXECUTABLE"
+      ],
+      "smoke_argv": [
+        "--version"
+      ],
+      "smoke_stdout_sentinel": null,
+      "smoke_timeout_seconds": 20,
+      "portable_env": [
+        "FA3_GIMP_PORTABLE_EXECUTABLE"
+      ]
+    },
+    {
+      "application_id": "KRITA",
+      "display_name": "Krita",
+      "groups": [
+        "IMAGE_EDITOR"
+      ],
+      "command_aliases": [
+        "krita"
+      ],
+      "desktop_file_globs": [
+        "*krita*.desktop",
+        "*Krita*.desktop"
+      ],
+      "flatpak_ids": [
+        "org.kde.krita"
+      ],
+      "snap_names": [
+        "krita"
+      ],
+      "manual_env": [
+        "FA3_KRITA_EXECUTABLE"
+      ],
+      "smoke_argv": [
+        "--version"
+      ],
+      "smoke_stdout_sentinel": null,
+      "smoke_timeout_seconds": 20,
+      "portable_env": [
+        "FA3_KRITA_PORTABLE_EXECUTABLE"
+      ]
+    },
+    {
+      "application_id": "LIBREOFFICE",
+      "display_name": "LibreOffice",
+      "groups": [
+        "OFFICE_SUITE"
+      ],
+      "command_aliases": [
+        "libreoffice",
+        "soffice"
+      ],
+      "desktop_file_globs": [
+        "*libreoffice*.desktop",
+        "*LibreOffice*.desktop"
+      ],
+      "flatpak_ids": [
+        "org.libreoffice.LibreOffice"
+      ],
+      "snap_names": [
+        "libreoffice"
+      ],
+      "manual_env": [
+        "FA3_LIBREOFFICE_EXECUTABLE"
+      ],
+      "smoke_argv": [
+        "--version"
+      ],
+      "smoke_stdout_sentinel": null,
+      "smoke_timeout_seconds": 20,
+      "portable_env": [
+        "FA3_LIBREOFFICE_PORTABLE_EXECUTABLE"
+      ]
+    }
+  ],
+  "custom_application_policy": {
+    "allowed": true,
+    "registration_required": true,
+    "absolute_manual_path_allowed": true,
+    "shell_command_allowed": false,
+    "privilege_escalation_allowed": false,
+    "automatic_download_allowed": false,
+    "automatic_install_allowed": false
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "current_host_runtime_promotion_claim": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}

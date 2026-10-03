@@ -48,6 +48,12 @@ class FullCurrentHostPreflightTests(unittest.TestCase):
         ):
             self.assertIn(primitive, primitives)
 
+    def test_dcc_preflight_uses_shared_runtime_resolver(self):
+        source = (ROOT / "src/fa3_full_current_host_preflight.py").read_text(encoding="utf-8")
+        self.assertIn("dcc_qualification_candidate", source)
+        self.assertIn("FA3-APPLICATION-RUNTIME-DISCOVERY-001", source)
+        self.assertNotIn('any_command(("bforartists", "bforartists-bin", "blender"))', source)
+
     def test_all_recipes_are_fail_closed_nonpromoting(self):
         _, recipes = required_primitives(ROOT)
         for capability_id, recipe in recipes.items():
