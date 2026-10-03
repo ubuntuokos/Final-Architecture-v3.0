@@ -4,11 +4,6 @@
   "decision_date": "2026-10-03",
   "explicit_user_approval": true,
   "scope": "DONOR_INTAKE_CONCURRENCY_QUEUE_AND_FINALIZATION_ORDER",
-  "supersedes": [
-    "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28:ONLY_ONE_ACTIVE_DONOR_INTAKE_CONVERSATION_OLDEST_OPEN_PR_OWNS_SLOT",
-    "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28:one_donor_intake_conversation_at_a_time",
-    "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28:intake_lock"
-  ],
   "rules": {
     "max_active_donor_intakes": 5,
     "active_window": "ROLLING",
@@ -48,5 +43,11 @@
     "workflow": ".github/workflows/fa3-donor-serialization.yml",
     "contract": "canonical/contracts/FA3-DONOR-CHAT-INGEST-001.json",
     "enforcement_policy": "canonical/enforcement-policy.json"
-  }
+  },
+  "supersedes_policy_clauses": [
+    "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28:ONLY_ONE_ACTIVE_DONOR_INTAKE_CONVERSATION_OLDEST_OPEN_PR_OWNS_SLOT",
+    "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28:one_donor_intake_conversation_at_a_time",
+    "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28:intake_lock"
+  ],
+  "supersedes_policy_clauses_note": "These are clause identifiers inside the still-active donor registry decision; this decision overrides only those clauses, not the entire prior decision record."
 }
