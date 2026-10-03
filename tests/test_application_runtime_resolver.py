@@ -104,6 +104,12 @@ class ApplicationRuntimeResolverTests(unittest.TestCase):
         self.assertEqual("DEB", desktop_rows[0]["packaging"])
         self.assertEqual("bforartists", desktop_rows[0]["package_id"])
 
+    def test_qualification_selection_ignores_ambient_engine_override(self):
+        group = resolver.group_spec(ROOT, "DCC_3D")
+        self.assertNotIn("selection_env", group)
+        source = (ROOT / "src/fa3_application_runtime_resolver.py").read_text(encoding="utf-8")
+        self.assertNotIn("FA3_CURRENT_HOST_DCC_APPLICATION", source)
+
     def test_package_presence_is_not_runtime_health(self):
         candidate = {
             "application_id": "GIMP",
