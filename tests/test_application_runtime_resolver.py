@@ -87,7 +87,7 @@ class ApplicationRuntimeResolverTests(unittest.TestCase):
             root = Path(td)
             apps = root / "applications"
             apps.mkdir()
-            executable = root / "bforartists-real"
+            executable = root / "bforartists"
             executable.write_text("#!/bin/sh\nexit 0\n", encoding="utf-8")
             executable.chmod(0o755)
             desktop = apps / "de.bforartists.Bforartists.desktop"
