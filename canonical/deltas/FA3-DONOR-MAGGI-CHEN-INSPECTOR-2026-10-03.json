@@ -1,0 +1,62 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-MAGGI-CHEN-INSPECTOR-2026-10-03",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "MATERIALIZED_PENDING_EXACT_HEAD_GATES",
+  "mode": "APPEND_ONLY_OWNER_EXPLICIT_REFERENCE_INTAKE",
+  "parent_commit": "3cff20ba446c06501b7195da86a7cdd2d3eb8a36",
+  "parent_registry_blob_sha": "4ac6c46935176c0e2027d771557cdec159e4c2bf",
+  "parent_entry_count": 1421,
+  "submitted_url_count": 1,
+  "source_count": 1,
+  "unique_source_key_count": 1,
+  "matched_existing_count": 0,
+  "new_source_count": 1,
+  "proposed_entry_count": 1422,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "provider_count_policy": "DYNAMIC_UNCHANGED",
+  "approval_ref": "docs/donor-maggi-chen-inspector-2026-10-03.md",
+  "requirements": [
+    "Register the exact owner-marked Maggi-Chen/Inspector repository as one canonical ACCEPTED_REFERENCE.",
+    "Preserve the canonical upstream identity: Maggi-Chen/Inspector is non-fork; ChongLab/Inspector is lineage/fork context only and is not separately admitted.",
+    "Inspector source code, bioinformatics runtime, dependencies, correction runtime, providers/models/services and datasets are not admitted by this intake.",
+    "Reuse remains pattern/reference only until a separately approved post-publication Reuse Assessment and explicit donor usage edge exist.",
+    "Capability bindings for future material use must be derived from canonical FA3 profile/contract capability_bindings, never manually inferred from donor names.",
+    "Existing Evidence, Human, Security, HRB, Model Router, Reuse Discovery and workflow authorities remain unchanged.",
+    "The fixed capability baseline remains 175; provider-count policy remains dynamic; authority delta is zero.",
+    "Any future code/runtime reuse requires separate License & Rights/provenance, security, Software Coexistence, Hardware Safety and Current Host admission."
+  ],
+  "sources": [
+    {
+      "url": "https://github.com/Maggi-Chen/Inspector",
+      "normalized_key": "github:maggi-chen/inspector",
+      "donor_id": "FA3-DONOR-MAGGI-CHEN-INSPECTOR-001",
+      "kind": "GITHUB_REPOSITORY",
+      "status": "ACCEPTED_REFERENCE",
+      "observed_head": "2d813d96eb38adec9b8fb25388a3f4f1a2c63573",
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_REPOSITORY_DECLARED"
+      }
+    }
+  ],
+  "boundaries": {
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "automatic_code_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "runtime_admission": false,
+    "usage_edge_created": false,
+    "capability_count_change": false,
+    "authority_change": false,
+    "current_host_pass_claimed": false
+  },
+  "serialization_scope": "ROLLING_FIVE_SLOT_DONOR_MAINTENANCE",
+  "serialization_order": "ASCENDING_ESTIMATED_INTAKE_WORKLOAD_THEN_FIFO",
+  "max_active_donor_intakes": 5
+}
