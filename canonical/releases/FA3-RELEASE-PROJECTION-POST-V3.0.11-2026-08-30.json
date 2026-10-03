@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "9ec3f403345d9e65c326441fb8f11dc5d8ce562a",
-    "pre_projection_root_tree_sha": "e334b27c876bbe7ed90895dbfff8ff8b220b6009",
-    "pre_projection_canonical_tree_sha": "525ee69124c0fa459f76b2720287786aee388089",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2800,
-    "total_post_baseline_commits": 2800,
-    "delta_file_count": 2908,
-    "delta_added_files": 2902,
+    "pre_projection_head_sha": "f7ea662e3f27e2af60f3b889f5255d4aa1a93d5d",
+    "pre_projection_root_tree_sha": "59854c67739c4f66720ac36c8f2970374429abfc",
+    "pre_projection_canonical_tree_sha": "7eb3bf19d1c5a62e936c34cffe296a1b0764393d",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2812,
+    "total_post_baseline_commits": 2812,
+    "delta_file_count": 2913,
+    "delta_added_files": 2907,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,10 +46,10 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1360,
+    "canonical_files_in_post_baseline_delta": 1362,
     "evidence_files_in_post_baseline_delta": 172,
     "source_files_in_post_baseline_delta": 368,
-    "test_files_in_post_baseline_delta": 341,
+    "test_files_in_post_baseline_delta": 342,
     "workflow_files_in_post_baseline_delta": 138,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -655,6 +655,7 @@
       "canonical/decisions/FA3-DEC-VAULTWARDEN-HARDENING-2026-09-12.json",
       "canonical/decisions/FA3-DEC-VIDEO-H3-2026-08-30.json",
       "canonical/decisions/FA3-DEC-VOICE-SYNTHESIS-PORTFOLIO-2026-09-01.json",
+      "canonical/decisions/FA3-DEC-VOICE-TRANSFORMATION-REFERENCE-PLAN-2026-10-03.json",
       "canonical/decisions/FA3-DEC-WHISPER-STT-MATERIALIZATION-2026-08-30.json",
       "canonical/decisions/FA3-DEC-WORK-MANAGEMENT-GUI-2026-09-17.json",
       "canonical/decisions/FA3-DEC-WORKLOAD-MODE-MANDATORY-2026-10-02.json",
@@ -1067,7 +1068,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2898,
+  "manifest_entry_count": 2903,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1816,7 +1817,7 @@
     },
     {
       "path": "apps/fa3-control-center/CMakeLists.txt",
-      "git_blob_sha": "ab587ee2d28e8f88547da1de604bf32bdfca876d",
+      "git_blob_sha": "9cd741c9c16d767248176fd8442ffc693c08d1f9",
       "baseline_delta_status": "added"
     },
     {
@@ -1926,7 +1927,7 @@
     },
     {
       "path": "apps/fa3-control-center/qml/NarrationStudioPage.qml",
-      "git_blob_sha": "10df680c9492afcd55f0371b5853daf67e5a30fc",
+      "git_blob_sha": "d251b21879ba6f06b8870879af51442fe5490e23",
       "baseline_delta_status": "added"
     },
     {
@@ -2162,6 +2163,11 @@
     {
       "path": "apps/shared/engine-selector/qml/EngineSelectorPanel.qml",
       "git_blob_sha": "1ba4c9134baecdf4ee46cee347b46cee59a006b7",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/shared/voice/qml/VoiceTransformationPanel.qml",
+      "git_blob_sha": "665f3955c7295e29cbd16790203474bde7fd2507",
       "baseline_delta_status": "added"
     },
     {
@@ -3570,6 +3576,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/FA3-VOICE-TRANSFORMATION-GIST-REUSE-ASSESSMENT-2026-10-03.json",
+      "git_blob_sha": "a135c74309b6a2542d081ee9626a380723ef9f84",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/assessments/FA3-WORKLOAD-MODE-DECISION-ASSESSMENT-2026-10-02.json",
       "git_blob_sha": "ebe30187cdaffe12f6549d42a7c2f89ec1c69ce7",
       "baseline_delta_status": "added"
@@ -4526,7 +4537,7 @@
     },
     {
       "path": "canonical/contracts/FA3-VOICE-CONTRACTS-001.json",
-      "git_blob_sha": "714203d69a4a6525d23e8dc665bdd1e296a60c0d",
+      "git_blob_sha": "1406943e09d74e63f66ccc62b9038264ef8dca44",
       "baseline_delta_status": "added"
     },
     {
@@ -5490,6 +5501,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-VOICE-TRANSFORMATION-REFERENCE-PLAN-2026-10-03.json",
+      "git_blob_sha": "7197cf5f31898416aa8f211b7050133f73d48066",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-WHISPER-STT-MATERIALIZATION-2026-08-30.json",
       "git_blob_sha": "665a958e5f13b74e9720d174ad2058520b32f9ff",
       "baseline_delta_status": "added"
@@ -5751,7 +5767,7 @@
     },
     {
       "path": "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
-      "git_blob_sha": "27c93b6b63694129e13de8c4cdb0ecd3a6b844c6",
+      "git_blob_sha": "7c80f18205101c0319246d3f7422bc6251225692",
       "baseline_delta_status": "added"
     },
     {
@@ -8111,7 +8127,7 @@
     },
     {
       "path": "canonical/profiles/FA3-VOICE-001.json",
-      "git_blob_sha": "70d4ae376a24ad10c9a49518bb7c24e06031c94c",
+      "git_blob_sha": "111de943cd0cc2906b0a74e6e9228b1a5df33cec",
       "baseline_delta_status": "added"
     },
     {
@@ -10787,6 +10803,11 @@
     {
       "path": "docs/vision-complementary-donor-curation-2026-09-28.md",
       "git_blob_sha": "592df350d735560c541d32a696fd6d12fb00771a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/voice-transformation-reference-plan-2026-10-03.md",
+      "git_blob_sha": "00232f89e6c560bf79c26e7e6f108f78633430ab",
       "baseline_delta_status": "added"
     },
     {
@@ -15427,6 +15448,11 @@
     {
       "path": "tests/test_voice_synthesis_gate.py",
       "git_blob_sha": "692fa2edc15fd78870cbc3f24fe97879a93af322",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_voice_transformation_reference_plan_20261003.py",
+      "git_blob_sha": "4c0d9df019f300dc07d326760efed2c0daaee815",
       "baseline_delta_status": "added"
     },
     {
