@@ -137,6 +137,8 @@ on:
       - 'tests/test_cap083_khronos_current_host.py'
       - 'bin/fa3-materialize-khronos-sdks.sh'
       - 'canonical/FA3-KHRONOS-ADAPTER-REGISTRY-001.json'
+      - 'canonical/FA3-APPLICATION-RUNTIME-DISCOVERY-001.json'
+      - 'src/fa3_application_runtime_resolver.py'
       - 'src/fa3_full_current_host_preflight.py'
       - 'src/fa3_current_host_runtime_resolver.py'
       - 'src/fa3_pytorch3d_build_readiness.py'
@@ -237,6 +239,7 @@ jobs:
             src/fa3_mat003_interaction_creative_current_host.py \
             src/fa3_plasma_secret_service_diagnostic.py \
             src/fa3_mat004_media_authoring_verification_current_host.py \
+            src/fa3_application_runtime_resolver.py \
             tests/test_plasma_secret_service_diagnostic.py \
             src/fa3_full_current_host_capability_producer.py \
             src/fa3_cap083_khronos_current_host.py \
@@ -342,6 +345,7 @@ jobs:
             tests.test_mat003_interaction_creative_current_host \
             tests.test_plasma_secret_service_diagnostic \
             tests.test_mat004_media_authoring_verification_current_host \
+            tests.test_application_runtime_resolver \
             tests.test_hrb_systemd_manager_current_host_gate \
             tests.test_hrb_systemd_manager_current_host_collector \
             tests.test_full_current_host_capability_producer \
