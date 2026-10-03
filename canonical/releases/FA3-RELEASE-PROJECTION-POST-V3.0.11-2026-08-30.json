@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "15dca22f6be3fa10ba7f508c052cbbb6713674d0",
-    "pre_projection_root_tree_sha": "c550edb8be19a14de76ade196bad8aa868866084",
-    "pre_projection_canonical_tree_sha": "b96e3b38736d31aa863ef5246d517dc36f5b268c",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2782,
-    "total_post_baseline_commits": 2782,
-    "delta_file_count": 2902,
-    "delta_added_files": 2896,
+    "pre_projection_head_sha": "fd8b3e163fb54ad3f837f41d6f3c94f2a11db60e",
+    "pre_projection_root_tree_sha": "b41981a7536a95ac5180f79dc2e0343d9d389404",
+    "pre_projection_canonical_tree_sha": "037f4637908322848a720efbfb92321f4f9da870",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2790,
+    "total_post_baseline_commits": 2790,
+    "delta_file_count": 2905,
+    "delta_added_files": 2899,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,10 +46,10 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1358,
+    "canonical_files_in_post_baseline_delta": 1359,
     "evidence_files_in_post_baseline_delta": 172,
     "source_files_in_post_baseline_delta": 368,
-    "test_files_in_post_baseline_delta": 339,
+    "test_files_in_post_baseline_delta": 340,
     "workflow_files_in_post_baseline_delta": 138,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -1067,7 +1067,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2892,
+  "manifest_entry_count": 2895,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -5590,6 +5590,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/deltas/FA3-DONOR-MAGGI-CHEN-INSPECTOR-2026-10-03.json",
+      "git_blob_sha": "103eb24bcb06838bc9ac258f3065e952efb49dcd",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/deltas/FA3-DONOR-MAIL-CRM-ERP-GROUPWARE-SYNC-2026-09-30.json",
       "git_blob_sha": "36941ef14c0a46e49d35b8683bd0b5a753df7e7e",
       "baseline_delta_status": "added"
@@ -5841,7 +5846,7 @@
     },
     {
       "path": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
-      "git_blob_sha": "4ac6c46935176c0e2027d771557cdec159e4c2bf",
+      "git_blob_sha": "c9248c7e5fcd8baa0be19c726eb6abab8197f2d8",
       "baseline_delta_status": "added"
     },
     {
@@ -10067,6 +10072,11 @@
     {
       "path": "docs/donor-litellm-h2o-local-llm-sources-2026-10-02.md",
       "git_blob_sha": "d1b81fd06db6ac628807f08ed83a4d3494ecb2bd",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/donor-maggi-chen-inspector-2026-10-03.md",
+      "git_blob_sha": "1ea96eb7f5041ae66c05853212381df3383c679a",
       "baseline_delta_status": "added"
     },
     {
@@ -14310,6 +14320,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_donor_maggi_chen_inspector_20261003.py",
+      "git_blob_sha": "6ceaeaa9ebae5e9df93bfd81d36a244382d414c8",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_donor_mail_crm_erp_groupware_sync_intake.py",
       "git_blob_sha": "ea2f6a0c662eff24f43b66dd59b51f6ddb9f60d7",
       "baseline_delta_status": "added"
@@ -17247,7 +17262,7 @@
     "reconciliation_status": "CANONICAL_REUSE_DISCOVERY_STATIC_MATERIALIZED_RUNTIME_PROMOTION_NOT_APPLICABLE",
     "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
     "donor_registry_decision_id": "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28",
-    "donor_registry_entry_count": 1421,
+    "donor_registry_entry_count": 1422,
     "donor_rejection_audit_id": "FA3-DONOR-REJECTION-AUDIT-001",
     "donor_rejection_audit_count": 1,
     "donor_lifecycle_decision_id": "FA3-DEC-DONOR-LIFECYCLE-APPLICATION-SYNC-2026-09-30",
