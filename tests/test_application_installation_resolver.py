@@ -73,6 +73,8 @@ class ApplicationInstallationResolverTests(unittest.TestCase):
         def runner(argv, timeout):
             if argv[:2] == ["dpkg-query", "-L"]:
                 return subprocess.CompletedProcess(argv, 0, stdout=str(exe) + "\\n", stderr="")
+            if argv[:2] == ["dpkg-query", "-S"]:
+                return subprocess.CompletedProcess(argv, 0, stdout="krita: " + str(exe) + "\\n", stderr="")
             if argv[0] == str(exe):
                 return subprocess.CompletedProcess(argv, 0, stdout="Krita 5\\n", stderr="")
             return subprocess.CompletedProcess(argv, 1, stdout="", stderr="")
