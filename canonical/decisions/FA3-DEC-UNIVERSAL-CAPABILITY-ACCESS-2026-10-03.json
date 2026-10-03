@@ -1,0 +1,21 @@
+{
+  "schema": "fa3.architecture-decision.v1",
+  "id": "FA3-DEC-UNIVERSAL-CAPABILITY-ACCESS-2026-10-03",
+  "date": "2026-10-03",
+  "status": "ACCEPTED",
+  "title": "Apply Universal Capability Access to the complete donor registry",
+  "decision": [
+    "Apply Universal Capability Access retroactively to every published donor/reference record and prospectively to every future donor/reference record.",
+    "A restricted donor may remain a reference but may not be the sole material implementation of an FA3 user-facing capability.",
+    "Unknown or unverified access rights fail closed for material adoption.",
+    "Restricted material use requires an independently usable global substitute and explicit rights evidence.",
+    "VPN, proxy, foreign hosting, artifact relocation or equivalent technical circumvention of upstream restrictions is forbidden.",
+    "Functional knowledge may be independently re-expressed only within applicable rights and separate IP review.",
+    "CPU-only remains the universal baseline; optional accelerators remain 0..N under HRB."
+  ],
+  "capability_count_before": 175,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "provider_count_policy": "DYNAMIC_UNCHANGED"
+}

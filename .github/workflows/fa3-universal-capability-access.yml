@@ -1,0 +1,28 @@
+name: FA3 Universal Capability Access
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  universal-capability-access:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {fetch-depth: 0, persist-credentials: false}
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with: {python-version: '3.12'}
+      - run: python3 -m py_compile src/fa3_universal_capability_access_gate.py
+      - env: {PYTHONPATH: src}
+        run: python3 -m unittest tests.test_universal_capability_access_gate -v
+      - env: {PYTHONPATH: src}
+        run: python3 src/fa3_universal_capability_access_gate.py --root .
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fa3-universal-capability-access
+          path: reports/universal-capability-access-gate-report.json
+          if-no-files-found: error

@@ -1,0 +1,16 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-UNIVERSAL-CAPABILITY-ACCESS-001",
+  "parent_gate_id": "FA3-GATE-LICENSE-RIGHTS-001",
+  "gateset_id": "FA3-SUPPLY-RUNTIME-HARDENING-GATESET-001",
+  "name": "Universal Capability Access donor and material-usage conformance",
+  "status": "MANDATORY_REFERENCE_SUBGATE",
+  "fail_closed": true,
+  "capability_count": 175,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "policy_id": "FA3-UNIVERSAL-CAPABILITY-ACCESS-POLICY-001",
+  "entrypoint": "src/fa3_universal_capability_access_gate.py",
+  "unit_test": "tests/test_universal_capability_access_gate.py",
+  "report_path": "reports/universal-capability-access-gate-report.json"
+}
