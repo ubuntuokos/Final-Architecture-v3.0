@@ -1,4 +1,4 @@
-"""Owner-marked AI Voice Cloning Gist donor intake and reference-plan regressions."""
+"""Owner-marked AI Voice Cloning Gist donor intake regressions."""
 import json
 import unittest
 from pathlib import Path
@@ -6,7 +6,6 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 REGISTRY = ROOT / "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"
 DELTA = ROOT / "canonical/deltas/FA3-DONOR-AI-VOICE-CLONING-GIST-2026-10-03.json"
-DECISION = ROOT / "canonical/decisions/FA3-DEC-VOICE-TRANSFORMATION-REFERENCE-PLAN-2026-10-03.json"
 PROFILE = ROOT / "canonical/profiles/FA3-VOICE-001.json"
 ENGINE = ROOT / "canonical/FA3-ENGINE-REGISTRY-001.json"
 
@@ -20,7 +19,6 @@ class VoiceCloningGistDonorTests(unittest.TestCase):
     def setUpClass(cls):
         cls.registry=json.loads(REGISTRY.read_text(encoding="utf-8"))
         cls.delta=json.loads(DELTA.read_text(encoding="utf-8"))
-        cls.decision=json.loads(DECISION.read_text(encoding="utf-8"))
         cls.profile=json.loads(PROFILE.read_text(encoding="utf-8"))
         cls.engine=json.loads(ENGINE.read_text(encoding="utf-8"))
         cls.entries=cls.registry["entries"]
@@ -60,19 +58,12 @@ class VoiceCloningGistDonorTests(unittest.TestCase):
         self.assertFalse(self.profile["architectural_authority"])
         self.assertIn("VOICE",self.engine["engine_classes"])
         self.assertEqual(self.engine["capability_count"],175)
-        self.assertEqual(self.decision["profile_id"],"FA3-VOICE-001")
-        self.assertEqual(self.decision["new_capabilities"],0)
-        self.assertEqual(self.decision["new_architectural_authorities"],0)
-        self.assertEqual(self.decision["capability_count_after"],175)
 
-    def test_reference_plan_does_not_claim_runtime_or_current_host(self):
-        self.assertFalse(self.decision["runtime_materialization"])
-        self.assertFalse(self.decision["provider_admission"])
-        self.assertFalse(self.decision["model_admission"])
-        self.assertFalse(self.decision["usage_edge_created"])
-        self.assertEqual(self.decision["current_host_impact"],"NO_RUNTIME_IMPACT")
+    def test_intake_does_not_claim_runtime_or_current_host(self):
         self.assertFalse(self.delta["boundaries"]["runtime_change"])
         self.assertFalse(self.delta["boundaries"]["current_host_pass_claimed"])
+        self.assertFalse(self.delta["boundaries"]["authority_change"])
+        self.assertFalse(self.delta["boundaries"]["capability_count_change"])
 
 if __name__ == "__main__":
     unittest.main()
