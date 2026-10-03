@@ -1,0 +1,66 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-AI-VOICE-CLONING-GIST-2026-10-03",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "STAGED_PENDING_EXACT_HEAD_GATES",
+  "mode": "APPEND_ONLY_OWNER_EXPLICIT_REFERENCE_INTAKE",
+  "parent_commit": "5d99e09b674877bcf4c057ec7af82e5d819ee616",
+  "parent_registry_blob_sha": "4c96dc9579c53d837d42b100331ccb8809373116",
+  "parent_entry_count": 1422,
+  "source_count": 1,
+  "unique_source_key_count": 1,
+  "matched_existing_count": 0,
+  "proposed_entry_count": 1423,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "provider_count_policy": "DYNAMIC_UNCHANGED",
+  "approval_ref": "docs/donor-ai-voice-cloning-gist-2026-10-03.md",
+  "requirements": [
+    "Preserve the exact owner-marked Gist URL as one canonical donor/reference identity.",
+    "Treat the Gist as a discovery index only; child repositories and commercial services are not recursively admitted.",
+    "FA3-VOICE-001 remains the existing provider-neutral voice fabric; no parallel voice or routing authority is created.",
+    "Future source-specific reuse requires explicit donor eligibility plus independent license/provenance, security, Software Coexistence, Hardware Safety, model/runtime, voice/dataset/output-rights and usage-edge review.",
+    "Fixed capability baseline 175 and dynamic provider-count policy remain unchanged.",
+    "No automatic fetch, install, code copy, dependency adoption, provider/model selection, runtime activation or Current Host claim."
+  ],
+  "sources": [
+    {
+      "url": "https://gist.github.com/0xdevalias/bb618bba1f0c9038e4bf740de884ac99",
+      "normalized_key": "gist:0xdevalias/bb618bba1f0c9038e4bf740de884ac99",
+      "donor_id": "FA3-DONOR-0XDEVALIAS-AI-VOICE-CLONING-GIST-001",
+      "kind": "GIST",
+      "status": "ACCEPTED_REFERENCE",
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "UNKNOWN"
+      }
+    }
+  ],
+  "discovery_classes": [
+    "VOICE_CLONING",
+    "VOICE_CONVERSION",
+    "REALTIME_VOICE_CONVERSION",
+    "SINGING_VOICE_CONVERSION",
+    "VOICE_STYLE_PROSODY",
+    "SPEECH_REPRESENTATION",
+    "VOICE_WORKFLOW_GUI",
+    "VOICE_PROVIDER_DISCOVERY"
+  ],
+  "boundaries": {
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "automatic_code_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "child_repository_auto_registration": false,
+    "child_service_auto_registration": false,
+    "usage_edge_created": false,
+    "capability_count_change": false,
+    "authority_change": false,
+    "runtime_change": false,
+    "current_host_pass_claimed": false
+  }
+}
