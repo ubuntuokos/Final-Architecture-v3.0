@@ -1,7 +1,7 @@
 {
   "schema": "fa3.profile-record.v1",
   "id": "FA3-VOICE-001",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "name": "Provider-Neutral Speech Synthesis, Voice Cloning, Transformation, Identity, Consent & Voice Asset Governance Fabric",
   "status": "CANONICAL_MATERIALIZED",
   "obligation": "P0/MUST-IF-VOICE-SYNTHESIS-USED",
@@ -117,6 +117,38 @@
     "material_adoption": false,
     "code_copy": false,
     "child_provider_admission": false,
+    "capability_delta": 0,
+    "authority_delta": 0
+  },
+  "shared_voice_surfaces": {
+    "status": "MATERIALIZED_GUI_AND_HOST_CONTRACT",
+    "voice_studio_application_id": "fa3.voice-studio",
+    "voice_studio_route": "create.voice-studio",
+    "shared_plugin_id": "FA3-SHARED-VOICE-PLUGIN-001",
+    "plugin_projection_modes": [
+      "QUICK",
+      "STANDARD",
+      "ADVANCED"
+    ],
+    "quickclip_host_application_id": "fa3.quickclip",
+    "voice_profile_manager": true,
+    "voice_activity_overlay": true,
+    "quick_video_features": [
+      "QUICK_VOICE",
+      "FIT_TO_CLIP",
+      "GENERATE_AND_INSERT",
+      "TAKES",
+      "EDITABLE_CAPTIONS",
+      "MUSIC_DUCKING",
+      "QUICK_DUB",
+      "QUICK_NARRATION"
+    ],
+    "authority": false,
+    "direct_provider_execution": false,
+    "model_router_required": true,
+    "hrb_required_for_accelerator": true,
+    "cpu_only_path_required": true,
+    "ai_feature_toggles_required": true,
     "capability_delta": 0,
     "authority_delta": 0
   }
