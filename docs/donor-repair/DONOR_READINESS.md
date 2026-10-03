@@ -12,7 +12,7 @@ CLI: PYTHONPATH=src python3 src/fa3_donor_readiness.py --phase maintenance
 
 With a verified committed main snapshot, use --phase entry --assessment canonical/assessments/<assessment>.json with GITHUB_TOKEN from the existing Secret Broker or GitHub Actions environment. No tokens in chat, logs or committed files.
 
-Limit: live PR checks detect known GitHub work but do not constitute an atomic distributed lease against unregistered off-GitHub mutations. Release-wide orchestration and a required branch-protection check still must consume this gate. Pending donor PRs do not block design/finalization on the published exact main registry. A second intake remains BLOCKED. Unmerged sources must never enter an assessment; new publication never automatically re-runs prior work.
+Limit: live PR checks detect known GitHub work but do not constitute an atomic distributed lease against unregistered off-GitHub mutations. Release-wide orchestration and the required branch-protection checks consume this gate. Up to five genuine canonical intake PRs may be active; only the current size/FIFO finalizer may retain canonical publication readiness, while a sixth or later request waits for a slot. Inventory or workload changes cross-revalidate active intake heads and invalidate stale canonical readiness before publication. Pending donor PRs do not block unrelated design/finalization on the published exact main registry. Unmerged sources must never enter an assessment; new publication never automatically re-runs prior unrelated work.
 
 ## Automatic donor count refresh and validation
 

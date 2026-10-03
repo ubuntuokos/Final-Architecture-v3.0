@@ -2,9 +2,11 @@
 import json
 import tempfile
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"src"))
+import fa3_donor_readiness as readiness
 from fa3_donor_readiness import (inspect_registry,pending_prs,gate,is_donor_pr,
     is_donor_intake_pr,effective_donor_intake_pr,donor_intake_workload,
     MAX_ACTIVE_DONOR_INTAKES,REGISTRY,REJECTION_AUDIT,git_blob_sha,planning_snapshot_findings)
@@ -331,6 +333,47 @@ class Tests(unittest.TestCase):
         ]
         self.assertEqual(donor_intake_workload(files),12)
         self.assertEqual(donor_intake_workload([{"filename":REGISTRY}]),1)
+
+    def test_stale_base_files_are_excluded_from_live_workload(self):
+        stale_delta="canonical/deltas/FA3-DONOR-STALE.json"
+        def get(url):
+            if "pulls?state=open" in url:
+                return [{"number":77,"title":"Donor intake",
+                         "head":{"sha":"d"*40,"ref":"fa3/donor-77",
+                                 "repo":{"full_name":"ubuntuokos/Final-Architecture-v3.0"}}}]
+            if "/pulls/77/files?" in url:
+                return [
+                    {"filename":REGISTRY,"sha":"b"*40,"changes":7},
+                    {"filename":stale_delta,"sha":"c"*40,"changes":500},
+                ]
+            if "/contents/"+REGISTRY in url:
+                return {"sha":"a"*40}
+            if "/contents/"+stale_delta in url:
+                return {"sha":"c"*40}
+            raise AssertionError(url)
+        row=pending_prs(get)[0]
+        self.assertTrue(row["intake"])
+        self.assertEqual(row["workload_units"],7)
+        self.assertEqual(row["head_ref"],"fa3/donor-77")
+        self.assertEqual(row["head_repo_full_name"],"ubuntuokos/Final-Architecture-v3.0")
+
+    def test_cli_ready_results_return_success(self):
+        for result in ("DONOR_INTAKE_SLOT_AVAILABLE","DONOR_INTAKE_READY_TO_FINALIZE"):
+            with self.subTest(result=result), \
+                 patch.object(readiness,"gate",return_value={"result":result}), \
+                 patch.object(sys,"argv",["fa3_donor_readiness.py"]):
+                self.assertEqual(readiness.main(),0)
+
+    def test_cross_pr_revalidation_and_operator_docs_match_rolling_window(self):
+        root=Path(__file__).resolve().parents[1]
+        workflow=(root/".github/workflows/fa3-donor-serialization.yml").read_text()
+        guide=(root/"docs/donor-repair/DONOR_READINESS.md").read_text()
+        self.assertIn("pull_request_target:",workflow)
+        self.assertIn("actions: write",workflow)
+        self.assertIn("checks: write",workflow)
+        self.assertIn("canonical-regression / P0",workflow)
+        self.assertIn("fa3-permanent-enforcement.yml/dispatches",workflow)
+        self.assertNotIn("A second intake remains BLOCKED",guide)
 
     def test_intake_without_live_inventory_is_fail_closed(self):
         t,root,p=fixture()

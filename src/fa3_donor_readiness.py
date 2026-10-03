@@ -150,35 +150,39 @@ def is_donor_intake_pr(pr,files):
             return True
     return False
 
-def effective_donor_intake_pr(pr,files,get,repo=REPO):
-    """Reserve the live intake slot only for donor bytes that differ from main.
+def live_donor_intake_files(files,get,repo=REPO):
+    """Return canonical donor mutations whose candidate bytes still differ from main.
 
     GitHub's pull-request file list is relative to the PR's merge base. A long-
-    lived PR can therefore list donor files that were independently published
-    to main later. Those byte-identical stale-base files must not reserve the
-    single donor-intake slot. Missing/unreadable blob identity fails closed and
-    continues to count as a live donor mutation.
+    lived PR can therefore retain donor files that were independently published
+    to main later. Those byte-identical stale-base files must neither reserve a
+    rolling-window slot nor inflate finalization workload. Missing or unreadable
+    blob identity fails closed and remains a live mutation.
     """
-    candidates=[]
+    live=[]
     for f in files:
         name=f.get("filename") if isinstance(f,dict) else None
         if not isinstance(name,str):
             raise ValueError("UNREADABLE_PR_FILE")
-        if name==REGISTRY or name.startswith("canonical/deltas/FA3-DONOR-"):
-            candidates.append((name,f.get("sha")))
-    if not candidates:
-        return False
-    for name,head_blob in candidates:
+        if name!=REGISTRY and not name.startswith("canonical/deltas/FA3-DONOR-"):
+            continue
+        head_blob=f.get("sha")
         if not isinstance(head_blob,str) or len(head_blob)!=40:
-            return True
+            live.append(f)
+            continue
         try:
             main=get(f"/repos/{repo}/contents/{name}?ref=main")
         except Exception:
-            return True
+            live.append(f)
+            continue
         main_blob=main.get("sha") if isinstance(main,dict) else None
         if not isinstance(main_blob,str) or len(main_blob)!=40 or main_blob!=head_blob:
-            return True
-    return False
+            live.append(f)
+    return live
+
+def effective_donor_intake_pr(pr,files,get,repo=REPO):
+    """Reserve a rolling intake slot only for canonical donor bytes live vs main."""
+    return bool(live_donor_intake_files(files,get,repo))
 
 def donor_intake_workload(files):
     """Estimate intake size from canonical donor-mutation diff units.
@@ -238,11 +242,16 @@ def pending_prs(get,repo=REPO):
                     pr.get("head",{}).get("sha")==EXEMPT_HISTORICAL_HEADS[n]):
                 continue
             if is_donor_pr(pr,files):
-                intake=effective_donor_intake_pr(pr,files,get,repo)
+                live_intake_files=live_donor_intake_files(files,get,repo)
+                intake=bool(live_intake_files)
+                head=pr.get("head",{}) if isinstance(pr.get("head"),dict) else {}
+                head_repo=head.get("repo",{}) if isinstance(head.get("repo"),dict) else {}
                 found.append({"number":n,"title":pr.get("title"),
-                              "head_sha":pr.get("head",{}).get("sha"),
+                              "head_sha":head.get("sha"),
+                              "head_ref":head.get("ref"),
+                              "head_repo_full_name":head_repo.get("full_name"),
                               "intake":intake,
-                              "workload_units":donor_intake_workload(files) if intake else None})
+                              "workload_units":donor_intake_workload(live_intake_files) if intake else None})
         if len(prs)<100: return sorted(found,key=lambda p:p["number"])
     raise ValueError("TOO_MANY_OPEN_PRS")
 
