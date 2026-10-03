@@ -26,9 +26,13 @@ public:
                                             bool showUnavailable) const;
     Q_INVOKABLE QVariantMap prepareSelection(const QString &engineId,
                                              const QString &scope,
+                                             const QString &scopeTargetId,
+                                             const QVariantList &requiredCapabilities,
                                              const QString &fallbackMode) const;
+    Q_INVOKABLE QVariantMap compatibilityReport(const QString &engineId,
+                                                const QVariantList &requiredCapabilities) const;
     Q_INVOKABLE void toggleCompare(const QString &engineId, bool enabled);
-    Q_INVOKABLE QVariantList prepareComparison() const;
+    Q_INVOKABLE QVariantList prepareComparison(const QVariantList &requiredCapabilities) const;
 
 signals:
     void catalogChanged();
@@ -37,8 +41,11 @@ private:
     QVariantMap readObject(const QString &relativePath) const;
     QVariant resolvePointer(const QVariantMap &object, const QString &pointer) const;
     static QStringList strings(const QVariant &value);
+    static QStringList flattenStrings(const QVariant &value);
+    static QStringList providerCapabilities(const QVariantMap &provider);
     static QString healthFromProvider(const QVariantMap &provider);
     static QStringList executionModes(const QVariantMap &provider, const QStringList &defaults);
+    static bool selectableHealth(const QString &health);
     QVariantMap engineById(const QString &engineId) const;
 
     QString m_repoRoot;

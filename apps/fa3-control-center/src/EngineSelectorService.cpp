@@ -15,7 +15,6 @@ const QSet<QString> kScopes = {
     "SCENE", "TRACK", "CLIP", "NODE", "TASK"
 };
 const QSet<QString> kFallbackModes = {"OFF", "ASK", "APPROVED_ONLY"};
-const QSet<QString> kReadyHealth = {"READY", "AVAILABLE_CONDITIONAL"};
 }
 
 EngineSelectorService::EngineSelectorService(const QString &repoRoot, QObject *parent)
@@ -61,38 +60,112 @@ QStringList EngineSelectorService::strings(const QVariant &value)
     return out;
 }
 
+QStringList EngineSelectorService::flattenStrings(const QVariant &value)
+{
+    QStringList out;
+    if (!value.isValid() || value.isNull()) return out;
+    if (value.metaType().id() == QMetaType::QVariantMap) {
+        const auto map=value.toMap();
+        for (auto it=map.cbegin(); it!=map.cend(); ++it) out.append(flattenStrings(it.value()));
+        return out;
+    }
+    if (value.metaType().id() == QMetaType::QVariantList) {
+        for (const auto &row : value.toList()) out.append(flattenStrings(row));
+        return out;
+    }
+    if (value.metaType().id() == QMetaType::Bool) {
+        out.append(value.toBool() ? "TRUE" : "FALSE");
+        return out;
+    }
+    const auto text=value.toString().trimmed();
+    if (!text.isEmpty()) out.append(text);
+    return out;
+}
+
+QStringList EngineSelectorService::providerCapabilities(const QVariantMap &provider)
+{
+    QSet<QString> values;
+    for (const auto &key : {"capability_projection","capability_bindings","capabilities"}) {
+        for (const auto &value : flattenStrings(provider.value(key))) {
+            if (value.startsWith("CAP-")) values.insert(value);
+        }
+    }
+    QStringList out;
+    for (const auto &value : values) out.append(value);
+    out.sort();
+    return out;
+}
+
+bool EngineSelectorService::selectableHealth(const QString &health)
+{
+    return health == "READY" || health == "AVAILABLE_CONDITIONAL";
+}
+
 QString EngineSelectorService::healthFromProvider(const QVariantMap &provider)
 {
-    const auto status = provider.value("status").toString().toUpper();
-    if (status.contains("REFERENCE_ONLY")) return "REFERENCE_ONLY";
-    if (status.contains("DISABLED") || status.contains("RETIRED")) return "DISABLED";
-    const auto runtime = provider.value("runtime_activation").toMap();
-    if (!runtime.isEmpty() && runtime.value("current_host_runtime_promotion_claimed").isValid()
-        && !runtime.value("current_host_runtime_promotion_claimed").toBool()) {
-        return "CURRENT_HOST_NOT_ADMITTED";
+    QStringList tokens;
+    for (const auto &key : {
+             "status","runtime_activation_status","runtime_admission",
+             "activation_mode","activation","runtime_activation","license_admission"}) {
+        tokens.append(flattenStrings(provider.value(key)));
     }
-    if (status.contains("PENDING") || status.contains("NOT_PROMOTED")) return "CURRENT_HOST_NOT_ADMITTED";
-    return "AVAILABLE_CONDITIONAL";
+    const auto text=tokens.join(' ').toUpper();
+    const auto activation=provider.value("activation").toMap();
+    const auto runtime=provider.value("runtime_activation").toMap();
+    const auto runtimeAdmission=provider.value("runtime_admission").toMap();
+
+    if (text.contains("SECURITY_BLOCKED") || text.contains("SECURITY_DENIED")) return "SECURITY_BLOCKED";
+    if (text.contains("LICENSE_BLOCKED") || text.contains("LICENSE_DENIED")) return "LICENSE_BLOCKED";
+    if (text.contains("NOT_ADMITTED") || text.contains("REFERENCE_ONLY")
+        || text.contains("ACCEPTED_REFERENCE") || text.contains("REFERENCE_NOT_PRODUCTION")) {
+        return "REFERENCE_ONLY";
+    }
+    if (text.contains("DISABLED") || text.contains("RETIRED")) return "DISABLED";
+    if (activation.value("production_admitted").isValid() && activation.value("production_admitted").toBool()) return "READY";
+    if (runtime.value("current_host_runtime_promotion_claimed").isValid()
+        && runtime.value("current_host_runtime_promotion_claimed").toBool()) return "READY";
+    if (runtimeAdmission.value("current_host_runtime_promotion_claim").isValid()
+        && runtimeAdmission.value("current_host_runtime_promotion_claim").toBool()) return "READY";
+    if (text.contains("CURRENT_HOST_PASS")
+        || (text.contains("PRODUCTION_ADMITTED") && !text.contains("NOT_PRODUCTION_ADMITTED"))) return "READY";
+    return "CURRENT_HOST_NOT_ADMITTED";
 }
 
 QStringList EngineSelectorService::executionModes(const QVariantMap &provider, const QStringList &defaults)
 {
-    for (const auto &token : strings(provider.value("classification"))) {
-        const auto upper = token.toUpper();
-        if (upper.contains("REMOTE") || upper.contains("CLOUD")) return {"CLOUD"};
+    QStringList tokens;
+    for (const auto &key : {"execution_modes","execution_topologies","classification"})
+        tokens.append(flattenStrings(provider.value(key)));
+
+    QSet<QString> modes;
+    for (const auto &token : tokens) {
+        const auto upper=token.toUpper();
+        if (upper.contains("LOCAL")) modes.insert("LOCAL");
+        if (upper.contains("LAN")) modes.insert("LAN");
+        if (upper.contains("REMOTE")) modes.insert("REMOTE");
+        if (upper.contains("CLOUD")) modes.insert("CLOUD");
+        if (upper.contains("HYBRID")) modes.insert("HYBRID");
     }
-    return defaults;
+    if (modes.isEmpty()) return defaults;
+    QStringList out;
+    for (const auto &mode : modes) out.append(mode);
+    out.sort();
+    return out;
 }
 
 void EngineSelectorService::refresh()
 {
     const auto registry = readObject("canonical/FA3-ENGINE-REGISTRY-001.json");
     QMap<QString, QVariantMap> catalog;
+    QMap<QString, QString> explicitProviderEngines;
 
     for (const auto &value : registry.value("engine_records").toList()) {
         auto row = value.toMap();
         const auto id = row.value("engine_id").toString();
-        if (!id.isEmpty()) catalog.insert(id, row);
+        if (id.isEmpty()) continue;
+        catalog.insert(id, row);
+        const auto providerId=row.value("provider_record").toString();
+        if (!providerId.isEmpty()) explicitProviderEngines.insert(providerId,id);
     }
 
     for (const auto &ruleValue : registry.value("provider_projection_rules").toList()) {
@@ -103,8 +176,8 @@ void EngineSelectorService::refresh()
         const auto defaults = strings(rule.value("execution_mode_default"));
 
         for (const auto &providerId : providerIds) {
+            if (explicitProviderEngines.contains(providerId)) continue;
             const auto provider = readObject(QString("canonical/providers/%1.json").arg(providerId));
-            if (provider.isEmpty() && rule.value("require_provider_record").toBool()) continue;
 
             QVariantMap row;
             const auto engineId = QString("FA3-ENGINE-PROJECTION::%1").arg(providerId);
@@ -112,14 +185,15 @@ void EngineSelectorService::refresh()
             row.insert("name", provider.value("name", providerId));
             row.insert("implementation_kind", "CANONICAL_PROVIDER_PROJECTION");
             row.insert("engine_classes", classes);
-            row.insert("capability_projection", strings(provider.value("capability_projection")));
+            row.insert("capability_projection", providerCapabilities(provider));
             row.insert("execution_modes", executionModes(provider, defaults.isEmpty() ? QStringList{"UNSPECIFIED"} : defaults));
-            row.insert("status", provider.value("status", "UNKNOWN"));
+            row.insert("status", provider.isEmpty() ? "MISSING_PROVIDER_RECORD" : provider.value("status", "UNKNOWN"));
             row.insert("health_state", provider.isEmpty() ? "MISSING_PROVIDER_RECORD" : healthFromProvider(provider));
             row.insert("architectural_authority", false);
             row.insert("provider_record", providerId);
             row.insert("model_router_bound", !rule.value("provider_model_selection_authority").toString().isEmpty());
             row.insert("current_host_runtime_promotion_claim", false);
+            row.insert("required_provider_record_missing", provider.isEmpty() && rule.value("require_provider_record").toBool());
             catalog.insert(engineId, row);
         }
     }
@@ -149,7 +223,7 @@ QVariantList EngineSelectorService::filterEngines(const QString &query,
     for (const auto &value : m_engines) {
         const auto row = value.toMap();
         const auto health = row.value("health_state").toString();
-        if (!showUnavailable && !kReadyHealth.contains(health)) continue;
+        if (!showUnavailable && !selectableHealth(health)) continue;
 
         const auto classes = strings(row.value("engine_classes"));
         if (!wantedClass.isEmpty() && wantedClass != "ALL" && !classes.contains(wantedClass)) continue;
@@ -185,8 +259,52 @@ QVariantMap EngineSelectorService::engineById(const QString &engineId) const
     return {};
 }
 
+QVariantMap EngineSelectorService::compatibilityReport(const QString &engineId,
+                                                        const QVariantList &requiredCapabilities) const
+{
+    QVariantMap out;
+    out.insert("schema", "fa3.engine-compatibility-report.v1");
+    out.insert("engine_id", engineId);
+    const auto engine=engineById(engineId);
+    if (engine.isEmpty()) {
+        out.insert("grade","UNSUPPORTED");
+        out.insert("execution_eligible",false);
+        out.insert("reason","UNKNOWN_ENGINE");
+        return out;
+    }
+
+    const QSet<QString> required(strings(requiredCapabilities).cbegin(), strings(requiredCapabilities).cend());
+    const auto declaredList=strings(engine.value("capability_projection"));
+    const QSet<QString> declared(declaredList.cbegin(),declaredList.cend());
+    QStringList supported;
+    QStringList missing;
+    for (const auto &cap : required) {
+        if (declared.contains(cap)) supported.append(cap);
+        else missing.append(cap);
+    }
+    supported.sort();
+    missing.sort();
+
+    QString grade;
+    if (required.isEmpty() || missing.isEmpty()) grade="NATIVE";
+    else if (!supported.isEmpty()) grade="PARTIAL";
+    else grade="UNSUPPORTED";
+
+    out.insert("required_capabilities", strings(requiredCapabilities));
+    out.insert("supported_capabilities", supported);
+    out.insert("missing_capabilities", missing);
+    out.insert("grade",grade);
+    out.insert("execution_eligible",selectableHealth(engine.value("health_state").toString()));
+    out.insert("health_state",engine.value("health_state"));
+    out.insert("evidence_semantics","DECLARED_CAPABILITY_PROJECTION_ONLY");
+    out.insert("unproven_grade_escalation",false);
+    return out;
+}
+
 QVariantMap EngineSelectorService::prepareSelection(const QString &engineId,
                                                      const QString &scope,
+                                                     const QString &scopeTargetId,
+                                                     const QVariantList &requiredCapabilities,
                                                      const QString &fallbackMode) const
 {
     QVariantMap out;
@@ -196,6 +314,7 @@ QVariantMap EngineSelectorService::prepareSelection(const QString &engineId,
 
     const auto normalizedScope = scope.trimmed().toUpper();
     const auto normalizedFallback = fallbackMode.trimmed().toUpper();
+    auto normalizedTarget=scopeTargetId.trimmed();
     const auto engine = engineById(engineId);
 
     if (engine.isEmpty()) {
@@ -208,21 +327,49 @@ QVariantMap EngineSelectorService::prepareSelection(const QString &engineId,
         out.insert("reason", "INVALID_SCOPE");
         return out;
     }
+    if (normalizedScope=="GLOBAL") normalizedTarget="GLOBAL";
+    else if (normalizedTarget.isEmpty()) {
+        out.insert("status","REJECTED");
+        out.insert("reason","SCOPE_TARGET_REQUIRED");
+        return out;
+    }
     if (!kFallbackModes.contains(normalizedFallback)) {
         out.insert("status", "REJECTED");
         out.insert("reason", "INVALID_FALLBACK_MODE");
         return out;
     }
+    if (!selectableHealth(engine.value("health_state").toString())) {
+        out.insert("status","REJECTED");
+        out.insert("reason","ENGINE_NOT_EXECUTION_ELIGIBLE");
+        return out;
+    }
+
+    const auto required=strings(requiredCapabilities);
+    const auto declared=strings(engine.value("capability_projection"));
+    for (const auto &cap : required) {
+        if (!declared.contains(cap)) {
+            out.insert("status","REJECTED");
+            out.insert("reason","REQUIRED_CAPABILITY_MISSING");
+            out.insert("missing_capability",cap);
+            return out;
+        }
+    }
 
     QStringList approvedAlternates;
     if (normalizedFallback == "APPROVED_ONLY") {
         for (const auto &id : m_compareIds) {
-            if (id != engineId && !engineById(id).isEmpty()) approvedAlternates.append(id);
+            if (id == engineId) continue;
+            const auto candidate=engineById(id);
+            if (candidate.isEmpty() || !selectableHealth(candidate.value("health_state").toString())) continue;
+            const auto candidateCaps=strings(candidate.value("capability_projection"));
+            bool compatible=true;
+            for (const auto &cap : required) if (!candidateCaps.contains(cap)) compatible=false;
+            if (compatible) approvedAlternates.append(id);
         }
         approvedAlternates.sort();
         if (approvedAlternates.isEmpty()) {
             out.insert("status", "REJECTED");
-            out.insert("reason", "APPROVED_ONLY_REQUIRES_SELECTED_ALTERNATES");
+            out.insert("reason", "APPROVED_ONLY_REQUIRES_SELECTED_ELIGIBLE_ALTERNATES");
             return out;
         }
     }
@@ -233,7 +380,10 @@ QVariantMap EngineSelectorService::prepareSelection(const QString &engineId,
 
     out.insert("status", "PREFERENCE_INTENT_READY");
     out.insert("scope", normalizedScope);
+    out.insert("scope_target_id",normalizedTarget);
     out.insert("engine_id", engineId);
+    out.insert("required_capabilities", required);
+    out.insert("compatibility",compatibilityReport(engineId,requiredCapabilities));
     out.insert("health_state", engine.value("health_state"));
     out.insert("execution_ready", engine.value("health_state").toString() == "READY");
     out.insert("fallback_policy", fallback);
@@ -253,7 +403,7 @@ void EngineSelectorService::toggleCompare(const QString &engineId, bool enabled)
     }
 }
 
-QVariantList EngineSelectorService::prepareComparison() const
+QVariantList EngineSelectorService::prepareComparison(const QVariantList &requiredCapabilities) const
 {
     QVariantList out;
     QStringList ids;
@@ -262,6 +412,7 @@ QVariantList EngineSelectorService::prepareComparison() const
     for (const auto &id : ids) {
         const auto engine = engineById(id);
         if (engine.isEmpty()) continue;
+        const auto compatibility=compatibilityReport(id,requiredCapabilities);
         QVariantMap row;
         row.insert("engine_id", id);
         row.insert("name", engine.value("name"));
@@ -270,6 +421,8 @@ QVariantList EngineSelectorService::prepareComparison() const
         row.insert("execution_modes", engine.value("execution_modes"));
         row.insert("health_state", engine.value("health_state"));
         row.insert("implementation_kind", engine.value("implementation_kind"));
+        row.insert("compatibility_grade",compatibility.value("grade"));
+        row.insert("compatibility",compatibility);
         row.insert("comparison_mode", "STATIC_METADATA_ONLY");
         out.append(row);
     }

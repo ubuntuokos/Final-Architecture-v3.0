@@ -11,6 +11,19 @@ Item {
     property var compareIds: []
     property var lastOutput: ({})
 
+    function requiredCapabilities() {
+        return requiredCaps.text.split(",").map(function(v) { return v.trim() }).filter(function(v) { return v.length > 0 })
+    }
+
+    function setCompared(engineId, enabled) {
+        var next = compareIds.slice()
+        var index = next.indexOf(engineId)
+        if (enabled && index < 0) next.push(engineId)
+        if (!enabled && index >= 0) next.splice(index, 1)
+        compareIds = next
+        if (controller) controller.toggleCompare(engineId, enabled)
+    }
+
     function refresh() {
         if (!controller) {
             engineList.model = []
@@ -56,9 +69,24 @@ Item {
         }
 
         RowLayout {
+            Layout.fillWidth: true
+            TextField {
+                id: scopeTarget
+                Layout.fillWidth: true
+                visible: scopeBox.currentText !== "GLOBAL"
+                placeholderText: "Scope target ID, e.g. project:alpha or clip:42"
+            }
+            TextField {
+                id: requiredCaps
+                Layout.fillWidth: true
+                placeholderText: "Required capabilities, comma-separated (e.g. CAP-121,CAP-126)"
+            }
+        }
+
+        RowLayout {
             CheckBox { id: localOnly; text: "Local"; checked: true; onToggled: root.refresh() }
             CheckBox { id: lanAllowed; text: "LAN"; checked: true; onToggled: root.refresh() }
-            CheckBox { id: cloudAllowed; text: "Cloud"; checked: false; onToggled: root.refresh() }
+            CheckBox { id: cloudAllowed; text: "Cloud/Remote"; checked: false; onToggled: root.refresh() }
             CheckBox { id: showUnavailable; text: "Show unavailable/planned"; checked: true; onToggled: root.refresh() }
             Item { Layout.fillWidth: true }
             Label { text: "Scope: " + root.selectionScope }
@@ -90,10 +118,16 @@ Item {
                                 }
                                 Label { text: modelData.health_state || modelData.status }
                                 CheckBox {
+                                    id: compareCheck
                                     text: "Compare"
-                                    onToggled: {
-                                        if (controller) controller.toggleCompare(modelData.engine_id, checked)
+                                    Binding {
+                                        target: compareCheck
+                                        property: "checked"
+                                        value: root.compareIds.indexOf(modelData.engine_id) >= 0
                                     }
+                                    onClicked: root.setCompared(
+                                        modelData.engine_id,
+                                        root.compareIds.indexOf(modelData.engine_id) < 0)
                                 }
                             }
                         }
@@ -138,18 +172,46 @@ Item {
                     }
                     RowLayout {
                         Button {
-                            text: "Set preference"
+                            text: "Compatibility"
                             enabled: !!controller && !!root.selectedEngine.engine_id
+                            onClicked: root.lastOutput = controller.compatibilityReport(
+                                root.selectedEngine.engine_id,
+                                root.requiredCapabilities())
+                        }
+                        Button {
+                            text: "Set preference"
+                            enabled: !!controller
+                                     && !!root.selectedEngine.engine_id
+                                     && (scopeBox.currentText === "GLOBAL" || scopeTarget.text.trim().length > 0)
                             onClicked: root.lastOutput = controller.prepareSelection(
                                 root.selectedEngine.engine_id,
                                 root.selectionScope,
+                                scopeTarget.text,
+                                root.requiredCapabilities(),
                                 fallbackBox.currentText)
                         }
                         Button {
                             text: "Compare selected"
-                            enabled: !!controller
-                            onClicked: root.lastOutput = controller.prepareComparison()
+                            enabled: !!controller && root.compareIds.length > 0
+                            onClicked: root.lastOutput = controller.prepareComparison(root.requiredCapabilities())
                         }
+                        Button {
+                            text: "Clear compare"
+                            enabled: root.compareIds.length > 0
+                            onClicked: {
+                                var old = root.compareIds.slice()
+                                root.compareIds = []
+                                if (controller) {
+                                    for (var i = 0; i < old.length; ++i) controller.toggleCompare(old[i], false)
+                                }
+                            }
+                        }
+                    }
+                    Label {
+                        Layout.fillWidth: true
+                        wrapMode: Text.WordWrap
+                        visible: root.lastOutput && root.lastOutput.compatibility_grade
+                        text: visible ? "Compatibility: " + root.lastOutput.compatibility_grade : ""
                     }
                     Frame {
                         Layout.fillWidth: true

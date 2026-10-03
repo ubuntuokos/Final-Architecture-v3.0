@@ -23,6 +23,7 @@
     "EngineSelectionIntent": {
       "required": [
         "scope",
+        "scope_target_id",
         "engine_id",
         "required_capabilities",
         "fallback_policy",
@@ -30,8 +31,10 @@
       ],
       "constraints": [
         "execution_requested MUST remain false in selector output",
+        "non-GLOBAL scope MUST carry a non-empty scope_target_id",
         "AI provider/model execution delegates to Model Router",
-        "resource placement delegates to HRB"
+        "resource placement delegates to HRB",
+        "only READY or AVAILABLE_CONDITIONAL engines may produce selectable preference intents"
       ]
     },
     "EnginePolicyProfile": {
@@ -53,7 +56,17 @@
         "PARTIAL",
         "UNSUPPORTED"
       ],
-      "silent_loss_forbidden": true
+      "silent_loss_forbidden": true,
+      "algorithm": {
+        "NATIVE": "all requested capabilities are declared by the engine",
+        "PARTIAL": "at least one but not all requested capabilities are declared by the engine",
+        "UNSUPPORTED": "none of the requested capabilities are declared by the engine",
+        "LOSSLESS": "reserved for explicit evidence-backed transform metadata",
+        "ADAPTED": "reserved for explicit evidence-backed adapter metadata",
+        "BAKE_REQUIRED": "reserved for explicit evidence-backed bake metadata"
+      },
+      "runtime_eligibility_is_separate": true,
+      "unproven_grade_escalation_forbidden": true
     },
     "EngineComparisonPlan": {
       "same_input_required": true,
@@ -73,7 +86,9 @@
     "PROJECT_REMAINS_FA3_CANONICAL_AND_ENGINE_INDEPENDENT",
     "LOWER_SCOPE_EXPLICIT_SELECTION_MAY_OVERRIDE_HIGHER_SCOPE_PREFERENCE",
     "USER_MAY_PRESERVE_UPSTREAM_BASE_ENGINE_ALONGSIDE_FA3_NATIVE_ENGINE",
-    "CUSTOM_ENGINE_REGISTRATION_REQUIRES_NORMAL_ADMISSION"
+    "CUSTOM_ENGINE_REGISTRATION_REQUIRES_NORMAL_ADMISSION",
+    "NON_GLOBAL_SCOPE_REQUIRES_EXPLICIT_TARGET_ID",
+    "UNKNOWN_PROVIDER_ADMISSION_STATE_IS_NOT_SELECTABLE"
   ],
   "runtime_gate_requirements": [
     "Security",

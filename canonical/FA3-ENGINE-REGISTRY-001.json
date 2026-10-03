@@ -301,5 +301,35 @@
       "health_probe",
       "failure_semantics"
     ]
+  },
+  "selectable_health_states": [
+    "READY",
+    "AVAILABLE_CONDITIONAL"
+  ],
+  "provider_capability_fields": [
+    "capability_projection",
+    "capability_bindings",
+    "capabilities"
+  ],
+  "provider_execution_mode_fields": [
+    "execution_modes",
+    "execution_topologies",
+    "classification"
+  ],
+  "provider_projection_missing_required_record": "FAIL_CLOSED",
+  "provider_projection_deduplication": "EXPLICIT_PROVIDER_RECORD_WINS_BY_PROVIDER_RECORD_ID",
+  "compatibility_projection": {
+    "materialized": true,
+    "deterministic_grades": [
+      "NATIVE",
+      "PARTIAL",
+      "UNSUPPORTED"
+    ],
+    "evidence_required_for": [
+      "LOSSLESS",
+      "ADAPTED",
+      "BAKE_REQUIRED"
+    ],
+    "runtime_eligibility_separate": true
   }
 }
