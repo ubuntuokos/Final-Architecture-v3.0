@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "fb13dd5875d0617dcf2a901dafad7d920e73bd39",
-    "pre_projection_root_tree_sha": "6cb0f6155289c5a8edb2321dff3d3a2774652e8f",
-    "pre_projection_canonical_tree_sha": "e3b4627d5ed40b9b0a6bc124e79a0f4b4c64a01d",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2809,
-    "total_post_baseline_commits": 2809,
-    "delta_file_count": 2930,
-    "delta_added_files": 2924,
+    "pre_projection_head_sha": "5905ff740295363d3183e8fe23db5466fa8b4e47",
+    "pre_projection_root_tree_sha": "8af7ee3487dd08f784ff60998f05fdb8058c9292",
+    "pre_projection_canonical_tree_sha": "e34e14554c583072a9445c223ec9e442a51ca470",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2811,
+    "total_post_baseline_commits": 2811,
+    "delta_file_count": 2937,
+    "delta_added_files": 2931,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,9 +46,9 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1374,
+    "canonical_files_in_post_baseline_delta": 1379,
     "evidence_files_in_post_baseline_delta": 172,
-    "source_files_in_post_baseline_delta": 369,
+    "source_files_in_post_baseline_delta": 370,
     "test_files_in_post_baseline_delta": 342,
     "workflow_files_in_post_baseline_delta": 139,
     "provider_records": [
@@ -942,7 +942,8 @@
     "FA3-GOVERNANCE-STATUS-GATESET-001",
     "FA3-PERMANENT-GATE-HARDENING-GATESET-001",
     "FA3-CANONICAL-REGISTRY-INTEGRITY-GATESET-001",
-    "FA3-SHARED-HAIR-GROOM-GATESET-001"
+    "FA3-SHARED-HAIR-GROOM-GATESET-001",
+    "FA3-PRODUCT-ENTITLEMENT-GATESET-001"
   ],
   "evidence_registry": {
     "path": "evidence/evidence-registry.json",
@@ -1068,7 +1069,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2920,
+  "manifest_entry_count": 2927,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1147,7 +1148,7 @@
     },
     {
       "path": ".github/workflows/fa3-application-portfolio.yml",
-      "git_blob_sha": "363d12cfb1f5dc4270c31f875307d2414e65d95b",
+      "git_blob_sha": "ed7c994a9a88c73376c3c264e839a8bf220a9411",
       "baseline_delta_status": "added"
     },
     {
@@ -1807,7 +1808,7 @@
     },
     {
       "path": "REUSE.toml",
-      "git_blob_sha": "15f277b37eab9ae37038524f7d58378a613ac059",
+      "git_blob_sha": "800cb5eb2512cd2efe6c64f19b5b795eb691c164",
       "baseline_delta_status": "added"
     },
     {
@@ -1982,7 +1983,7 @@
     },
     {
       "path": "apps/fa3-control-center/qml/ProductEntitlementsPage.qml",
-      "git_blob_sha": "f894515a9b8b919940f7b326c264436d3c5993f4",
+      "git_blob_sha": "6fec711ee90c87dadd39749e8377013fa3bebb0b",
       "baseline_delta_status": "added"
     },
     {
@@ -2172,12 +2173,12 @@
     },
     {
       "path": "apps/fa3-control-center/src/ProductEntitlementService.cpp",
-      "git_blob_sha": "8a99d0be6caaae937920c9747bfa7974eb3f5d63",
+      "git_blob_sha": "aa50026ab17b39daed62775eb562ef7bef12d6dd",
       "baseline_delta_status": "added"
     },
     {
       "path": "apps/fa3-control-center/src/ProductEntitlementService.h",
-      "git_blob_sha": "30419e2320ce2ed6ceed886706b9bdca7379c3db",
+      "git_blob_sha": "dd9f2f5c29c14ba74f7a7390e8226824cc7764f0",
       "baseline_delta_status": "added"
     },
     {
@@ -2303,6 +2304,11 @@
     {
       "path": "bin/fa3-app-donor-index",
       "git_blob_sha": "27c75fa9fc7165ecc1502244444aca3f3120bf49",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-application-portfolio",
+      "git_blob_sha": "aec7716734b01497e9f260e2327f8d4c6ea59794",
       "baseline_delta_status": "added"
     },
     {
@@ -2902,7 +2908,7 @@
     },
     {
       "path": "canonical/FA3-APPLICATION-DEPENDENCY-REGISTRY-001.json",
-      "git_blob_sha": "0a3ecddfdfa86748b7d1d863765b48ad5d55efa2",
+      "git_blob_sha": "405657f81c17625c5599c607630dc1173fb7c288",
       "baseline_delta_status": "added"
     },
     {
@@ -3012,7 +3018,7 @@
     },
     {
       "path": "canonical/FA3-DOMAIN-PACK-REGISTRY-001.json",
-      "git_blob_sha": "89bb8e9d34b8f298761558fa70942762efbb079d",
+      "git_blob_sha": "cf26be27ba43c82149f03f24b6f40515afea4fe2",
       "baseline_delta_status": "added"
     },
     {
@@ -3037,7 +3043,7 @@
     },
     {
       "path": "canonical/FA3-ENTITLEMENT-POLICY-001.json",
-      "git_blob_sha": "412a3d110a98d7d0abf6fb37829b85d058398917",
+      "git_blob_sha": "c443c3c6cda4f884bb2d2c110991c4657ab8721f",
       "baseline_delta_status": "added"
     },
     {
@@ -3117,12 +3123,12 @@
     },
     {
       "path": "canonical/FA3-GATE-APPLICATION-PORTFOLIO-001.json",
-      "git_blob_sha": "72d4fdbc7c799b0c3095647fa1378d0345884285",
+      "git_blob_sha": "1e3bcb554b1fa3d8418df6d43d58ee86857ebed1",
       "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-GATE-APPLICATION-PORTFOLIO-DRIFT-001.json",
-      "git_blob_sha": "0713314ab12d2a6ac367f9706c331e8429ce7a34",
+      "git_blob_sha": "be2a44cd3cea92521ed9f94e1e0ddc04c035e99d",
       "baseline_delta_status": "added"
     },
     {
@@ -3446,6 +3452,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-GATE-OPERATING-LEVEL-DEPENDENCY-001.json",
+      "git_blob_sha": "50efd2f291bac322e439b4948b9e4575a829eb5e",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-GATE-PAGE-CACHE-PREFETCH-001.json",
       "git_blob_sha": "8cc8b4ca60bcc16989823012225c3be72042450c",
       "baseline_delta_status": "added"
@@ -3462,7 +3473,7 @@
     },
     {
       "path": "canonical/FA3-GATE-PRODUCT-ENTITLEMENT-001.json",
-      "git_blob_sha": "820d0eb83d642dac873ad6165d949702572db0ab",
+      "git_blob_sha": "12efbbc5d2dbd663c304cdfee5bbf20882cbf0a6",
       "baseline_delta_status": "added"
     },
     {
@@ -3482,7 +3493,7 @@
     },
     {
       "path": "canonical/FA3-GATE-REGISTRY-001.json",
-      "git_blob_sha": "a5927b62e9ad8ae2d2a97051a5bf2c0e1734c469",
+      "git_blob_sha": "8a15a7543455aec69286118fc11260b9c8f26e7c",
       "baseline_delta_status": "added"
     },
     {
@@ -3827,7 +3838,7 @@
     },
     {
       "path": "canonical/FA3-OPERATING-LEVEL-MODEL-001.json",
-      "git_blob_sha": "bbf587946fb63b1ed50057fd6faa2320a5e6a8a7",
+      "git_blob_sha": "2c0ee54df0f538ba51cd34b470c99014031be32f",
       "baseline_delta_status": "added"
     },
     {
@@ -3862,7 +3873,7 @@
     },
     {
       "path": "canonical/FA3-PRODUCT-CATALOG-001.json",
-      "git_blob_sha": "68b15cc92a2555856c337b39fe9d20663c4b5199",
+      "git_blob_sha": "46a462828fa0ca3974e389694dc5d5b06a04d629",
       "baseline_delta_status": "added"
     },
     {
@@ -4492,7 +4503,7 @@
     },
     {
       "path": "canonical/assessments/FA3-APPLICATION-PORTFOLIO-ENTITLEMENT-REUSE-ASSESSMENT-2026-10-03.json",
-      "git_blob_sha": "b40bf7884ecd721fdf54aa4bdc0993f394828108",
+      "git_blob_sha": "93a87cb6219c6c5bb96a7a510cb2a08ff464bb08",
       "baseline_delta_status": "added"
     },
     {
@@ -6942,7 +6953,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "ec6f5fa2585bebe85f13cd37869bf7c4c9a83dec",
+      "git_blob_sha": "eb585345dab3a157b1bc2904630a2c2f66ec5836",
       "baseline_delta_status": "modified"
     },
     {
@@ -9446,13 +9457,33 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/schemas/FA3-APPLICATION-DEPENDENCY-REGISTRY-SCHEMA-001.json",
+      "git_blob_sha": "63c49080e625c421e55b87b1d70300a8353b3cbb",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/schemas/FA3-APPLICATION-PORTFOLIO-SCHEMA-001.json",
-      "git_blob_sha": "589b641b4fbaeea9a9f19d08124758a310d9e80b",
+      "git_blob_sha": "a87b90db929554cc75e5157262ab3c7a7bd8a1e4",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/schemas/FA3-DOMAIN-PACK-REGISTRY-SCHEMA-001.json",
+      "git_blob_sha": "c1b8bf379a6ed54a73688dbc63522f50e83c4dfb",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/schemas/FA3-ENTITLEMENT-POLICY-SCHEMA-001.json",
+      "git_blob_sha": "31174a9221d5cf9855d87681b750bebc4ae7f150",
       "baseline_delta_status": "added"
     },
     {
       "path": "canonical/schemas/FA3-OPERATING-LEVEL-MODEL-SCHEMA-001.json",
-      "git_blob_sha": "0bf6dfb2867dafcb40854b8c59565b98acb3f136",
+      "git_blob_sha": "2624729ef73da8ef2cfdae740bec9c0a471669c8",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/schemas/FA3-PRODUCT-CATALOG-SCHEMA-001.json",
+      "git_blob_sha": "dc7cd119ef1aec29b0327d0256cad196105e45e7",
       "baseline_delta_status": "added"
     },
     {
@@ -10122,7 +10153,7 @@
     },
     {
       "path": "docs/application-portfolio-entitlements.md",
-      "git_blob_sha": "a243e357455bf4cd74fc2ce1dd5c432707ee79ba",
+      "git_blob_sha": "0d7860788bd69fc98bfe1ab98c5e73b5baff4fe0",
       "baseline_delta_status": "added"
     },
     {
@@ -12157,7 +12188,7 @@
     },
     {
       "path": "src/fa3_application_portfolio.py",
-      "git_blob_sha": "effad2c0eea17da3d281f9dec678cb72b0386625",
+      "git_blob_sha": "feb01bdd57f7762a2a2a85305dc0ccd855be5258",
       "baseline_delta_status": "added"
     },
     {
@@ -12617,7 +12648,7 @@
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "bf98a918b1f93d899b38559af516a94773c6b0e3",
+      "git_blob_sha": "0500d0c9585c094564d5729952db9e9dd704a13e",
       "baseline_delta_status": "modified"
     },
     {
@@ -13461,6 +13492,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_product_entitlement_gate.py",
+      "git_blob_sha": "a1abbbdedab0ea8f35deb2a4bc662ef8b36a2ab8",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_provider_runtime.py",
       "git_blob_sha": "86b0c87e90312945601007ca364512d2cc6f2824",
       "baseline_delta_status": "added"
@@ -13992,7 +14028,7 @@
     },
     {
       "path": "tests/test_application_portfolio.py",
-      "git_blob_sha": "7750cf8980ba38931ea0a1c5512cb42f92df437c",
+      "git_blob_sha": "430a97e1b3cdbac8b506040469174b63eb44af29",
       "baseline_delta_status": "added"
     },
     {
