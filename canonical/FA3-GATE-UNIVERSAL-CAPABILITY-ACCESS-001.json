@@ -1,0 +1,25 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-UNIVERSAL-CAPABILITY-ACCESS-001",
+  "gateset_id": "FA3-SUPPLY-RUNTIME-HARDENING-GATESET-001",
+  "name": "Universal Capability Access donor and usage conformance",
+  "status": "MANDATORY_REFERENCE_SUBGATE",
+  "fail_closed": true,
+  "capability_count": 175,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "executable": "src/fa3_universal_capability_access.py",
+  "policy": "canonical/universal-capability-access-policy.json",
+  "audit_status": "canonical/universal-capability-access-audit-status.json",
+  "donor_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "usage_graph": "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
+  "blocks_material_adoption_when": [
+    "DONOR_HAS_ACCESS_BARRIER_AND_NO_GLOBAL_SUBSTITUTE",
+    "DONOR_ACCESS_RIGHTS_UNKNOWN_OR_UNVERIFIED",
+    "MATERIAL_USAGE_EDGE_HAS_NO_UNIVERSAL_ACCESS_EVIDENCE",
+    "RESTRICTED_DONOR_IS_ONLY_CAPABILITY_IMPLEMENTATION",
+    "RESTRICTION_CIRCUMVENTION_IS_PROPOSED"
+  ],
+  "reference_only_restricted_donor_registration_allowed": true,
+  "static_policy_can_pass_while_retroactive_rights_review_is_in_progress": true
+}
