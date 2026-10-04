@@ -1,0 +1,109 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-CLOUDFLARE-CLEF-FLASH-2026-10-04",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "STAGED_FIFO_WAITING",
+  "mode": "APPEND_ONLY_OWNER_EXPLICIT_MODEL_REFERENCE_INTAKE",
+  "parent_main": "07518f8a55c49fec5efa010ea285ff0a736e9524",
+  "parent_registry_blob_sha": "1362d75186c6da74e5cf947fdf0b8867d462636a",
+  "parent_entry_count": 1427,
+  "submitted_url_count": 1,
+  "submitted_urls": [
+    "https://huggingface.co/Cloudflare/clef-flash"
+  ],
+  "duplicate_submission_count": 0,
+  "unique_submitted_url_count": 1,
+  "matched_existing_count": 0,
+  "published_registry_reuse_count": 0,
+  "unique_source_count": 1,
+  "new_source_count": 1,
+  "proposed_entry_count": 1428,
+  "canonical_registry_materialized": false,
+  "waiting_queue_only": true,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "usage_edges_created": 0,
+  "provider_count_policy": "DYNAMIC_UNCHANGED",
+  "approval_ref": "docs/donor-cloudflare-clef-flash-2026-10-04.md",
+  "upstream_observations": {
+    "publisher": "Cloudflare",
+    "model": "clef-flash",
+    "observed_model_card_revision_short": "17f0b0a",
+    "weights_revision_short": "89c693f",
+    "parameter_count": "9B",
+    "tensor_type": "BF16",
+    "base_model": "Qwen/Qwen3.5-9B",
+    "base_model_license": "Apache-2.0",
+    "declared_license": "Apache-2.0",
+    "input_modalities": ["text", "json", "image", "video"],
+    "output_semantics": "TYPED_QUESTION_OPTION_PROBABILITIES",
+    "free_form_generation_required": false,
+    "jev_compatible": true,
+    "system_one_compatible": true,
+    "upstream_tested_stack": {
+      "torch": "2.11",
+      "transformers": "5.10.2",
+      "observed_hardware": "single H200"
+    },
+    "cpu_only_runtime_proven": false,
+    "custom_executable_model_code_present": true,
+    "custom_code_file": "joint_schema_model.py"
+  },
+  "requirements": [
+    "Register Cloudflare/clef-flash as a reference model only; do not admit it as a live model/provider/runtime through donor intake.",
+    "Reuse the existing FA3-DECISION-FABRIC-001 and FA3-SYSTEM-ONE-REFLEX-001 boundaries rather than creating a new decision authority.",
+    "Any later Clef-Flash model admission must remain behind FA3-AUTH-MODEL-ROUTER-001 and FA3-AUTH-HOST-RESOURCE-BROKER-001.",
+    "The existing provider-neutral logical route fa3-decision-system-one is the preferred integration point if compatibility is verified.",
+    "Preserve caller-bounded candidate/action sets; Clef-Flash may score only options already authorized by the calling FA3 authority.",
+    "Confidence/probability output is evidence only and must never grant authorization or execute an action.",
+    "Low-confidence and unsupported cases must hand off to System Two or human review according to existing Decision Fabric policy.",
+    "CPU-only viability is mandatory before local runtime admission; upstream H200 testing is not CPU evidence.",
+    "Quantized or alternative runtime formats must be independently verified with the Clef joint schema head; generic Qwen compatibility must not be assumed.",
+    "Pin the exact Hugging Face revision and verify model shard, joint-head, tokenizer/config and executable Python hashes before model promotion.",
+    "Review and sandbox joint_schema_model.py and any other executable model-side code before runtime admission.",
+    "Model acquisition must be explicit through Model Manager; no runtime network fetch or automatic install is permitted.",
+    "License & Rights must verify the Clef-Flash Apache-2.0 declaration and the Qwen3.5-9B Apache-2.0 base chain before distribution.",
+    "Cloudflare Workers AI is not admitted by this model donor intake; any hosted-service integration requires separate provider admission.",
+    "No silent local/cloud, provider, model, backend or device fallback is introduced.",
+    "Display-GPU selection rules, Hardware Safety Envelope and Software Coexistence remain unchanged.",
+    "Fixed capability baseline 175 remains unchanged; this source maps to existing decision/model capabilities.",
+    "Pending donor entries are excluded from canonical planning until FIFO admission and merge."
+  ],
+  "sources": [
+    [
+      "https://huggingface.co/Cloudflare/clef-flash",
+      "FA3-DONOR-CLOUDFLARE-CLEF-FLASH-001"
+    ]
+  ],
+  "canonical_identities": [
+    {
+      "donor_id": "FA3-DONOR-CLOUDFLARE-CLEF-FLASH-001",
+      "normalized_key": "https://huggingface.co/cloudflare/clef-flash",
+      "kind": "HUGGINGFACE_MODEL",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "MULTIMODAL_TYPED_DECISION_MODEL_REFERENCE"
+    }
+  ],
+  "boundaries": {
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "automatic_code_import": false,
+    "automatic_content_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "automatic_device_selection": false,
+    "usage_edge_created": false,
+    "capability_count_change": false,
+    "authority_change": false,
+    "runtime_change": false,
+    "current_host_pass_claimed": false,
+    "canonical_planning_visibility": false
+  },
+  "serialization_scope": "ROLLING_FIVE_SLOT_DONOR_MAINTENANCE",
+  "serialization_order": "FIFO_SLOT_ADMISSION_THEN_ASCENDING_CANONICAL_DONOR_MUTATION_WORKLOAD_WITH_FIFO_TIES",
+  "max_active_donor_intakes": 5,
+  "expected_initial_state": "FIFO_WAITING_BEHIND_PR_672_PR_673_PR_675_PR_676_PR_682_PR_683"
+}
