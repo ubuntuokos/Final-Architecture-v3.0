@@ -3,7 +3,7 @@
   "id": "FA3-HIDREAM-GENERATIVE-MEDIA-MESH-REUSE-ASSESSMENT-2026-10-04",
   "project_id": "FA3-GENERATIVE-MEDIA-MESH-001",
   "intent_id": "FA3-HIDREAM-GENERATIVE-MEDIA-MESH-APPLICATION-INTENT-2026-10-04",
-  "result": "PASS_STATIC_MATERIALIZATION_ONLY",
+  "result": "PASS",
   "donor_planning_snapshot": {
     "published_main_commit": "df24cb9d1fa2413b08c8d47461bdb2db799585f6",
     "donor_registry_blob_sha": "1362d75186c6da74e5cf947fdf0b8867d462636a",
@@ -12,10 +12,16 @@
     "pending_or_unmerged_donors_consumed": false
   },
   "shared_capability_placement": {
-    "required": true,
-    "selected_profile_id": "FA3-GENERATIVE-MEDIA-MESH-001",
-    "application_local_duplication": false,
-    "rationale": "Image, storyboard, motion, video refinement, character animation, research and skill-scoring semantics span multiple FA3 applications and therefore belong in one provider-neutral shared layer."
+    "reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED_PROFILE",
+    "shared_component_ids": [
+      "FA3-GENERATIVE-MEDIA-MESH-001",
+      "FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001"
+    ],
+    "retrospective_consumer_impact_reviewed": true,
+    "local_duplicate_created": false,
+    "rationale": "Generative image, storyboard, motion, video refinement, character, research and advisory skill-routing semantics span multiple existing FA3 applications."
   },
   "donor_pattern_reuse": [
     {
@@ -79,5 +85,110 @@
     "classification": "STRUCTURAL_REASSESSMENT_REQUIRED",
     "physical_requalification_required": true,
     "physical_pass_claimed": false
-  }
+  },
+  "intent_path": "canonical/intents/FA3-HIDREAM-GENERATIVE-MEDIA-MESH-APPLICATION-INTENT-2026-10-04.json",
+  "covered_ids": [
+    "FA3-GENERATIVE-MEDIA-MESH-001",
+    "FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001"
+  ],
+  "project_status": "OWNER_APPROVED_STATIC_MATERIALIZATION",
+  "selected_reuse": [
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "MANDATORY_EXISTING_REUSE_DISCOVERY"
+    },
+    {
+      "id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+      "use": "PUBLISHED_MAIN_DONOR_PLANNING_INPUT_ONLY"
+    },
+    {
+      "id": "FA3-IMGGEN-CONTRACTS-001",
+      "use": "EXISTING_IMAGE_GENERATION_AND_EDIT_CONTRACT"
+    },
+    {
+      "id": "FA3-MMG-CONTEXT-IR-CONTRACTS-001",
+      "use": "EXISTING_PROVIDER_NEUTRAL_MULTIMODAL_GENERATION_CONTEXT"
+    },
+    {
+      "id": "FA3-VIDEO-001",
+      "use": "EXISTING_MOTION_VIDEO_SHARED_FABRIC"
+    },
+    {
+      "id": "FA3-VIDEO-REFINEMENT-CONTRACTS-001",
+      "use": "EXISTING_PROVIDER_NEUTRAL_REFINEMENT_STAGE"
+    },
+    {
+      "id": "FA3-ENGINE-SELECTION-FABRIC-001",
+      "use": "USER_PREFERENCE_AND_COMPATIBILITY_ONLY"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "EXCLUSIVE_PROVIDER_MODEL_ROUTING_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "EXCLUSIVE_DEVICE_RESOURCE_PLACEMENT_AUTHORITY"
+    },
+    {
+      "id": "FA3-LICENSE-RIGHTS-001",
+      "use": "RIGHTS_AUTHORITY_UNCHANGED"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "HIDREAM_STANDALONE_APPLICATION",
+      "reason": "CROSS_APPLICATION_CAPABILITIES_BELONG_IN_SHARED_PROVIDER_NEUTRAL_LAYER"
+    },
+    {
+      "id": "SECOND_MODEL_ROUTER",
+      "reason": "MODEL_ROUTER_ALREADY_OWNS_PROVIDER_MODEL_ROUTING"
+    },
+    {
+      "id": "SECOND_WORKFLOW_ENGINE",
+      "reason": "TEMPORAL_REMAINS_DURABLE_WORKFLOW_AUTHORITY"
+    },
+    {
+      "id": "AUTOMATIC_HIDREAM_CHILD_ADMISSION",
+      "reason": "ORGANIZATION_DONOR_DOES_NOT_INHERIT_CHILD_REPOSITORY_ADMISSION"
+    },
+    {
+      "id": "SILENT_FALLBACK",
+      "reason": "FAIL_CLOSED_PROVIDER_SELECTION_REQUIRED"
+    }
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_mutation": false,
+    "live_resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_hijack": false,
+    "upstream_projects_preserved": true
+  },
+  "pending_or_unmerged_donors_consumed": false,
+  "implementation_readiness": "READY_FOR_STATIC_MATERIALIZATION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "available_candidate_ids": [],
+      "matched_candidate_ids": [],
+      "roles": [
+        "GENERATIVE_MEDIA_INTERCHANGE_AND_ACCELERATOR_BOUNDARY_REVIEW"
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_activation": false,
+      "disposition": "NO_NEW_KHRONOS_RUNTIME_OR_SDK_DEPENDENCY_REQUIRED_BY_THIS_STATIC_MATERIALIZATION"
+    }
+  ]
 }
