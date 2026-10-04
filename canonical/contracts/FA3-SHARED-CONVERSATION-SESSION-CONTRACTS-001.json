@@ -1,7 +1,7 @@
 {
   "schema": "fa3.contract-family.v1",
   "id": "FA3-SHARED-CONVERSATION-SESSION-CONTRACTS-001",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "parent_profile": "FA3-SHARED-CONVERSATION-SESSION-001",
   "provider_neutral": true,
@@ -27,7 +27,8 @@
     "SessionCheckpoint",
     "SessionExport",
     "SessionImport",
-    "SessionCloseReceipt"
+    "SessionCloseReceipt",
+    "ConversationHandoff"
   ],
   "required_semantics": {
     "event_model": "VERSIONED_APPEND_OR_RECONCILED_EVENTS",
@@ -36,13 +37,35 @@
     "knowledge_boundary": "EXPLICIT_REFERENCE_ONLY",
     "streaming": "TRANSPORT_INDEPENDENT",
     "import_export": "VERSIONED_SCHEMA_ROUND_TRIP",
-    "ai_off": "BACKGROUND_MODEL_INVOCATION_FORBIDDEN"
+    "ai_off": "BACKGROUND_MODEL_INVOCATION_FORBIDDEN",
+    "new_conversation_handoff": "SINGLE_COPYABLE_SURFACE_ONE_ACTION_COMPLETE_PAYLOAD",
+    "new_conversation_handoff_short_payload": "SAME_RULE_APPLIES_TO_ONE_WORD_OR_ONE_CHARACTER"
   },
   "invariants": [
     "NO_FRAMEWORK_OBJECT_PERSISTENCE_AS_CANONICAL",
     "NO_CONVERSATION_MEMORY_RAG_COLLAPSE",
-    "NO_HIDDEN_BACKGROUND_AI"
+    "NO_HIDDEN_BACKGROUND_AI",
+    "NEW_CONVERSATION_HANDOFF_MUST_USE_EXACTLY_ONE_COPYABLE_SURFACE",
+    "NEW_CONVERSATION_HANDOFF_FULL_PAYLOAD_MUST_COPY_IN_ONE_USER_ACTION",
+    "NEW_CONVERSATION_HANDOFF_PAYLOAD_SPLIT_FORBIDDEN",
+    "NEW_CONVERSATION_HANDOFF_MANUAL_SELECTION_FORBIDDEN",
+    "NEW_CONVERSATION_HANDOFF_SCROLL_TO_COPY_FORBIDDEN"
   ],
   "capability_baseline_release": "2026-09-26/v3.1.0",
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "conversation_handoff_contract": {
+    "trigger": [
+      "folytasd új beszélgetésben",
+      "continue in a new conversation",
+      "SEMANTIC_EQUIVALENT_EXPLICIT_REQUEST"
+    ],
+    "payload_cardinality": 1,
+    "copy_surface_cardinality": 1,
+    "required_copy_actions": 1,
+    "applies_when_payload_is_one_word": true,
+    "applies_when_payload_is_one_character": true,
+    "non_payload_text_outside_surface_allowed": true,
+    "payload_text_outside_surface_allowed": false,
+    "ui_acceptance": "COMPLETE_PAYLOAD_AVAILABLE_TO_CLIPBOARD_WITH_ONE_USER_ACTION_WITHOUT_MANUAL_SELECTION_OR_SCROLL_DEPENDENCY"
+  }
 }
