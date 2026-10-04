@@ -71,3 +71,13 @@ Every new or materially modified FA3 application, capability, module, profile, p
 The same assessment must record `shared_capability_placement`. Multi-application functions are shared-first; a local duplicate is valid only with an explicit reviewed justification and retrospective impact review covering planned, in-progress and materialized consumers. Existing verified capability may not be lost during migration.
 
 Entry/finalize readiness rechecks the assessment against the live published main. If main or the donor registry changed after planning, finalization is blocked until a fresh assessment is produced. This is reassessment, not automatic redesign. Actual donor adoption still requires the canonical usage edge in `FA3-APPLICATION-DONOR-LINKS-001`; reference-only analysis must not fabricate an adoption edge.
+
+## 2026-10-04 rolling-batch acceleration and stale-PR reconciliation
+
+CFA3 now separates concurrent donor collection from canonical publication. Up to five owner-authorized intake work items may be collected concurrently, but only one PR may mutate the canonical donor registry. When a rolling batch is already open, further donor submissions append to that batch rather than creating another registry-mutating PR.
+
+Each append uses a donor-only fast preflight (schema, normalized source identity, donor-ID/source-key uniqueness, provenance, rights metadata presence, capability delta zero, authority delta zero and derived donor count). Repository-wide protected checks run on the final batch head, not redundantly for every individual submission. This changes gate scheduling, not gate strength: Donor Serialization, Reuse Discovery, Permanent Canonical + Promotion, release projection and all existing required checks remain mandatory before publication.
+
+Stale donor PRs must not be blindly rebased or merged. Their exact donor delta is rehydrated onto current main, deduplicated by normalized source key and bound to the original PR number and exact head SHA. Non-donor payload is excluded. Historical branches remain evidence. A source that is moved, archived, deleted or has a material license/security regression must be reclassified before adoption; batch consolidation itself does not claim runtime/provider/model admission or fresh upstream validation.
+
+The initial backlog reconciliation is recorded in `canonical/deltas/CFA3-DONOR-BACKLOG-CONSOLIDATION-2026-10-04.json`: 15 source PRs, 85 unique new donor/reference identities, 1427 → 1512 registry entries, capability baseline 175, capability delta 0 and authority delta 0.
