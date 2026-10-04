@@ -1,0 +1,33 @@
+{
+  "schema": "fa3.owner-exception.v1",
+  "id": "FA3-OWNER-EXCEPTION-HIDREAM-GENERATIVE-MEDIA-MESH-PR674-2026-10-04",
+  "status": "ACTIVE_SINGLE_PR_EXCEPTION",
+  "owner": "ubuntuokos",
+  "owner_instruction": "jóváhagyom",
+  "recorded_date": "2026-10-04",
+  "repository": "ubuntuokos/Final-Architecture-v3.0",
+  "pull_request": 674,
+  "approved_plan": "docs/hidream-generative-media-mesh-final-2026-10-04.md",
+  "authorized_transition_parent_head": "eb330633a0cfc485d40ba4757382f187612633ef",
+  "reason": "GitHub rejects APPROVE reviews authored by the pull request author; the GitHub API returned 422 Review Can not approve your own pull request.",
+  "scope": "WAIVE_SEPARATE_EXACT_HEAD_APPROVE_REVIEW_ONLY_FOR_PR674_SELF_REVIEW_CONSTRAINT",
+  "authorized_administrative_commit_chain": {
+    "max_commits": 2,
+    "allowed_paths": [
+      "canonical/exceptions/FA3-OWNER-EXCEPTION-HIDREAM-GENERATIVE-MEDIA-MESH-PR674-2026-10-04.json",
+      "canonical/decisions/FA3-DEC-HIDREAM-GENERATIVE-MEDIA-MESH-2026-10-04.json"
+    ],
+    "any_other_path_change_invalidates_exception": true
+  },
+  "invariants": {
+    "capability_baseline": 175,
+    "capability_delta": 0,
+    "authority_delta": 0,
+    "required_status_checks_still_mandatory": true,
+    "branch_protection_still_mandatory": true,
+    "unresolved_review_threads_forbidden": true,
+    "child_repository_auto_admission": false,
+    "runtime_promotion_claim": false,
+    "physical_current_host_pass_claim": false
+  }
+}
