@@ -14,6 +14,7 @@ from fa3_hardware_discovery import (
     AcceleratorBackendDescriptor,
     AcceleratorDeviceDescriptor,
 )
+from fa3_scale_backend import evaluate_scale_execution_rights, probe_scale
 
 
 def _run(argv: list[str], timeout: int = 10) -> tuple[int, str, str]:
@@ -219,6 +220,8 @@ def enrich_accelerator_backends(
     *,
     include_framework_probes: bool = False,
     environ: Mapping[str, str] | None = None,
+    scale_rights_receipt: Mapping[str, Any] | None = None,
+    commercial_context: bool = True,
 ) -> list[AcceleratorDeviceDescriptor]:
     rows = list(devices)
     env = os.environ if environ is None else environ
@@ -228,6 +231,11 @@ def enrich_accelerator_backends(
     vulkan = _portable_probe("vulkaninfo", ["--summary"])
     opencl = _portable_probe("clinfo", ["-l"])
     zluda = _zluda_probe(env)
+    scale = probe_scale(env)
+    scale_rights = evaluate_scale_execution_rights(
+        scale_rights_receipt,
+        commercial_context=commercial_context,
+    )
 
     intel_xpu = _pytorch_xpu_probe() if include_framework_probes else {"usable": False}
     openvino_gpu = _openvino_gpu_probe() if include_framework_probes else {"usable": False}
@@ -272,6 +280,33 @@ def enrich_accelerator_backends(
             )
             if descriptor is not None:
                 backends.append(descriptor)
+
+        if device.vendor == "AMD" and scale.get("detected") and bdf:
+            observed_scale = scale.get("devices", {}).get(bdf)
+            if observed_scale and observed_scale.get("vendor") == "AMD":
+                scale_available = bool(
+                    scale.get("usable")
+                    and scale_rights.get("admitted")
+                )
+                backends.append(
+                    AcceleratorBackendDescriptor(
+                        name="scale-cuda",
+                        backend_class="translation",
+                        detected=True,
+                        available=scale_available,
+                        binding_scope="DEVICE",
+                        runtime_version=scale.get("version"),
+                        framework_backends=("cuda-compat", "scale"),
+                        experimental=True,
+                        evidence_sources=tuple(scale.get("evidence", ())) + (
+                            "scaleinfo:exact-pci-bdf-binding",
+                            f"scale-target:{observed_scale.get('target')}",
+                            f"scale-rights:{scale_rights.get('result')}",
+                            "scale-auto-install:false",
+                            "scale-auto-activation:false",
+                        ),
+                    )
+                )
 
         if device.vendor == "INTEL" and device.kind == "gpu" and level_zero.get("detected"):
             bound = len(intel_devices) == 1
@@ -347,11 +382,15 @@ def discover_backend_probe_summary(
     *,
     include_framework_probes: bool = False,
     environ: Mapping[str, str] | None = None,
+    scale_rights_receipt: Mapping[str, Any] | None = None,
+    commercial_context: bool = True,
 ) -> dict[str, Any]:
     enriched = enrich_accelerator_backends(
         devices,
         include_framework_probes=include_framework_probes,
         environ=environ,
+        scale_rights_receipt=scale_rights_receipt,
+        commercial_context=commercial_context,
     )
     return {
         "schema": "fa3.accelerator-backend-discovery.v1",
@@ -361,5 +400,8 @@ def discover_backend_probe_summary(
             "host_unbound_backend_may_authorize_device": False,
             "available_requires_device_binding": True,
             "translation_requires_explicit_policy": True,
+            "scale_requires_explicit_license_rights_receipt": True,
+            "scale_auto_install": False,
+            "scale_auto_activation": False,
         },
     }
