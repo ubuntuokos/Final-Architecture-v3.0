@@ -26,8 +26,8 @@ void VoiceWorkspaceService::refresh(){
  getJson("/api/profiles",[this](const QVariantMap &v){m_profiles=v.value("profiles").toList();emit profilesChanged();});
  getJson("/api/jobs",[this](const QVariantMap &v){m_jobs=v.value("jobs").toList();emit jobsChanged();});
 }
-void VoiceWorkspaceService::generate(const QString &text,const QString &voice,const QString &language,int targetMs,bool musicDucking,bool candidateAck){
- QVariantMap p{{"text",text},{"language",language},{"voice_identity_ref",voice},{"mode","plain"},{"license_and_rights_ref","FA3-VOICE-WORKSPACE-USER-AUTHORIZED"},{"candidate_execution_ack",candidateAck},{"music_ducking",musicDucking}};if(targetMs>0)p["target_duration_ms"]=targetMs;
+void VoiceWorkspaceService::generate(const QString &text,const QString &voice,const QString &language,const QString &rightsRef,int targetMs,bool musicDucking,bool candidateAck){
+ QVariantMap p{{"text",text},{"language",language},{"voice_identity_ref",voice},{"mode","plain"},{"license_and_rights_ref",rightsRef},{"candidate_execution_ack",candidateAck},{"music_ducking",musicDucking}};if(targetMs>0)p["target_duration_ms"]=targetMs;
  postJson("/api/generate",p,[this](const QVariantMap &v){emit generationCompleted(v);refresh();});
 }
 void VoiceWorkspaceService::planEffects(const QString &sourceAudioRef){QVariantList chain;chain << QVariantMap{{"effect","compression"}} << QVariantMap{{"effect","reverb"}};postJson("/api/effects/plan",{{"source_audio_ref",sourceAudioRef},{"chain",chain}},[this](const QVariantMap &v){emit effectsPlanCompleted(v);});}
