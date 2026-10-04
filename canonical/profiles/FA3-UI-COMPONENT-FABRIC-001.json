@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-UI-COMPONENT-FABRIC-001",
   "name": "FA3 UI Component Fabric",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "priority": "P1",
   "requirement": "SHOULD",
@@ -32,7 +32,8 @@
     "ACCESSIBILITY_ADMISSION",
     "SECURITY_ADMISSION",
     "VISUAL_REGRESSION",
-    "UI_PROVENANCE_AND_LICENSE_METADATA"
+    "UI_PROVENANCE_AND_LICENSE_METADATA",
+    "NEW_CONVERSATION_HANDOFF_SURFACE"
   ],
   "consumer_surfaces": [
     "FA3_CONTROL_CENTER",
@@ -42,7 +43,10 @@
     "KDENLIVE_EDITORIAL_UI",
     "DASHBOARDS",
     "SETTINGS",
-    "STATUS_AND_NOTIFICATION_SURFACES"
+    "STATUS_AND_NOTIFICATION_SURFACES",
+    "ASSISTANT_COACH_MENTOR_MANAGER_HANDOFFS",
+    "AGENT_AND_WORKFLOW_NEW_CONVERSATION_HANDOFFS",
+    "CURRENT_AND_FUTURE_CFA3_FA3_APPLICATIONS"
   ],
   "excluded_scope": [
     "EXTERNAL_UI_RUNTIME_PROVIDER",
@@ -69,7 +73,11 @@
     "NO_UNAPPROVED_REMOTE_RESOURCES",
     "SOURCE_PROVENANCE",
     "LICENSE_METADATA",
-    "VISUAL_REGRESSION_COVERAGE"
+    "VISUAL_REGRESSION_COVERAGE",
+    "SINGLE_COPY_TARGET_FOR_NEW_CONVERSATION_HANDOFF",
+    "ONE_ACTION_COMPLETE_HANDOFF_COPY",
+    "NO_SCROLL_OR_SELECTION_REQUIRED_FOR_HANDOFF_COPY",
+    "ONE_WORD_OR_SINGLE_CHARACTER_HANDOFF_STILL_USES_COPY_SURFACE"
   ],
   "authority_boundaries": {
     "identity": false,
@@ -90,5 +98,8 @@
     "fa3_native_component_implementation_required_for_production": true
   },
   "capability_baseline_release": "2026-09-26/v3.1.0",
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "mandatory_cross_application_rules": [
+    "FA3-RULE-ONE-CLICK-NEW-CONVERSATION-HANDOFF-001"
+  ]
 }
