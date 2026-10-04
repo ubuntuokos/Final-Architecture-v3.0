@@ -91,6 +91,39 @@ class SharedModulePatternCatalogueTests(unittest.TestCase):
             },
         )
 
+    def test_conversation_handoff_one_click_invariant_passes(self):
+        report = validate(ROOT)
+        findings = {x["code"] for x in report["validation"]["findings"]}
+        self.assertNotIn("CONVERSATION_HANDOFF_PROFILE_INVARIANT_MISSING", findings)
+        self.assertNotIn("CONVERSATION_HANDOFF_PROFILE_SEMANTICS_INVALID", findings)
+        self.assertNotIn("CONVERSATION_HANDOFF_CONTRACT_INVARIANT_MISSING", findings)
+        self.assertNotIn("CONVERSATION_HANDOFF_CONTRACT_SEMANTICS_INVALID", findings)
+        self.assertNotIn("CONVERSATION_HANDOFF_PROFILE_CONTRACT_PARITY_INVALID", findings)
+
+    def test_conversation_handoff_profile_mutation_fails_closed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            fixture(root)
+            path = root / "canonical/profiles/FA3-SHARED-CONVERSATION-SESSION-001.json"
+            profile = json.loads(path.read_text())
+            profile["new_conversation_handoff"]["copy_semantics"] = "MULTI_ACTION_COPY_ALLOWED"
+            path.write_text(json.dumps(profile), encoding="utf-8")
+            findings = {x["code"] for x in validate(root)["validation"]["findings"]}
+            self.assertIn("CONVERSATION_HANDOFF_PROFILE_SEMANTICS_INVALID", findings)
+            self.assertIn("CONVERSATION_HANDOFF_PROFILE_CONTRACT_PARITY_INVALID", findings)
+
+    def test_conversation_handoff_contract_mutation_fails_closed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            fixture(root)
+            path = root / "canonical/contracts/FA3-SHARED-CONVERSATION-SESSION-CONTRACTS-001.json"
+            contract = json.loads(path.read_text())
+            contract["conversation_handoff_contract"]["required_copy_actions"] = 2
+            path.write_text(json.dumps(contract), encoding="utf-8")
+            findings = {x["code"] for x in validate(root)["validation"]["findings"]}
+            self.assertIn("CONVERSATION_HANDOFF_CONTRACT_SEMANTICS_INVALID", findings)
+            self.assertIn("CONVERSATION_HANDOFF_PROFILE_CONTRACT_PARITY_INVALID", findings)
+
     def test_materialized_profile_contract_binding_parity_fails_closed(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

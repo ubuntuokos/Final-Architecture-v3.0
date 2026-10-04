@@ -1,0 +1,104 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-SHARED-CONVERSATION-SESSION-HANDOFF-REUSE-ASSESSMENT-2026-10-04",
+  "date": "2026-10-04",
+  "subject_id": "FA3-SHARED-CONVERSATION-SESSION-001",
+  "project_id": "FA3-SHARED-CONVERSATION-SESSION-001",
+  "intent_id": "FA3-SHARED-AI-COMPOSITION-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-SHARED-AI-COMPOSITION-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-SHARED-CONVERSATION-SESSION-001",
+    "FA3-SHARED-CONVERSATION-SESSION-CONTRACTS-001"
+  ],
+  "project_status": "OWNER_DIRECTIVE_STATIC_SHARED_UX_CONTRACT_UPDATE",
+  "result": "PASS",
+  "selected_internal_reuse": [
+    {
+      "id": "FA3-SHARED-CONVERSATION-SESSION-001",
+      "use": "EXISTING_SHARED_CONVERSATION_AND_SESSION_PROFILE"
+    },
+    {
+      "id": "FA3-SHARED-CONVERSATION-SESSION-CONTRACTS-001",
+      "use": "EXISTING_SHARED_CONVERSATION_AND_SESSION_CONTRACT_FAMILY"
+    },
+    {
+      "id": "FA3-SHARED-MODULE-PATTERN-CATALOGUE-001",
+      "use": "EXISTING_SHARED_FIRST_PLACEMENT_AND_CROSS_APPLICATION_REUSE_PATTERN"
+    },
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "MANDATORY_EXISTING_REUSE_DISCOVERY"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "NEW_HANDOFF_CAPABILITY",
+      "reason": "ONE_CLICK_HANDOFF_IS_A_CONTRACT_AND_UX_INVARIANT_INSIDE_EXISTING_SHARED_CONVERSATION_SESSION_CAPABILITY"
+    },
+    {
+      "id": "APPLICATION_LOCAL_HANDOFF_IMPLEMENTATIONS",
+      "reason": "BEHAVIOR_IS_CROSS_APPLICATION_AND_MUST_REMAIN_SHARED"
+    },
+    {
+      "id": "NEW_HANDOFF_AUTHORITY",
+      "reason": "COPY_PRESENTATION_SEMANTICS_REQUIRE_NO_NEW_ARCHITECTURAL_AUTHORITY"
+    },
+    {
+      "id": "EXTERNAL_DONOR_RUNTIME_ADOPTION",
+      "reason": "NO_EXTERNAL_RUNTIME_OR_CODE_ADOPTION_IS_REQUIRED_FOR_THE_OWNER_MANDATED_COPY_SEMANTICS"
+    }
+  ],
+  "donor_planning_snapshot": {
+    "published_main_commit": "b5052f6595a3fdad84ed7a06e6276f8af5a8dcd8",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "1362d75186c6da74e5cf947fdf0b8867d462636a",
+    "donor_registry_sha256": "b8d0eb42ee02885863af375071ffae89033664089ddba3c69682a8d0f7c7cff1",
+    "donor_registry_entry_count": 1427
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "shared_component_ids": [
+      "FA3-SHARED-CONVERSATION-SESSION-001"
+    ],
+    "retrospective_consumer_impact_reviewed": true,
+    "local_duplicate_created": false,
+    "rationale": "New-conversation handoff copy semantics are required across FA3/CFA3 development and product surfaces, so the invariant remains in the existing shared conversation/session profile and contract rather than application-local duplicates."
+  },
+  "pending_or_unmerged_donors_consumed": false,
+  "donor_usage_edges_created": 0,
+  "adopted_donors": [],
+  "donor_pattern_reuse": [],
+  "hardware_audit": {
+    "result": "PASS",
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "hardware_mutation": false,
+    "physical_current_host_pass_claimed": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "runtime_change": false
+  },
+  "gaps": [],
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "implementation_readiness": "STATIC_SHARED_CONTRACT_RULE_READY_FOR_NORMAL_ADMISSION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_activation": false,
+      "assessment": "Clipboard and conversation handoff UX semantics do not require Khronos graphics, compute, or media standards reuse."
+    }
+  ]
+}
