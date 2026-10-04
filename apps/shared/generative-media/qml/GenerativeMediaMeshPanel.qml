@@ -44,6 +44,14 @@ Rectangle {
             font.pixelSize: 9
             wrapMode: Text.WordWrap
         }
+        Label {
+            id: executionPolicyLabel
+            Layout.fillWidth: true
+            text: "CPU reference/manual path · provider may remain ineligible · no silent fallback · display GPU is not auto-enrolled"
+            color: root.textMuted
+            font.pixelSize: 8
+            wrapMode: Text.WordWrap
+        }
         GridLayout {
             Layout.fillWidth: true
             columns: 2
@@ -88,7 +96,9 @@ Rectangle {
             "runtimeGateVisible": runtimeGateLabel.visible && runtimeGateLabel.width > 0 && runtimeGateLabel.height > 0,
             "authorityVisible": authorityLabel.visible && authorityLabel.width > 0 && authorityLabel.height > 0,
             "childAdmissionVisible": childAdmissionLabel.visible && childAdmissionLabel.width > 0 && childAdmissionLabel.height > 0,
+            "executionPolicyVisible": executionPolicyLabel.visible && executionPolicyLabel.width > 0 && executionPolicyLabel.height > 0,
             "runtimeGateText": runtimeGateLabel.text,
+            "executionPolicyText": executionPolicyLabel.text,
             "authorityText": authorityLabel.text,
             "childAdmissionText": childAdmissionLabel.text
         }
