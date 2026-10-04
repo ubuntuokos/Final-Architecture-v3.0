@@ -111,6 +111,8 @@ Item {
                     anchors.margins: 12
                     spacing: 10
                     Label { text: "Voice Profile"; color: root.textPrimary; font.bold: true }
+                    RowLayout { Layout.fillWidth: true; TextField { id: profileId; Layout.fillWidth: true; placeholderText: "Profile ID"; text: "Narrator" } TextField { id: consentRef; Layout.fillWidth: true; placeholderText: "Consent ref (human voice)" } Button { text: "Save"; enabled: fa3VoiceWorkspace.state === "READY"; onClicked: fa3VoiceWorkspace.putProfile(profileId.text, consentRef.text, consentRef.text.length > 0) } }
+                    Label { text: "Stored profiles: " + fa3VoiceWorkspace.profiles.length + " · Jobs: " + fa3VoiceWorkspace.jobs.length; color: root.textMuted; font.pixelSize: 10 }
                     GridLayout {
                         columns: 2
                         Layout.fillWidth: true
