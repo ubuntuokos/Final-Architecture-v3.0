@@ -10,7 +10,7 @@
     "CAP-007",
     "CAP-028"
   ],
-  "project_status": "SOURCE_BOUND_DESIGN_PREFLIGHT_EXTERNAL_RUNTIME_ADMISSION_PENDING",
+  "project_status": "CANONICAL_SCOPE_GOVERNANCE_HARDENED_NO_NEW_RUNTIME_AUTHORITY",
   "result": "PASS",
   "assessment_provenance": {
     "type": "EXECUTED_EXISTING_REUSE_ASSESSMENT",
@@ -150,5 +150,58 @@
       "automatic_activation": false,
       "disposition": "PATTERN_ONLY_NO_SDK_DEPENDENCY_NO_RUNTIME_ADMISSION"
     }
-  ]
+  ],
+  "donor_planning_snapshot": {
+    "published_main_commit": "6be38def0d6a56b4e8fded74fb3c5ed2e3c1506f",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "1362d75186c6da74e5cf947fdf0b8867d462636a",
+    "donor_registry_sha256": "b8d0eb42ee02885863af375071ffae89033664089ddba3c69682a8d0f7c7cff1",
+    "donor_registry_entry_count": 1427
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "retrospective_consumer_impact_reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "shared_component_ids": [
+      "FA3-GOAL-EXECUTION-CONTRACTS-001",
+      "FA3-AGENT-WORKLOAD-RUNTIME-001"
+    ],
+    "consumer_scope": [
+      "PLANNED_APPLICATIONS",
+      "IN_PROGRESS_APPLICATIONS",
+      "MATERIALIZED_APPLICATIONS"
+    ],
+    "local_duplicate_created": false,
+    "rationale": "Task-scope provenance is shared governance across FA3 planning and executable Agent Workload admission, not an application-local duplicate."
+  },
+  "donor_review": {
+    "published_registry_consulted": true,
+    "reviewed_finalized_references": [
+      {
+        "normalized_key": "github:paperclipai/paperclip",
+        "status": "ACCEPTED_REFERENCE",
+        "disposition": "REFERENCE_ONLY_NO_ADOPTION",
+        "fit": "bounded multi-agent governance and explicit authority boundaries"
+      },
+      {
+        "normalized_key": "github:trycompai/crm",
+        "status": "ACCEPTED_REFERENCE",
+        "disposition": "REFERENCE_ONLY_NO_ADOPTION",
+        "fit": "scope-guard and approval-bound autonomous-agent pattern"
+      }
+    ],
+    "reviewed_nonfinal_reference_excluded": [
+      {
+        "normalized_key": "github:untrivial-ai/agent-orchestrator",
+        "status": "CANDIDATE",
+        "disposition": "EXCLUDED_FROM_PLANNING"
+      }
+    ],
+    "donor_code_imported": false,
+    "donor_runtime_admitted": false,
+    "donor_usage_edge_required": false
+  },
+  "donor_adoption": [],
+  "pending_or_unmerged_donors_consumed": false
 }
