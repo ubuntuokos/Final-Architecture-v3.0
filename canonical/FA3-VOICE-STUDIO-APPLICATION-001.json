@@ -21,14 +21,40 @@
     "network_fetch": false,
     "production_provider_claim": false
   },
-  "surfaces": ["create.voice-studio","create.quick-voice-plugin","VoiceActivityOverlay.qml"],
-  "workflows": ["voice.generate","voice.profile.list","voice.profile.put","voice.capture.register","voice.fit-to-clip","voice.quick-dub.plan","quickclip.timeline-handoff"],
+  "surfaces": [
+    "create.voice-studio",
+    "create.quick-voice-plugin",
+    "VoiceActivityOverlay.qml"
+  ],
+  "workflows": [
+    "voice.generate",
+    "voice.profile.list",
+    "voice.profile.put",
+    "voice.capture.register",
+    "voice.fit-to-clip",
+    "voice.quick-dub.plan",
+    "quickclip.timeline-handoff"
+  ],
   "provider_execution": {
     "piper": "CPU_ONLY_CANDIDATE_EXPLICIT_ACK_REQUIRED",
     "xtts": "ADAPTER_NOT_MATERIALIZED_BY_THIS_CHANGE",
     "cosyvoice": "EXISTING_SEPARATE_PROVIDER_ADAPTER",
     "silent_fallback": false
   },
-  "current_host": {"status":"PENDING_FRESH_CURRENT_HOST_REQUALIFICATION","physical_pass_claimed":false},
-  "capability_baseline_release": "2026-09-26/v3.1.0"
+  "current_host": {
+    "status": "PENDING_FRESH_CURRENT_HOST_REQUALIFICATION",
+    "physical_pass_claimed": false
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "uaf_actions": [
+    "voice.speak",
+    "voice.profile.put",
+    "voice.fit-to-clip",
+    "voice.quick-dub.plan"
+  ],
+  "mcp_projection": {
+    "gateway": "FA3-AUTH-MCP-GATEWAY-001",
+    "direct_mcp_server": false,
+    "direct_qml_tool_execution": false
+  }
 }
