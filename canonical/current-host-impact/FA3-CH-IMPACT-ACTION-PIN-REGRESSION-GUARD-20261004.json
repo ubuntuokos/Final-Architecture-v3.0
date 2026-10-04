@@ -1,0 +1,13 @@
+{
+  "schema": "fa3.current-host-structural-impact.v1",
+  "id": "FA3-CH-IMPACT-ACTION-PIN-REGRESSION-GUARD-20261004",
+  "status": "NO_RUNTIME_IMPACT",
+  "structural_changes": [
+    "canonical/FA3-PERMANENT-GATE-HARDENING-001.json",
+    "src/fa3_permanent_gate_hardening.py"
+  ],
+  "current_host_changes": [],
+  "physical_requalification_required": false,
+  "historical_evidence_reused": false,
+  "rationale": "This change strengthens the existing Permanent Canonical + Promotion Gate so every workflow linked to Current Host by filename or semantic marker is fail-closed checked for immutable 40-hex GitHub Action pins. It changes only CI/policy validation behavior and adds no runner, provider, device/resource allocation, host service, proof recipe, runtime execution path, evidence claim, hardware behavior, or promotion authority. Therefore no fresh physical Current Host requalification or FULL-525 replay is required."
+}
