@@ -18,6 +18,9 @@ class VoiceWorkspaceTests(unittest.TestCase):
  def test_quick_dub_no_provider_authority(self):
   p=self.ws.quick_dub_plan({"source_media_ref":"x","source_language":"en","target_language":"hu-HU"})
   self.assertFalse(p["provider_selection_owned_by_application"]); self.assertIn("FA3-VOICE-001",p["stages"])
+ def test_uaf_dispatch_is_bounded(self):
+  r=self.ws.dispatch_action("voice.fit-to-clip",{"target_ms":1000,"actual_ms":900}); self.assertEqual("ACCEPT_AND_PAD",r["decision"])
+  with self.assertRaises(VoiceWorkspaceError): self.ws.dispatch_action("voice.delete-everything",{})
  def test_generation_fails_closed_without_executor(self):
   with self.assertRaises(VoiceWorkspaceError):
    self.ws.generate({"text":"x","language":"hu-HU","voice_identity_ref":"V","license_and_rights_ref":"R","mode":"voice_clone"})
