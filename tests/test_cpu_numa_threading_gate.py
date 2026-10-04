@@ -1,3 +1,4 @@
+import json
 import unittest
 from pathlib import Path
 import sys
@@ -9,6 +10,7 @@ if str(SRC) not in sys.path:
 
 from fa3_cpu_numa_threading_gate import evaluate
 from fa3_cpu_thread_budget import AdmissionDenied, build_thread_plan, make_synthetic_dual_numa_topology
+from fa3_release_baseline import load_active_release_baseline
 
 
 class CpuNumaThreadingGateTests(unittest.TestCase):
@@ -18,6 +20,9 @@ class CpuNumaThreadingGateTests(unittest.TestCase):
         self.assertEqual(result["summary"], {"passed": 22, "total": 22})
         self.assertEqual(result["required_child_gates"], {"FA3-GATE-OPENMP-001": "PASS"})
         self.assertFalse(result["current_host_runtime_promotion_claim"])
+    def test_gate_descriptor_tracks_active_capability_baseline(self):
+        descriptor = json.loads((ROOT / "canonical/FA3-GATE-CPU-NUMA-THREADING-001.json").read_text())
+        self.assertEqual(load_active_release_baseline(ROOT).capability_count, descriptor["capability_count"])
 
     def test_physical_core_first_and_numa_local(self):
         topology = make_synthetic_dual_numa_topology()

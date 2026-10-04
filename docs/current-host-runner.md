@@ -20,7 +20,7 @@ The bootstrap downloads the archive to a temporary file, validates the exact dig
 
 ## Host prerequisites
 
-The runner user must be non-root and have `curl`, `tar`, `sha256sum`, `python3`, `systemctl`, and preferably an authenticated `gh` CLI with permission to create/read repository self-hosted runners. The 429-capability closure additionally requires locally admitted runtime prerequisites for every registered executor; CAP-028 currently requires `wasmtime` for real WASM/WASI sandbox execution. Missing executor prerequisites are fail-closed and must not be replaced by hosted CI or synthetic receipts. The runner itself is installed under:
+The runner user must be non-root and have `curl`, `tar`, `sha256sum`, `python3`, `systemctl`, and preferably an authenticated `gh` CLI with permission to create/read repository self-hosted runners. The active 175-capability / 525-obligation closure additionally requires locally admitted runtime prerequisites for every registered executor; CAP-028 currently requires `wasmtime` for real WASM/WASI sandbox execution. Missing executor prerequisites are fail-closed and must not be replaced by hosted CI or synthetic receipts. The runner itself is installed under:
 
 ```text
 $HOME/.local/share/fa3/actions-runner
@@ -80,7 +80,7 @@ The doctor also **reports** whether the generic HRB admission-authorization brid
 
 After registration, dispatch **FA3 Current Host Runner Control Plane** with `execute_current_host=true`. The `current-host-runner / real-smoke` job can start only if GitHub can actually assign the required label set.
 
-Once that smoke test passes, re-run the previously cancelled provider jobs, beginning with PR #91 X-CMD `xcmd-current-host / production-e2e`. A provider PASS remains separate from global 143-capability Evidence Registry closure and from the 19-point promotion gate.
+Once that smoke test passes, re-run the previously cancelled provider jobs, beginning with PR #91 X-CMD `xcmd-current-host / production-e2e`. A provider PASS remains separate from global 175-capability / 525-obligation Evidence Registry closure and from the 19-point promotion gate.
 
 
 ## Secret Broker privileged bridge

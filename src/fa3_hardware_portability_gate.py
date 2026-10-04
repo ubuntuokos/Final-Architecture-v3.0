@@ -39,7 +39,7 @@ CAPABILITY_BINDINGS = (
 
 RUNTIME_PREFIXES = ("src/", "bin/", "apps/", "deployment/", ".github/workflows/")
 NON_NORMATIVE_PREFIXES = ("fa3-current-host/", "evidence/", "canonical/references/", "tests/", "examples/")
-SKIP_TOP_LEVEL = {".git", "reports", "acceptance", "promotion", ".pytest_cache", ".mypy_cache"}
+SKIP_TOP_LEVEL = {".git", "reports", "acceptance", "promotion", ".pytest_cache", ".mypy_cache", ".fa3-current-host"}
 TEXT_SUFFIXES = {
     ".json", ".py", ".md", ".sh", ".yml", ".yaml", ".csv", ".toml", ".ini",
     ".conf", ".service", ".socket", ".target", ".container", ".caddy", ".sql",

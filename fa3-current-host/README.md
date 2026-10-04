@@ -6,7 +6,7 @@ It is **not** a new canonical profile, capability, provider authority, or archit
 
 ## Invariants
 
-- canonical capability count: **143**
+- canonical capability count: **175**
 - new capabilities: **0**
 - new architectural authorities: **0**
 - document-only promotion: **forbidden**
@@ -26,7 +26,7 @@ It is **not** a new canonical profile, capability, provider authority, or archit
 ./bin/fa3-current-host promote
 ```
 
-`verify` checks the current-host projection against the canonical policy, the exact `CAP-001..CAP-143` conformance surface, the 143-record Evidence Registry, registered collectors/gates, and the unified release manifest.
+`verify` checks the current-host projection against the canonical policy, the exact `CAP-001..CAP-175` conformance surface, the 175-record Evidence Registry and 525 positive/negative/rollback obligations, registered collectors/gates, and the unified release manifest.
 
 `collect` runs the existing read-only host fingerprint collector. Successful collection remains `COLLECTED_UNVALIDATED`; it is never converted to `PASS` merely because collection succeeded.
 
@@ -112,4 +112,16 @@ bin/fa3-ffmpeg-ai-current-host.sh \
 ./bin/fa3-enforce ffmpeg-ai-current-host
 ```
 
-Or dispatch `FA3 FFmpeg Neural Media Current-Host E2E` with `execute_current_host=true`. A component PASS remains separate from the 143-capability Evidence Registry closure and the 19-point global promotion gate.
+Or dispatch `FA3 FFmpeg Neural Media Current-Host E2E` with `execute_current_host=true`. A component PASS remains separate from the 175-capability / 525-obligation Evidence Registry closure and the 19-point global promotion gate.
+
+
+## Structural co-development rule
+
+Every FA3 structural behavior change must be evaluated against Current Host in the same development changeset. The fail-closed policy is `FA3-CURRENT-HOST-STRUCTURAL-CHANGE-POLICY-001` and is enforced by `src/fa3_current_host_structural_impact_gate.py`.
+
+A structural change must either:
+
+- provide a `RECONCILED` Current Host impact record with the changed Current Host companion surfaces and an explicit physical requalification requirement; or
+- provide a justified `NO_RUNTIME_IMPACT` record when the change genuinely cannot alter runtime/evidence behavior.
+
+Historical Current Host evidence is immutable and cannot be inherited as proof for a structurally changed active release.

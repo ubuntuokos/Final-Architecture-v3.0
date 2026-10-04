@@ -10,6 +10,7 @@ from fa3_model_artifact_security_current_host_gate import gate as current_host_g
 from fa3_model_artifact_security_gate import _base_receipt, admission_valid
 from fa3_model_artifact_security_runtime import DANGEROUS_EXTENSIONS, SCANNER_IDS
 from fa3_model_manager_security_hook import evaluate
+from fa3_release_baseline import load_active_release_baseline
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -18,7 +19,7 @@ class ModelArtifactSecurityCurrentHostTests(unittest.TestCase):
     def test_runtime_conformance_materialized_without_false_pass(self):
         x = json.loads((ROOT / "canonical/FA3-MODEL-ARTIFACT-SECURITY-RUNTIME-CONFORMANCE-001.json").read_text())
         self.assertEqual("MATERIALIZED_PENDING_REAL_CURRENT_HOST_EXECUTION", x["status"])
-        self.assertEqual(143, x["capability_count"])
+        self.assertEqual(load_active_release_baseline(ROOT).capability_count, x["capability_count"])
         self.assertFalse(x["new_capability"])
         self.assertFalse(x["new_architectural_authority"])
         self.assertTrue(x["production_e2e"]["real_local_model_required"])

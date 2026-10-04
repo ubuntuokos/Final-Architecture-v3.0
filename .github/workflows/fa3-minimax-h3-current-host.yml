@@ -52,7 +52,7 @@ jobs:
       FA3_MINIMAX_H3_E2E_RESOLUTION: 768P
       FA3_MINIMAX_H3_E2E_RATIO: '16:9'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
           fetch-depth: 0
@@ -76,7 +76,7 @@ jobs:
         run: bash bin/fa3-minimax-h3-current-host.sh
       - name: Upload current-host evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: fa3-minimax-h3-current-host-evidence-${{ github.run_id }}
           if-no-files-found: warn

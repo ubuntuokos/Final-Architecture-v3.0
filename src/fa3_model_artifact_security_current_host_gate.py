@@ -8,6 +8,9 @@ from pathlib import Path
 from typing import Any
 
 from fa3_model_artifact_security_gate import admission_valid
+from fa3_release_baseline import module_active_capability_count
+
+ACTIVE_CAPABILITY_COUNT = module_active_capability_count(__file__)
 
 GATE_ID = "FA3-GATE-MODEL-ARTIFACT-SECURITY-CURRENT-HOST-001"
 RECEIPT = "evidence/receipts/model-artifact-security-current-host.json"
@@ -56,7 +59,7 @@ def gate(root: Path) -> dict[str, Any]:
         hook = receipt.get("model_manager_hook", {})
         if not (hook.get("security_state") == "SECURITY_ADMITTED" and hook.get("model_manager_promotion_eligible") is True and hook.get("direct_runtime_store_download_bypass") is False):
             fs.append(finding("MODEL-SEC-HOST-012", "Model Manager security hook failed"))
-        if receipt.get("new_capabilities") != 0 or receipt.get("new_architectural_authorities") != 0 or receipt.get("capability_count_after") != 143:
+        if receipt.get("new_capabilities") != 0 or receipt.get("new_architectural_authorities") != 0 or receipt.get("capability_count_after") != ACTIVE_CAPABILITY_COUNT:
             fs.append(finding("MODEL-SEC-HOST-013", "capability/authority invariant drift"))
     report = {"schema":"fa3.model-artifact-security-current-host-gate-report.v1","gate_id":GATE_ID,"result":"PASS" if not fs else "FAIL","findings":fs,"promotion_effect":"MODEL_SECURITY_RUNTIME_CURRENT_HOST_PRODUCTION_E2E_ONLY_GLOBAL_PROMOTION_SEPARATE"}
     out = root / "reports/model-artifact-security-current-host-gate-report.json"; out.parent.mkdir(parents=True, exist_ok=True); out.write_text(json.dumps(report, indent=2)+"\n", encoding="utf-8")

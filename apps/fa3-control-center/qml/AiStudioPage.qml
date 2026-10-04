@@ -254,6 +254,11 @@ Item {
                                 wrapMode: Text.WordWrap
                             }
 
+                            GenerativeMediaMeshPanel {
+                                Layout.fillWidth: true
+                                visible: ["Image", "Video", "Animation", "Story / Screenplay"].indexOf(root.modules[root.selectedIndex].title) >= 0
+                            }
+
                             Rectangle { Layout.fillWidth: true; height: 1; color: root.border }
                             Label { text: "Elérhető felületek / műveletek"; color: root.textPrimary; font.pixelSize: 13; font.bold: true }
 

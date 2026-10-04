@@ -11,6 +11,8 @@ def task() -> dict:
         "schema": "fa3.agent-workload-task.v1",
         "task_id": "agent-task-1",
         "root_task_id": "agent-task-1",
+        "scope_origin": "REQUIRED_FOR_APPROVED_GOAL",
+        "scope_refs": ["approved:agent-task-1"],
         "action_ref": "orchestration.execute",
         "agent_definition_ref": "agent-def-1",
         "workspace_refs": ["workspace-1"],

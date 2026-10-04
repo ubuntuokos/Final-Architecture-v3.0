@@ -54,6 +54,8 @@ set_source_files_properties(qml/EngineManagerPage.qml PROPERTIES QT_RESOURCE_ALI
 set(FA3_ENGINE_SELECTOR_PANEL_QML "${CMAKE_CURRENT_SOURCE_DIR}/../shared/engine-selector/qml/EngineSelectorPanel.qml")
 set_source_files_properties(${FA3_ENGINE_SELECTOR_PANEL_QML} PROPERTIES QT_RESOURCE_ALIAS EngineSelectorPanel.qml)
 set_source_files_properties(qml/AiStudioPage.qml PROPERTIES QT_RESOURCE_ALIAS AiStudioPage.qml)
+set(FA3_GENERATIVE_MEDIA_MESH_PANEL_QML "${CMAKE_CURRENT_SOURCE_DIR}/../shared/generative-media/qml/GenerativeMediaMeshPanel.qml")
+set_source_files_properties(${FA3_GENERATIVE_MEDIA_MESH_PANEL_QML} PROPERTIES QT_RESOURCE_ALIAS GenerativeMediaMeshPanel.qml)
 set_source_files_properties(qml/SubtitleStudioPage.qml PROPERTIES QT_RESOURCE_ALIAS SubtitleStudioPage.qml)
 set(FA3_VOICE_TRANSFORMATION_PANEL_QML "${CMAKE_CURRENT_SOURCE_DIR}/../shared/voice/qml/VoiceTransformationPanel.qml")
 set_source_files_properties(${FA3_VOICE_TRANSFORMATION_PANEL_QML} PROPERTIES QT_RESOURCE_ALIAS VoiceTransformationPanel.qml)
@@ -101,6 +103,7 @@ qt_add_qml_module(fa3-control-center
         qml/EngineManagerPage.qml
         ${FA3_ENGINE_SELECTOR_PANEL_QML}
         qml/AiStudioPage.qml
+        ${FA3_GENERATIVE_MEDIA_MESH_PANEL_QML}
         qml/SubtitleStudioPage.qml
         qml/NarrationStudioPage.qml
         qml/VoiceStudioPage.qml

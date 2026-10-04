@@ -83,3 +83,23 @@ Actual donor use must be recorded in the existing `FA3-APPLICATION-DONOR-LINKS-0
 For every new or materially modified application, capability, module, profile, provider or shared component, the Reuse Assessment MUST contain a `donor_planning_snapshot` bound to the exact published-main commit and its canonical Donor Registry Git-blob SHA, SHA-256 and entry count. A stale or missing snapshot blocks implementation/finalization and requires reassessment against the new main; do not silently continue from an older green CI result.
 
 The same material Reuse Assessment MUST contain `shared_capability_placement`. If the function can serve multiple FA3 applications, use the shared layer first. A local duplicate is allowed only with explicit reviewed justification and retrospective consumer-impact review. Actual donor adoption requires a canonical usage edge; reference-only research must not create a false adoption edge.
+
+## Current Host structural co-development rule
+
+Every change that modifies FA3 structural behavior must assess and reconcile its Current Host impact in the same development changeset. The canonical policy is `canonical/FA3-CURRENT-HOST-STRUCTURAL-CHANGE-POLICY-001.json`.
+
+- Structural changes to architecture, authority boundaries, orchestration/conductor behavior, runtime/provider admission, resource handling, security, evidence/promotion, licensing/rights, hardware safety, Software Coexistence, UAF/MCP or related governance may not silently omit Current Host work.
+- A structurally affected change must add a `canonical/current-host-impact/*.json` record with schema `fa3.current-host-structural-impact.v1`.
+- Use `RECONCILED` when Current Host surfaces change; list the changed Current Host companion files and explicitly declare whether fresh physical requalification is required.
+- Use `NO_RUNTIME_IMPACT` only with a substantive rationale and `physical_requalification_required=false`.
+- Historical Current Host evidence is immutable and must never be inherited as proof for a structurally changed active release.
+- The fail-closed gate `src/fa3_current_host_structural_impact_gate.py` and workflow `.github/workflows/fa3-current-host-structural-impact.yml` enforce this rule.
+
+
+## FA3 explicit task-scope closure rule (2026-10-04)
+
+FA3 development has no autonomous task class equivalent to **“Mit lehetne még megcsinálni?” / “What else could be done?”**. Do not create optional-improvement, assistant-suggested, opportunistic, auto-backlog or completed-task successor work merely because additional work is conceivable.
+
+A task may enter planning or execution only when its scope provenance is one of: `EXPLICIT_USER_SCOPE`, `REQUIRED_FOR_APPROVED_GOAL`, or an owner-requested `EXPLICIT_USER_SCOPE_EXTENSION` bound to a revised goal. Missing or unknown provenance fails closed. Every executable `fa3.agent-workload-task.v1` must carry the same `scope_origin` and non-empty `scope_refs`; planning layers may not strip this provenance before Agent Workload admission.
+
+Repair work is bounded to the original approved scope and original acceptance-criterion IDs. It may not invent a new criterion, expand scope, or silently create a successor task. When the explicit task is complete, completion is terminal unless the owner explicitly creates or extends the next task. Canonical authority: `FA3-RULE-NO-OPEN-ENDED-TASK-EXPANSION-001`.

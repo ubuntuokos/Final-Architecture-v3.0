@@ -16,6 +16,9 @@ from fa3_decision_fabric import DecisionError, DecisionFabric, ProviderResult, R
 from fa3_system_one_decision_provider import SystemOneDecisionProvider
 from fa3_system_one_mcp_compiler import compile_mcp_tools
 from fa3_system_one_reflex import SystemOneReflexRuntime
+from fa3_release_baseline import module_active_capability_count
+
+ACTIVE_CAPABILITY_COUNT = module_active_capability_count(__file__)
 
 
 class ExpandingProvider:
@@ -263,7 +266,7 @@ def run_gate(root: Path) -> dict[str, Any]:
             "exercised": False,
             "note": "External Jev E2E is a separate provider-admission obligation and is not required for Decision Fabric current-host PASS.",
         },
-        "capability_count": 143,
+        "capability_count": ACTIVE_CAPABILITY_COUNT,
         "authority_delta": 0,
         "physical_current_host": True,
         "global_promotion_claim": False,

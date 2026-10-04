@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 import sys
 
@@ -18,6 +19,7 @@ from fa3_accelerator_guard import (  # noqa: E402
     submit_decision,
 )
 from fa3_accelerator_guard_gate import run_gate  # noqa: E402
+from fa3_release_baseline import load_active_release_baseline  # noqa: E402
 
 
 GIB = 1024 ** 3
@@ -187,3 +189,10 @@ def test_action_plan_never_force_kills_by_default():
 
 def test_canonical_gate():
     assert run_gate(ROOT) == []
+
+
+def test_runtime_conformance_tracks_active_capability_baseline():
+    runtime = json.loads((ROOT / "canonical/FA3-ACCEL-GUARD-RUNTIME-CONFORMANCE-001.json").read_text())
+    assert runtime["capability_count"] == load_active_release_baseline(ROOT).capability_count
+    assert runtime["new_capabilities"] == 0
+    assert runtime["new_architectural_authorities"] == 0
