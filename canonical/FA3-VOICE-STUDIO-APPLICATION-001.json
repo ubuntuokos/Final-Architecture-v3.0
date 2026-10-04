@@ -33,7 +33,8 @@
     "voice.capture.register",
     "voice.fit-to-clip",
     "voice.quick-dub.plan",
-    "quickclip.timeline-handoff"
+    "quickclip.timeline-handoff",
+    "voice.capture.transcribe"
   ],
   "provider_execution": {
     "piper": "CPU_ONLY_CANDIDATE_EXPLICIT_ACK_REQUIRED",
@@ -48,6 +49,7 @@
   "capability_baseline_release": "2026-09-26/v3.1.0",
   "uaf_actions": [
     "voice.speak",
+    "voice.transcribe",
     "voice.profile.put",
     "voice.fit-to-clip",
     "voice.quick-dub.plan"
