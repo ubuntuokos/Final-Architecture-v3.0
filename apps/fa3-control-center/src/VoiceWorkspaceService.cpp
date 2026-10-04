@@ -43,6 +43,7 @@ QVariantMap VoiceWorkspaceService::baseState() const
         {QStringLiteral("application"), QStringLiteral("fa3.voice-studio")},
         {QStringLiteral("actor"), QString()},
         {QStringLiteral("voice_profile_id"), QString()},
+        {QStringLiteral("job_id"), QString()},
         {QStringLiteral("visible"), false}
     };
     return {
@@ -344,6 +345,7 @@ QVariantMap VoiceWorkspaceService::stageGeneration(const QString &text,
         {QStringLiteral("application"), QStringLiteral("fa3.voice-studio")},
         {QStringLiteral("actor"), QString()},
         {QStringLiteral("voice_profile_id"), profileId},
+        {QStringLiteral("job_id"), jobId},
         {QStringLiteral("visible"), true}
     });
     if (!save()) return {};
@@ -493,6 +495,7 @@ QVariantMap VoiceWorkspaceService::acceptProviderResult(const QString &jobId, co
         {QStringLiteral("application"), QStringLiteral("fa3.voice-studio")},
         {QStringLiteral("actor"), QString()},
         {QStringLiteral("voice_profile_id"), request.value(QStringLiteral("voice_identity_ref"))},
+        {QStringLiteral("job_id"), jobId},
         {QStringLiteral("visible"), false}
     });
     if (!save()) return {};
@@ -569,6 +572,7 @@ QVariantMap VoiceWorkspaceService::cancelJob(const QString &jobId, const QString
             {QStringLiteral("application"), QStringLiteral("fa3.voice-studio")},
             {QStringLiteral("actor"), QString()},
             {QStringLiteral("voice_profile_id"), QString()},
+            {QStringLiteral("job_id"), jobId},
             {QStringLiteral("visible"), false}
         });
         save();
