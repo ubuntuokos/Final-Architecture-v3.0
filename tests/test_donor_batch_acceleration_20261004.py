@@ -30,14 +30,14 @@ class DonorBatchAccelerationTests(unittest.TestCase):
 
     def test_exact_backlog_union_and_baseline(self):
         self.assertEqual(self.registry["capability_count"], 175)
-        self.assertEqual(len(self.registry["entries"]), 1525)
-        self.assertEqual(self.registry["backfill"]["entry_count"], 1525)
+        self.assertEqual(len(self.registry["entries"]), 1526)
+        self.assertEqual(self.registry["backfill"]["entry_count"], 1526)
         self.assertEqual(self.manifest["parent_entry_count"], 1427)
-        self.assertEqual(self.manifest["new_source_count"], 98)
-        self.assertEqual(self.manifest["resulting_entry_count"], 1525)
+        self.assertEqual(self.manifest["new_source_count"], 99)
+        self.assertEqual(self.manifest["resulting_entry_count"], 1526)
         self.assertEqual(self.manifest["capability_delta"], 0)
         self.assertEqual(self.manifest["authority_delta"], 0)
-        self.assertEqual(sum(x["contribution"] for x in self.manifest["source_prs"]), 98)
+        self.assertEqual(sum(x["contribution"] for x in self.manifest["source_prs"]), 99)
         self.assertEqual(len(self.manifest["source_prs"]), 17)
 
     def test_materialized_identities_are_unique_and_present(self):
@@ -47,7 +47,7 @@ class DonorBatchAccelerationTests(unittest.TestCase):
         self.assertEqual(len(ids), len(set(ids)))
         self.assertEqual(len(keys), len(set(keys)))
         materialized = self.manifest["materialized"]
-        self.assertEqual(len(materialized), 98)
+        self.assertEqual(len(materialized), 99)
         registry_ids = set(ids)
         registry_keys = set(keys)
         for row in materialized:
@@ -77,6 +77,8 @@ class DonorBatchAccelerationTests(unittest.TestCase):
         self.assertEqual(by_key["github:doitsujin/dxvk"]["status"], "ACCEPTED_REFERENCE")
         self.assertEqual(by_key["github:microsoft/directxtex"]["status"], "ACCEPTED_REFERENCE")
         self.assertEqual(by_key["github:microsoft/directx-headers"]["status"], "ACCEPTED_REFERENCE")
+        self.assertEqual(by_key["github:opencomputeproject/opennetworklinux"]["status"], "ACCEPTED_REFERENCE")
+        self.assertEqual(next(x for x in self.manifest["source_prs"] if x["pr"] == 706)["head"], "dd62e05810f1212a8489f4aa7cb2e033a801766d")
 
     def test_single_writer_batch_policy_is_canonical(self):
         self.assertEqual(MAX_ACTIVE_DONOR_INTAKES, 5)
