@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any
 
 from fa3_permanent_gate_hardening import (
+    current_host_protected_workflows,
     loadj,
     scan_workflow_action_pins,
 )
@@ -97,10 +98,11 @@ def gate(
             }
         )
 
+    protected_workflows = current_host_protected_workflows(
+        candidate_root, config.get("sha_pinned_workflows", [])
+    )
     findings.extend(
-        scan_workflow_action_pins(
-            candidate_root, config.get("sha_pinned_workflows", [])
-        )
+        scan_workflow_action_pins(candidate_root, protected_workflows)
     )
 
     paths = changed_paths(candidate_root, base_sha, head_sha)
