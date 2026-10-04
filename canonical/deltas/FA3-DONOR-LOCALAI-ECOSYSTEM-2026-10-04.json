@@ -1,0 +1,182 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-LOCALAI-ECOSYSTEM-2026-10-04",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "STAGED_PENDING_EXACT_HEAD_GATES",
+  "mode": "APPEND_ONLY_OWNER_EXPLICIT_REFERENCE_INTAKE_WITH_TOPIC_FILTER_ALIAS_COLLAPSE",
+  "parent_main": "9b328ff1582ba92d67562b10336b1ccaf8a8da84",
+  "parent_registry_blob_sha": "1362d75186c6da74e5cf947fdf0b8867d462636a",
+  "parent_entry_count": 1427,
+  "submitted_url_count": 10,
+  "submitted_urls": [
+    "https://github.com/mudler/localai",
+    "https://github.com/topics/local-ai",
+    "https://github.com/topics/local-ai?l=c%2B%2B&o=asc&s=forks",
+    "https://github.com/localai-org",
+    "https://github.com/topics/local-ai?l=go&o=asc&s=updated",
+    "https://github.com/topics/local-ai-agents?l=javascript",
+    "https://github.com/topics/local-ai-models",
+    "https://github.com/topics/localai",
+    "https://github.com/topics/my-local-ai",
+    "https://github.com/topics/self-hosted-ai"
+  ],
+  "duplicate_submission_count": 0,
+  "unique_submitted_url_count": 10,
+  "matched_existing_count": 0,
+  "published_registry_reuse_count": 0,
+  "mutation_submitted_url_count": 10,
+  "canonical_alias_collapse_count": 2,
+  "unique_source_count": 8,
+  "new_source_count": 8,
+  "proposed_entry_count": 1435,
+  "canonical_registry_materialized": false,
+  "waiting_queue_only": true,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "usage_edges_created": 0,
+  "provider_count_policy": "DYNAMIC_UNCHANGED",
+  "approval_ref": "docs/donor-localai-ecosystem-2026-10-04.md",
+  "upstream_observations": {
+    "mudler_localai_default_branch": "master",
+    "mudler_localai_observed_head": "ed4a3975be786682631d700f104255cc8b9000df",
+    "mudler_localai_latest_release": "v4.11.0",
+    "mudler_localai_latest_release_published_at": "2026-10-02T21:56:09Z",
+    "mudler_localai_top_level_license": "MIT"
+  },
+  "requirements": [
+    "Preserve all 10 exact owner-marked submitted URLs in batch provenance.",
+    "Collapse the three local-ai topic views to one github:topics/local-ai canonical identity while preserving each exact submitted URL.",
+    "Treat GitHub topic and organization pages as discovery indexes only; do not recursively admit child repositories.",
+    "Treat mudler/LocalAI as a concrete repository reference only; donor intake does not authorize runtime/provider admission or code/dependency adoption.",
+    "Model Router remains the sole provider/model routing authority and HRB remains the sole local resource/device-placement authority.",
+    "LocalAI automatic GPU/backend detection and automatic backend download behavior must not bypass FA3 manual-selection, display-GPU, Model Manager or Hardware Safety rules.",
+    "If LocalAI is later evaluated as a runtime/provider adapter, unsigned or unhashed backend artifacts must be fail-closed under FA3 supply-chain policy rather than warning-only.",
+    "CPU-only viability remains mandatory; no silent local/cloud, backend, model, provider or device fallback is introduced.",
+    "No automatic fetch, install, code/content copy, dependency adoption, provider/model selection, runtime activation or Current Host claim.",
+    "Fixed capability baseline 175 and dynamic provider-count policy remain unchanged.",
+    "This delta is FIFO waiting only until the rolling five-slot donor gate admits it; pending records are excluded from canonical planning."
+  ],
+  "sources": [
+    [
+      "https://github.com/mudler/localai",
+      "FA3-DONOR-MUDLER-LOCALAI-001"
+    ],
+    [
+      "https://github.com/topics/local-ai",
+      "FA3-DONOR-GITHUB-TOPIC-LOCAL-AI-001"
+    ],
+    [
+      "https://github.com/topics/local-ai?l=c%2B%2B&o=asc&s=forks",
+      "FA3-DONOR-GITHUB-TOPIC-LOCAL-AI-001"
+    ],
+    [
+      "https://github.com/localai-org",
+      "FA3-DONOR-LOCALAI-ORG-001"
+    ],
+    [
+      "https://github.com/topics/local-ai?l=go&o=asc&s=updated",
+      "FA3-DONOR-GITHUB-TOPIC-LOCAL-AI-001"
+    ],
+    [
+      "https://github.com/topics/local-ai-agents?l=javascript",
+      "FA3-DONOR-GITHUB-TOPIC-LOCAL-AI-AGENTS-001"
+    ],
+    [
+      "https://github.com/topics/local-ai-models",
+      "FA3-DONOR-GITHUB-TOPIC-LOCAL-AI-MODELS-001"
+    ],
+    [
+      "https://github.com/topics/localai",
+      "FA3-DONOR-GITHUB-TOPIC-LOCALAI-001"
+    ],
+    [
+      "https://github.com/topics/my-local-ai",
+      "FA3-DONOR-GITHUB-TOPIC-MY-LOCAL-AI-001"
+    ],
+    [
+      "https://github.com/topics/self-hosted-ai",
+      "FA3-DONOR-GITHUB-TOPIC-SELF-HOSTED-AI-001"
+    ]
+  ],
+  "canonical_identities": [
+    {
+      "donor_id": "FA3-DONOR-MUDLER-LOCALAI-001",
+      "normalized_key": "github:mudler/localai",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "LOCAL_AI_RUNTIME_PROVIDER_ARCHITECTURE_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-LOCAL-AI-001",
+      "normalized_key": "github:topics/local-ai",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "DISCOVERY_INDEX"
+    },
+    {
+      "donor_id": "FA3-DONOR-LOCALAI-ORG-001",
+      "normalized_key": "github:localai-org",
+      "kind": "GITHUB_ORGANIZATION",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "DISCOVERY_INDEX"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-LOCAL-AI-AGENTS-001",
+      "normalized_key": "github:topics/local-ai-agents",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "DISCOVERY_INDEX"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-LOCAL-AI-MODELS-001",
+      "normalized_key": "github:topics/local-ai-models",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "DISCOVERY_INDEX"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-LOCALAI-001",
+      "normalized_key": "github:topics/localai",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "DISCOVERY_INDEX"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-MY-LOCAL-AI-001",
+      "normalized_key": "github:topics/my-local-ai",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "DISCOVERY_INDEX"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-SELF-HOSTED-AI-001",
+      "normalized_key": "github:topics/self-hosted-ai",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "DISCOVERY_INDEX"
+    }
+  ],
+  "boundaries": {
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "automatic_code_import": false,
+    "automatic_content_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "automatic_device_selection": false,
+    "child_repository_auto_registration": false,
+    "usage_edge_created": false,
+    "capability_count_change": false,
+    "authority_change": false,
+    "runtime_change": false,
+    "current_host_pass_claimed": false,
+    "canonical_planning_visibility": false
+  },
+  "serialization_scope": "ROLLING_FIVE_SLOT_DONOR_MAINTENANCE",
+  "serialization_order": "FIFO_SLOT_ADMISSION_THEN_ASCENDING_CANONICAL_DONOR_MUTATION_WORKLOAD_WITH_FIFO_TIES",
+  "max_active_donor_intakes": 5,
+  "expected_initial_state": "FIFO_WAITING_BEHIND_PR_672_PR_673_PR_675_PR_676_PR_682"
+}
