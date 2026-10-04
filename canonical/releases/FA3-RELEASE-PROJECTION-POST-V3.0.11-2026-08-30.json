@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "835af62c128a7d40fa557ca38a6a3e1a09e9159b",
-    "pre_projection_root_tree_sha": "348b2822541add2e45de9b7f062103f32c76c6ae",
-    "pre_projection_canonical_tree_sha": "c088cfd38dfce0c536d0bc6c9207a01707ed3611",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2943,
-    "total_post_baseline_commits": 2943,
-    "delta_file_count": 2943,
-    "delta_added_files": 2937,
+    "pre_projection_head_sha": "41f8a7ce819680f153d3569c42e83a5a124da752",
+    "pre_projection_root_tree_sha": "dca6a9f1a6b541727513d1f4bce5008f8b81ecff",
+    "pre_projection_canonical_tree_sha": "7d9e974bd1ccbe01199f12db63cd7167cb501fcf",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2977,
+    "total_post_baseline_commits": 2977,
+    "delta_file_count": 2966,
+    "delta_added_files": 2960,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,10 +46,10 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1371,
+    "canonical_files_in_post_baseline_delta": 1379,
     "evidence_files_in_post_baseline_delta": 172,
     "source_files_in_post_baseline_delta": 377,
-    "test_files_in_post_baseline_delta": 349,
+    "test_files_in_post_baseline_delta": 354,
     "workflow_files_in_post_baseline_delta": 143,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -655,6 +655,7 @@
       "canonical/decisions/FA3-DEC-VAULTWARDEN-HARDENING-2026-09-12.json",
       "canonical/decisions/FA3-DEC-VIDEO-H3-2026-08-30.json",
       "canonical/decisions/FA3-DEC-VOICE-SYNTHESIS-PORTFOLIO-2026-09-01.json",
+      "canonical/decisions/FA3-DEC-VOICE-TRANSFORMATION-REFERENCE-PLAN-2026-10-03.json",
       "canonical/decisions/FA3-DEC-WHISPER-STT-MATERIALIZATION-2026-08-30.json",
       "canonical/decisions/FA3-DEC-WORK-MANAGEMENT-GUI-2026-09-17.json",
       "canonical/decisions/FA3-DEC-WORKLOAD-MODE-MANDATORY-2026-10-02.json",
@@ -1067,7 +1068,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2933,
+  "manifest_entry_count": 2956,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1876,7 +1877,7 @@
     },
     {
       "path": "apps/fa3-control-center/CMakeLists.txt",
-      "git_blob_sha": "ab587ee2d28e8f88547da1de604bf32bdfca876d",
+      "git_blob_sha": "944ed33cded11934de31d669096777fc80fc8160",
       "baseline_delta_status": "added"
     },
     {
@@ -1976,7 +1977,7 @@
     },
     {
       "path": "apps/fa3-control-center/qml/Main.qml",
-      "git_blob_sha": "a2453a049414638fba762660856dc5576e65008d",
+      "git_blob_sha": "11ecbe95660a2ee3e8239b8548b3651d081ec88b",
       "baseline_delta_status": "added"
     },
     {
@@ -1991,7 +1992,7 @@
     },
     {
       "path": "apps/fa3-control-center/qml/NarrationStudioPage.qml",
-      "git_blob_sha": "10df680c9492afcd55f0371b5853daf67e5a30fc",
+      "git_blob_sha": "addf2cd38ae7321f51b9e67785658ee52b2b3496",
       "baseline_delta_status": "added"
     },
     {
@@ -2012,6 +2013,11 @@
     {
       "path": "apps/fa3-control-center/qml/ProviderExplorerView.qml",
       "git_blob_sha": "eb1c0d5ff44d8236c020b2e3f33c20fd2f55ec7b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/qml/QuickVoicePluginPage.qml",
+      "git_blob_sha": "a1b8f9997539d39c01229e23c30af7365d2d307f",
       "baseline_delta_status": "added"
     },
     {
@@ -2047,6 +2053,16 @@
     {
       "path": "apps/fa3-control-center/qml/UpdateCenterPage.qml",
       "git_blob_sha": "d8983750f619140cccc08a9dcdbf97c46e1070cd",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/qml/VoiceActivityOverlay.qml",
+      "git_blob_sha": "07f073ca62e9d5c5ce98cc6b80e4f431223b475a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/qml/VoiceStudioPage.qml",
+      "git_blob_sha": "6998fcc393b793b0f6022b336274ed4989fb233a",
       "baseline_delta_status": "added"
     },
     {
@@ -2222,6 +2238,11 @@
     {
       "path": "apps/shared/engine-selector/qml/EngineSelectorPanel.qml",
       "git_blob_sha": "1ba4c9134baecdf4ee46cee347b46cee59a006b7",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/shared/voice/qml/VoiceTransformationPanel.qml",
+      "git_blob_sha": "665f3955c7295e29cbd16790203474bde7fd2507",
       "baseline_delta_status": "added"
     },
     {
@@ -2911,7 +2932,7 @@
     },
     {
       "path": "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
-      "git_blob_sha": "27c93b6b63694129e13de8c4cdb0ecd3a6b844c6",
+      "git_blob_sha": "a2ad72d4fbf53d718a596c344b1a7f90843a2735",
       "baseline_delta_status": "added"
     },
     {
@@ -3031,7 +3052,7 @@
     },
     {
       "path": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
-      "git_blob_sha": "6ca92f89dba92910b202d51e607b68cfee0cb488",
+      "git_blob_sha": "1362d75186c6da74e5cf947fdf0b8867d462636a",
       "baseline_delta_status": "added"
     },
     {
@@ -4781,7 +4802,7 @@
     },
     {
       "path": "canonical/assessments/FA3-STEP-CA-CURRENT-HOST-REUSE-ASSESSMENT-001.json",
-      "git_blob_sha": "23b7a65aa7b57b4c54a827febef8c5647882ae1e",
+      "git_blob_sha": "c6ac24fcf0d6e565392851475a1c6f9ad09d6964",
       "baseline_delta_status": "added"
     },
     {
@@ -4802,6 +4823,16 @@
     {
       "path": "canonical/assessments/FA3-TERAX-REUSE-ASSESSMENT-2026-09-28.json",
       "git_blob_sha": "e5418b42f023085fcdfb7c1e9f110f88cd0f440d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/assessments/FA3-VOICE-QUICKCLIP-REUSE-ASSESSMENT-2026-10-04.json",
+      "git_blob_sha": "1aaa25f94b9961bc12666d60bb80246c79c9d6ff",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/assessments/FA3-VOICE-TRANSFORMATION-GIST-REUSE-ASSESSMENT-2026-10-03.json",
+      "git_blob_sha": "be3130f25fe99b79ad968c46af680c855e8cec0f",
       "baseline_delta_status": "added"
     },
     {
@@ -5761,7 +5792,7 @@
     },
     {
       "path": "canonical/contracts/FA3-VOICE-CONTRACTS-001.json",
-      "git_blob_sha": "714203d69a4a6525d23e8dc665bdd1e296a60c0d",
+      "git_blob_sha": "cfe641f3929d8b09e649b1735eec6be256cc490e",
       "baseline_delta_status": "added"
     },
     {
@@ -6730,6 +6761,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-VOICE-TRANSFORMATION-REFERENCE-PLAN-2026-10-03.json",
+      "git_blob_sha": "9d84b3ec872db2603795e47b4c1577350235350c",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-WHISPER-STT-MATERIALIZATION-2026-08-30.json",
       "git_blob_sha": "665a958e5f13b74e9720d174ad2058520b32f9ff",
       "baseline_delta_status": "added"
@@ -6830,8 +6866,18 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/deltas/FA3-DONOR-HIDREAM-AI-ORG-2026-10-03.json",
+      "git_blob_sha": "b514045a9a3a913bdaaef3250b7d0a812d8bedd9",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/deltas/FA3-DONOR-LITELLM-H2O-LOCAL-LLM-SOURCES-2026-10-02.json",
       "git_blob_sha": "05ac73685db38b84c549e763b5151bbe88a291ae",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/deltas/FA3-DONOR-MAGGI-CHEN-INSPECTOR-2026-10-03.json",
+      "git_blob_sha": "5ab55d05e6dce3aadd0c62d65008e228f57e163e",
       "baseline_delta_status": "added"
     },
     {
@@ -6885,8 +6931,18 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/deltas/FA3-DONOR-SUPERCOOL-ORG-2026-10-03.json",
+      "git_blob_sha": "5c44ec35b6122c62dbcc38089c46edca446aa9b5",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/deltas/FA3-DONOR-TEXTURE-MATERIAL-LTX-2026-10-01.json",
       "git_blob_sha": "c40ccd6e9b6d4818b89b543fab214bfc69283c88",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/deltas/FA3-DONOR-TOBYFLOW-2026-10-03.json",
+      "git_blob_sha": "1971c144a849d906cee05f7a8ca2f3e733fcb5ef",
       "baseline_delta_status": "added"
     },
     {
@@ -7312,6 +7368,11 @@
     {
       "path": "canonical/intents/FA3-TERAX-APPLICATION-INTENT-2026-09-28.json",
       "git_blob_sha": "2950ac07fbab9c0f6211511ee83d27d4c32ea086",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/intents/FA3-VOICE-TRANSFORMATION-APPLICATION-INTENT-2026-10-03.json",
+      "git_blob_sha": "9eadd04495d980dee9e0d97a0014faeea5aa9124",
       "baseline_delta_status": "added"
     },
     {
@@ -8211,7 +8272,7 @@
     },
     {
       "path": "canonical/profiles/FA3-VOICE-001.json",
-      "git_blob_sha": "70d4ae376a24ad10c9a49518bb7c24e06031c94c",
+      "git_blob_sha": "a8f704972e702123e42b24bbf1bbf5587058ea0f",
       "baseline_delta_status": "added"
     },
     {
@@ -9701,7 +9762,7 @@
     },
     {
       "path": "canonical/voice-synthesis-enforcement.json",
-      "git_blob_sha": "ed42a10c414ad03ad68687825d3ea63316575d6c",
+      "git_blob_sha": "d12d89bedce520c8e80b8203dd17b14c8f4b5918",
       "baseline_delta_status": "added"
     },
     {
@@ -10330,6 +10391,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/donor-hidream-ai-org-2026-10-03.md",
+      "git_blob_sha": "b90fa40ad7d947a2f8c1e32fa4d28062f60f192c",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/donor-historical-selective-review.md",
       "git_blob_sha": "896daf2ed30a990fa9580f6f4093f06a80bcb8f2",
       "baseline_delta_status": "added"
@@ -10357,6 +10423,11 @@
     {
       "path": "docs/donor-litellm-h2o-local-llm-sources-2026-10-02.md",
       "git_blob_sha": "d1b81fd06db6ac628807f08ed83a4d3494ecb2bd",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/donor-maggi-chen-inspector-2026-10-03.md",
+      "git_blob_sha": "f04649fa66e4a0748c30509dac7f2bb8e75d8bce",
       "baseline_delta_status": "added"
     },
     {
@@ -10505,8 +10576,18 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/donor-supercool-org-2026-10-03.md",
+      "git_blob_sha": "ae9c2a44bdc35436d8a299e7911abb8ce3ea2713",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/donor-texture-material-curation-2026-10-01.md",
       "git_blob_sha": "64c223b83e5b4567c633d28870dc329b24e003d2",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/donor-tobyflow-2026-10-03.md",
+      "git_blob_sha": "5254c61d4743993711afcf0017b17f5c8201092c",
       "baseline_delta_status": "added"
     },
     {
@@ -10855,6 +10936,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/shared-voice-quickclip-final-plan-2026-10-04.md",
+      "git_blob_sha": "98a9082d13f0a17b6facaca4ac10582beb7fe06e",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/sillytavern-kde-integration.md",
       "git_blob_sha": "b63c034cc5f1a2225b39b91f46b98533a28d9ba1",
       "baseline_delta_status": "added"
@@ -10907,6 +10993,11 @@
     {
       "path": "docs/vision-complementary-donor-curation-2026-09-28.md",
       "git_blob_sha": "592df350d735560c541d32a696fd6d12fb00771a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/voice-transformation-reference-plan-2026-10-03.md",
+      "git_blob_sha": "b2e0f478d44920fecef842f614b443a505b990c3",
       "baseline_delta_status": "added"
     },
     {
@@ -12791,7 +12882,7 @@
     },
     {
       "path": "src/fa3_gui_gate.py",
-      "git_blob_sha": "e00658a2e8639d61caef81be636638434360c474",
+      "git_blob_sha": "2ce09b671b77735e99f9b46498eb160ee3d2acf3",
       "baseline_delta_status": "added"
     },
     {
@@ -13861,7 +13952,7 @@
     },
     {
       "path": "src/fa3_voice_synthesis_gate.py",
-      "git_blob_sha": "ecac65aff4388e657a87ed27959606987fc20ab8",
+      "git_blob_sha": "daa9c1de93605e7f2ff830a982fb9f97371fa5ae",
       "baseline_delta_status": "added"
     },
     {
@@ -14490,6 +14581,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_donor_hidream_ai_org_20261003.py",
+      "git_blob_sha": "37ee41cd52854bef35bc0b5d30d690efd11ca987",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_donor_historical_partial_reuse.py",
       "git_blob_sha": "2d01e7042eca4994c972302540962fe80f87380b",
       "baseline_delta_status": "added"
@@ -14512,6 +14608,11 @@
     {
       "path": "tests/test_donor_litellm_h2o_local_llm_sources_20261002.py",
       "git_blob_sha": "c1abfe3414e9db01eb3afd53d3674451fa3de17d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_donor_maggi_chen_inspector_20261003.py",
+      "git_blob_sha": "7802386d166775a4b25968a902072561f153873a",
       "baseline_delta_status": "added"
     },
     {
@@ -14577,6 +14678,16 @@
     {
       "path": "tests/test_donor_registry_identity_uniqueness.py",
       "git_blob_sha": "abd16e031cba66a40f2127a6e86dc2cfe1dcbc55",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_donor_supercool_org_20261003.py",
+      "git_blob_sha": "057233922c2a2488fd48a8c09a0c743dc195e6e4",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_donor_tobyflow_20261003.py",
+      "git_blob_sha": "17c07b6fd1b9832306796f2e38549469f804817c",
       "baseline_delta_status": "added"
     },
     {
@@ -15606,7 +15717,12 @@
     },
     {
       "path": "tests/test_voice_synthesis_gate.py",
-      "git_blob_sha": "692fa2edc15fd78870cbc3f24fe97879a93af322",
+      "git_blob_sha": "8f216df46af76c52b523fe5f09029391311da6f5",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_voice_transformation_reference_plan_20261003.py",
+      "git_blob_sha": "abd32210aac289aeb240dca25325f9d1d4849b25",
       "baseline_delta_status": "added"
     },
     {
@@ -15940,7 +16056,7 @@
     "new_architectural_authorities": 0,
     "capability_count_after": 175
   },
-  "last_reconciled_at": "2026-10-03",
+  "last_reconciled_at": "2026-10-04",
   "inference_portability_reconciliation": {
     "profile_id": "FA3-INFERENCE-PORTABILITY-001",
     "contract_id": "FA3-INFERENCE-PORTABILITY-CONTRACTS-001",
@@ -17452,7 +17568,7 @@
     "reconciliation_status": "CANONICAL_REUSE_DISCOVERY_STATIC_MATERIALIZED_RUNTIME_PROMOTION_NOT_APPLICABLE",
     "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
     "donor_registry_decision_id": "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28",
-    "donor_registry_entry_count": 1423,
+    "donor_registry_entry_count": 1427,
     "donor_rejection_audit_id": "FA3-DONOR-REJECTION-AUDIT-001",
     "donor_rejection_audit_count": 1,
     "donor_lifecycle_decision_id": "FA3-DEC-DONOR-LIFECYCLE-APPLICATION-SYNC-2026-09-30",
