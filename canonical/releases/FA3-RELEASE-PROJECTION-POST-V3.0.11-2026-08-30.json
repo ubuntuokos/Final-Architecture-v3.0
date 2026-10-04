@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "eece0da4f8fa3d78f76a4c8383a1387e7417dab3",
-    "pre_projection_root_tree_sha": "da1ed0f69cee32f969887ec18a060ea9903a6f33",
-    "pre_projection_canonical_tree_sha": "847bd25d6c892ea807bde32f13a0ced0591676ec",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2829,
-    "total_post_baseline_commits": 2829,
-    "delta_file_count": 2931,
-    "delta_added_files": 2925,
+    "pre_projection_head_sha": "ba8bf89adb1c20175e083272151d20f876a7825e",
+    "pre_projection_root_tree_sha": "c3f9356a2a2df0ad6d5bee01802f0f878738aff6",
+    "pre_projection_canonical_tree_sha": "021413647f37b01de52f0296ef1e2d358f9a3059",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2859,
+    "total_post_baseline_commits": 2859,
+    "delta_file_count": 2941,
+    "delta_added_files": 2935,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,10 +46,10 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1368,
+    "canonical_files_in_post_baseline_delta": 1374,
     "evidence_files_in_post_baseline_delta": 172,
-    "source_files_in_post_baseline_delta": 368,
-    "test_files_in_post_baseline_delta": 346,
+    "source_files_in_post_baseline_delta": 369,
+    "test_files_in_post_baseline_delta": 347,
     "workflow_files_in_post_baseline_delta": 138,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -227,6 +227,7 @@
       "canonical/profiles/FA3-EXTERNAL-API-DISCOVERY-001.json",
       "canonical/profiles/FA3-EXTERNAL-LLM-CATALOG-001.json",
       "canonical/profiles/FA3-EXTERNAL-PROJECT-RADAR-001.json",
+      "canonical/profiles/FA3-GENERATIVE-MEDIA-MESH-001.json",
       "canonical/profiles/FA3-GPU-KERNEL-RUNTIME-001.json",
       "canonical/profiles/FA3-HARDWARE-BASELINE-001.json",
       "canonical/profiles/FA3-HIERARCHICAL-HYBRID-RETRIEVAL-001.json",
@@ -364,6 +365,7 @@
       "canonical/contracts/FA3-EXECUTION-NETWORK-ENVELOPE-001.schema.json",
       "canonical/contracts/FA3-EXTERNAL-API-DISCOVERY-CONTRACTS-001.json",
       "canonical/contracts/FA3-EXTERNAL-LLM-CATALOG-CONTRACTS-001.json",
+      "canonical/contracts/FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001.json",
       "canonical/contracts/FA3-GENERATIVE-PIPELINE-MULTIVIEW-CONTRACTS-001.json",
       "canonical/contracts/FA3-GEOMETRY-CONTRACTS-001.json",
       "canonical/contracts/FA3-GOAL-EXECUTION-CONTRACTS-001.schema.json",
@@ -540,6 +542,7 @@
       "canonical/decisions/FA3-DEC-GUI-RECONCILIATION-JEV-AGENT-NATIVE-2026-09-23.json",
       "canonical/decisions/FA3-DEC-HARDWARE-AUDIT-2026-09-20.json",
       "canonical/decisions/FA3-DEC-HARDWARE-SAFETY-2026-09-26.json",
+      "canonical/decisions/FA3-DEC-HIDREAM-GENERATIVE-MEDIA-MESH-2026-10-04.json",
       "canonical/decisions/FA3-DEC-HOST-ADAPTATION-2026-09-27.json",
       "canonical/decisions/FA3-DEC-HOST-BOOTSTRAP-ADMISSION-ORCHESTRATOR-2026-09-15.json",
       "canonical/decisions/FA3-DEC-HRB-DETERMINISTIC-LOCALITY-2026-09-02.json",
@@ -1068,7 +1071,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2921,
+  "manifest_entry_count": 2931,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1852,7 +1855,7 @@
     },
     {
       "path": "apps/fa3-control-center/CMakeLists.txt",
-      "git_blob_sha": "944ed33cded11934de31d669096777fc80fc8160",
+      "git_blob_sha": "4e0eabb701691fc55e77a3c9dc93b70217cbdc44",
       "baseline_delta_status": "added"
     },
     {
@@ -1877,7 +1880,7 @@
     },
     {
       "path": "apps/fa3-control-center/qml/AiStudioPage.qml",
-      "git_blob_sha": "298e4a4837be6a618857dc13fc07e5ae50ef9515",
+      "git_blob_sha": "7a7e094dbebbdb034f89f433772d3842bd5b1be7",
       "baseline_delta_status": "added"
     },
     {
@@ -2213,6 +2216,11 @@
     {
       "path": "apps/shared/engine-selector/qml/EngineSelectorPanel.qml",
       "git_blob_sha": "1ba4c9134baecdf4ee46cee347b46cee59a006b7",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/shared/generative-media/qml/GenerativeMediaMeshPanel.qml",
+      "git_blob_sha": "33459c82276058352a1e0542ea0a0587a56e5d01",
       "baseline_delta_status": "added"
     },
     {
@@ -2902,7 +2910,7 @@
     },
     {
       "path": "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
-      "git_blob_sha": "a2ad72d4fbf53d718a596c344b1a7f90843a2735",
+      "git_blob_sha": "24151b8894694647a0b32b20aef6b3235d069918",
       "baseline_delta_status": "added"
     },
     {
@@ -3612,12 +3620,12 @@
     },
     {
       "path": "canonical/FA3-GUI-RUNTIME-CONFORMANCE-001.json",
-      "git_blob_sha": "b49e59e0615835084e2878f7041884a649b4f639",
+      "git_blob_sha": "3e886de416d1fd98d7429050eb88706dfcb74e3b",
       "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-GUI-SURFACE-REGISTRY-001.json",
-      "git_blob_sha": "ee56e113002a60d92625b938357155e29c4ad027",
+      "git_blob_sha": "dd7f718bb05360b606a6be5b6198212f31c16dc4",
       "baseline_delta_status": "added"
     },
     {
@@ -4546,6 +4554,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/FA3-GENERATIVE-MEDIA-MESH-DECISION-ASSESSMENT-2026-10-04.json",
+      "git_blob_sha": "7cdc687b96af22bea6c26e78e18f3e651222e8f9",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/assessments/FA3-GOAL-EXECUTION-REUSE-ASSESSMENT-2026-09-28.json",
       "git_blob_sha": "f17f9d686a6bcc8e3a7539b781696c01f1bdac77",
       "baseline_delta_status": "added"
@@ -4563,6 +4576,11 @@
     {
       "path": "canonical/assessments/FA3-HARDWARE-SAFETY-REUSE-ASSESSMENT-001.json",
       "git_blob_sha": "cef43cb1f48046943592b08c8cfeedd2a3bee9aa",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/assessments/FA3-HIDREAM-GENERATIVE-MEDIA-MESH-REUSE-ASSESSMENT-2026-10-04.json",
+      "git_blob_sha": "c429557ee6824eef3e23e90c5d082b60b41bb8c4",
       "baseline_delta_status": "added"
     },
     {
@@ -5188,6 +5206,11 @@
     {
       "path": "canonical/contracts/FA3-EXTERNAL-LLM-CATALOG-CONTRACTS-001.json",
       "git_blob_sha": "c379c53491c5a24f36dd040848df9b66df7b4edb",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001.json",
+      "git_blob_sha": "b7daef4ebba59d24333894173691ed5a3bad4717",
       "baseline_delta_status": "added"
     },
     {
@@ -6123,6 +6146,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-HARDWARE-SAFETY-2026-09-26.json",
       "git_blob_sha": "605d95bb5b95811b1b58ecd8e4ff823ab331d69c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-HIDREAM-GENERATIVE-MEDIA-MESH-2026-10-04.json",
+      "git_blob_sha": "d52fac6988249822fe22288ae994c9098299d823",
       "baseline_delta_status": "added"
     },
     {
@@ -7176,6 +7204,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/intents/FA3-HIDREAM-GENERATIVE-MEDIA-MESH-APPLICATION-INTENT-2026-10-04.json",
+      "git_blob_sha": "5052f4d31ecf26dba511505f7b3e29c08ecae56c",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/intents/FA3-HOST-ADAPTATION-APPLICATION-INTENT-001.json",
       "git_blob_sha": "011f37a747c824b9b8fb40bd5f1f96c1bea55b73",
       "baseline_delta_status": "added"
@@ -7848,6 +7881,11 @@
     {
       "path": "canonical/profiles/FA3-EXTERNAL-PROJECT-RADAR-001.json",
       "git_blob_sha": "d265e0e83e8ac2fe9105db6fd2ac745c3ef2f9d7",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-GENERATIVE-MEDIA-MESH-001.json",
+      "git_blob_sha": "60f0f905b158f55bab80353c64a4c18df94a6ea6",
       "baseline_delta_status": "added"
     },
     {
@@ -10581,6 +10619,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/hidream-generative-media-mesh-final-2026-10-04.md",
+      "git_blob_sha": "5d3eb149fcd751dcd8b196044f842ddf94f6705e",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/host-adaptation.md",
       "git_blob_sha": "a8a87cfafb1b35fb5698da6cde6f078f665f9cf4",
       "baseline_delta_status": "added"
@@ -11822,7 +11865,7 @@
     },
     {
       "path": "fa3-current-host/manifest.json",
-      "git_blob_sha": "21ff1c8e2ba0e747ce83e59ff9b6983ef2428887",
+      "git_blob_sha": "c7eeb1c3675829c96b459f9d90ea7f164196e28d",
       "baseline_delta_status": "added"
     },
     {
@@ -12691,6 +12734,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_generative_media_mesh_gate.py",
+      "git_blob_sha": "e38e2680e8a446e4a8850fce0a4c827339d57a16",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_goal_execution.py",
       "git_blob_sha": "a1ceb32a173610c539e5be8eb4f375dacb73eff4",
       "baseline_delta_status": "added"
@@ -12742,7 +12790,7 @@
     },
     {
       "path": "src/fa3_gui_current_host.py",
-      "git_blob_sha": "a1ff4f5fb6dfbf2b9b9aec808fef239ab1397e8f",
+      "git_blob_sha": "bab19d9c65aadba0b32c1cfb9943c93ccf40fcee",
       "baseline_delta_status": "added"
     },
     {
@@ -12752,7 +12800,7 @@
     },
     {
       "path": "src/fa3_gui_gate.py",
-      "git_blob_sha": "2ce09b671b77735e99f9b46498eb160ee3d2acf3",
+      "git_blob_sha": "23bbacef4fc49dbee3f0092759f40b6c776c4558",
       "baseline_delta_status": "added"
     },
     {
@@ -14623,6 +14671,11 @@
     {
       "path": "tests/test_full_current_host_preflight.py",
       "git_blob_sha": "8778952aebbdb0419d9cec7cbe912e0b540c665c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_generative_media_mesh_20261004.py",
+      "git_blob_sha": "f8b7deb1dfcee28ebdb0c2239feca00adc91e119",
       "baseline_delta_status": "added"
     },
     {
