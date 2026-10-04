@@ -2,7 +2,7 @@
   "schema": "fa3.current-host-structural-impact.v1",
   "id": "FA3-CH-IMPACT-SCALE-CUDA-COMPAT-20261004",
   "date": "2026-10-04",
-  "status": "RUNTIME_PATH_ADDED_NOT_PROMOTED",
+  "status": "RECONCILED",
   "subject_id": "FA3-PROVIDER-SCALE-CUDA-COMPAT-001",
   "capability_count": 175,
   "capability_delta": 0,
@@ -30,6 +30,17 @@
     "NO_SILENT_FALLBACK"
   ],
   "historical_evidence_reused": false,
-  "current_host_changes": [],
-  "rationale": "The change adds an executable read-only discovery path and a conditional SCALE translation backend descriptor. No SCALE package, driver, service, daemon or runtime is installed or activated, and no physical execution PASS is claimed. Promotion therefore remains blocked until non-simulated Current Host or target-host qualification is available."
+  "current_host_changes": [
+    "canonical/FA3-SCALE-CUDA-COMPAT-CURRENT-HOST-CONFORMANCE-001.json"
+  ],
+  "rationale": "The changeset adds an executable read-only SCALE discovery path and a conditional AMD translation backend descriptor. Structural Current Host alignment is co-developed through FA3-SCALE-CUDA-COMPAT-CURRENT-HOST-CONFORMANCE-001, but no previous, synthetic or simulated evidence is reused. Fresh exact-head positive, negative and rollback execution on a supported physical AMD GPU is required before runtime promotion. No SCALE installation, driver mutation, service/daemon activation or physical PASS is claimed.",
+  "structural_changes": [
+    ".github/workflows/fa3-scale-cuda-compat.yml",
+    "canonical/contracts/FA3-SCALE-CUDA-COMPAT-CONTRACTS-001.json",
+    "canonical/providers/FA3-PROVIDER-SCALE-CUDA-COMPAT-001.json",
+    "src/fa3_scale_backend_gate.py"
+  ],
+  "current_host_status": "PENDING_FRESH_PHYSICAL_CURRENT_HOST_REQUALIFICATION",
+  "runtime_promotion_claim": false,
+  "global_promotion_claim": false
 }
