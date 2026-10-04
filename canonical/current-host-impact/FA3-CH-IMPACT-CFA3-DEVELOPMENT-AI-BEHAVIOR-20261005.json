@@ -1,0 +1,21 @@
+{
+  "schema": "fa3.current-host-structural-impact.v1",
+  "id": "FA3-CH-IMPACT-CFA3-DEVELOPMENT-AI-BEHAVIOR-20261005",
+  "date": "2026-10-05",
+  "status": "NO_RUNTIME_IMPACT",
+  "capability_count": 175,
+  "structural_changes": [
+    "canonical/CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001.json",
+    "canonical/decisions/CFA3-DEC-DEVELOPMENT-AI-BEHAVIOR-LAYERING-2026-10-05.json",
+    "canonical/FA3-GATE-CFA3-DEVELOPMENT-AI-BEHAVIOR-001.json",
+    "src/cfa3_development_ai_behavior_guard.py",
+    "src/cfa3_development_ai_behavior_gate.py",
+    "tests/test_cfa3_development_ai_behavior.py"
+  ],
+  "current_host_changes": [],
+  "physical_requalification_required": false,
+  "historical_evidence_reused": false,
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "rationale": "This materialization defines a cross-cutting development and AI/agent behavior preflight policy, a shared fail-closed decision helper, a static canonical gate and tests. It does not activate a new provider, model, daemon, scheduler, hardware path, resource lease, service, port, credential flow, driver, package, Current Host collector, or runtime promotion. Existing orchestration, security, Model Router, HRB and Evidence authorities remain unchanged. Runtime consumers may call the shared preflight, but this changes policy semantics rather than host topology or physical execution eligibility."
+}
