@@ -24,12 +24,12 @@ Five URL aliases collapse without losing provenance:
 - two `topics/ray-tracer` URLs -> `github:topics/ray-tracer`;
 - the Level Zero ray-tracing releases page and repository root -> `github:intel/level-zero-raytracing-support`.
 
-Two normalized identities are already present on published main and are therefore **reused, not duplicated**:
+Two normalized identities are already present on published main and are therefore **reconciled in place, not duplicated**. Because the owner has now explicitly marked them `donornak`, their existing records are to be promoted or preserved as `ACCEPTED_REFERENCE` when this intake is materialized:
 
 - `github:gpuopen-librariesandsdks`;
 - `github:intel/intel-graphics-compiler`.
 
-Result: **22 new staged identities**, parent-relative proposed count **1449** once this intake eventually receives a slot and is reconciled.
+Result: **22 new staged identities + 2 in-place existing-identity reconciliations**, parent-relative proposed count **1449** once this intake is materialized.
 
 ## Source families
 
