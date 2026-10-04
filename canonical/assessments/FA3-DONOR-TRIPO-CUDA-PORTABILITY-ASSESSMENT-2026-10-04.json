@@ -1,0 +1,181 @@
+{
+  "schema": "fa3.donor-hardware-portability-assessment.v1",
+  "id": "FA3-DONOR-TRIPO-CUDA-PORTABILITY-ASSESSMENT-2026-10-04",
+  "date": "2026-10-04",
+  "status": "REFERENCE_ONLY_NO_RUNTIME_ADMISSION",
+  "policy_id": "FA3-CUDA-PORTABILITY-SHARED-FUNCTION-POLICY-001",
+  "published_main_commit": "b5052f6595a3fdad84ed7a06e6276f8af5a8dcd8",
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "shared_placement": {
+    "profile_id": "FA3-GENERATIVE-MEDIA-MESH-001",
+    "contract_id": "FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001",
+    "functional_core": "SHARED_LAYER_ONLY",
+    "application_local_allowed": [
+      "UI_INTEGRATION",
+      "WORKFLOW_ADAPTER",
+      "APPLICATION_CONTEXT",
+      "PRESENTATION",
+      "LIMITATION_DISCLOSURE"
+    ],
+    "application_local_accelerator_core": "FORBIDDEN"
+  },
+  "no_silent_fallback": true,
+  "runtime_admission": false,
+  "provider_admission": false,
+  "model_admission": false,
+  "usage_edges_created": 0,
+  "pending_reference_boundary": {
+    "cross_vendor_donor_pr": 699,
+    "cross_vendor_donor_branch": "fa3/intel-cuda-five-depth-donors-20261004",
+    "consumed": false,
+    "reason": "Pending/unmerged donor records may inform provenance tracking but are not consumed for canonical planning or runtime admission."
+  },
+  "sources_reviewed": [
+    {
+      "donor_id": "FA3-DONOR-VAST-AI-RESEARCH-TRIPO-3D-FOR-BLENDER-001",
+      "classification": "REMOTE_PROVIDER_CLIENT_NOT_LOCAL_CUDA_CORE",
+      "strongly_cuda_oriented": false,
+      "evidence": [
+        "Upstream README requires Blender, Internet access and a Tripo API key.",
+        "Generation is performed by the remote Tripo service; the Blender extension is a client/import workflow."
+      ],
+      "placement": "SHARED_PROVIDER_ADAPTER_IF_MATERIALIZED"
+    },
+    {
+      "donor_id": "FA3-DONOR-M4RIO-TRELLIS-TRIPO-3D-001",
+      "classification": "STRONGLY_CUDA_ORIENTED",
+      "strongly_cuda_oriented": true,
+      "evidence": [
+        "Upstream README requires an NVIDIA GPU with at least 16 GB and CUDA Toolkit for the reviewed default path.",
+        "The reviewed setup script has HIP/ROCm handling for PyTorch, xFormers and ROCm FlashAttention on gfx942/MI300.",
+        "The reviewed setup script keeps Kaolin, nvdiffrast, diffoctreerast, mip-splatting rasterization, vox2seq and spconv on CUDA-only install branches."
+      ],
+      "targets": [
+        {
+          "target": "NVIDIA_CUDA",
+          "result": "FULL_EQUIVALENCE",
+          "condition": "Within the upstream-supported NVIDIA/CUDA/VRAM envelope and after normal FA3 admission.",
+          "limitations": []
+        },
+        {
+          "target": "AMD_ROCM",
+          "result": "UNAVAILABLE",
+          "scope": "END_TO_END_TRELLIS_PIPELINE_CURRENT_UPSTREAM",
+          "partial_components": [
+            "PYTORCH_ROCM",
+            "XFORMERS_ROCM",
+            "FLASH_ATTENTION_ROCM_GFX942_MI300_PATH"
+          ],
+          "blocked_components": [
+            "KAOLIN",
+            "NVDIFFRAST",
+            "DIFFOCTREERAST",
+            "MIP_GAUSSIAN_RASTERIZATION",
+            "VOX2SEQ",
+            "SPCONV"
+          ],
+          "next_path_classes": [
+            "NATIVE_ROCM_HIP_EQUIVALENTS",
+            "PORTABLE_KERNEL_REPLACEMENTS",
+            "CPU_STAGE_DECOMPOSITION",
+            "EXPLICIT_REMOTE_NVIDIA_PROVIDER"
+          ],
+          "note": "Partial ROCm component support is insufficient for an end-to-end equivalence claim."
+        },
+        {
+          "target": "INTEL_GPU",
+          "result": "UNAVAILABLE",
+          "scope": "END_TO_END_TRELLIS_PIPELINE_CURRENT_UPSTREAM",
+          "next_path_classes": [
+            "PYTORCH_XPU_OR_OPENVINO_WHERE_SEMANTICALLY_VALID",
+            "INTEL_XPU_TRITON_OR_EQUIVALENT_KERNEL_PATH",
+            "SYCL_OR_SPIRV_PORT",
+            "CPU_STAGE_DECOMPOSITION",
+            "EXPLICIT_REMOTE_NVIDIA_PROVIDER"
+          ],
+          "note": "No reviewed upstream Intel/XPU path exists; every translated/reimplemented kernel requires feature and numerical equivalence evidence."
+        },
+        {
+          "target": "CPU",
+          "result": "UNAVAILABLE",
+          "scope": "END_TO_END_TRELLIS_PIPELINE_CURRENT_UPSTREAM",
+          "note": "The reviewed upstream declares an NVIDIA GPU as necessary for the complete pipeline."
+        }
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-TIANYILT-FASTAPI-TRIPOSR-001",
+      "classification": "CUDA_FIRST_WITH_EXPLICIT_CPU_FALLBACK",
+      "strongly_cuda_oriented": true,
+      "evidence": [
+        "The wrapper selects cuda:0 when torch.cuda is available and otherwise selects CPU.",
+        "The underlying TripoSR README says to install CUDA if available and documents CPU torchmcubes fallback.",
+        "The wrapper does not expose a native Intel XPU selector and does not prove AMD ROCm equivalence."
+      ],
+      "targets": [
+        {
+          "target": "NVIDIA_CUDA",
+          "result": "FULL_EQUIVALENCE",
+          "condition": "Within TripoSR supported CUDA/runtime envelope and after normal FA3 admission.",
+          "limitations": []
+        },
+        {
+          "target": "AMD_ROCM",
+          "result": "FUNCTIONALLY_REDUCED",
+          "current_safe_path": "CPU_FALLBACK",
+          "candidate_accelerated_path": "PYTORCH_ROCM_HIP_PLUS_VALIDATED_MESH_EXTRACTION_PATH",
+          "limitations": [
+            "Native AMD GPU equivalence is not proven by this donor.",
+            "GPU acceleration must not be claimed until target-host evidence passes."
+          ],
+          "disclosure_required": true
+        },
+        {
+          "target": "INTEL_GPU",
+          "result": "FUNCTIONALLY_REDUCED",
+          "current_safe_path": "CPU_FALLBACK",
+          "candidate_accelerated_path": "PYTORCH_XPU_OR_OPENVINO_PLUS_VALIDATED_MESH_EXTRACTION_ADAPTER",
+          "limitations": [
+            "Current donor code selects CPU on Intel GPU hosts.",
+            "Native Intel GPU execution requires a shared adapter and equivalence evidence."
+          ],
+          "disclosure_required": true
+        },
+        {
+          "target": "CPU",
+          "result": "FULL_EQUIVALENCE",
+          "scope": "FUNCTIONAL_FEATURE_PATH",
+          "limitations": [
+            "Material performance difference versus accelerated execution must be disclosed when known."
+          ]
+        }
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-PNM4SFIX-POSER-001",
+      "classification": "OPTIONAL_CUDA_WITH_EXPLICIT_CPU_INSTALL",
+      "strongly_cuda_oriented": false,
+      "evidence": [
+        "Upstream README documents both NVIDIA CUDA and CPU-only PyTorch installation paths."
+      ],
+      "note": "No CUDA-specific shared-only restriction is triggered solely by this donor's optional acceleration."
+    }
+  ],
+  "routing_rule": {
+    "selection_authorities": [
+      "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "FA3-AUTH-MODEL-ROUTER-001"
+    ],
+    "order_semantics": "NATIVE_TARGET_BACKEND_FIRST_THEN_VALIDATED_PORTABLE_OR_TRANSLATION_PATH_THEN_CPU_WHERE_FUNCTIONALLY_VALID_THEN_EXPLICIT_REMOTE_NVIDIA",
+    "translation_requires_explicit_workload_policy": true,
+    "remote_nvidia_requires_explicit_selection": true,
+    "display_gpu_policy_unchanged": true
+  },
+  "product_ux": {
+    "FULL_EQUIVALENCE": "NORMAL_AVAILABLE",
+    "FUNCTIONALLY_REDUCED": "AVAILABLE_WITH_VISIBLE_HARDWARE_BACKEND_AND_MISSING_FEATURE_DISCLOSURE",
+    "UNAVAILABLE": "DISABLED_OR_UNAVAILABLE_FAIL_CLOSED"
+  }
+}
