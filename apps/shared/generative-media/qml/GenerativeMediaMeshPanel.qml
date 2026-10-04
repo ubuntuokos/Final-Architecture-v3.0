@@ -10,7 +10,7 @@ Rectangle {
     property color textMuted: "#8397ad"
     property color accent: "#25a7ff"
     Layout.fillWidth: true
-    implicitHeight: 224
+    implicitHeight: content.implicitHeight + 24
     radius: 8
     color: panel
     border.color: borderColor
@@ -25,6 +25,7 @@ Rectangle {
     ]
 
     ColumnLayout {
+        id: content
         anchors.fill: parent
         anchors.margins: 12
         spacing: 8
