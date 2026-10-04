@@ -157,7 +157,8 @@ def build_whisper_provider(store: VoiceWorkspaceStore, root: Path) -> CallablePr
         if not audio_path.is_file():
             raise VoiceWorkspaceDenied("capture audio artifact is not a local file")
         digest = hashlib.sha256(audio_path.read_bytes()).hexdigest()
-        staged = store.stage_transcription(capture_id, str(request.arguments["language"]), bool(request.arguments.get("refine", False)))
+        store.stage_transcription(capture_id, str(request.arguments["language"]), bool(request.arguments.get("refine", False)))
+        store.begin_transcription(capture_id, f"uaf:{request.request_id}")
         receipt = binding["receipt"]
         provider_request = {
             "schema": "fa3.stt-media-request.v1",
@@ -168,16 +169,20 @@ def build_whisper_provider(store: VoiceWorkspaceStore, root: Path) -> CallablePr
             "required_result_schema": "fa3.stt-media-result.v1",
             "task": "transcribe",
         }
-        result = execute_transcription(
-            root,
-            provider_request,
-            RuntimeOptions(
-                model=str(receipt["model"]),
-                device="cpu",
-                offline=True,
-                word_timestamps=True,
-            ),
-        )
+        try:
+            result = execute_transcription(
+                root,
+                provider_request,
+                RuntimeOptions(
+                    model=str(receipt["model"]),
+                    device="cpu",
+                    offline=True,
+                    word_timestamps=True,
+                ),
+            )
+        except Exception as exc:
+            store.fail_transcription(capture_id, str(exc))
+            raise
         updated = store.accept_transcription_result(capture_id, result)
         return {
             "status": "PASS",
