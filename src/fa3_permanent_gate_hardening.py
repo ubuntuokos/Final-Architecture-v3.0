@@ -67,6 +67,32 @@ def explicit_gate_pass(value: Any) -> bool:
     return isinstance(value, str) and value == ALLOWED_PASS
 
 
+CURRENT_HOST_WORKFLOW_MARKERS = ("current-host", "current_host", "fa3-current-host")
+
+
+def current_host_protected_workflows(
+    root: Path, configured_paths: Iterable[str]
+) -> list[str]:
+    protected = {str(path) for path in configured_paths}
+    workflows = root / ".github/workflows"
+    if workflows.is_dir():
+        for path in sorted(
+            [
+                *workflows.glob("*.yml"),
+                *workflows.glob("*.yaml"),
+            ]
+        ):
+            rel = path.relative_to(root).as_posix()
+            name = path.name.lower()
+            text = path.read_text(encoding="utf-8").lower()
+            if (
+                "current-host" in name
+                or any(marker in text for marker in CURRENT_HOST_WORKFLOW_MARKERS)
+            ):
+                protected.add(rel)
+    return sorted(protected)
+
+
 def scan_workflow_action_pins(
     root: Path, paths: Iterable[str]
 ) -> list[dict[str, Any]]:
@@ -245,11 +271,10 @@ def gate(root: Path) -> dict[str, Any]:
             }
         )
 
-    findings.extend(
-        scan_workflow_action_pins(
-            root, config.get("sha_pinned_workflows", [])
-        )
+    protected_workflows = current_host_protected_workflows(
+        root, config.get("sha_pinned_workflows", [])
     )
+    findings.extend(scan_workflow_action_pins(root, protected_workflows))
 
     rejected = [
         None,
@@ -294,6 +319,7 @@ def gate(root: Path) -> dict[str, Any]:
             "immutable_action_pins": not any(
                 f["code"] in {"PGH-020", "PGH-021"} for f in findings
             ),
+            "current_host_workflow_pin_scope_count": len(protected_workflows),
             "no_implicit_pass": not any(
                 f["code"] == "PGH-030" for f in findings
             ),
