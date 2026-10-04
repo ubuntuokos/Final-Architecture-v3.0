@@ -1,0 +1,134 @@
+{
+  "schema": "cfa3.development-ai-behavior-governance-policy.v1",
+  "id": "CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "date": "2026-10-05",
+  "mandatory": true,
+  "retroactive": true,
+  "forward_applicable": true,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "architectural_authority_delta": 0,
+  "scope": {
+    "development_process": true,
+    "cfa3_ai_models": true,
+    "cfa3_agents": true,
+    "cfa3_orchestrators": true,
+    "coding_agents": true,
+    "workflow_agents": true,
+    "model_router_invoked_models": true,
+    "local_and_external_models": true
+  },
+  "owner_override": {
+    "allowed": true,
+    "explicit_only": true,
+    "conversation_bounded": true,
+    "direct_continuation_allowed_when_explicitly_bound": true,
+    "not_inherited_to_other_tasks": true,
+    "not_inferred_from_generic_approval": true,
+    "must_identify_rule_or_scope": true,
+    "expiry": "END_OF_SCOPED_CONVERSATION_OR_EXPLICIT_REVOCATION"
+  },
+  "precedence": [
+    "PLATFORM_AND_SAFETY_CONSTRAINTS",
+    "CURRENT_EXPLICIT_OWNER_SCOPE_AND_RESTRICTIONS",
+    "CURRENT_EXPLICIT_OWNER_OVERRIDE",
+    "THIS_POLICY",
+    "TASK_PLAN_AND_APPROVAL",
+    "EARLIER_AUTONOMY_GRANTS"
+  ],
+  "layers": [
+    {
+      "level": "L0",
+      "name": "HUMAN_SCOPE_AND_OVERRIDE",
+      "purpose": "Current explicit owner constraints, approvals and conversation-bounded exceptions.",
+      "may_weaken_lower_layer": true,
+      "requires_explicit_owner_instruction": true
+    },
+    {
+      "level": "L1",
+      "name": "DEVELOPMENT_EXECUTION_DISCIPLINE",
+      "purpose": "Blocker, scope, freshness, overlap, workflow, mutation-reporting and exact-head discipline for CFA3 development."
+    },
+    {
+      "level": "L2",
+      "name": "TASK_AND_ORCHESTRATION",
+      "purpose": "Task lifecycle, bounded scope, orchestration and guard-chain behavior.",
+      "coordination_targets": ["PR-661", "PR-623"],
+      "targets_are_authority": false
+    },
+    {
+      "level": "L3",
+      "name": "SECURITY_AND_EFFECT_AUTHORIZATION",
+      "purpose": "Execution security, side-effect authorization and fail-closed effect boundaries.",
+      "coordination_targets": ["PR-631"],
+      "targets_are_authority": false
+    },
+    {
+      "level": "L4",
+      "name": "MODEL_POLICY",
+      "purpose": "Model-development, model-selection and model/runtime recommendation behavior.",
+      "coordination_targets": ["PR-681"],
+      "targets_are_authority": false
+    },
+    {
+      "level": "L5",
+      "name": "PROJECTION_UX_AND_COMPATIBILITY",
+      "purpose": "Repository-agent projections, naming compatibility and user-facing handoff behavior.",
+      "coordination_targets": ["PR-702", "PR-703"],
+      "targets_are_authority": false
+    }
+  ],
+  "composition": {
+    "layers_are_distinct": true,
+    "higher_layer_does_not_replace_lower_layer": true,
+    "lower_layer_may_be_more_restrictive": true,
+    "silent_precedence_inference_forbidden": true,
+    "contradiction_result": "BLOCKER",
+    "unknown_authority_result": "BLOCKER",
+    "cross_layer_overlap_without_explicit_resolution": "BLOCKER",
+    "pending_pr_is_not_canonical_authority": true,
+    "published_main_canonical_records_remain_authoritative": true
+  },
+  "development_rules": [
+    {"id":"DEV-01","name":"BLOCKER_IS_IMMEDIATE_STOP","requirement":"Conflict, changed main, failed gate, uncertain state, overlapping work or unexpected CI causes immediate STOP and report."},
+    {"id":"DEV-02","name":"NO_AUTONOMOUS_WORKAROUND","requirement":"After a blocker, no autonomous rebase, workflow, replacement PR, component change, bypass or alternative route."},
+    {"id":"DEV-03","name":"THREAD_SCOPE_LOCK","requirement":"A conversation may affect only the explicitly scoped task files, PRs and directly authorized dependencies."},
+    {"id":"DEV-04","name":"FRESH_STATE_BEFORE_WRITE","requirement":"Before every GitHub mutation re-check main SHA, target head and relevant open PR state."},
+    {"id":"DEV-05","name":"OVERLAP_IS_BLOCKER","requirement":"Concurrent modification of the same canonical file, gate, workflow or exclusive resource is a blocker unless explicitly owner-overridden for this conversation."},
+    {"id":"DEV-06","name":"NO_AUTOMATIC_WORKFLOW_OR_GATE_START","requirement":"Start a workflow or gate only when required for task closure and only when no equivalent run is already active."},
+    {"id":"DEV-07","name":"REPORT_AFTER_EVERY_MUTATION","requirement":"After each mutation report what changed, current SHA, next step and blocker status."},
+    {"id":"DEV-08","name":"EXACT_HEAD_BEFORE_MERGE","requirement":"Merge requires exact checked head and base/main; any drift blocks merge."},
+    {"id":"DEV-09","name":"NO_SILENT_REDESIGN_OR_REPAIR","requirement":"Unexpected conditions requiring redesign or repair must be reported before changing strategy."},
+    {"id":"DEV-10","name":"CURRENT_OWNER_RESTRICTION_WINS","requirement":"Current explicit owner restrictions override earlier autonomy grants and broader approvals."}
+  ],
+  "ai_behavior_rules": [
+    {"id":"AI-01","name":"STOP_ON_BLOCKER","requirement":"AI execution stops on a blocker and reports it before any further side effect."},
+    {"id":"AI-02","name":"NO_AUTONOMOUS_BYPASS","requirement":"An AI may not infer permission to bypass a blocker from the user's end goal."},
+    {"id":"AI-03","name":"ACTIVE_SCOPE_BINDING","requirement":"AI execution must carry explicit task scope, allowed/forbidden actions and applicable overrides."},
+    {"id":"AI-04","name":"FRESH_STATE_BEATS_MEMORY","requirement":"Live verified state outranks remembered or cached repository, workflow and runtime state."},
+    {"id":"AI-05","name":"CROSS_AGENT_COLLISION_DETECTION","requirement":"Conflicting concurrent work by another agent, task or PR blocks mutating execution."},
+    {"id":"AI-06","name":"EXPLICIT_SIDE_EFFECT_LEVEL","requirement":"READ, ANALYZE, PLAN, WRITE, COMMIT, PUSH, PR, WORKFLOW, GATE, MERGE, RELEASE and EXTERNAL_ACTION permissions do not imply one another."},
+    {"id":"AI-07","name":"MUTATION_AUDIT","requirement":"Every state-changing AI operation requires an attributable audit record."},
+    {"id":"AI-08","name":"EXACT_STATE_COMMITMENT","requirement":"An authorization based on a concrete state expires when that state materially changes."},
+    {"id":"AI-09","name":"UNCERTAINTY_IS_BLOCKER","requirement":"Unknown current state, authority, scope ownership or approval validity fails closed."},
+    {"id":"AI-10","name":"LATEST_OWNER_CONSTRAINT_PRIORITY","requirement":"Current explicit owner restrictions override earlier model autonomy and execution permissions."}
+  ],
+  "state_machine": {
+    "normal": ["REQUESTED","SCOPE_LOCKED","STATE_VERIFIED","AUTHORIZED","EXECUTING","MUTATION_REPORTED","VERIFIED","COMPLETED"],
+    "blocker": ["BLOCKER_DETECTED","STOPPED","BLOCKER_REPORTED","AWAITING_HUMAN_DECISION"],
+    "resume": ["REAUTHORIZED","STATE_VERIFIED"],
+    "forbidden_direct_transitions_from_blocker": ["EXECUTING","MERGE","RELEASE","EXTERNAL_ACTION"]
+  },
+  "fail_closed": {
+    "unknown_permission": "DENY",
+    "unknown_scope": "DENY",
+    "unknown_state": "BLOCKER",
+    "unknown_overlap": "BLOCKER",
+    "silence_is_approval": false,
+    "prior_autonomy_is_current_authority": false
+  },
+  "current_host_runtime_promotion_claim": false,
+  "physical_current_host_pass_claimed": false
+}
