@@ -1,0 +1,87 @@
+{
+  "id": "FA3-DEC-DONOR-INTAKE-COMMAND-EQUIVALENCE-2026-10-04",
+  "status": "APPROVED",
+  "decision_date": "2026-10-04",
+  "explicit_user_approval": true,
+  "scope": "FA3_DEVELOPMENT_DONOR_INTAKE_COMMAND_INTERPRETATION",
+  "rules": {
+    "equivalent_owner_commands": [
+      "donornak",
+      "vedd fel donornak",
+      "add a donorlistához"
+    ],
+    "normalized_task": "REGISTER_OWNER_SUBMITTED_LINK_IN_CANONICAL_DONOR_REFERENCE_REGISTRY",
+    "task_equivalence": true,
+    "analysis_only_interpretation_for_equivalent_commands_forbidden": true,
+    "mandatory_registry_target": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+    "successful_publication_state": "ACCEPTED_REFERENCE",
+    "same_message_targeting": "ALL_OWNER_SUBMITTED_LINKS_IN_THE_COMMAND_MESSAGE",
+    "followup_targeting": "IF_COMMAND_HAS_NO_LINKS_TARGET_LINKS_FROM_THE_MOST_RECENT_PRIOR_OWNER_MESSAGE_IN_THE_SAME_CONVERSATION_WITH_NO_INTERVENING_OWNER_MESSAGE",
+    "grouped_link_batch_allowed": true,
+    "assistant_or_untrusted_command_never_authorizes_intake": true,
+    "negated_command_never_authorizes_intake": true,
+    "uncommanded_link_disposition": "ANALYSIS_ONLY_NO_REGISTRY_MUTATION",
+    "duplicate_source_identity": "MERGE_WITH_EXISTING_CANONICAL_DONOR_RECORD",
+    "intake_is_complete_only_after_canonical_publication": true
+  },
+  "development_process_semantics": {
+    "applies_to": [
+      "CHAT_INSTRUCTION_INTERPRETATION",
+      "DONOR_CAPTURE_CLI",
+      "CHAT_HISTORY_IMPORT",
+      "AGENT_OPERATING_RULES",
+      "DONOR_REFERENCE_REGISTRY_DOCUMENTATION",
+      "REGRESSION_TESTS"
+    ],
+    "owner_command_is_explicit_donor_intake": true,
+    "owner_command_is_not_donor_adoption": true,
+    "owner_command_is_not_code_reuse_approval": true,
+    "owner_command_is_not_runtime_or_provider_admission": true,
+    "normal_donor_intake_coordination_and_finalization_gates_preserved": true,
+    "pre_rule_open_donor_pr_transition": {
+      "cutoff_pr": 679,
+      "priority_scope": "OPEN_GENUINE_CANONICAL_DONOR_INTAKE_PRS_WITH_PR_NUMBER_BELOW_679",
+      "active_window_selection": "PRIORITY_SCOPE_FIRST_THEN_ASCENDING_CANONICAL_DONOR_MUTATION_WORKLOAD_THEN_PR_NUMBER",
+      "overflow_order": "ASCENDING_CANONICAL_DONOR_MUTATION_WORKLOAD_THEN_PR_NUMBER",
+      "post_rule_intake_displacement_of_pre_rule_backlog": false,
+      "max_active_donor_intakes": 5
+    }
+  },
+  "safety_and_authority": {
+    "published_planning_registry": "LATEST_VERIFIED_COMMITTED_MAIN_ONLY",
+    "pending_donors_are_not_planning_inputs": true,
+    "usage_edge_required_for_actual_adoption": true,
+    "license_rights_security_software_coexistence_and_hardware_safety_gates_preserved": true,
+    "capability_baseline": 175,
+    "capability_delta": 0,
+    "new_runtime_or_provider_authority": false,
+    "architectural_authority_delta": 0
+  },
+  "supersedes_policy_clauses": [
+    "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28:capture_rule",
+    "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28:STRICT_OWNER_DONORNAK_MARKER_MUST_PRECEDE_REGISTERED_LINK",
+    "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28:owner_direct_link_registration",
+    "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28:effective_capture_authority",
+    "FA3-DEC-DONOR-INTAKE-CONCURRENCY-2026-10-03:safety_and_authority.explicit_donornak_marker_still_required",
+    "FA3-DEC-DONOR-INTAKE-CONCURRENCY-2026-10-03:rules.slot_admission_order",
+    "FA3-DEC-DONOR-INTAKE-CONCURRENCY-2026-10-03:rules.slot_refill",
+    "FA3-DEC-DONOR-INTAKE-CONCURRENCY-2026-10-03:rules.finalization_order"
+  ],
+  "implementation": {
+    "contract": "canonical/contracts/FA3-DONOR-CHAT-INGEST-001.json",
+    "capture": "src/fa3_donor_registry.py",
+    "chat_import": "src/fa3_donor_chat_import.py",
+    "agent_projection": "AGENTS.md",
+    "documentation": [
+      "docs/donor-reference-registry.md",
+      "docs/donor-chat-history-bridge.md"
+    ],
+    "tests": "tests/test_donor_chat_import.py",
+    "donor_readiness_gate": "src/fa3_donor_readiness.py",
+    "donor_readiness_tests": "tests/test_donor_readiness.py",
+    "concurrency_decision": "canonical/decisions/FA3-DEC-DONOR-INTAKE-CONCURRENCY-2026-10-03.json"
+  },
+  "schema": "fa3.decision-record.v1",
+  "title": "Equivalent owner commands for canonical donor intake",
+  "supersedes_policy_clauses_note": "Donor-intake command interpretation is superseded as already recorded. Additionally, during the #679 transition, open donor-intake PRs numbered below 679 receive backlog priority; the five-slot limit, published-main planning boundary, adoption, license, security, Software Coexistence, Hardware Safety and runtime-admission rules remain unchanged."
+}

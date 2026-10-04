@@ -2,8 +2,8 @@
   "schema": "fa3.contract.v1",
   "id": "FA3-DONOR-CHAT-INGEST-001",
   "status": "NON_AUTHORITATIVE_IMPORT_ADAPTER",
-  "version": "1.0.0",
-  "purpose": "PRIVACY_BOUNDED_EXPLICIT_OWNER_DONORNAK_MARKED_LINK_INGEST_ONLY",
+  "version": "1.1.0",
+  "purpose": "PRIVACY_BOUNDED_EXPLICIT_OWNER_DONOR_REGISTRATION_COMMAND_INGEST_ONLY",
   "registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
   "reuse_discovery_profile": "FA3-REUSE-DISCOVERY-001",
   "accepted_inputs": [
@@ -45,17 +45,18 @@
   "direct_submission_requires_owner_role_or_explicit_trusted_event": true,
   "tentative_research_capture_state": "ANALYSIS_ONLY_NO_REGISTRY_MUTATION",
   "owner_reference_registration_is_not_source_code_or_runtime_approval": true,
-  "explicit_owner_donornak_before_link_required": true,
+  "explicit_owner_donornak_before_link_required": false,
   "unmarked_link_disposition": "ANALYSIS_ONLY_NO_REGISTRY_MUTATION",
-  "no_link_capture_without_donornak": true,
+  "no_link_capture_without_donornak": false,
   "metadata_event_evidence": [
     "owner_submitted_link=true",
     "speaker_role=user",
-    "owner_donor_marker=donornak"
+    "owner_donor_command in {donornak,vedd fel donornak,add a donorlistához} OR legacy owner_donor_marker=donornak"
   ],
   "verified_conversation_evidence": [
     "speaker_role=user",
-    "literal_donornak_precedes_link"
+    "explicit non-negated owner donor-registration command",
+    "same-message owner link OR deterministic prior-owner-message link target in same conversation"
   ],
   "local_intake_exclusion": "NONBLOCKING_FLOCK_PER_CHECKOUT_SINGLE_WRITER",
   "max_active_donor_intakes": 5,
@@ -65,5 +66,37 @@
   "single_canonical_finalizer": true,
   "published_registry_scope": "COMMITTED_MAIN_ONLY",
   "potential_research_reference_auto_capture": false,
-  "unmarked_auto_candidate_registration": false
+  "unmarked_auto_candidate_registration": false,
+  "owner_donor_registration_commands": [
+    "donornak",
+    "vedd fel donornak",
+    "add a donorlistához"
+  ],
+  "owner_donor_registration_command_normalization": {
+    "donornak": "REGISTER_SUBMITTED_LINK_AS_ACCEPTED_REFERENCE",
+    "vedd fel donornak": "REGISTER_SUBMITTED_LINK_AS_ACCEPTED_REFERENCE",
+    "add a donorlistához": "REGISTER_SUBMITTED_LINK_AS_ACCEPTED_REFERENCE"
+  },
+  "command_target_resolution": {
+    "same_message": "ALL_OWNER_SUBMITTED_LINKS_IN_COMMAND_MESSAGE",
+    "followup_without_link": "MOST_RECENT_PRIOR_OWNER_MESSAGE_LINKS_IN_SAME_CONVERSATION_IF_NO_INTERVENING_OWNER_MESSAGE",
+    "assistant_messages_do_not_break_owner_followup_reference": true,
+    "negated_command": "NO_AUTHORIZATION",
+    "uncommanded_link": "ANALYSIS_ONLY_NO_REGISTRY_MUTATION"
+  },
+  "owner_registration_command_may_precede_or_follow_link": true,
+  "followup_owner_registration_command_supported": true,
+  "no_link_capture_without_owner_registration_command": true,
+  "command_equivalence_decision": "FA3-DEC-DONOR-INTAKE-COMMAND-EQUIVALENCE-2026-10-04",
+  "donor_intake_queue_transition": {
+    "cutoff_pr": 679,
+    "pre_cutoff_open_intake_priority": true,
+    "ordering": [
+      "PRE_679_BACKLOG",
+      "ASCENDING_CANONICAL_DONOR_MUTATION_WORKLOAD",
+      "PR_NUMBER"
+    ],
+    "max_active_donor_intakes": 5,
+    "post_cutoff_displacement": false
+  }
 }

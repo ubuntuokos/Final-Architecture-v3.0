@@ -127,7 +127,7 @@ def capture_candidate(
     explicit_donor_marker: bool = False,
 ) -> dict[str, Any]:
     if not explicit_donor_marker:
-        raise ValueError("DONORNAK_MARKER_REQUIRED: analysis only until explicit owner instruction")
+        raise ValueError("DONOR_REGISTRATION_COMMAND_REQUIRED: analysis only until explicit owner instruction")
     if owner_submitted_link and not source_locator.strip().lower().startswith(("https://", "http://")):
         raise ValueError("owner donor registration requires a link")
     path = root.resolve() / REGISTRY_REL
@@ -229,28 +229,43 @@ def capture_candidate(
         _atomic_write(path, registry)
     return {"created": created, "donor_id": match["donor_id"], "status": match["status"], "normalized_key": match["source"]["normalized_key"], "dry_run": dry_run}
 
-_DONOR_SIGNAL = re.compile(r"(?i)\bdonornak\b(?:\s*:\s*|\s+(?=https?://|\[https?://|<https?://))")
+_DONOR_COMMAND = re.compile(
+    r"(?i)\b(?:donornak|vedd\s+fel\s+donornak|add\s+(?:a\s+)?donor\s*list(?:á|a)hoz)\b"
+)
 _GITHUB_URL = re.compile(r"https://github\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+(?:\.git)?", re.I)
 
 def _explicit_owner_marker(text: str):
-    for match in _DONOR_SIGNAL.finditer(text):
-        prefix = text[max(0, match.start() - 40):match.start()]
-        if not re.search(r"(?i)\b(?:nem|not)\s+$", prefix):
+    for match in _DONOR_COMMAND.finditer(text):
+        prefix = text[max(0, match.start() - 48):match.start()]
+        if not re.search(r"(?i)\b(?:nem|ne|not|do\s+not|don't)\s+$", prefix):
             return match
     return None
 
 
+def _normalized_owner_marker(value: str | None) -> str | None:
+    if not isinstance(value, str):
+        return None
+    normalized = re.sub(r"\s+", " ", value.strip().lower())
+    normalized = normalized.replace("donor listához", "donorlistához")
+    aliases = {
+        "donornak": "donornak",
+        "vedd fel donornak": "vedd fel donornak",
+        "add a donorlistához": "add a donorlistához",
+        "add donorlistához": "add a donorlistához",
+        "add a donorlistahoz": "add a donorlistához",
+        "add donorlistahoz": "add a donorlistához",
+    }
+    return aliases.get(normalized)
+
+
 def parse_donor_mention(text: str, *, name: str | None = None, source: str | None = None) -> tuple[str, str, str]:
-    """Require explicit DONORNAK before a single link; never mine unrelated links."""
+    """Require an equivalent explicit owner donor-registration command."""
     marker = _explicit_owner_marker(text)
     if marker is None:
-        raise ValueError("DONORNAK_MARKER_REQUIRED")
-    after = text[marker.end():]
-    found = sorted(set(url.removesuffix(".git") for url in _GITHUB_URL.findall(after)))
+        raise ValueError("DONOR_REGISTRATION_COMMAND_REQUIRED")
+    found = sorted(set(url.removesuffix(".git") for url in _GITHUB_URL.findall(text)))
     if len(found) > 1 and not source:
-        raise ValueError("multiple marked source URLs: capture each separately")
-    if source and source not in after:
-        raise ValueError("supplied source must occur AFTER the explicit donornak marker")
+        raise ValueError("multiple owner-submitted source URLs: capture each separately")
     locator = source or (found[0] if found else None)
     if not locator or not locator.lower().startswith(("https://", "http://")):
         raise ValueError("an explicitly marked donor link is required")
@@ -278,9 +293,10 @@ def main() -> int:
     p.add_argument("--refresh-count", action="store_true",
                    help="Explicit maintenance-only reconciliation after reviewed external JSON edits")
     p.add_argument("--owner-submitted-link", action="store_true",
-                   help="Owner explicitly marked this link as donornak before submission")
-    p.add_argument("--owner-donor-marker", choices=["donornak"],
-                   help="Operator attests the owner wrote donornak before this link")
+                   help="Owner explicitly submitted this source for donor registration")
+    p.add_argument("--owner-donor-marker",
+                   choices=["donornak", "vedd fel donornak", "add a donorlistához"],
+                   help="Operator attests one equivalent owner donor-registration command")
     args = p.parse_args()
     if args.refresh_count:
         path = Path(args.root).resolve() / REGISTRY_REL
@@ -296,18 +312,18 @@ def main() -> int:
         return 0
     # A dry run on an unmarked link is permitted analysis, never candidate
     # registration. Production writes still require owner marker attestation.
-    if args.dry_run and (not args.owner_submitted_link or args.owner_donor_marker != "donornak"):
+    if args.dry_run and (not args.owner_submitted_link or _normalized_owner_marker(args.owner_donor_marker) is None):
         print(json.dumps({"result": "ANALYSIS_ONLY_UNMARKED_LINK",
                           "created": False, "registry_mutated": False,
                           "dry_run": True}, ensure_ascii=False))
         return 0
     if args.mention:
-        if not args.owner_submitted_link or args.owner_donor_marker != "donornak":
-            p.error("mention intake requires trusted owner role and explicit donornak attestation")
+        if not args.owner_submitted_link or _normalized_owner_marker(args.owner_donor_marker) is None:
+            p.error("mention intake requires trusted owner role and an explicit donor-registration command")
         name, kind, locator = parse_donor_mention(args.mention, name=args.name, source=args.source_locator)
     else:
-        if args.owner_donor_marker != "donornak":
-            p.error("only an explicitly owner-marked donornak link may be registered")
+        if _normalized_owner_marker(args.owner_donor_marker) is None:
+            p.error("only an explicitly owner-commanded donor link may be registered")
         if not args.owner_submitted_link:
             p.error("--owner-submitted-link required for new direct donor intake")
         if not args.name:
@@ -320,7 +336,7 @@ def main() -> int:
         note=args.note, discovered_from=args.discovered_from,
         seen_date=args.seen_date, dry_run=args.dry_run,
         owner_submitted_link=args.owner_submitted_link,
-        explicit_donor_marker=bool(args.mention or args.owner_donor_marker == "donornak"),
+        explicit_donor_marker=bool(args.mention or _normalized_owner_marker(args.owner_donor_marker)),
     )
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0

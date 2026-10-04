@@ -7,15 +7,19 @@
   "rules": {
     "max_active_donor_intakes": 5,
     "active_window": "ROLLING",
-    "slot_admission_order": "FIFO",
-    "slot_refill": "IMMEDIATE_NEXT_WAITING_WHEN_ANY_ACTIVE_INTAKE_FINALIZES",
+    "slot_admission_order": "PRE_679_BACKLOG_FIRST_THEN_ASCENDING_ESTIMATED_INTAKE_WORKLOAD_THEN_PR_NUMBER",
+    "slot_refill": "RECOMPUTE_PRIORITY_WINDOW_WHEN_ANY_ACTIVE_INTAKE_FINALIZES",
     "waiting_requests_are_preserved": true,
-    "finalization_order": "ASCENDING_ESTIMATED_INTAKE_WORKLOAD_THEN_FIFO",
+    "finalization_order": "PRE_679_BACKLOG_FIRST_THEN_ASCENDING_ESTIMATED_INTAKE_WORKLOAD_THEN_PR_NUMBER",
     "single_canonical_finalizer": true,
     "active_intake_start_does_not_override_finalization_priority": true,
     "policy_only_prs_reserve_intake_slot": false,
     "reference_only_prs_reserve_intake_slot": false,
-    "slot_claim_requires_real_canonical_donor_mutation": true
+    "slot_claim_requires_real_canonical_donor_mutation": true,
+    "pre_command_equivalence_backlog_cutoff_pr": 679,
+    "pre_command_equivalence_open_intakes_have_priority": true,
+    "pre_command_equivalence_overflow_order": "ASCENDING_ESTIMATED_INTAKE_WORKLOAD_THEN_PR_NUMBER",
+    "post_cutoff_intake_may_displace_pre_cutoff_intake": false
   },
   "workload_metric": {
     "source": "LIVE_GITHUB_PR_CANONICAL_DONOR_MUTATION_FILE_STATS",
@@ -26,7 +30,7 @@
     "primary": "GITHUB_FILE_CHANGES",
     "fallback": "ADDITIONS_PLUS_DELETIONS",
     "missing_stats": "ONE_CONSERVATIVE_UNIT",
-    "tie_breaker": "FIFO_BY_PR_NUMBER"
+    "tie_breaker": "PR_NUMBER"
   },
   "safety_and_authority": {
     "published_planning_registry": "LATEST_VERIFIED_COMMITTED_MAIN_ONLY",
@@ -49,5 +53,5 @@
     "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28:one_donor_intake_conversation_at_a_time",
     "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28:intake_lock"
   ],
-  "supersedes_policy_clauses_note": "These are clause identifiers inside the still-active donor registry decision; this decision overrides only those clauses, not the entire prior decision record."
+  "supersedes_policy_clauses_note": "The rolling five-slot limit and single canonical finalizer remain active. For the transition created by PR #679, still-open donor-intake PRs numbered below 679 are selected ahead of later intake PRs; overflow and finalization are ordered by canonical donor-mutation workload, then PR number."
 }

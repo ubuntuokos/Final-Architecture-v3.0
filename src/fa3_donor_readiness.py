@@ -50,6 +50,7 @@ DONOR_PREFIXES = ("docs/donor-repair/", "docs/donor-", "docs/donors-",
                   "bin/fa3-donor-", "tests/test_donor_", "tests/test_donors_",
                   "canonical/deltas/FA3-DONOR-")
 MAX_ACTIVE_DONOR_INTAKES = 5
+DONOR_COMMAND_EQUIVALENCE_PR = 679
 MAX_GITHUB_PR_FILES = 3000
 
 def inspect_registry(root):
@@ -526,17 +527,27 @@ def gate(root,phase="status",token="",assessment=None,plan=None,approval=None,
         if phase=="intake":
             # Owner-approved rolling donor-intake window:
             # - at most five genuine canonical intake PRs are active;
-            # - FIFO controls admission into a newly freed slot;
-            # - within the active window, the smallest canonical donor-mutation
-            #   workload finalizes first, with FIFO as the tie-breaker.
-            # Registry publication itself therefore remains single-finalizer
-            # even though up to five intake requests may be active.
+            # - still-open donor-intake PRs created before the #679 command-
+            #   equivalence rule are transition backlog and take precedence;
+            # - within each priority class, smaller canonical donor-mutation
+            #   workload wins, with PR number as the deterministic tie-breaker.
+            # Registry publication remains single-finalizer even though up to
+            # five intake requests may be active.
             pending=result["pending_intake_prs"]
-            active=pending[:MAX_ACTIVE_DONOR_INTAKES]
-            waiting=pending[MAX_ACTIVE_DONOR_INTAKES:]
-            finalization=sorted(
-                active,key=lambda p:(p.get("workload_units",1),p["number"]))
+            priority_key=lambda p:(
+                0 if p["number"] < DONOR_COMMAND_EQUIVALENCE_PR else 1,
+                p.get("workload_units",1),
+                p["number"],
+            )
+            ordered=sorted(pending,key=priority_key)
+            active=ordered[:MAX_ACTIVE_DONOR_INTAKES]
+            waiting=ordered[MAX_ACTIVE_DONOR_INTAKES:]
+            finalization=list(active)
             result["max_active_donor_intakes"]=MAX_ACTIVE_DONOR_INTAKES
+            result["donor_command_equivalence_cutoff_pr"]=DONOR_COMMAND_EQUIVALENCE_PR
+            result["pre_rule_priority_prs"]=[p["number"] for p in ordered
+                                               if p["number"] < DONOR_COMMAND_EQUIVALENCE_PR]
+            result["intake_ordering_policy"]="PRE_679_BACKLOG_THEN_WORKLOAD_THEN_PR_NUMBER"
             result["active_donor_prs"]=[p["number"] for p in active]
             result["waiting_donor_prs"]=[p["number"] for p in waiting]
             result["finalization_order"]=[p["number"] for p in finalization]

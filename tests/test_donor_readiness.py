@@ -9,7 +9,8 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"src"))
 import fa3_donor_readiness as readiness
 from fa3_donor_readiness import (inspect_registry,pending_prs,pending_prs_graphql,gate,is_donor_pr,
     is_donor_intake_pr,effective_donor_intake_pr,donor_intake_workload,
-    MAX_ACTIVE_DONOR_INTAKES,REGISTRY,REJECTION_AUDIT,git_blob_sha,planning_snapshot_findings)
+    MAX_ACTIVE_DONOR_INTAKES,DONOR_COMMAND_EQUIVALENCE_PR,REGISTRY,REJECTION_AUDIT,
+    git_blob_sha,planning_snapshot_findings)
 
 def source():
     v={"donor_id":"FA3-DONOR-X-001","source":{"normalized_key":"github:x/y"},
@@ -361,6 +362,32 @@ class Tests(unittest.TestCase):
                              refilled["findings"])
             self.assertIn("DONOR_INTAKE_ACTIVE_WAIT_FOR_SMALLER_FINALIZATION",
                           refilled["findings"])
+
+    def test_pre_679_backlog_precedes_post_rule_intakes_and_uses_size(self):
+        t,root,p=fixture()
+        with t:
+            rows=[
+                (670,50),(678,40),
+                (680,1),(681,2),(682,3),(683,4),
+            ]
+            def get(s):
+                if "/branches/main" in s:return {"commit":{"sha":"a"*40}}
+                if "pulls?state=open" in s:
+                    return [{"number":n,"title":"donor intake",
+                             "head":{"sha":str(n)[-1]*40}} for n,_ in rows]
+                if "/pulls/" in s and "/files?" in s:
+                    n=int(s.split("/pulls/")[1].split("/")[0])
+                    changes=dict(rows)[n]
+                    return [{"filename":REGISTRY,"changes":changes}]
+                raise AssertionError(s)
+            result=gate(root,"intake",get=get,pr_number=678)
+            self.assertEqual(DONOR_COMMAND_EQUIVALENCE_PR,679)
+            self.assertEqual(result["pre_rule_priority_prs"],[678,670])
+            self.assertEqual(result["active_donor_prs"],[678,670,680,681,682])
+            self.assertEqual(result["waiting_donor_prs"],[683])
+            self.assertEqual(result["finalization_order"],[678,670,680,681,682])
+            self.assertEqual(result["active_donor_pr"],678)
+            self.assertEqual(result["result"],"DONOR_INTAKE_READY_TO_FINALIZE")
 
     def test_owner_approved_active_intake_limit_is_five(self):
         self.assertEqual(MAX_ACTIVE_DONOR_INTAKES,5)

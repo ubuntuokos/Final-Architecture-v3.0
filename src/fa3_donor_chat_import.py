@@ -26,8 +26,12 @@ MAX_JSON_BYTES = 256 * 1024 * 1024
 MAX_EXPORT_BYTES = 512 * 1024 * 1024
 MAX_MESSAGE_CHARS = 20000
 MAX_URLS_PER_MESSAGE = 128
-# Only a user-authored DONORNAK label preceding the URL authorizes intake.
-_OWNER_DIRECT = re.compile(r"(?i)\bdonornak\b(?:\s*:\s*|\s+(?=https?://|\[https?://|<https?://))")
+# Owner-authored donor registration commands are equivalent intake instructions.
+# They may appear before or after same-message links. A command-only follow-up may
+# target the immediately preceding owner message in the same conversation scope.
+_OWNER_COMMAND = re.compile(
+    r"(?i)\b(?:donornak|vedd\s+fel\s+donornak|add\s+(?:a\s+)?donor\s*list(?:á|a)hoz)\b"
+)
 _LINK = re.compile(r'https?://[^\s<>\[\]()"]+', re.I)
 
 _EXPORT_NAME = re.compile(r"conversations(?:[_-]?\d+)?\.json", re.I)
@@ -89,29 +93,37 @@ def _message_text(node: dict[str, Any], roles: set[str]) -> str | None:
     return text if isinstance(text, str) and len(text) <= MAX_MESSAGE_CHARS else None
 
 
+def _normalized_owner_command(value: Any) -> str | None:
+    if not isinstance(value, str):
+        return None
+    normalized = re.sub(r"\s+", " ", value.strip().lower())
+    normalized = normalized.replace("donor listához", "donorlistához")
+    aliases = {
+        "donornak": "donornak",
+        "vedd fel donornak": "vedd fel donornak",
+        "add a donorlistához": "add a donorlistához",
+        "add donorlistához": "add a donorlistához",
+        "add a donorlistahoz": "add a donorlistához",
+        "add donorlistahoz": "add a donorlistához",
+    }
+    return aliases.get(normalized)
+
+
 def _explicit_owner_marker(text: str):
-    """Exclude negative 'nem/not donornak' references from intake."""
-    for match in _OWNER_DIRECT.finditer(text):
-        prefix = text[max(0, match.start() - 40):match.start()]
-        if not re.search(r"(?i)\b(?:nem|not)\s+$", prefix):
+    """Return a non-negated owner donor-registration command match."""
+    for match in _OWNER_COMMAND.finditer(text):
+        prefix = text[max(0, match.start() - 48):match.start()]
+        if not re.search(r"(?i)\b(?:nem|ne|not|do\s+not|don't)\s+$", prefix):
             return match
     return None
 
 
-def _candidate_sources(text: str, *, owner_direct: bool = False) -> tuple[list[tuple[str, str, str]], bool]:
-    """Only links AFTER an authenticated owner's literal 'donornak:' qualify."""
-    if not owner_direct:
-        return [], False
-    marker = _explicit_owner_marker(text)
-    if marker is None:
-        return [], False
-    after = text[marker.end():]
+def _sources_from_text(text: str) -> tuple[list[tuple[str, str, str]], bool]:
     urls = set()
-    for found in _LINK.findall(after):
+    for found in _LINK.findall(text):
         locator = found.rstrip(".,;:!?}\\\\")
-        if not locator:
-            continue
-        urls.add(locator)
+        if locator:
+            urls.add(locator)
     if len(urls) > MAX_URLS_PER_MESSAGE:
         return [], True
     sources = []
@@ -126,18 +138,35 @@ def _candidate_sources(text: str, *, owner_direct: bool = False) -> tuple[list[t
         sources.append((name, kind, url))
     return sources, False
 
-def _conversations(path: Path, roles: set[str], *, include_roles: bool = False) -> Iterable[str | dict[str, str]]:
-    for conversation in read_export(path):
+
+def _candidate_sources(text: str, *, owner_direct: bool = False) -> tuple[list[tuple[str, str, str]], bool]:
+    """Equivalent owner donor commands authorize owner links anywhere in the message."""
+    if not owner_direct or _explicit_owner_marker(text) is None:
+        return [], False
+    return _sources_from_text(text)
+
+def _conversations(path: Path, roles: set[str], *, include_roles: bool = False) -> Iterable[str | dict[str, Any]]:
+    for conversation_scope, conversation in enumerate(read_export(path)):
         mapping = conversation.get("mapping")
         if not isinstance(mapping, dict):
             continue
-        for node in mapping.values():
-            if not isinstance(node, dict):
-                continue
+        nodes = [node for node in mapping.values() if isinstance(node, dict)]
+        nodes.sort(key=lambda node: (
+            (node.get("message") or {}).get("create_time") is None,
+            (node.get("message") or {}).get("create_time") or 0,
+        ))
+        for node in nodes:
             text = _message_text(node, roles)
             if text:
                 role = node.get("message", {}).get("author", {}).get("role")
-                yield {"text": text, "speaker_role": role} if include_roles else text
+                if include_roles:
+                    yield {
+                        "text": text,
+                        "speaker_role": role,
+                        "conversation_scope": str(conversation_scope),
+                    }
+                else:
+                    yield text
 
 
 def _events(path: str) -> Iterable[str | dict[str, Any]]:
@@ -182,6 +211,7 @@ def ingest(
         "analysis_only": 0, "dry_run": dry_run, "origin": origin,
     }
     approved = []
+    pending_owner_links: dict[str, list[tuple[str, str, str]]] = {}
     for record in records:
         stats["records_scanned"] += 1
         if isinstance(record, str):
@@ -198,15 +228,37 @@ def ingest(
                     and record.get("speaker_role") == "user"
                     and record.get("owner_submitted_link") is True)
             )
-            marked = source_is_owner and bool(_explicit_owner_marker(record["text"]))
-            sources, ambiguous = _candidate_sources(record["text"], owner_direct=marked)
+            command = _explicit_owner_marker(record["text"]) if source_is_owner else None
+            marked = source_is_owner and command is not None
+            current_sources, current_ambiguous = (
+                _sources_from_text(record["text"]) if source_is_owner else ([], False)
+            )
+            scope = record.get("conversation_scope") if origin == "chatgpt-export" else None
+            if marked:
+                if current_sources or current_ambiguous:
+                    sources, ambiguous = current_sources, current_ambiguous
+                elif isinstance(scope, str):
+                    sources, ambiguous = pending_owner_links.get(scope, []), False
+                else:
+                    sources, ambiguous = [], False
+            else:
+                sources, ambiguous = [], False
+            if source_is_owner and isinstance(scope, str):
+                if marked:
+                    pending_owner_links[scope] = []
+                else:
+                    pending_owner_links[scope] = [] if current_ambiguous else current_sources
         elif record.get("potential_donor") is True:
-            # Structured events must attest BOTH the owner identity and the
-            # explicit preceding marker. A generic candidate flag cannot enroll.
+            # Structured events must attest the owner identity and one of the
+            # equivalent donor-registration commands. A generic candidate flag
+            # cannot enroll a source.
+            command_value = record.get("owner_donor_command")
+            if command_value is None and record.get("owner_donor_marker") == "donornak":
+                command_value = "donornak"
             marked = (origin == "approved-chat-event"
                       and record.get("speaker_role") == "user"
                       and record.get("owner_submitted_link") is True
-                      and record.get("owner_donor_marker") == "donornak")
+                      and _normalized_owner_command(command_value) is not None)
             if marked and isinstance(record.get("source"), str) and re.match(
                     r"^https?://", record["source"].strip(), re.I):
                 locator = record["source"].strip()
@@ -266,7 +318,7 @@ def ingest(
                 seen.add(key)
                 result = capture_candidate(
                     stage_root, name=name, source_kind=kind, source_locator=locator,
-                    tags=["explicit-owner-donornak"], discovered_from=origin,
+                    tags=["explicit-owner-donor-registration-command"], discovered_from=origin,
                     owner_submitted_link=True, explicit_donor_marker=True,
                 )
                 stats["created" if result["created"] else "merged"] += 1
