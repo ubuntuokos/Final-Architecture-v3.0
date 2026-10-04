@@ -1,0 +1,26 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-SCALE-CUDA-COMPAT-APPLICATION-INTENT-2026-10-04",
+  "project_id": "FA3-PROVIDER-SCALE-CUDA-COMPAT-001",
+  "project_type": "SHARED_EXECUTION_BACKEND",
+  "title": "Implement SCALE as an optional shared CUDA-compatibility backend",
+  "status": "OWNER_APPROVED_FOR_IMPLEMENTATION",
+  "date": "2026-10-04",
+  "goal": "Allow explicitly admitted CUDA-oriented workloads to use Spectral Compute SCALE on supported AMD GPUs without making CUDA a capability, without application-local CUDA cores, and without silent fallback.",
+  "requirements": [
+    "SCALE is a shared backend adapter, not a capability.",
+    "AMD device binding must use live exact PCI identity from SCALE discovery.",
+    "SCALE execution must be license-rights gated and disabled without a valid receipt.",
+    "No automatic SCALE install, scaleenv activation, PATH mutation, driver mutation or package mutation.",
+    "Translation execution must be explicitly allowed by workload policy.",
+    "HRB remains the placement and lease authority.",
+    "Intel support must not be claimed while upstream SCALE support is unavailable.",
+    "Native NVIDIA CUDA remains available independently and is not replaced by SCALE.",
+    "No silent backend, device, provider or cloud fallback.",
+    "Physical Current Host or target-host evidence is required before runtime promotion.",
+    "Capability baseline remains 175 with no new architectural authority."
+  ],
+  "capability_count": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}
