@@ -1,86 +1,125 @@
-# CFA3 Native CUDA Compatibility Core
+# CFA3 Native CUDA Compatibility Fabric
 
 ## Decision
 
-CFA3 implements the CUDA-oriented compatibility function as one **CFA3-owned shared platform service**. Spectral Compute SCALE is **not** a build dependency, runtime dependency, binary-loading dependency, installer dependency, or activation requirement.
+CFA3 implements CUDA-oriented compatibility as one **CFA3-owned shared platform service** available to every current and future CFA3 application. Spectral Compute SCALE remains a functional reference target only and is **not** a build dependency, runtime dependency, binary-loading dependency, installer dependency, or activation requirement.
 
 CUDA remains a backend interface, not a CFA3 capability. The capability baseline remains 175 and no new architectural authority is introduced.
 
+The owner-approved implementation plan is `docs/cfa3-native-cuda-compat-final-plan-2026-10-04.md`.
+
 ## Central application access
 
-Every current and future CFA3 application uses the same interfaces:
+Every application uses the same shared interfaces:
 
-- `src/fa3_cuda_compat_shared.py:resolve_cuda_compatibility`
-- `src/fa3_cuda_compat_shared.py:prepare_cuda_compat_translation`
+- `resolve_cuda_compatibility` — target/device compatibility candidates;
+- `prepare_cuda_compat_translation` — content-addressed translation preparation;
+- `prepare_cuda_compat_build` — fail-closed nvcc-style build-plan normalization;
+- `inspect_cuda_runtime_compatibility` — declarative CUDA Runtime API compatibility inspection.
 
-There is no per-application allowlist. `application_id` and `workload_id` are provenance/audit context only. An application may request a compatible candidate or translation artifact, but it cannot authorize accelerator execution or select a hidden fallback.
+All are exposed by `src/fa3_cuda_compat_shared.py`. There is no per-application allowlist. Application/workload identity is provenance and audit context only. Application-local CUDA compatibility cores are forbidden.
 
-Application-local copies of the CUDA compatibility/translation core are forbidden.
+Candidate resolution, translation artifacts, build plans and runtime maps **do not authorize execution**.
 
-## Native implementation
+## V2 structured implementation
 
-The implementation core is `src/fa3_cuda_compat_native.py`.
+V2 separates the compatibility pipeline into:
 
-The first materialized source scope is deliberately narrow and explicit:
+- `fa3_cuda_compat_frontend.py` — bounded structured CUDA frontend;
+- `fa3_cuda_compat_ir.py` — typed CUDA compatibility IR;
+- `fa3_cuda_compat_backends.py` — target lowerers;
+- `fa3_cuda_compat_runtime.py` — bounded Runtime API compatibility map;
+- `fa3_cuda_compat_build.py` — fail-closed nvcc option/build planning;
+- `fa3_cuda_compat_native.py` — target analysis/translation coordination;
+- `fa3_cuda_compat_shared.py` — application-wide shared API.
 
-- input: CUDA **kernel source** subset;
-- AMD lowering: HIP C++;
-- Intel lowering: OpenCL C over the existing Intel/Level Zero/OpenCL hardware-execution path;
-- NVIDIA: native CUDA remains independent and primary.
+The frontend extracts balanced kernel signatures and bodies, typed parameters, runtime/driver/math calls and supported semantic features. It is intentionally bounded and **does not claim to be a complete C++ or CUDA compiler frontend**.
 
-The implementation produces content-addressed source analysis and translation artifacts. A translation artifact is **not** an execution permit.
+## Target matrix
 
-### V1 supported semantics
+### NVIDIA
 
-The V1 analyzer recognizes CUDA kernel entries, device helpers, shared memory, block barriers, and thread/block/grid index builtins. AMD/HIP lowering retains compatible kernel syntax and moves the runtime include to HIP. Intel/OpenCL lowering maps kernel entry syntax, pointer address spaces, CUDA index builtins, block dimensions, grid dimensions, shared memory and block barriers to their OpenCL equivalents.
+Native CUDA remains independent and primary when admitted. The CFA3 translation backend does not silently replace it.
 
-### V1 fail-closed exclusions
+### AMD
 
-The initial implementation does not claim complete CUDA parity. It rejects or marks unavailable, as applicable:
+The supported V2 subset lowers to HIP C++ over the admitted ROCm path.
 
-- CUDA host launch syntax and CUDA Runtime API host code;
-- CUDA Driver API host code;
-- dynamic parallelism;
-- texture/surface APIs;
-- cooperative groups;
-- inline PTX;
-- closed CUDA binaries, PTX, CUBIN and FATBIN input;
-- on the Intel/OpenCL V1 target: CUDA warp intrinsics, CUDA atomics, CUDA half/BF16-specific types and CUDA constant-memory syntax.
+For the precisely admitted subset, successful translation is classified `FULL_EQUIVALENCE`. This classification is not a full-CUDA claim; unsupported features or runtime symbols are `UNAVAILABLE` and fail closed.
 
-A limitation is returned to the caller as structured compatibility findings. Unsupported functionality must not silently execute on CPU, another GPU, another provider or a cloud service.
+The bounded runtime map covers selected device, allocation/copy/set, synchronization, stream/event and error-query calls where an explicit HIP equivalent is declared.
 
-## Hardware binding
+### Intel
 
-The shared compatibility backend is named `cfa3-cuda-compat` and has backend class `translation`.
+Primary translation target: SYCL C++ over an admitted Level Zero/SYCL execution path.
 
-It is derived only from already discovered device-bound execution paths:
+Secondary target: OpenCL C when explicitly requested and admitted.
 
-- AMD: device-bound ROCm/HIP;
-- Intel: device-bound Level Zero, with OpenCL as the V1 translation target where admitted.
+The current Intel V2 source path is classified `FUNCTIONALLY_REDUCED`: host queue/launch integration remains a governed adapter responsibility and CUDA stream/event semantics are not silently inferred. The limitation is returned as structured data for user-visible disclosure.
 
-Physical device presence alone does not authorize execution. If exact binding cannot be established—for example, multiple same-vendor devices with only host-scoped discovery—the compatibility backend remains `HOST_UNBOUND` and unavailable.
+## Compatibility classifications
 
-## Authority boundary
+Every assessed target is one of:
 
-Existing authorities remain unchanged:
+- `FULL_EQUIVALENCE`
+- `FUNCTIONALLY_REDUCED`
+- `UNAVAILABLE`
 
-- Hardware Discovery observes devices/backends;
-- source analysis decides only whether the materialized translator subset can represent the requested CUDA kernel;
-- HRB remains accelerator admission, placement, reservation and lease authority;
-- Hardware Safety remains mandatory;
-- Model Router remains model/provider routing authority;
-- Evidence remains required for correctness, performance and promotion.
+A reduced result must disclose the relevant limitations. An unavailable result fails closed. Device presence or a compiler/runtime claim alone never establishes equivalence.
 
-Neither the compatibility core nor any application becomes an architectural authority.
+## Build compatibility
+
+The shared build planner accepts a bounded set of nvcc-style source, include/define, language, optimization, relocatable-device-code and architecture-request arguments.
+
+Unknown options are rejected. They are never silently dropped.
+
+A build plan is not compiler execution authorization and does not grant accelerator access.
+
+## Runtime compatibility
+
+The runtime compatibility service reports explicit CUDA→target symbol mappings and their classification. AMD mappings target the admitted HIP API surface; Intel mappings are explicitly reduced SYCL host-adapter semantics.
+
+Unknown symbols are `UNAVAILABLE`.
+
+## Donor-informed implementation
+
+Two already-published canonical donors are adopted only as architecture/test patterns:
+
+- `FA3-DONOR-GPUOPEN-OROCHI-001` — provider-neutral CUDA/HIP runtime-dispatch boundary pattern;
+- `FA3-DONOR-ROCM-EXAMPLES-001` — CUDA/HIP portability smoke-test and explicit backend-comparison pattern.
+
+No donor source code is copied and neither donor becomes a runtime dependency or authority. Pending donor PRs are excluded.
+
+## Fail-closed exclusions
+
+This implementation does **not** claim:
+
+- full CUDA C++ language parity;
+- complete nvcc CLI parity;
+- complete CUDA Driver API parity;
+- complete CUDA-X library parity;
+- dynamic parallelism, texture/surface or cooperative-group parity where not explicitly admitted;
+- arbitrary inline PTX translation;
+- PTX, CUBIN or FATBIN input compatibility;
+- closed CUDA binary compatibility;
+- arbitrary CUDA application binary compatibility.
+
+Unsupported semantics return structured findings instead of silently running on CPU, another GPU, another provider or cloud.
+
+## Hardware and authority boundary
+
+Hardware Discovery observes devices and backends. HRB remains the exclusive placement/reservation/lease authority. Hardware Safety remains mandatory. Model Router remains model/provider routing authority. The Evidence authority remains responsible for promotion evidence.
+
+The display-GPU policy and CPU-only global baseline are unchanged.
 
 ## Current Host and target-host evidence
 
-No physical PASS is claimed by this implementation. Runtime promotion requires fresh exact-head physical positive, negative and rollback evidence.
+No physical PASS is claimed by this implementation.
 
-Because AMD and Intel are separate physical execution targets, each target family requires its own supported physical host evidence before that target is promoted. Hosted CI proves only static structure and deterministic translator regressions.
+AMD and Intel target promotion each require fresh exact-head physical positive, negative and rollback evidence on supported target hardware. Static CI proves only deterministic structure and regression behavior.
 
 ## Distribution and coexistence
 
-The compatibility source is CFA3-native and may be included in the CFA3 product bundle. External target toolchains and drivers remain separately governed; this change does not bundle or install ROCm, Intel runtimes, OpenCL ICDs, drivers, SCALE, or any unrelated host package.
+The compatibility implementation is CFA3-native source and may be included in the CFA3 bundle. External ROCm, SYCL/Level Zero, OpenCL, CUDA or other toolchains/drivers remain separately governed and are not implicitly bundled or installed.
 
-No daemon, port, global PATH change, system loader replacement, driver mutation, package mutation or host-wide environment mutation is introduced.
+No daemon, socket, port, global PATH mutation, loader replacement, driver mutation, package mutation or host-wide environment mutation is introduced.
