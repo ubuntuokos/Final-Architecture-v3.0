@@ -1,0 +1,58 @@
+{
+  "schema": "fa3.scale-cuda-compat-current-host-conformance.v1",
+  "id": "FA3-SCALE-CUDA-COMPAT-CURRENT-HOST-CONFORMANCE-001",
+  "status": "PENDING_FRESH_PHYSICAL_CURRENT_HOST_REQUALIFICATION",
+  "subject_id": "FA3-PROVIDER-SCALE-CUDA-COMPAT-001",
+  "capability_count": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "affected_capability_ids": [
+    "CAP-005",
+    "CAP-006",
+    "CAP-056",
+    "CAP-060",
+    "CAP-069",
+    "CAP-078",
+    "CAP-087",
+    "CAP-137",
+    "CAP-143"
+  ],
+  "structural_alignment_performed": true,
+  "physical_requalification_required": true,
+  "physical_pass_claimed": false,
+  "historical_evidence_reused": false,
+  "runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "provider_admission_claim": false,
+  "scale_distribution_or_install_claim": false,
+  "current_host_scope": "EXACT_HEAD_SCALE_AMD_CUDA_COMPATIBILITY_DISCOVERY_RIGHTS_HRB_EXECUTION_BOUNDARY",
+  "required_physical_checks": [
+    "SCALE_ABSENT_HOST_REMAINS_UNCHANGED_AND_BACKEND_UNAVAILABLE",
+    "SCALEINFO_DISCOVERY_IS_READ_ONLY",
+    "SCALEINFO_AMD_DEVICE_BINDS_TO_EXACT_FA3_PCI_BDF",
+    "SCALE_DEVICE_MISMATCH_FAILS_CLOSED",
+    "RIGHTS_RECEIPT_ABSENT_DENIES_SCALE_EXECUTION",
+    "COMMERCIAL_CONTEXT_WITHOUT_ENTITLEMENT_DENIES_SCALE_EXECUTION",
+    "EXPLICIT_TRANSLATION_ALLOWANCE_REQUIRED",
+    "HRB_LEASE_REQUIRED_BEFORE_SCALE_GPU_EXECUTION",
+    "CUDA_ORIENTED_REFERENCE_WORKLOAD_CORRECTNESS_PASS_ON_SUPPORTED_AMD_GPU",
+    "FUNCTIONAL_REDUCTION_OR_UNSUPPORTED_CUDA_SURFACE_IS_USER_VISIBLE",
+    "INTEL_DEVICE_IS_NOT_MISCLASSIFIED_AS_SCALE_SUPPORTED",
+    "NVIDIA_NATIVE_CUDA_PATH_IS_NOT_SILENTLY_REPLACED_BY_SCALE",
+    "ROLLBACK_REMOVES_SCALE_BACKEND_ADAPTER_WITHOUT_MODIFYING_EXTERNAL_SCALE_INSTALLATION"
+  ],
+  "evidence_requirements": {
+    "positive": true,
+    "negative": true,
+    "rollback": true,
+    "exact_head_binding": true,
+    "real_supported_amd_gpu_required_for_positive_execution": true,
+    "synthetic_or_simulated_pass_allowed": false
+  },
+  "authority_preservation": {
+    "host_resource_broker": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_router": "FA3-AUTH-MODEL-ROUTER-001",
+    "license_rights": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  }
+}
