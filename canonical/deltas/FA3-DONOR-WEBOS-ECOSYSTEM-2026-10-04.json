@@ -1,0 +1,122 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-WEBOS-ECOSYSTEM-2026-10-04",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "STAGED_PENDING_INTAKE_SLOT_AND_EXACT_HEAD_GATES",
+  "mode": "APPEND_ONLY_OWNER_EXPLICIT_REFERENCE_INTAKE_WITH_TOPIC_QUERY_NORMALIZATION",
+  "parent_main": "9e795a2a6bf3417b60bc52179edcd31d8e53d8a9",
+  "parent_registry_blob_sha": "1362d75186c6da74e5cf947fdf0b8867d462636a",
+  "parent_entry_count": 1427,
+  "submitted_url_count": 4,
+  "submitted_urls": [
+    "https://github.com/webosose",
+    "https://github.com/topics/webos",
+    "https://github.com/topics/web-based-os",
+    "https://github.com/topics/webos-application?o=asc&s=updated"
+  ],
+  "duplicate_submission_count": 0,
+  "matched_existing_count": 0,
+  "matched_pending_intake_count": 0,
+  "canonical_alias_collapse_count": 0,
+  "unique_source_count": 4,
+  "new_source_count": 4,
+  "proposed_entry_count": 1431,
+  "canonical_registry_materialized": false,
+  "waiting_queue_only": true,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "usage_edges_created": 0,
+  "provider_count_policy": "DYNAMIC_UNCHANGED",
+  "approval_ref": "docs/donor-webos-ecosystem-2026-10-04.md",
+  "requirements": [
+    "Preserve all four exact owner-submitted URLs as intake provenance.",
+    "Normalize the filtered/sorted webos-application topic URL to canonical key github:topics/webos-application while preserving the exact submitted URL.",
+    "Treat the webosose organization and all GitHub topic records as discovery indexes only; do not recursively admit child repositories.",
+    "No organization/topic record authorizes source copying, dependency adoption, installation, service activation, provider/model admission or runtime promotion.",
+    "Any concrete child repository selected later requires independent provenance, License & Rights, security, Software Coexistence, Hardware Safety/model-runtime review where applicable, and an explicit typed donor usage edge before material adoption.",
+    "Preserve Model Router, HRB, Security, License & Rights, Software Coexistence, Evidence, Current Host and existing application/runtime authorities.",
+    "Fixed capability baseline 175 and dynamic provider-count policy remain unchanged.",
+    "Pending records are excluded from canonical planning until the rolling donor-intake gate admits and materializes them."
+  ],
+  "sources": [
+    [
+      "https://github.com/webosose",
+      "FA3-DONOR-WEBOSOSE-ORG-001"
+    ],
+    [
+      "https://github.com/topics/webos",
+      "FA3-DONOR-GITHUB-TOPIC-WEBOS-001"
+    ],
+    [
+      "https://github.com/topics/web-based-os",
+      "FA3-DONOR-GITHUB-TOPIC-WEB-BASED-OS-001"
+    ],
+    [
+      "https://github.com/topics/webos-application?o=asc&s=updated",
+      "FA3-DONOR-GITHUB-TOPIC-WEBOS-APPLICATION-001"
+    ]
+  ],
+  "canonical_identities": [
+    {
+      "donor_id": "FA3-DONOR-WEBOSOSE-ORG-001",
+      "normalized_key": "github:webosose",
+      "kind": "GITHUB_ORGANIZATION",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "DISCOVERY_INDEX"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-WEBOS-001",
+      "normalized_key": "github:topics/webos",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "DISCOVERY_INDEX"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-WEB-BASED-OS-001",
+      "normalized_key": "github:topics/web-based-os",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "DISCOVERY_INDEX"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-WEBOS-APPLICATION-001",
+      "normalized_key": "github:topics/webos-application",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "DISCOVERY_INDEX"
+    }
+  ],
+  "reference_scope": [
+    "application and service lifecycle patterns",
+    "service-bus and app-to-service communication patterns",
+    "web application runtime/container patterns",
+    "surface/window/workspace management patterns",
+    "application packaging, install and developer tooling patterns",
+    "notification and media-service orchestration patterns",
+    "web-based desktop/workspace and shell patterns",
+    "webOS application ecosystem discovery"
+  ],
+  "boundaries": {
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "automatic_code_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "child_repository_auto_registration": false,
+    "usage_edge_created": false,
+    "capability_count_change": false,
+    "authority_change": false,
+    "runtime_change": false,
+    "current_host_pass_claimed": false,
+    "canonical_planning_visibility": false
+  },
+  "serialization_scope": "ROLLING_FIVE_SLOT_DONOR_MAINTENANCE",
+  "serialization_order": "FIFO_SLOT_ADMISSION_THEN_ASCENDING_CANONICAL_DONOR_MUTATION_WORKLOAD_WITH_FIFO_TIES",
+  "max_active_donor_intakes": 5,
+  "observed_active_window": [651, 657, 663, 664, 671],
+  "observed_waiting_ahead": [672, 673, 675, 676, 682, 683, 684, 686],
+  "expected_initial_state": "FIFO_WAITING_FOR_DONOR_INTAKE_SLOT"
+}
