@@ -72,5 +72,12 @@ class VoiceWorkspace:
             self.db.execute("update jobs set state='COMPLETED',result=?,updated=? where id=?",(json.dumps(result,ensure_ascii=False),time.time(),jid)); self.db.commit(); return {"job_id":jid,"state":"COMPLETED","result":result}
         except Exception as e:
             self.db.execute("update jobs set state='FAILED',error=?,updated=? where id=?",(str(e),time.time(),jid)); self.db.commit(); raise
+    def dispatch_action(self,action:str,payload:dict):
+        allowed={"voice.speak","voice.profile.put","voice.fit-to-clip","voice.quick-dub.plan"}
+        if action not in allowed: raise VoiceWorkspaceError("unsupported UAF voice action")
+        if action=="voice.speak": return self.generate(payload)
+        if action=="voice.profile.put": return self.put_profile(payload)
+        if action=="voice.fit-to-clip": return self.fit_to_clip(int(payload["target_ms"]),int(payload["actual_ms"]))
+        return self.quick_dub_plan(payload)
     def list_jobs(self):
         return [{"id":r["id"],"kind":r["kind"],"state":r["state"],"payload":json.loads(r["payload"]),"result":json.loads(r["result"]) if r["result"] else None,"error":r["error"]} for r in self.db.execute("select * from jobs order by created desc limit 100")]
