@@ -22,5 +22,50 @@
   ],
   "capability_count": 175,
   "new_capabilities": 0,
-  "new_architectural_authorities": 0
+  "new_architectural_authorities": 0,
+  "required_capabilities": [
+    "HARDWARE_PORTABILITY",
+    "ACCELERATOR_BACKEND_COMPATIBILITY",
+    "SHARED_CAPABILITY_PLACEMENT",
+    "LICENSE_RIGHTS_ADMISSION",
+    "HOST_RESOURCE_BROKER_LEASE"
+  ],
+  "optional_capabilities": [],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "target_vendor_materialized": [
+      "AMD"
+    ],
+    "global_accelerator_requirement": false,
+    "hardware_mutation": false,
+    "live_resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "current_host_runtime_promotion_claim": false
+  },
+  "namespace_claims": {
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "new_global_hardware_authority": false,
+    "application_local_accelerator_authority": false
+  },
+  "security_requirements": [
+    "FAIL_CLOSED_WITHOUT_LICENSE_RIGHTS_RECEIPT",
+    "FAIL_CLOSED_ON_DEVICE_BINDING_MISMATCH",
+    "NO_SILENT_BACKEND_SUBSTITUTION",
+    "HARDWARE_SAFETY_PRECEDENCE"
+  ],
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-CUDA-PORTABILITY-SHARED-FUNCTION-POLICY-001",
+    "FA3-HARDWARE-BASELINE-001",
+    "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+    "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-LICENSE-RIGHTS-001"
+  ],
+  "reuse_discovery_declared": true
 }
