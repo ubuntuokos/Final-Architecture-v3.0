@@ -7,9 +7,9 @@
   "parent_main": "b5052f6595a3fdad84ed7a06e6276f8af5a8dcd8",
   "parent_registry_blob_sha": "1362d75186c6da74e5cf947fdf0b8867d462636a",
   "parent_entry_count": 1427,
-  "resulting_registry_blob_sha": "c5f885411c132543ff6ea026eac41dba32245129",
-  "resulting_entry_count": 1526,
-  "new_source_count": 99,
+  "resulting_registry_blob_sha": "03bd0b56a1c176efc224cdd1bc6a091562663390",
+  "resulting_entry_count": 1548,
+  "new_source_count": 121,
   "capability_baseline": 175,
   "capability_delta": 0,
   "authority_delta": 0,
@@ -119,6 +119,13 @@
       "matched_existing_reconciled": 4,
       "mode": "QUEUE_DELTA_MATERIALIZED_WITH_IN_PLACE_ENRICHMENT_AND_LIVE_HEAD_REFRESH",
       "live_head_advanced_from": "82c73af42bc4d8ce6e2f64ed6d911be95444e550"
+    },
+    {
+      "pr": 707,
+      "head": "af8cd23982e27fdda0cc315ffd9e1186459f532f",
+      "contribution": 22,
+      "matched_existing_reconciled": 2,
+      "mode": "QUEUE_DELTA_MATERIALIZED_WITH_IN_PLACE_EXISTING_RECONCILIATION"
     }
   ],
   "stale_branch_policy": {
@@ -170,6 +177,18 @@
       "status": "ACCEPTED_REFERENCE"
     },
     {
+      "donor_id": "FA3-DONOR-ANCIENTKINGG-CUDA-RAYTRACER-001",
+      "normalized_key": "github:ancientkingg/cuda-raytracer",
+      "locator": "https://github.com/Ancientkingg/cuda-raytracer",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-ANCIENTKINGG-RUST-RAYTRACER-001",
+      "normalized_key": "github:ancientkingg/rust-raytracer",
+      "locator": "https://github.com/Ancientkingg/rust-raytracer",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
       "donor_id": "FA3-DONOR-API-EVANGELIST-ORG-001",
       "normalized_key": "github:api-evangelist",
       "locator": "https://github.com/api-evangelist",
@@ -215,6 +234,24 @@
       "donor_id": "FA3-DONOR-AUTO-RIGGING-TOPIC-001",
       "normalized_key": "github:topics/auto-rigging",
       "locator": "https://github.com/topics/auto-rigging",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-BICKNYERS-RAYTRACER-CPP-001",
+      "normalized_key": "github:bicknyers/raytracer-cpp",
+      "locator": "https://github.com/bicknyers/raytracer-cpp",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-CANONICAL-KOBUK-GFX-INTEL-COMPUTE-RUNTIME-001",
+      "normalized_key": "github:canonical/kobuk-gfx-intel-compute-runtime",
+      "locator": "https://github.com/canonical/kobuk-gfx-intel-compute-runtime",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-CANONICAL-KOBUK-GFX-PACKAGES-001",
+      "normalized_key": "github:canonical/kobuk-gfx-packages",
+      "locator": "https://github.com/canonical/kobuk-gfx-packages",
       "status": "ACCEPTED_REFERENCE"
     },
     {
@@ -380,6 +417,12 @@
       "status": "ACCEPTED_REFERENCE"
     },
     {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-CPU-RAYTRACING-001",
+      "normalized_key": "github:topics/cpu-raytracing",
+      "locator": "https://github.com/topics/cpu-raytracing",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
       "donor_id": "FA3-DONOR-GITHUB-TOPIC-LOCAL-AI-001",
       "normalized_key": "github:topics/local-ai",
       "locator": "https://github.com/topics/local-ai",
@@ -458,6 +501,42 @@
       "status": "ACCEPTED_REFERENCE"
     },
     {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-RAY-TRACER-001",
+      "normalized_key": "github:topics/ray-tracer",
+      "locator": "https://github.com/topics/ray-tracer",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-RAY-TRACING-001",
+      "normalized_key": "github:topics/ray-tracing",
+      "locator": "https://github.com/topics/ray-tracing?l=javascript",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-RAY-TRACING-IN-ONE-WEEKEND-001",
+      "normalized_key": "github:topics/ray-tracing-in-one-weekend",
+      "locator": "https://github.com/topics/ray-tracing-in-one-weekend",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-RAYTRACING-001",
+      "normalized_key": "github:topics/raytracing",
+      "locator": "https://github.com/topics/raytracing",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-RAYTRACING-ENGINE-001",
+      "normalized_key": "github:topics/raytracing-engine",
+      "locator": "https://github.com/topics/raytracing-engine",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-RTX-001",
+      "normalized_key": "github:topics/rtx",
+      "locator": "https://github.com/topics/rtx",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
       "donor_id": "FA3-DONOR-GITHUB-TOPIC-RUNWARE-001",
       "normalized_key": "github:topics/runware",
       "locator": "https://github.com/topics/runware?l=shell",
@@ -494,6 +573,18 @@
       "status": "ACCEPTED_REFERENCE"
     },
     {
+      "donor_id": "FA3-DONOR-GPUOPEN-GPURT-001",
+      "normalized_key": "github:gpuopen-drivers/gpurt",
+      "locator": "https://github.com/GPUOpen-Drivers/gpurt",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GPUOPEN-RRA-001",
+      "normalized_key": "github:gpuopen-tools/radeon_raytracing_analyzer",
+      "locator": "https://github.com/GPUOpen-Tools/radeon_raytracing_analyzer",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
       "donor_id": "FA3-DONOR-HUAWEI-CANN-DOCS-910-001",
       "normalized_key": "web:hiascend:cann-community-edition:9.1",
       "locator": "https://www.hiascend.com/document/detail/en/CANNCommunityEdition/910/index/index.html",
@@ -506,9 +597,21 @@
       "status": "ACCEPTED_REFERENCE"
     },
     {
+      "donor_id": "FA3-DONOR-INTEL-LEVEL-ZERO-RAYTRACING-SUPPORT-001",
+      "normalized_key": "github:intel/level-zero-raytracing-support",
+      "locator": "https://github.com/intel/level-zero-raytracing-support",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
       "donor_id": "FA3-DONOR-INTEL-OPENCL-CLANG-001",
       "normalized_key": "github:intel/opencl-clang",
       "locator": "https://github.com/intel/opencl-clang",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-REALTIME-PATH-TRACING-RESEARCH-FRAMEWORK-001",
+      "normalized_key": "github:intel/realtimepathtracingresearchframework",
+      "locator": "https://github.com/intel/RealTimePathTracingResearchFramework",
       "status": "ACCEPTED_REFERENCE"
     },
     {
@@ -638,6 +741,12 @@
       "status": "ACCEPTED_REFERENCE"
     },
     {
+      "donor_id": "FA3-DONOR-NVIDIA-RTX-ORG-001",
+      "normalized_key": "github:nvidia-rtx",
+      "locator": "https://github.com/NVIDIA-RTX",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
       "donor_id": "FA3-DONOR-OCP-OPENNETWORKLINUX-001",
       "normalized_key": "github:opencomputeproject/opennetworklinux",
       "locator": "https://github.com/opencomputeproject/OpenNetworkLinux",
@@ -656,6 +765,24 @@
       "status": "ACCEPTED_REFERENCE"
     },
     {
+      "donor_id": "FA3-DONOR-PROJECT-10-OPENRT-001",
+      "normalized_key": "github:project-10/openrt",
+      "locator": "https://github.com/Project-10/OpenRT",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-RAYTRACING-ORG-001",
+      "normalized_key": "github:raytracing",
+      "locator": "https://github.com/raytracing",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-RENDERKIT-ORG-001",
+      "normalized_key": "github:renderkit",
+      "locator": "https://github.com/RenderKit",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
       "donor_id": "FA3-DONOR-RENOISE-AI-ORG-001",
       "normalized_key": "github:renoise-ai",
       "locator": "https://github.com/renoise-ai",
@@ -671,6 +798,12 @@
       "donor_id": "FA3-DONOR-RUNWARE-ORG-001",
       "normalized_key": "github:runware",
       "locator": "https://github.com/runware",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-SEBLAGUE-RAY-TRACING-001",
+      "normalized_key": "github:seblague/ray-tracing",
+      "locator": "https://github.com/SebLague/Ray-Tracing",
       "status": "ACCEPTED_REFERENCE"
     },
     {
@@ -722,6 +855,12 @@
       "status": "ACCEPTED_REFERENCE"
     },
     {
+      "donor_id": "FA3-DONOR-WORLDVEIL-RAY-TRACING-001",
+      "normalized_key": "github:worldveil/ray-tracing",
+      "locator": "https://github.com/worldveil/ray-tracing",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
       "donor_id": "FA3-DONOR-ZHOUSHIWEI-PROFILE-001",
       "normalized_key": "github:zhoushiwei",
       "locator": "https://github.com/zhoushiwei",
@@ -746,16 +885,23 @@
     },
     {
       "pr": 706,
-      "key": "github:microsoft/directxshadercompiler",
+      "key": "github:doitsujin/dxvk",
       "reason": "PROMOTED_AND_ENRICHED_IN_PLACE",
-      "donor_id": "FA3-DONOR-MICROSOFT-DIRECTXSHADERCOMPILER-001",
+      "donor_id": "FA3-DONOR-DOITSUJIN-DXVK-001",
       "status": "ACCEPTED_REFERENCE"
     },
     {
       "pr": 706,
-      "key": "github:doitsujin/dxvk",
+      "key": "github:microsoft/directx-headers",
       "reason": "PROMOTED_AND_ENRICHED_IN_PLACE",
-      "donor_id": "FA3-DONOR-DOITSUJIN-DXVK-001",
+      "donor_id": "FA3-DONOR-MICROSOFT-DIRECTX-HEADERS-001",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "pr": 706,
+      "key": "github:microsoft/directxshadercompiler",
+      "reason": "PROMOTED_AND_ENRICHED_IN_PLACE",
+      "donor_id": "FA3-DONOR-MICROSOFT-DIRECTXSHADERCOMPILER-001",
       "status": "ACCEPTED_REFERENCE"
     },
     {
@@ -766,10 +912,17 @@
       "status": "ACCEPTED_REFERENCE"
     },
     {
-      "pr": 706,
-      "key": "github:microsoft/directx-headers",
-      "reason": "PROMOTED_AND_ENRICHED_IN_PLACE",
-      "donor_id": "FA3-DONOR-MICROSOFT-DIRECTX-HEADERS-001",
+      "pr": 707,
+      "key": "github:gpuopen-librariesandsdks",
+      "reason": "PROMOTED_OR_PRESERVED_ACCEPTED_REFERENCE_IN_PLACE",
+      "donor_id": "FA3-DONOR-AMD-GPUOPEN-LIBRARIES-SDKS-001",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "pr": 707,
+      "key": "github:intel/intel-graphics-compiler",
+      "reason": "PROMOTED_OR_PRESERVED_ACCEPTED_REFERENCE_IN_PLACE",
+      "donor_id": "FA3-DONOR-INTEL-INTEL-GRAPHICS-COMPILER-001",
       "status": "ACCEPTED_REFERENCE"
     }
   ]
