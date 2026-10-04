@@ -53,6 +53,8 @@ def _approved_plan_registration(root: Path, approval_ref: str | None, normalized
     approved_keys = decision.get("approved_processed_donor_keys")
     approved_plan_sha256 = decision.get("approved_plan_sha256")
     approved_plan_path = decision.get("approved_plan_path")
+    approved_assessment_path = decision.get("approved_donor_assessment_path")
+    approved_assessment_sha256 = decision.get("approved_donor_assessment_sha256")
     if (
         decision.get("status") != "APPROVED"
         or decision.get("explicit_user_approval") is not True
@@ -65,6 +67,10 @@ def _approved_plan_registration(root: Path, approval_ref: str | None, normalized
         or len(approved_plan_sha256) != 64
         or not isinstance(approved_plan_path, str)
         or not approved_plan_path
+        or not isinstance(approved_assessment_path, str)
+        or not approved_assessment_path
+        or not isinstance(approved_assessment_sha256, str)
+        or len(approved_assessment_sha256) != 64
         or not isinstance(decision.get("user_request_ref"), str)
         or not decision.get("user_request_ref")
     ):
@@ -84,6 +90,36 @@ def _approved_plan_registration(root: Path, approval_ref: str | None, normalized
     import hashlib
     if hashlib.sha256(plan_path.read_bytes()).hexdigest() != approved_plan_sha256:
         raise ValueError("APPROVED_PLAN_HASH_MISMATCH")
+    assessment_rel = Path(approved_assessment_path)
+    if (
+        assessment_rel.is_absolute()
+        or ".." in assessment_rel.parts
+        or assessment_rel.as_posix() != approved_assessment_path
+        or len(assessment_rel.parts) < 2
+        or assessment_rel.parts[0] != "canonical"
+        or assessment_rel.parts[1] != "assessments"
+    ):
+        raise ValueError("INVALID_APPROVED_DONOR_ASSESSMENT_PATH")
+    assessment_path = root.resolve() / assessment_rel
+    if assessment_path.is_symlink() or not assessment_path.is_file():
+        raise ValueError("APPROVED_DONOR_ASSESSMENT_UNAVAILABLE")
+    assessment_raw = assessment_path.read_bytes()
+    if hashlib.sha256(assessment_raw).hexdigest() != approved_assessment_sha256:
+        raise ValueError("APPROVED_DONOR_ASSESSMENT_HASH_MISMATCH")
+    assessment = json.loads(assessment_raw)
+    processed = assessment.get("planning_processed_donors")
+    if not isinstance(processed, list):
+        raise ValueError("APPROVED_DONOR_ASSESSMENT_PROCESSED_SET_MISSING")
+    assessment_keys = [
+        item.get("normalized_key") for item in processed if isinstance(item, dict)
+    ]
+    if (
+        len(assessment_keys) != len(processed)
+        or any(not isinstance(key, str) or not key for key in assessment_keys)
+        or len(set(assessment_keys)) != len(assessment_keys)
+        or set(assessment_keys) != set(approved_keys)
+    ):
+        raise ValueError("APPROVED_PROCESSED_DONOR_SET_MISMATCH")
     if normalized_key not in approved_keys:
         raise ValueError("DONOR_NOT_IN_APPROVED_PLAN_PROCESSED_SET")
     return decision
