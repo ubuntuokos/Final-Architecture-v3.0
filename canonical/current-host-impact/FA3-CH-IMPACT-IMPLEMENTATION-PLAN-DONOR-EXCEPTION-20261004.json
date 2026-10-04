@@ -1,0 +1,17 @@
+{
+  "schema": "fa3.current-host-structural-impact.v1",
+  "id": "FA3-CH-IMPACT-IMPLEMENTATION-PLAN-DONOR-EXCEPTION-20261004",
+  "date": "2026-10-04",
+  "status": "NO_RUNTIME_IMPACT",
+  "capability_count": 175,
+  "structural_changes": [
+    "canonical/decisions/FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28.json",
+    "canonical/decisions/FA3-DEC-IMPLEMENTATION-PLAN-DONOR-EXCEPTION-2026-10-04.json"
+  ],
+  "current_host_changes": [],
+  "physical_requalification_required": false,
+  "historical_evidence_reused": false,
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "rationale": "This changes donor-governance and implementation-planning policy plus development-time donor readiness/registration enforcement. It does not add or modify an FA3/CFA3 executable host runtime, application runtime behavior, provider, model, package or binary dependency, service, daemon, port/socket, credential path, hardware/device configuration, HRB lease path, accelerator backend, Current Host proof recipe, evidence collector, evidence semantics, or promotion authority. The new plan and execute phases only constrain when development implementation may proceed, and approved-plan donor registration mutates canonical donor metadata through the existing serialized registry path. Therefore the admitted Current Host runtime behavior is unchanged and no fresh physical Current Host requalification is required. Any later implementation enabled by an approved plan remains independently subject to Current Host impact assessment and physical requalification whenever it changes runtime or host behavior."
+}
