@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 def gate(root:Path)->dict:
-    req={"app":root/"canonical/FA3-VOICE-STUDIO-APPLICATION-001.json","runtime":root/"canonical/FA3-VOICE-STUDIO-RUNTIME-CONFORMANCE-001.json","workspace":root/"src/fa3_voice_workspace.py","server":root/"src/fa3_voice_studio_server.py","piper":root/"src/fa3_piper_provider.py","client_h":root/"apps/fa3-control-center/src/VoiceWorkspaceService.h","client_cpp":root/"apps/fa3-control-center/src/VoiceWorkspaceService.cpp","voice_qml":root/"apps/fa3-control-center/qml/VoiceStudioPage.qml","quick_qml":root/"apps/fa3-control-center/qml/QuickVoicePluginPage.qml","launcher":root/"bin/fa3-voice-studio"}
+    req={"app":root/"canonical/FA3-VOICE-STUDIO-APPLICATION-001.json","runtime":root/"canonical/FA3-VOICE-STUDIO-RUNTIME-CONFORMANCE-001.json","workspace":root/"src/fa3_voice_workspace.py","server":root/"src/fa3_voice_studio_server.py","piper":root/"src/fa3_piper_provider.py","voice_router":root/"src/fa3_model_router_voice.py","client_h":root/"apps/fa3-control-center/src/VoiceWorkspaceService.h","client_cpp":root/"apps/fa3-control-center/src/VoiceWorkspaceService.cpp","voice_qml":root/"apps/fa3-control-center/qml/VoiceStudioPage.qml","quick_qml":root/"apps/fa3-control-center/qml/QuickVoicePluginPage.qml","launcher":root/"bin/fa3-voice-studio"}
     findings=[]; missing=[str(p.relative_to(root)) for p in req.values() if not p.is_file()]
     if missing: findings.append({"code":"VOICEAPP-001","message":"missing files","missing":missing})
     if not missing:
@@ -16,13 +16,13 @@ def gate(root:Path)->dict:
       chk(app.get("authority_boundaries",{}).get("provider_routing")=="FA3-AUTH-MODEL-ROUTER-001","VOICEAPP-005","router authority drift")
       chk(app.get("runtime",{}).get("bind")=="127.0.0.1:18796" and app.get("runtime",{}).get("network_fetch") is False,"VOICEAPP-006","loopback/network boundary drift")
       chk(rt.get("production_admitted") is False and rt.get("current_host_receipt_present") is False,"VOICEAPP-007","unearned runtime PASS")
-      w=req["workspace"].read_text(); s=req["server"].read_text(); p=req["piper"].read_text(); cpp=req["client_cpp"].read_text(); v=req["voice_qml"].read_text(); q=req["quick_qml"].read_text()
+      w=req["workspace"].read_text(); s=req["server"].read_text(); p=req["piper"].read_text(); vr=req["voice_router"].read_text(); cpp=req["client_cpp"].read_text(); v=req["voice_qml"].read_text(); q=req["quick_qml"].read_text()
       chk("sqlite3" in w and "fit_to_clip" in w and "quick_dub_plan" in w and "timeline_handoff" in w and "effects_plan" in w and "transcribe" in w and "transform_preflight" in w,"VOICEAPP-008","workspace workflow missing")
       chk("127.0.0.1" in s and "Authorization" in s and "voice-studio.token" in s,"VOICEAPP-009","authenticated loopback server missing")
       chk('req.get("device","cpu")!="cpu"' in p and "FA3_PIPER_MODEL_ROOT" in p,"VOICEAPP-010","Piper CPU/model boundary missing")
       chk("QNetworkAccessManager" in cpp and "Authorization" in cpp and "/api/generate" in cpp and "/api/transcribe" in cpp and "/api/effects/plan" in cpp,"VOICEAPP-011","GUI live client missing")
       chk("License & Rights evidence ref" in v and "License & Rights evidence ref" in q and "FA3-VOICE-WORKSPACE-USER-AUTHORIZED" not in cpp,"VOICEAPP-017","fabricated or missing rights evidence boundary")
-      chk("Model Router selection receipt required" in w and "FA3-AUTH-MODEL-ROUTER-001" in w and "silent fallback receipt forbidden" in w,"VOICEAPP-018","Model Router selection receipt boundary missing")
+      chk("route_voice_request" in w and "FA3-AUTH-MODEL-ROUTER-001" in vr and "provider_selection_owned_by_application" in vr and "silent_fallback" in vr,"VOICEAPP-018","Model Router voice extension boundary missing")
       chk("fa3VoiceWorkspace.generate" in v and "fa3VoiceWorkspace.transcribe" in v and "fa3VoiceWorkspace.planEffects" in v and "fa3VoiceWorkspace.generate" in q and "fa3VoiceWorkspace.quickDub" in q,"VOICEAPP-012","QML action binding missing")
       chk(app.get("runtime",{}).get("workflow_authority")=="TEMPORAL" and app.get("runtime",{}).get("local_sqlite_role")=="NON_AUTHORITATIVE_JOB_LEDGER_AND_PROFILE_CACHE","VOICEAPP-014","Temporal workflow authority drift")
       chk(app.get("mcp_projection",{}).get("gateway")=="FA3-AUTH-MCP-GATEWAY-001" and app.get("mcp_projection",{}).get("direct_mcp_server") is False,"VOICEAPP-015","MCP gateway boundary drift")
