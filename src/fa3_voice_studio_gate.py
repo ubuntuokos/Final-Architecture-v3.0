@@ -180,7 +180,7 @@ def run(root: Path) -> dict[str, Any]:
     uaf = required["uaf"].read_text(encoding="utf-8")
     provider_spi = required["provider_spi"].read_text(encoding="utf-8")
     for token in ("ActionDispatcher", "FA3-PROVIDER-VOICE-STUDIO-NATIVE-001", "FA3-PROVIDER-WHISPER-001",
-                  "whisper_current_host_binding", "device") == "cpu", "voice.generate.dispatch"):
+                  "whisper_current_host_binding", 'receipt.get("device") == "cpu"', "voice.generate.dispatch"):
         check(f"VSTUDIO-UAF-{token}", token in uaf, f"Voice UAF adapter missing invariant token: {token}")
     for token in ("VoiceProviderAdapter", "resolve_exact", "current_host_admitted", "execute_dispatched_job",
                   "no runtime adapter for routed provider"):
