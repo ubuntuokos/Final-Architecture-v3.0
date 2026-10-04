@@ -52,18 +52,38 @@ def _approved_plan_registration(root: Path, approval_ref: str | None, normalized
     decision = _load(approval_path)
     approved_keys = decision.get("approved_processed_donor_keys")
     approved_plan_sha256 = decision.get("approved_plan_sha256")
+    approved_plan_path = decision.get("approved_plan_path")
     if (
         decision.get("status") != "APPROVED"
         or decision.get("explicit_user_approval") is not True
         or decision.get("donor_registration_authorization") != "APPROVED_PLAN_PROCESSED_DONORS_ONLY"
         or not isinstance(approved_keys, list)
+        or not approved_keys
         or not all(isinstance(key, str) and key for key in approved_keys)
+        or len(set(approved_keys)) != len(approved_keys)
         or not isinstance(approved_plan_sha256, str)
         or len(approved_plan_sha256) != 64
+        or not isinstance(approved_plan_path, str)
+        or not approved_plan_path
         or not isinstance(decision.get("user_request_ref"), str)
         or not decision.get("user_request_ref")
     ):
         raise ValueError("INVALID_PLAN_APPROVAL_FOR_DONOR_REGISTRATION")
+    plan_rel = Path(approved_plan_path)
+    if (
+        plan_rel.is_absolute()
+        or ".." in plan_rel.parts
+        or plan_rel.as_posix() != approved_plan_path
+        or not plan_rel.parts
+        or plan_rel.parts[0] not in ("canonical", "docs")
+    ):
+        raise ValueError("INVALID_APPROVED_PLAN_PATH")
+    plan_path = root.resolve() / plan_rel
+    if plan_path.is_symlink() or not plan_path.is_file():
+        raise ValueError("APPROVED_PLAN_SOURCE_UNAVAILABLE")
+    import hashlib
+    if hashlib.sha256(plan_path.read_bytes()).hexdigest() != approved_plan_sha256:
+        raise ValueError("APPROVED_PLAN_HASH_MISMATCH")
     if normalized_key not in approved_keys:
         raise ValueError("DONOR_NOT_IN_APPROVED_PLAN_PROCESSED_SET")
     return decision
@@ -352,7 +372,8 @@ def main() -> int:
                           "dry_run": args.dry_run}, ensure_ascii=False))
         return 0
     # A dry run on an unmarked link is permitted analysis, never candidate
-    # registration. Production writes still require owner marker attestation.
+    # registration. Production writes require either the ordinary owner marker
+    # attestation or the exact bounded authority of an approved implementation plan.
     approved_plan_mode = args.approved_plan_registration and bool(args.plan_approval_record)
     if args.plan_approval_record and not args.approved_plan_registration:
         p.error("--plan-approval-record requires --approved-plan-registration")
