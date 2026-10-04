@@ -37,13 +37,11 @@
   ],
   "rationale": "The changeset adds a CFA3-owned shared CUDA source compatibility/translation core and conditional AMD/Intel translation backend descriptors. Spectral Compute SCALE is neither built nor loaded. Fresh exact-head positive, negative and rollback execution on supported physical AMD and Intel target hosts is required before runtime promotion; no simulated PASS is claimed.",
   "structural_changes": [
-    "canonical/assessments/FA3-CUDA-COMPAT-NATIVE-DECISION-ASSESSMENT-2026-10-04.json",
     ".github/workflows/fa3-cuda-compat-native.yml",
+    "canonical/assessments/FA3-CUDA-COMPAT-NATIVE-DECISION-ASSESSMENT-2026-10-04.json",
     "canonical/contracts/FA3-CUDA-COMPAT-NATIVE-CONTRACTS-001.json",
     "canonical/providers/FA3-PROVIDER-CFA3-NATIVE-CUDA-COMPAT-001.json",
-    "src/fa3_cuda_compat_gate.py",
-    "src/fa3_cuda_compat_native.py",
-    "src/fa3_cuda_compat_shared.py"
+    "src/fa3_cuda_compat_gate.py"
   ],
   "current_host_status": "PENDING_FRESH_PHYSICAL_CURRENT_HOST_REQUALIFICATION",
   "runtime_promotion_claim": false,
