@@ -9,6 +9,8 @@
 #include <QFile>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QLockFile>
+#include <QProcessEnvironment>
 #include <QSaveFile>
 #include <QStandardPaths>
 #include <QUuid>
@@ -33,10 +35,12 @@ QVariantMap objectBucket(const QVariantMap &state, const QString &name)
 VoiceWorkspaceService::VoiceWorkspaceService(const QString &repoRoot, QObject *parent)
     : QObject(parent), m_repoRoot(QDir(repoRoot).absolutePath())
 {
-    const auto base = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
+    const auto env = QProcessEnvironment::systemEnvironment();
+    const auto base = env.value(QStringLiteral("XDG_STATE_HOME"),
+                                QDir::home().filePath(QStringLiteral(".local/state")));
     QDir dir(base);
-    dir.mkpath(QStringLiteral("voice"));
-    m_statePath = dir.filePath(QStringLiteral("voice/workspace.json"));
+    dir.mkpath(QStringLiteral("fa3/voice"));
+    m_statePath = dir.filePath(QStringLiteral("fa3/voice/workspace.json"));
     load();
 }
 
@@ -92,6 +96,12 @@ void VoiceWorkspaceService::load()
 
 bool VoiceWorkspaceService::save()
 {
+    QLockFile lock(m_statePath + QStringLiteral(".lock"));
+    lock.setStaleLockTime(30000);
+    if (!lock.tryLock(5000)) {
+        setError(QStringLiteral("Voice workspace is busy; state write denied to avoid concurrent overwrite."));
+        return false;
+    }
     auto version = m_state.value(QStringLiteral("version")).toInt();
     m_state.insert(QStringLiteral("version"), version + 1);
     QSaveFile file(m_statePath);
