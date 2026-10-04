@@ -1,0 +1,40 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-ONE-CLICK-CONVERSATION-HANDOFF-2026-10-04",
+  "date": "2026-10-04",
+  "status": "CANONICAL_CLOSED",
+  "subject": "One-click copyable new-conversation handoff across development and product UX",
+  "decision": "ACCEPT_AND_MANDATE",
+  "priority": "P0",
+  "profile_id": "FA3-SHARED-CONVERSATION-SESSION-001",
+  "contract_family_id": "FA3-SHARED-CONVERSATION-SESSION-CONTRACTS-001",
+  "canonical_classification": "P0/MUST cross-line handoff invariant for FA3/CFA3 development and FA3/CFA3 product UX.",
+  "scope": {
+    "development_line": "MANDATORY",
+    "fa3_cfa3_product_line": "MANDATORY",
+    "current_and_future_apps": "MANDATORY_WHEN_HANDOFF_SURFACE_EXISTS"
+  },
+  "trigger": "Explicit user request to continue in a new conversation, including Hungarian 'folytasd új beszélgetésben' and semantic equivalents.",
+  "invariants": {
+    "exactly_one_copyable_surface": true,
+    "complete_payload_copied_by_one_user_action": true,
+    "applies_to_one_word_payload": true,
+    "applies_to_one_character_payload": true,
+    "split_payload": "FORBIDDEN",
+    "manual_selection_requirement": "FORBIDDEN",
+    "scroll_dependency_for_copy": "FORBIDDEN",
+    "payload_content_outside_copy_surface": "FORBIDDEN",
+    "non_payload_companion_text_outside_surface": "ALLOWED"
+  },
+  "acceptance_criteria": [
+    "AC-1: the complete handoff payload is contained in exactly one copyable surface/window.",
+    "AC-2: one copy action places the complete payload on the clipboard.",
+    "AC-3: the same behavior applies to a one-word or one-character payload.",
+    "AC-4: no payload fragment requires a second copy action, manual selection, or scrolling to become copyable.",
+    "AC-5: development workflow guidance and product conversation/session contracts both carry the same invariant."
+  ],
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "promotion_claimed": false
+}
