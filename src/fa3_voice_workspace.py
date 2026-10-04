@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Any
 from fa3_piper_provider import execute_piper
 from fa3_whisper_stt_provider import execute_transcription,RuntimeOptions
+from fa3_voice_synthesis_gate import validate_transformation_request
 class VoiceWorkspaceError(RuntimeError): pass
 def _sha(path:Path)->str:
     h=hashlib.sha256()
@@ -35,6 +36,8 @@ class VoiceWorkspace:
         cid=str(p.get("id") or "capture-"+uuid.uuid4().hex)
         out={**p,"schema":"fa3.voice-capture.v1","id":cid,"audio_path":str(path),"audio_sha256":_sha(path)}
         self.db.execute("insert into captures(id,payload,created) values(?,?,?)",(cid,json.dumps(out,ensure_ascii=False),time.time())); self.db.commit(); return out
+    def transform_preflight(self,p):
+        return validate_transformation_request(p,rights_admitted=bool(p.get("rights_admitted")),provider_status=str(p.get("provider_status") or "REFERENCE_ONLY"),provider_reference_only=bool(p.get("provider_reference_only",True)),resource_admission_ref=p.get("resource_admission_ref"))
     def transcribe(self,p):
         path=Path(str(p.get("audio_path",""))).expanduser().resolve()
         if not path.is_file(): raise VoiceWorkspaceError("audio_path missing")
@@ -80,10 +83,11 @@ class VoiceWorkspace:
         except Exception as e:
             self.db.execute("update jobs set state='FAILED',error=?,updated=? where id=?",(str(e),time.time(),jid)); self.db.commit(); raise
     def dispatch_action(self,action:str,payload:dict):
-        allowed={"voice.speak","voice.transcribe","voice.profile.put","voice.fit-to-clip","voice.quick-dub.plan"}
+        allowed={"voice.speak","voice.transcribe","voice.transform.preflight","voice.profile.put","voice.fit-to-clip","voice.quick-dub.plan"}
         if action not in allowed: raise VoiceWorkspaceError("unsupported UAF voice action")
         if action=="voice.speak": return self.generate(payload)
         if action=="voice.transcribe": return self.transcribe(payload)
+        if action=="voice.transform.preflight": return self.transform_preflight(payload)
         if action=="voice.profile.put": return self.put_profile(payload)
         if action=="voice.fit-to-clip": return self.fit_to_clip(int(payload["target_ms"]),int(payload["actual_ms"]))
         return self.quick_dub_plan(payload)
