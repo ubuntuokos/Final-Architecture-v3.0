@@ -11,7 +11,9 @@
     "ScaleBackendDiscovery",
     "ScaleExactDeviceBinding",
     "ScaleExecutionRightsReceipt",
-    "ScaleTranslationExecutionPath"
+    "ScaleTranslationExecutionPath",
+    "CudaCompatSharedApplicationRequest",
+    "CudaCompatSharedCandidateResolution"
   ],
   "backend_contract": {
     "backend": "scale-cuda",
@@ -82,5 +84,18 @@
     "physical_current_host_pass_claimed": false,
     "runtime_promotion_claimed": false,
     "physical_current_host_or_target_host_evidence_required": true
+  },
+  "application_access_contract": {
+    "consumer_scope": "ALL_CURRENT_AND_FUTURE_CFA3_APPLICATIONS",
+    "central_entrypoint": "src/fa3_cuda_compat_shared.py:resolve_cuda_compatibility",
+    "per_application_allowlist": false,
+    "application_id_role": "PROVENANCE_AND_AUDIT_CONTEXT_ONLY",
+    "application_local_backend_core": "FORBIDDEN",
+    "application_may_request_backend_candidate": true,
+    "application_may_authorize_execution": false,
+    "automatic_backend_selection": false,
+    "translation_requires_explicit_opt_in": true,
+    "hrb_lease_required_before_execution": true,
+    "silent_fallback": false
   }
 }
