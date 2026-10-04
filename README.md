@@ -262,3 +262,6 @@ See [`LICENSE`](LICENSE), [`NOTICE`](NOTICE), [`TRADEMARKS.md`](TRADEMARKS.md), 
 **Create the work. Keep the project. Choose the compute. Preserve the evidence.**
 
 </div>
+## Display GPU AI admission
+
+The display GPU serves the UI by default. If it is the sole GPU and no NPU exists, it may also run AI with normal HRB and central Model Router admission. With any other GPU or NPU present, an application must explicitly bind a chosen model and task to that display GPU; implicit augmentation and silent fallback are forbidden. See [display GPU AI admission](docs/display-gpu-ai-admission.md).

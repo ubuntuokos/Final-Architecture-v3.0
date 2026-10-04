@@ -3,6 +3,7 @@ from __future__ import annotations
 from copy import deepcopy
 from typing import Any
 from fa3_hrb_lease_lifecycle import LeaseKeyring
+from fa3_display_gpu_admission import evaluate_display_gpu_admission
 
 HRB_AUTHORITY_ID="FA3-AUTH-HOST-RESOURCE-BROKER-001"
 RESOURCE_ORDER=("CPU","RAM","NUMA","ACCELERATOR","VRAM","IO","NETWORK")
@@ -28,7 +29,7 @@ def _scope_subset(parent:Any,child:Any)->bool:
         return child in parent
     return parent==child
 
-def evaluate_reservation_plan(plan:dict[str,Any],capacity:dict[str,int])->dict[str,Any]:
+def evaluate_reservation_plan(plan:dict[str,Any],capacity:dict[str,int],*,trusted_hardware_inventory:dict[str,Any]|None=None)->dict[str,Any]:
     findings=[]
     if plan.get("schema")!="fa3.resource-reservation-plan.v1": findings.append("schema mismatch")
     if plan.get("authority_id")!=HRB_AUTHORITY_ID: findings.append("HRB authority mismatch")
@@ -62,9 +63,31 @@ def evaluate_reservation_plan(plan:dict[str,Any],capacity:dict[str,int])->dict[s
     accelerators=plan.get("accelerators",[])
     if not isinstance(accelerators,list): findings.append("accelerators malformed")
     else:
+        # Only the trusted HRB discovery integration may supply this argument.
+        # The untrusted reservation-plan payload is never inventory evidence.
+        observed = trusted_hardware_inventory.get("devices",[]) if isinstance(trusted_hardware_inventory,dict) else []
+        display_ids = {d.get("stable_id") for d in observed if isinstance(d,dict)
+                       and str(d.get("kind","")).upper()=="GPU"
+                       and d.get("display_active") is True and d.get("present") is not False}
         for a in accelerators:
+            if not isinstance(a,dict):
+                findings.append("accelerator assignment malformed")
+                continue
             if not a.get("stable_id"): findings.append("accelerator stable identity missing")
             if a.get("runtime_ordinal_is_identity") is not False: findings.append("runtime ordinal cannot be accelerator identity")
+            is_display = a.get("role")=="DISPLAY" or a.get("stable_id") in display_ids
+            if is_display:
+                if trusted_hardware_inventory is None:
+                    findings.append("display GPU requires trusted live HRB inventory")
+                    continue
+                if a.get("role")!="DISPLAY":
+                    findings.append("display GPU assigned misleading non-display role")
+                decision = evaluate_display_gpu_admission(
+                    inventory=trusted_hardware_inventory, accelerator_id=str(a.get("stable_id","")),
+                    workload=a.get("workload_binding"), application_selection=a.get("application_selection"),
+                )
+                if decision["result"]!="PASS":
+                    findings.extend("display GPU: "+reason for reason in decision["findings"])
     return {"result":"PASS" if not findings else "FAIL","atomic_admitted":not findings,"reservation_ceiling":ceiling,"findings":findings}
 
 def derive_child_lease(parent:dict[str,Any],request:dict[str,Any],*,keyring:LeaseKeyring,allocated_resources:dict[str,int]|None=None)->dict[str,Any]:

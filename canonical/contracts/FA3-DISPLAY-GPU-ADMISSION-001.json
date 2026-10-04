@@ -1,0 +1,54 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-DISPLAY-GPU-ADMISSION-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "authorities": {
+    "live_inventory_and_placement": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_selection": "FA3-AUTH-MODEL-ROUTER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "invariants": [
+    "DISPLAY_GPU_DEFAULT_ROLE_UI_ONLY",
+    "SOLE_DISPLAY_GPU_WITH_NO_OTHER_GPU_AND_NO_NPU_MAY_PROCESS_AI_WITH_NORMAL_HRB_ROUTER_ADMISSION",
+    "IF_ANY_OTHER_GPU_OR_NPU_EXISTS_DISPLAY_GPU_AI_REQUIRES_EXPLICIT_APPLICATION_USER_SELECTION",
+    "EXPLICIT_SELECTION_BINDS_APPLICATION_TASK_ROUTER_SELECTED_MODEL_AND_STABLE_GPU_ID",
+    "NO_AUTO_DISPLAY_GPU_AUGMENTATION_LOAD_BALANCING_OR_SILENT_FALLBACK",
+    "PRESENT_BUT_UNAVAILABLE_GPU_OR_NPU_STILL_PREVENTS_SOLE_ACCELERATOR_EXCEPTION",
+    "TRUSTED_LIVE_INVENTORY_AND_TOPOLOGY_REVALIDATION_REQUIRED",
+    "DISPLAY_HEADROOM_MUST_BE_RESERVED_BY_HRB",
+    "SELECTED_MODEL_MUST_MATCH_CENTRAL_ROUTER_EXECUTION_RECEIPT",
+    "HRB_LEASE_REQUIRED_FOR_EITHER_DISPLAY_AI_CASE",
+    "CPU_ONLY_AND_ZERO_TO_N_ACCELERATORS_REMAIN_VALID",
+    "NO_VENDOR_SKU_FIXED_GPU_ORDINAL_OR_DESKTOP_SESSION_REQUIREMENT"
+  ],
+  "request_fields": [
+    "application_id",
+    "task_id",
+    "model_id",
+    "router_binding",
+    "display_reserve_confirmed"
+  ],
+  "explicit_selection_fields": [
+    "source",
+    "approved",
+    "automatic",
+    "allow_fallback",
+    "intent_id",
+    "reason",
+    "application_id",
+    "task_id",
+    "model_id",
+    "accelerator_id"
+  ],
+  "execution_rule": "CHECK_DURING_HRB_RESERVATION_AND_AGAIN_AT_RUNTIME_LEASE_ISSUE_AND_ON_REVALIDATION",
+  "evidence_boundary": {
+    "policy_evaluation_is_physical_runtime_proof": false,
+    "authenticated_lease_and_router_receipt_external_required": true,
+    "current_host_execution_evidence_separate": true
+  }
+}
