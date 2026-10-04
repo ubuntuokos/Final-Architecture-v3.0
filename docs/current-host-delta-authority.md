@@ -64,7 +64,7 @@ Execute only the planned capability subset on the physical Current Host and coll
 ```bash
 bash bin/fa3-current-host-delta execute \
   --plan reports/current-host-delta-plan.json \
-  --base evidence/receipts/current-host-base-state.json \
+  --base canonical/FA3-CURRENT-HOST-BASE-STATE-001.json \
   --shared-gates reports/current-host-delta-shared-gates.json \
   --receipt-output evidence/receipts/current-host-deltas/current.json \
   --output reports/current-host-delta-execution.json
@@ -94,7 +94,7 @@ Compose an effective host only after the full base has status `CURRENT_HOST_BASE
 
 ```bash
 bash bin/fa3-current-host-delta compose \
-  --base evidence/receipts/current-host-base-state.json \
+  --base canonical/FA3-CURRENT-HOST-BASE-STATE-001.json \
   --delta reports/current-host-delta-gate.json \
   --output reports/effective-current-host.json
 ```
