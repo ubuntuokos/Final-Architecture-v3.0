@@ -1,0 +1,86 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-SCALE-CUDA-COMPAT-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "IMPLEMENTED_NOT_RUNTIME_PROMOTED",
+  "capability_count": 175,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "provider_id": "FA3-PROVIDER-SCALE-CUDA-COMPAT-001",
+  "contracts": [
+    "ScaleBackendDiscovery",
+    "ScaleExactDeviceBinding",
+    "ScaleExecutionRightsReceipt",
+    "ScaleTranslationExecutionPath"
+  ],
+  "backend_contract": {
+    "backend": "scale-cuda",
+    "backend_class": "translation",
+    "target_vendor": "AMD",
+    "framework_backends": [
+      "cuda-compat",
+      "scale"
+    ],
+    "workload_must_explicitly_allow_translation": true,
+    "silent_substitution": false
+  },
+  "discovery_contract": {
+    "source": "scaleinfo",
+    "read_only": true,
+    "exact_pci_bdf_binding_required": true,
+    "supported_target_identifier_prefix": "gfx",
+    "tool_detected_is_available": false,
+    "auto_install": false,
+    "auto_activate": false,
+    "environment_mutation": false
+  },
+  "rights_receipt": {
+    "schema": "fa3.scale-execution-rights-receipt.v1",
+    "authority": "FA3-AUTH-SECURITY-GOV-001",
+    "subject_id": "FA3-EXTERNAL-SCALE-TOOLKIT",
+    "required_fields": [
+      "schema",
+      "authority",
+      "subject_id",
+      "result",
+      "execution_allowed",
+      "commercial_use_allowed",
+      "entitlement_reference",
+      "raw_secret_material_present"
+    ],
+    "commercial_default": true,
+    "commercial_execution_requires": {
+      "result": "PASS",
+      "execution_allowed": true,
+      "commercial_use_allowed": true,
+      "entitlement_reference": "NON_EMPTY_OPAQUE_REFERENCE",
+      "raw_secret_material_present": false
+    },
+    "raw_secret_material": "FORBIDDEN"
+  },
+  "execution_contract": {
+    "selection_authority": "EXISTING_HRB_AND_WORKLOAD_POLICY_ONLY",
+    "required_before_binding": [
+      "RIGHTS_PASS",
+      "EXACT_DEVICE_BINDING",
+      "BACKEND_USABLE",
+      "WORKLOAD_ALLOW_TRANSLATION"
+    ],
+    "required_before_execution": [
+      "AUTHORIZED_HRB_LEASE",
+      "HARDWARE_SAFETY_PASS",
+      "PROVIDER_ADMISSION_PASS"
+    ],
+    "fallback_policy": "DENY_SILENT_SUBSTITUTION"
+  },
+  "target_matrix": {
+    "AMD": "IMPLEMENTED_CONDITIONAL",
+    "NVIDIA": "NATIVE_CUDA_REMAINS_PRIMARY",
+    "INTEL": "UNAVAILABLE_VIA_SCALE"
+  },
+  "promotion": {
+    "physical_current_host_pass_claimed": false,
+    "runtime_promotion_claimed": false,
+    "physical_current_host_or_target_host_evidence_required": true
+  }
+}
