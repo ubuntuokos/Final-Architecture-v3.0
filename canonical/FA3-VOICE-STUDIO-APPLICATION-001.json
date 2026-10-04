@@ -1,0 +1,34 @@
+{
+  "schema": "fa3.application-record.v1",
+  "id": "FA3-VOICE-STUDIO-APPLICATION-001",
+  "name": "FA3 Voice Studio + Shared Voice Plugin Runtime",
+  "status": "CANONICAL_MATERIALIZED_CURRENT_HOST_PENDING",
+  "capability_count": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "authority_boundaries": {
+    "voice": "FA3-VOICE-001",
+    "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "stt": "FA3-STT-MEDIA-001",
+    "actions": "FA3-UNIFIED-ACTION-FABRIC-001"
+  },
+  "runtime": {
+    "bind": "127.0.0.1:18796",
+    "authentication": "ROTATED_RUNTIME_TOKEN_0600",
+    "state": "XDG_STATE_HOME/fa3/voice-studio",
+    "database": "SQLite",
+    "network_fetch": false,
+    "production_provider_claim": false
+  },
+  "surfaces": ["create.voice-studio","create.quick-voice-plugin","VoiceActivityOverlay.qml"],
+  "workflows": ["voice.generate","voice.profile.list","voice.profile.put","voice.capture.register","voice.fit-to-clip","voice.quick-dub.plan","quickclip.timeline-handoff"],
+  "provider_execution": {
+    "piper": "CPU_ONLY_CANDIDATE_EXPLICIT_ACK_REQUIRED",
+    "xtts": "ADAPTER_NOT_MATERIALIZED_BY_THIS_CHANGE",
+    "cosyvoice": "EXISTING_SEPARATE_PROVIDER_ADAPTER",
+    "silent_fallback": false
+  },
+  "current_host": {"status":"PENDING_FRESH_CURRENT_HOST_REQUALIFICATION","physical_pass_claimed":false},
+  "capability_baseline_release": "2026-09-26/v3.1.0"
+}
