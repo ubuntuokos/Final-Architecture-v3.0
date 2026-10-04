@@ -7,12 +7,15 @@ SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
+from fa3_cuda_compat_build import make_build_plan
+from fa3_cuda_compat_frontend import parse_cuda_translation_unit
 from fa3_cuda_compat_native import (
     EXTERNAL_SCALE_RUNTIME_DEPENDENCY,
     NATIVE_BACKEND_NAME,
     analyze_cuda_source,
     translate_cuda_kernel_source,
 )
+from fa3_cuda_compat_runtime import runtime_api_support
 
 SIMPLE = """
 __global__ void saxpy(float *out, const float *x, float a, int n) {
@@ -27,30 +30,69 @@ class NativeCudaCompatTests(unittest.TestCase):
         self.assertFalse(EXTERNAL_SCALE_RUNTIME_DEPENDENCY)
         self.assertEqual("cfa3-cuda-compat", NATIVE_BACKEND_NAME)
 
-    def test_amd_kernel_subset_translates_to_hip(self):
+    def test_structured_frontend_emits_kernel_ir(self):
+        ir = parse_cuda_translation_unit(SIMPLE)
+        self.assertEqual(1, len(ir.kernels))
+        self.assertEqual("saxpy", ir.kernels[0].name)
+        self.assertEqual(["out", "x", "a", "n"], [p.name for p in ir.kernels[0].parameters])
+        self.assertIn("THREAD_INDEX", ir.detected_features)
+        self.assertEqual((), ir.unsupported_features)
+
+    def test_comments_do_not_create_fake_runtime_or_launch_findings(self):
+        source = SIMPLE + '\n// cudaFree(x); fake<<<1,1>>>(x);\n'
+        report = analyze_cuda_source(source, target_vendor="AMD")
+        self.assertTrue(report["supported"], report["unsupported_features"])
+
+    def test_amd_supported_subset_translates_to_hip_full_equivalence(self):
         result = translate_cuda_kernel_source(SIMPLE, target_vendor="AMD")
         self.assertEqual("PASS", result["result"])
+        self.assertEqual("FULL_EQUIVALENCE", result["compatibility_result"])
         self.assertEqual("hip", result["artifact"]["target_backend"])
         self.assertIn("#include <hip/hip_runtime.h>", result["artifact"]["source"])
         self.assertFalse(result["execution_authorized"])
 
-    def test_intel_kernel_subset_translates_to_opencl(self):
-        result = translate_cuda_kernel_source(SIMPLE, target_vendor="INTEL")
-        self.assertEqual("PASS", result["result"])
-        source = result["artifact"]["source"]
-        self.assertIn("__kernel void saxpy(", source)
-        self.assertIn("__global float *out", source)
-        self.assertIn("get_group_id(0)", source)
-        self.assertIn("get_local_size(0)", source)
-        self.assertIn("get_local_id(0)", source)
-        self.assertEqual("opencl", result["artifact"]["target_backend"])
+    def test_amd_supported_runtime_calls_map_to_hip(self):
+        source = SIMPLE + "\nvoid cleanup(float *p) { cudaFree(p); }"
+        result = translate_cuda_kernel_source(source, target_vendor="AMD")
+        self.assertEqual("PASS", result["result"], result)
+        self.assertIn("hipFree(p)", result["artifact"]["source"])
+        self.assertEqual("FULL_EQUIVALENCE", result["compatibility_result"])
 
-    def test_host_runtime_and_launch_syntax_fail_closed(self):
-        source = SIMPLE + "\nvoid run(float *p) { saxpy<<<1,32>>>(p,p,1.0f,32); cudaFree(p); }"
+    def test_intel_sycl_is_primary_and_functionally_reduced(self):
+        result = translate_cuda_kernel_source(SIMPLE, target_vendor="INTEL")
+        self.assertEqual("PASS", result["result"], result)
+        self.assertEqual("sycl", result["artifact"]["target_backend"])
+        self.assertEqual("SYCL_CPP", result["artifact"]["target_language"])
+        self.assertEqual("FUNCTIONALLY_REDUCED", result["compatibility_result"])
+        self.assertIn("#include <sycl/sycl.hpp>", result["artifact"]["source"])
+        self.assertIn("item.get_local_id(2)", result["artifact"]["source"])
+        self.assertIn("SYCL_HOST_QUEUE_LAUNCH_WRAPPER_REQUIRED", result["artifact"]["limitations"])
+
+    def test_intel_opencl_remains_explicit_secondary_target(self):
+        result = translate_cuda_kernel_source(SIMPLE, target_vendor="INTEL", target_backend="opencl")
+        self.assertEqual("PASS", result["result"], result)
+        self.assertEqual("opencl", result["artifact"]["target_backend"])
+        self.assertEqual("FUNCTIONALLY_REDUCED", result["compatibility_result"])
+        self.assertIn("__kernel void saxpy(", result["artifact"]["source"])
+
+    def test_host_launch_syntax_fails_closed(self):
+        source = SIMPLE + "\nvoid run(float *p) { saxpy<<<1,32>>>(p,p,1.0f,32); }"
         report = analyze_cuda_source(source, target_vendor="AMD")
         self.assertFalse(report["supported"])
+        self.assertEqual("UNAVAILABLE", report["compatibility_result"])
         self.assertIn("CUDA_HOST_LAUNCH_SYNTAX", report["unsupported_features"])
-        self.assertIn("CUDA_RUNTIME_API", report["unsupported_features"])
+
+    def test_unknown_amd_runtime_symbol_fails_closed(self):
+        source = SIMPLE + "\nvoid run() { cudaGraphLaunchX(); }"
+        report = analyze_cuda_source(source, target_vendor="AMD")
+        self.assertFalse(report["supported"])
+        self.assertTrue(any(x.startswith("UNSUPPORTED_RUNTIME_SYMBOL:") for x in report["unsupported_features"]))
+
+    def test_intel_runtime_api_requires_explicit_host_adapter(self):
+        source = SIMPLE + "\nvoid cleanup(float *p) { cudaFree(p); }"
+        report = analyze_cuda_source(source, target_vendor="INTEL")
+        self.assertFalse(report["supported"])
+        self.assertIn("CUDA_RUNTIME_API_REQUIRES_HOST_ADAPTER", report["unsupported_features"])
 
     def test_intel_unsupported_atomic_is_reported(self):
         source = "__global__ void k(int *x) { atomicAdd(x, 1); }"
@@ -63,6 +105,27 @@ class NativeCudaCompatTests(unittest.TestCase):
         self.assertFalse(report["supported"])
         self.assertIn("SOURCE_KIND_UNSUPPORTED", report["unsupported_features"])
         self.assertFalse(report["closed_binary_compatibility_claimed"])
+
+    def test_runtime_map_classification_is_explicit(self):
+        amd = runtime_api_support(["cudaMalloc", "cudaFree"], target_vendor="AMD", target_backend="hip")
+        intel = runtime_api_support(["cudaMalloc", "cudaFree"], target_vendor="INTEL", target_backend="sycl")
+        missing = runtime_api_support(["cudaGraphLaunchX"], target_vendor="AMD", target_backend="hip")
+        self.assertEqual("FULL_EQUIVALENCE", amd["classification"])
+        self.assertEqual("FUNCTIONALLY_REDUCED", intel["classification"])
+        self.assertEqual("UNAVAILABLE", missing["classification"])
+        self.assertFalse(amd["runtime_execution_authorized"])
+
+    def test_unknown_nvcc_option_is_denied_not_dropped(self):
+        plan = make_build_plan(
+            sources=["kernel.cu"],
+            nvcc_args=["-O3", "--std=c++20", "--invented-cuda-option"],
+            target_vendor="AMD",
+            target_backend="hip",
+        )
+        self.assertEqual("DENY", plan["result"])
+        self.assertIn("UNSUPPORTED_NVCC_OPTION:--invented-cuda-option", plan["findings"])
+        self.assertFalse(plan["silent_option_drop"])
+        self.assertFalse(plan["compiler_execution_authorized"])
 
 
 if __name__ == "__main__":
