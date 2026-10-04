@@ -1,4 +1,4 @@
-"""Explicit owner 'donornak' link only: fail-closed donor intake regressions."""
+"""Equivalent explicit owner donor commands: fail-closed donor intake regressions."""
 from __future__ import annotations
 import json
 import sys
@@ -32,8 +32,8 @@ class DonorChatImportTests(unittest.TestCase):
     def entries(self):
         return json.loads(self.path.read_text(encoding="utf-8"))["entries"]
 
-    def user(self, text):
-        return {"speaker_role": "user", "text": text}
+    def user(self, text, scope="0"):
+        return {"speaker_role": "user", "text": text, "conversation_scope": scope}
 
     def test_unmarked_links_are_analysis_only_even_with_potential_signals(self):
         before = self.path.read_bytes()
@@ -51,16 +51,19 @@ class DonorChatImportTests(unittest.TestCase):
         self.assertEqual(self.path.read_bytes(), before)
         self.assertGreaterEqual(report["analysis_only"], 7)
 
-    def test_marker_must_precede_the_link_and_only_user_role_counts(self):
+    def test_command_position_does_not_change_owner_link_scope_and_only_user_role_counts(self):
         report = ingest(self.root, [
             self.user("https://github.com/example/before donornak: https://github.com/example/after"),
             {"speaker_role": "assistant", "text": "donornak: https://github.com/example/assistant"}
         ], origin="chatgpt-export")
-        self.assertEqual(report["created"], 1)
-        self.assertEqual(self.entries()[0]["source"]["normalized_key"], "github:example/after")
-        self.assertEqual(self.entries()[0]["status"], "ACCEPTED_REFERENCE")
-        self.assertFalse(self.entries()[0]["automatic_code_import"])
-        self.assertFalse(self.entries()[0]["automatic_provider_admission"])
+        self.assertEqual(report["created"], 2)
+        self.assertEqual(
+            {row["source"]["normalized_key"] for row in self.entries()},
+            {"github:example/before", "github:example/after"},
+        )
+        self.assertTrue(all(row["status"] == "ACCEPTED_REFERENCE" for row in self.entries()))
+        self.assertTrue(all(not row["automatic_code_import"] for row in self.entries()))
+        self.assertTrue(all(not row["automatic_provider_admission"] for row in self.entries()))
 
     def test_marked_owner_batches_and_organization_topic_links(self):
         links = " ".join("https://github.com/example/tool" + str(n) for n in range(20))
@@ -71,7 +74,7 @@ class DonorChatImportTests(unittest.TestCase):
         self.assertEqual(len(self.entries()), 22)
         self.assertTrue(all(row["status"] == "ACCEPTED_REFERENCE" for row in self.entries()))
 
-    def test_metadata_event_requires_owner_marker_and_explicit_owner_role(self):
+    def test_metadata_event_requires_owner_command_and_explicit_owner_role(self):
         records = [
             {"potential_donor": True, "name": "one", "source": "https://github.com/example/one",
              "speaker_role": "user", "owner_submitted_link": True},
@@ -79,13 +82,16 @@ class DonorChatImportTests(unittest.TestCase):
              "owner_donor_marker": "donornak", "owner_submitted_link": True},
             {"potential_donor": True, "name": "three", "source": "https://github.com/example/three",
              "owner_donor_marker": "donornak", "owner_submitted_link": True, "speaker_role": "user"},
-            {"speaker_role": "user", "text": "donornak: https://github.com/example/four",
+            {"potential_donor": True, "name": "five", "source": "https://github.com/example/five",
+             "owner_donor_command": "add a donorlistához", "owner_submitted_link": True,
+             "speaker_role": "user"},
+            {"speaker_role": "user", "text": "vedd fel donornak https://github.com/example/four",
              "owner_submitted_link": True}
         ]
         report = ingest(self.root, records, origin="approved-chat-event")
-        self.assertEqual(report["created"], 2)
+        self.assertEqual(report["created"], 3)
         self.assertEqual({row["source"]["normalized_key"] for row in self.entries()},
-                         {"github:example/three", "github:example/four"})
+                         {"github:example/three", "github:example/four", "github:example/five"})
 
     def test_untrusted_event_claim_cannot_enroll(self):
         report = ingest(self.root, [
@@ -154,10 +160,15 @@ class DonorChatImportTests(unittest.TestCase):
         self.assertNotIn("example/not", saved)
         self.assertNotIn("example/assistant", saved)
 
-    def test_explicit_owner_marker_parser_positive(self):
-        sources, ambiguous = _candidate_sources("donornak: https://github.com/example/one", owner_direct=True)
-        self.assertFalse(ambiguous)
-        self.assertEqual(sources, [("example/one", "GITHUB", "https://github.com/example/one")])
+    def test_explicit_owner_command_parser_positive(self):
+        for text in (
+            "donornak: https://github.com/example/one",
+            "vedd fel donornak https://github.com/example/one",
+            "https://github.com/example/one add a donorlistához",
+        ):
+            sources, ambiguous = _candidate_sources(text, owner_direct=True)
+            self.assertFalse(ambiguous)
+            self.assertEqual(sources, [("example/one", "GITHUB", "https://github.com/example/one")])
 
     def test_owner_donornak_without_colon_before_link(self):
         sources, ambiguous = _candidate_sources(
@@ -171,11 +182,12 @@ class DonorChatImportTests(unittest.TestCase):
         self.assertEqual(result["created"], 1)
         self.assertEqual(self.entries()[0]["status"], "ACCEPTED_REFERENCE")
 
-    def test_negated_owner_marker_is_not_an_intake_instruction(self):
+    def test_negated_owner_command_is_not_an_intake_instruction(self):
         before = self.path.read_bytes()
         result = ingest(self.root, [self.user(
             "nem donornak: https://github.com/example/never-register"),
-            self.user("not donornak https://github.com/example/also-not")],
+            self.user("ne vedd fel donornak https://github.com/example/also-not"),
+            self.user("nem add a donorlistához https://github.com/example/third-not")],
             origin="chatgpt-export")
         self.assertEqual(result["created"], 0)
         self.assertEqual(self.path.read_bytes(), before)
@@ -187,9 +199,33 @@ class DonorChatImportTests(unittest.TestCase):
         self.assertEqual(_candidate_sources("Donor: https://github.com/example/one", owner_direct=True)[0], [])
         self.assertEqual(_candidate_sources("donornak: https://github.com/example/one", owner_direct=False)[0], [])
 
+    def test_followup_owner_command_targets_prior_owner_link_same_conversation(self):
+        report = ingest(self.root, [
+            self.user("https://github.com/example/followup"),
+            {"speaker_role": "assistant", "text": "analysis response", "conversation_scope": "0"},
+            self.user("add a donorlistához"),
+        ], origin="chatgpt-export")
+        self.assertEqual(report["created"], 1)
+        self.assertEqual(self.entries()[0]["source"]["normalized_key"], "github:example/followup")
+
+    def test_intervening_owner_message_clears_followup_target(self):
+        report = ingest(self.root, [
+            self.user("https://github.com/example/not-targeted"),
+            self.user("más feladat, link nélkül"),
+            self.user("vedd fel donornak"),
+        ], origin="chatgpt-export")
+        self.assertEqual(report["created"], 0)
+        self.assertEqual(self.entries(), [])
+
     def test_canonical_bridge_boundary_contract(self):
         contract=json.loads((ROOT/"canonical/contracts/FA3-DONOR-CHAT-INGEST-001.json").read_text())
-        self.assertTrue(contract["explicit_owner_donornak_before_link_required"])
+        self.assertFalse(contract["explicit_owner_donornak_before_link_required"])
+        self.assertTrue(contract["owner_registration_command_may_precede_or_follow_link"])
+        self.assertTrue(contract["followup_owner_registration_command_supported"])
+        self.assertEqual(
+            contract["owner_donor_registration_commands"],
+            ["donornak", "vedd fel donornak", "add a donorlistához"],
+        )
         self.assertEqual(contract["unmarked_link_disposition"], "ANALYSIS_ONLY_NO_REGISTRY_MUTATION")
         self.assertFalse(contract["automatic_code_import"])
         self.assertFalse(contract["unattended_chatgpt_account_access"])

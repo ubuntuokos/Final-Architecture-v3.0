@@ -1,0 +1,17 @@
+{
+  "schema": "fa3.current-host-structural-impact.v1",
+  "id": "FA3-CH-IMPACT-DONOR-COMMAND-EQUIVALENCE-20261004",
+  "date": "2026-10-04",
+  "status": "NO_RUNTIME_IMPACT",
+  "capability_count": 175,
+  "structural_changes": [
+    "canonical/contracts/FA3-DONOR-CHAT-INGEST-001.json",
+    "canonical/decisions/FA3-DEC-DONOR-INTAKE-COMMAND-EQUIVALENCE-2026-10-04.json",
+    "canonical/decisions/FA3-DEC-DONOR-INTAKE-CONCURRENCY-2026-10-03.json"
+  ],
+  "current_host_changes": [],
+  "physical_requalification_required": false,
+  "historical_evidence_reused": false,
+  "global_promotion_claim": false,
+  "rationale": "This change normalizes owner donor-registration commands and deterministically reorders the development-only donor-intake queue so still-open pre-#679 intake PRs are handled before later requests, with workload/PR-number ordering inside that priority backlog. It does not alter FA3 application/runtime behavior, provider admission, hardware placement, security boundaries, model routing, capability execution, Current Host qualification logic, or the fixed 175-capability baseline; therefore no physical Current Host requalification is required."
+}

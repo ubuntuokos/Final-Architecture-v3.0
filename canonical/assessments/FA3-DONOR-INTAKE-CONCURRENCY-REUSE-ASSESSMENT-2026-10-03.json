@@ -8,7 +8,8 @@
   "covered_ids": [
     "FA3-REGISTRY-001",
     "FA3-DONOR-CHAT-INGEST-001",
-    "FA3-DONOR-PLANNING-SNAPSHOT-GATESET-001"
+    "FA3-DONOR-PLANNING-SNAPSHOT-GATESET-001",
+    "FA3-DEC-DONOR-INTAKE-COMMAND-EQUIVALENCE-2026-10-04"
   ],
   "result": "PASS",
   "selected_reuse": [
@@ -47,8 +48,9 @@
     "PUBLISHED_MAIN_SNAPSHOT_ONLY",
     "FAIL_CLOSED_INTAKE_ADMISSION",
     "BOUNDED_ROLLING_WINDOW",
-    "FIFO_SLOT_ADMISSION",
-    "SIZE_ORDERED_SINGLE_FINALIZATION",
+    "PRE_679_PRIORITY_BACKLOG",
+    "WORKLOAD_ORDERED_ACTIVE_WINDOW",
+    "PR_NUMBER_TIE_BREAK",
     "NO_IMPLICIT_DONOR_ADOPTION"
   ],
   "existing_authority_bindings": {
@@ -74,18 +76,18 @@
   },
   "mandatory_source_reviews": [],
   "donor_planning_snapshot": {
-    "published_main_commit": "9ee6b81c232c279542342c36553a64784ad66b4d",
+    "published_main_commit": "90d3928905a5fcfa328a527b82741b3faa78b4a6",
     "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
-    "donor_registry_blob_sha": "4ac6c46935176c0e2027d771557cdec159e4c2bf",
-    "donor_registry_sha256": "1f62f01fd1249590f3834c5547a9f209c19a33f044f21d3696d4a572b9e79a8e",
-    "donor_registry_entry_count": 1421
+    "donor_registry_blob_sha": "1362d75186c6da74e5cf947fdf0b8867d462636a",
+    "donor_registry_sha256": "b8d0eb42ee02885863af375071ffae89033664089ddba3c69682a8d0f7c7cff1",
+    "donor_registry_entry_count": 1427
   },
   "shared_capability_placement": {
     "reviewed": true,
     "multi_application_reuse_detected": true,
     "disposition": "SHARED",
     "retrospective_consumer_impact_reviewed": true,
-    "rationale": "The donor-intake concurrency rule is shared governance for all FA3 donor intake consumers and reuses the existing Registry, Reuse Discovery and Permanent Gate layers; no application-local duplicate is introduced.",
+    "rationale": "The donor-intake command-equivalence transition and queue ordering are shared governance for all FA3 donor intake consumers. Still-open pre-#679 intake PRs receive priority, ordered by canonical donor-mutation workload and PR number, while the existing Registry, Reuse Discovery and Permanent Gate authorities remain unchanged.",
     "shared_component_ids": [
       "FA3-REGISTRY-001",
       "FA3-REUSE-DISCOVERY-001"
@@ -93,9 +95,13 @@
   },
   "governance_delta": {
     "decision_id": "FA3-DEC-DONOR-INTAKE-CONCURRENCY-2026-10-03",
+    "transition_decision_id": "FA3-DEC-DONOR-INTAKE-COMMAND-EQUIVALENCE-2026-10-04",
+    "cutoff_pr": 679,
+    "pre_cutoff_open_intake_priority": true,
     "max_active_donor_intakes": 5,
-    "slot_admission_order": "FIFO",
-    "finalization_order": "ASCENDING_CANONICAL_DONOR_MUTATION_WORKLOAD_THEN_FIFO",
+    "slot_admission_order": "PRE_679_BACKLOG_THEN_ASCENDING_CANONICAL_DONOR_MUTATION_WORKLOAD_THEN_PR_NUMBER",
+    "finalization_order": "PRE_679_BACKLOG_THEN_ASCENDING_CANONICAL_DONOR_MUTATION_WORKLOAD_THEN_PR_NUMBER",
+    "post_cutoff_displacement_of_pre_cutoff_backlog": false,
     "canonical_finalizer": "SINGLE_WRITER",
     "donor_adoption_authorized": false,
     "runtime_or_provider_admission_authorized": false

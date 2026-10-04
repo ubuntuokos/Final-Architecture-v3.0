@@ -316,8 +316,17 @@ class ReuseDiscoveryTests(unittest.TestCase):
 
     def test_conversation_mention_extracts_only_source_metadata(self):
         from fa3_donor_registry import parse_donor_mention
-        name, kind, url = parse_donor_mention("Donornak: https://github.com/example/source")
-        self.assertEqual((name,kind,url), ("example/source","GITHUB","https://github.com/example/source"))
+        for mention in (
+            "Donornak: https://github.com/example/source",
+            "vedd fel donornak https://github.com/example/source",
+            "https://github.com/example/source add a donorlistához",
+        ):
+            name, kind, url = parse_donor_mention(mention)
+            self.assertEqual((name,kind,url), ("example/source","GITHUB","https://github.com/example/source"))
+        name, kind, url = parse_donor_mention(
+            "add a donorlistához", source="https://github.com/example/prior-source")
+        self.assertEqual((name,kind,url),
+                         ("example/prior-source","GITHUB","https://github.com/example/prior-source"))
         with self.assertRaises(ValueError):
             parse_donor_mention("Look at https://github.com/example/source")
         with self.assertRaises(ValueError):

@@ -6,22 +6,24 @@ The canonical donor note store is `canonical/FA3-DONOR-REFERENCE-REGISTRY-001.js
 
 The registry centralizes external projects, repositories, algorithms, research, UI/workflow patterns, SDKs, standards implementations, datasets, models, libraries, and other references that may strengthen an FA3 application now or later. It is a planning input to `FA3-REUSE-DISCOVERY-001`, not an architectural authority.
 
-## Capture rule (owner decision, 2026-09-29)
+## Capture rule (owner decisions, updated 2026-10-04)
 
-Only a LINK explicitly preceded by the user's `donornak` marker (with or without a colon) may enter this registry. A marker can introduce one clearly grouped batch of links. Links marked `donor:`, tentative research, suggestions, unmarked resources, and assistant-generated references are **analysis only**: no candidate entry, queue, sync, source admission or other donor mutation without subsequent explicit owner direction.
+The explicit owner commands `donornak`, `vedd fel donornak`, and `add a donorlistához` are equivalent donor-intake tasks. Any owner-submitted LINK targeted by one of these commands must enter the canonical donor-intake flow and becomes `ACCEPTED_REFERENCE` once successfully published. The command may appear before or after same-message links. If a command-only owner message contains no link, it targets links from the most recent prior owner message in the same conversation only when no owner message intervened; assistant messages do not break that reference. A clearly grouped multi-link message may be registered as one batch.
 
-A verified owner-marked link is pre-reviewed for reference registration and becomes `ACCEPTED_REFERENCE` once published, without another catalog approval. A previous `REJECTED` or `SUPERSEDED` entry requires a separate explicit reconciliation. Intake NEVER approves license, copying, installation, reuse or runtime. To register a directly marked source, an authorized operator can use:
+Links marked only `donor:`, tentative research, suggestions, uncommanded resources, assistant-generated references, negated commands and untrusted event claims are **analysis only**: no candidate entry, queue, sync, source admission or other donor mutation without a later equivalent explicit owner instruction.
+
+A verified owner-commanded link is pre-reviewed for reference registration and becomes `ACCEPTED_REFERENCE` once published, without another catalog approval. A previous `REJECTED` or `SUPERSEDED` entry requires separate explicit reconciliation. Intake NEVER approves license, copying, installation, reuse or runtime. An authorized operator can attest any of the equivalent commands, for example:
 
 ```bash
-./bin/fa3-donor-capture --owner-submitted-link --owner-donor-marker donornak \\
+./bin/fa3-donor-capture --owner-submitted-link --owner-donor-marker "add a donorlistához" \
   --name "Example Project" --source "https://github.com/example/project"
 ```
 
-This command requires a real prior user marker; the flag is an operator attestation, not a way to infer donor status from an unmarked message. Up to **5** donor-intake requests may be active at once. The live gate maintains a rolling five-slot window: when one intake finalizes, the next waiting request enters immediately. Finalization is ascending by canonical donor-mutation workload, with FIFO for equal size. Canonical registry publication remains single-finalizer.
+The flag is an operator attestation of a real owner instruction, not a way to infer donor status from an uncommanded message. Intake recognition is not final publication: the source must complete the normal canonical donor-finalization path. Up to **5** donor-intake requests may be active at once. The live gate maintains a rolling five-slot window: when one intake finalizes, the next waiting request enters immediately. Finalization is ascending by canonical donor-mutation workload, with FIFO for equal size. Canonical registry publication remains single-finalizer.
 
 ## Tutorial references and shared-function reuse (owner decision, 2026-09-30)
 
-Internet tutorials are a supported reference class in this same registry; no second tutorial donor list may be created. They do **not** receive a special intake path. A tutorial can become a `TUTORIAL_REFERENCE` planning input only after its source has been admitted to the published registry under the normal explicit owner `donornak` rule. Unmarked links or downloaded tutorial material remain analysis-only with respect to donor registration.
+Internet tutorials are a supported reference class in this same registry; no second tutorial donor list may be created. They do **not** receive a special intake path. A tutorial can become a `TUTORIAL_REFERENCE` planning input only after its source has been admitted to the published registry under the normal equivalent explicit owner donor-registration command rule. Unmarked links or downloaded tutorial material remain analysis-only with respect to donor registration.
 
 Tutorial intake does not approve text/code/asset copying, dependency installation, provider admission, model selection or runtime promotion. Provenance and rights/licensing must be classified before reuse; unknown or incompatible rights permit factual/functional analysis and clean FA3-native re-expression only.
 
@@ -49,7 +51,7 @@ Every donor remains non-authoritative. Code or runtime reuse requires separate l
 
 ## Conversation-adapter contract
 
-The ChatGPT export importer requires the actual `user` message role and an explicit `donornak` label, with or without a colon, before any imported link. Approved local events need both explicit owner-marker attestation and owner role. Raw strings, assistant suggestions and general research signals can be analyzed but cannot mutate the registry. No automatic ChatGPT subscription is provided. Only metadata from authenticated marked links may be imported; no private conversation text is persisted. Same-host imports use a nonblocking single-writer lock. GitHub donor PR intake admits the first five genuine canonical registry/intake-delta mutations into a rolling active window; policy, research and reference-only PRs do not reserve slots. Waiting requests are FIFO. Within the active five, the smallest canonical donor-mutation workload finalizes first, then progressively larger work; equal workloads use FIFO. A sixth or later request waits until a slot is released.
+The ChatGPT export importer requires the actual `user` message role and one equivalent explicit donor-registration command. Same-message command order is irrelevant, and a command-only follow-up may deterministically target the prior owner message as defined above. Approved local events need both explicit owner-command attestation and owner role. Raw strings, assistant suggestions and general research signals can be analyzed but cannot mutate the registry. No automatic ChatGPT subscription is provided. Only metadata from authenticated marked links may be imported; no private conversation text is persisted. Same-host imports use a nonblocking single-writer lock. GitHub donor PR intake admits the first five genuine canonical registry/intake-delta mutations into a rolling active window; policy, research and reference-only PRs do not reserve slots. Waiting requests are FIFO. Within the active five, the smallest canonical donor-mutation workload finalizes first, then progressively larger work; equal workloads use FIFO. A sixth or later request waits until a slot is released.
 
 Planning, verification and finalization during maintenance use ONLY the last exact, verified, published main snapshot. Pending PR donor entries are invisible. A new published donor batch does not automatically restart an earlier approved workflow.
 
@@ -141,7 +143,7 @@ Mandatory retrospective source extraction from previous PRs is abolished. PRs #2
 
 ## Usage graph and downstream impact
 
-The registry remains the only donor identity catalog. Actual use is declared in `FA3-APPLICATION-DONOR-LINKS-001` and reverse-resolved by the derived capability-consumer map. Only owner-`donornak` registered sources may appear as donor IDs in usage edges; analysis-only URLs cannot be inserted as pseudo-donors.
+The registry remains the only donor identity catalog. Actual use is declared in `FA3-APPLICATION-DONOR-LINKS-001` and reverse-resolved by the derived capability-consumer map. Only sources registered by an equivalent explicit owner donor-registration command may appear as donor IDs in usage edges; analysis-only URLs cannot be inserted as pseudo-donors.
 
 ## Universal Capability Access (owner decision, 2026-10-03)
 
@@ -163,3 +165,5 @@ Such byte-identical stale-base entries remain visible to donor maintenance
 reporting but do **not** consume an active intake-window slot. Missing, unreadable
 or different blob identity fails closed and continues to consume a slot until
 the live mutation can be disproven.
+
+**Pre-#679 donor backlog transition:** Still-open genuine donor-intake PRs numbered below #679 have priority over later donor requests. The five-slot window is filled by priority class, then ascending canonical donor-mutation workload, then PR number. Later PRs cannot displace a pre-#679 backlog item.
