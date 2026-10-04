@@ -101,6 +101,8 @@ bash bin/fa3-current-host-delta compose \
 
 Multiple `--delta` arguments are applied in order. Each delta must reference the immediately preceding effective-host digest.
 
-## Current transition state
+## Current canonical state
 
-The active #559 175/525 reconciliation still requires its first fresh full physical Current Host closure. The delta channel is intentionally fail-closed until that base is admitted. After that initial closure, ordinary application-local changes can use the delta path instead of waiting for another complete base release.
+The 175/525 Current Host base is admitted. `canonical/FA3-CURRENT-HOST-BASE-STATE-001.json` records `CURRENT_HOST_BASE_ADMITTED` for 175 capabilities and 525 obligations, backed by physical audit run `37190573441` at source commit `6be38def0d6a56b4e8fded74fb3c5ed2e3c1506f`.
+
+The delta channel is therefore available under the canonical impact/planner model. `NO_RUNTIME_IMPACT` changes do not require physical requalification; runtime-impacting changes use the scoped delta or full-requalification class selected by the planner. The admitted base evidence remains immutable, synthetic Current Host PASS is forbidden, historical evidence cannot be relabeled, and delta admission does not imply global promotion. The separate 19-point release acceptance remains outside Current Host base admission.
