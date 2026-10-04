@@ -54,6 +54,51 @@ class CountRefreshTests(unittest.TestCase):
         self.assertEqual(state["backfill"]["entry_count"], len(state["entries"]))
         self.assertEqual(state["capability_count"], 175)
 
+    def test_owner_approved_plan_exact_processed_set_can_register_without_second_donornak_marker(self):
+        approval_rel="canonical/decisions/FA3-DEC-TEST-PLAN-APPROVAL.json"
+        approval=self.root/approval_rel
+        approval.parent.mkdir(parents=True,exist_ok=True)
+        approval.write_text(json.dumps({
+            "status":"APPROVED",
+            "explicit_user_approval":True,
+            "approved_plan_sha256":"a"*64,
+            "user_request_ref":"conversation:test-plan",
+            "donor_registration_authorization":"APPROVED_PLAN_PROCESSED_DONORS_ONLY",
+            "approved_processed_donor_keys":["github:example/planned"]
+        }),encoding="utf-8")
+        result=capture_candidate(
+            self.root,name="planned",source_kind="GITHUB",
+            source_locator="https://github.com/example/planned",
+            owner_submitted_link=False,explicit_donor_marker=False,
+            plan_approval_ref=approval_rel,seen_date="2026-10-04")
+        self.assertTrue(result["created"])
+        self.assertEqual(result["status"],"ACCEPTED_REFERENCE")
+        entry=self.current()["entries"][0]
+        self.assertEqual(
+            entry["submission_review"]["basis"],
+            "OWNER_APPROVED_IMPLEMENTATION_PLAN_PROCESSED_DONOR_SET")
+        self.assertFalse(entry["submission_review"]["second_donornak_marker_required"])
+
+    def test_approved_plan_registration_rejects_donor_outside_exact_processed_set(self):
+        approval_rel="canonical/decisions/FA3-DEC-TEST-PLAN-APPROVAL.json"
+        approval=self.root/approval_rel
+        approval.parent.mkdir(parents=True,exist_ok=True)
+        approval.write_text(json.dumps({
+            "status":"APPROVED",
+            "explicit_user_approval":True,
+            "approved_plan_sha256":"b"*64,
+            "user_request_ref":"conversation:test-plan",
+            "donor_registration_authorization":"APPROVED_PLAN_PROCESSED_DONORS_ONLY",
+            "approved_processed_donor_keys":["github:example/allowed"]
+        }),encoding="utf-8")
+        with self.assertRaisesRegex(ValueError,"DONOR_NOT_IN_APPROVED_PLAN_PROCESSED_SET"):
+            capture_candidate(
+                self.root,name="blocked",source_kind="GITHUB",
+                source_locator="https://github.com/example/blocked",
+                owner_submitted_link=False,explicit_donor_marker=False,
+                plan_approval_ref=approval_rel,seen_date="2026-10-04")
+        self.assertEqual(self.current()["backfill"]["entry_count"],0)
+
     def test_batched_ingest_commits_one_coherent_count(self):
         sources = " ".join("https://github.com/example/tool" + str(i) for i in range(4))
         result = ingest(self.root, [{
