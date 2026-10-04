@@ -3,6 +3,10 @@
 #include <QObject>
 #include <QVariantList>
 #include <QVariantMap>
+#include <QAudioFormat>
+
+class QAudioSource;
+class QFile;
 
 class VoiceWorkspaceService final : public QObject
 {
@@ -14,6 +18,8 @@ class VoiceWorkspaceService final : public QObject
     Q_PROPERTY(QVariantMap activity READ activity NOTIFY stateChanged)
     Q_PROPERTY(QString lastError READ lastError NOTIFY lastErrorChanged)
     Q_PROPERTY(QString lastOperation READ lastOperation NOTIFY lastOperationChanged)
+    Q_PROPERTY(bool recording READ recording NOTIFY recordingChanged)
+    Q_PROPERTY(QString recordingPath READ recordingPath NOTIFY recordingChanged)
 
 public:
     explicit VoiceWorkspaceService(const QString &repoRoot, QObject *parent = nullptr);
@@ -25,6 +31,8 @@ public:
     QVariantMap activity() const;
     QString lastError() const { return m_lastError; }
     QString lastOperation() const { return m_lastOperation; }
+    bool recording() const { return m_recording; }
+    QString recordingPath() const { return m_recordingPath; }
 
     Q_INVOKABLE void refresh();
     Q_INVOKABLE QVariantMap upsertVoiceProfile(const QString &voiceProfileId,
@@ -33,6 +41,8 @@ public:
                                                 const QString &identityKind,
                                                 const QString &consentStatus,
                                                 const QString &consentProofRef);
+    Q_INVOKABLE bool startMicrophoneCapture(const QString &language);
+    Q_INVOKABLE QVariantMap stopMicrophoneCapture(const QString &transcript = QString());
     Q_INVOKABLE QVariantMap createCapture(const QString &language,
                                           const QString &sourceRef,
                                           const QString &transcript = QString());
@@ -61,6 +71,7 @@ signals:
     void stateChanged();
     void lastErrorChanged();
     void lastOperationChanged();
+    void recordingChanged();
 
 private:
     void load();
@@ -72,10 +83,17 @@ private:
     void setError(const QString &message);
     void setOperation(const QString &message);
     static QString makeId(const QString &prefix);
+    static bool writeWavHeader(QFile &file, const QAudioFormat &format, qint64 dataBytes);
 
     QString m_repoRoot;
     QString m_statePath;
     QVariantMap m_state;
     QString m_lastError;
     QString m_lastOperation;
+    bool m_recording = false;
+    QString m_recordingPath;
+    QString m_recordingLanguage;
+    QAudioFormat m_recordingFormat;
+    QAudioSource *m_audioSource = nullptr;
+    QFile *m_recordFile = nullptr;
 };
