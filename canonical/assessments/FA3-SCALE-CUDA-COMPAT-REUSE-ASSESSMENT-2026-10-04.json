@@ -1,0 +1,75 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-SCALE-CUDA-COMPAT-REUSE-ASSESSMENT-2026-10-04",
+  "project_id": "FA3-PROVIDER-SCALE-CUDA-COMPAT-001",
+  "intent_id": "FA3-SCALE-CUDA-COMPAT-APPLICATION-INTENT-2026-10-04",
+  "covered_ids": [
+    "FA3-PROVIDER-SCALE-CUDA-COMPAT-001",
+    "FA3-SCALE-CUDA-COMPAT-CONTRACTS-001"
+  ],
+  "project_status": "OWNER_APPROVED_IMPLEMENTATION",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-CUDA-PORTABILITY-SHARED-FUNCTION-POLICY-001",
+      "use": "SHARED_ONLY_CUDA_ORIENTED_FUNCTION_AND_NO_SILENT_FALLBACK_POLICY"
+    },
+    {
+      "id": "FA3-HARDWARE-BASELINE-001",
+      "use": "VENDOR_NEUTRAL_LIVE_DEVICE_AND_BACKEND_DISCOVERY"
+    },
+    {
+      "id": "FA3-HOST-RESOURCE-BROKER-001",
+      "use": "EXISTING_RESOURCE_PLACEMENT_RESERVATION_AND_LEASE_AUTHORITY"
+    },
+    {
+      "id": "FA3-LICENSE-RIGHTS-POLICY-001",
+      "use": "EXISTING_FAIL_CLOSED_THIRD_PARTY_COMMERCIAL_RIGHTS_AUTHORITY"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "APPLICATION_LOCAL_SCALE_INTEGRATION",
+      "reason": "CUDA_ORIENTED_FUNCTIONAL_CORE_IS_SHARED_ONLY"
+    },
+    {
+      "id": "SCALE_AS_GLOBAL_CUDA_REQUIREMENT",
+      "reason": "HARDWARE_BASELINE_IS_VENDOR_NEUTRAL_AND_CPU_ONLY_REMAINS_MANDATORY"
+    },
+    {
+      "id": "AUTO_INSTALL_SCALE",
+      "reason": "EXTERNAL_RUNTIME_AND_LICENSE_RIGHTS_MUST_BE_EXPLICITLY_ADMITTED"
+    },
+    {
+      "id": "SCALE_FOR_INTEL",
+      "reason": "UPSTREAM_SUPPORT_NOT_CURRENTLY_CLAIMED"
+    }
+  ],
+  "donor_planning_snapshot": {
+    "published_main_commit": "b5052f6595a3fdad84ed7a06e6276f8af5a8dcd8",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "1362d75186c6da74e5cf947fdf0b8867d462636a",
+    "donor_registry_entry_count": 1427
+  },
+  "pending_or_unmerged_donors_consumed": false,
+  "donor_usage_edges_created": 0,
+  "adopted_donors": [],
+  "external_source_admission": {
+    "source": "SCALE official documentation",
+    "donor_admission_created": false,
+    "reason": "Owner requested implementation; no explicit donor-intake marker was given in this task."
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "disposition": "SHARED",
+    "local_duplicate_created": false,
+    "shared_component_ids": [
+      "FA3-PROVIDER-SCALE-CUDA-COMPAT-001"
+    ]
+  },
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "implementation_readiness": "IMPLEMENTED_PENDING_PHYSICAL_RUNTIME_PROMOTION_EVIDENCE",
+  "current_host_runtime_promotion_claim": false
+}
