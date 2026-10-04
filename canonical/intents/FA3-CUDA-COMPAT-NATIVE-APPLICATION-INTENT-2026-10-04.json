@@ -1,0 +1,87 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-CUDA-COMPAT-NATIVE-APPLICATION-INTENT-2026-10-04",
+  "project_id": "FA3-PROVIDER-CFA3-NATIVE-CUDA-COMPAT-001",
+  "project_type": "SHARED_NATIVE_EXECUTION_COMPATIBILITY_CORE",
+  "title": "Implement CFA3-native shared CUDA compatibility translation",
+  "status": "OWNER_APPROVED_FOR_IMPLEMENTATION",
+  "date": "2026-10-04",
+  "goal": "Provide one CFA3-owned CUDA-oriented source compatibility and translation core to every current and future CFA3 application, targeting AMD and Intel through existing native/portable execution backends without any Spectral Compute SCALE build or runtime dependency.",
+  "requirements": [
+    "CUDA is a backend interface, not a capability.",
+    "The implementation is one central shared CFA3-native core available to every current and future CFA3 application.",
+    "Spectral Compute SCALE must not be a build dependency, runtime dependency, binary-loading dependency, or activation requirement.",
+    "Application-local CUDA compatibility or translation cores are forbidden.",
+    "AMD translation targets the admitted ROCm/HIP execution path.",
+    "Intel translation targets admitted Level Zero/OpenCL execution paths.",
+    "CUDA source feature coverage must be analyzed per workload and unsupported semantics must fail closed with a user-visible limitation.",
+    "Closed CUDA binaries, PTX, CUBIN and FATBIN are not claimed by the initial implementation.",
+    "Translation execution must be explicitly allowed by workload policy.",
+    "HRB remains placement and lease authority.",
+    "Native NVIDIA CUDA remains available independently and is not replaced.",
+    "No silent backend, device, provider or cloud fallback.",
+    "Physical Current Host or target-host evidence is required before runtime promotion.",
+    "Capability baseline remains 175 with no new architectural authority."
+  ],
+  "capability_count": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "required_capabilities": [
+    "HARDWARE_PORTABILITY",
+    "ACCELERATOR_BACKEND_COMPATIBILITY",
+    "SHARED_CAPABILITY_PLACEMENT",
+    "LICENSE_RIGHTS_ADMISSION",
+    "HOST_RESOURCE_BROKER_LEASE"
+  ],
+  "optional_capabilities": [],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "target_vendor_materialized": [
+      "AMD",
+      "INTEL"
+    ],
+    "global_accelerator_requirement": false,
+    "hardware_mutation": false,
+    "live_resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "current_host_runtime_promotion_claim": false
+  },
+  "namespace_claims": {
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "new_global_hardware_authority": false,
+    "application_local_accelerator_authority": false
+  },
+  "security_requirements": [
+    "FAIL_CLOSED_ON_UNSUPPORTED_CUDA_SEMANTICS",
+    "FAIL_CLOSED_ON_DEVICE_BINDING_MISMATCH",
+    "NO_SILENT_BACKEND_SUBSTITUTION",
+    "HARDWARE_SAFETY_PRECEDENCE"
+  ],
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-CUDA-PORTABILITY-SHARED-FUNCTION-POLICY-001",
+    "FA3-HARDWARE-BASELINE-001",
+    "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+    "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-GPU-KERNEL-RUNTIME-CONTRACTS-001",
+    "FA3-KHRONOS-OPEN-STANDARDS-001"
+  ],
+  "reuse_discovery_declared": true,
+  "consumer_scope": {
+    "applications": [
+      "PLANNED_APPLICATIONS",
+      "IN_PROGRESS_APPLICATIONS",
+      "MATERIALIZED_APPLICATIONS",
+      "FUTURE_APPLICATIONS"
+    ],
+    "access": "CENTRAL_SHARED_ENTRYPOINT",
+    "application_allowlist": false,
+    "application_local_implementation": false
+  }
+}
