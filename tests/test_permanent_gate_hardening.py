@@ -6,6 +6,7 @@ from pathlib import Path
 
 from fa3_permanent_gate_hardening import (
     canonical_json_bytes,
+    current_host_protected_workflows,
     explicit_gate_pass,
     scan_workflow_action_pins,
     verify_binding,
@@ -73,6 +74,39 @@ def test_action_pin_guard_rejects_mutable_tags(tmp_path: Path):
     )
 
 
+
+def test_current_host_workflow_scope_is_discovered_dynamically(tmp_path: Path):
+    workflows = tmp_path / ".github/workflows"
+    workflows.mkdir(parents=True)
+    direct = workflows / "fa3-demo-current-host.yml"
+    adjacent = workflows / "fa3-demo-gate.yml"
+    unrelated = workflows / "fa3-unrelated.yml"
+    direct.write_text(
+        "steps:\n  - uses: actions/checkout@v4\n",
+        encoding="utf-8",
+    )
+    adjacent.write_text(
+        "name: demo\n# validates current-host evidence\n"
+        "steps:\n  - uses: actions/setup-python@v5\n",
+        encoding="utf-8",
+    )
+    unrelated.write_text(
+        "steps:\n  - uses: actions/checkout@v4\n",
+        encoding="utf-8",
+    )
+
+    protected = current_host_protected_workflows(tmp_path, [])
+    assert ".github/workflows/fa3-demo-current-host.yml" in protected
+    assert ".github/workflows/fa3-demo-gate.yml" in protected
+    assert ".github/workflows/fa3-unrelated.yml" not in protected
+
+    findings = scan_workflow_action_pins(tmp_path, protected)
+    assert {row["path"] for row in findings} == {
+        ".github/workflows/fa3-demo-current-host.yml",
+        ".github/workflows/fa3-demo-gate.yml",
+    }
+
+
 def test_binding_verifier_fails_after_subject_mutation(tmp_path: Path):
     subject = tmp_path / "subject.json"
     subject.write_text('{"a":1}\n', encoding="utf-8")
@@ -138,9 +172,7 @@ def test_trusted_workflow_never_executes_candidate_code():
             ROOT / "canonical/FA3-PERMANENT-GATE-HARDENING-001.json"
         ).read_text(encoding="utf-8")
     )
-    assert (
-        scan_workflow_action_pins(
-            ROOT, config["sha_pinned_workflows"]
-        )
-        == []
+    protected = current_host_protected_workflows(
+        ROOT, config["sha_pinned_workflows"]
     )
+    assert scan_workflow_action_pins(ROOT, protected) == []
