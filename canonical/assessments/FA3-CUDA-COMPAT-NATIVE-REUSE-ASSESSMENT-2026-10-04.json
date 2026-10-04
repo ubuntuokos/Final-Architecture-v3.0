@@ -7,7 +7,7 @@
     "FA3-PROVIDER-CFA3-NATIVE-CUDA-COMPAT-001",
     "FA3-CUDA-COMPAT-NATIVE-CONTRACTS-001"
   ],
-  "project_status": "OWNER_APPROVED_NATIVE_IMPLEMENTATION_PRESENT_PENDING_PHYSICAL_RUNTIME_PROMOTION",
+  "project_status": "OWNER_APPROVED_FINAL_PLAN_V2_IMPLEMENTED_PENDING_PHYSICAL_RUNTIME_PROMOTION",
   "result": "PASS",
   "selected_reuse": [
     {
@@ -37,6 +37,14 @@
     {
       "id": "FA3-KHRONOS-OPEN-STANDARDS-001",
       "use": "EXISTING_OPENCL_SPIRV_COMPUTE_SOURCE_FAMILY_AND_ADAPTERS"
+    },
+    {
+      "id": "FA3-DONOR-GPUOPEN-OROCHI-001",
+      "use": "APPROVED_ARCHITECTURE_PATTERN_RUNTIME_DISPATCH_BOUNDARY"
+    },
+    {
+      "id": "FA3-DONOR-ROCM-EXAMPLES-001",
+      "use": "APPROVED_ARCHITECTURE_PATTERN_PORTABILITY_TEST_MATRIX"
     }
   ],
   "rejected_candidates": [
@@ -65,8 +73,33 @@
     "donor_registry_sha256": "b8d0eb42ee02885863af375071ffae89033664089ddba3c69682a8d0f7c7cff1"
   },
   "pending_or_unmerged_donors_consumed": false,
-  "donor_usage_edges_created": 0,
-  "adopted_donors": [],
+  "donor_usage_edges_created": 2,
+  "adopted_donors": [
+    {
+      "donor_id": "FA3-DONOR-GPUOPEN-OROCHI-001",
+      "decision": "EXPLICITLY_APPROVED",
+      "mode": "APPROVED_CAPABILITY_PATTERN",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "usage_edge_id": "FA3-USAGE-GPUOPEN-OROCHI-CUDA-COMPAT-001",
+      "approval_ref": "canonical/decisions/FA3-DEC-CUDA-COMPAT-OROCHI-DONOR-USE-2026-10-04.json",
+      "adoption_scope": "PROVIDER_NEUTRAL_RUNTIME_DISPATCH_BOUNDARY_PATTERN",
+      "code_copy": false,
+      "runtime_dependency": false,
+      "architectural_authority": false
+    },
+    {
+      "donor_id": "FA3-DONOR-ROCM-EXAMPLES-001",
+      "decision": "EXPLICITLY_APPROVED",
+      "mode": "APPROVED_CAPABILITY_PATTERN",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "usage_edge_id": "FA3-USAGE-ROCM-EXAMPLES-CUDA-COMPAT-001",
+      "approval_ref": "canonical/decisions/FA3-DEC-CUDA-COMPAT-ROCM-EXAMPLES-DONOR-USE-2026-10-04.json",
+      "adoption_scope": "CUDA_HIP_PORTABILITY_TEST_MATRIX_PATTERN",
+      "code_copy": false,
+      "runtime_dependency": false,
+      "architectural_authority": false
+    }
+  ],
   "external_source_admission": {
     "source": "Spectral Compute SCALE",
     "donor_admission_created": false,
@@ -95,7 +128,7 @@
   "capability_count_after": 175,
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
-  "implementation_readiness": "NATIVE_TRANSLATOR_V1_IMPLEMENTED_PENDING_PHYSICAL_CURRENT_HOST_OR_TARGET_HOST_QUALIFICATION",
+  "implementation_readiness": "STRUCTURED_IR_V2_IMPLEMENTED_WITH_AMD_HIP_AND_INTEL_SYCL_OPENCL_PENDING_PHYSICAL_QUALIFICATION",
   "current_host_runtime_promotion_claim": false,
   "intent_path": "canonical/intents/FA3-CUDA-COMPAT-NATIVE-APPLICATION-INTENT-2026-10-04.json",
   "pattern_reuse": [
@@ -144,7 +177,28 @@
     "external_scale_installation_preserved": true,
     "external_scale_dependency": false
   },
-  "donor_pattern_reuse": [],
+  "donor_pattern_reuse": [
+    {
+      "donor_id": "FA3-DONOR-GPUOPEN-OROCHI-001",
+      "usage_edge_id": "FA3-USAGE-GPUOPEN-OROCHI-CUDA-COMPAT-001",
+      "approval_ref": "canonical/decisions/FA3-DEC-CUDA-COMPAT-OROCHI-DONOR-USE-2026-10-04.json",
+      "patterns": [
+        "PROVIDER_NEUTRAL_RUNTIME_DISPATCH_BOUNDARY",
+        "CUDA_HIP_API_SURFACE_SEPARATION"
+      ],
+      "implementation": "CFA3_NATIVE_NO_CODE_COPY"
+    },
+    {
+      "donor_id": "FA3-DONOR-ROCM-EXAMPLES-001",
+      "usage_edge_id": "FA3-USAGE-ROCM-EXAMPLES-CUDA-COMPAT-001",
+      "approval_ref": "canonical/decisions/FA3-DEC-CUDA-COMPAT-ROCM-EXAMPLES-DONOR-USE-2026-10-04.json",
+      "patterns": [
+        "CUDA_HIP_PORTABILITY_SMOKE_TEST",
+        "EXPLICIT_BACKEND_COMPARISON"
+      ],
+      "implementation": "CFA3_NATIVE_NO_CODE_COPY"
+    }
+  ],
   "global_promotion_claim": false,
   "current_host_impact": {
     "classification": "STRUCTURAL_REASSESSMENT_RECONCILED_PENDING_PHYSICAL_REQUALIFICATION",
@@ -174,5 +228,13 @@
       "automatic_activation": false,
       "disposition": "REUSE_EXISTING_OPENCL_COMPUTE_PROVIDER_PATH_FOR_INTEL_V1_TARGET; NO_NEW_KHRONOS_AUTHORITY"
     }
-  ]
+  ],
+  "donor_review": "REVIEWED_MATCH",
+  "donor_adoption_authorized": true,
+  "selected_existing_donor_ids": [
+    "FA3-DONOR-GPUOPEN-OROCHI-001",
+    "FA3-DONOR-ROCM-EXAMPLES-001"
+  ],
+  "approved_plan": "docs/cfa3-native-cuda-compat-final-plan-2026-10-04.md",
+  "plan_approval_record": "canonical/decisions/FA3-DEC-CUDA-COMPAT-NATIVE-PLAN-APPROVAL-2026-10-04.json"
 }
