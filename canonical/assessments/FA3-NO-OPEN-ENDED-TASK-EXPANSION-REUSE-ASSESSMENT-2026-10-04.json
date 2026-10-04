@@ -1,0 +1,134 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-NO-OPEN-ENDED-TASK-EXPANSION-REUSE-ASSESSMENT-2026-10-04",
+  "project_id": "FA3-GOAL-EXECUTION-CONTRACTS-001",
+  "intent_id": "FA3-GOAL-EXECUTION-APPLICATION-INTENT-2026-09-28",
+  "intent_path": "canonical/intents/FA3-GOAL-EXECUTION-APPLICATION-INTENT-2026-09-28.json",
+  "covered_ids": [
+    "FA3-GOAL-EXECUTION-CONTRACTS-001",
+    "FA3-RULE-NO-OPEN-ENDED-TASK-EXPANSION-001"
+  ],
+  "project_status": "OWNER_APPROVED_GOVERNANCE_HARDENING_MATERIALIZED",
+  "result": "PASS",
+  "reuse_disposition": "REVIEWED_NO_MATCH_EXTERNAL_DONOR",
+  "assessment_provenance": {
+    "type": "OWNER_APPROVED_REUSE_REASSESSMENT",
+    "reviewed_on": "2026-10-04",
+    "planning_basis": "PUBLISHED_MAIN_DONOR_REGISTRY_ONLY",
+    "owner_approved_plan": true,
+    "owner_approved_materialization": true
+  },
+  "selected_reuse": [
+    {
+      "id": "FA3-GOAL-EXECUTION-CONTRACTS-001",
+      "use": "EXTEND_EXISTING_USER_OWNED_GOAL_AND_SCOPE_CONTRACT"
+    },
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "MANDATORY_EXISTING_REUSE_AND_DONOR_PLANNING_GATE"
+    },
+    {
+      "id": "EXISTING_TEMPORAL_ONLY",
+      "use": "SOLE_GLOBAL_DURABLE_LIFECYCLE_OWNER"
+    },
+    {
+      "id": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "use": "EXISTING_TYPED_ACTION_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "EXISTING_HOST_RESOURCE_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "EXISTING_MODEL_ROUTE_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "EXISTING_CANONICAL_EVIDENCE_AUTHORITY"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "EXTERNAL_DONOR_FOR_TASK_SCOPE_GOVERNANCE",
+      "reason": "PUBLISHED_DONOR_REGISTRY_REVIEW_FOUND_NO_NEEDED_EXTERNAL_DONOR; EXISTING_FA3_SCOPE_AND_GOAL_CONTRACTS_COVER_THE_REQUIREMENT"
+    },
+    {
+      "id": "SECOND_TASK_OR_WORKFLOW_AUTHORITY",
+      "reason": "TASK_SCOPE_GOVERNANCE_MUST_EXTEND_EXISTING_GOAL_EXECUTION_AND_TEMPORAL_BOUNDARIES"
+    },
+    {
+      "id": "ASSISTANT_GENERATED_OPTIONAL_BACKLOG",
+      "reason": "CONTRADICTS_OWNER_APPROVED_NO_OPEN_ENDED_TASK_EXPANSION_RULE"
+    }
+  ],
+  "pattern_reuse": [
+    "FAIL_CLOSED_NO_IMPLICIT_BROADENING",
+    "USER_OWNED_EXPLICIT_SCOPE",
+    "EXISTING_GOAL_ACCEPTANCE_CRITERIA_TRACEABILITY"
+  ],
+  "gaps": [],
+  "existing_authority_bindings": {
+    "durable_lifecycle": "EXISTING_TEMPORAL_ONLY",
+    "unified_actions": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "runtime_hardware_change": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_hijack": false,
+    "second_task_authority_created": false
+  },
+  "mandatory_source_reviews": [],
+  "donor_planning_snapshot": {
+    "published_main_commit": "6be38def0d6a56b4e8fded74fb3c5ed2e3c1506f",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "1362d75186c6da74e5cf947fdf0b8867d462636a",
+    "donor_registry_sha256": "b8d0eb42ee02885863af375071ffae89033664089ddba3c69682a8d0f7c7cff1",
+    "donor_registry_entry_count": 1427
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "retrospective_consumer_impact_reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "rationale": "Task-scope provenance and no-implicit-expansion semantics are cross-application governance and therefore remain in the existing shared Goal Execution/Orchestration layer rather than being duplicated in individual applications.",
+    "shared_component_ids": [
+      "FA3-GOAL-EXECUTION-CONTRACTS-001",
+      "FA3-RULE-NO-OPEN-ENDED-TASK-EXPANSION-001"
+    ],
+    "consumer_scope": [
+      "Assistant",
+      "Coach",
+      "Mentor",
+      "Manager",
+      "Agent Workload",
+      "Orchestration Workforce",
+      "Temporal workflows",
+      "Control Center Tasks",
+      "current and future FA3 applications"
+    ],
+    "local_duplicate_created": false
+  },
+  "pending_or_unmerged_donors_consumed": false,
+  "donor_adoption_authorized": false,
+  "adoption_authorized": false,
+  "implementation_readiness": "READY_FOR_GOVERNANCE_FINALIZATION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}
