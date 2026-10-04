@@ -77,7 +77,16 @@
     ],
     "retrospective_consumer_impact_reviewed": true,
     "local_duplicate_created": false,
-    "rationale": "CUDA-oriented compatibility execution can serve multiple FA3/CFA3 applications and therefore remains one shared backend adapter behind common hardware, rights and HRB contracts."
+    "rationale": "CUDA-oriented compatibility execution is a platform-wide CFA3 shared service. Every current and future application reaches the same central compatibility resolver; applications may provide UI/workflow context but may not duplicate the backend core, gain provider-selection authority, or bypass rights, hardware-safety and HRB admission.",
+    "consumer_scope": [
+      "PLANNED_APPLICATIONS",
+      "IN_PROGRESS_APPLICATIONS",
+      "MATERIALIZED_APPLICATIONS",
+      "FUTURE_APPLICATIONS"
+    ],
+    "central_entrypoint": "src/fa3_cuda_compat_shared.py:resolve_cuda_compatibility",
+    "application_allowlist": false,
+    "application_local_access_adapter_may_duplicate_backend_core": false
   },
   "capability_count_after": 175,
   "new_capabilities": 0,
