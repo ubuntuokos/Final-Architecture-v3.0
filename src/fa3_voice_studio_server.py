@@ -37,6 +37,7 @@ class Handler(BaseHTTPRequestHandler):
             elif path=="/api/generate": out=self.workspace.generate(p)
             elif path=="/api/fit-to-clip": out=self.workspace.fit_to_clip(int(p["target_ms"]),int(p["actual_ms"]))
             elif path=="/api/quick-dub": out=self.workspace.quick_dub_plan(p)
+            elif path=="/api/uaf": out=self.workspace.dispatch_action(str(p.get("action","")),dict(p.get("payload") or {}))
             else: self._send(404,{"error":"not found"}); return
             self._send(200,out)
         except (VoiceWorkspaceError,KeyError,ValueError,json.JSONDecodeError) as e: self._send(400,{"error":str(e)})
