@@ -385,12 +385,12 @@ QVariantMap VoiceWorkspaceService::stageTranscription(const QString &captureId,
     capturesMap.insert(clean(captureId), capture);
     m_state.insert(QStringLiteral("captures"), capturesMap);
     m_state.insert(QStringLiteral("activity"), QVariantMap{
-        {QStringLiteral("state"), QStringLiteral("TRANSCRIBING")},
+        {QStringLiteral("state"), QStringLiteral("PAUSED")},
         {QStringLiteral("application"), QStringLiteral("fa3.voice-studio")},
         {QStringLiteral("actor"), QStringLiteral("user")},
         {QStringLiteral("voice_profile_id"), QString()},
         {QStringLiteral("job_id"), requestId},
-        {QStringLiteral("visible"), true}
+        {QStringLiteral("visible"), false}
     });
     if (!save()) return {};
     setOperation(QStringLiteral("Transcription staged for UAF. Provider execution requires admitted Whisper current-host runtime."));
