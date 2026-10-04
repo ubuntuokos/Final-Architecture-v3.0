@@ -303,12 +303,12 @@ class VoiceWorkspaceStore:
         }
         self.state["jobs"][job_id] = row
         self.state["activity"] = {
-            "state": "BLOCKED" if route_state == "BLOCKED_NOT_ADMITTED" else "GENERATING",
+            "state": "BLOCKED" if route_state == "BLOCKED_NOT_ADMITTED" else "PAUSED",
             "application": "fa3.voice-studio",
             "actor": "",
             "voice_profile_id": req["voice_identity_ref"],
             "job_id": job_id,
-            "visible": True,
+            "visible": route_state == "BLOCKED_NOT_ADMITTED",
         }
         self._save()
         return copy.deepcopy(row)
