@@ -7,9 +7,9 @@
   "parent_main": "b5052f6595a3fdad84ed7a06e6276f8af5a8dcd8",
   "parent_registry_blob_sha": "1362d75186c6da74e5cf947fdf0b8867d462636a",
   "parent_entry_count": 1427,
-  "resulting_registry_blob_sha": "5ce422532f6af08340fb90ce59a46c27c986979c",
-  "resulting_entry_count": 1525,
-  "new_source_count": 98,
+  "resulting_registry_blob_sha": "c5f885411c132543ff6ea026eac41dba32245129",
+  "resulting_entry_count": 1526,
+  "new_source_count": 99,
   "capability_baseline": 175,
   "capability_delta": 0,
   "authority_delta": 0,
@@ -114,10 +114,11 @@
     },
     {
       "pr": 706,
-      "head": "82c73af42bc4d8ce6e2f64ed6d911be95444e550",
-      "contribution": 6,
+      "head": "dd62e05810f1212a8489f4aa7cb2e033a801766d",
+      "contribution": 7,
       "matched_existing_reconciled": 4,
-      "mode": "QUEUE_DELTA_MATERIALIZED_WITH_IN_PLACE_ENRICHMENT"
+      "mode": "QUEUE_DELTA_MATERIALIZED_WITH_IN_PLACE_ENRICHMENT_AND_LIVE_HEAD_REFRESH",
+      "live_head_advanced_from": "82c73af42bc4d8ce6e2f64ed6d911be95444e550"
     }
   ],
   "stale_branch_policy": {
@@ -637,6 +638,12 @@
       "status": "ACCEPTED_REFERENCE"
     },
     {
+      "donor_id": "FA3-DONOR-OCP-OPENNETWORKLINUX-001",
+      "normalized_key": "github:opencomputeproject/opennetworklinux",
+      "locator": "https://github.com/opencomputeproject/OpenNetworkLinux",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
       "donor_id": "FA3-DONOR-OPENRA-ORG-001",
       "normalized_key": "github:openra",
       "locator": "https://github.com/OpenRA",
@@ -722,7 +729,7 @@
     }
   ],
   "invariants": [
-    "SOURCE_KEY_UNION_IS_EXACTLY_98_NEW_IDENTITIES_OVER_PARENT_MAIN_AFTER_LIVE_QUEUE_RECONCILIATION",
+    "SOURCE_KEY_UNION_IS_EXACTLY_99_NEW_IDENTITIES_OVER_PARENT_MAIN_AFTER_LIVE_QUEUE_RECONCILIATION",
     "DONOR_IDS_AND_SOURCE_KEYS_ARE_UNIQUE",
     "CAPABILITY_BASELINE_REMAINS_175",
     "NO_NEW_ARCHITECTURAL_AUTHORITY",
