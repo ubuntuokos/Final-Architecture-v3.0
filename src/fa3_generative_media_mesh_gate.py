@@ -41,10 +41,26 @@ def run():
         if rules.get(key) is not True:
             findings.append(f"GMM-007 missing rule {key}")
 
-    active = {x.get("donor_id") for x in links.get("donor_usage_records", []) if x.get("status") != "REMOVED"}
+    def mesh_bound(row):
+        primary = row.get("primary_consumer", {})
+        profiles = row.get("fa3_bindings", {}).get("profile_ids", [])
+        return (
+            row.get("status") != "REMOVED"
+            and (
+                primary.get("id") == "FA3-GENERATIVE-MEDIA-MESH-001"
+                or "FA3-GENERATIVE-MEDIA-MESH-001" in profiles
+            )
+        )
+    active = {x.get("donor_id") for x in links.get("donor_usage_records", []) if mesh_bound(x)}
     required = {x["donor_id"] for x in assessment.get("donor_pattern_reuse", [])}
     if not required.issubset(active):
-        findings.append("GMM-008 donor usage edge missing:" + ",".join(sorted(required-active)))
+        findings.append("GMM-008 mesh-bound donor usage edge missing:" + ",".join(sorted(required-active)))
+
+    child = profile.get("hidream_children", {})
+    if child.get("canonical_child_queue") is not False or child.get("child_sources_canonicalized") is not False:
+        findings.append("GMM-008A unmarked HiDream child source canonicalized")
+    if child.get("automatic_registration") is not False or child.get("automatic_execution") is not False:
+        findings.append("GMM-008B unsafe child registration/execution")
 
     studio = next((x for x in gui.get("surfaces", []) if x.get("route_id") == "create.ai-studio"), {})
     children = studio.get("children", [])
