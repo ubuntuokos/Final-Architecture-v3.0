@@ -107,6 +107,7 @@ from fa3_os_event_privacy_gate import gate as fa3_os_event_privacy_gate
 from fa3_runtime_hardening_gate import gate as runtime_hardening_gate
 from fa3_modernization_integration_gate import gate as modernization_integration_gate
 from fa3_external_rt3d_engine_exclusion_gate import gate as external_rt3d_engine_exclusion_gate
+from fa3_naming_compatibility_gate import evaluate as naming_compatibility_gate
 
 OK=0
 BLOCKED=2
@@ -203,6 +204,9 @@ def static_check(root:Path):
     hardware_portability_ref=hardware_portability_gate(root)
     if hardware_portability_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-081","Primary hardware portability and repository-wide legacy/hardcoded-assumption gate failed",hardware_portability_gate=hardware_portability_ref))
+    naming_compatibility_ref=naming_compatibility_gate(root)
+    if naming_compatibility_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-151","CFA3 canonical naming and FA3 backward-compatibility gate failed",naming_compatibility_gate=naming_compatibility_ref))
     uaf_ref=uaf_gate(root)
     if uaf_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-115","Unified Action Fabric P0 canonical/security-boundary gate failed",uaf_gate=uaf_ref))
