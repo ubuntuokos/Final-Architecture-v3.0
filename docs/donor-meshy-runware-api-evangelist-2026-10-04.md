@@ -2,52 +2,56 @@
 
 ## Owner marker
 
-The owner explicitly marked the following 10 URLs as `donornak` on 2026-10-04:
+The owner explicitly marked 10 URLs as `donornak` on 2026-10-04. All ten are preserved in this batch's provenance.
 
-1. https://github.com/topics/meshy?o=asc&s=updated
-2. https://github.com/topics/meshy?l=python&o=asc&s=updated
-3. https://github.com/meshy-dev/Meshy-guide
-4. https://github.com/topics/meshy?l=python
-5. https://github.com/meshy-dev
-6. https://github.com/topics/meshy?l=html
-7. https://github.com/topics/ai-3d-model-generator
-8. https://github.com/runware
-9. https://github.com/topics/runware?l=shell
-10. https://github.com/api-evangelist
+## Cross-intake nonduplication
+
+Before #676 was created, **PR #675** had already registered the exact source `https://github.com/api-evangelist` as the planned identity `FA3-DONOR-API-EVANGELIST-ORG-001`.
+
+Therefore #676 does **not** create a second API Evangelist donor mutation. It records the submitted URL as cross-intake provenance and reuses #675:
+
+- existing intake: **#675**
+- existing head observed during reconciliation: `4635a980ccf5c8291bb54d608953b6cd5faf128e`
+- disposition: `REUSE_EARLIER_PENDING_CANONICAL_INTAKE_NO_DUPLICATE_MUTATION`
+
+This batch therefore contributes **6 new canonical identities**, not 7.
 
 ## Canonicalization
 
-The 10 submitted URLs become **7 canonical source identities**. The four filtered Meshy topic views are retained as exact provenance/discovery URLs under one `github:topics/meshy` identity, following the most recent topic-alias-collapse precedent.
+The 10 owner-submitted URLs are handled as:
 
-Planned identities:
+- 9 URLs in this PR's donor mutation scope;
+- 1 exact URL delegated to the earlier #675 intake;
+- the four filtered Meshy topic views collapse to one `github:topics/meshy` identity while every exact submitted URL remains preserved as provenance.
 
-- `FA3-DONOR-GITHUB-TOPIC-MESHY-001` — GitHub Meshy topic discovery index
-- `FA3-DONOR-MESHY-DEV-MESHY-GUIDE-001` — Meshy Guide repository reference
-- `FA3-DONOR-MESHY-DEV-ORG-001` — meshy-dev organization discovery index
-- `FA3-DONOR-GITHUB-TOPIC-AI-3D-MODEL-GENERATOR-001` — AI 3D model generator topic discovery index
-- `FA3-DONOR-RUNWARE-ORG-001` — Runware organization discovery index
-- `FA3-DONOR-GITHUB-TOPIC-RUNWARE-001` — Runware topic discovery index
-- `FA3-DONOR-API-EVANGELIST-ORG-001` — API Evangelist organization discovery index
+Planned new identities in #676:
 
-Published-main duplicate search found no existing record for these exact source identities at parent main `df24cb9d1fa2413b08c8d47461bdb2db799585f6`.
+1. `FA3-DONOR-GITHUB-TOPIC-MESHY-001`
+2. `FA3-DONOR-MESHY-DEV-MESHY-GUIDE-001`
+3. `FA3-DONOR-MESHY-DEV-ORG-001`
+4. `FA3-DONOR-GITHUB-TOPIC-AI-3D-MODEL-GENERATOR-001`
+5. `FA3-DONOR-RUNWARE-ORG-001`
+6. `FA3-DONOR-GITHUB-TOPIC-RUNWARE-001`
+
+Published-main duplicate search found no current canonical registry record for these six identities at parent main `df24cb9d1fa2413b08c8d47461bdb2db799585f6`.
 
 ## FA3 reference value
 
-The intake is reference-only. Likely reuse-discovery areas include:
+Reference-only discovery areas include:
 
 - AI-assisted 3D generation, text/image-to-3D, texturing, remeshing, rigging/animation and export workflow patterns;
 - 3D-generation API/agent integration and provider-neutral job/progress/result contracts;
 - media-generation SDK, CLI, ComfyUI and MCP integration patterns from Runware-related discovery;
-- API inventory, governance, OpenAPI/AsyncAPI/apis.json/JSON Schema cataloging and agent-facing API discovery patterns from API Evangelist;
-- tutorial/manual integration candidates where a referenced workflow maps to an existing FA3 capability.
+- tutorial/manual integration candidates where Meshy Guide workflows map to existing FA3 capabilities.
 
-No listed organization or topic recursively admits repositories. The Meshy Guide repository itself is still reference-only; any code or dependency reuse requires a separate exact-source review.
+The API Evangelist governance/discovery source remains covered by #675 and is not duplicated here.
 
 ## Authority and safety boundaries
 
 This registration does not:
 
 - create a new FA3 application, provider, model, engine, runtime or architectural authority;
+- recursively admit repositories listed by a topic or organization page;
 - install or fetch source, models, assets, SDKs or external services;
 - create usage edges;
 - override Model Router, Host Resource Broker, Hardware Safety, Software Coexistence, License & Rights, Security Governance or Current Host gates;
@@ -64,6 +68,16 @@ Parent registry blob: `1362d75186c6da74e5cf947fdf0b8867d462636a`
 
 Parent entry count: **1427**
 
-Proposed canonical count after eventual append-only materialization: **1434**
+Parent-relative proposed count for the six #676 identities: **1433**
 
-This PR is intentionally staged as a **FIFO waiting donor intake**. The central registry is not modified while the rolling five-slot active window is full. Pending identities are therefore **not canonical planning inputs**. When the gate admits this PR into the active window, it must be reconciled against the then-current published main, the seven identities must be append-only materialized without losing intervening donor records, tests/counts must be regenerated, and exact-head gates must pass before finalization.
+The API Evangelist count delta belongs to #675 and is deliberately excluded from #676.
+
+This PR is intentionally staged as a **FIFO waiting donor intake**. The central registry is not modified while the rolling five-slot active window is full. Pending identities are therefore **not canonical planning inputs**.
+
+Canonical gate evidence on #676 reported:
+
+- active donor PRs: #651, #657, #663, #664, #671
+- waiting donor PRs ahead of #676: #672, #673, #675
+- next finalizable active PR: #671
+
+When #676 is admitted into the active window, it must be reconciled against the then-current published main, the six local identities appended without losing intervening donor records, #675 reuse revalidated, counts/tests regenerated, and exact-head gates passed before finalization.
