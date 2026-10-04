@@ -34,6 +34,7 @@ ApplicationWindow {
     property string shortcutSearch: String(fa3Preferences.value("shortcuts/search", "Ctrl+K"))
     property string shortcutSettings: String(fa3Preferences.value("shortcuts/settings", "Ctrl+,"))
     property string shortcutToggleStatus: String(fa3Preferences.value("shortcuts/toggleStatus", "Ctrl+Shift+S"))
+    property bool currentHostGenerativeMediaProbeRequested: Qt.application.arguments.indexOf("--current-host-gmm-probe") >= 0
 
     // Stable semantic routes. StackLayout indices remain an implementation detail.
     property var routeTable: ({
@@ -92,6 +93,29 @@ ApplicationWindow {
         closeTransientWorkspaces()
         selectedIndex = index
         return true
+    }
+
+    Timer {
+        id: currentHostGenerativeMediaProbeNavigateTimer
+        interval: 900
+        running: window.currentHostGenerativeMediaProbeRequested
+        repeat: false
+        onTriggered: {
+            window.navigate("create.ai-studio")
+            aiStudioPage.pageMode = 0
+            aiStudioPage.selectedIndex = 0
+            currentHostGenerativeMediaProbeEmitTimer.start()
+        }
+    }
+
+    Timer {
+        id: currentHostGenerativeMediaProbeEmitTimer
+        interval: 900
+        repeat: false
+        onTriggered: {
+            var report = aiStudioPage.currentHostGenerativeMediaProbeReport()
+            console.log("FA3_GMM_CURRENT_HOST_PROBE=" + JSON.stringify(report))
+        }
     }
 
     function acceleratorProjection(inventory) {
@@ -978,6 +1002,7 @@ ApplicationWindow {
                 }
 
                 AiStudioPage {
+                    id: aiStudioPage
                     panel: window.panel
                     panelRaised: window.panelRaised
                     border: window.border
