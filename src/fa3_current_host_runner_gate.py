@@ -7,6 +7,10 @@ import re
 from pathlib import Path
 from typing import Any
 
+from fa3_release_baseline import module_active_capability_count
+
+ACTIVE_CAPABILITY_COUNT = module_active_capability_count(__file__)
+
 CONFORMANCE_ID = "FA3-CURRENT-HOST-RUNNER-CONFORMANCE-001"
 GATE_ID = "FA3-CURRENT-HOST-RUNNER-GATESET-001"
 REPO = "ubuntuokos/Final-Architecture-v3.0"
@@ -48,7 +52,7 @@ def validate_conformance(obj: dict[str, Any]) -> list[str]:
         (obj.get("id") == CONFORMANCE_ID, "conformance id drift"),
         (obj.get("repository") == REPO, "repository binding drift"),
         (obj.get("required_labels") == LABELS, "required labels drift"),
-        (obj.get("capability_count") == 143, "capability count drift"),
+        (obj.get("capability_count") == ACTIVE_CAPABILITY_COUNT, "capability count drift"),
         (obj.get("new_capabilities") == 0, "new capability introduced"),
         (obj.get("new_architectural_authorities") == 0, "new authority introduced"),
         (obj.get("architectural_authority") is False, "runner became architectural authority"),
@@ -161,8 +165,13 @@ def run(root: Path) -> dict[str, Any]:
         errors += validate_conformance(load(paths["conformance"]))
         errors += validate_enforcement(load(paths["enforcement"]))
         decision = load(paths["decision"])
-        if not (decision.get("status") == "CANONICAL_CLOSED" and decision.get("capability_count_after") == 143 and decision.get("new_architectural_authorities") == 0):
-            errors.append("decision invariant drift")
+        historical = load(paths["conformance"]).get("historical_baseline", {})
+        if not (
+            decision.get("status") == "CANONICAL_CLOSED"
+            and decision.get("capability_count_after") == historical.get("capability_count")
+            and decision.get("new_architectural_authorities") == 0
+        ):
+            errors.append("historical runner decision binding drift")
         errors += validate_bootstrap_text(paths["bootstrap"].read_text(encoding="utf-8"))
         errors += validate_doctor_text(paths["doctor"].read_text(encoding="utf-8"))
         errors += validate_workflow_text(paths["workflow"].read_text(encoding="utf-8"))
@@ -172,7 +181,7 @@ def run(root: Path) -> dict[str, Any]:
         "result": "PASS" if not errors else "FAIL",
         "finding_count": len(errors),
         "findings": errors,
-        "capability_count": 143,
+        "capability_count": ACTIVE_CAPABILITY_COUNT,
         "new_capabilities": 0,
         "new_architectural_authorities": 0,
         "current_host_runtime_promotion_claim": False,

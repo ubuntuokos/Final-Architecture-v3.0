@@ -1,6 +1,6 @@
 # FA3 Runtime Hardening — Current-Host Closure
 
-This closure materializes real current-host evidence collection for the cross-cutting runtime-hardening decision without changing the 143-capability baseline or any architectural authority.
+This closure materializes real current-host evidence collection for the cross-cutting runtime-hardening decision without changing the active 175-capability baseline or any architectural authority.
 
 ## Required surfaces
 

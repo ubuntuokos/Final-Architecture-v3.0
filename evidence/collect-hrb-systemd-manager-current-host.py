@@ -15,6 +15,9 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 from fa3_hrb_systemd_manager_current_host_gate import manager_violations
+from fa3_release_baseline import module_active_capability_count
+
+ACTIVE_CAPABILITY_COUNT = module_active_capability_count(__file__)
 
 EVIDENCE_LEVEL = "CURRENT_HOST_HRB_SYSTEMD_MANAGER_NEUTRALITY_PASS"
 
@@ -389,7 +392,7 @@ def main() -> int:
         "cgroup_v2": cgroup,
         "negative_tests": negatives,
         "check_summary": check_summary,
-        "capability_count_after": 143,
+        "capability_count_after": ACTIVE_CAPABILITY_COUNT,
         "new_capabilities": 0,
         "new_architectural_authorities": 0,
         "global_promotion_claim": False,

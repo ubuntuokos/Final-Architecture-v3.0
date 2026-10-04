@@ -3,6 +3,9 @@ from __future__ import annotations
 import argparse, json, re, subprocess
 from pathlib import Path
 from typing import Any
+from fa3_release_baseline import module_active_capability_count
+
+ACTIVE_CAPABILITY_COUNT=module_active_capability_count(__file__)
 
 SHA256=re.compile(r"^[0-9a-f]{64}$")
 REQUIRED_CHECKS=[
@@ -21,7 +24,7 @@ def loadj(path: Path)->dict[str,Any]:
 def gate(root: Path, receipt_path: Path)->dict[str,Any]:
     findings=[]
     conf=loadj(root/"canonical/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CURRENT-HOST-CONFORMANCE-001.json")
-    if conf.get("global_promotion_claim") is not False or conf.get("capability_count")!=143: findings.append({"code":"PEXCH-001","message":"conformance governance drift"})
+    if conf.get("global_promotion_claim") is not False or conf.get("capability_count")!=ACTIVE_CAPABILITY_COUNT: findings.append({"code":"PEXCH-001","message":"conformance governance drift"})
     if not receipt_path.is_file():
         findings.append({"code":"PEXCH-002","message":"real current-host receipt missing"})
         return {"schema":"fa3.gate-report.v1","gate_id":"FA3-GATE-MODEL-ROUTER-PROVIDER-EXECUTION-CURRENT-HOST-001","result":"FAIL","findings":findings}

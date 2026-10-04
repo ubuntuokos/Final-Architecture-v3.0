@@ -129,6 +129,48 @@ def verify_projection(root: Path):
                 )
             )
 
+    closure = manifest.get("active_closure", {})
+    if (
+        closure.get("capability_count") != CAPABILITY_COUNT
+        or closure.get("obligation_count") != CAPABILITY_COUNT * 3
+        or closure.get("obligation_model") != "POSITIVE_NEGATIVE_ROLLBACK_PER_CAPABILITY"
+        or closure.get("hardware_safety_preflight_mandatory") is not True
+        or closure.get("software_coexistence_cap175_mandatory") is not True
+        or closure.get("historical_143_429_evidence_auto_inheritance") is not False
+        or closure.get("physical_requalification_required_for_active_release") is not True
+        or closure.get("global_promotion_claim") is not False
+    ):
+        findings.append(finding("FA3-CH-011", "Active 175/525 closure contract drift"))
+
+    try:
+        recipes = loadj(root / "canonical/current-host-capability-proof-recipes.json")
+        shared = recipes.get("shared_recipe_count")
+        dedicated = recipes.get("dedicated_capability_ids", [])
+        if (
+            recipes.get("active_capability_count", recipes.get("capability_count")) != CAPABILITY_COUNT
+            or recipes.get("required_test_obligation_count") != CAPABILITY_COUNT * 3
+            or not isinstance(shared, int)
+            or not isinstance(dedicated, list)
+            or shared + len(set(dedicated)) != CAPABILITY_COUNT
+        ):
+            findings.append(finding("FA3-CH-012", "Current-host proof coverage metadata drift"))
+    except Exception as exc:
+        findings.append(finding("FA3-CH-012", "Current-host proof coverage metadata unavailable", error=str(exc)))
+
+    try:
+        runner = loadj(root / "canonical/FA3-CURRENT-HOST-RUNNER-CONFORMANCE-001.json")
+        structural = loadj(root / "canonical/FA3-CURRENT-HOST-STRUCTURAL-CHANGE-POLICY-001.json")
+        if (
+            runner.get("capability_count") != CAPABILITY_COUNT
+            or runner.get("required_test_obligation_count") != CAPABILITY_COUNT * 3
+            or structural.get("capability_count") != CAPABILITY_COUNT
+            or structural.get("fail_closed") is not True
+            or structural.get("historical_current_host_evidence_auto_inheritance") is not False
+        ):
+            findings.append(finding("FA3-CH-013", "Runner/structural Current Host policy drift"))
+    except Exception as exc:
+        findings.append(finding("FA3-CH-013", "Runner/structural Current Host policy unavailable", error=str(exc)))
+
     try:
         projection = loadj(root / PROJECTION_REL)
         projection_paths = {entry.get("path") for entry in projection.get("manifest", [])}

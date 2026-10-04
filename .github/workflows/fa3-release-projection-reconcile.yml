@@ -108,5 +108,19 @@ jobs:
 
           recovery_branch="automation/release-projection-pr-${GITHUB_SHA:0:12}"
           git push --force-with-lease origin "HEAD:refs/heads/${recovery_branch}"
+
+          case "${GITHUB_REF_NAME}" in
+            fa3/current-host-*)
+              source_sha="${GITHUB_SHA}"
+              test "$(git rev-parse HEAD^)" = "$source_sha"
+              mapfile -t changed < <(git diff --name-only "$source_sha..HEAD")
+              test "${#changed[@]}" -eq 1
+              test "${changed[0]}" = "$projection"
+              git push origin "HEAD:refs/heads/${GITHUB_REF_NAME}"
+              echo "::notice::Validated projection recovery ${recovery_branch} was automatically adopted onto the exact Current Host closure generation."
+              exit 0
+              ;;
+          esac
+
           echo "::error::PR branch projection is stale. The validated projection commit was preserved on ${recovery_branch}; an authorized author/agent must adopt that commit onto the PR head so protected checks run on the resulting head."
           exit 2

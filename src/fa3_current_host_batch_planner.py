@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from dataclasses import dataclass
 from pathlib import Path
@@ -35,14 +36,43 @@ def cap_sort_key(capability_id: str) -> tuple[int, str]:
         return (10**9, capability_id)
 
 
-def _entry_keys(data: dict[str, Any]) -> set[tuple[str, str]]:
-    keys: set[tuple[str, str]] = set()
-    for row in data.get("entries", []):
+def _sha256_file(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _entry_index(data: dict[str, Any], *, label: str) -> dict[tuple[str, str], dict[str, Any]]:
+    entries = data.get("entries")
+    if not isinstance(entries, list):
+        raise ValueError(f"{label} entries must be a list")
+    index: dict[tuple[str, str], dict[str, Any]] = {}
+    for row in entries:
+        if not isinstance(row, dict):
+            raise ValueError(f"{label} contains a non-object entry")
         subject = row.get("subject_id")
         test_kind = row.get("test_kind")
-        if isinstance(subject, str) and isinstance(test_kind, str):
-            keys.add((subject, test_kind))
-    return keys
+        if not isinstance(subject, str) or not isinstance(test_kind, str):
+            raise ValueError(f"{label} entry missing subject_id/test_kind")
+        key = (subject, test_kind)
+        if key in index:
+            raise ValueError(f"{label} contains duplicate obligation key: {subject}/{test_kind}")
+        index[key] = row
+    return index
+
+
+def _selection_digest(
+    capabilities: list[str],
+    registry_sha256: dict[str, str],
+) -> str:
+    payload = json.dumps(
+        {
+            "capabilities": capabilities,
+            "test_kinds": list(TEST_KINDS),
+            "registry_sha256": registry_sha256,
+        },
+        sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    return hashlib.sha256(payload).hexdigest()
 
 
 def build_plan(root: Path, batch_size: int = DEFAULT_BATCH_SIZE) -> dict[str, Any]:
@@ -68,9 +98,59 @@ def build_plan(root: Path, batch_size: int = DEFAULT_BATCH_SIZE) -> dict[str, An
     if len(set(capability_ids)) != len(capability_ids):
         raise ValueError("evidence registry contains duplicate capability subject_id values")
 
-    executor_keys = _entry_keys(executors)
-    qualification_keys = _entry_keys(qualifications)
-    producer_keys = _entry_keys(producers)
+    obligation_count = len(capability_ids) * len(TEST_KINDS)
+    expected_keys = {
+        (capability_id, test_kind)
+        for capability_id in capability_ids
+        for test_kind in TEST_KINDS
+    }
+    registries = {
+        "executors": executors,
+        "qualifications": qualifications,
+        "producers": producers,
+    }
+    indexes = {
+        label: _entry_index(data, label=label)
+        for label, data in registries.items()
+    }
+    for label, data in registries.items():
+        if data.get("capability_count") != expected_capability_count:
+            raise ValueError(f"{label} capability_count does not match active evidence registry")
+        declared_obligations = data.get("required_test_obligation_count")
+        if declared_obligations is not None and declared_obligations != obligation_count:
+            raise ValueError(f"{label} required_test_obligation_count mismatch")
+        if len(indexes[label]) != obligation_count:
+            raise ValueError(f"{label} obligation cardinality mismatch")
+        if set(indexes[label]) != expected_keys:
+            missing = sorted(expected_keys - set(indexes[label]))
+            extra = sorted(set(indexes[label]) - expected_keys)
+            raise ValueError(f"{label} obligation key mismatch: missing={missing[:5]} extra={extra[:5]}")
+
+    for key in sorted(expected_keys):
+        executor = indexes["executors"][key]
+        qualification = indexes["qualifications"][key]
+        producer = indexes["producers"][key]
+        qualification_id = qualification.get("qualification_id")
+        test_id = qualification.get("test_id")
+        if not isinstance(qualification_id, str) or not qualification_id:
+            raise ValueError(f"qualification id missing for {key}")
+        if executor.get("qualification_id") != qualification_id:
+            raise ValueError(f"executor qualification binding mismatch for {key}")
+        if producer.get("qualification_id") != qualification_id:
+            raise ValueError(f"producer qualification binding mismatch for {key}")
+        if executor.get("test_id") != test_id or producer.get("test_id") != test_id:
+            raise ValueError(f"test id binding mismatch for {key}")
+
+    registry_paths = {
+        "executors": root / "canonical/current-host-capability-test-executors.json",
+        "qualifications": root / "canonical/current-host-capability-test-qualifications.json",
+        "producers": root / "canonical/current-host-capability-qualification-constituent-producers.json",
+    }
+    registry_sha256 = {label: _sha256_file(path) for label, path in registry_paths.items()}
+
+    executor_keys = set(indexes["executors"])
+    qualification_keys = set(indexes["qualifications"])
+    producer_keys = set(indexes["producers"])
 
     coverage: list[Coverage] = []
     for capability_id in capability_ids:
@@ -87,6 +167,8 @@ def build_plan(root: Path, batch_size: int = DEFAULT_BATCH_SIZE) -> dict[str, An
             )
 
     obligations = len(coverage)
+    if obligations != obligation_count:
+        raise ValueError("derived current-host obligation count mismatch")
     materialized = [row for row in coverage if row.materialized]
     pending = [row for row in coverage if not row.materialized]
 
@@ -126,6 +208,7 @@ def build_plan(root: Path, batch_size: int = DEFAULT_BATCH_SIZE) -> dict[str, An
                 "capabilities": caps,
                 "obligation_count": len(caps) * len(TEST_KINDS),
                 "status": "READY_FOR_REAL_CURRENT_HOST_EXECUTION",
+                "selection_sha256": _selection_digest(caps, registry_sha256),
             }
         )
 
@@ -153,6 +236,9 @@ def build_plan(root: Path, batch_size: int = DEFAULT_BATCH_SIZE) -> dict[str, An
         "fully_materialized_capability_count": len(fully_materialized_caps),
         "pending_materialization_capability_count": len(pending_caps),
         "execution_ready_capabilities": fully_materialized_caps,
+        "execution_ready_selection_sha256": _selection_digest(fully_materialized_caps, registry_sha256),
+        "registry_sha256": registry_sha256,
+        "registry_integrity": "PASS",
         "next_materialization_batch": materialization_batches[0] if materialization_batches else None,
         "execution_batches": execution_batches,
         "materialization_batches": materialization_batches,
@@ -165,6 +251,9 @@ def build_plan(root: Path, batch_size: int = DEFAULT_BATCH_SIZE) -> dict[str, An
             "materialized_executor_implies_runtime_pass": False,
             "batch_completion_implies_global_promotion": False,
             "global_promotion_claim": False,
+            "duplicate_obligation_keys_allowed": False,
+            "cross_registry_qualification_binding_required": True,
+            "batch_selection_digest_required": True,
         },
     }
 

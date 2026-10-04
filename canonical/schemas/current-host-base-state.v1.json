@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "fa3://schemas/current-host-base-state.v1",
+  "title": "FA3 Current Host admitted base state",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "status",
+    "capability_count",
+    "obligation_count",
+    "base_release_digest",
+    "effective_host_digest"
+  ],
+  "properties": {
+    "schema": {"const": "fa3.current-host-base-state.v1"},
+    "status": {"const": "CURRENT_HOST_BASE_ADMITTED"},
+    "capability_count": {"const": 175},
+    "obligation_count": {"const": 525},
+    "base_release_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "effective_host_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

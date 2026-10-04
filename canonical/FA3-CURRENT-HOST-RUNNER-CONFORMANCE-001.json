@@ -6,7 +6,7 @@
   "architectural_authority": false,
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
-  "capability_count": 143,
+  "capability_count": 175,
   "repository": "ubuntuokos/Final-Architecture-v3.0",
   "required_labels": [
     "self-hosted",
@@ -44,6 +44,17 @@
   },
   "promotion_semantics": {
     "runner_doctor_pass_is_global_promotion": false,
-    "provider_e2e_must_run_separately": true
+    "provider_e2e_must_run_separately": true,
+    "active_release_current_host_requalification_required": true,
+    "historical_143_429_closure_promotes_active_175_525_release": false
+  },
+  "architecture_release": "2026-09-26/v3.1.0",
+  "required_test_obligation_count": 525,
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "historical_baseline": {
+    "capability_count": 143,
+    "verified_obligation_count": 429,
+    "semantics": "HISTORICAL_EVIDENCE_ONLY_NOT_ACTIVE_RELEASE_ADMISSION"
   }
 }

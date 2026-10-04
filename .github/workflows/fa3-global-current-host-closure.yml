@@ -29,6 +29,18 @@ on:
       - 'src/fa3_current_host_capability_test_executor_audit.py'
       - 'src/fa3_current_host_capability_test_orchestrator.py'
       - 'src/fa3_current_host_batch_planner.py'
+      - 'src/fa3_current_host_batch_integrity.py'
+      - 'src/fa3_current_host_requalification_plan.py'
+      - 'src/fa3_current_host_scoped_assertion.py'
+      - 'src/fa3_current_host_base_admission.py'
+      - 'tests/test_current_host_base_admission.py'
+      - '.github/workflows/fa3-current-host-post-merge-audit.yml'
+      - '.github/workflows/fa3-current-host-closure-controller.yml'
+      - '.github/workflows/fa3-current-host-projection-adopt.yml'
+      - 'canonical/FA3-CURRENT-HOST-STRUCTURAL-CHANGE-POLICY-001.json'
+      - 'src/fa3_current_host_structural_impact_gate.py'
+      - 'tests/test_current_host_structural_impact_gate.py'
+      - '.github/workflows/fa3-current-host-structural-impact.yml'
       - 'src/fa3_cap075_contract_registry_current_host.py'
       - 'src/fa3_cap076_acceptance_resilience_current_host.py'
       - 'src/fa3_cap054_external_asset_inventory_current_host.py'
@@ -70,6 +82,7 @@ on:
       - 'tests/test_current_host_capability_test_orchestrator.py'
       - 'tests/test_current_host_batch_planner.py'
       - 'tests/test_current_host_batch_orchestration.py'
+      - 'tests/test_current_host_batch_integrity.py'
       - 'tests/test_cap075_contract_registry_current_host.py'
       - 'tests/test_cap076_acceptance_resilience_current_host.py'
       - 'tests/test_cap054_external_asset_inventory_current_host.py'
@@ -117,6 +130,18 @@ on:
       - 'src/fa3_current_host_capability_test_executor_audit.py'
       - 'src/fa3_current_host_capability_test_orchestrator.py'
       - 'src/fa3_current_host_batch_planner.py'
+      - 'src/fa3_current_host_batch_integrity.py'
+      - 'src/fa3_current_host_requalification_plan.py'
+      - 'src/fa3_current_host_scoped_assertion.py'
+      - 'src/fa3_current_host_base_admission.py'
+      - 'tests/test_current_host_base_admission.py'
+      - '.github/workflows/fa3-current-host-post-merge-audit.yml'
+      - '.github/workflows/fa3-current-host-closure-controller.yml'
+      - '.github/workflows/fa3-current-host-projection-adopt.yml'
+      - 'canonical/FA3-CURRENT-HOST-STRUCTURAL-CHANGE-POLICY-001.json'
+      - 'src/fa3_current_host_structural_impact_gate.py'
+      - 'tests/test_current_host_structural_impact_gate.py'
+      - '.github/workflows/fa3-current-host-structural-impact.yml'
       - 'src/fa3_cap075_contract_registry_current_host.py'
       - 'src/fa3_cap076_acceptance_resilience_current_host.py'
       - 'src/fa3_cap054_external_asset_inventory_current_host.py'
@@ -152,6 +177,7 @@ on:
       - 'tests/test_current_host_capability_test_orchestrator.py'
       - 'tests/test_current_host_batch_planner.py'
       - 'tests/test_current_host_batch_orchestration.py'
+      - 'tests/test_current_host_batch_integrity.py'
       - 'docs/current-host-closure-batches.md'
       - 'tests/test_cap075_contract_registry_current_host.py'
       - 'tests/test_cap076_acceptance_resilience_current_host.py'
@@ -187,17 +213,51 @@ on:
         default: false
         type: boolean
       execution_batch_id:
-        description: 'Execution-ready batch ID, or FULL-525 for complete 175-capability physical closure'
+        description: 'Execution-ready batch ID, SCOPED, or FULL-525 for complete 175-capability physical closure'
         required: false
         default: 'FULL-525'
+        type: string
+      execution_subjects:
+        description: 'Comma-separated affected capability IDs when execution_batch_id=SCOPED'
+        required: false
+        default: ''
+        type: string
+      source_sha:
+        description: 'Exact source SHA to execute; defaults to triggering head'
+        required: false
+        default: ''
+        type: string
+  workflow_call:
+    outputs:
+      base_release_digest:
+        description: 'Digest of a successfully proven FULL-525 physical base candidate'
+        value: ${{ jobs.current-host-closure.outputs.base_release_digest }}
+      base_candidate_json:
+        description: 'Compact FULL-525 physical base admission candidate'
+        value: ${{ jobs.current-host-closure.outputs.base_candidate_json }}
+    inputs:
+      execute_current_host:
+        required: true
+        type: boolean
+      execution_batch_id:
+        required: false
+        default: 'FULL-525'
+        type: string
+      execution_subjects:
+        required: false
+        default: ''
+        type: string
+      source_sha:
+        required: false
+        default: ''
         type: string
 
 permissions:
   contents: read
 
 concurrency:
-  group: fa3-global-current-host-closure-${{ github.ref }}
-  cancel-in-progress: false
+  group: ${{ inputs.execute_current_host && format('fa3-current-host-physical-{0}-{1}', github.ref_name, inputs.source_sha || github.sha) || format('fa3-global-current-host-regression-{0}', github.event.pull_request.number || github.ref_name) }}
+  cancel-in-progress: ${{ github.event_name != 'pull_request' }}
 
 jobs:
   closure-regression:
@@ -207,6 +267,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ inputs.source_sha || github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
           fetch-depth: 0
       - uses: actions/setup-python@v5
@@ -223,6 +284,7 @@ jobs:
             src/fa3_current_host_capability_test_executor_audit.py \
             src/fa3_current_host_capability_test_orchestrator.py \
             src/fa3_current_host_batch_planner.py \
+            src/fa3_current_host_batch_integrity.py \
             src/fa3_cap075_contract_registry_current_host.py \
             src/fa3_cap076_acceptance_resilience_current_host.py \
             src/fa3_cap054_external_asset_inventory_current_host.py \
@@ -257,6 +319,7 @@ jobs:
             tests/test_current_host_capability_test_orchestrator.py \
             tests/test_current_host_batch_planner.py \
             tests/test_current_host_batch_orchestration.py \
+            tests/test_current_host_batch_integrity.py \
             tests/test_cap075_contract_registry_current_host.py \
             tests/test_cap076_acceptance_resilience_current_host.py \
             tests/test_cap054_external_asset_inventory_current_host.py \
@@ -281,7 +344,9 @@ jobs:
         run: |
           PYTHONPATH=src python -m unittest \
             tests.test_current_host_batch_planner \
-            tests.test_current_host_batch_orchestration -v
+            tests.test_current_host_batch_orchestration \
+            tests.test_current_host_batch_integrity \
+            tests.test_current_host_structural_impact_gate -v
           PYTHONPATH=src python src/fa3_current_host_batch_planner.py --root . --batch-size 5
           python3 - <<'PY'
           import json
@@ -507,7 +572,12 @@ jobs:
           orchestrator=json.loads(Path('reports/current-host-capability-test-orchestrator.json').read_text())
           audit=json.loads(Path('reports/current-host-evidence-audit.json').read_text())
           acceptance=json.loads(Path('acceptance/acceptance-report.json').read_text())
-          promotion=json.loads(Path('promotion/runtime-status.json').read_text())
+          promotion_path=Path('promotion/runtime-status.json')
+          promotion_artifact_present=promotion_path.is_file()
+          promotion=json.loads(promotion_path.read_text()) if promotion_artifact_present else {
+              'actual_state': 'PROMOTION_BLOCKED',
+              'promotion_allowed': False,
+          }
           assert executor['audit_integrity'] == 'PASS', executor
           assert executor['registered_executor_count'] + executor['pending_executor_count'] == 525, executor
           assert orchestrator['orchestrator_integrity'] == 'PASS', orchestrator
@@ -543,6 +613,7 @@ jobs:
               'criteria_passed': acceptance['criteria_passed'],
               'criteria_total': acceptance['criteria_total'],
               'promotion': promotion['actual_state'],
+              'promotion_artifact_present': promotion_artifact_present,
           }, indent=2))
           PY
       - name: Upload regression reconciliation reports
@@ -554,18 +625,22 @@ jobs:
           path: |
             .fa3-current-host/test-plan/capabilities.json
             reports/current-host-closure-batch-plan.json
+            reports/current-host-batch-integrity.json
             reports/current-host-capability-test-qualification-audit.json
             reports/current-host-capability-qualification-constituent-producer-audit.json
             reports/current-host-capability-qualification-constituent-orchestrator.json
             reports/current-host-capability-qualification-constituent-producer-audit.json
             reports/current-host-capability-qualification-constituent-orchestrator.json
             reports/current-host-closure-batch-plan.json
+            reports/current-host-batch-integrity.json
             reports/current-host-capability-test-executor-audit.json
             reports/current-host-capability-test-orchestrator.json
             reports/current-host-capability-test-bundle-assembler.json
             reports/current-host-capability-attestation-producer.json
             reports/current-host-capability-handoff.json
             reports/current-host-evidence-audit.json
+            reports/current-host-scoped-requalification.json
+            reports/current-host-base-admission-candidate.json
             reports/runtime-gate-report.json
             reports/terax-gate-report.json
             acceptance/acceptance-report.json
@@ -573,13 +648,17 @@ jobs:
 
   current-host-closure:
     name: current-host-closure / real-execution
-    if: ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.execute_current_host) }}
+    outputs:
+      base_release_digest: ${{ steps.base.outputs.base_release_digest }}
+      base_candidate_json: ${{ steps.base.outputs.base_candidate_json }}
+    if: ${{ inputs.execute_current_host }}
     needs: closure-regression
     runs-on: [self-hosted, linux, x64, fa3-current-host]
     timeout-minutes: 360
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ inputs.source_sha || github.sha }}
           persist-credentials: false
           fetch-depth: 0
       - name: Bootstrap pinned Wasmtime when absent
@@ -654,7 +733,7 @@ jobs:
         shell: bash
         run: |
           python3 - <<'PY'
-          import json, os
+          import hashlib, json, os
           from pathlib import Path
           plan=json.loads(Path('reports/current-host-closure-batch-plan.json').read_text())
           requested=(os.environ.get('FA3_REQUESTED_BATCH_ID') or 'FULL-525').strip()
@@ -663,24 +742,43 @@ jobs:
               if len(subjects) != 175:
                   raise SystemExit(f'FULL-525 requires 175 execution-ready capabilities, got {len(subjects)}')
               obligation_count=plan['materialized_obligation_count']
+              selection_sha256=plan['execution_ready_selection_sha256']
               if obligation_count != 525 or plan['pending_obligation_count'] != 0:
                   raise SystemExit(f'FULL-525 requires exact 525/525 definition materialization before physical execution: {plan}')
+          elif requested == 'SCOPED':
+              raw=(os.environ.get('FA3_REQUESTED_SUBJECTS') or '').strip()
+              subjects=[x.strip() for x in raw.split(',') if x.strip()]
+              if not subjects or len(subjects)!=len(set(subjects)):
+                  raise SystemExit('SCOPED requires a non-empty unique capability list')
+              subjects=sorted(subjects,key=lambda x:(int(x.split('-',1)[1]) if x.startswith('CAP-') and x.split('-',1)[1].isdigit() else 10**9,x))
+              unknown=sorted(set(subjects)-set(plan['execution_ready_capabilities']))
+              if unknown: raise SystemExit(f'SCOPED contains non-execution-ready capabilities: {unknown}')
+              obligation_count=len(subjects)*3
+              payload=json.dumps({'capabilities':subjects,'test_kinds':['positive','negative','rollback'],'registry_sha256':plan['registry_sha256']},sort_keys=True,separators=(',',':')).encode()
+              selection_sha256=hashlib.sha256(payload).hexdigest()
           else:
               batch=next((row for row in plan['execution_batches'] if row['batch_id']==requested), None)
               if batch is None:
                   raise SystemExit(f'Unknown or non-execution-ready batch: {requested}')
               subjects=batch['capabilities']
               obligation_count=batch['obligation_count']
+              selection_sha256=batch['selection_sha256']
           if not subjects:
               raise SystemExit(f'Empty execution selection: {requested}')
           with open(os.environ['GITHUB_ENV'], 'a', encoding='utf-8') as fh:
               fh.write(f"FA3_CURRENT_HOST_BATCH_ID={requested}\n")
               fh.write(f"FA3_CURRENT_HOST_SUBJECTS={','.join(subjects)}\n")
               fh.write(f"FA3_CURRENT_HOST_SELECTED_OBLIGATION_COUNT={obligation_count}\n")
-          print(json.dumps({'batch_id': requested, 'capabilities': subjects, 'obligation_count': obligation_count}, indent=2))
+              fh.write(f"FA3_CURRENT_HOST_SELECTION_SHA256={selection_sha256}\n")
+          print(json.dumps({'batch_id': requested, 'capabilities': subjects, 'obligation_count': obligation_count, 'selection_sha256': selection_sha256}, indent=2))
           PY
         env:
-          FA3_REQUESTED_BATCH_ID: ${{ github.event_name == 'push' && 'FULL-525' || inputs.execution_batch_id }}
+          FA3_REQUESTED_BATCH_ID: ${{ inputs.execution_batch_id || 'FULL-525' }}
+          FA3_REQUESTED_SUBJECTS: ${{ inputs.execution_subjects || '' }}
+      - name: Validate digest-bound batch selection
+        shell: bash
+        run: |
+          PYTHONPATH=src python3 src/fa3_current_host_batch_integrity.py --root .
       - name: Materialize exact-head Khronos core SDK when CAP-083 is selected
         shell: bash
         run: |
@@ -735,10 +833,12 @@ jobs:
         run: |
           PYTHONPATH=src python3 src/fa3_current_host_capability_handoff.py --root .
       - name: Reconcile only qualified capability receipts
+        if: ${{ env.FA3_CURRENT_HOST_BATCH_ID == 'FULL-525' }}
         shell: bash
         run: |
           PYTHONPATH=src python3 src/fa3_current_host_evidence_audit.py --root . --apply-reconciliation
       - name: Run 19-point Acceptance Gate and promotion reconciliation
+        if: ${{ env.FA3_CURRENT_HOST_BATCH_ID == 'FULL-525' }}
         shell: bash
         run: |
           set +e
@@ -750,9 +850,27 @@ jobs:
           if [ "$acceptance_rc" -ne 0 ] && [ "$acceptance_rc" -ne 2 ]; then exit "$acceptance_rc"; fi
           if [ "$promotion_rc" -ne 0 ] && [ "$promotion_rc" -ne 2 ]; then exit "$promotion_rc"; fi
       - name: Assert runtime closure and promotion separation
+        if: ${{ env.FA3_CURRENT_HOST_BATCH_ID == 'FULL-525' }}
         shell: bash
         run: |
           PYTHONPATH=src python3 src/fa3_current_host_closure_assertion.py --root .
+      - name: Assert scoped affected-capability requalification
+        if: ${{ env.FA3_CURRENT_HOST_BATCH_ID == 'SCOPED' }}
+        shell: bash
+        run: |
+          PYTHONPATH=src python3 src/fa3_current_host_scoped_assertion.py --root . --subjects "$FA3_CURRENT_HOST_SUBJECTS"
+      - id: base
+        name: Materialize FULL-525 base admission candidate
+        if: ${{ env.FA3_CURRENT_HOST_BATCH_ID == 'FULL-525' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          source_sha="$(git rev-parse HEAD)"
+          PYTHONPATH=src python3 src/fa3_current_host_base_admission.py --root . candidate             --source-sha "$source_sha" --run-id "$GITHUB_RUN_ID"             --output reports/current-host-base-admission-candidate.json
+          digest="$(python3 -c 'import json;print(json.load(open("reports/current-host-base-admission-candidate.json"))["base_release_digest"])')"
+          compact="$(python3 -c 'import json;print(json.dumps(json.load(open("reports/current-host-base-admission-candidate.json")),separators=(",",":")))' )"
+          echo "base_release_digest=$digest" >> "$GITHUB_OUTPUT"
+          echo "base_candidate_json=$compact" >> "$GITHUB_OUTPUT"
       - name: Upload real current-host closure evidence
         if: always()
         uses: actions/upload-artifact@v4
