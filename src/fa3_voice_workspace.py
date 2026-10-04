@@ -6,6 +6,7 @@ from typing import Any,Protocol
 from fa3_piper_provider import execute_piper
 from fa3_whisper_stt_provider import execute_transcription,RuntimeOptions
 from fa3_voice_synthesis_gate import validate_transformation_request
+from fa3_model_router_voice import route_voice_request,VoiceRouteDenied
 class VoiceWorkspaceError(RuntimeError): pass
 class VoiceProviderAdapter(Protocol):
     provider_id:str
@@ -68,29 +69,19 @@ class VoiceWorkspace:
     def quick_dub_plan(self,p):
         return {"schema":"fa3.quick-dub-plan.v1","source_media_ref":p.get("source_media_ref"),"source_language":p.get("source_language"),"target_language":p.get("target_language"),"speaker_voice_map":p.get("speaker_voice_map",{}),"stages":["FA3-STT-MEDIA-001","SPEAKER_SEGMENTATION","OPTIONAL_TRANSLATION","FA3-VOICE-001","ALIGNMENT","EDITABLE_MIX"],"provider_selection_owned_by_application":False,"silent_fallback":False}
     def _route(self,req):
-        lang=str(req.get("language","")).replace("_","-")
-        if lang not in {"hu","hu-HU"}: raise VoiceWorkspaceError("current workspace routing materializes hu-HU only")
-        mode=req.get("mode","plain"); key="voice_clone" if mode in {"voice_clone","zero_shot","cross_lingual","instruct2"} else "plain_or_preset_tts"
-        candidates=self.admission["routing"]["hu-HU"][key]
-        receipt_path=str(req.get("router_selection_receipt_path") or os.environ.get("FA3_VOICE_ROUTER_RECEIPT","")).strip()
-        if not receipt_path: raise VoiceWorkspaceError("Model Router selection receipt required")
-        path=Path(receipt_path).expanduser().resolve()
-        if not path.is_file(): raise VoiceWorkspaceError("Model Router selection receipt missing")
-        receipt=json.loads(path.read_text(encoding="utf-8"))
-        if receipt.get("authority_id")!="FA3-AUTH-MODEL-ROUTER-001": raise VoiceWorkspaceError("invalid Model Router authority receipt")
-        provider=str(receipt.get("selected_provider_id",""))
-        if provider not in candidates: raise VoiceWorkspaceError("Model Router selected provider outside canonical voice candidate set")
-        if receipt.get("silent_fallback") is not False: raise VoiceWorkspaceError("silent fallback receipt forbidden")
-        if provider=="FA3-PROVIDER-PIPER-001" and req.get("candidate_execution_ack") is not True: raise VoiceWorkspaceError("candidate provider requires explicit user acknowledgement")
-        return provider
+        try:
+            return route_voice_request(self.root,req,set(self.adapters))
+        except VoiceRouteDenied as exc:
+            raise VoiceWorkspaceError(str(exc)) from exc
     def generate(self,req):
         for k in ("text","language","voice_identity_ref","license_and_rights_ref"):
             if not str(req.get(k,"")).strip(): raise VoiceWorkspaceError(k+" required")
         rid=str(req.get("request_id") or "voice-"+uuid.uuid4().hex)
         req={**req,"request_id":rid,"schema":"fa3.voice-synthesis-request.v2","execution_mode":"OFFLINE_LOCAL","output_intent":req.get("output_intent","MEDIA_MEZZANINE")}
-        provider=self._route(req); jid="job-"+uuid.uuid4().hex; now=time.time()
+        jid="job-"+uuid.uuid4().hex; now=time.time()
         self.db.execute("insert into jobs(id,kind,state,payload,created,updated) values(?,?,?,?,?,?)",(jid,"VOICE_GENERATION","RUNNING",json.dumps(req,ensure_ascii=False),now,now)); self.db.commit()
         try:
+            selection=self._route(req); provider=str(selection["selected_provider_id"])
             adapter=self.adapters.get(provider)
             if adapter is None: raise VoiceWorkspaceError(provider+" has no admitted workspace executor on this host")
             if provider=="FA3-PROVIDER-PIPER-001" and req.get("candidate_execution_ack") is not True: raise VoiceWorkspaceError("Piper is candidate-only; explicit candidate_execution_ack required")
@@ -98,6 +89,7 @@ class VoiceWorkspace:
             if req.get("target_duration_ms"):
                 with wave.open(result["audio_path"],"rb") as w: actual=round(w.getnframes()*1000/w.getframerate())
                 result["fit_to_clip"]=self.fit_to_clip(int(req["target_duration_ms"]),actual)
+            result["model_router_selection"]=selection
             result["timeline_handoff"]={"schema":"fa3.quickclip-voice-handoff.v1","audio_ref":result["audio_path"],"audio_sha256":result["audio_sha256"],"caption_source_text":req["text"],"editable":True,"music_ducking_requested":bool(req.get("music_ducking"))}
             self.db.execute("update jobs set state='COMPLETED',result=?,updated=? where id=?",(json.dumps(result,ensure_ascii=False),time.time(),jid)); self.db.commit(); return {"job_id":jid,"state":"COMPLETED","result":result}
         except Exception as e:
