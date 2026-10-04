@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 def gate(root:Path)->dict:
-    req={"app":root/"canonical/FA3-VOICE-STUDIO-APPLICATION-001.json","runtime":root/"canonical/FA3-VOICE-STUDIO-RUNTIME-CONFORMANCE-001.json","workspace":root/"src/fa3_voice_workspace.py","server":root/"src/fa3_voice_studio_server.py","piper":root/"src/fa3_piper_provider.py","voice_router":root/"src/fa3_model_router_voice.py","client_h":root/"apps/fa3-control-center/src/VoiceWorkspaceService.h","client_cpp":root/"apps/fa3-control-center/src/VoiceWorkspaceService.cpp","voice_qml":root/"apps/fa3-control-center/qml/VoiceStudioPage.qml","quick_qml":root/"apps/fa3-control-center/qml/QuickVoicePluginPage.qml","launcher":root/"bin/fa3-voice-studio"}
+    req={"app":root/"canonical/FA3-VOICE-STUDIO-APPLICATION-001.json","runtime":root/"canonical/FA3-VOICE-STUDIO-RUNTIME-CONFORMANCE-001.json","workspace":root/"src/fa3_voice_workspace.py","server":root/"src/fa3_voice_studio_server.py","piper":root/"src/fa3_piper_provider.py","voice_router":root/"src/fa3_model_router_voice.py","client_h":root/"apps/fa3-control-center/src/VoiceWorkspaceService.h","client_cpp":root/"apps/fa3-control-center/src/VoiceWorkspaceService.cpp","voice_qml":root/"apps/fa3-control-center/qml/VoiceStudioPage.qml","quick_qml":root/"apps/fa3-control-center/qml/QuickVoicePluginPage.qml","launcher":root/"bin/fa3-voice-studio","installer":root/"deployment/fa3-voice-studio/install.sh","unit":root/"deployment/fa3-voice-studio/fa3-voice-studio.service"}
     findings=[]; missing=[str(p.relative_to(root)) for p in req.values() if not p.is_file()]
     if missing: findings.append({"code":"VOICEAPP-001","message":"missing files","missing":missing})
     if not missing:
@@ -19,6 +19,9 @@ def gate(root:Path)->dict:
       w=req["workspace"].read_text(); s=req["server"].read_text(); p=req["piper"].read_text(); vr=req["voice_router"].read_text(); cpp=req["client_cpp"].read_text(); v=req["voice_qml"].read_text(); q=req["quick_qml"].read_text()
       chk("sqlite3" in w and "fit_to_clip" in w and "quick_dub_plan" in w and "timeline_handoff" in w and "effects_plan" in w and "transcribe" in w and "transform_preflight" in w,"VOICEAPP-008","workspace workflow missing")
       chk("127.0.0.1" in s and "Authorization" in s and "voice-studio.token" in s,"VOICEAPP-009","authenticated loopback server missing")
+      installer=req["installer"].read_text(); unit=req["unit"].read_text()
+      chk("fa3_model_router_voice.py" in installer and "fa3_whisper_stt_provider.py" in installer and "FA3-VOICE-QUALITY-ROUTING-001.json" in installer and "FA3-WHISPER-MODEL-ALLOWLIST-001.json" in installer,"VOICEAPP-019","installed runtime dependency set incomplete")
+      chk("NoNewPrivileges=yes" in unit and "ProtectSystem=strict" in unit and "RuntimeDirectory=fa3" in unit,"VOICEAPP-020","systemd sandbox boundary missing")
       chk('req.get("device","cpu")!="cpu"' in p and "FA3_PIPER_MODEL_ROOT" in p,"VOICEAPP-010","Piper CPU/model boundary missing")
       chk("QNetworkAccessManager" in cpp and "Authorization" in cpp and "/api/generate" in cpp and "/api/transcribe" in cpp and "/api/effects/plan" in cpp,"VOICEAPP-011","GUI live client missing")
       chk("License & Rights evidence ref" in v and "License & Rights evidence ref" in q and "FA3-VOICE-WORKSPACE-USER-AUTHORIZED" not in cpp,"VOICEAPP-017","fabricated or missing rights evidence boundary")
