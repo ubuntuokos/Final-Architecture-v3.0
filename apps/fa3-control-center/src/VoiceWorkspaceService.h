@@ -17,7 +17,7 @@ public:
  QVariantList profiles() const { return m_profiles; }
  QVariantList jobs() const { return m_jobs; }
  Q_INVOKABLE void refresh();
- Q_INVOKABLE void generate(const QString &text,const QString &voice,const QString &language,int targetMs,bool musicDucking,bool candidateAck);
+ Q_INVOKABLE void generate(const QString &text,const QString &voice,const QString &language,const QString &rightsRef,int targetMs,bool musicDucking,bool candidateAck);
  Q_INVOKABLE void fitToClip(int targetMs,int actualMs);
  Q_INVOKABLE void putProfile(const QString &profileId,const QString &consentRef,bool humanVoice);
  Q_INVOKABLE void transcribe(const QString &audioPath,const QString &language);
