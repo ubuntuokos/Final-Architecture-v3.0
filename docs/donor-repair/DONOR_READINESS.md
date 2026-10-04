@@ -18,7 +18,7 @@ Limit: live PR checks detect known GitHub work but do not constitute an atomic d
 
 ## Approved-plan donor registration
 
-The normal direct-capture rule remains owner `donornak` before the submitted link. The sole additional intake authority is an approved implementation plan whose canonical approval record carries `donor_registration_authorization=APPROVED_PLAN_PROCESSED_DONORS_ONLY` and the exact normalized keys in `approved_processed_donor_keys`. `fa3_donor_registry.py --approved-plan-registration --plan-approval-record <canonical decision> --name ... --source ...` may register only a key present in that exact approved set. It does not authorize source copying, runtime admission or architectural authority, and the resulting registry mutation still follows ordinary donor serialization/publication.
+The normal direct-capture rule remains owner `donornak` before the submitted link. The sole additional intake authority is an approved implementation plan whose canonical approval record carries `donor_registration_authorization=APPROVED_PLAN_PROCESSED_DONORS_ONLY` and the exact normalized keys in `approved_processed_donor_keys`. The approval record must also name the committed `approved_plan_path`, and its `approved_plan_sha256` must match the actual plan bytes before registration is permitted. `fa3_donor_registry.py --approved-plan-registration --plan-approval-record <canonical decision> --name ... --source ...` may register only a key present in that exact approved set. It does not authorize source copying, runtime admission or architectural authority, and the resulting registry mutation still follows ordinary donor serialization/publication.
 
 ## Automatic donor count refresh and validation
 
