@@ -53,6 +53,7 @@ Item {
                         TabButton { text: "From Text" }
                     }
                     Label { text: "Script"; color: root.textMuted }
+                    TextField { id: quickRightsRef; Layout.fillWidth: true; placeholderText: "License & Rights evidence ref" }
                     TextArea { id: quickScript; Layout.fillWidth: true; Layout.preferredHeight: 110; text: "Mutasd be 30 másodpercben ezt a terméket."; wrapMode: TextEdit.Wrap }
                     GridLayout {
                         columns: 2
@@ -72,7 +73,7 @@ Item {
                         Button { text: "Preview"; enabled: false }
                         Item { Layout.fillWidth: true }
                     }
-                    Button { Layout.fillWidth: true; text: "Generate & Insert"; enabled: fa3VoiceWorkspace.state === "READY"; onClicked: fa3VoiceWorkspace.generate(quickScript.text, quickVoice.currentText, quickLanguage.currentText, 27800, duckMusic.checked, quickCandidateAck.checked) }
+                    Button { Layout.fillWidth: true; text: "Generate & Insert"; enabled: fa3VoiceWorkspace.state === "READY" && quickRightsRef.text.length > 0; onClicked: fa3VoiceWorkspace.generate(quickScript.text, quickVoice.currentText, quickLanguage.currentText, quickRightsRef.text, 27800, duckMusic.checked, quickCandidateAck.checked) }
                     Label { text: root.runtimeMessage + " · UAF → FA3-VOICE-001 → Model Router → HRB"; color: fa3VoiceWorkspace.state === "READY" ? root.green : root.orange; wrapMode: Text.WordWrap; Layout.fillWidth: true; font.pixelSize: 10 }
                 }
             }
