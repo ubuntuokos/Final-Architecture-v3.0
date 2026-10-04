@@ -115,3 +115,12 @@ FA3 development has no autonomous task class equivalent to **“Mit lehetne még
 A task may enter planning or execution only when its scope provenance is one of: `EXPLICIT_USER_SCOPE`, `REQUIRED_FOR_APPROVED_GOAL`, or an owner-requested `EXPLICIT_USER_SCOPE_EXTENSION` bound to a revised goal. Missing or unknown provenance fails closed. Every executable `fa3.agent-workload-task.v1` must carry the same `scope_origin` and non-empty `scope_refs`; planning layers may not strip this provenance before Agent Workload admission.
 
 Repair work is bounded to the original approved scope and original acceptance-criterion IDs. It may not invent a new criterion, expand scope, or silently create a successor task. When the explicit task is complete, completion is terminal unless the owner explicitly creates or extends the next task. Canonical authority: `FA3-RULE-NO-OPEN-ENDED-TASK-EXPANSION-001`.
+
+
+## FA3 one-click new-conversation handoff rule (2026-10-04)
+
+When the owner requests **"folytasd új beszélgetésben" / "continue in a new conversation"**, the complete handoff/start text for the new conversation MUST be emitted as exactly one copyable handoff surface/window whose entire payload can be copied with one user action. This requirement applies even when the payload is only one word or one character.
+
+Do not split the handoff payload across multiple blocks, prose paragraphs, messages, or copy actions. Do not require manual text selection or scrolling as a prerequisite for copying the full payload. Any text outside the single copyable handoff surface must not be part of the handoff payload.
+
+Canonical authority: `FA3-DEC-ONE-CLICK-CONVERSATION-HANDOFF-2026-10-04` and `FA3-SHARED-CONVERSATION-SESSION-CONTRACTS-001`. This operational projection applies to FA3/CFA3 development workflows as well as generated handoff UX in FA3/CFA3 products.
