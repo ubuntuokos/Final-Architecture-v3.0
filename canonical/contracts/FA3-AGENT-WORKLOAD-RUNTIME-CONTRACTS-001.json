@@ -2,7 +2,7 @@
   "schema": "fa3.contract-set.v1",
   "id": "FA3-AGENT-WORKLOAD-RUNTIME-CONTRACTS-001",
   "name": "Agent Workload Task, Workspace, Runner, Network and Checkpoint Contracts",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "status": "CANONICAL",
   "profile_id": "FA3-AGENT-WORKLOAD-RUNTIME-001",
   "provider_neutral": true,
@@ -30,7 +30,16 @@
     "work_item_reference_optional": true,
     "physical_provider_pin_forbidden": true,
     "physical_accelerator_ordinal_forbidden": true,
-    "raw_secret_material_forbidden": true
+    "raw_secret_material_forbidden": true,
+    "task_scope_provenance_required": true,
+    "allowed_scope_origins": [
+      "EXPLICIT_USER_SCOPE",
+      "REQUIRED_FOR_APPROVED_GOAL",
+      "EXPLICIT_USER_SCOPE_EXTENSION"
+    ],
+    "open_ended_task_generation": "DENY",
+    "completed_task_auto_successor": "DENY",
+    "scope_refs_nonempty": true
   },
   "runner_spi": [
     "probe",
