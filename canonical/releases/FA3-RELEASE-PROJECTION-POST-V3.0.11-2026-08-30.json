@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "264f7aca7914a7e7271d3e07e93cb6fb788a36b1",
-    "pre_projection_root_tree_sha": "25e3a4a168e2e1a0d9b80c0f2404e57b50e9d141",
-    "pre_projection_canonical_tree_sha": "b7233e1af381e30c2aa5f9a99c11b6e4508b6380",
-    "commits_ahead_of_v3_0_11_conformance_commit": 3098,
-    "total_post_baseline_commits": 3098,
-    "delta_file_count": 2992,
-    "delta_added_files": 2986,
+    "pre_projection_head_sha": "73ae98a8db785aa3781a8569b8d827dc8eb55586",
+    "pre_projection_root_tree_sha": "0e0ef008840a49b967b1b21dd1236651be2ad03d",
+    "pre_projection_canonical_tree_sha": "aa1aa54b4ba5b422e7ce6399ccc90aa43d48359e",
+    "commits_ahead_of_v3_0_11_conformance_commit": 3103,
+    "total_post_baseline_commits": 3103,
+    "delta_file_count": 2998,
+    "delta_added_files": 2992,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,7 +46,7 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1401,
+    "canonical_files_in_post_baseline_delta": 1406,
     "evidence_files_in_post_baseline_delta": 172,
     "source_files_in_post_baseline_delta": 378,
     "test_files_in_post_baseline_delta": 355,
@@ -518,6 +518,7 @@
       "canonical/decisions/FA3-DEC-CPU-NUMA-THREADING-2026-09-02.json",
       "canonical/decisions/FA3-DEC-CREATIVE-OPERATIONS-DASHBOARD-NATIVE-2026-09-26.json",
       "canonical/decisions/FA3-DEC-CREATIVE-PROJECT-WORKFLOW-FLOVA-PATTERNS-2026-09-26.json",
+      "canonical/decisions/FA3-DEC-CUDA-PORTABILITY-SHARED-FUNCTION-2026-10-04.json",
       "canonical/decisions/FA3-DEC-CURRENT-HOST-FULL-MATERIALIZATION-2026-09-19.json",
       "canonical/decisions/FA3-DEC-CURRENT-HOST-RUNNER-2026-09-11.json",
       "canonical/decisions/FA3-DEC-DEMUCS-2026-08-29.json",
@@ -1072,7 +1073,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2982,
+  "manifest_entry_count": 2988,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1801,7 +1802,7 @@
     },
     {
       "path": "AGENTS.md",
-      "git_blob_sha": "fee784aea80e41640d05442a8b4b152e027152b5",
+      "git_blob_sha": "e35006cc5ff935ce123096ef09f38a4eebae5d30",
       "baseline_delta_status": "added"
     },
     {
@@ -3005,6 +3006,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-CUDA-PORTABILITY-SHARED-FUNCTION-POLICY-001.json",
+      "git_blob_sha": "178f42b7a747642b94ddd0813cde3f7d12df3490",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-CURRENT-HOST-BASE-STATE-001.json",
       "git_blob_sha": "1f64fa5306d8a375ef483cfcb3f5cbabe1b55421",
       "baseline_delta_status": "added"
@@ -3291,7 +3297,7 @@
     },
     {
       "path": "canonical/FA3-GATE-HARDWARE-PORTABILITY-001.json",
-      "git_blob_sha": "c9dc8db2974af9b093def544beca98fb4247a758",
+      "git_blob_sha": "e7ffa7993d49c863324c61cf986ad3edb31031c3",
       "baseline_delta_status": "added"
     },
     {
@@ -4572,6 +4578,11 @@
     {
       "path": "canonical/assessments/FA3-CREATIVE-PROJECT-WORKFLOW-REUSE-ASSESSMENT-001.json",
       "git_blob_sha": "2cafef3b09a4a8ce22be27c59f99af49d9feef0d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/assessments/FA3-CUDA-PORTABILITY-SHARED-FUNCTION-REUSE-ASSESSMENT-2026-10-04.json",
+      "git_blob_sha": "013ea2f7caa5498c394fdd0ae6c1b2b89483560c",
       "baseline_delta_status": "added"
     },
     {
@@ -5910,6 +5921,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/current-host-impact/FA3-CH-IMPACT-CUDA-PORTABILITY-SHARED-FUNCTION-20261004.json",
+      "git_blob_sha": "6fe9f2b7b1cc0947641556d2c1946e9022831ab5",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/current-host-impact/FA3-CH-IMPACT-CURRENT-HOST-ADJACENT-WORKFLOW-PINS-20261004.json",
       "git_blob_sha": "2437a20e1b305ce29ee0bfd04e893f713ab593c1",
       "baseline_delta_status": "added"
@@ -6117,6 +6133,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-CREATIVE-PROJECT-WORKFLOW-FLOVA-PATTERNS-2026-09-26.json",
       "git_blob_sha": "0ad0ba083557da9616e86354e96559671fc73f14",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-CUDA-PORTABILITY-SHARED-FUNCTION-2026-10-04.json",
+      "git_blob_sha": "c95f824cd5b151ddefa1506c0df051a755d5dc21",
       "baseline_delta_status": "added"
     },
     {
@@ -7171,7 +7192,7 @@
     },
     {
       "path": "canonical/hardware-portability-enforcement.json",
-      "git_blob_sha": "03f14e9ce22087b33916accacd06b44e8510b234",
+      "git_blob_sha": "f6689409c97e9f4ab0826c0c4349a55f897efcd6",
       "baseline_delta_status": "added"
     },
     {
@@ -7307,6 +7328,11 @@
     {
       "path": "canonical/intents/FA3-CREATIVE-PROJECT-WORKFLOW-APPLICATION-INTENT-001.json",
       "git_blob_sha": "e80785869746875dc473f47f0e480b8e9ec0e067",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/intents/FA3-CUDA-PORTABILITY-SHARED-FUNCTION-APPLICATION-INTENT-2026-10-04.json",
+      "git_blob_sha": "7db7c9f806552d9356f00b9e6aa2d446416c7c55",
       "baseline_delta_status": "added"
     },
     {
@@ -8041,7 +8067,7 @@
     },
     {
       "path": "canonical/profiles/FA3-HARDWARE-BASELINE-001.json",
-      "git_blob_sha": "070ae100728a73547014a0e50daeb22acc34b261",
+      "git_blob_sha": "05f3bf96f51d439bd452afad2a89fc35a41e212b",
       "baseline_delta_status": "added"
     },
     {
@@ -10362,6 +10388,11 @@
     {
       "path": "docs/creative-writing-donor-curation-2026-09-28.md",
       "git_blob_sha": "cd3307bc6c1bbfbbff4b76193931b82aee6323b9",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/cuda-portability-shared-function-policy-2026-10-04.md",
+      "git_blob_sha": "d97b96320ad8ef14d893d52ce832934d73d5b94d",
       "baseline_delta_status": "added"
     },
     {
@@ -13026,7 +13057,7 @@
     },
     {
       "path": "src/fa3_hardware_portability_gate.py",
-      "git_blob_sha": "b9d23c5a9bfe2c12c944743c0ec17bd3b2745bc6",
+      "git_blob_sha": "1481aa3dab257250b2a722b4c09afc46bf8c6b1a",
       "baseline_delta_status": "added"
     },
     {
@@ -15001,7 +15032,7 @@
     },
     {
       "path": "tests/test_hardware_portability_gate.py",
-      "git_blob_sha": "41d38b66aad6018022afbce6fceb24de5e4256a9",
+      "git_blob_sha": "fa9c56d8768e323c234bff0d68238d592ce7f05f",
       "baseline_delta_status": "added"
     },
     {
