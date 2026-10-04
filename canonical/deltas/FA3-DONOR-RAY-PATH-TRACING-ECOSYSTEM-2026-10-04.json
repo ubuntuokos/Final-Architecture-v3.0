@@ -1,0 +1,316 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-RAY-PATH-TRACING-ECOSYSTEM-2026-10-04",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "STAGED_PENDING_INTAKE_SLOT_AND_EXACT_HEAD_GATES",
+  "mode": "APPEND_ONLY_OWNER_EXPLICIT_REFERENCE_INTAKE_WITH_TOPIC_AND_SUBPATH_NORMALIZATION",
+  "parent_main": "b5052f6595a3fdad84ed7a06e6276f8af5a8dcd8",
+  "parent_registry_blob_sha": "1362d75186c6da74e5cf947fdf0b8867d462636a",
+  "parent_entry_count": 1427,
+  "submitted_url_count": 29,
+  "submitted_urls": [
+    "https://github.com/raytracing",
+    "https://github.com/topics/ray-tracing?l=javascript",
+    "https://github.com/topics/ray-tracing?l=java&o=desc&s=forks",
+    "https://github.com/topics/ray-tracing?l=c%23&o=asc&s=stars",
+    "https://github.com/topics/raytracing-engine",
+    "https://github.com/topics/ray-tracing-in-one-weekend",
+    "https://github.com/topics/ray-tracer",
+    "https://github.com/topics/ray-tracing-in-one-weekend?o=desc&s=updated",
+    "https://github.com/topics/ray-tracer?l=c%2B%2B",
+    "https://github.com/SebLague/Ray-Tracing",
+    "https://github.com/topics/rtx",
+    "https://github.com/Project-10/OpenRT",
+    "https://github.com/worldveil/ray-tracing",
+    "https://github.com/Ancientkingg/cuda-raytracer",
+    "https://github.com/Ancientkingg/rust-raytracer",
+    "https://github.com/NVIDIA-RTX",
+    "https://github.com/bicknyers/raytracer-cpp",
+    "https://github.com/GPUOpen-Tools/radeon_raytracing_analyzer",
+    "https://github.com/GPUOpen-Drivers/gpurt",
+    "https://github.com/GPUOpen-LibrariesAndSDKs",
+    "https://github.com/topics/raytracing",
+    "https://github.com/topics/cpu-raytracing",
+    "https://github.com/intel/level-zero-raytracing-support",
+    "https://github.com/intel/level-zero-raytracing-support/releases",
+    "https://github.com/RenderKit",
+    "https://github.com/intel/intel-graphics-compiler",
+    "https://github.com/intel/RealTimePathTracingResearchFramework",
+    "https://github.com/canonical/kobuk-gfx-intel-compute-runtime",
+    "https://github.com/canonical/kobuk-gfx-packages"
+  ],
+  "duplicate_submission_count": 0,
+  "matched_existing_count": 2,
+  "matched_existing_normalized_keys": [
+    "github:gpuopen-librariesandsdks",
+    "github:intel/intel-graphics-compiler"
+  ],
+  "matched_pending_intake_count": 0,
+  "canonical_alias_collapse_count": 5,
+  "unique_source_count": 24,
+  "new_source_count": 22,
+  "proposed_entry_count": 1449,
+  "canonical_registry_materialized": false,
+  "waiting_queue_only": true,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "usage_edges_created": 0,
+  "provider_count_policy": "DYNAMIC_UNCHANGED",
+  "approval_ref": "docs/donor-ray-path-tracing-ecosystem-2026-10-04.md",
+  "normalization": [
+    {
+      "canonical_key": "github:topics/ray-tracing",
+      "submitted_urls": [
+        "https://github.com/topics/ray-tracing?l=javascript",
+        "https://github.com/topics/ray-tracing?l=java&o=desc&s=forks",
+        "https://github.com/topics/ray-tracing?l=c%23&o=asc&s=stars"
+      ]
+    },
+    {
+      "canonical_key": "github:topics/ray-tracing-in-one-weekend",
+      "submitted_urls": [
+        "https://github.com/topics/ray-tracing-in-one-weekend",
+        "https://github.com/topics/ray-tracing-in-one-weekend?o=desc&s=updated"
+      ]
+    },
+    {
+      "canonical_key": "github:topics/ray-tracer",
+      "submitted_urls": [
+        "https://github.com/topics/ray-tracer",
+        "https://github.com/topics/ray-tracer?l=c%2B%2B"
+      ]
+    },
+    {
+      "canonical_key": "github:intel/level-zero-raytracing-support",
+      "submitted_urls": [
+        "https://github.com/intel/level-zero-raytracing-support",
+        "https://github.com/intel/level-zero-raytracing-support/releases"
+      ]
+    }
+  ],
+  "canonical_identities": [
+    {
+      "donor_id": "FA3-DONOR-RAYTRACING-ORG-001",
+      "normalized_key": "github:raytracing",
+      "kind": "GITHUB_ORGANIZATION",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "DISCOVERY_INDEX"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-RAY-TRACING-001",
+      "normalized_key": "github:topics/ray-tracing",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "DISCOVERY_INDEX"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-RAYTRACING-ENGINE-001",
+      "normalized_key": "github:topics/raytracing-engine",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "DISCOVERY_INDEX"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-RAY-TRACING-IN-ONE-WEEKEND-001",
+      "normalized_key": "github:topics/ray-tracing-in-one-weekend",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "DISCOVERY_INDEX"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-RAY-TRACER-001",
+      "normalized_key": "github:topics/ray-tracer",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "DISCOVERY_INDEX"
+    },
+    {
+      "donor_id": "FA3-DONOR-SEBLAGUE-RAY-TRACING-001",
+      "normalized_key": "github:seblague/ray-tracing",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "REFERENCE_IMPLEMENTATION"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-RTX-001",
+      "normalized_key": "github:topics/rtx",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "DISCOVERY_INDEX"
+    },
+    {
+      "donor_id": "FA3-DONOR-PROJECT-10-OPENRT-001",
+      "normalized_key": "github:project-10/openrt",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "REFERENCE_IMPLEMENTATION"
+    },
+    {
+      "donor_id": "FA3-DONOR-WORLDVEIL-RAY-TRACING-001",
+      "normalized_key": "github:worldveil/ray-tracing",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "REFERENCE_IMPLEMENTATION"
+    },
+    {
+      "donor_id": "FA3-DONOR-ANCIENTKINGG-CUDA-RAYTRACER-001",
+      "normalized_key": "github:ancientkingg/cuda-raytracer",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "REFERENCE_IMPLEMENTATION"
+    },
+    {
+      "donor_id": "FA3-DONOR-ANCIENTKINGG-RUST-RAYTRACER-001",
+      "normalized_key": "github:ancientkingg/rust-raytracer",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "REFERENCE_IMPLEMENTATION"
+    },
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-RTX-ORG-001",
+      "normalized_key": "github:nvidia-rtx",
+      "kind": "GITHUB_ORGANIZATION",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "DISCOVERY_INDEX"
+    },
+    {
+      "donor_id": "FA3-DONOR-BICKNYERS-RAYTRACER-CPP-001",
+      "normalized_key": "github:bicknyers/raytracer-cpp",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "REFERENCE_IMPLEMENTATION"
+    },
+    {
+      "donor_id": "FA3-DONOR-GPUOPEN-RRA-001",
+      "normalized_key": "github:gpuopen-tools/radeon_raytracing_analyzer",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "REFERENCE_IMPLEMENTATION"
+    },
+    {
+      "donor_id": "FA3-DONOR-GPUOPEN-GPURT-001",
+      "normalized_key": "github:gpuopen-drivers/gpurt",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "ARCHIVED_REFERENCE_IMPLEMENTATION"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-RAYTRACING-001",
+      "normalized_key": "github:topics/raytracing",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "DISCOVERY_INDEX"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-CPU-RAYTRACING-001",
+      "normalized_key": "github:topics/cpu-raytracing",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "DISCOVERY_INDEX"
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-LEVEL-ZERO-RAYTRACING-SUPPORT-001",
+      "normalized_key": "github:intel/level-zero-raytracing-support",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "REFERENCE_IMPLEMENTATION"
+    },
+    {
+      "donor_id": "FA3-DONOR-RENDERKIT-ORG-001",
+      "normalized_key": "github:renderkit",
+      "kind": "GITHUB_ORGANIZATION",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "DISCOVERY_INDEX"
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-REALTIME-PATH-TRACING-RESEARCH-FRAMEWORK-001",
+      "normalized_key": "github:intel/realtimepathtracingresearchframework",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "REFERENCE_IMPLEMENTATION"
+    },
+    {
+      "donor_id": "FA3-DONOR-CANONICAL-KOBUK-GFX-INTEL-COMPUTE-RUNTIME-001",
+      "normalized_key": "github:canonical/kobuk-gfx-intel-compute-runtime",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "ARCHIVED_REFERENCE_IMPLEMENTATION"
+    },
+    {
+      "donor_id": "FA3-DONOR-CANONICAL-KOBUK-GFX-PACKAGES-001",
+      "normalized_key": "github:canonical/kobuk-gfx-packages",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "REFERENCE_IMPLEMENTATION"
+    }
+  ],
+  "reference_scope": [
+    "provider-neutral ray/path tracing algorithms and validation",
+    "CPU reference tracing and fallback/reference validation",
+    "BVH/BLAS/TLAS construction, update, refit, serialization and inspection",
+    "Vulkan ray tracing and Khronos/SPIR-V integration patterns",
+    "Intel Level Zero RTAS and Intel GPU compiler/runtime integration patterns",
+    "AMD GPURT traversal/acceleration-structure patterns and Radeon Raytracing Analyzer diagnostics",
+    "NVIDIA RTX ecosystem discovery and CUDA/RTX-oriented algorithm references subject to shared-only portability policy",
+    "real-time path tracing, temporal accumulation, ReSTIR/path-guiding/denoising pattern discovery",
+    "render profiling, deterministic validation and cross-backend conformance",
+    "Ubuntu/Canonical Intel graphics packaging provenance and coexistence patterns"
+  ],
+  "requirements": [
+    "Preserve all 29 exact owner-submitted URLs as intake provenance.",
+    "Collapse filtered/sorted GitHub topic URLs to their topic identity while preserving exact submitted URLs.",
+    "Collapse the Intel releases subpath to the repository identity while preserving the releases URL as provenance.",
+    "Do not duplicate published sources github:gpuopen-librariesandsdks or github:intel/intel-graphics-compiler.",
+    "Organization and topic records are discovery indexes only and do not recursively admit child repositories.",
+    "No source authorizes copying, dependency adoption, installation, driver replacement, provider/model admission or runtime promotion.",
+    "Strong CUDA/RTX-oriented functionality is constrained by FA3-CUDA-PORTABILITY-SHARED-FUNCTION-POLICY-001 and shared-only placement.",
+    "The existing CAP-127 and CAP-161 capabilities are the intended architecture targets; capability baseline stays 175.",
+    "HRB remains sole hardware/resource placement authority; no application-local vendor device selection or silent fallback.",
+    "Khronos/Vulkan/OpenCL/ANARI integration must reuse existing FA3-KHRONOS-OPEN-STANDARDS-001 rather than create a parallel standards layer.",
+    "Archived sources remain historical/reference-only unless a later exact-source admission explicitly permits material reuse.",
+    "Pending records are excluded from canonical planning and material execution until intake finalizes on published main."
+  ],
+  "boundaries": {
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "automatic_code_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "child_repository_auto_registration": false,
+    "usage_edge_created": false,
+    "capability_count_change": false,
+    "authority_change": false,
+    "runtime_change": false,
+    "current_host_pass_claimed": false,
+    "canonical_planning_visibility": false,
+    "driver_or_system_package_replacement": false,
+    "global_loader_or_icd_override": false
+  },
+  "serialization_scope": "ROLLING_FIVE_SLOT_DONOR_MAINTENANCE",
+  "serialization_order": "FIFO_SLOT_ADMISSION_THEN_ASCENDING_CANONICAL_DONOR_MUTATION_WORKLOAD_WITH_FIFO_TIES",
+  "max_active_donor_intakes": 5,
+  "observed_active_window": [
+    651,
+    657,
+    663,
+    664,
+    671
+  ],
+  "observed_waiting_ahead": [
+    672,
+    673,
+    675,
+    676,
+    682,
+    683,
+    684,
+    686,
+    693,
+    699,
+    704
+  ],
+  "expected_initial_state": "FIFO_WAITING_FOR_DONOR_INTAKE_SLOT"
+}
