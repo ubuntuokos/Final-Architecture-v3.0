@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "eece0da4f8fa3d78f76a4c8383a1387e7417dab3",
-    "pre_projection_root_tree_sha": "da1ed0f69cee32f969887ec18a060ea9903a6f33",
-    "pre_projection_canonical_tree_sha": "847bd25d6c892ea807bde32f13a0ced0591676ec",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2829,
-    "total_post_baseline_commits": 2829,
-    "delta_file_count": 2931,
-    "delta_added_files": 2925,
+    "pre_projection_head_sha": "bdfdc61e6814fd4d32d94f890f28658118dfbe98",
+    "pre_projection_root_tree_sha": "04b6f0f872db4a6cf908b36bcd109ba1e3d86c03",
+    "pre_projection_canonical_tree_sha": "b6759e12e520bad940210df8efdb76ffb86c67e8",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2835,
+    "total_post_baseline_commits": 2835,
+    "delta_file_count": 2934,
+    "delta_added_files": 2928,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,10 +46,10 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1368,
+    "canonical_files_in_post_baseline_delta": 1369,
     "evidence_files_in_post_baseline_delta": 172,
     "source_files_in_post_baseline_delta": 368,
-    "test_files_in_post_baseline_delta": 346,
+    "test_files_in_post_baseline_delta": 347,
     "workflow_files_in_post_baseline_delta": 138,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -1068,7 +1068,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2921,
+  "manifest_entry_count": 2924,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -3002,7 +3002,7 @@
     },
     {
       "path": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
-      "git_blob_sha": "1362d75186c6da74e5cf947fdf0b8867d462636a",
+      "git_blob_sha": "5673541743dcd118e019292dfd0c205df626b5be",
       "baseline_delta_status": "added"
     },
     {
@@ -6786,6 +6786,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/deltas/FA3-DONOR-CLOUDFLARE-OS-2026-10-04.json",
+      "git_blob_sha": "6ca8c7d9a9aa9fdd04a7838214136a9da4553f23",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/deltas/FA3-DONOR-DEEP-LEARNING-MEMORY-VISION-HAIR-2026-10-03.json",
       "git_blob_sha": "22e44a7e9a76b63c772002567a871bb71b7840a4",
       "baseline_delta_status": "added"
@@ -10268,6 +10273,11 @@
     {
       "path": "docs/donor-chat-history-bridge.md",
       "git_blob_sha": "00a4c33306b15f04d80e6f09208a4c0316596176",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/donor-cloudflare-os-2026-10-04.md",
+      "git_blob_sha": "a84e96f498308bb2c7ce48d923dc5ceb2de7c3f1",
       "baseline_delta_status": "added"
     },
     {
@@ -14366,6 +14376,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_donor_cloudflare_os_20261004.py",
+      "git_blob_sha": "e4b23c0f4acc13d1ecc94c08a9dd6e2c28b75ff8",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_donor_count_refresh.py",
       "git_blob_sha": "d0be116c5ba1896640860bb1467eee42e4ef03d8",
       "baseline_delta_status": "added"
@@ -17393,7 +17408,7 @@
     "reconciliation_status": "CANONICAL_REUSE_DISCOVERY_STATIC_MATERIALIZED_RUNTIME_PROMOTION_NOT_APPLICABLE",
     "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
     "donor_registry_decision_id": "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28",
-    "donor_registry_entry_count": 1427,
+    "donor_registry_entry_count": 1428,
     "donor_rejection_audit_id": "FA3-DONOR-REJECTION-AUDIT-001",
     "donor_rejection_audit_count": 1,
     "donor_lifecycle_decision_id": "FA3-DEC-DONOR-LIFECYCLE-APPLICATION-SYNC-2026-09-30",
