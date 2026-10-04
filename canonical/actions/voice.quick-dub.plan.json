@@ -1,0 +1,106 @@
+{
+  "schema": "fa3.uaf.action-contract.v1",
+  "id": "voice.quick-dub.plan",
+  "version": "1.0.0",
+  "description": "Build an editable Quick Dub plan from source and target languages and explicit speaker-to-Voice-Profile mappings.",
+  "input_schema": {
+    "type": "object",
+    "required": [
+      "source_language",
+      "target_language",
+      "speaker_mappings"
+    ],
+    "properties": {
+      "source_language": {
+        "type": "string"
+      },
+      "target_language": {
+        "type": "string"
+      },
+      "speaker_mappings": {
+        "type": "array",
+        "items": {
+          "type": "object"
+        }
+      },
+      "translation_enabled": {
+        "type": "boolean"
+      }
+    },
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "plan",
+      "evidence_refs"
+    ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "plan": {
+        "type": "object"
+      },
+      "evidence_refs": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "semantics": {
+    "mutating": true,
+    "idempotent": true,
+    "retry_safe": true,
+    "long_running": true
+  },
+  "exposure": {
+    "gui": true,
+    "agent": true,
+    "cli": true,
+    "mcp": true,
+    "a2a": true,
+    "automation": true,
+    "http": false
+  },
+  "security": {
+    "authentication": "required",
+    "authorization": "required",
+    "approval": "policy",
+    "audit": "required"
+  },
+  "resources": {
+    "hrb_required": false,
+    "cpu": {
+      "physical_cores": {
+        "minimum": 0
+      },
+      "logical_processors": null
+    },
+    "accelerator": {
+      "required": false,
+      "cardinality": "0..N"
+    },
+    "memory": {
+      "admission": "provider-declared"
+    }
+  },
+  "provider": {
+    "selection": "policy-bounded-capability-match",
+    "preferred_role": "FA3-VOICE-001"
+  },
+  "evidence": {
+    "required": true,
+    "decision_receipt_required": true
+  },
+  "authority_bindings": {
+    "voice": "FA3-VOICE-001",
+    "model_router": "FA3-AUTH-MODEL-ROUTER-001",
+    "resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "uaf": "FA3-UNIFIED-ACTION-FABRIC-001"
+  }
+}
