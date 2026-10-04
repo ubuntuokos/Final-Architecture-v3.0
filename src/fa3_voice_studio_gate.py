@@ -17,11 +17,14 @@ def gate(root:Path)->dict:
       chk(app.get("runtime",{}).get("bind")=="127.0.0.1:18796" and app.get("runtime",{}).get("network_fetch") is False,"VOICEAPP-006","loopback/network boundary drift")
       chk(rt.get("production_admitted") is False and rt.get("current_host_receipt_present") is False,"VOICEAPP-007","unearned runtime PASS")
       w=req["workspace"].read_text(); s=req["server"].read_text(); p=req["piper"].read_text(); cpp=req["client_cpp"].read_text(); v=req["voice_qml"].read_text(); q=req["quick_qml"].read_text()
-      chk("sqlite3" in w and "fit_to_clip" in w and "quick_dub_plan" in w and "timeline_handoff" in w,"VOICEAPP-008","workspace workflow missing")
+      chk("sqlite3" in w and "fit_to_clip" in w and "quick_dub_plan" in w and "timeline_handoff" in w and "effects_plan" in w and "transcribe" in w and "transform_preflight" in w,"VOICEAPP-008","workspace workflow missing")
       chk("127.0.0.1" in s and "Authorization" in s and "voice-studio.token" in s,"VOICEAPP-009","authenticated loopback server missing")
       chk('req.get("device","cpu")!="cpu"' in p and "FA3_PIPER_MODEL_ROOT" in p,"VOICEAPP-010","Piper CPU/model boundary missing")
-      chk("QNetworkAccessManager" in cpp and "Authorization" in cpp and "/api/generate" in cpp,"VOICEAPP-011","GUI live client missing")
-      chk("fa3VoiceWorkspace.generate" in v and "fa3VoiceWorkspace.generate" in q and "fa3VoiceWorkspace.quickDub" in q,"VOICEAPP-012","QML action binding missing")
+      chk("QNetworkAccessManager" in cpp and "Authorization" in cpp and "/api/generate" in cpp and "/api/transcribe" in cpp and "/api/effects/plan" in cpp,"VOICEAPP-011","GUI live client missing")
+      chk("fa3VoiceWorkspace.generate" in v and "fa3VoiceWorkspace.transcribe" in v and "fa3VoiceWorkspace.planEffects" in v and "fa3VoiceWorkspace.generate" in q and "fa3VoiceWorkspace.quickDub" in q,"VOICEAPP-012","QML action binding missing")
+      chk(app.get("runtime",{}).get("workflow_authority")=="TEMPORAL" and app.get("runtime",{}).get("local_sqlite_role")=="NON_AUTHORITATIVE_JOB_LEDGER_AND_PROFILE_CACHE","VOICEAPP-014","Temporal workflow authority drift")
+      chk(app.get("mcp_projection",{}).get("gateway")=="FA3-AUTH-MCP-GATEWAY-001" and app.get("mcp_projection",{}).get("direct_mcp_server") is False,"VOICEAPP-015","MCP gateway boundary drift")
+      chk({"voice.speak","voice.transcribe","voice.transform.preflight","voice.effects.plan","voice.profile.put","voice.fit-to-clip","voice.quick-dub.plan"}.issubset(set(app.get("uaf_actions",[]))),"VOICEAPP-016","UAF voice action inventory incomplete")
       chk("Allow candidate CPU provider" in v and "checked: false" in v and "Allow candidate CPU provider" in q and "checked: false" in q,"VOICEAPP-013","explicit candidate acknowledgement UI missing")
     return {"schema":"fa3.voice-studio-application-gate.v1","result":"PASS" if not findings else "FAIL","findings":findings}
 if __name__=="__main__":
