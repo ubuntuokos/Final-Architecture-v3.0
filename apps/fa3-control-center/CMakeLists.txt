@@ -41,6 +41,8 @@ qt_add_executable(fa3-control-center
     src/SystemDeviceModel.h
     src/WorkloadModeStateService.cpp
     src/WorkloadModeStateService.h
+    src/VoiceWorkspaceService.cpp
+    src/VoiceWorkspaceService.h
 )
 
 set_source_files_properties(qml/Main.qml PROPERTIES QT_RESOURCE_ALIAS Main.qml)
