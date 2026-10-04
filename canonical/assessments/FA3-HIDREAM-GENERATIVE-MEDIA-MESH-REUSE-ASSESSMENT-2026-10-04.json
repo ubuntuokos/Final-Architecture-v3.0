@@ -78,16 +78,20 @@
   "new_architectural_authorities": 0,
   "capability_count_after": 175,
   "current_host_impact": {
-    "classification": "STRUCTURAL_REASSESSMENT_REQUIRED",
+    "classification": "STRUCTURAL_REASSESSMENT_RECONCILED_PENDING_PHYSICAL_REQUALIFICATION",
+    "structural_impact_record": "canonical/current-host-impact/FA3-CH-IMPACT-HIDREAM-GENERATIVE-MEDIA-MESH-PR674-20261004.json",
+    "conformance_record": "canonical/FA3-GENERATIVE-MEDIA-MESH-CURRENT-HOST-CONFORMANCE-001.json",
     "physical_requalification_required": true,
-    "physical_pass_claimed": false
+    "physical_pass_claimed": false,
+    "historical_evidence_reused": false,
+    "runtime_promotion_claim": false
   },
   "intent_path": "canonical/intents/FA3-HIDREAM-GENERATIVE-MEDIA-MESH-APPLICATION-INTENT-2026-10-04.json",
   "covered_ids": [
     "FA3-GENERATIVE-MEDIA-MESH-001",
     "FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001"
   ],
-  "project_status": "PLAN_OWNER_APPROVED_IMPLEMENTATION_PRESENT_PENDING_EXACT_HEAD_REPOSITORY_OWNER_REVIEW",
+  "project_status": "OWNER_CLOSURE_EXCEPTION_RECORDED_IMPLEMENTATION_PRESENT_PENDING_REQUIRED_CHECKS",
   "selected_reuse": [
     {
       "id": "FA3-REUSE-DISCOVERY-001",
@@ -169,7 +173,7 @@
     "upstream_projects_preserved": true
   },
   "pending_or_unmerged_donors_consumed": false,
-  "implementation_readiness": "STATIC_IMPLEMENTATION_READY_FINALIZATION_BLOCKED_ON_EXACT_HEAD_OWNER_APPROVAL",
+  "implementation_readiness": "STATIC_IMPLEMENTATION_READY_FINALIZATION_BLOCKED_ON_REQUIRED_CHECKS; PHYSICAL_RUNTIME_PROMOTION_REMAINS_BLOCKED_PENDING_FRESH_CURRENT_HOST_EVIDENCE",
   "current_host_runtime_promotion_claim": false,
   "global_promotion_claim": false,
   "mandatory_source_reviews": [

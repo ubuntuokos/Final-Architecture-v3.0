@@ -13,7 +13,10 @@
     "canonical/decisions/FA3-DEC-HIDREAM-GENERATIVE-MEDIA-MESH-2026-10-04.json",
     "apps/shared/generative-media/qml/GenerativeMediaMeshPanel.qml",
     "src/fa3_generative_media_mesh_gate.py",
-    "tests/test_generative_media_mesh_20261004.py"
+    "tests/test_generative_media_mesh_20261004.py",
+    "canonical/current-host-impact/FA3-CH-IMPACT-HIDREAM-GENERATIVE-MEDIA-MESH-PR674-20261004.json",
+    "canonical/FA3-GENERATIVE-MEDIA-MESH-CURRENT-HOST-CONFORMANCE-001.json",
+    "canonical/exceptions/FA3-OWNER-EXCEPTION-HIDREAM-GENERATIVE-MEDIA-MESH-PR674-CLOSURE-2026-10-04.json"
   ],
   "static_gate_command": "python src/fa3_generative_media_mesh_gate.py",
   "regression_command": "python -m unittest tests/test_generative_media_mesh_20261004.py",
@@ -26,7 +29,10 @@
     "explicit_child_donor_marker_required": true,
     "silent_fallback_forbidden": true,
     "automatic_display_gpu_enrollment_forbidden": true,
-    "physical_current_host_pass_required_for_runtime_promotion": true
+    "physical_current_host_pass_required_for_runtime_promotion": true,
+    "current_host_structural_impact_record_required": true,
+    "current_host_physical_requalification_pending_until_real_evidence": true,
+    "owner_exception_may_not_waive_required_status_checks": true
   },
   "runtime_promotion_claim": false,
   "physical_current_host_pass_claimed": false,

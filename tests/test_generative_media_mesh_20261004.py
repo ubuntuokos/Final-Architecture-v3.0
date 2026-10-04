@@ -38,7 +38,19 @@ class GenerativeMediaMeshTests(unittest.TestCase):
         self.assertFalse(d["runtime_promotion_claim"])
         self.assertFalse(d["current_host_pass_claimed"])
         self.assertFalse(d["approval_binding"]["exact_head_repository_owner_approved_review_observed"])
-        self.assertTrue(d["approval_binding"]["finalization_fail_closed_until_owner_review"])
+        self.assertTrue(d["approval_binding"]["owner_exception_active"])
+        self.assertTrue(d["approval_binding"]["finalization_fail_closed_until_required_checks"])
+
+    def test_current_host_structural_alignment_pending_physical_evidence(self):
+        impact = load("canonical/current-host-impact/FA3-CH-IMPACT-HIDREAM-GENERATIVE-MEDIA-MESH-PR674-20261004.json")
+        current_host = load("canonical/FA3-GENERATIVE-MEDIA-MESH-CURRENT-HOST-CONFORMANCE-001.json")
+        self.assertEqual(impact["status"], "RECONCILED")
+        self.assertTrue(impact["physical_requalification_required"])
+        self.assertFalse(impact["historical_evidence_reused"])
+        self.assertEqual(current_host["status"], "PENDING_FRESH_PHYSICAL_CURRENT_HOST_REQUALIFICATION")
+        self.assertFalse(current_host["physical_pass_claimed"])
+        self.assertFalse(current_host["runtime_promotion_claim"])
+        self.assertFalse(current_host["evidence_requirements"]["synthetic_or_simulated_pass_allowed"])
 
 if __name__ == "__main__":
     unittest.main()

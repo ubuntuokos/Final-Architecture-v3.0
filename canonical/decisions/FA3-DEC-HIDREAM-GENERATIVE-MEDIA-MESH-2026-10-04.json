@@ -1,7 +1,7 @@
 {
   "schema": "fa3.decision-record.v1",
   "id": "FA3-DEC-HIDREAM-GENERATIVE-MEDIA-MESH-2026-10-04",
-  "status": "OWNER_EXCEPTION_RECORDED_PENDING_REQUIRED_CHECKS",
+  "status": "OWNER_CLOSURE_EXCEPTION_RECORDED_PENDING_REQUIRED_CHECKS",
   "owner_approval_date": "2026-10-04",
   "intent_id": "FA3-HIDREAM-GENERATIVE-MEDIA-MESH-APPLICATION-INTENT-2026-10-04",
   "assessment_id": "FA3-HIDREAM-GENERATIVE-MEDIA-MESH-REUSE-ASSESSMENT-2026-10-04",
@@ -30,12 +30,23 @@
     "exact_head_repository_owner_approved_review_required": false,
     "exact_head_repository_owner_approved_review_observed": false,
     "owner_exception_active": true,
-    "owner_exception_record": "canonical/exceptions/FA3-OWNER-EXCEPTION-HIDREAM-GENERATIVE-MEDIA-MESH-PR674-2026-10-04.json",
-    "owner_exception_scope": "GITHUB_SELF_REVIEW_IMPOSSIBILITY_ONLY",
+    "owner_exception_record": "canonical/exceptions/FA3-OWNER-EXCEPTION-HIDREAM-GENERATIVE-MEDIA-MESH-PR674-CLOSURE-2026-10-04.json",
+    "owner_exception_scope": "GITHUB_SELF_REVIEW_IMPOSSIBILITY_AND_SINGLE_ATOMIC_PR674_POLICY_CLOSURE_COMMIT_ONLY",
     "owner_exception_does_not_waive_required_checks": true,
     "owner_exception_does_not_waive_branch_protection": true,
     "owner_exception_does_not_waive_runtime_or_current_host_gates": true,
-    "finalization_fail_closed_until_required_checks": true
+    "finalization_fail_closed_until_required_checks": true,
+    "prior_owner_exception_record": "canonical/exceptions/FA3-OWNER-EXCEPTION-HIDREAM-GENERATIVE-MEDIA-MESH-PR674-2026-10-04.json",
+    "current_host_structural_impact_reconciled": true,
+    "physical_requalification_still_pending": true
   },
-  "child_recommendations_are_analysis_only_not_canonical_queue": true
+  "child_recommendations_are_analysis_only_not_canonical_queue": true,
+  "current_host_alignment": {
+    "structural_impact_record": "canonical/current-host-impact/FA3-CH-IMPACT-HIDREAM-GENERATIVE-MEDIA-MESH-PR674-20261004.json",
+    "conformance_record": "canonical/FA3-GENERATIVE-MEDIA-MESH-CURRENT-HOST-CONFORMANCE-001.json",
+    "status": "RECONCILED_PENDING_FRESH_PHYSICAL_CURRENT_HOST_REQUALIFICATION",
+    "physical_requalification_required": true,
+    "physical_pass_claimed": false,
+    "historical_evidence_reused": false
+  }
 }

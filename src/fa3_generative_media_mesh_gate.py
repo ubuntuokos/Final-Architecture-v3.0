@@ -13,6 +13,8 @@ def run():
     contract = load("canonical/contracts/FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001.json")
     assessment = load("canonical/assessments/FA3-HIDREAM-GENERATIVE-MEDIA-MESH-REUSE-ASSESSMENT-2026-10-04.json")
     decision = load("canonical/decisions/FA3-DEC-HIDREAM-GENERATIVE-MEDIA-MESH-2026-10-04.json")
+    impact = load("canonical/current-host-impact/FA3-CH-IMPACT-HIDREAM-GENERATIVE-MEDIA-MESH-PR674-20261004.json")
+    current_host = load("canonical/FA3-GENERATIVE-MEDIA-MESH-CURRENT-HOST-CONFORMANCE-001.json")
     links = load("canonical/FA3-APPLICATION-DONOR-LINKS-001.json")
     gui = load("canonical/FA3-GUI-SURFACE-REGISTRY-001.json")
 
@@ -26,6 +28,27 @@ def run():
         findings.append("GMM-004 child admission not fail-closed")
     if decision.get("runtime_promotion_claim") is not False or decision.get("current_host_pass_claimed") is not False:
         findings.append("GMM-005 forbidden runtime/current-host claim")
+    if impact.get("status") != "RECONCILED" or impact.get("physical_requalification_required") is not True:
+        findings.append("GMM-005A current-host structural impact not reconciled")
+    if impact.get("historical_evidence_reused") is not False:
+        findings.append("GMM-005B historical current-host evidence reuse forbidden")
+    if "canonical/FA3-GENERATIVE-MEDIA-MESH-CURRENT-HOST-CONFORMANCE-001.json" not in impact.get("current_host_changes", []):
+        findings.append("GMM-005C current-host companion binding missing")
+    expected_structural = {
+        "canonical/contracts/FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001.json",
+        "canonical/decisions/FA3-DEC-HIDREAM-GENERATIVE-MEDIA-MESH-2026-10-04.json",
+        "canonical/gates/FA3-GATE-GENERATIVE-MEDIA-MESH-001.json",
+        "src/fa3_generative_media_mesh_gate.py",
+        "src/fa3_gui_gate.py",
+    }
+    if not expected_structural.issubset(set(impact.get("structural_changes", []))):
+        findings.append("GMM-005D current-host structural coverage incomplete")
+    if current_host.get("status") != "PENDING_FRESH_PHYSICAL_CURRENT_HOST_REQUALIFICATION":
+        findings.append("GMM-005E current-host conformance must remain pending fresh physical evidence")
+    if current_host.get("physical_pass_claimed") is not False or current_host.get("runtime_promotion_claim") is not False:
+        findings.append("GMM-005F forbidden current-host pass/runtime promotion claim")
+    if current_host.get("historical_evidence_reused") is not False or current_host.get("evidence_requirements", {}).get("synthetic_or_simulated_pass_allowed") is not False:
+        findings.append("GMM-005G current-host evidence boundary weakened")
     rules = contract.get("hard_rules", {})
     for key in (
         "silent_provider_model_backend_fallback",
