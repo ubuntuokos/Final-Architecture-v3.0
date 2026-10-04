@@ -351,6 +351,108 @@ QVariantMap VoiceWorkspaceService::stopMicrophoneCapture(const QString &transcri
     return row;
 }
 
+QVariantMap VoiceWorkspaceService::stageTranscription(const QString &captureId,
+                                                        const QString &language,
+                                                        bool refine)
+{
+    auto capturesMap = objectBucket(m_state, QStringLiteral("captures"));
+    auto capture = capturesMap.value(clean(captureId)).toMap();
+    if (capture.isEmpty()) {
+        setError(QStringLiteral("Unknown capture."));
+        return {};
+    }
+    const auto locale = clean(language);
+    if (locale.isEmpty()) {
+        setError(QStringLiteral("Transcription language is required."));
+        return {};
+    }
+    const auto requestId = makeId(QStringLiteral("stt-request"));
+    capture.insert(QStringLiteral("transcription_request"), QVariantMap{
+        {QStringLiteral("schema"), QStringLiteral("fa3.voice-transcription-stage.v1")},
+        {QStringLiteral("request_id"), requestId},
+        {QStringLiteral("action_id"), QStringLiteral("voice.transcribe")},
+        {QStringLiteral("capture_id"), clean(captureId)},
+        {QStringLiteral("language"), locale},
+        {QStringLiteral("refine"), refine},
+        {QStringLiteral("provider_profile"), QStringLiteral("FA3-STT-MEDIA-001")},
+        {QStringLiteral("provider_id"), QStringLiteral("FA3-PROVIDER-WHISPER-001")},
+        {QStringLiteral("model_router_authority"), QStringLiteral("FA3-AUTH-MODEL-ROUTER-001")},
+        {QStringLiteral("uaf_authority"), QStringLiteral("FA3-UNIFIED-ACTION-FABRIC-001")},
+        {QStringLiteral("execution_requested"), false}
+    });
+    capture.insert(QStringLiteral("status"), QStringLiteral("TRANSCRIPTION_STAGED_UAF"));
+    capture.insert(QStringLiteral("updated_at"), nowUtc());
+    capturesMap.insert(clean(captureId), capture);
+    m_state.insert(QStringLiteral("captures"), capturesMap);
+    m_state.insert(QStringLiteral("activity"), QVariantMap{
+        {QStringLiteral("state"), QStringLiteral("TRANSCRIBING")},
+        {QStringLiteral("application"), QStringLiteral("fa3.voice-studio")},
+        {QStringLiteral("actor"), QStringLiteral("user")},
+        {QStringLiteral("voice_profile_id"), QString()},
+        {QStringLiteral("job_id"), requestId},
+        {QStringLiteral("visible"), true}
+    });
+    if (!save()) return {};
+    setOperation(QStringLiteral("Transcription staged for UAF. Provider execution requires admitted Whisper current-host runtime."));
+    return capture;
+}
+
+QVariantMap VoiceWorkspaceService::authorizeDispatch(const QString &jobId,
+                                                      const QString &uafExecutionRef,
+                                                      const QString &resourceAdmissionRef)
+{
+    auto jobsMap = objectBucket(m_state, QStringLiteral("jobs"));
+    auto job = jobsMap.value(clean(jobId)).toMap();
+    if (job.isEmpty()) {
+        setError(QStringLiteral("Unknown voice job."));
+        return {};
+    }
+    if (job.value(QStringLiteral("status")).toString() != QStringLiteral("ROUTE_READY")
+        || job.value(QStringLiteral("provider_decision")).toMap().isEmpty()) {
+        setError(QStringLiteral("Dispatch requires ROUTE_READY job and provider decision."));
+        return {};
+    }
+    const auto uafRef = clean(uafExecutionRef);
+    const auto resourceRef = clean(resourceAdmissionRef);
+    if (uafRef.isEmpty() || resourceRef.isEmpty()) {
+        setError(QStringLiteral("UAF execution and resource admission references are required."));
+        return {};
+    }
+    const auto request = job.value(QStringLiteral("request")).toMap();
+    QVariantMap temporal{
+        {QStringLiteral("schema"), QStringLiteral("fa3.voice-temporal-dispatch.v1")},
+        {QStringLiteral("workflow_type"), QStringLiteral("fa3.voice.generate")},
+        {QStringLiteral("workflow_id"), QStringLiteral("voice-generation::") + clean(jobId)},
+        {QStringLiteral("idempotency_key"), request.value(QStringLiteral("request_id"))},
+        {QStringLiteral("job_id"), clean(jobId)},
+        {QStringLiteral("uaf_execution_ref"), uafRef},
+        {QStringLiteral("resource_admission_ref"), resourceRef},
+        {QStringLiteral("provider_decision"), job.value(QStringLiteral("provider_decision"))},
+        {QStringLiteral("execution_authority"), QStringLiteral("FA3-UNIFIED-ACTION-FABRIC-001")},
+        {QStringLiteral("workflow_authority"), QStringLiteral("Temporal")}
+    };
+    job.insert(QStringLiteral("status"), QStringLiteral("DISPATCHED"));
+    job.insert(QStringLiteral("execution_requested"), true);
+    job.insert(QStringLiteral("runtime_execution_allowed"), true);
+    job.insert(QStringLiteral("uaf_execution_ref"), uafRef);
+    job.insert(QStringLiteral("resource_admission_ref"), resourceRef);
+    job.insert(QStringLiteral("temporal_dispatch"), temporal);
+    job.insert(QStringLiteral("updated_at"), nowUtc());
+    jobsMap.insert(clean(jobId), job);
+    m_state.insert(QStringLiteral("jobs"), jobsMap);
+    m_state.insert(QStringLiteral("activity"), QVariantMap{
+        {QStringLiteral("state"), QStringLiteral("GENERATING")},
+        {QStringLiteral("application"), QStringLiteral("fa3.voice-studio")},
+        {QStringLiteral("actor"), QString()},
+        {QStringLiteral("voice_profile_id"), request.value(QStringLiteral("voice_identity_ref"))},
+        {QStringLiteral("job_id"), clean(jobId)},
+        {QStringLiteral("visible"), true}
+    });
+    if (!save()) return {};
+    setOperation(QStringLiteral("Voice job dispatched through UAF/resource receipt into Temporal workflow handoff."));
+    return job;
+}
+
 QVariantMap VoiceWorkspaceService::createCapture(const QString &language,
                                                   const QString &sourceRef,
                                                   const QString &transcript)
@@ -488,12 +590,12 @@ QVariantMap VoiceWorkspaceService::stageGeneration(const QString &text,
     jobsMap.insert(jobId, row);
     m_state.insert(QStringLiteral("jobs"), jobsMap);
     m_state.insert(QStringLiteral("activity"), QVariantMap{
-        {QStringLiteral("state"), ready ? QStringLiteral("GENERATING") : QStringLiteral("BLOCKED")},
+        {QStringLiteral("state"), ready ? QStringLiteral("PAUSED") : QStringLiteral("BLOCKED")},
         {QStringLiteral("application"), QStringLiteral("fa3.voice-studio")},
         {QStringLiteral("actor"), QString()},
         {QStringLiteral("voice_profile_id"), profileId},
         {QStringLiteral("job_id"), jobId},
-        {QStringLiteral("visible"), true}
+        {QStringLiteral("visible"), !ready}
     });
     if (!save()) return {};
     setOperation(ready
