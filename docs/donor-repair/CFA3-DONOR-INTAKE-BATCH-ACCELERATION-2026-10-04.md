@@ -29,3 +29,5 @@ If a source itself has moved, been archived or deleted, or its license/security 
 ## Finalization
 
 The batch must pass donor serialization, Reuse Discovery, Permanent Canonical + Promotion, release-projection reconciliation and all existing protected checks on one exact head. After successful publication, the constituent source PRs are closed as superseded with their exact heads preserved.
+
+Implementation branch: `fa3/donor-intake-batch-acceleration-20261004`.
