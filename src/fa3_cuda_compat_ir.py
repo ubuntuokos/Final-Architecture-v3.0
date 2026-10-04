@@ -38,6 +38,7 @@ class CudaTranslationUnitIR:
     source_sha256: str
     kernels: tuple[CudaKernelIR, ...]
     runtime_calls: tuple[str, ...]
+    cuda_identifiers: tuple[str, ...]
     driver_calls: tuple[str, ...]
     math_calls: tuple[str, ...]
     detected_features: tuple[str, ...]
@@ -50,6 +51,7 @@ class CudaTranslationUnitIR:
             "source_sha256": self.source_sha256,
             "kernels": [k.as_dict() for k in self.kernels],
             "runtime_calls": list(self.runtime_calls),
+            "cuda_identifiers": list(self.cuda_identifiers),
             "driver_calls": list(self.driver_calls),
             "math_calls": list(self.math_calls),
             "detected_features": list(self.detected_features),
