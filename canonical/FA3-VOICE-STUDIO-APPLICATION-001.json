@@ -19,7 +19,9 @@
     "state": "XDG_STATE_HOME/fa3/voice-studio",
     "database": "SQLite",
     "network_fetch": false,
-    "production_provider_claim": false
+    "production_provider_claim": false,
+    "workflow_authority": "TEMPORAL",
+    "local_sqlite_role": "NON_AUTHORITATIVE_JOB_LEDGER_AND_PROFILE_CACHE"
   },
   "surfaces": [
     "create.voice-studio",
@@ -40,7 +42,8 @@
     "piper": "CPU_ONLY_CANDIDATE_EXPLICIT_ACK_REQUIRED",
     "xtts": "ADAPTER_NOT_MATERIALIZED_BY_THIS_CHANGE",
     "cosyvoice": "EXISTING_SEPARATE_PROVIDER_ADAPTER",
-    "silent_fallback": false
+    "silent_fallback": false,
+    "voice_transformation": "ADMITTED_PROVIDER_REQUIRED_FAIL_CLOSED"
   },
   "current_host": {
     "status": "PENDING_FRESH_CURRENT_HOST_REQUALIFICATION",
@@ -50,6 +53,7 @@
   "uaf_actions": [
     "voice.speak",
     "voice.transcribe",
+    "voice.transform.preflight",
     "voice.profile.put",
     "voice.fit-to-clip",
     "voice.quick-dub.plan"
