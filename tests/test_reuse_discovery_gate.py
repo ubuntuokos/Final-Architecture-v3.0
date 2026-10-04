@@ -109,10 +109,22 @@ class ReuseDiscoveryTests(unittest.TestCase):
         )
         self.assertFalse(registry["capture_policy"]["legacy_automatic_candidate_capture"])
         decision = json.loads((ROOT / "canonical/decisions/FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28.json").read_text(encoding="utf-8"))
+        planning_exception = json.loads((ROOT / "canonical/decisions/FA3-DEC-IMPLEMENTATION-PLAN-DONOR-EXCEPTION-2026-10-04.json").read_text(encoding="utf-8"))
         profile = json.loads((ROOT / "canonical/profiles/FA3-REUSE-DISCOVERY-001.json").read_text(encoding="utf-8"))
         contract = json.loads((ROOT / "canonical/contracts/FA3-REUSE-DISCOVERY-CONTRACTS-001.json").read_text(encoding="utf-8"))
         enforcement = json.loads((ROOT / "canonical/enforcement-policy.json").read_text(encoding="utf-8"))
         self.assertEqual(decision["capture_rule"], "ONLY_LINKS_EXPLICITLY_PRECEDED_BY_OWNER_DONORNAK_MARKER_MAY_ENTER_REGISTRY")
+        self.assertEqual(
+            decision["implementation_planning_donor_analysis_exception_ref"],
+            "canonical/decisions/FA3-DEC-IMPLEMENTATION-PLAN-DONOR-EXCEPTION-2026-10-04.json",
+        )
+        self.assertEqual(
+            planning_exception["scope"]["conversation_scope"],
+            "ORIGINATING_CONVERSATION_AND_DIRECT_CONTINUATIONS_ONLY",
+        )
+        self.assertFalse(planning_exception["post_approval_barrier"]["execution_before_registration"])
+        self.assertFalse(planning_exception["post_approval_barrier"]["second_donornak_marker_required"])
+        self.assertEqual(planning_exception["capability_count_after"], 175)
         self.assertFalse(profile["donor_reference_binding"]["potential_donor_signal_requires_capture"])
         self.assertTrue(profile["donor_reference_binding"]["published_main_registry_only"])
         self.assertEqual(profile["donor_reference_binding"]["owner_marker_required"], "donornak")
