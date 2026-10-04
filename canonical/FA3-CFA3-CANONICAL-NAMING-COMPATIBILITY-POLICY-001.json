@@ -1,0 +1,85 @@
+{
+  "schema": "fa3.cfa3-canonical-naming-compatibility-policy.v1",
+  "id": "FA3-CFA3-CANONICAL-NAMING-COMPATIBILITY-POLICY-001",
+  "date": "2026-10-04",
+  "status": "CANONICAL_POLICY_STAGED",
+  "priority": "P0",
+  "requirement": "MUST",
+  "authority": false,
+  "canonical_product_name": "CFA3",
+  "historical_origin_name": "FA3",
+  "semantic_aliases": [
+    "CFA3",
+    "FA3",
+    "FA3/CFA3",
+    "CFA3/FA3"
+  ],
+  "semantic_equivalence": {
+    "scope": "RETROACTIVE_AND_FORWARD",
+    "all_aliases_refer_to_same_system": true,
+    "fa3_is_separate_product": false,
+    "fa3_role": "HISTORICAL_ALIAS",
+    "cfa3_role": "FINAL_CANONICAL_PRODUCT_NAME"
+  },
+  "interpretation": {
+    "natural_language_system_reference": "NORMALIZE_SEMANTICALLY_TO_CFA3",
+    "historical_records": "PRESERVE_LITERAL_TEXT_AND_INTERPRET_AS_CFA3_SYSTEM_REFERENCE",
+    "ambiguity_resolution": "FA3_SYSTEM_REFERENCE_MEANS_CFA3_UNLESS_CONTEXT_PROVES_A_MACHINE_LITERAL_OR_UNRELATED_TOKEN"
+  },
+  "new_content_policy": {
+    "user_facing_name": "CFA3",
+    "documentation_name": "CFA3",
+    "planning_name": "CFA3",
+    "allowed_transition_forms": [
+      "CFA3 (formerly FA3)",
+      "FA3/CFA3",
+      "CFA3/FA3"
+    ],
+    "historical_context_may_use_fa3": true
+  },
+  "non_destructive_history": {
+    "rewrite_required": false,
+    "must_preserve": [
+      "COMMIT_HISTORY",
+      "COMMIT_SHA",
+      "CLOSED_OR_MERGED_PR_HISTORY",
+      "AUDIT_RECORDS",
+      "EVIDENCE_RECORDS",
+      "HISTORICAL_TEST_RESULTS",
+      "PUBLISHED_CANONICAL_IDENTIFIERS"
+    ],
+    "reason": "RENAMING_MUST_NOT_BREAK_PROVENANCE_TRACEABILITY_OR_REFERENTIAL_INTEGRITY"
+  },
+  "machine_identifier_compatibility": {
+    "semantic_alias_rule_authorizes_literal_rename": false,
+    "existing_fa3_identifiers_may_remain": true,
+    "protected_classes": [
+      "CANONICAL_IDS",
+      "SCHEMA_IDS",
+      "DECISION_IDS",
+      "PROFILE_IDS",
+      "FILE_NAMES",
+      "NAMESPACES",
+      "API_ABI_IDENTIFIERS",
+      "ENVIRONMENT_VARIABLES",
+      "STORAGE_PATHS",
+      "CLI_AND_AUTOMATION_CONTRACTS"
+    ],
+    "rename_requires": "SEPARATE_EXPLICITLY_APPROVED_COMPATIBILITY_MIGRATION",
+    "new_machine_identifiers": "PREFER_CFA3_WHEN_COMPATIBLE_WITH_EXISTING_CANONICAL_CONVENTIONS_AND_NO_REFERENTIAL_BREAKAGE"
+  },
+  "migration_safety": {
+    "bulk_search_replace_forbidden": true,
+    "silent_identifier_rename_forbidden": true,
+    "backward_compatibility_required": true,
+    "provenance_must_be_preserved": true,
+    "existing_authorities_unchanged": true
+  },
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "donor_delta": 0,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "current_host_runtime_promotion_claim": false
+}
