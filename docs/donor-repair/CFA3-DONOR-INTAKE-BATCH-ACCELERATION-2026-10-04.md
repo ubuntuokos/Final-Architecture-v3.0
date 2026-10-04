@@ -6,13 +6,13 @@ Remove donor-intake PR backlog without weakening donor provenance, License & Rig
 
 ## Executed backlog strategy
 
-The live backlog of 17 donor-intake PRs is reconciled into one current-main batch. Only their donor/reference delta is retained. Historical branches and exact heads remain provenance; stale feature or workflow payload is not rebased or merged.
+The live backlog of 18 donor-intake PRs is reconciled into one current-main batch. Only their donor/reference delta is retained. Historical branches and exact heads remain provenance; stale feature or workflow payload is not rebased or merged.
 
-Parent registry: 1427 entries. Exact source-key union: 99 new identities. Five already-canonical source identities are enriched in place, including one stale #704 ONNX Runtime duplicate proposal. Target registry: 1526 entries. Capability delta: 0. Authority delta: 0. Usage-edge delta: 0.
+Parent registry: 1427 entries. Exact source-key union: 121 new identities. Seven already-canonical source identities are reconciled/enriched in place, including the stale #704 ONNX Runtime duplicate proposal and the two owner-reaffirmed ray/path-tracing identities from #707. Target registry: 1548 entries. Capability delta: 0. Authority delta: 0. Usage-edge delta: 0.
 
 The exact union and source PR heads are recorded in `canonical/deltas/CFA3-DONOR-BACKLOG-CONSOLIDATION-2026-10-04.json`.
 
-The initial 15-PR snapshot was extended during exact-head CI when #704 (Ascend) and #706 (DirectX/Linux) entered the live queue. Their exact heads are included in the same batch rather than starting new canonical writers. PR #706 then advanced during final CI; exact-head revalidation detected the change and added OpenNetworkLinux as one additional reference, raising the target to 1526 without accepting a stale head.
+The initial 15-PR snapshot was extended during exact-head CI when #704 (Ascend) and #706 (DirectX/Linux) entered the live queue. Their exact heads are included in the same batch rather than starting new canonical writers. PR #706 then advanced during final CI; exact-head revalidation detected the change and added OpenNetworkLinux. The owner-approved ray/path-tracing intake #707 was subsequently appended under the same single-writer rule at exact source head `af8cd23982e27fdda0cc315ffd9e1186459f532f`, adding 22 new identities and reconciling two existing identities in place. The resulting target is 1548 entries without accepting a stale source head.
 
 ## Permanent acceleration model
 
