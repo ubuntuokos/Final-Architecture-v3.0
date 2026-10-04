@@ -1435,7 +1435,7 @@
       },
       "consumers": [
         {
-          "kind": "SHARED_COMPONENT",
+          "kind": "PROVIDER",
           "id": "FA3-PROVIDER-CFA3-NATIVE-CUDA-COMPAT-001",
           "relationship": "CENTRAL_SHARED_CUDA_COMPATIBILITY_FABRIC"
         }
@@ -1484,7 +1484,7 @@
       },
       "consumers": [
         {
-          "kind": "TEST_SURFACE",
+          "kind": "TEST_HARNESS",
           "id": "tests/test_cuda_compat_native.py",
           "relationship": "PORTABILITY_REGRESSION_PATTERN"
         }
