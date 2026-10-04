@@ -61,10 +61,6 @@
       "use": "CONFIDENCE_GATE_HANDOFF_TRACE_PATTERN"
     },
     {
-      "donor_id": "FA3-DONOR-GOOGLE-ANTIGRAVITY-SDK-PYTHON-001",
-      "use": "MULTIMODAL_AGENT_TOOL_SESSION_PATTERN"
-    },
-    {
       "donor_id": "FA3-DONOR-TOBYFLOW-001",
       "use": "VISUAL_DAG_BATCH_RETRY_PROGRESS_UI_PATTERN_REFERENCE_ONLY"
     }
@@ -76,7 +72,7 @@
     "usage_edge_required_for_runtime": false,
     "child_repositories_inherited": false
   },
-  "donor_usage_edges_created": 6,
+  "donor_usage_edges_created": 5,
   "existing_usage_edges_reused": 5,
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
@@ -189,6 +185,12 @@
       "automatic_selection": false,
       "automatic_activation": false,
       "disposition": "NO_NEW_KHRONOS_RUNTIME_OR_SDK_DEPENDENCY_REQUIRED_BY_THIS_STATIC_MATERIALIZATION"
+    }
+  ],
+  "reference_considered_not_adopted": [
+    {
+      "donor_id": "FA3-DONOR-GOOGLE-ANTIGRAVITY-SDK-PYTHON-001",
+      "reason": "DONOR_INTAKE_REGRESSION_REQUIRES_NO_USAGE_REGISTRATION; FA3-native multimodal handoff contracts remain sufficient."
     }
   ]
 }
