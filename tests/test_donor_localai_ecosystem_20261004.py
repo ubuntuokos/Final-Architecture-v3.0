@@ -18,6 +18,10 @@ SUBMITTED_URLS = [
     "https://github.com/topics/localai",
     "https://github.com/topics/my-local-ai",
     "https://github.com/topics/self-hosted-ai",
+    "https://github.com/topics/offline-ai",
+    "https://github.com/topics/local-ai-app",
+    "https://github.com/aaif-goose",
+    "https://github.com/topics/local-ai-agents?o=desc&s=updated",
 ]
 
 LOCAL_IDS = {
@@ -29,6 +33,9 @@ LOCAL_IDS = {
     "FA3-DONOR-GITHUB-TOPIC-LOCALAI-001",
     "FA3-DONOR-GITHUB-TOPIC-MY-LOCAL-AI-001",
     "FA3-DONOR-GITHUB-TOPIC-SELF-HOSTED-AI-001",
+    "FA3-DONOR-GITHUB-TOPIC-OFFLINE-AI-001",
+    "FA3-DONOR-GITHUB-TOPIC-LOCAL-AI-APP-001",
+    "FA3-DONOR-AAIF-GOOSE-ORG-001",
 }
 
 
@@ -49,22 +56,50 @@ class WaitingLocalAIDonorIntakeTests(unittest.TestCase):
 
     def test_submission_counts_and_alias_collapse(self):
         d = self.delta
-        self.assertEqual(d["submitted_url_count"], 10)
+        self.assertEqual(d["submitted_url_count"], 14)
         self.assertEqual(d["submitted_urls"], SUBMITTED_URLS)
         self.assertEqual(d["duplicate_submission_count"], 0)
-        self.assertEqual(d["unique_submitted_url_count"], 10)
+        self.assertEqual(d["unique_submitted_url_count"], 14)
         self.assertEqual(d["matched_existing_count"], 0)
         self.assertEqual(d["published_registry_reuse_count"], 0)
-        self.assertEqual(d["mutation_submitted_url_count"], 10)
-        self.assertEqual(d["canonical_alias_collapse_count"], 2)
-        self.assertEqual(d["unique_source_count"], 8)
-        self.assertEqual(d["new_source_count"], 8)
-        self.assertEqual(d["proposed_entry_count"], 1435)
+        self.assertEqual(d["mutation_submitted_url_count"], 14)
+        self.assertEqual(d["canonical_alias_collapse_count"], 3)
+        self.assertEqual(d["intra_intake_alias_reuse_count"], 1)
+        self.assertEqual(d["unique_source_count"], 11)
+        self.assertEqual(d["new_source_count"], 11)
+        self.assertEqual(d["proposed_entry_count"], 1438)
 
     def test_filtered_local_ai_topic_views_share_one_identity(self):
-        rows = [row for row in self.delta["sources"] if "/topics/local-ai" in row[0] and "/topics/local-ai-" not in row[0]]
+        rows = [
+            row for row in self.delta["sources"]
+            if "/topics/local-ai" in row[0]
+            and "/topics/local-ai-" not in row[0]
+        ]
         self.assertEqual(len(rows), 3)
         self.assertEqual({row[1] for row in rows}, {"FA3-DONOR-GITHUB-TOPIC-LOCAL-AI-001"})
+
+    def test_local_ai_agent_topic_views_share_one_identity(self):
+        rows = [row for row in self.delta["sources"] if "/topics/local-ai-agents" in row[0]]
+        self.assertEqual(len(rows), 2)
+        self.assertEqual(
+            {row[1] for row in rows},
+            {"FA3-DONOR-GITHUB-TOPIC-LOCAL-AI-AGENTS-001"},
+        )
+
+    def test_new_extension_sources_are_present(self):
+        mapping = dict(self.delta["sources"])
+        self.assertEqual(
+            mapping["https://github.com/topics/offline-ai"],
+            "FA3-DONOR-GITHUB-TOPIC-OFFLINE-AI-001",
+        )
+        self.assertEqual(
+            mapping["https://github.com/topics/local-ai-app"],
+            "FA3-DONOR-GITHUB-TOPIC-LOCAL-AI-APP-001",
+        )
+        self.assertEqual(
+            mapping["https://github.com/aaif-goose"],
+            "FA3-DONOR-AAIF-GOOSE-ORG-001",
+        )
 
     def test_waiting_records_are_not_prematurely_canonical(self):
         current_ids = {e["donor_id"] for e in self.registry["entries"]}
@@ -99,11 +134,15 @@ class WaitingLocalAIDonorIntakeTests(unittest.TestCase):
         self.assertEqual(self.delta["authority_delta"], 0)
         self.assertEqual(self.delta["usage_edges_created"], 0)
 
-    def test_localai_upstream_snapshot_is_reference_only(self):
+    def test_upstream_snapshots_are_reference_only(self):
         obs = self.delta["upstream_observations"]
         self.assertEqual(obs["mudler_localai_observed_head"], "ed4a3975be786682631d700f104255cc8b9000df")
         self.assertEqual(obs["mudler_localai_latest_release"], "v4.11.0")
         self.assertEqual(obs["mudler_localai_top_level_license"], "MIT")
+        self.assertEqual(obs["aaif_goose_child_observed_head"], "591edd47cf2cfea4957d720c607cf2a4def8673d")
+        self.assertEqual(obs["aaif_goose_child_latest_release"], "v1.53.0")
+        self.assertEqual(obs["aaif_goose_child_top_level_license"], "Apache-2.0")
+        self.assertFalse(obs["aaif_goose_child_registration"])
 
 
 if __name__ == "__main__":

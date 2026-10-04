@@ -7,7 +7,7 @@
   "parent_main": "9b328ff1582ba92d67562b10336b1ccaf8a8da84",
   "parent_registry_blob_sha": "1362d75186c6da74e5cf947fdf0b8867d462636a",
   "parent_entry_count": 1427,
-  "submitted_url_count": 10,
+  "submitted_url_count": 14,
   "submitted_urls": [
     "https://github.com/mudler/localai",
     "https://github.com/topics/local-ai",
@@ -18,17 +18,22 @@
     "https://github.com/topics/local-ai-models",
     "https://github.com/topics/localai",
     "https://github.com/topics/my-local-ai",
-    "https://github.com/topics/self-hosted-ai"
+    "https://github.com/topics/self-hosted-ai",
+    "https://github.com/topics/offline-ai",
+    "https://github.com/topics/local-ai-app",
+    "https://github.com/aaif-goose",
+    "https://github.com/topics/local-ai-agents?o=desc&s=updated"
   ],
   "duplicate_submission_count": 0,
-  "unique_submitted_url_count": 10,
+  "unique_submitted_url_count": 14,
   "matched_existing_count": 0,
   "published_registry_reuse_count": 0,
-  "mutation_submitted_url_count": 10,
-  "canonical_alias_collapse_count": 2,
-  "unique_source_count": 8,
-  "new_source_count": 8,
-  "proposed_entry_count": 1435,
+  "mutation_submitted_url_count": 14,
+  "canonical_alias_collapse_count": 3,
+  "intra_intake_alias_reuse_count": 1,
+  "unique_source_count": 11,
+  "new_source_count": 11,
+  "proposed_entry_count": 1438,
   "canonical_registry_materialized": false,
   "waiting_queue_only": true,
   "capability_baseline": 175,
@@ -42,15 +47,25 @@
     "mudler_localai_observed_head": "ed4a3975be786682631d700f104255cc8b9000df",
     "mudler_localai_latest_release": "v4.11.0",
     "mudler_localai_latest_release_published_at": "2026-10-02T21:56:09Z",
-    "mudler_localai_top_level_license": "MIT"
+    "mudler_localai_top_level_license": "MIT",
+    "aaif_goose_org_observed_public_repo_count": 5,
+    "aaif_goose_child_reference_repo": "aaif-goose/goose",
+    "aaif_goose_child_observed_head": "591edd47cf2cfea4957d720c607cf2a4def8673d",
+    "aaif_goose_child_latest_release": "v1.53.0",
+    "aaif_goose_child_latest_release_published_at": "2026-10-02T18:44:11Z",
+    "aaif_goose_child_top_level_license": "Apache-2.0",
+    "aaif_goose_child_registration": false
   },
   "requirements": [
-    "Preserve all 10 exact owner-marked submitted URLs in batch provenance.",
+    "Preserve all 14 exact owner-marked submitted URLs in batch provenance.",
     "Collapse the three local-ai topic views to one github:topics/local-ai canonical identity while preserving each exact submitted URL.",
+    "Collapse both local-ai-agents filtered/sorted topic views to one github:topics/local-ai-agents identity while preserving each exact submitted URL.",
     "Treat GitHub topic and organization pages as discovery indexes only; do not recursively admit child repositories.",
     "Treat mudler/LocalAI as a concrete repository reference only; donor intake does not authorize runtime/provider admission or code/dependency adoption.",
+    "Treat aaif-goose as an organization-level discovery index only; aaif-goose/goose remains an analyzed child reference and is not independently registered by this intake.",
     "Model Router remains the sole provider/model routing authority and HRB remains the sole local resource/device-placement authority.",
     "LocalAI automatic GPU/backend detection and automatic backend download behavior must not bypass FA3 manual-selection, display-GPU, Model Manager or Hardware Safety rules.",
+    "Agent/provider/extension selection patterns from aaif-goose/goose must not replace FA3 Model Router, Central MCP Gateway, Temporal or application authority boundaries.",
     "If LocalAI is later evaluated as a runtime/provider adapter, unsigned or unhashed backend artifacts must be fail-closed under FA3 supply-chain policy rather than warning-only.",
     "CPU-only viability remains mandatory; no silent local/cloud, backend, model, provider or device fallback is introduced.",
     "No automatic fetch, install, code/content copy, dependency adoption, provider/model selection, runtime activation or Current Host claim.",
@@ -58,46 +73,20 @@
     "This delta is FIFO waiting only until the rolling five-slot donor gate admits it; pending records are excluded from canonical planning."
   ],
   "sources": [
-    [
-      "https://github.com/mudler/localai",
-      "FA3-DONOR-MUDLER-LOCALAI-001"
-    ],
-    [
-      "https://github.com/topics/local-ai",
-      "FA3-DONOR-GITHUB-TOPIC-LOCAL-AI-001"
-    ],
-    [
-      "https://github.com/topics/local-ai?l=c%2B%2B&o=asc&s=forks",
-      "FA3-DONOR-GITHUB-TOPIC-LOCAL-AI-001"
-    ],
-    [
-      "https://github.com/localai-org",
-      "FA3-DONOR-LOCALAI-ORG-001"
-    ],
-    [
-      "https://github.com/topics/local-ai?l=go&o=asc&s=updated",
-      "FA3-DONOR-GITHUB-TOPIC-LOCAL-AI-001"
-    ],
-    [
-      "https://github.com/topics/local-ai-agents?l=javascript",
-      "FA3-DONOR-GITHUB-TOPIC-LOCAL-AI-AGENTS-001"
-    ],
-    [
-      "https://github.com/topics/local-ai-models",
-      "FA3-DONOR-GITHUB-TOPIC-LOCAL-AI-MODELS-001"
-    ],
-    [
-      "https://github.com/topics/localai",
-      "FA3-DONOR-GITHUB-TOPIC-LOCALAI-001"
-    ],
-    [
-      "https://github.com/topics/my-local-ai",
-      "FA3-DONOR-GITHUB-TOPIC-MY-LOCAL-AI-001"
-    ],
-    [
-      "https://github.com/topics/self-hosted-ai",
-      "FA3-DONOR-GITHUB-TOPIC-SELF-HOSTED-AI-001"
-    ]
+    ["https://github.com/mudler/localai", "FA3-DONOR-MUDLER-LOCALAI-001"],
+    ["https://github.com/topics/local-ai", "FA3-DONOR-GITHUB-TOPIC-LOCAL-AI-001"],
+    ["https://github.com/topics/local-ai?l=c%2B%2B&o=asc&s=forks", "FA3-DONOR-GITHUB-TOPIC-LOCAL-AI-001"],
+    ["https://github.com/localai-org", "FA3-DONOR-LOCALAI-ORG-001"],
+    ["https://github.com/topics/local-ai?l=go&o=asc&s=updated", "FA3-DONOR-GITHUB-TOPIC-LOCAL-AI-001"],
+    ["https://github.com/topics/local-ai-agents?l=javascript", "FA3-DONOR-GITHUB-TOPIC-LOCAL-AI-AGENTS-001"],
+    ["https://github.com/topics/local-ai-models", "FA3-DONOR-GITHUB-TOPIC-LOCAL-AI-MODELS-001"],
+    ["https://github.com/topics/localai", "FA3-DONOR-GITHUB-TOPIC-LOCALAI-001"],
+    ["https://github.com/topics/my-local-ai", "FA3-DONOR-GITHUB-TOPIC-MY-LOCAL-AI-001"],
+    ["https://github.com/topics/self-hosted-ai", "FA3-DONOR-GITHUB-TOPIC-SELF-HOSTED-AI-001"],
+    ["https://github.com/topics/offline-ai", "FA3-DONOR-GITHUB-TOPIC-OFFLINE-AI-001"],
+    ["https://github.com/topics/local-ai-app", "FA3-DONOR-GITHUB-TOPIC-LOCAL-AI-APP-001"],
+    ["https://github.com/aaif-goose", "FA3-DONOR-AAIF-GOOSE-ORG-001"],
+    ["https://github.com/topics/local-ai-agents?o=desc&s=updated", "FA3-DONOR-GITHUB-TOPIC-LOCAL-AI-AGENTS-001"]
   ],
   "canonical_identities": [
     {
@@ -155,6 +144,27 @@
       "kind": "GITHUB_TOPIC",
       "status": "ACCEPTED_REFERENCE",
       "mode": "DISCOVERY_INDEX"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-OFFLINE-AI-001",
+      "normalized_key": "github:topics/offline-ai",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "DISCOVERY_INDEX"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-LOCAL-AI-APP-001",
+      "normalized_key": "github:topics/local-ai-app",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "DISCOVERY_INDEX"
+    },
+    {
+      "donor_id": "FA3-DONOR-AAIF-GOOSE-ORG-001",
+      "normalized_key": "github:aaif-goose",
+      "kind": "GITHUB_ORGANIZATION",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "AGENT_LOCAL_AI_ECOSYSTEM_DISCOVERY_INDEX"
     }
   ],
   "boundaries": {
