@@ -24,6 +24,7 @@ _FEATURE_PATTERNS = {
 }
 _KERNEL_PREFIX = re.compile(r"\b__global__\s+(?:__launch_bounds__\s*\([^)]*\)\s*)?void\s+([A-Za-z_]\w*)\s*\(")
 _RUNTIME_CALL = re.compile(r"\b(cuda[A-Z][A-Za-z0-9_]*)\s*\(")
+_CUDA_IDENTIFIER = re.compile(r"\b(cuda[A-Z][A-Za-z0-9_]*)\b")
 _DRIVER_CALL = re.compile(r"\b(cu[A-Z][A-Za-z0-9_]*)\s*\(")
 _MATH_CALL = re.compile(r"\b(sinf|cosf|tanf|expf|logf|sqrtf|rsqrtf|fabsf|fmaf|sin|cos|tan|exp|log|sqrt|fabs|fma)\s*\(")
 
