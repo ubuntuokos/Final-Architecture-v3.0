@@ -1,0 +1,84 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-ECOPASTEHUB-ORG-2026-10-04",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "MATERIALIZED_PENDING_EXACT_HEAD_GATES",
+  "mode": "APPEND_ONLY_OWNER_EXPLICIT_REFERENCE_INTAKE",
+  "parent_commit": "df24cb9d1fa2413b08c8d47461bdb2db799585f6",
+  "parent_registry_blob_sha": "1362d75186c6da74e5cf947fdf0b8867d462636a",
+  "parent_entry_count": 1427,
+  "source_count": 1,
+  "unique_source_key_count": 1,
+  "matched_existing_count": 0,
+  "proposed_entry_count": 1428,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "provider_count_policy": "DYNAMIC_UNCHANGED",
+  "approval_ref": "docs/donor-ecopastehub-org-2026-10-04.md",
+  "observed_child_repository_count": 4,
+  "representative_repository": {
+    "locator": "https://github.com/EcoPasteHub/EcoPaste",
+    "observed_head": "5139d30b0f4c1309356a9b308c05092f1038bc9b",
+    "observed_license": "Apache-2.0",
+    "upstream_platform_scope": [
+      "macOS",
+      "Windows"
+    ]
+  },
+  "requirements": [
+    "Preserve the exact owner-marked EcoPasteHub GitHub organization URL as one canonical organization-level donor/reference identity.",
+    "Treat the organization as a discovery index only; child repositories are not recursively admitted.",
+    "Any selected child repository requires independent exact-source provenance plus License & Rights, security, Software Coexistence, platform/runtime and dependency review.",
+    "Do not inherit EcoPaste's macOS/Windows-only scope as an FA3 platform restriction; FA3-native shared clipboard/capture capability must preserve Linux support.",
+    "Material adoption requires a typed canonical donor usage edge and application/capability impact reconciliation.",
+    "Fixed capability baseline 175 and dynamic provider-count policy remain unchanged.",
+    "No automatic fetch, install, code copy, dependency adoption, runtime activation or Current Host claim."
+  ],
+  "sources": [
+    {
+      "url": "https://github.com/EcoPasteHub",
+      "normalized_key": "github:ecopastehub",
+      "donor_id": "FA3-DONOR-ECOPASTEHUB-ORG-001",
+      "kind": "GITHUB_ORGANIZATION",
+      "status": "ACCEPTED_REFERENCE",
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      }
+    }
+  ],
+  "discovery_classes": [
+    "LOCAL_FIRST_CLIPBOARD_CAPTURE",
+    "MULTI_FORMAT_CLIPBOARD_HISTORY",
+    "SOURCE_APPLICATION_PROVENANCE",
+    "HASH_DEDUPLICATION_AND_LOOP_SUPPRESSION",
+    "LOCAL_SQLITE_FTS_SEARCH",
+    "SENSITIVE_CONTENT_PROTECTION",
+    "ENCRYPTED_LOCAL_BACKUP",
+    "NATIVE_DESKTOP_INTEGRATION",
+    "INTER_APP_DRAG_AND_HANDOFF",
+    "RUNTIME_STORAGE_RELOCATION"
+  ],
+  "boundaries": {
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "automatic_code_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "child_repository_auto_registration": false,
+    "usage_edge_created": false,
+    "capability_count_change": false,
+    "authority_change": false,
+    "runtime_change": false,
+    "current_host_pass_claimed": false
+  },
+  "submitted_url_count": 1,
+  "new_source_count": 1,
+  "serialization_scope": "ROLLING_FIVE_SLOT_DONOR_MAINTENANCE",
+  "serialization_order": "ASCENDING_ESTIMATED_INTAKE_WORKLOAD_THEN_FIFO",
+  "max_active_donor_intakes": 5,
+  "expected_initial_state": "FIFO_WAITING_BEHIND_EARLIER_OPEN_DONOR_INTAKES"
+}
