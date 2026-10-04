@@ -235,12 +235,15 @@ def collect(
     smoke_seconds: float = 8.0,
     env: Mapping[str, str] | None = None,
     tested_path: str = TESTED_PATH_ID,
+    executable_args: tuple[str, ...] = (),
 ) -> dict[str, Any]:
     root = root.resolve()
     executable = executable.resolve()
     output_dir = output_dir.resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
     base_env = dict(os.environ if env is None else env)
+    if any(not isinstance(item, str) or "\x00" in item for item in executable_args):
+        raise RuntimeError("GUI current-host executable arguments must be NUL-free strings")
     if tested_path != TESTED_PATH_ID:
         raise RuntimeError(f"unsupported GUI current-host tested path: {tested_path}")
 
@@ -306,6 +309,7 @@ def collect(
         "stdout_sha256": None,
         "stderr_sha256": None,
         "fatal_qt_startup_marker_absent": False,
+        "executable_args": list(executable_args),
     }
 
     prerequisites = (
@@ -331,7 +335,7 @@ def collect(
         launch["attempted"] = True
         with stdout_path.open("wb") as stdout, stderr_path.open("wb") as stderr:
             proc = subprocess.Popen(
-                [str(executable)],
+                [str(executable), *executable_args],
                 cwd=str(root),
                 env=child_env,
                 stdout=stdout,
