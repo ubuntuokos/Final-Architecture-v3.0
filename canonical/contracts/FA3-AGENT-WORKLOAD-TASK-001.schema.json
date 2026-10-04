@@ -8,6 +8,8 @@
     "schema",
     "task_id",
     "root_task_id",
+    "scope_refs",
+    "scope_origin",
     "action_ref",
     "agent_definition_ref",
     "resource_requirements",
@@ -86,6 +88,23 @@
     },
     "provenance_refs": {
       "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "scope_origin": {
+      "type": "string",
+      "enum": [
+        "EXPLICIT_USER_SCOPE",
+        "REQUIRED_FOR_APPROVED_GOAL",
+        "EXPLICIT_USER_SCOPE_EXTENSION"
+      ]
+    },
+    "scope_refs": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
       "items": {
         "type": "string",
         "minLength": 1
