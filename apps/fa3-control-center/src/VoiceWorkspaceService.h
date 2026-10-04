@@ -43,6 +43,12 @@ public:
                                                 const QString &consentProofRef);
     Q_INVOKABLE bool startMicrophoneCapture(const QString &language);
     Q_INVOKABLE QVariantMap stopMicrophoneCapture(const QString &transcript = QString());
+    Q_INVOKABLE QVariantMap stageTranscription(const QString &captureId,
+                                                const QString &language,
+                                                bool refine = false);
+    Q_INVOKABLE QVariantMap authorizeDispatch(const QString &jobId,
+                                              const QString &uafExecutionRef,
+                                              const QString &resourceAdmissionRef);
     Q_INVOKABLE QVariantMap createCapture(const QString &language,
                                           const QString &sourceRef,
                                           const QString &transcript = QString());
