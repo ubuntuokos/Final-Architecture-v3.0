@@ -112,6 +112,9 @@ jobs:
                       or p.startswith('docs/donor-repair/')
                       or p.startswith('docs/donor-') or p.startswith('docs/donors-')
                       or p.startswith('canonical/deltas/FA3-DONOR-')
+                      or p.startswith('canonical/deltas/CFA3-DONOR-')
+                      or p == 'canonical/decisions/CFA3-DEC-DONOR-INTAKE-BATCH-ACCELERATION-2026-10-04.json'
+                      or p.startswith('canonical/current-host-impact/CFA3-DONOR-INTAKE-BATCH-ACCELERATION-')
                       or (p.startswith('canonical/references/') and 'DONOR' in p.upper())
                       or p.startswith('tests/test_donor_') or p.startswith('tests/test_donors_'))
           actual_intake=is_donor_intake_pr({'title':os.environ.get('PR_TITLE','')},
