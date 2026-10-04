@@ -57,17 +57,18 @@
   },
   "backlog_closure": {
     "consolidation_manifest": "canonical/deltas/CFA3-DONOR-BACKLOG-CONSOLIDATION-2026-10-04.json",
-    "source_pr_count": 17,
-    "expected_new_source_count": 99,
+    "source_pr_count": 18,
+    "expected_new_source_count": 121,
     "parent_entry_count": 1427,
-    "resulting_entry_count": 1526,
+    "resulting_entry_count": 1548,
     "live_queue_reconciliation": {
       "added_source_prs": [
         704,
-        706
+        706,
+        707
       ],
       "stale_source_key_deduplications": 1,
-      "existing_identity_enrichments": 5,
+      "existing_identity_enrichments": 7,
       "rule": "NORMALIZED_SOURCE_KEY_CANONICAL_IDENTITY_WINS_NO_DUPLICATE_RECORD",
       "head_refreshes": [
         {
@@ -76,7 +77,16 @@
           "to": "dd62e05810f1212a8489f4aa7cb2e033a801766d",
           "new_source_delta": 1
         }
-      ]
+      ],
+      "latest_append": {
+        "pr": 707,
+        "head": "af8cd23982e27fdda0cc315ffd9e1186459f532f",
+        "submitted_urls": 29,
+        "normalized_identities": 24,
+        "new_identities": 22,
+        "reconciled_existing_identities": 2,
+        "scope": "RAY_PATH_TRACING_CROSS_VENDOR_REFERENCE_INTAKE"
+      }
     }
   },
   "supersedes_clauses": [
