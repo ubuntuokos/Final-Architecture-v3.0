@@ -57,10 +57,19 @@
   },
   "backlog_closure": {
     "consolidation_manifest": "canonical/deltas/CFA3-DONOR-BACKLOG-CONSOLIDATION-2026-10-04.json",
-    "source_pr_count": 15,
-    "expected_new_source_count": 85,
+    "source_pr_count": 17,
+    "expected_new_source_count": 98,
     "parent_entry_count": 1427,
-    "resulting_entry_count": 1512
+    "resulting_entry_count": 1525,
+    "live_queue_reconciliation": {
+      "added_source_prs": [
+        704,
+        706
+      ],
+      "stale_source_key_deduplications": 1,
+      "existing_identity_enrichments": 5,
+      "rule": "NORMALIZED_SOURCE_KEY_CANONICAL_IDENTITY_WINS_NO_DUPLICATE_RECORD"
+    }
   },
   "supersedes_clauses": [
     "FA3-DEC-DONOR-INTAKE-CONCURRENCY-2026-10-03:CANONICAL_MUTATION_PR_PER_INTAKE_AS_OPERATING_PATTERN",
