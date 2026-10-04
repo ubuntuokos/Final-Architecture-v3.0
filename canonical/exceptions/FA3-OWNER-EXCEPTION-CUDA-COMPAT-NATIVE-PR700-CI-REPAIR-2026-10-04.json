@@ -1,0 +1,44 @@
+{
+  "schema": "fa3.owner-exception.v1",
+  "id": "FA3-OWNER-EXCEPTION-CUDA-COMPAT-NATIVE-PR700-CI-REPAIR-2026-10-04",
+  "status": "ACTIVE_SINGLE_PR_CI_REPAIR_EXCEPTION",
+  "owner": "ubuntuokos",
+  "owner_instruction": "Jóváhagyom a d42c46b68491d845594b09aa71ea02016bc77baa headet véglegesítésre és merge-re.",
+  "prior_exact_head_owner_approval": "d42c46b68491d845594b09aa71ea02016bc77baa",
+  "recorded_date": "2026-10-04",
+  "repository": "ubuntuokos/Final-Architecture-v3.0",
+  "pull_request": 700,
+  "authorized_transition_parent_head": "72ce206cbe39f880ae738949653277e6cb4c0252",
+  "prior_owner_exception_record": "canonical/exceptions/FA3-OWNER-EXCEPTION-CUDA-COMPAT-NATIVE-PR700-SELF-REVIEW-2026-10-04.json",
+  "triggering_authoritative_ci": {
+    "native_cuda_compatibility_run": 37235622547,
+    "finding": "plan-approval",
+    "root_cause": "The approval-binding administrative commit changed the canonical plan approval status from APPROVED to a more specific label, while the executable gate requires the canonical status token APPROVED."
+  },
+  "reason": "Authoritative exact-head CI exposed one deterministic approval-record compatibility defect introduced by the prior administrative approval-binding commit. This exception authorizes exactly one atomic repair commit limited to restoring the canonical APPROVED status while preserving the explicit exact-head owner approval and self-review-impossibility evidence.",
+  "scope": "AUTHORIZE_ONE_ATOMIC_PR700_CI_REPAIR_COMMIT_FOR_PLAN_APPROVAL_STATUS_COMPATIBILITY_ONLY",
+  "authorized_administrative_commit_chain": {
+    "max_commits": 1,
+    "allowed_paths": [
+      "canonical/exceptions/FA3-OWNER-EXCEPTION-CUDA-COMPAT-NATIVE-PR700-CI-REPAIR-2026-10-04.json",
+      "canonical/decisions/FA3-DEC-CUDA-COMPAT-NATIVE-PLAN-APPROVAL-2026-10-04.json",
+      "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json"
+    ],
+    "any_other_path_change_invalidates_exception": true
+  },
+  "invariants": {
+    "capability_baseline": 175,
+    "capability_delta": 0,
+    "authority_delta": 0,
+    "material_feature_scope_delta": 0,
+    "required_status_checks_still_mandatory": true,
+    "branch_protection_still_mandatory": true,
+    "unresolved_review_threads_forbidden": true,
+    "runtime_promotion_claim": false,
+    "physical_current_host_pass_claim": false,
+    "historical_current_host_evidence_reuse": false,
+    "current_host_physical_requalification_still_required": true,
+    "donor_usage_edges_unchanged": true,
+    "external_scale_runtime_or_build_dependency": false
+  }
+}

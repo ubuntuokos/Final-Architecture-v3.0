@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "c8732ffb10be90aa3f0d92fa60dbbdb52381491d",
-    "pre_projection_root_tree_sha": "a1ba77d131c699a1efeeda4de7a65ee17186b92e",
-    "pre_projection_canonical_tree_sha": "e31fd2726859db532a1915986ddd835a731b6c12",
-    "commits_ahead_of_v3_0_11_conformance_commit": 3149,
-    "total_post_baseline_commits": 3149,
-    "delta_file_count": 3003,
-    "delta_added_files": 2997,
+    "pre_projection_head_sha": "73ae98a8db785aa3781a8569b8d827dc8eb55586",
+    "pre_projection_root_tree_sha": "0e0ef008840a49b967b1b21dd1236651be2ad03d",
+    "pre_projection_canonical_tree_sha": "aa1aa54b4ba5b422e7ce6399ccc90aa43d48359e",
+    "commits_ahead_of_v3_0_11_conformance_commit": 3103,
+    "total_post_baseline_commits": 3103,
+    "delta_file_count": 2998,
+    "delta_added_files": 2992,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,10 +46,10 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1409,
+    "canonical_files_in_post_baseline_delta": 1406,
     "evidence_files_in_post_baseline_delta": 172,
     "source_files_in_post_baseline_delta": 378,
-    "test_files_in_post_baseline_delta": 356,
+    "test_files_in_post_baseline_delta": 355,
     "workflow_files_in_post_baseline_delta": 143,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -482,7 +482,6 @@
       "canonical/contracts/FA3-WORKSPACE-SCOPED-AGENT-CONTEXT-CONTRACTS-001.json"
     ],
     "decision_records": [
-      "canonical/decisions/CFA3-DEC-DONOR-INTAKE-BATCH-ACCELERATION-2026-10-04.json",
       "canonical/decisions/FA3-DEC-ACE-STEP-2026-08-30.json",
       "canonical/decisions/FA3-DEC-ACE-STEP-HARDENING-2026-09-10.json",
       "canonical/decisions/FA3-DEC-ADK2-DERIVED-AGENT-RUNTIME-SEMANTICS-2026-09-24.json",
@@ -948,7 +947,8 @@
     "FA3-GOVERNANCE-STATUS-GATESET-001",
     "FA3-PERMANENT-GATE-HARDENING-GATESET-001",
     "FA3-CANONICAL-REGISTRY-INTEGRITY-GATESET-001",
-    "FA3-SHARED-HAIR-GROOM-GATESET-001"
+    "FA3-SHARED-HAIR-GROOM-GATESET-001",
+    "FA3-CUDA-COMPAT-NATIVE-GATESET-001"
   ],
   "evidence_registry": {
     "path": "evidence/evidence-registry.json",
@@ -1074,7 +1074,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2993,
+  "manifest_entry_count": 3017,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1232,6 +1232,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": ".github/workflows/fa3-cuda-compat-native.yml",
+      "git_blob_sha": "8b97489235af90845bf49d17449f36eb1eec4c00",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": ".github/workflows/fa3-current-host-closure-controller.yml",
       "git_blob_sha": "75b3df0291d9c16b3b6ad4c1e1eeca8f7854be74",
       "baseline_delta_status": "added"
@@ -1303,7 +1308,7 @@
     },
     {
       "path": ".github/workflows/fa3-donor-serialization.yml",
-      "git_blob_sha": "553c7aded97a9204fb955dc5407ff34c9e879fb2",
+      "git_blob_sha": "46790c919dec851b30e89aac141e41133de76518",
       "baseline_delta_status": "added"
     },
     {
@@ -3372,6 +3377,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/FA3-CUDA-COMPAT-NATIVE-DECISION-ASSESSMENT-2026-10-04.json",
+      "git_blob_sha": "ff4be31d4a9968c2ede38a7da9e055ae762c5686",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/assessments/FA3-CUDA-COMPAT-NATIVE-REUSE-ASSESSMENT-2026-10-04.json",
+      "git_blob_sha": "7df9f2fd5e97af8fce5e4194e04ab59c171568be",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/assessments/FA3-CUDA-PORTABILITY-SHARED-FUNCTION-REUSE-ASSESSMENT-2026-10-04.json",
       "git_blob_sha": "013ea2f7caa5498c394fdd0ae6c1b2b89483560c",
       "baseline_delta_status": "added"
@@ -4007,6 +4022,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/contracts/FA3-CUDA-COMPAT-NATIVE-CONTRACTS-001.json",
+      "git_blob_sha": "1ca642f894ad3a5101d5ac28e6f150545e414e9f",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-DECISION-CONSUMER-BINDINGS-001.json",
       "git_blob_sha": "1b715ab4401b60de09a0dfbc96df54792934730c",
       "baseline_delta_status": "added"
@@ -4048,7 +4068,7 @@
     },
     {
       "path": "canonical/contracts/FA3-DONOR-CHAT-INGEST-001.json",
-      "git_blob_sha": "8850371c2574eafdf4f59591f0ce53f1322094ea",
+      "git_blob_sha": "9e49d38bb2748a0451fafad3d345db844ede3d11",
       "baseline_delta_status": "added"
     },
     {
@@ -4702,11 +4722,6 @@
       "baseline_delta_status": "added"
     },
     {
-      "path": "canonical/current-host-impact/CFA3-DONOR-INTAKE-BATCH-ACCELERATION-CURRENT-HOST-IMPACT-2026-10-04.json",
-      "git_blob_sha": "01a4cdbd9654dc94fe9057bf61391b4c2c0d7991",
-      "baseline_delta_status": "added"
-    },
-    {
       "path": "canonical/current-host-impact/FA3-CH-IMPACT-175-525-RECONCILIATION-20260930.json",
       "git_blob_sha": "3249fc3c166443f9c3ea3f331513c1ca5622a6e6",
       "baseline_delta_status": "added"
@@ -4714,6 +4729,11 @@
     {
       "path": "canonical/current-host-impact/FA3-CH-IMPACT-ACTION-PIN-REGRESSION-GATE-20261004.json",
       "git_blob_sha": "56d0913ba64628db37307d10c2f8c04fa260a353",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/current-host-impact/FA3-CH-IMPACT-CUDA-COMPAT-NATIVE-20261004.json",
+      "git_blob_sha": "20e547ad368ac9a09eab87868c2dbaa2020c73e2",
       "baseline_delta_status": "added"
     },
     {
@@ -4749,11 +4769,6 @@
     {
       "path": "canonical/decision-fabric-enforcement.json",
       "git_blob_sha": "820438154eaab217f74e36e681c1971968f56a67",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/CFA3-DEC-DONOR-INTAKE-BATCH-ACCELERATION-2026-10-04.json",
-      "git_blob_sha": "c96283f8f05cc1f298cedc94cfcfb8607769f9cb",
       "baseline_delta_status": "added"
     },
     {
@@ -4934,6 +4949,21 @@
     {
       "path": "canonical/decisions/FA3-DEC-CREATIVE-PROJECT-WORKFLOW-FLOVA-PATTERNS-2026-09-26.json",
       "git_blob_sha": "0ad0ba083557da9616e86354e96559671fc73f14",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-CUDA-COMPAT-NATIVE-PLAN-APPROVAL-2026-10-04.json",
+      "git_blob_sha": "f58509307a9c206cee20f7602a94f1e393c972ca",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-CUDA-COMPAT-OROCHI-DONOR-USE-2026-10-04.json",
+      "git_blob_sha": "5215f8a2d9d28541ff7464d1b4c3ca3a65d7683e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-CUDA-COMPAT-ROCM-EXAMPLES-DONOR-USE-2026-10-04.json",
+      "git_blob_sha": "d9cc1a817a9dc97cdcfdd1039cb9c6e352ec4cb8",
       "baseline_delta_status": "added"
     },
     {
@@ -5672,11 +5702,6 @@
       "baseline_delta_status": "added"
     },
     {
-      "path": "canonical/deltas/CFA3-DONOR-BACKLOG-CONSOLIDATION-2026-10-04.json",
-      "git_blob_sha": "9d12741b97c93a5892b1ec4cae2a56b3fe9870c2",
-      "baseline_delta_status": "added"
-    },
-    {
       "path": "canonical/deltas/FA3-DONOR-ACTIONS-RUNNER-TEMPORAL-ORGS-2026-09-30.json",
       "git_blob_sha": "7ad8b1d1898b02649d61cd2b84659a03548e745c",
       "baseline_delta_status": "added"
@@ -5863,22 +5888,32 @@
     },
     {
       "path": "canonical/distribution-manifest.json",
-      "git_blob_sha": "184736b7482dda8a0bad2b6bdd0a20c981b90d12",
+      "git_blob_sha": "fba72c95ae65d56032dd13b309f3ac86bcf4c36d",
       "baseline_delta_status": "added"
     },
     {
       "path": "canonical/distribution-registry.json",
-      "git_blob_sha": "4e1a7ee7ecbb381eb175369cd6a2d61c04152dc6",
+      "git_blob_sha": "91949f7355e1ad0363a7dc0ce71162773870ae00",
       "baseline_delta_status": "added"
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "30890ec7d8b2931960639e65762c8a0d3bfcbf88",
+      "git_blob_sha": "5a0f87e3f71e6bb10c8e5414a3758fb98e743404",
       "baseline_delta_status": "modified"
     },
     {
       "path": "canonical/engine-selection-enforcement.json",
       "git_blob_sha": "53f14daa9a5d4169fcbf4b41727215e6f3de372f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/exceptions/FA3-OWNER-EXCEPTION-CUDA-COMPAT-NATIVE-PR700-CI-REPAIR-2026-10-04.json",
+      "git_blob_sha": "e4943ad2b9d7649c4fbede610be86c33e77d24f0",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/exceptions/FA3-OWNER-EXCEPTION-CUDA-COMPAT-NATIVE-PR700-SELF-REVIEW-2026-10-04.json",
+      "git_blob_sha": "d9909d9e6db8a56aa4d5b0110c5b2c327e5e34c3",
       "baseline_delta_status": "added"
     },
     {
@@ -5978,7 +6013,7 @@
     },
     {
       "path": "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
-      "git_blob_sha": "1237da7ec4b5d6a9f44b4c2be0f18e57657a20df",
+      "git_blob_sha": "fb273a9c4e00f654cf0be09f63703939d9647703",
       "baseline_delta_status": "added"
     },
     {
@@ -6039,6 +6074,11 @@
     {
       "path": "canonical/FA3-COSYVOICE-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "395970d95b67b3b99c5c793abc74c21841f8556e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-CUDA-COMPAT-NATIVE-CURRENT-HOST-CONFORMANCE-001.json",
+      "git_blob_sha": "a4fff6e1558902ddad24c58182c3e44494717b75",
       "baseline_delta_status": "added"
     },
     {
@@ -6103,7 +6143,7 @@
     },
     {
       "path": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
-      "git_blob_sha": "03bd0b56a1c176efc224cdd1bc6a091562663390",
+      "git_blob_sha": "1362d75186c6da74e5cf947fdf0b8867d462636a",
       "baseline_delta_status": "added"
     },
     {
@@ -6259,6 +6299,11 @@
     {
       "path": "canonical/FA3-GATE-CREATIVE-PROJECT-WORKFLOW-001.json",
       "git_blob_sha": "bfc5f60c507b02295779f9f2f90c160f381aba9c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-GATE-CUDA-COMPAT-NATIVE-001.json",
+      "git_blob_sha": "59362d2f135d891c55f3ef68a795f9802904d6ca",
       "baseline_delta_status": "added"
     },
     {
@@ -6548,7 +6593,7 @@
     },
     {
       "path": "canonical/FA3-GATE-REGISTRY-001.json",
-      "git_blob_sha": "a5927b62e9ad8ae2d2a97051a5bf2c0e1734c469",
+      "git_blob_sha": "ac569e3fc2787a3f900ae522bd07a322855626d3",
       "baseline_delta_status": "added"
     },
     {
@@ -7312,6 +7357,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/intents/FA3-CUDA-COMPAT-NATIVE-APPLICATION-INTENT-2026-10-04.json",
+      "git_blob_sha": "af78c7d12918d49354dab9933b8b17917f9c7e1a",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/intents/FA3-CUDA-PORTABILITY-SHARED-FUNCTION-APPLICATION-INTENT-2026-10-04.json",
       "git_blob_sha": "7db7c9f806552d9356f00b9e6aa2d446416c7c55",
       "baseline_delta_status": "added"
@@ -7558,7 +7608,7 @@
     },
     {
       "path": "canonical/license-rights-descriptor-registry.json",
-      "git_blob_sha": "66febae131d665fd257c5bf2da90f13bc1238819",
+      "git_blob_sha": "c7ecbed36fc05df016f1126c1e66474ec17e7a1d",
       "baseline_delta_status": "added"
     },
     {
@@ -7584,6 +7634,11 @@
     {
       "path": "canonical/license-rights/descriptors/FA3-PROVIDER-CAPTION-NATIVE-001.json",
       "git_blob_sha": "050cd1af2f70e31d3f8a2405420be437103d68fa",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/license-rights/descriptors/FA3-PROVIDER-CFA3-NATIVE-CUDA-COMPAT-001.json",
+      "git_blob_sha": "6fe01ce4b9192f67a2b60d546bf00f8230415405",
       "baseline_delta_status": "added"
     },
     {
@@ -8499,6 +8554,11 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-CAVEMAN-001.json",
       "git_blob_sha": "8bdf5d0cb5c0ecf185ba9324c90bce330bd9eb91",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-CFA3-NATIVE-CUDA-COMPAT-001.json",
+      "git_blob_sha": "92a5f3d084efe5b896894f67469bfb78336ef925",
       "baseline_delta_status": "added"
     },
     {
@@ -10207,6 +10267,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/cfa3-native-cuda-compat-2026-10-04.md",
+      "git_blob_sha": "f9468d187660021f7fccd7f204d40006d998cc78",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/cfa3-native-cuda-compat-final-plan-2026-10-04.md",
+      "git_blob_sha": "a5a218f173efc07977b9731482d129267784cd72",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/chip-huyen-ml-systems-donor-curation-2026-09-28.md",
       "git_blob_sha": "dddf3d2066a42557acd1dee0d89214e2defe9e61",
       "baseline_delta_status": "added"
@@ -10542,13 +10612,8 @@
       "baseline_delta_status": "added"
     },
     {
-      "path": "docs/donor-repair/CFA3-DONOR-INTAKE-BATCH-ACCELERATION-2026-10-04.md",
-      "git_blob_sha": "d5a2d4ea57ee610718244609c3233398593c5bf9",
-      "baseline_delta_status": "added"
-    },
-    {
       "path": "docs/donor-repair/DONOR_READINESS.md",
-      "git_blob_sha": "a03a88b64c520255fefd146e2034d91e43010273",
+      "git_blob_sha": "5b2aa947fa17dacb0fc9f0e16088b04dcb5cdf74",
       "baseline_delta_status": "added"
     },
     {
@@ -12278,7 +12343,7 @@
     },
     {
       "path": "src/fa3_accelerator_backend_probe.py",
-      "git_blob_sha": "89aee04efd008d86272ed0bf072c287b936cabeb",
+      "git_blob_sha": "49ca18c19dff63369301aa7a7ab0ae4c2541b044",
       "baseline_delta_status": "added"
     },
     {
@@ -12687,6 +12752,46 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_cuda_compat_backends.py",
+      "git_blob_sha": "02e5affc704c0e9eda74956fe9fe53e3520de80c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_cuda_compat_build.py",
+      "git_blob_sha": "e2262e6e8317aeec60e23320bb910a29354c2334",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_cuda_compat_frontend.py",
+      "git_blob_sha": "10a425f9b8b7f7582071636ff354b7a10497999a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_cuda_compat_gate.py",
+      "git_blob_sha": "9c7baa1db61ab79ddd004f9e9dee43c979adb7e7",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_cuda_compat_ir.py",
+      "git_blob_sha": "986ae4213b10b9f8131f8d516f8e3deb819a12be",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_cuda_compat_native.py",
+      "git_blob_sha": "69cfdde86b5382afd4b987b1c97e3f1cecd377ce",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_cuda_compat_runtime.py",
+      "git_blob_sha": "ba0691580525eb5fbca28dc7a0530f7c66a985f8",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_cuda_compat_shared.py",
+      "git_blob_sha": "e9a8345bb6d326e782e4b4ff7443f04e9d0e6d43",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_current_host_base_admission.py",
       "git_blob_sha": "f000e1072da71eedf24737ef3b9ed61d77b04e05",
       "baseline_delta_status": "added"
@@ -12893,7 +12998,7 @@
     },
     {
       "path": "src/fa3_donor_readiness.py",
-      "git_blob_sha": "9b3e8b9526f4562fa2efea05d93d398ce5af10cc",
+      "git_blob_sha": "01c611c1278062a86a40a4a031d1c044a5c2f6f8",
       "baseline_delta_status": "added"
     },
     {
@@ -12903,7 +13008,7 @@
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "bf98a918b1f93d899b38559af516a94773c6b0e3",
+      "git_blob_sha": "4726722f546842cfe2eaa981ca328815d1f67c48",
       "baseline_delta_status": "modified"
     },
     {
@@ -14487,6 +14592,26 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_cuda_compat_gate.py",
+      "git_blob_sha": "3669228e6665404ade1a08cd62bcbca739b597a3",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_cuda_compat_integration.py",
+      "git_blob_sha": "99746d27061a405e9185c529fd070ef21d829ddb",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_cuda_compat_native.py",
+      "git_blob_sha": "6754a144a8793a89a2ae6b48b0e597be12e37156",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_cuda_compat_shared.py",
+      "git_blob_sha": "311ef74351bcc8334e7ec368c4744986026289af",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_current_host_base_admission.py",
       "git_blob_sha": "6797bedf0c7c7880c96ab5a478fa23fb22b8e97f",
       "baseline_delta_status": "added"
@@ -14674,11 +14799,6 @@
     {
       "path": "tests/test_donor_apify_org_20261002.py",
       "git_blob_sha": "dd0b4267232f70a07abac659207ff40a4ff93f6f",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "tests/test_donor_batch_acceleration_20261004.py",
-      "git_blob_sha": "84086aa11017ac0c07e1a8aaea88d2d607fcbff7",
       "baseline_delta_status": "added"
     },
     {
@@ -16473,7 +16593,7 @@
     "reference_evidence_path": "evidence/reference/model-manager-v2-ci-2026-09-01.json",
     "reference_evidence_source_commit": "7c7a0b9ac9168efee2dd4b52485a5fb647be4c39"
   },
-  "last_regenerated_at": "2026-10-03",
+  "last_regenerated_at": "2026-10-04",
   "model_manager_current_host_reconciliation": {
     "decision_id": "FA3-DEC-MODEL-MANAGER-CURRENT-HOST-2026-09-01",
     "profile_id": "FA3-MODEL-MANAGER-001",
@@ -16989,8 +17109,8 @@
     "repository_release_surface_complete": true,
     "self_excluded_path": "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
     "mutable_runtime_evidence_receipts_excluded": true,
-    "source_snapshot_anchor": "c487c9d9e245ad841c09b2148aaac2b5e96e0bbb",
-    "regenerated_from_branch_head": "c487c9d9e245ad841c09b2148aaac2b5e96e0bbb",
+    "source_snapshot_anchor": "72ce206cbe39f880ae738949653277e6cb4c0252",
+    "regenerated_from_branch_head": "72ce206cbe39f880ae738949653277e6cb4c0252",
     "buzz_reconciliation_generator": "tools/fa3_buzz_global_reconcile.py",
     "buzz_deterministic_regeneration_pass": true,
     "gtcrn_reconciliation_generator": "tools/fa3_gtcrn_global_reconcile.py",
@@ -17028,7 +17148,10 @@
     "work_management_snapshot_head": "5e450c68fa5a4ffe1db21f97c390e6b46f0a97fe",
     "neural_rendering_reconciliation_generator": "FA3 controlled Git-object regeneration",
     "neural_rendering_deterministic_regeneration_pass": true,
-    "neural_rendering_snapshot_head": "c487c9d9e245ad841c09b2148aaac2b5e96e0bbb"
+    "neural_rendering_snapshot_head": "c487c9d9e245ad841c09b2148aaac2b5e96e0bbb",
+    "cuda_compat_native_reconciliation_generator": "CFA3 controlled Git-object regeneration",
+    "cuda_compat_native_deterministic_regeneration_pass": true,
+    "cuda_compat_native_snapshot_head": "72ce206cbe39f880ae738949653277e6cb4c0252"
   },
   "inference_cache_hardening_reconciliation": {
     "parent_gate_id": "FA3-INFERENCE-PORTABILITY-GATESET-001",
@@ -17759,7 +17882,7 @@
     "reconciliation_status": "CANONICAL_REUSE_DISCOVERY_STATIC_MATERIALIZED_RUNTIME_PROMOTION_NOT_APPLICABLE",
     "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
     "donor_registry_decision_id": "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28",
-    "donor_registry_entry_count": 1548,
+    "donor_registry_entry_count": 1427,
     "donor_rejection_audit_id": "FA3-DONOR-REJECTION-AUDIT-001",
     "donor_rejection_audit_count": 1,
     "donor_lifecycle_decision_id": "FA3-DEC-DONOR-LIFECYCLE-APPLICATION-SYNC-2026-09-30",
@@ -18063,5 +18186,64 @@
     "current_host_status": "STATIC_MATERIALIZED_PHYSICAL_POSITIVE_NEGATIVE_ROLLBACK_REQUALIFICATION_PENDING",
     "current_host_runtime_promotion_claim": false,
     "global_promotion_claim": false
+  },
+  "cuda_compat_native_reconciliation": {
+    "provider_id": "FA3-PROVIDER-CFA3-NATIVE-CUDA-COMPAT-001",
+    "contract_id": "FA3-CUDA-COMPAT-NATIVE-CONTRACTS-001",
+    "gate_id": "FA3-CUDA-COMPAT-NATIVE-GATESET-001",
+    "application_intent_id": "FA3-CUDA-COMPAT-NATIVE-APPLICATION-INTENT-2026-10-04",
+    "reuse_assessment_id": "FA3-CUDA-COMPAT-NATIVE-REUSE-ASSESSMENT-2026-10-04",
+    "approved_plan": "docs/cfa3-native-cuda-compat-final-plan-2026-10-04.md",
+    "plan_approval_record": "canonical/decisions/FA3-DEC-CUDA-COMPAT-NATIVE-PLAN-APPROVAL-2026-10-04.json",
+    "donor_usage_edges": [
+      "FA3-USAGE-GPUOPEN-OROCHI-CUDA-COMPAT-001",
+      "FA3-USAGE-ROCM-EXAMPLES-CUDA-COMPAT-001"
+    ],
+    "implementation": "CFA3_NATIVE_SHARED_STRUCTURED_IR_V2",
+    "external_scale_runtime_dependency": false,
+    "target_matrix": {
+      "NVIDIA": "NATIVE_CUDA_PRIMARY_INDEPENDENT",
+      "AMD": "HIP_CPP_FULL_EQUIVALENCE_FOR_ADMITTED_SUPPORTED_SUBSET",
+      "INTEL": "SYCL_CPP_PRIMARY_OPENCL_C_SECONDARY_FUNCTIONALLY_REDUCED"
+    },
+    "compatibility_result_enum": [
+      "FULL_EQUIVALENCE",
+      "FUNCTIONALLY_REDUCED",
+      "UNAVAILABLE"
+    ],
+    "build_compatibility": "BOUNDED_NVCC_OPTION_NORMALIZATION_FAIL_CLOSED",
+    "runtime_compatibility": "BOUNDED_DECLARATIVE_RUNTIME_API_MAP",
+    "distribution_class": "FA3_NATIVE",
+    "release_bundle_status": "INCLUDED",
+    "current_host_status": "PENDING_FRESH_PHYSICAL_CURRENT_HOST_REQUALIFICATION",
+    "current_host_runtime_promotion_claim": false,
+    "global_promotion_claim": false,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 175,
+    "shared_application_scope": "ALL_CURRENT_AND_FUTURE_CFA3_APPLICATIONS",
+    "central_entrypoint": "src/fa3_cuda_compat_shared.py:resolve_cuda_compatibility",
+    "translation_entrypoint": "src/fa3_cuda_compat_shared.py:prepare_cuda_compat_translation",
+    "build_entrypoint": "src/fa3_cuda_compat_shared.py:prepare_cuda_compat_build",
+    "runtime_inspection_entrypoint": "src/fa3_cuda_compat_shared.py:inspect_cuda_runtime_compatibility",
+    "application_allowlist": false,
+    "application_local_backend_core": "FORBIDDEN",
+    "candidate_resolution_is_execution_authorization": false,
+    "hrb_lease_required_before_execution": true,
+    "reconciliation_status": "CANONICAL_NATIVE_SHARED_V2_IMPLEMENTED_PENDING_PHYSICAL_AMD_INTEL_QUALIFICATION",
+    "license_rights_descriptor": "canonical/license-rights/descriptors/FA3-PROVIDER-CFA3-NATIVE-CUDA-COMPAT-001.json",
+    "license_rights_registry_entry": true,
+    "external_target_toolchain_rights_separate": true,
+    "exact_head_owner_approved_commit": "d42c46b68491d845594b09aa71ea02016bc77baa",
+    "owner_exception_record": "canonical/exceptions/FA3-OWNER-EXCEPTION-CUDA-COMPAT-NATIVE-PR700-SELF-REVIEW-2026-10-04.json",
+    "owner_exception_scope": "WAIVE_GITHUB_SELF_APPROVE_REVIEW_ONLY_FOR_PR700_AFTER_EXPLICIT_EXACT_HEAD_OWNER_APPROVAL_AND_AUTHORIZE_ONE_ADMINISTRATIVE_BINDING_COMMIT",
+    "material_feature_scope_delta": 0,
+    "runtime_promotion_claim": false,
+    "owner_exception_records": [
+      "canonical/exceptions/FA3-OWNER-EXCEPTION-CUDA-COMPAT-NATIVE-PR700-SELF-REVIEW-2026-10-04.json",
+      "canonical/exceptions/FA3-OWNER-EXCEPTION-CUDA-COMPAT-NATIVE-PR700-CI-REPAIR-2026-10-04.json"
+    ],
+    "ci_repair_parent_head": "72ce206cbe39f880ae738949653277e6cb4c0252",
+    "ci_repair_trigger_run": 37235622547
   }
 }

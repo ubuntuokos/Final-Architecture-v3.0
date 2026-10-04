@@ -1,0 +1,46 @@
+{
+  "schema": "fa3.gate.v1",
+  "id": "FA3-GATE-CUDA-COMPAT-NATIVE-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "enforcement_id": "FA3-CUDA-COMPAT-NATIVE-GATESET-001",
+  "entrypoint": "src/fa3_cuda_compat_gate.py::gate",
+  "capability_bindings": [
+    "CAP-005",
+    "CAP-006",
+    "CAP-056",
+    "CAP-060",
+    "CAP-069",
+    "CAP-078",
+    "CAP-083",
+    "CAP-087",
+    "CAP-137",
+    "CAP-143"
+  ],
+  "fail_closed": true,
+  "static_pass_promotes_runtime": false,
+  "tests": [
+    "tests/test_cuda_compat_native.py",
+    "tests/test_cuda_compat_shared.py",
+    "tests/test_cuda_compat_integration.py",
+    "tests/test_cuda_compat_gate.py"
+  ],
+  "required_boundaries": [
+    "FA3-CUDA-PORTABILITY-SHARED-FUNCTION-POLICY-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-HARDWARE-BASELINE-001",
+    "FA3-GPU-KERNEL-RUNTIME-001",
+    "FA3-KHRONOS-OPEN-STANDARDS-001",
+    "FA3-DEC-CUDA-COMPAT-NATIVE-PLAN-APPROVAL-2026-10-04"
+  ],
+  "current_host_runtime_promotion_claim": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only": true,
+    "accelerator_cardinality": "0..N",
+    "hardware_mutation": false,
+    "physical_runtime_pass_required_before_target_promotion": true
+  }
+}
