@@ -8,6 +8,7 @@ from typing import Any
 
 from fa3_release_baseline import module_active_capability_count
 from fa3_scale_backend import evaluate_scale_execution_rights, parse_scaleinfo
+from fa3_cuda_compat_shared import SHARED_APPLICATION_SCOPE
 
 CAPABILITY_COUNT = module_active_capability_count(__file__)
 
@@ -27,6 +28,7 @@ def gate(root: Path) -> dict[str, Any]:
         "impact": "canonical/current-host-impact/FA3-CH-IMPACT-SCALE-CUDA-COMPAT-20261004.json",
         "cuda_policy": "canonical/FA3-CUDA-PORTABILITY-SHARED-FUNCTION-POLICY-001.json",
         "rights_policy": "canonical/license-rights-policy.json",
+        "shared_entrypoint": "src/fa3_cuda_compat_shared.py",
     }
     data: dict[str, dict[str, Any]] = {}
     for key, rel in required.items():
@@ -51,6 +53,13 @@ def gate(root: Path) -> dict[str, Any]:
             findings.append("provider-baseline-delta")
         if provider.get("shared_only") is not True or provider.get("application_local_functional_core") != "FORBIDDEN":
             findings.append("shared-only-placement")
+        shared_access = provider.get("shared_application_access", {})
+        if shared_access.get("scope") != SHARED_APPLICATION_SCOPE or shared_access.get("application_allowlist_required") is not False:
+            findings.append("shared-all-application-scope")
+        if shared_access.get("central_entrypoint") != "src/fa3_cuda_compat_shared.py:resolve_cuda_compatibility":
+            findings.append("shared-central-entrypoint")
+        if shared_access.get("application_local_backend_implementation") != "FORBIDDEN":
+            findings.append("application-local-backend-not-forbidden")
 
         backend = provider.get("backend", {})
         if backend.get("name") != "scale-cuda" or backend.get("class") != "translation":
@@ -80,6 +89,13 @@ def gate(root: Path) -> dict[str, Any]:
 
         if contract.get("provider_id") != provider.get("id"):
             findings.append("contract-provider-binding")
+        access_contract = contract.get("application_access_contract", {})
+        if access_contract.get("consumer_scope") != SHARED_APPLICATION_SCOPE or access_contract.get("per_application_allowlist") is not False:
+            findings.append("contract-all-application-scope")
+        if access_contract.get("central_entrypoint") != "src/fa3_cuda_compat_shared.py:resolve_cuda_compatibility":
+            findings.append("contract-central-entrypoint")
+        if access_contract.get("application_may_authorize_execution") is not False or access_contract.get("hrb_lease_required_before_execution") is not True:
+            findings.append("contract-hrb-authority")
         if contract.get("backend_contract", {}).get("silent_substitution") is not False:
             findings.append("contract-silent-substitution")
         if contract.get("promotion", {}).get("physical_current_host_pass_claimed") is not False:
