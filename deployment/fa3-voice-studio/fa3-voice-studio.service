@@ -1,0 +1,15 @@
+[Unit]
+Description=FA3 Voice Studio Shared Runtime
+After=default.target
+[Service]
+Type=simple
+ExecStart=%h/.local/lib/fa3/bin/fa3-voice-studio --port 18796
+Restart=on-failure
+RestartSec=2
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=%h/.local/state/fa3 %t/fa3
+[Install]
+WantedBy=default.target
