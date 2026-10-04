@@ -23,6 +23,7 @@ AUTHORITY_SNAPSHOT_REL = Path("reports/fa3-permanent-gate-authority-input-snapsh
 
 ACTION_USE = re.compile(r"^\s*(?:-\s*)?uses:\s*([^#\s]+)(?:\s+#.*)?$")
 PINNED_ACTION = re.compile(r"^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+@[0-9a-f]{40}$")
+DEFAULT_CURRENT_HOST_WORKFLOW_MARKERS = ("current-host", "current_host", "fa3-current-host")
 ALLOWED_PASS = "PASS"
 
 
@@ -65,6 +66,37 @@ def sha256_file(path: Path) -> str:
 
 def explicit_gate_pass(value: Any) -> bool:
     return isinstance(value, str) and value == ALLOWED_PASS
+
+
+def discover_current_host_workflows(
+    root: Path, markers: Iterable[str]
+) -> list[str]:
+    workflow_root = root / ".github/workflows"
+    normalized_markers = tuple(
+        sorted({str(marker).strip().lower() for marker in markers if str(marker).strip()})
+    )
+    if not normalized_markers or not workflow_root.is_dir():
+        return []
+    discovered: list[str] = []
+    for path in sorted(workflow_root.iterdir()):
+        if not path.is_file() or path.suffix.lower() not in {".yml", ".yaml"}:
+            continue
+        rel = path.relative_to(root).as_posix()
+        name = path.name.lower()
+        body = path.read_text(encoding="utf-8").lower()
+        if any(marker in name or marker in body for marker in normalized_markers):
+            discovered.append(rel)
+    return discovered
+
+
+def protected_action_pin_workflows(root: Path, config: dict[str, Any]) -> list[str]:
+    paths = set(config.get("sha_pinned_workflows", []))
+    if config.get("sha_pin_current_host_linked_workflows") is True:
+        markers = config.get(
+            "current_host_workflow_markers", DEFAULT_CURRENT_HOST_WORKFLOW_MARKERS
+        )
+        paths.update(discover_current_host_workflows(root, markers))
+    return sorted(paths)
 
 
 def scan_workflow_action_pins(
@@ -153,6 +185,23 @@ def validate_config(
                     "hardening must not create capability or "
                     "architectural authority"
                 ),
+            }
+        )
+    if config.get("sha_pin_current_host_linked_workflows") is not True:
+        findings.append(
+            {
+                "code": "PGH-012",
+                "message": "Current Host-linked workflow immutable Action pin scope disabled",
+            }
+        )
+    markers = config.get("current_host_workflow_markers")
+    if not isinstance(markers, list) or not markers or any(
+        not isinstance(marker, str) or not marker.strip() for marker in markers
+    ):
+        findings.append(
+            {
+                "code": "PGH-013",
+                "message": "Current Host workflow marker configuration invalid",
             }
         )
     if config.get("current_host_runtime_promotion_claim") is not False:
@@ -247,7 +296,7 @@ def gate(root: Path) -> dict[str, Any]:
 
     findings.extend(
         scan_workflow_action_pins(
-            root, config.get("sha_pinned_workflows", [])
+            root, protected_action_pin_workflows(root, config)
         )
     )
 
@@ -292,7 +341,8 @@ def gate(root: Path) -> dict[str, Any]:
                 for f in findings
             ),
             "immutable_action_pins": not any(
-                f["code"] in {"PGH-020", "PGH-021"} for f in findings
+                f["code"] in {"PGH-012", "PGH-013", "PGH-020", "PGH-021"}
+                for f in findings
             ),
             "no_implicit_pass": not any(
                 f["code"] == "PGH-030" for f in findings

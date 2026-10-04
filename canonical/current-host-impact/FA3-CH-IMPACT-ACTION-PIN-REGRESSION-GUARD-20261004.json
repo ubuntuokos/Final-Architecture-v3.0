@@ -1,0 +1,20 @@
+{
+  "schema": "fa3.current-host-structural-impact.v1",
+  "id": "FA3-CH-IMPACT-ACTION-PIN-REGRESSION-GUARD-20261004",
+  "status": "NO_RUNTIME_IMPACT",
+  "structural_changes": [
+    ".github/workflows/fa3-browser-cdp-provider.yml",
+    ".github/workflows/fa3-caption-subtitle.yml",
+    ".github/workflows/fa3-decision-fabric.yml",
+    ".github/workflows/fa3-desktop-portability.yml",
+    ".github/workflows/fa3-neural-rendering-reference.yml",
+    ".github/workflows/fa3-secret-broker-reference-gate.yml",
+    ".github/workflows/openfx-reference-gate.yml",
+    "canonical/FA3-PERMANENT-GATE-HARDENING-001.json",
+    "src/fa3_permanent_gate_hardening.py"
+  ],
+  "current_host_changes": [],
+  "physical_requalification_required": false,
+  "historical_evidence_reused": false,
+  "rationale": "This change strengthens the existing Permanent Canonical + Promotion Gate so every workflow linked to Current Host by filename or semantic marker is fail-closed checked for immutable 40-hex GitHub Action pins, and pins the seven additional linked workflows exposed by that new guard. It changes only CI/policy validation and GitHub Action identity binding; workflow runtime commands, triggers, runner placement, providers, device/resource allocation, host services, proof recipes, evidence semantics, hardware behavior and promotion authority are unchanged. Therefore no fresh physical Current Host requalification or FULL-525 replay is required."
+}

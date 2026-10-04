@@ -80,6 +80,7 @@
     "MISSING_UNKNOWN_STALE_OR_MALFORMED_GATE_STATE_CANNOT_IMPLY_PASS",
     "TRUSTED_CONTROL_PLANE_NEVER_EXECUTES_CANDIDATE_CODE",
     "PROTECTED_GITHUB_ACTIONS_USE_IMMUTABLE_COMMIT_SHA",
+    "CURRENT_HOST_LINKED_GITHUB_ACTIONS_USE_IMMUTABLE_COMMIT_SHA",
     "PRESERVATION_ARTIFACT_NEVER_REPLACES_PRIMARY_DECISION",
     "CANONICAL_REGISTRY_REFERENTIAL_AND_SUPERSEDENCE_INTEGRITY_FAILS_CLOSED"
   ],
@@ -88,5 +89,11 @@
     "classification": "ANALYSIS_ONLY_PATTERN_STUDY_NO_CODE_IMPORT_NO_DONOR_REGISTRY_MUTATION",
     "adopted_as_external_runtime": false,
     "copied_code": false
-  }
+  },
+  "sha_pin_current_host_linked_workflows": true,
+  "current_host_workflow_markers": [
+    "current-host",
+    "current_host",
+    "fa3-current-host"
+  ]
 }
