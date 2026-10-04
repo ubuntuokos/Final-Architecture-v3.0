@@ -1,0 +1,51 @@
+{
+  "schema": "fa3.current-host-structural-impact.v1",
+  "id": "FA3-CH-IMPACT-CUDA-COMPAT-NATIVE-20261004",
+  "date": "2026-10-04",
+  "status": "RECONCILED",
+  "subject_id": "FA3-PROVIDER-CFA3-NATIVE-CUDA-COMPAT-001",
+  "capability_count": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "structural_change": true,
+  "runtime_change": true,
+  "runtime_delta": "CFA3_NATIVE_SHARED_CUDA_SOURCE_ANALYSIS_TRANSLATION_AND_AMD_INTEL_BACKEND_DESCRIPTOR",
+  "service_change": false,
+  "daemon_change": false,
+  "port_or_socket_change": false,
+  "package_dependency_change": false,
+  "driver_change": false,
+  "provider_or_model_activation": false,
+  "hardware_mutation": false,
+  "credential_path_change": false,
+  "current_host_runtime_promotion_claim": false,
+  "physical_current_host_pass_claimed": false,
+  "physical_requalification_required": true,
+  "requalification_scope": [
+    "CFA3_NATIVE_TRANSLATOR_NO_EXTERNAL_SCALE_RUNTIME_DEPENDENCY",
+    "AMD_ROCM_HIP_TARGET_BINDING",
+    "INTEL_LEVEL_ZERO_OPENCL_TARGET_BINDING",
+    "EXACT_DEVICE_BINDING",
+    "UNSUPPORTED_CUDA_FEATURE_FAIL_CLOSED",
+    "EXPLICIT_TRANSLATION_EXECUTION_PATH",
+    "HRB_LEASE_BOUND_EXECUTION",
+    "NO_SILENT_FALLBACK"
+  ],
+  "historical_evidence_reused": false,
+  "current_host_changes": [
+    "canonical/FA3-CUDA-COMPAT-NATIVE-CURRENT-HOST-CONFORMANCE-001.json"
+  ],
+  "rationale": "The changeset adds a CFA3-owned shared CUDA source compatibility/translation core and conditional AMD/Intel translation backend descriptors. Spectral Compute SCALE is neither built nor loaded. Fresh exact-head positive, negative and rollback execution on supported physical AMD and Intel target hosts is required before runtime promotion; no simulated PASS is claimed.",
+  "structural_changes": [
+    "canonical/assessments/FA3-CUDA-COMPAT-NATIVE-DECISION-ASSESSMENT-2026-10-04.json",
+    ".github/workflows/fa3-cuda-compat-native.yml",
+    "canonical/contracts/FA3-CUDA-COMPAT-NATIVE-CONTRACTS-001.json",
+    "canonical/providers/FA3-PROVIDER-CFA3-NATIVE-CUDA-COMPAT-001.json",
+    "src/fa3_cuda_compat_gate.py",
+    "src/fa3_cuda_compat_native.py",
+    "src/fa3_cuda_compat_shared.py"
+  ],
+  "current_host_status": "PENDING_FRESH_PHYSICAL_CURRENT_HOST_REQUALIFICATION",
+  "runtime_promotion_claim": false,
+  "global_promotion_claim": false
+}
