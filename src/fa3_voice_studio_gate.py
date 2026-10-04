@@ -21,6 +21,8 @@ def gate(root:Path)->dict:
       chk("127.0.0.1" in s and "Authorization" in s and "voice-studio.token" in s,"VOICEAPP-009","authenticated loopback server missing")
       chk('req.get("device","cpu")!="cpu"' in p and "FA3_PIPER_MODEL_ROOT" in p,"VOICEAPP-010","Piper CPU/model boundary missing")
       chk("QNetworkAccessManager" in cpp and "Authorization" in cpp and "/api/generate" in cpp and "/api/transcribe" in cpp and "/api/effects/plan" in cpp,"VOICEAPP-011","GUI live client missing")
+      chk("License & Rights evidence ref" in v and "License & Rights evidence ref" in q and "FA3-VOICE-WORKSPACE-USER-AUTHORIZED" not in cpp,"VOICEAPP-017","fabricated or missing rights evidence boundary")
+      chk("Model Router selection receipt required" in w and "FA3-AUTH-MODEL-ROUTER-001" in w and "silent fallback receipt forbidden" in w,"VOICEAPP-018","Model Router selection receipt boundary missing")
       chk("fa3VoiceWorkspace.generate" in v and "fa3VoiceWorkspace.transcribe" in v and "fa3VoiceWorkspace.planEffects" in v and "fa3VoiceWorkspace.generate" in q and "fa3VoiceWorkspace.quickDub" in q,"VOICEAPP-012","QML action binding missing")
       chk(app.get("runtime",{}).get("workflow_authority")=="TEMPORAL" and app.get("runtime",{}).get("local_sqlite_role")=="NON_AUTHORITATIVE_JOB_LEDGER_AND_PROFILE_CACHE","VOICEAPP-014","Temporal workflow authority drift")
       chk(app.get("mcp_projection",{}).get("gateway")=="FA3-AUTH-MCP-GATEWAY-001" and app.get("mcp_projection",{}).get("direct_mcp_server") is False,"VOICEAPP-015","MCP gateway boundary drift")
