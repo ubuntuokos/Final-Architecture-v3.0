@@ -1,0 +1,66 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-TOBYFLOW-2026-10-03",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "MATERIALIZED_PENDING_EXACT_HEAD_GATES",
+  "mode": "APPEND_ONLY_OWNER_EXPLICIT_REFERENCE_INTAKE",
+  "parent_commit": "33f230096ea8bd3a37dedb3cbce29b9a3a4b7b24",
+  "parent_registry_blob_sha": "4d7641a6caf194db50162cbb3a25ef3930c4ad0b",
+  "parent_entry_count": 1425,
+  "submitted_url_count": 1,
+  "source_count": 1,
+  "unique_source_key_count": 1,
+  "matched_existing_count": 0,
+  "new_source_count": 1,
+  "proposed_entry_count": 1426,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "provider_count_policy": "DYNAMIC_UNCHANGED",
+  "approval_ref": "docs/donor-tobyflow-2026-10-03.md",
+  "requirements": [
+    "Register TobyFlow as one canonical metadata-only ACCEPTED_REFERENCE website identity.",
+    "Reuse only workflow, GUI, batch/queue, provider-output-handoff, template, remote-dispatch and MCP-trigger patterns unless later separately approved.",
+    "Do not adopt TobyFlow as the global workflow engine; Temporal remains the sole durable workflow authority.",
+    "Do not bypass the FA3 Model Router, Engine/Provider Selector, HRB, Security, License & Rights or approval gates.",
+    "Do not automatically install the browser extension, log into third-party accounts, access credentials/cookies, enable remote command channels, or create paid-service dependencies.",
+    "Upstream source/code license is not verified as open source; direct code copy or redistribution remains fail-closed pending exact review.",
+    "Any later material adoption requires a fresh published-main Reuse Assessment and explicit typed donor usage edge.",
+    "Fixed capability baseline remains 175; provider count remains dynamic; authority delta is zero."
+  ],
+  "sources": [
+    {
+      "url": "https://labs.toby.vn/tobyflow",
+      "normalized_key": "https://labs.toby.vn/tobyflow",
+      "donor_id": "FA3-DONOR-TOBYFLOW-001",
+      "kind": "WEBSITE",
+      "status": "ACCEPTED_REFERENCE",
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "NO_OPEN_SOURCE_LICENSE_VERIFIED"
+      }
+    }
+  ],
+  "boundaries": {
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "automatic_code_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "browser_extension_runtime_admission": false,
+    "third_party_account_admission": false,
+    "credential_or_cookie_access_admission": false,
+    "paid_service_dependency_admission": false,
+    "remote_command_channel_admission": false,
+    "runtime_admission": false,
+    "usage_edge_created": false,
+    "capability_count_change": false,
+    "authority_change": false,
+    "current_host_pass_claimed": false
+  },
+  "serialization_scope": "ROLLING_FIVE_SLOT_DONOR_MAINTENANCE",
+  "serialization_order": "ASCENDING_ESTIMATED_INTAKE_WORKLOAD_THEN_FIFO",
+  "max_active_donor_intakes": 5
+}

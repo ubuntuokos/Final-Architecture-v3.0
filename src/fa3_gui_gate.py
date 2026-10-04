@@ -34,6 +34,9 @@ REQUIRED = {
     "studio_qml": ROOT / "apps/fa3-control-center/qml/AiStudioPage.qml",
     "subtitle_studio_qml": ROOT / "apps/fa3-control-center/qml/SubtitleStudioPage.qml",
     "narration_studio_qml": ROOT / "apps/fa3-control-center/qml/NarrationStudioPage.qml",
+    "voice_studio_qml": ROOT / "apps/fa3-control-center/qml/VoiceStudioPage.qml",
+    "quick_voice_plugin_qml": ROOT / "apps/fa3-control-center/qml/QuickVoicePluginPage.qml",
+    "voice_activity_overlay_qml": ROOT / "apps/fa3-control-center/qml/VoiceActivityOverlay.qml",
     "settings_qml": ROOT / "apps/fa3-control-center/qml/SystemSettingsPage.qml",
     "rtd_qml": ROOT / "apps/fa3-control-center/qml/RtdProvidersPage.qml",
     "chat_qml": ROOT / "apps/fa3-control-center/qml/ChatWorkspace.qml",
@@ -56,7 +59,7 @@ REQUIRED = {
     "installer": ROOT / "deployment/fa3-gui/install.sh",
 }
 
-NAVIGATION = ["Dashboard", "Projects", "Work Management", "AI Studio", "Subtitle Studio", "Narration Studio", "Knowledge & Retrieval", "Agent Action Center", "Agents & Workflows", "Models & Providers", "Model Manager", "Checkpoint Manager", "Remote AI Hub", "RTD Providers", "External Providers Setup", "Decision Fabric", "Decision Inspector", "Context Inspector", "External Project Radar", "Integrations", "MCP Gateway", "FA3 OS", "Security & Approvals", "Token Control Center", "Trust & Certificates", "Session Vault / Kulcsvault", "Evidence", "Observability", "Architecture", "Napló / Journal", "Resources", "Accelerator Guard", "Update Center", "Rendszerbeállítások", "System"]
+NAVIGATION = ["Dashboard", "Projects", "Work Management", "AI Studio", "Subtitle Studio", "Narration Studio", "Voice Studio", "Quick Voice Plugin", "Knowledge & Retrieval", "Agent Action Center", "Agents & Workflows", "Models & Providers", "Model Manager", "Checkpoint Manager", "Remote AI Hub", "RTD Providers", "External Providers Setup", "Decision Fabric", "Decision Inspector", "Context Inspector", "External Project Radar", "Integrations", "MCP Gateway", "FA3 OS", "Security & Approvals", "Token Control Center", "Trust & Certificates", "Session Vault / Kulcsvault", "Evidence", "Observability", "Architecture", "Napló / Journal", "Resources", "Accelerator Guard", "Update Center", "Rendszerbeállítások", "System"]
 NAVIGATION_GROUPS = ["HOME", "CREATE", "AGENTS", "MODELS & DATA", "DECISION & CONTEXT", "INTEGRATIONS", "GOVERNANCE", "SYSTEM"]
 FORBIDDEN_BACKEND_TOKENS = ["QProcess", "std::system(", "popen(", "/bin/sh", "/bin/bash", "pkexec", "setuid("]
 
@@ -204,6 +207,21 @@ def validate() -> list[str]:
         if token not in subtitle_qml: failures.append(f"qml-subtitle-studio-boundary-missing:{token}")
     for token in ["delegates synthesis to FA3-VOICE-001", "Model Router + FA3-VOICE-001", "HUMAN REVIEW"]:
         if token not in narration_qml: failures.append(f"qml-narration-studio-boundary-missing:{token}")
+
+    voice_studio_qml = REQUIRED["voice_studio_qml"].read_text(encoding="utf-8")
+    quick_voice_qml = REQUIRED["quick_voice_plugin_qml"].read_text(encoding="utf-8")
+    voice_overlay_qml = REQUIRED["voice_activity_overlay_qml"].read_text(encoding="utf-8")
+    for token in ["Voice Studio", "FA3-VOICE-001", "Model Router", "HRB", "175 capabilities", "Original asset is never overwritten", "RUNTIME GATED"]:
+        if token not in voice_studio_qml: failures.append(f"qml-voice-studio-boundary-missing:{token}")
+    for token in ["QuickClip · Shared Voice Plugin", "Fit to Clip", "Generate & Insert", "Quick Dub", "UAF → FA3-VOICE-001 → Model Router → HRB", "RUNTIME GATED"]:
+        if token not in quick_voice_qml: failures.append(f"qml-quick-voice-boundary-missing:{token}")
+    for token in ["visible voice activity required", "activityState", "applicationName", "voiceName"]:
+        if token not in voice_overlay_qml: failures.append(f"qml-voice-activity-overlay-missing:{token}")
+    for token in ['routeId: "create.voice-studio"', 'routeId: "create.quick-voice-plugin"', '"create.voice-studio": 41', '"create.quick-voice-plugin": 42', "VoiceStudioPage {", "QuickVoicePluginPage {", "VoiceActivityOverlay {"]:
+        if token not in qml: failures.append(f"qml-shared-voice-route-wiring-missing:{token}")
+    cmake_text = REQUIRED["cmake"].read_text(encoding="utf-8")
+    for token in ["qml/VoiceStudioPage.qml", "qml/QuickVoicePluginPage.qml", "qml/VoiceActivityOverlay.qml"]:
+        if token not in cmake_text: failures.append(f"cmake-shared-voice-qml-missing:{token}")
 
     rtd_qml = REQUIRED["rtd_qml"].read_text(encoding="utf-8")
     integrations_qml = REQUIRED["integrations_qml"].read_text(encoding="utf-8")
