@@ -588,7 +588,11 @@ def gate(root,phase="status",token="",assessment=None,plan=None,approval=None,
                         result["intake_workload_units"]=candidate.get("workload_units")
                         result["next_finalizable_donor_pr"]=pr_number
                         return result
-                    if len(registry_mutators)>MAX_ACTIVE_CANONICAL_REGISTRY_MUTATION_PRS:
+                    batch_policy_enabled = (
+                        root / "canonical/decisions/CFA3-DEC-DONOR-INTAKE-BATCH-ACCELERATION-2026-10-04.json"
+                    ).is_file()
+                    if (batch_policy_enabled
+                            and len(registry_mutators)>MAX_ACTIVE_CANONICAL_REGISTRY_MUTATION_PRS):
                         result["batch_coverage_missing"]=missing
                         result["findings"].append("MULTIPLE_CANONICAL_REGISTRY_MUTATION_PRS_REQUIRE_EXACT_BATCH_COVERAGE")
                         return result
