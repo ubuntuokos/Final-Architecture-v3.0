@@ -702,8 +702,8 @@ QVariantMap VoiceWorkspaceService::acceptProviderResult(const QString &jobId, co
         return {};
     }
     const auto state = job.value(QStringLiteral("status")).toString();
-    if (state != QStringLiteral("ROUTE_READY") && state != QStringLiteral("DISPATCHED") && state != QStringLiteral("RUNNING")) {
-        setError(QStringLiteral("Voice job cannot accept a provider result in its current state."));
+    if (state != QStringLiteral("DISPATCHED") && state != QStringLiteral("RUNNING")) {
+        setError(QStringLiteral("Voice job must be DISPATCHED/RUNNING before accepting provider result."));
         return {};
     }
     const QStringList required{
