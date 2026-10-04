@@ -30,15 +30,24 @@
     "exact_head_repository_owner_approved_review_required": false,
     "exact_head_repository_owner_approved_review_observed": false,
     "owner_exception_active": true,
-    "owner_exception_record": "canonical/exceptions/FA3-OWNER-EXCEPTION-HIDREAM-GENERATIVE-MEDIA-MESH-PR674-CLOSURE-2026-10-04.json",
-    "owner_exception_scope": "GITHUB_SELF_REVIEW_IMPOSSIBILITY_AND_SINGLE_ATOMIC_PR674_POLICY_CLOSURE_COMMIT_ONLY",
+    "owner_exception_record": "canonical/exceptions/FA3-OWNER-EXCEPTION-HIDREAM-GENERATIVE-MEDIA-MESH-PR674-CI-REPAIR-2026-10-04.json",
+    "owner_exception_scope": "GITHUB_SELF_REVIEW_IMPOSSIBILITY_AND_SINGLE_ATOMIC_PR674_CI_REPAIR_COMMIT_ONLY",
     "owner_exception_does_not_waive_required_checks": true,
     "owner_exception_does_not_waive_branch_protection": true,
     "owner_exception_does_not_waive_runtime_or_current_host_gates": true,
     "finalization_fail_closed_until_required_checks": true,
     "prior_owner_exception_record": "canonical/exceptions/FA3-OWNER-EXCEPTION-HIDREAM-GENERATIVE-MEDIA-MESH-PR674-2026-10-04.json",
     "current_host_structural_impact_reconciled": true,
-    "physical_requalification_still_pending": true
+    "physical_requalification_still_pending": true,
+    "prior_owner_exception_records": [
+      "canonical/exceptions/FA3-OWNER-EXCEPTION-HIDREAM-GENERATIVE-MEDIA-MESH-PR674-2026-10-04.json",
+      "canonical/exceptions/FA3-OWNER-EXCEPTION-HIDREAM-GENERATIVE-MEDIA-MESH-PR674-CLOSURE-2026-10-04.json"
+    ],
+    "ci_repair_parent_head": "2f05dffe7d1b15e034c8beb22a09a25692804790",
+    "ci_repair_failures": [
+      "CURRENT_HOST_STRUCTURAL_IMPACT_MISSING_DECISION_ASSESSMENT_COVERAGE",
+      "FA3_GUI_GATE_INDENTATION_ERROR_FROM_GENERATIVE_MEDIA_CMAKE_ASSERTION_PLACEMENT"
+    ]
   },
   "child_recommendations_are_analysis_only_not_canonical_queue": true,
   "current_host_alignment": {

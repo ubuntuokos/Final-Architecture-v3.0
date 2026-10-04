@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-    for token in ["FA3_GENERATIVE_MEDIA_MESH_PANEL_QML", "GenerativeMediaMeshPanel.qml"]:
-        if token not in cmake_text: failures.append(f"cmake-generative-media-mesh-qml-missing:{token}")
 
 import json
 
@@ -230,6 +228,8 @@ def validate() -> list[str]:
     cmake_text = REQUIRED["cmake"].read_text(encoding="utf-8")
     for token in ["qml/VoiceStudioPage.qml", "qml/QuickVoicePluginPage.qml", "qml/VoiceActivityOverlay.qml"]:
         if token not in cmake_text: failures.append(f"cmake-shared-voice-qml-missing:{token}")
+    for token in ["FA3_GENERATIVE_MEDIA_MESH_PANEL_QML", "GenerativeMediaMeshPanel.qml"]:
+        if token not in cmake_text: failures.append(f"cmake-generative-media-mesh-qml-missing:{token}")
 
     rtd_qml = REQUIRED["rtd_qml"].read_text(encoding="utf-8")
     integrations_qml = REQUIRED["integrations_qml"].read_text(encoding="utf-8")
