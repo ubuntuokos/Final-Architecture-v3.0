@@ -15,7 +15,7 @@ on:
       - 'tests/test_voice_workspace.py'
       - 'tests/test_voice_studio_application.py'
       - 'tests/test_voice_studio_current_host.py'
-      - 'src/fa3_voice_studio_current_host_gate.py src/fa3_model_router_voice.py'
+      - 'src/fa3_voice_studio_current_host_gate.py'
       - 'canonical/current-host-impact/FA3-CH-IMPACT-VOICE-STUDIO-FULL-APPLICATION-20261004.json'
   push:
     branches: ['main','fa3/**']
@@ -29,4 +29,4 @@ jobs:
       - run: PYTHONPATH=src python -m unittest tests.test_voice_workspace tests.test_voice_studio_application tests.test_voice_studio_current_host -v
       - run: PYTHONPATH=src python src/fa3_voice_studio_gate.py --root .
       - run: PYTHONPATH=src python src/fa3_voice_studio_current_host_gate.py --root .
-      - run: python -m py_compile src/fa3_voice_workspace.py src/fa3_voice_studio_server.py src/fa3_piper_provider.py src/fa3_voice_studio_gate.py src/fa3_voice_studio_current_host_gate.py
+      - run: python -m py_compile src/fa3_voice_workspace.py src/fa3_voice_studio_server.py src/fa3_piper_provider.py src/fa3_voice_studio_gate.py src/fa3_voice_studio_current_host_gate.py src/fa3_model_router_voice.py
