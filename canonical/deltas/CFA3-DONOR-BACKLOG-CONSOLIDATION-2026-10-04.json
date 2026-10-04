@@ -7,7 +7,7 @@
   "parent_main": "b5052f6595a3fdad84ed7a06e6276f8af5a8dcd8",
   "parent_registry_blob_sha": "1362d75186c6da74e5cf947fdf0b8867d462636a",
   "parent_entry_count": 1427,
-  "resulting_registry_blob_sha": "e58b430aadb84b7d842d2f707116b183068f3ad9",
+  "resulting_registry_blob_sha": "5ce422532f6af08340fb90ce59a46c27c986979c",
   "resulting_entry_count": 1525,
   "new_source_count": 98,
   "capability_baseline": 175,
@@ -127,7 +127,9 @@
     "non_donor_payload_admitted": false,
     "source_identity_network_revalidation_claimed": false,
     "runtime_or_provider_admission_claimed": false,
-    "source_key_collision_resolution": "PUBLISHED_OR_CURRENT_BATCH_CANONICAL_IDENTITY_WINS_ENRICH_IN_PLACE"
+    "source_key_collision_resolution": "PUBLISHED_OR_CURRENT_BATCH_CANONICAL_IDENTITY_WINS_ENRICH_IN_PLACE",
+    "donor_local_replacement_relation_field": "donor_replacement_reference_id",
+    "global_canonical_supersedence_namespace_not_used_for_nested_donor_entries": true
   },
   "materialized": [
     {
