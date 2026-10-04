@@ -17,27 +17,6 @@
     "MM skill routing is advisory/scoring only.",
     "Static GUI materialization requires physical Current Host requalification before runtime/global promotion; no simulated PASS is permitted."
   ],
-  "child_admission_order": [
-    "HiDream-O1-Image",
-    "HiDream-E1",
-    "MotionPro",
-    "ReCo",
-    "PS-SR",
-    "HiDream-I1",
-    "VAREdit",
-    "RASA",
-    "PhysEdit",
-    "SPM-Diff",
-    "VTON-VLLM",
-    "DMSampler",
-    "DiffusionCompass",
-    "Hi-DiT",
-    "himar",
-    "EraseSAE",
-    "MM-SkillRouter",
-    "DreamJourney",
-    "vivago-agent-cli"
-  ],
   "child_admission_state": "BLOCKED_PENDING_EXPLICIT_CHILD_DONOR_MARKERS_AND_INDIVIDUAL_GATES",
   "capability_baseline": 175,
   "capability_delta": 0,
@@ -51,5 +30,6 @@
     "exact_head_repository_owner_approved_review_required": true,
     "exact_head_repository_owner_approved_review_observed": false,
     "finalization_fail_closed_until_owner_review": true
-  }
+  },
+  "child_recommendations_are_analysis_only_not_canonical_queue": true
 }
