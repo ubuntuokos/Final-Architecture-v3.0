@@ -7,6 +7,7 @@ on:
       - 'src/fa3_voice_workspace.py'
       - 'src/fa3_voice_studio_server.py'
       - 'src/fa3_piper_provider.py'
+      - 'src/fa3_model_router_voice.py'
       - 'src/fa3_voice_studio_gate.py'
       - 'apps/fa3-control-center/src/VoiceWorkspaceService.*'
       - 'apps/fa3-control-center/qml/VoiceStudioPage.qml'
@@ -14,7 +15,7 @@ on:
       - 'tests/test_voice_workspace.py'
       - 'tests/test_voice_studio_application.py'
       - 'tests/test_voice_studio_current_host.py'
-      - 'src/fa3_voice_studio_current_host_gate.py'
+      - 'src/fa3_voice_studio_current_host_gate.py src/fa3_model_router_voice.py'
       - 'canonical/current-host-impact/FA3-CH-IMPACT-VOICE-STUDIO-FULL-APPLICATION-20261004.json'
   push:
     branches: ['main','fa3/**']
