@@ -20,10 +20,11 @@ public:
  Q_INVOKABLE void generate(const QString &text,const QString &voice,const QString &language,int targetMs,bool musicDucking,bool candidateAck);
  Q_INVOKABLE void fitToClip(int targetMs,int actualMs);
  Q_INVOKABLE void putProfile(const QString &profileId,const QString &consentRef,bool humanVoice);
+ Q_INVOKABLE void transcribe(const QString &audioPath,const QString &language);
  Q_INVOKABLE void quickDub(const QString &sourceMedia,const QString &sourceLanguage,const QString &targetLanguage);
 signals:
  void stateChanged(); void lastErrorChanged(); void profilesChanged(); void jobsChanged();
- void generationCompleted(QVariantMap result); void fitCompleted(QVariantMap result); void quickDubCompleted(QVariantMap result);
+ void generationCompleted(QVariantMap result); void transcriptionCompleted(QVariantMap result); void fitCompleted(QVariantMap result); void quickDubCompleted(QVariantMap result);
 private:
  void getJson(const QString &path,const std::function<void(const QVariantMap&)> &ok);
  void postJson(const QString &path,const QVariantMap &payload,const std::function<void(const QVariantMap&)> &ok);
