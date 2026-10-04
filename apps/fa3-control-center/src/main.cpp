@@ -13,6 +13,7 @@
 #include "SystemDeviceModel.h"
 #include "WorkloadModeStateService.h"
 #include "SessionVaultService.h"
+#include "VoiceWorkspaceService.h"
 
 #include <QColor>
 #include <QGuiApplication>
@@ -63,6 +64,7 @@ int main(int argc, char *argv[])
     ExternalLlmCatalogModel externalLlmCatalog;
     EngineSelectorService engineSelector(repository.repoRoot());
     WorkloadModeStateService workloadMode;
+    VoiceWorkspaceService voiceWorkspace(repository.repoRoot());
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("fa3Repository", &repository);
@@ -80,6 +82,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("fa3ExternalLlmCatalog", &externalLlmCatalog);
     engine.rootContext()->setContextProperty("fa3EngineSelector", &engineSelector);
     engine.rootContext()->setContextProperty("fa3WorkloadMode", &workloadMode);
+    engine.rootContext()->setContextProperty("fa3VoiceWorkspace", &voiceWorkspace);
     engine.load(QUrl(QStringLiteral("qrc:/qt/qml/FA3/ControlCenter/Main.qml")));
 
     if (engine.rootObjects().isEmpty()) {
