@@ -1,4 +1,4 @@
-"""FIFO-waiting Meshy / Runware / API Evangelist donor intake regressions."""
+"""FIFO-waiting Meshy / Runware batch with API Evangelist cross-intake dedup."""
 import json
 import unittest
 from pathlib import Path
@@ -7,7 +7,7 @@ ROOT = Path(__file__).resolve().parents[1]
 REGISTRY = ROOT / "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"
 DELTA = ROOT / "canonical/deltas/FA3-DONOR-MESHY-RUNWARE-API-EVANGELIST-2026-10-04.json"
 
-URLS = [
+SUBMITTED_URLS = [
     "https://github.com/topics/meshy?o=asc&s=updated",
     "https://github.com/topics/meshy?l=python&o=asc&s=updated",
     "https://github.com/meshy-dev/Meshy-guide",
@@ -17,17 +17,16 @@ URLS = [
     "https://github.com/topics/ai-3d-model-generator",
     "https://github.com/runware",
     "https://github.com/topics/runware?l=shell",
-    "https://github.com/api-evangelist",
+    "https://github.com/api-evangelist"
 ]
 
-IDS = {
+LOCAL_IDS = {
     "FA3-DONOR-GITHUB-TOPIC-MESHY-001",
     "FA3-DONOR-MESHY-DEV-MESHY-GUIDE-001",
     "FA3-DONOR-MESHY-DEV-ORG-001",
     "FA3-DONOR-GITHUB-TOPIC-AI-3D-MODEL-GENERATOR-001",
     "FA3-DONOR-RUNWARE-ORG-001",
     "FA3-DONOR-GITHUB-TOPIC-RUNWARE-001",
-    "FA3-DONOR-API-EVANGELIST-ORG-001",
 }
 
 class WaitingDonorIntakeTests(unittest.TestCase):
@@ -48,12 +47,22 @@ class WaitingDonorIntakeTests(unittest.TestCase):
     def test_all_owner_marked_urls_are_preserved(self):
         d = self.delta
         self.assertEqual(d["submitted_url_count"], 10)
-        self.assertEqual([row[0] for row in d["sources"]], URLS)
-        self.assertEqual({row[1] for row in d["sources"]}, IDS)
+        self.assertEqual(d["submitted_urls"], SUBMITTED_URLS)
+        self.assertEqual(d["cross_intake_reuse_count"], 1)
+        self.assertEqual(d["mutation_submitted_url_count"], 9)
         self.assertEqual(d["canonical_alias_collapse_count"], 3)
-        self.assertEqual(d["unique_source_count"], 7)
-        self.assertEqual(d["new_source_count"], 7)
-        self.assertEqual(d["proposed_entry_count"], 1434)
+        self.assertEqual(d["unique_source_count"], 6)
+        self.assertEqual(d["new_source_count"], 6)
+        self.assertEqual(d["proposed_entry_count"], 1433)
+
+    def test_api_evangelist_is_reused_from_earlier_pr(self):
+        reuse = self.delta["cross_intake_reuse"]
+        self.assertEqual(len(reuse), 1)
+        self.assertEqual(reuse[0]["url"], "https://github.com/api-evangelist")
+        self.assertEqual(reuse[0]["donor_id"], "FA3-DONOR-API-EVANGELIST-ORG-001")
+        self.assertEqual(reuse[0]["existing_pr"], 675)
+        self.assertIn("NO_DUPLICATE_MUTATION", reuse[0]["disposition"])
+        self.assertNotIn("https://github.com/api-evangelist", [row[0] for row in self.delta["sources"]])
 
     def test_meshy_filtered_views_share_one_identity(self):
         meshy = [row for row in self.delta["sources"] if "/topics/meshy" in row[0]]
@@ -62,7 +71,7 @@ class WaitingDonorIntakeTests(unittest.TestCase):
 
     def test_waiting_records_are_not_prematurely_canonical(self):
         current_ids = {e["donor_id"] for e in self.registry["entries"]}
-        self.assertTrue(IDS.isdisjoint(current_ids))
+        self.assertTrue(LOCAL_IDS.isdisjoint(current_ids))
         self.assertEqual(self.registry["backfill"]["entry_count"], len(self.registry["entries"]))
         self.assertEqual(len(self.registry["entries"]), 1427)
         self.assertEqual(self.registry["capability_count"], 175)
