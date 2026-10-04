@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-HARDWARE-BASELINE-001",
   "name": "Portable Hardware Baseline & Dynamic Topology Admission Profile",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -148,7 +148,11 @@
     "FA3_MUST_NOT_SET_HARDWARE_VALUES_OUTSIDE_VENDOR_SUPPORTED_OPERATING_ENVELOPE",
     "FA3_MUST_NOT_DISABLE_OR_BYPASS_HARDWARE_SAFETY_PROTECTIONS",
     "UNKNOWN_SAFE_RANGE_MUST_FAIL_CLOSED_WITH_NO_HARDWARE_MUTATION",
-    "EXISTING_USER_HARDWARE_TUNING_MUST_NOT_AUTHORIZE_ESCALATION"
+    "EXISTING_USER_HARDWARE_TUNING_MUST_NOT_AUTHORIZE_ESCALATION",
+    "STRONGLY_CUDA_ORIENTED_CAPABILITY_REQUIRES_TARGET_HARDWARE_ALTERNATIVE_ASSESSMENT",
+    "CUDA_ORIENTED_FUNCTIONAL_CORE_MUST_BE_SHARED_LAYER_ONLY",
+    "TARGET_HARDWARE_FUNCTIONAL_REDUCTION_MUST_BE_USER_VISIBLE",
+    "UNAVAILABLE_TARGET_BACKEND_MUST_FAIL_CLOSED_WITHOUT_SILENT_SUBSTITUTION"
   ],
   "current_host_semantics": "EXACT_HOST_TUPLES_ALLOWED_AS_EVIDENCE_ONLY_NOT_PORTABLE_REQUIREMENTS",
   "implementation_status": "CANONICAL_MATERIALIZED_EXECUTABLE_REPOSITORY_AUDIT_BOUND",
@@ -183,5 +187,40 @@
     "user_override_bypass": false
   },
   "capability_baseline_release": "2026-09-26/v3.1.0",
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "cuda_portability_shared_function_policy": {
+    "policy_id": "FA3-CUDA-PORTABILITY-SHARED-FUNCTION-POLICY-001",
+    "decision_id": "FA3-DEC-CUDA-PORTABILITY-SHARED-FUNCTION-2026-10-04",
+    "applies_to_product_families": [
+      "FA3",
+      "CFA3"
+    ],
+    "applies_to_development_process": true,
+    "trigger": "STRONGLY_CUDA_ORIENTED",
+    "target_hardware_assessment_required": true,
+    "reference_vendor_families": [
+      "NVIDIA",
+      "AMD",
+      "INTEL"
+    ],
+    "allowed_result_states": [
+      "FULL_EQUIVALENCE",
+      "FUNCTIONALLY_REDUCED",
+      "UNAVAILABLE"
+    ],
+    "function_core_placement": "SHARED_LAYER_ONLY",
+    "application_local_core": "FORBIDDEN",
+    "application_local_allowed": [
+      "UI_INTEGRATION",
+      "WORKFLOW_ADAPTER",
+      "APPLICATION_CONTEXT",
+      "PRESENTATION",
+      "LIMITATION_DISCLOSURE"
+    ],
+    "reduced_functionality_disclosure": "MANDATORY_USER_VISIBLE",
+    "unavailable_behavior": "FAIL_CLOSED_DISABLED_OR_UNAVAILABLE",
+    "silent_backend_substitution": false,
+    "hrb_binding_required": true,
+    "hardware_safety_precedence": true
+  }
 }
