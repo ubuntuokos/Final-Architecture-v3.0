@@ -24,7 +24,7 @@ class Handler(BaseHTTPRequestHandler):
         if not self._auth(): return
         if path=="/api/profiles": self._send(200,{"profiles":self.workspace.list_profiles()})
         elif path=="/api/jobs": self._send(200,{"jobs":self.workspace.list_jobs()})
-        elif path=="/capabilities": self._send(200,{"capabilities":["voice.generate","voice.transcribe","voice.profile.list","voice.profile.put","voice.capture.register","voice.fit-to-clip","voice.quick-dub.plan"]})
+        elif path=="/capabilities": self._send(200,{"capabilities":["voice.generate","voice.transcribe","voice.transform.preflight","voice.profile.list","voice.profile.put","voice.capture.register","voice.fit-to-clip","voice.quick-dub.plan"]})
         else: self._send(404,{"error":"not found"})
     def do_POST(self):
         if not self._auth(): return
@@ -36,6 +36,7 @@ class Handler(BaseHTTPRequestHandler):
             elif path=="/api/captures": out=self.workspace.register_capture(p)
             elif path=="/api/generate": out=self.workspace.generate(p)
             elif path=="/api/transcribe": out=self.workspace.transcribe(p)
+            elif path=="/api/transform/preflight": out=self.workspace.transform_preflight(p)
             elif path=="/api/fit-to-clip": out=self.workspace.fit_to_clip(int(p["target_ms"]),int(p["actual_ms"]))
             elif path=="/api/quick-dub": out=self.workspace.quick_dub_plan(p)
             elif path=="/api/uaf": out=self.workspace.dispatch_action(str(p.get("action","")),dict(p.get("payload") or {}))
