@@ -1,0 +1,91 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-CUDA-COMPAT-NATIVE-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "IMPLEMENTED_NOT_RUNTIME_PROMOTED",
+  "capability_count": 175,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "provider_id": "FA3-PROVIDER-CFA3-NATIVE-CUDA-COMPAT-001",
+  "contracts": [
+    "CudaCompatNativeSourceAnalysis",
+    "CudaCompatNativeTranslationArtifact",
+    "CudaCompatNativeBackendBinding",
+    "CudaCompatSharedApplicationRequest",
+    "CudaCompatSharedCandidateResolution",
+    "CudaCompatSharedTranslationRequest"
+  ],
+  "backend_contract": {
+    "backend": "cfa3-cuda-compat",
+    "backend_class": "translation",
+    "target_vendors": [
+      "AMD",
+      "INTEL"
+    ],
+    "implementation": "CFA3_NATIVE",
+    "external_scale_runtime_dependency": false,
+    "workload_must_explicitly_allow_translation": true,
+    "silent_substitution": false
+  },
+  "translation_contract": {
+    "supported_source_kind": "CUDA_KERNEL_SOURCE",
+    "full_cuda_parity_claimed": false,
+    "closed_cuda_binary_compatibility_claimed": false,
+    "content_addressed_artifact": true,
+    "execution_authorized_by_translation_artifact": false,
+    "AMD": {
+      "target_language": "HIP_CPP",
+      "required_device_backend": [
+        "rocm"
+      ]
+    },
+    "INTEL": {
+      "target_language": "OPENCL_C",
+      "required_device_backend": [
+        "level-zero",
+        "opencl"
+      ]
+    },
+    "unsupported_feature_effect": "DENY_WITH_EXPLICIT_FINDINGS"
+  },
+  "execution_contract": {
+    "selection_authority": "EXISTING_HRB_AND_WORKLOAD_POLICY_ONLY",
+    "required_before_binding": [
+      "EXACT_DEVICE_BINDING",
+      "NATIVE_TARGET_BACKEND_USABLE",
+      "WORKLOAD_ALLOW_TRANSLATION",
+      "SOURCE_ANALYSIS_PASS"
+    ],
+    "required_before_execution": [
+      "AUTHORIZED_HRB_LEASE",
+      "HARDWARE_SAFETY_PASS",
+      "PROVIDER_ADMISSION_PASS",
+      "CORRECTNESS_EVIDENCE_PASS"
+    ],
+    "fallback_policy": "DENY_SILENT_SUBSTITUTION"
+  },
+  "target_matrix": {
+    "AMD": "NATIVE_TRANSLATOR_V1_HIP",
+    "INTEL": "NATIVE_TRANSLATOR_V1_OPENCL",
+    "NVIDIA": "NATIVE_CUDA_REMAINS_PRIMARY"
+  },
+  "application_access_contract": {
+    "consumer_scope": "ALL_CURRENT_AND_FUTURE_CFA3_APPLICATIONS",
+    "central_entrypoint": "src/fa3_cuda_compat_shared.py:resolve_cuda_compatibility",
+    "translation_entrypoint": "src/fa3_cuda_compat_shared.py:prepare_cuda_compat_translation",
+    "per_application_allowlist": false,
+    "application_id_role": "PROVENANCE_AND_AUDIT_CONTEXT_ONLY",
+    "application_local_backend_core": "FORBIDDEN",
+    "application_may_request_backend_candidate": true,
+    "application_may_authorize_execution": false,
+    "automatic_backend_selection": false,
+    "translation_requires_explicit_opt_in": true,
+    "hrb_lease_required_before_execution": true,
+    "silent_fallback": false
+  },
+  "promotion": {
+    "physical_current_host_pass_claimed": false,
+    "runtime_promotion_claimed": false,
+    "physical_current_host_or_target_host_evidence_required": true
+  }
+}
