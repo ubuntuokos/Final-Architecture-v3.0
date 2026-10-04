@@ -1,0 +1,33 @@
+name: FA3 Local AI Model Development Policy
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - AGENTS.md
+      - canonical/FA3-AI-STUDIO-APP-CATALOG-001.json
+      - canonical/FA3-LOCAL-AI-MODEL-DEVELOPMENT-POLICY-001.json
+      - canonical/local-ai-model-development-enforcement.json
+      - canonical/intents/FA3-LOCAL-AI-MODEL-DEVELOPMENT-POLICY-INTENT-2026-10-04.json
+      - canonical/assessments/FA3-LOCAL-AI-MODEL-DEVELOPMENT-POLICY-REUSE-ASSESSMENT-2026-10-04.json
+      - canonical/current-host-impact/FA3-LOCAL-AI-MODEL-DEVELOPMENT-POLICY-2026-10-04.json
+      - docs/local-ai-model-development-policy.md
+      - src/fa3_local_ai_model_development_gate.py
+      - tests/test_local_ai_model_development_gate.py
+      - .github/workflows/fa3-local-ai-model-development-policy.yml
+
+permissions:
+  contents: read
+
+jobs:
+  static-policy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Local AI model development policy gate
+        run: python3 src/fa3_local_ai_model_development_gate.py
+      - name: Unit tests
+        run: python3 -m unittest tests.test_local_ai_model_development_gate -v
