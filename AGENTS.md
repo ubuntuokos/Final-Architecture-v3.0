@@ -94,3 +94,15 @@ Every change that modifies FA3 structural behavior must assess and reconcile its
 - Use `NO_RUNTIME_IMPACT` only with a substantive rationale and `physical_requalification_required=false`.
 - Historical Current Host evidence is immutable and must never be inherited as proof for a structurally changed active release.
 - The fail-closed gate `src/fa3_current_host_structural_impact_gate.py` and workflow `.github/workflows/fa3-current-host-structural-impact.yml` enforce this rule.
+
+## FA3 local AI model development rule
+
+For every FA3 application, module or feature that requires or materially benefits from local AI, current suitable models MUST be researched against the verified published-main Donor & Reference Registry and recorded in a task-specific model matrix before development closure. Reuse the existing Model Router, Model Manager, Engine/Provider Selector, Hardware Discovery and Host Resource Broker; do not create a second model or resource authority.
+
+Model recommendation MUST be hardware-aware for the host on which the application is currently running, including CPU capability, RAM, GPU/NPU inventory, backend compatibility, safe available VRAM, precision/quantization support, Hardware Safety Envelope and Software Coexistence constraints. CPU-only remains mandatory. Hardware detection never overrides the display GPU rule: default is no AI use; automatic display-GPU consideration is allowed only when no other GPU and no NPU exist and normal safety/HRB admission passes. If another GPU or NPU exists, display-GPU AI use requires explicit in-application task-and-model-specific user selection.
+
+Every consuming application MUST show all admitted compatible model candidates, not only the recommended model. Eligible non-installed candidates remain visible as an optional download/install choice. A compatible alternative may be manually selected. Applications may show incompatible or blocked candidates with the reason, but may not hide eligible alternatives merely because they are not the default.
+
+Model recommendation is not execution authority and not install authority. Optional download/install is user initiated only, mediated by Model Manager, and requires provenance, License & Rights, integrity, model-artifact security and storage preflight. No automatic model download/install, no direct application download into a promoted store, and no silent model/provider/local-to-cloud fallback.
+
+This rule is retroactive and prospective. A local-AI consumer is not complete until its model matrix, hardware-aware recommendation, CPU-only path, in-application alternatives, governed optional download path, Model Router binding and Host Resource Broker binding are covered, or an auditable NOT_APPLICABLE rationale is recorded.
