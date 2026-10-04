@@ -125,7 +125,7 @@ jobs:
           assert row["status"]=="CURRENT_HOST_BASE_ADMITTED"
           assert row["admission_source_commit"]==os.environ["SOURCE_SHA"]
           assert row["capability_count"]==175 and row["obligation_count"]==525
-          assert row["acceptance_criteria_passed"]==19
+          assert row["release_acceptance_gates_current_host_base"] is False
           PY
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
