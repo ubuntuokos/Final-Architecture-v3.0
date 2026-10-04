@@ -1,7 +1,7 @@
 {
   "schema": "fa3.decision-record.v1",
   "id": "FA3-DEC-HIDREAM-GENERATIVE-MEDIA-MESH-2026-10-04",
-  "status": "APPROVED_MATERIALIZED_STATIC_RUNTIME_GATED",
+  "status": "MATERIALIZED_PENDING_EXACT_HEAD_OWNER_APPROVAL",
   "owner_approval_date": "2026-10-04",
   "intent_id": "FA3-HIDREAM-GENERATIVE-MEDIA-MESH-APPLICATION-INTENT-2026-10-04",
   "assessment_id": "FA3-HIDREAM-GENERATIVE-MEDIA-MESH-REUSE-ASSESSMENT-2026-10-04",
@@ -43,5 +43,13 @@
   "capability_delta": 0,
   "authority_delta": 0,
   "runtime_promotion_claim": false,
-  "current_host_pass_claimed": false
+  "current_host_pass_claimed": false,
+  "approval_binding": {
+    "plan_approved_by_owner_in_conversation": true,
+    "owner_instruction": "Jóváhagyom, készítsd el a lezárásig",
+    "approved_plan_document": "docs/hidream-generative-media-mesh-final-2026-10-04.md",
+    "exact_head_repository_owner_approved_review_required": true,
+    "exact_head_repository_owner_approved_review_observed": false,
+    "finalization_fail_closed_until_owner_review": true
+  }
 }
