@@ -1,6 +1,10 @@
 #include "VoiceWorkspaceService.h"
 
 #include <QDateTime>
+#include <QAudioDevice>
+#include <QAudioSource>
+#include <QDataStream>
+#include <QMediaDevices>
 #include <QDir>
 #include <QFile>
 #include <QJsonDocument>
@@ -201,6 +205,149 @@ QVariantMap VoiceWorkspaceService::upsertVoiceProfile(const QString &voiceProfil
     m_state.insert(QStringLiteral("voice_profiles"), profiles);
     if (!save()) return {};
     setOperation(QStringLiteral("Voice Profile saved locally; canonical/provider authority unchanged."));
+    return row;
+}
+
+bool VoiceWorkspaceService::writeWavHeader(QFile &file, const QAudioFormat &format, qint64 dataBytes)
+{
+    if (!file.isOpen() || format.sampleFormat() != QAudioFormat::Int16
+        || format.sampleRate() <= 0 || format.channelCount() <= 0 || dataBytes < 0) return false;
+
+    const quint16 channels = quint16(format.channelCount());
+    const quint32 sampleRate = quint32(format.sampleRate());
+    const quint16 bitsPerSample = 16;
+    const quint16 blockAlign = quint16(channels * bitsPerSample / 8);
+    const quint32 byteRate = sampleRate * blockAlign;
+    const quint32 dataSize = quint32(qMin<qint64>(dataBytes, 0xffffffffLL));
+    const quint32 riffSize = 36u + dataSize;
+
+    if (!file.seek(0)) return false;
+    QDataStream out(&file);
+    out.setByteOrder(QDataStream::LittleEndian);
+    out.writeRawData("RIFF", 4); out << riffSize;
+    out.writeRawData("WAVE", 4);
+    out.writeRawData("fmt ", 4); out << quint32(16) << quint16(1) << channels << sampleRate << byteRate << blockAlign << bitsPerSample;
+    out.writeRawData("data", 4); out << dataSize;
+    return out.status() == QDataStream::Ok;
+}
+
+bool VoiceWorkspaceService::startMicrophoneCapture(const QString &language)
+{
+    if (m_recording) {
+        setError(QStringLiteral("Microphone capture is already active."));
+        return false;
+    }
+    const auto locale = clean(language);
+    if (locale.isEmpty()) {
+        setError(QStringLiteral("Capture language is required."));
+        return false;
+    }
+    const auto device = QMediaDevices::defaultAudioInput();
+    if (device.isNull()) {
+        setError(QStringLiteral("No default audio input device is available."));
+        return false;
+    }
+
+    QAudioFormat format;
+    format.setSampleRate(16000);
+    format.setChannelCount(1);
+    format.setSampleFormat(QAudioFormat::Int16);
+    if (!device.isFormatSupported(format)) {
+        setError(QStringLiteral("Default microphone does not support required 16 kHz mono Int16 capture; no silent format fallback."));
+        return false;
+    }
+
+    const auto base = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
+    QDir dir(base);
+    if (!dir.mkpath(QStringLiteral("voice/captures"))) {
+        setError(QStringLiteral("Cannot create local voice capture directory."));
+        return false;
+    }
+    m_recordingPath = dir.filePath(QStringLiteral("voice/captures/voice-capture-%1.wav")
+        .arg(QDateTime::currentDateTimeUtc().toString(QStringLiteral("yyyyMMddTHHmmsszzzZ"))));
+    m_recordFile = new QFile(m_recordingPath, this);
+    if (!m_recordFile->open(QIODevice::WriteOnly)) {
+        m_recordFile->deleteLater();
+        m_recordFile = nullptr;
+        m_recordingPath.clear();
+        setError(QStringLiteral("Cannot open local microphone capture file."));
+        emit recordingChanged();
+        return false;
+    }
+    m_recordFile->write(QByteArray(44, '\0'));
+    m_recordingFormat = format;
+    m_recordingLanguage = locale;
+    m_audioSource = new QAudioSource(device, format, this);
+    m_audioSource->start(m_recordFile);
+    m_recording = true;
+    m_state.insert(QStringLiteral("activity"), QVariantMap{
+        {QStringLiteral("state"), QStringLiteral("RECORDING")},
+        {QStringLiteral("application"), QStringLiteral("fa3.voice-studio")},
+        {QStringLiteral("actor"), QStringLiteral("user")},
+        {QStringLiteral("voice_profile_id"), QString()},
+        {QStringLiteral("job_id"), QString()},
+        {QStringLiteral("visible"), true}
+    });
+    save();
+    setOperation(QStringLiteral("Local microphone capture started (16 kHz mono Int16 WAV)."));
+    emit recordingChanged();
+    return true;
+}
+
+QVariantMap VoiceWorkspaceService::stopMicrophoneCapture(const QString &transcript)
+{
+    if (!m_recording || !m_audioSource || !m_recordFile) {
+        setError(QStringLiteral("No microphone capture is active."));
+        return {};
+    }
+    m_audioSource->stop();
+    m_recordFile->flush();
+    const auto dataBytes = qMax<qint64>(0, m_recordFile->size() - 44);
+    const bool headerOk = writeWavHeader(*m_recordFile, m_recordingFormat, dataBytes);
+    m_recordFile->flush();
+    m_recordFile->close();
+
+    const auto sourcePath = m_recordingPath;
+    const auto locale = m_recordingLanguage;
+    m_audioSource->deleteLater();
+    m_recordFile->deleteLater();
+    m_audioSource = nullptr;
+    m_recordFile = nullptr;
+    m_recording = false;
+    m_recordingLanguage.clear();
+    emit recordingChanged();
+
+    if (!headerOk) {
+        QFile::remove(sourcePath);
+        m_recordingPath.clear();
+        setError(QStringLiteral("Failed to finalize WAV capture header; incomplete capture removed."));
+        return {};
+    }
+
+    auto row = createCapture(locale, sourcePath, transcript);
+    if (!row.isEmpty()) {
+        row.insert(QStringLiteral("audio_format"), QVariantMap{
+            {QStringLiteral("container"), QStringLiteral("WAV")},
+            {QStringLiteral("sample_rate_hz"), m_recordingFormat.sampleRate()},
+            {QStringLiteral("channels"), m_recordingFormat.channelCount()},
+            {QStringLiteral("sample_format"), QStringLiteral("PCM_S16LE")}
+        });
+        auto capturesMap = objectBucket(m_state, QStringLiteral("captures"));
+        capturesMap.insert(row.value(QStringLiteral("capture_id")).toString(), row);
+        m_state.insert(QStringLiteral("captures"), capturesMap);
+        m_state.insert(QStringLiteral("activity"), QVariantMap{
+            {QStringLiteral("state"), QStringLiteral("IDLE")},
+            {QStringLiteral("application"), QStringLiteral("fa3.voice-studio")},
+            {QStringLiteral("actor"), QStringLiteral("user")},
+            {QStringLiteral("voice_profile_id"), QString()},
+            {QStringLiteral("job_id"), QString()},
+            {QStringLiteral("visible"), false}
+        });
+        save();
+        setOperation(QStringLiteral("Local microphone capture finalized and added to Capture Inbox."));
+    }
+    m_recordingPath.clear();
+    emit recordingChanged();
     return row;
 }
 
