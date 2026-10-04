@@ -1,0 +1,90 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-VOICE-STUDIO-001",
+  "version": "1.0.0",
+  "name": "FA3 Voice Studio Application and Shared Voice Plugin Workspace",
+  "status": "CANONICAL_MATERIALIZED",
+  "obligation": "P0/MUST-IF-VOICE-STUDIO-USED",
+  "parent_architecture": "FA3-VOICE-001",
+  "capability_projection": [
+    "CAP-115",
+    "CAP-116",
+    "CAP-117"
+  ],
+  "capability_count": 175,
+  "new_capability": false,
+  "architectural_authority": false,
+  "new_architectural_authority": false,
+  "purpose": "Complete provider-neutral Voice Studio application control plane with persistent local workspace state, Voice Profile management, capture/dictation intake, generation job staging, Fit-to-Clip planning, Quick Dub planning, editable timeline handoff, Shared Voice Plugin projections and MCP/UAF action exposure.",
+  "authority_boundaries": {
+    "voice_policy": "FA3-VOICE-001",
+    "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "typed_actions": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "mcp_gateway": "FA3-AUTH-MCP-GATEWAY-001",
+    "durable_workflow": "Temporal",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "license_rights": "FA3-LICENSE-RIGHTS-001"
+  },
+  "application": {
+    "id": "fa3.voice-studio",
+    "gui_route": "create.voice-studio",
+    "service_context_property": "fa3VoiceWorkspace",
+    "local_state": "USER_LOCAL_APP_DATA_ONLY",
+    "canonical_write_authority": false,
+    "direct_provider_execution": false,
+    "direct_device_selection": false,
+    "direct_network_provider_call": false
+  },
+  "shared_plugin": {
+    "manifest": "FA3-VOICE-PLUGIN-MANIFEST-001",
+    "gui_route": "create.quick-voice-plugin",
+    "projections": [
+      "QUICK",
+      "STANDARD",
+      "ADVANCED"
+    ],
+    "host_contract": "FA3-VOICE-STUDIO-CONTRACTS-001"
+  },
+  "uaf_actions": [
+    "voice.profile.list",
+    "voice.profile.get",
+    "voice.profile.upsert",
+    "voice.capture",
+    "voice.transcribe",
+    "voice.speak",
+    "voice.stop",
+    "voice.status",
+    "voice.generate.submit",
+    "voice.fit-to-clip.plan",
+    "voice.quick-dub.plan",
+    "voice.timeline.insert"
+  ],
+  "state_objects": [
+    "VoiceWorkspaceState",
+    "VoiceProfileRecord",
+    "VoiceCaptureRecord",
+    "VoiceGenerationJob",
+    "VoiceFitToClipPlan",
+    "VoiceQuickDubPlan",
+    "VoiceTimelineHandoff"
+  ],
+  "invariants": [
+    "NO_SILENT_PROVIDER_MODEL_DEVICE_LANGUAGE_OR_CLOUD_FALLBACK",
+    "NO_PROVIDER_EXECUTION_WITHOUT_ADMISSION",
+    "NO_ACCELERATOR_EXECUTION_WITHOUT_HRB_ADMISSION",
+    "NO_HUMAN_VOICE_CLONING_WITHOUT_VALID_CONSENT",
+    "NO_SILENT_SCRIPT_REWRITE",
+    "ORIGINAL_AUDIO_AND_TEXT_LINEAGE_PRESERVED",
+    "PLUGIN_IS_NOT_AUTHORITY",
+    "MCP_IS_PROJECTION_NOT_PARALLEL_GATEWAY",
+    "LOCAL_WORKSPACE_STATE_IS_NOT_CANONICAL_STATE",
+    "BLOCKED_NOT_ADMITTED_IS_VALID_NON_SIMULATED_RUNTIME_STATE"
+  ],
+  "runtime_promotion": {
+    "gui_and_control_plane_materialization_claim": true,
+    "provider_audio_execution_claim": false,
+    "physical_current_host_provider_e2e_required": true,
+    "positive_negative_rollback_required": true
+  }
+}
