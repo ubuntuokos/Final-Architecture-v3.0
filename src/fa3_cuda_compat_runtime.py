@@ -25,6 +25,23 @@ AMD_RUNTIME_MAP = {
     "cudaPeekAtLastError": "hipPeekAtLastError",
 }
 
+
+AMD_RUNTIME_TYPE_CONSTANT_MAP = {
+    "cudaError_t": "hipError_t",
+    "cudaStream_t": "hipStream_t",
+    "cudaEvent_t": "hipEvent_t",
+    "cudaMemcpyKind": "hipMemcpyKind",
+    "cudaDeviceProp": "hipDeviceProp_t",
+    "cudaSuccess": "hipSuccess",
+    "cudaMemcpyHostToHost": "hipMemcpyHostToHost",
+    "cudaMemcpyHostToDevice": "hipMemcpyHostToDevice",
+    "cudaMemcpyDeviceToHost": "hipMemcpyDeviceToHost",
+    "cudaMemcpyDeviceToDevice": "hipMemcpyDeviceToDevice",
+    "cudaMemcpyDefault": "hipMemcpyDefault",
+}
+
+AMD_RUNTIME_TOKEN_MAP = {**AMD_RUNTIME_MAP, **AMD_RUNTIME_TYPE_CONSTANT_MAP}
+
 INTEL_SYCL_RUNTIME_MAP = {
     "cudaMalloc": "sycl::malloc_device",
     "cudaFree": "sycl::free",
