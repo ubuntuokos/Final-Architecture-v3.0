@@ -1,0 +1,15 @@
+{
+  "schema": "fa3.current-host-structural-impact.v1",
+  "id": "FA3-CH-IMPACT-ONE-CLICK-CONVERSATION-HANDOFF-20261004",
+  "status": "NO_RUNTIME_IMPACT",
+  "structural_changes": [
+    "AGENTS.md",
+    "canonical/profiles/FA3-SHARED-CONVERSATION-SESSION-001.json",
+    "canonical/contracts/FA3-SHARED-CONVERSATION-SESSION-CONTRACTS-001.json",
+    "canonical/decisions/FA3-DEC-ONE-CLICK-CONVERSATION-HANDOFF-2026-10-04.json"
+  ],
+  "current_host_changes": [],
+  "physical_requalification_required": false,
+  "historical_evidence_reused": false,
+  "rationale": "This change closes a governance and UX contract rule for how explicit new-conversation handoff text is presented and copied. It adds no runtime provider, host service, hardware behavior, resource allocation, execution authority, Current Host proof recipe, or promotion claim. Product implementations must conform when they implement or modify the handoff surface, but this rule publication itself does not alter the active Current Host runtime."
+}
