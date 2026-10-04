@@ -1433,13 +1433,7 @@
         "authority_ids": [],
         "shared_module_ids": []
       },
-      "consumers": [
-        {
-          "kind": "PROVIDER",
-          "id": "FA3-PROVIDER-CFA3-NATIVE-CUDA-COMPAT-001",
-          "relationship": "CENTRAL_SHARED_CUDA_COMPATIBILITY_FABRIC"
-        }
-      ],
+      "consumers": [],
       "current_host_impact": {
         "classification": "STRUCTURAL_REASSESSMENT_REQUIRED",
         "reason": "Runtime-dispatch separation pattern informs a new shared translation/runtime-compatibility boundary; physical runtime evidence remains separate."
