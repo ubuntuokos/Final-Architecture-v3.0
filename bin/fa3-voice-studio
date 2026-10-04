@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+STATE="${FA3_VOICE_WORKSPACE_STATE:-${XDG_STATE_HOME:-$HOME/.local/state}/fa3/voice/workspace.json}"
+exec python3 "$ROOT/src/fa3_voice_workspace.py" --state "$STATE" --root "$ROOT" "$@"
