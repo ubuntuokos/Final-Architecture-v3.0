@@ -124,5 +124,16 @@
     "release_bundle_status": "EXCLUDED",
     "product_bundle_allowed": false,
     "classification_basis": "SCALE is externally supplied and not bundled or redistributed by FA3/CFA3; runtime use remains separately License & Rights gated."
+  },
+  "shared_application_access": {
+    "scope": "ALL_CURRENT_AND_FUTURE_CFA3_APPLICATIONS",
+    "central_entrypoint": "src/fa3_cuda_compat_shared.py:resolve_cuda_compatibility",
+    "application_allowlist_required": false,
+    "application_identity_required_for_provenance": true,
+    "application_local_backend_implementation": "FORBIDDEN",
+    "application_direct_provider_selection_authority": false,
+    "candidate_resolution_is_execution_authorization": false,
+    "hrb_lease_required_before_execution": true,
+    "no_silent_backend_substitution": true
   }
 }
