@@ -1,14 +1,16 @@
 {
   "schema": "fa3.contract-family.v1",
   "id": "FA3-UI-COMPONENT-FABRIC-CONTRACTS-001",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "provider_neutral": true,
   "profile": "FA3-UI-COMPONENT-FABRIC-001",
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
-  "capability_projection": ["CAP-057"],
+  "capability_count": 175,
+  "capability_projection": [
+    "CAP-057"
+  ],
   "contracts": [
     "UiPatternSourceDescriptor",
     "UiPatternIntakeRecord",
@@ -18,7 +20,8 @@
     "UiSecurityAdmissionResult",
     "UiVisualRegressionReceipt",
     "UiProvenanceRecord",
-    "UiLicenseRecord"
+    "UiLicenseRecord",
+    "NewConversationHandoffDescriptor"
   ],
   "source_intake": {
     "external_source_is_untrusted_by_default": true,
@@ -66,7 +69,10 @@
     "component_may_not_bypass_existing_authorization": true,
     "component_may_not_write_canonical_repository": true,
     "component_may_not_create_network_dependency": true,
-    "component_may_not_claim_connected_or_pass_state_without_evidence": true
+    "component_may_not_claim_connected_or_pass_state_without_evidence": true,
+    "handoff_clipboard_write_requires_explicit_user_action": true,
+    "handoff_clipboard_read_forbidden": true,
+    "background_clipboard_capture_forbidden": true
   },
   "performance": {
     "unbounded_continuous_animation": "FORBIDDEN",
@@ -78,6 +84,50 @@
     "all_acceptance_checks_must_pass": true,
     "fail_closed": true,
     "reference_source_never_promotes_automatically": true,
-    "component_requires_native_fa3_identity_before_production_use": true
+    "component_requires_native_fa3_identity_before_production_use": true,
+    "nonconforming_new_conversation_handoff_must_fail_closed": true
+  },
+  "new_conversation_handoff": {
+    "rule_id": "FA3-RULE-ONE-CLICK-NEW-CONVERSATION-HANDOFF-001",
+    "decision_id": "FA3-DEC-ONE-CLICK-NEW-CONVERSATION-HANDOFF-2026-10-04",
+    "priority": "P0",
+    "requirement": "MUST",
+    "applies_to": [
+      "FA3_CFA3_DEVELOPMENT_HANDOFFS",
+      "CFA3_FA3_PRODUCT_SURFACES",
+      "CURRENT_AND_FUTURE_APPLICATIONS",
+      "ASSISTANT_AGENT_WORKFLOW_HANDOFFS"
+    ],
+    "trigger_semantics": [
+      "OWNER_REQUESTS_FOLYTASD_UJ_BESZELGETESBEN_OR_SEMANTIC_EQUIVALENT",
+      "SURFACE_PRODUCES_HANDOFF_FOR_NEW_CONVERSATION_SESSION_OR_CONTEXT"
+    ],
+    "payload_integrity": {
+      "complete_payload_in_exactly_one_copy_target": true,
+      "split_payload_across_copy_targets": "FORBIDDEN",
+      "payload_fragment_outside_single_copy_target": "FORBIDDEN",
+      "one_word_or_single_character_exempt": false,
+      "payload_length_exempt": false
+    },
+    "interaction": {
+      "visible_direct_copy_control_required": true,
+      "required_copy_activation_count": 1,
+      "manual_text_selection_required": false,
+      "scrolling_required_to_copy_complete_payload": false,
+      "visual_scrolling_may_not_change_copy_scope": true,
+      "platform_equivalent_single_activation_allowed": true
+    },
+    "clipboard": {
+      "mode": "EXPLICIT_USER_INITIATED_WRITE_ONLY",
+      "read_before_copy": false,
+      "background_capture": false,
+      "generic_clipboard_capture": false,
+      "unavailable_or_copy_failure": "FAIL_CLOSED_NOT_READY"
+    },
+    "companion_text": {
+      "allowed": true,
+      "may_be_required_for_handoff": false,
+      "may_contain_payload_fragment": false
+    }
   }
 }
