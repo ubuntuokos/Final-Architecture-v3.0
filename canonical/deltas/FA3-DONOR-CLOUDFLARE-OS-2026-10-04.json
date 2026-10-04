@@ -1,0 +1,78 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-CLOUDFLARE-OS-2026-10-04",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "MATERIALIZED_PENDING_EXACT_HEAD_GATES",
+  "mode": "APPEND_ONLY_OWNER_EXPLICIT_REFERENCE_INTAKE",
+  "parent_commit": "df24cb9d1fa2413b08c8d47461bdb2db799585f6",
+  "parent_registry_blob_sha": "1362d75186c6da74e5cf947fdf0b8867d462636a",
+  "parent_entry_count": 1427,
+  "source_count": 1,
+  "unique_source_key_count": 1,
+  "matched_existing_count": 0,
+  "proposed_entry_count": 1428,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "provider_count_policy": "DYNAMIC_UNCHANGED",
+  "approval_ref": "docs/donor-cloudflare-os-2026-10-04.md",
+  "observed_upstream_head": "5cae880e5e54563895a067e7f4dae67514e581be",
+  "upstream_license": "Apache-2.0",
+  "requirements": [
+    "Preserve the exact owner-marked Cloudflare OS repository URL as one canonical repository-level donor/reference identity.",
+    "Use Cloudflare OS as a selective architecture/security/workflow reference; do not treat it as an FA3 operating system, control-plane authority or mandatory runtime.",
+    "Gatekeeper, capability-scoped resource introduction, sandboxed Gadget/Blueprint, agent-facing RPC, MCP mediation, collaboration and observability patterns may be studied for FA3-native re-expression.",
+    "Cloudflare speculative approval simulation must remain explicitly shadow/non-authoritative in any FA3 adaptation and may never count as Current Host PASS, physical execution evidence or committed external side-effect proof.",
+    "Cloudflare Workers, Durable Objects, Dynamic Workers, Facets, workerd, Cap'n Web and repository dependencies are not admitted by this registration.",
+    "Any material reuse requires exact-source provenance plus License & Rights, security, Software Coexistence, dependency, Hardware Safety where relevant and Current Host/runtime review.",
+    "Material adoption requires a typed canonical donor usage edge and application/capability impact reconciliation.",
+    "Fixed capability baseline 175 and dynamic provider-count policy remain unchanged.",
+    "No automatic fetch, install, code copy, dependency adoption, provider/model selection, runtime activation or Current Host claim."
+  ],
+  "sources": [
+    {
+      "url": "https://github.com/cloudflare/cloudflare-os",
+      "normalized_key": "github:cloudflare/cloudflare-os",
+      "donor_id": "FA3-DONOR-CLOUDFLARE-OS-001",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UPSTREAM_LICENSE_OBSERVED"
+      }
+    }
+  ],
+  "discovery_classes": [
+    "CAPABILITY_BASED_GATEKEEPER_SECURITY",
+    "MCP_TOOL_LEVEL_RESOURCE_MEDIATION",
+    "SANDBOXED_DYNAMIC_APPLICATIONS",
+    "APPLICATION_BLUEPRINTS",
+    "AGENT_FRIENDLY_RPC_API",
+    "HUMAN_APPROVAL_AND_SHADOW_EXECUTION",
+    "REAL_TIME_COLLABORATION",
+    "MODEL_PROVIDER_ADMINISTRATION",
+    "OBSERVABILITY_AND_ACTION_AUDIT"
+  ],
+  "boundaries": {
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "automatic_code_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "cloudflare_runtime_admitted": false,
+    "speculative_result_can_be_evidence": false,
+    "usage_edge_created": false,
+    "capability_count_change": false,
+    "authority_change": false,
+    "runtime_change": false,
+    "current_host_pass_claimed": false
+  },
+  "submitted_url_count": 1,
+  "new_source_count": 1,
+  "serialization_scope": "ROLLING_FIVE_SLOT_DONOR_MAINTENANCE",
+  "serialization_order": "ASCENDING_ESTIMATED_INTAKE_WORKLOAD_THEN_FIFO",
+  "max_active_donor_intakes": 5,
+  "expected_initial_state": "FIFO_WAITING_WHILE_ACTIVE_WINDOW_FULL"
+}
