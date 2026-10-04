@@ -6,7 +6,7 @@ Item {
     id: root
     property string runtimeMessage: fa3VoiceWorkspace.state + (fa3VoiceWorkspace.lastError.length ? " · " + fa3VoiceWorkspace.lastError : "")
     Component.onCompleted: fa3VoiceWorkspace.refresh()
-    Connections { target: fa3VoiceWorkspace; function onGenerationCompleted(result) { root.runtimeMessage = "COMPLETED · " + result.job_id } function onTranscriptionCompleted(result) { root.runtimeMessage = "TRANSCRIBED · " + result.language } }
+    Connections { target: fa3VoiceWorkspace; function onGenerationCompleted(result) { root.runtimeMessage = "COMPLETED · " + result.job_id } function onTranscriptionCompleted(result) { root.runtimeMessage = "TRANSCRIBED · " + result.language } function onEffectsPlanCompleted(result) { root.runtimeMessage = "EFFECTS PLAN · " + result.runtime_status } }
     property color panel: "#20242a"
     property color panelRaised: "#292f38"
     property color border: "#3a424e"
@@ -145,6 +145,7 @@ Item {
                             anchors.fill: parent
                             Label { text: "Original → Take → Transform Chain → Derived Asset"; color: root.textPrimary }
                             Label { text: "Original asset is never overwritten."; color: root.green }
+                            RowLayout { TextField { id: effectsSource; Layout.fillWidth: true; placeholderText: "Source audio ref/path" } Button { text: "Plan effects"; enabled: fa3VoiceWorkspace.state === "READY" && effectsSource.text.length > 0; onClicked: fa3VoiceWorkspace.planEffects(effectsSource.text) } }
                             Label { text: "Voice/reference rights and consent remain bound to derived output."; color: root.textMuted; wrapMode: Text.WordWrap; Layout.fillWidth: true }
                         }
                     }
