@@ -1,0 +1,42 @@
+{
+  "schema": "fa3.decision-fabric-assessment.v1",
+  "project_id": "FA3-SCALE-CUDA-COMPAT-DECISION-ASSESSMENT-2026-10-04",
+  "covered_ids": [
+    "FA3-PROVIDER-SCALE-CUDA-COMPAT-001"
+  ],
+  "assessment": "NOT_APPLICABLE",
+  "rationale": "SCALE backend eligibility is a deterministic fail-closed compatibility, rights, hardware-safety and HRB admission decision. Decision Fabric may not infer or rank commercial entitlement, device compatibility, translation permission, provider admission or resource placement, and may not silently substitute SCALE for another backend.",
+  "decision_points": [],
+  "not_delegated": [
+    "SCALE license or commercial entitlement admission",
+    "SCALE executable discovery",
+    "exact AMD PCI BDF compatibility",
+    "translation-path permission",
+    "provider admission",
+    "accelerator placement or lease",
+    "hardware-safety admission",
+    "backend substitution",
+    "runtime or Current Host promotion"
+  ],
+  "project_radar_checked": true,
+  "project_radar_review": {
+    "scope": "Optional shared SCALE CUDA compatibility backend against Decision Fabric authority boundaries",
+    "result": "NO_DECISION_FABRIC_DECISION_POINT",
+    "note": "Existing deterministic License & Rights, hardware discovery, workload policy and HRB authorities remain authoritative."
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "global_accelerator_requirement": false
+  },
+  "security_boundary": {
+    "may_grant_permission": false,
+    "may_expand_candidate_set": false,
+    "may_create_agent": false,
+    "may_admit_model": false,
+    "may_admit_provider": false
+  },
+  "shadow_mode_required": false,
+  "capability_delta": 0,
+  "authority_delta": 0
+}
