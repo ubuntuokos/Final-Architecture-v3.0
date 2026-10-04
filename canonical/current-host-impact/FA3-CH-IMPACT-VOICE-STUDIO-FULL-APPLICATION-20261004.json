@@ -1,12 +1,12 @@
 {
-  "schema":"fa3.current-host-structural-impact.v1",
-  "id":"FA3-CH-IMPACT-VOICE-STUDIO-FULL-APPLICATION-20261004",
-  "date":"2026-10-04",
-  "status":"RECONCILED",
-  "subject_id":"FA3-VOICE-STUDIO-APPLICATION-001",
-  "capability_count":175,
-  "capability_delta":0,
-  "structural_changes":[
+  "schema": "fa3.current-host-structural-impact.v1",
+  "id": "FA3-CH-IMPACT-VOICE-STUDIO-FULL-APPLICATION-20261004",
+  "date": "2026-10-04",
+  "status": "RECONCILED",
+  "subject_id": "FA3-VOICE-STUDIO-APPLICATION-001",
+  "capability_count": 175,
+  "capability_delta": 0,
+  "structural_changes": [
     "src/fa3_voice_workspace.py",
     "src/fa3_voice_studio_server.py",
     "src/fa3_piper_provider.py",
@@ -15,10 +15,13 @@
     "apps/fa3-control-center/qml/VoiceStudioPage.qml",
     "apps/fa3-control-center/qml/QuickVoicePluginPage.qml",
     "canonical/FA3-VOICE-STUDIO-APPLICATION-001.json",
-    "canonical/FA3-VOICE-STUDIO-RUNTIME-CONFORMANCE-001.json"
+    "canonical/FA3-VOICE-STUDIO-RUNTIME-CONFORMANCE-001.json",
+    "src/fa3_model_router_voice.py"
   ],
-  "current_host_changes":["src/fa3_voice_studio_current_host_gate.py"],
-  "physical_requalification_required":true,
-  "historical_evidence_reused":false,
-  "rationale":"Shared Voice changes from GUI-only projection to authenticated local runtime, persistent state, executable CPU provider candidate path and live Control Center client. Fresh physical Current Host requalification is mandatory; historical GUI or voice-provider evidence is not inherited."
+  "current_host_changes": [
+    "src/fa3_voice_studio_current_host_gate.py"
+  ],
+  "physical_requalification_required": true,
+  "historical_evidence_reused": false,
+  "rationale": "Shared Voice changes from GUI-only projection to authenticated local runtime, persistent state, executable CPU provider candidate path and live Control Center client. Fresh physical Current Host requalification is mandatory; historical GUI or voice-provider evidence is not inherited."
 }
