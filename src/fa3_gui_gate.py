@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 
 from fa3_release_baseline import module_active_capability_count
+from fa3_generative_media_mesh_gate import run as run_generative_media_mesh_gate
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -385,6 +386,8 @@ def validate() -> list[str]:
     if "qml6-module-qtquick-dialogs" not in installer: failures.append("chat-file-installer-dialogs-missing")
     desktop = REQUIRED["desktop"].read_text(encoding="utf-8")
     if "Exec=fa3-control-center" not in desktop: failures.append("desktop-entry-exec-missing")
+    for finding in run_generative_media_mesh_gate():
+        failures.append(f"generative-media-mesh:{finding}")
     return failures
 
 
