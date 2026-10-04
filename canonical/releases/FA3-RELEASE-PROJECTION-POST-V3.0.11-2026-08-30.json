@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "eece0da4f8fa3d78f76a4c8383a1387e7417dab3",
-    "pre_projection_root_tree_sha": "da1ed0f69cee32f969887ec18a060ea9903a6f33",
-    "pre_projection_canonical_tree_sha": "847bd25d6c892ea807bde32f13a0ced0591676ec",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2829,
-    "total_post_baseline_commits": 2829,
-    "delta_file_count": 2931,
-    "delta_added_files": 2925,
+    "pre_projection_head_sha": "610bd2814300c1ae49ae80783e037e0b615fb674",
+    "pre_projection_root_tree_sha": "2d0814f88ed7b3b7d4a6df944e9b33d33a206cf9",
+    "pre_projection_canonical_tree_sha": "745127a3e69af1ab32928887d2a3c979fcd4da5a",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2837,
+    "total_post_baseline_commits": 2837,
+    "delta_file_count": 2934,
+    "delta_added_files": 2928,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,10 +46,10 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1368,
+    "canonical_files_in_post_baseline_delta": 1369,
     "evidence_files_in_post_baseline_delta": 172,
     "source_files_in_post_baseline_delta": 368,
-    "test_files_in_post_baseline_delta": 346,
+    "test_files_in_post_baseline_delta": 347,
     "workflow_files_in_post_baseline_delta": 138,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -1068,7 +1068,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2921,
+  "manifest_entry_count": 2924,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -6836,6 +6836,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/deltas/FA3-DONOR-MESHY-RUNWARE-API-EVANGELIST-2026-10-04.json",
+      "git_blob_sha": "4949f92a341f3b5b391d3632fc50d20c205c0309",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/deltas/FA3-DONOR-MM3D-OPENMMLAB-Z3DR-2026-09-29.json",
       "git_blob_sha": "ebf11339c1e22c41cd73f86e5779e98809cfbff2",
       "baseline_delta_status": "added"
@@ -10343,6 +10348,11 @@
     {
       "path": "docs/donor-mail-crm-erp-groupware-sync-2026-09-30.md",
       "git_blob_sha": "f59fcf444856c41873619dd6e27b12e97be9c7ed",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/donor-meshy-runware-api-evangelist-2026-10-04.md",
+      "git_blob_sha": "24b9ebc78a7850e5f755be72b56b1fb999c9ecc5",
       "baseline_delta_status": "added"
     },
     {
@@ -14448,6 +14458,11 @@
     {
       "path": "tests/test_donor_media_intake_20260929.py",
       "git_blob_sha": "9324ae9a0ce7a297fc7acdd5f31e6dc09004a4b9",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_donor_meshy_runware_api_evangelist_20261004.py",
+      "git_blob_sha": "d70b322a1a10dc783ec06a8f9757fc7e93d87d09",
       "baseline_delta_status": "added"
     },
     {
