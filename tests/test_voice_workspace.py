@@ -1,6 +1,7 @@
 from pathlib import Path
 import tempfile,unittest
 from fa3_voice_workspace import VoiceWorkspace,VoiceWorkspaceError
+from fa3_model_router_voice import route_voice_request,VoiceRouteDenied
 ROOT=Path(__file__).resolve().parents[1]
 class VoiceWorkspaceTests(unittest.TestCase):
  def setUp(self):
@@ -26,6 +27,10 @@ class VoiceWorkspaceTests(unittest.TestCase):
   r=self.ws.dispatch_action("voice.fit-to-clip",{"target_ms":1000,"actual_ms":900}); self.assertEqual("ACCEPT_AND_PAD",r["decision"])
   self.assertEqual("PENDING_ADMITTED_AUDIO_PROCESSOR",self.ws.dispatch_action("voice.effects.plan",{"source_audio_ref":"asset:test","chain":[]})["runtime_status"])
   with self.assertRaises(VoiceWorkspaceError): self.ws.dispatch_action("voice.delete-everything",{})
+ def test_model_router_voice_candidate_receipt(self):
+  r=route_voice_request(ROOT,{"request_id":"R","language":"hu-HU","mode":"plain","quality_class":"STANDARD","candidate_execution_ack":True},{"FA3-PROVIDER-PIPER-001"})
+  self.assertEqual("FA3-AUTH-MODEL-ROUTER-001",r["authority"]); self.assertEqual("FA3-PROVIDER-PIPER-001",r["selected_provider_id"]); self.assertEqual("CANDIDATE_ROUTE",r["status"]); self.assertFalse(r["silent_fallback"])
+  with self.assertRaises(VoiceRouteDenied): route_voice_request(ROOT,{"request_id":"R","language":"hu-HU","mode":"plain","quality_class":"STANDARD","candidate_execution_ack":False},{"FA3-PROVIDER-PIPER-001"})
  def test_generation_fails_closed_without_executor(self):
   with self.assertRaises(VoiceWorkspaceError):
    self.ws.generate({"text":"x","language":"hu-HU","voice_identity_ref":"V","license_and_rights_ref":"R","mode":"voice_clone"})
