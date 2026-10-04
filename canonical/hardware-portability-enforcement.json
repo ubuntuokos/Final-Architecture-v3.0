@@ -20,7 +20,7 @@
   "capability_count": 175,
   "fail_closed": true,
   "current_host_runtime_promotion_claim": false,
-  "mandatory_rule_count": 40,
+  "mandatory_rule_count": 47,
   "p0_invariants": [
     "CPU_CARDINALITY_DYNAMIC_1_TO_N",
     "CPU_MINIMUM_ONE_PACKAGE_AND_EIGHT_PHYSICAL_CORES_PER_QUALIFYING_CPU",
@@ -61,7 +61,14 @@
     "HARDWARE_PARAMETER_MUTATION_OUTSIDE_VENDOR_SUPPORTED_RANGE_IS_FORBIDDEN",
     "HARDWARE_SAFETY_PROTECTION_BYPASS_IS_FORBIDDEN",
     "UNKNOWN_HARDWARE_SAFE_RANGE_REQUIRES_NO_MUTATION",
-    "USER_OR_EXISTING_TUNING_DOES_NOT_AUTHORIZE_UNSAFE_ESCALATION"
+    "USER_OR_EXISTING_TUNING_DOES_NOT_AUTHORIZE_UNSAFE_ESCALATION",
+    "STRONGLY_CUDA_ORIENTED_CAPABILITY_REQUIRES_TARGET_HARDWARE_ALTERNATIVE_ASSESSMENT",
+    "AMD_AND_INTEL_ALTERNATIVE_PATHS_MUST_NOT_BE_SKIPPED_WHEN_TARGETED",
+    "CUDA_ORIENTED_FUNCTIONAL_CORE_MUST_BE_SHARED_LAYER_ONLY",
+    "APPLICATION_LOCAL_CUDA_ORIENTED_FUNCTIONAL_CORE_IS_FORBIDDEN",
+    "TARGET_HARDWARE_FUNCTIONAL_REDUCTION_MUST_BE_USER_VISIBLE",
+    "TARGET_BACKEND_UNAVAILABLE_MUST_FAIL_CLOSED",
+    "NO_SILENT_CUDA_OR_ACCELERATOR_BACKEND_SUBSTITUTION"
   ],
   "rules": [
     {
@@ -303,6 +310,48 @@
       "invariant": "USER_OR_EXISTING_TUNING_DOES_NOT_AUTHORIZE_UNSAFE_ESCALATION",
       "priority": "P0",
       "mandatory": true
+    },
+    {
+      "id": "HWPORT-041",
+      "invariant": "STRONGLY_CUDA_ORIENTED_CAPABILITY_REQUIRES_TARGET_HARDWARE_ALTERNATIVE_ASSESSMENT",
+      "priority": "P0",
+      "mandatory": true
+    },
+    {
+      "id": "HWPORT-042",
+      "invariant": "AMD_AND_INTEL_ALTERNATIVE_PATHS_MUST_NOT_BE_SKIPPED_WHEN_TARGETED",
+      "priority": "P0",
+      "mandatory": true
+    },
+    {
+      "id": "HWPORT-043",
+      "invariant": "CUDA_ORIENTED_FUNCTIONAL_CORE_MUST_BE_SHARED_LAYER_ONLY",
+      "priority": "P0",
+      "mandatory": true
+    },
+    {
+      "id": "HWPORT-044",
+      "invariant": "APPLICATION_LOCAL_CUDA_ORIENTED_FUNCTIONAL_CORE_IS_FORBIDDEN",
+      "priority": "P0",
+      "mandatory": true
+    },
+    {
+      "id": "HWPORT-045",
+      "invariant": "TARGET_HARDWARE_FUNCTIONAL_REDUCTION_MUST_BE_USER_VISIBLE",
+      "priority": "P0",
+      "mandatory": true
+    },
+    {
+      "id": "HWPORT-046",
+      "invariant": "TARGET_BACKEND_UNAVAILABLE_MUST_FAIL_CLOSED",
+      "priority": "P0",
+      "mandatory": true
+    },
+    {
+      "id": "HWPORT-047",
+      "invariant": "NO_SILENT_CUDA_OR_ACCELERATOR_BACKEND_SUBSTITUTION",
+      "priority": "P0",
+      "mandatory": true
     }
   ],
   "audit_generation": "2026-09-20",
@@ -311,5 +360,7 @@
   "hardware_safety_decision_id": "FA3-DEC-HARDWARE-SAFETY-2026-09-26",
   "hardware_safety_fail_closed": true,
   "capability_baseline_release": "2026-09-26/v3.1.0",
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "cuda_portability_shared_function_policy_id": "FA3-CUDA-PORTABILITY-SHARED-FUNCTION-POLICY-001",
+  "cuda_portability_shared_function_decision_id": "FA3-DEC-CUDA-PORTABILITY-SHARED-FUNCTION-2026-10-04"
 }
