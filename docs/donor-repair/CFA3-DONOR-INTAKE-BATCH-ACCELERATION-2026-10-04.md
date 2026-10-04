@@ -6,11 +6,13 @@ Remove donor-intake PR backlog without weakening donor provenance, License & Rig
 
 ## Executed backlog strategy
 
-The 15 open donor-intake PRs are reconciled into one current-main batch. Only their donor/reference delta is retained. Historical branches and exact heads remain provenance; stale feature or workflow payload is not rebased or merged.
+The live backlog of 17 donor-intake PRs is reconciled into one current-main batch. Only their donor/reference delta is retained. Historical branches and exact heads remain provenance; stale feature or workflow payload is not rebased or merged.
 
-Parent registry: 1427 entries. Exact source-key union: 85 new identities. Target registry: 1512 entries. Capability delta: 0. Authority delta: 0. Usage-edge delta: 0.
+Parent registry: 1427 entries. Exact source-key union: 98 new identities. Five already-canonical source identities are enriched in place, including one stale #704 ONNX Runtime duplicate proposal. Target registry: 1525 entries. Capability delta: 0. Authority delta: 0. Usage-edge delta: 0.
 
 The exact union and source PR heads are recorded in `canonical/deltas/CFA3-DONOR-BACKLOG-CONSOLIDATION-2026-10-04.json`.
+
+The initial 15-PR snapshot was extended during exact-head CI when #704 (Ascend) and #706 (DirectX/Linux) entered the live queue. Their exact heads are included in the same batch rather than starting new canonical writers.
 
 ## Permanent acceleration model
 
