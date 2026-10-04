@@ -2,8 +2,8 @@
   "schema": "fa3.provider-record.v1",
   "id": "FA3-PROVIDER-CFA3-NATIVE-CUDA-COMPAT-001",
   "name": "CFA3 Native CUDA Compatibility Translation Backend",
-  "version": "1.0.0",
-  "status": "IMPLEMENTED_NATIVE_SHARED_BACKEND_NOT_PROMOTED",
+  "version": "2.0.0",
+  "status": "IMPLEMENTED_NATIVE_SHARED_V2_NOT_PROMOTED",
   "provider_role": "SHARED_NATIVE_CUDA_COMPATIBILITY_TRANSLATION_BACKEND",
   "classification": [
     "FA3_NATIVE",
@@ -54,9 +54,16 @@
     "external_scale_build_dependency": false,
     "external_scale_binary_loading": false,
     "scale_relationship": "FUNCTIONAL_REFERENCE_TARGET_ONLY_NOT_DEPENDENCY",
-    "initial_source_scope": "CUDA_KERNEL_SOURCE_SUBSET_V1",
+    "initial_source_scope": "CUDA_KERNEL_SOURCE_STRUCTURED_IR_V2",
     "full_cuda_parity_claimed": false,
-    "closed_cuda_binary_compatibility_claimed": false
+    "closed_cuda_binary_compatibility_claimed": false,
+    "frontend": "src/fa3_cuda_compat_frontend.py",
+    "ir": "src/fa3_cuda_compat_ir.py",
+    "backends": "src/fa3_cuda_compat_backends.py",
+    "runtime_map": "src/fa3_cuda_compat_runtime.py",
+    "build_plan": "src/fa3_cuda_compat_build.py",
+    "build_entrypoint": "src/fa3_cuda_compat_shared.py:prepare_cuda_compat_build",
+    "runtime_inspection_entrypoint": "src/fa3_cuda_compat_shared.py:inspect_cuda_runtime_compatibility"
   },
   "backend": {
     "name": "cfa3-cuda-compat",
@@ -67,18 +74,33 @@
       "AMD",
       "INTEL"
     ],
-    "NVIDIA": "NATIVE_CUDA_REMAINS_PRIMARY",
+    "NVIDIA": {
+      "execution": "NATIVE_CUDA_REMAINS_PRIMARY",
+      "compatibility_result": "FULL_EQUIVALENCE_NATIVE_PATH"
+    },
     "AMD": {
       "lowering": "HIP_CPP",
+      "default_target_backend": "hip",
       "required_device_backends": [
         "rocm"
-      ]
+      ],
+      "compatibility_result_for_supported_subset": "FULL_EQUIVALENCE"
     },
     "INTEL": {
-      "lowering": "OPENCL_C",
+      "primary_lowering": "SYCL_CPP",
+      "secondary_lowering": "OPENCL_C",
+      "default_target_backend": "sycl",
       "required_device_backends": [
-        "level-zero",
-        "opencl"
+        "level-zero"
+      ],
+      "secondary_device_backends": [
+        "opencl",
+        "level-zero"
+      ],
+      "compatibility_result_for_supported_subset": "FUNCTIONALLY_REDUCED",
+      "mandatory_limitations": [
+        "HOST_LAUNCH_ADAPTER_REQUIRED",
+        "QUEUE_OR_CONTEXT_BINDING_REQUIRED"
       ]
     },
     "exact_device_binding": "FA3_HARDWARE_DISCOVERY_PLUS_HRB",
@@ -86,7 +108,12 @@
       "cuda-compat",
       "cfa3-native"
     ],
-    "translation_must_be_explicitly_allowed": true
+    "translation_must_be_explicitly_allowed": true,
+    "compatibility_result_enum": [
+      "FULL_EQUIVALENCE",
+      "FUNCTIONALLY_REDUCED",
+      "UNAVAILABLE"
+    ]
   },
   "feature_admission": {
     "source_analysis_required": true,
@@ -100,18 +127,22 @@
       "FATBIN",
       "CLOSED_CUDA_BINARY"
     ],
-    "current_v1_exclusions": [
+    "frontend": "CFA3_STRUCTURED_CUDA_FRONTEND_IR",
+    "runtime_api_mapping": "BOUNDED_DECLARATIVE_V2",
+    "build_option_policy": "UNKNOWN_NVCC_OPTION_FAIL_CLOSED",
+    "current_v2_exclusions": [
       "CUDA_HOST_LAUNCH_SYNTAX",
-      "CUDA_RUNTIME_API",
       "CUDA_DRIVER_API",
       "DYNAMIC_PARALLELISM",
       "TEXTURE_SURFACE_API",
       "COOPERATIVE_GROUPS",
       "INLINE_PTX",
+      "UNMAPPED_CUDA_RUNTIME_SYMBOLS",
       "INTEL_WARP_INTRINSICS",
       "INTEL_CUDA_ATOMICS",
       "INTEL_CUDA_HALF_TYPES",
-      "INTEL_CUDA_CONSTANT_MEMORY"
+      "INTEL_CUDA_CONSTANT_MEMORY",
+      "INTEL_SYCL_SHARED_MEMORY_WITHOUT_LOCAL_ACCESSOR_ADAPTER"
     ]
   },
   "detection": {
@@ -151,7 +182,10 @@
     "application_direct_provider_selection_authority": false,
     "candidate_resolution_is_execution_authorization": false,
     "hrb_lease_required_before_execution": true,
-    "no_silent_backend_substitution": true
+    "no_silent_backend_substitution": true,
+    "build_entrypoint": "src/fa3_cuda_compat_shared.py:prepare_cuda_compat_build",
+    "runtime_inspection_entrypoint": "src/fa3_cuda_compat_shared.py:inspect_cuda_runtime_compatibility",
+    "compatibility_classification_required": true
   },
   "normative_constraint": "The CFA3 CUDA compatibility core is one platform-wide native shared implementation. Spectral Compute SCALE is not a build or runtime dependency. AMD and Intel lowering are workload-feature-gated and fail closed; NVIDIA native CUDA remains independent; no application may duplicate the compatibility core.",
   "capability_baseline_release": "2026-09-26/v3.1.0",
@@ -161,5 +195,21 @@
     "release_bundle_status": "INCLUDED",
     "product_bundle_allowed": true,
     "classification_basis": "CFA3-owned source code; external target toolchains remain separately governed and are not implicitly bundled."
-  }
+  },
+  "donor_pattern_use": [
+    {
+      "donor_id": "FA3-DONOR-GPUOPEN-OROCHI-001",
+      "usage_edge_id": "FA3-USAGE-GPUOPEN-OROCHI-CUDA-COMPAT-001",
+      "use": "PROVIDER_NEUTRAL_RUNTIME_DISPATCH_BOUNDARY_PATTERN",
+      "code_copy": false,
+      "runtime_dependency": false
+    },
+    {
+      "donor_id": "FA3-DONOR-ROCM-EXAMPLES-001",
+      "usage_edge_id": "FA3-USAGE-ROCM-EXAMPLES-CUDA-COMPAT-001",
+      "use": "CUDA_HIP_PORTABILITY_TEST_MATRIX_PATTERN",
+      "code_copy": false,
+      "runtime_dependency": false
+    }
+  ]
 }
