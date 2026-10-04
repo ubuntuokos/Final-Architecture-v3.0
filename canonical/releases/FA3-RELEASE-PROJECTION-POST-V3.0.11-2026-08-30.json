@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "67410e87f12cccb2d79380d81cc4578d72a1d62a",
-    "pre_projection_root_tree_sha": "6cd19af122bd3cc3c669c01f485792d142ba1f46",
-    "pre_projection_canonical_tree_sha": "bc2813de774e8a8eda9e7b7842bb3001f446d51e",
-    "commits_ahead_of_v3_0_11_conformance_commit": 3075,
-    "total_post_baseline_commits": 3075,
-    "delta_file_count": 2991,
-    "delta_added_files": 2985,
+    "pre_projection_head_sha": "4a76f5188c148531b4d6d9a2c6dcb55b25007c2e",
+    "pre_projection_root_tree_sha": "6d70e8570a09f9f60b186a299932c19e8fd8801d",
+    "pre_projection_canonical_tree_sha": "b43bf52087cffe980497095a1aa720c109f31209",
+    "commits_ahead_of_v3_0_11_conformance_commit": 3081,
+    "total_post_baseline_commits": 3081,
+    "delta_file_count": 2994,
+    "delta_added_files": 2988,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,10 +46,10 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1400,
+    "canonical_files_in_post_baseline_delta": 1401,
     "evidence_files_in_post_baseline_delta": 172,
     "source_files_in_post_baseline_delta": 378,
-    "test_files_in_post_baseline_delta": 355,
+    "test_files_in_post_baseline_delta": 356,
     "workflow_files_in_post_baseline_delta": 143,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -1072,7 +1072,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2981,
+  "manifest_entry_count": 2984,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -7010,6 +7010,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/deltas/FA3-DONOR-WEBOS-ECOSYSTEM-2026-10-04.json",
+      "git_blob_sha": "184cfca8b879e6fd7a948a673f9d2dfd38631725",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/deltas/FA3-DONOR-WORKFLOW-TOPIC-2026-10-03.json",
       "git_blob_sha": "843e589eb64c7f14c0a724f2fb0dc24cf9f79f81",
       "baseline_delta_status": "added"
@@ -10707,6 +10712,11 @@
     {
       "path": "docs/donor-vanessik-2026-10-03.md",
       "git_blob_sha": "020c638ae13a97d290386d60726a4c14216fa419",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/donor-webos-ecosystem-2026-10-04.md",
+      "git_blob_sha": "6085c664359ade8de26261426b6041c71542e311",
       "baseline_delta_status": "added"
     },
     {
@@ -14817,6 +14827,11 @@
     {
       "path": "tests/test_donor_vanessik_20261003.py",
       "git_blob_sha": "feb03bbe8b97a215a10592b88b160dcaaa84321f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_donor_webos_ecosystem_20261004.py",
+      "git_blob_sha": "04e7bb0c98f32480ac09a8e3efe2500ab0dde906",
       "baseline_delta_status": "added"
     },
     {
