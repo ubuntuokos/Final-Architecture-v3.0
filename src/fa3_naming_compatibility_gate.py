@@ -2,7 +2,8 @@
 import json
 from pathlib import Path
 
-CAPABILITY_COUNT = 175
+from fa3_release_baseline import active_capability_count
+
 POLICY = Path("canonical/FA3-CFA3-CANONICAL-NAMING-COMPATIBILITY-POLICY-001.json")
 DECISION = Path("canonical/decisions/FA3-DEC-CFA3-CANONICAL-NAMING-2026-10-04.json")
 EXPECTED_ALIASES = {"CFA3", "FA3", "FA3/CFA3", "CFA3/FA3"}
@@ -12,6 +13,7 @@ def _load(root: Path, rel: Path) -> dict:
 
 def evaluate(root: Path) -> dict:
     root = root.resolve()
+    capability_count = active_capability_count(root)
     policy = _load(root, POLICY)
     decision = _load(root, DECISION)
     checks = {
@@ -25,12 +27,12 @@ def evaluate(root: Path) -> dict:
             and policy.get("migration_safety", {}).get("bulk_search_replace_forbidden") is True,
         "machine-identifiers-not-auto-renamed": policy.get("machine_identifier_compatibility", {}).get("semantic_alias_rule_authorizes_literal_rename") is False
             and policy.get("machine_identifier_compatibility", {}).get("rename_requires") == "SEPARATE_EXPLICITLY_APPROVED_COMPATIBILITY_MIGRATION",
-        "baseline-preserved": policy.get("capability_baseline") == CAPABILITY_COUNT
+        "baseline-preserved": policy.get("capability_baseline") == capability_count
             and policy.get("capability_delta") == 0
             and policy.get("authority_delta") == 0
             and policy.get("donor_delta") == 0,
         "decision-bound": decision.get("policy_id") == policy.get("id")
-            and decision.get("capability_count_after") == CAPABILITY_COUNT
+            and decision.get("capability_count_after") == capability_count
             and decision.get("new_capabilities") == 0
             and decision.get("new_architectural_authorities") == 0,
         "no-runtime-promotion": policy.get("current_host_runtime_promotion_claim") is False
@@ -42,7 +44,7 @@ def evaluate(root: Path) -> dict:
         "policy_id": policy.get("id"),
         "canonical_product_name": policy.get("canonical_product_name"),
         "semantic_aliases": sorted(EXPECTED_ALIASES),
-        "capability_count": CAPABILITY_COUNT,
+        "capability_count": capability_count,
         "result": "PASS" if passed else "FAIL",
         "checks": [{"name": k, "status": "PASS" if v else "FAIL"} for k, v in checks.items()],
     }
