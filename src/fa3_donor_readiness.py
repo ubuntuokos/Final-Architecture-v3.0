@@ -46,10 +46,13 @@ EXEMPT_HISTORICAL_HEADS = {
     434: "4062b5ed7cd59bb17bf09fabc4e3238a79a4290f",
     438: "da51f27ca8f0c967e7c1e6d791da4fb12b4f768c",
 }
+DONOR_DELTA_PREFIXES = ("canonical/deltas/FA3-DONOR-",
+                        "canonical/deltas/CFA3-DONOR-")
 DONOR_PREFIXES = ("docs/donor-repair/", "docs/donor-", "docs/donors-",
                   "bin/fa3-donor-", "tests/test_donor_", "tests/test_donors_",
-                  "canonical/deltas/FA3-DONOR-")
+                  *DONOR_DELTA_PREFIXES)
 MAX_ACTIVE_DONOR_INTAKES = 5
+MAX_ACTIVE_CANONICAL_REGISTRY_MUTATION_PRS = 1
 MAX_GITHUB_PR_FILES = 3000
 
 def inspect_registry(root):
@@ -267,7 +270,7 @@ def pending_prs_graphql(token,repo=REPO,graphql=None,get=None):
             source_repo=head_repo_full_name or repo
             for file_row in files:
                 filename=file_row.get("filename")
-                if filename!=REGISTRY and not str(filename).startswith("canonical/deltas/FA3-DONOR-"):
+                if filename!=REGISTRY and not any(str(filename).startswith(prefix) for prefix in DONOR_DELTA_PREFIXES):
                     continue
                 if not isinstance(head_sha,str) or len(head_sha)!=40:
                     continue
@@ -286,6 +289,7 @@ def pending_prs_graphql(token,repo=REPO,graphql=None,get=None):
                           "head_ref":node.get("headRefName"),
                           "head_repo_full_name":head_repo_full_name,
                           "intake":intake,
+                          "registry_mutation":any(f.get("filename")==REGISTRY for f in live_intake_files),
                           "workload_units":donor_intake_workload(live_intake_files) if intake else None})
         page=conn.get("pageInfo")
         if not isinstance(page,dict):
@@ -306,7 +310,7 @@ def is_donor_intake_pr(pr,files):
         name=f.get("filename") if isinstance(f,dict) else None
         if not isinstance(name,str):
             raise ValueError("UNREADABLE_PR_FILE")
-        if (name==REGISTRY or name.startswith("canonical/deltas/FA3-DONOR-")):
+        if (name==REGISTRY or any(name.startswith(prefix) for prefix in DONOR_DELTA_PREFIXES)):
             return True
     return False
 
@@ -324,7 +328,7 @@ def live_donor_intake_files(files,get,repo=REPO):
         name=f.get("filename") if isinstance(f,dict) else None
         if not isinstance(name,str):
             raise ValueError("UNREADABLE_PR_FILE")
-        if name!=REGISTRY and not name.startswith("canonical/deltas/FA3-DONOR-"):
+        if name!=REGISTRY and not any(name.startswith(prefix) for prefix in DONOR_DELTA_PREFIXES):
             continue
         head_blob=f.get("sha")
         if not isinstance(head_blob,str) or len(head_blob)!=40:
@@ -357,7 +361,7 @@ def donor_intake_workload(files):
         name=f.get("filename") if isinstance(f,dict) else None
         if not isinstance(name,str):
             raise ValueError("UNREADABLE_PR_FILE")
-        if name==REGISTRY or name.startswith("canonical/deltas/FA3-DONOR-"):
+        if name==REGISTRY or any(name.startswith(prefix) for prefix in DONOR_DELTA_PREFIXES):
             found=True
             changes=f.get("changes")
             if not isinstance(changes,int) or changes < 0:
@@ -416,6 +420,7 @@ def pending_prs(get,repo=REPO):
                               "head_ref":head.get("ref"),
                               "head_repo_full_name":head_repo.get("full_name"),
                               "intake":intake,
+                              "registry_mutation":any(f.get("filename")==REGISTRY for f in live_intake_files),
                               "workload_units":donor_intake_workload(live_intake_files) if intake else None})
         if len(prs)<100: return sorted(found,key=lambda p:p["number"])
     raise ValueError("TOO_MANY_OPEN_PRS")
@@ -497,6 +502,30 @@ def plan_findings(root,plan,approval,pr_number,repo,get):
         return ["EXPLICIT_OWNER_APPROVAL_ON_EXACT_HEAD_REQUIRED"]
     return []
 
+def batch_manifest_coverage(root,pending,pr_number):
+    """Return exact-head donor PR coverage declared by a committed CFA3 batch manifest."""
+    covered={}
+    delta_root=Path(root)/"canonical"/"deltas"
+    if delta_root.is_dir():
+        for path in sorted(delta_root.glob("CFA3-DONOR-*.json")):
+            try:
+                row=json.loads(path.read_text(encoding="utf-8"))
+            except (OSError,json.JSONDecodeError):
+                continue
+            source_prs=row.get("source_prs")
+            if not isinstance(source_prs,list):
+                continue
+            for item in source_prs:
+                if not isinstance(item,dict):
+                    continue
+                number=item.get("pr")
+                head=item.get("head")
+                if isinstance(number,int) and isinstance(head,str) and len(head)==40:
+                    covered[number]=head
+    required={p["number"]:p.get("head_sha") for p in pending if p["number"]!=pr_number}
+    missing=[number for number,head in required.items() if covered.get(number)!=head]
+    return covered,sorted(missing)
+
 def gate(root,phase="status",token="",assessment=None,plan=None,approval=None,
          pr_number=None,get=None):
     result={"schema":"fa3.donor-readiness.v1","phase":phase,
@@ -536,12 +565,33 @@ def gate(root,phase="status",token="",assessment=None,plan=None,approval=None,
             waiting=pending[MAX_ACTIVE_DONOR_INTAKES:]
             finalization=sorted(
                 active,key=lambda p:(p.get("workload_units",1),p["number"]))
+            registry_mutators=[p for p in pending if p.get("registry_mutation")]
             result["max_active_donor_intakes"]=MAX_ACTIVE_DONOR_INTAKES
+            result["max_active_canonical_registry_mutation_prs"]=MAX_ACTIVE_CANONICAL_REGISTRY_MUTATION_PRS
             result["active_donor_prs"]=[p["number"] for p in active]
             result["waiting_donor_prs"]=[p["number"] for p in waiting]
+            result["canonical_registry_mutation_prs"]=[p["number"] for p in registry_mutators]
             result["finalization_order"]=[p["number"] for p in finalization]
             result["available_intake_slots"]=MAX_ACTIVE_DONOR_INTAKES-len(active)
             result["active_donor_pr"]=finalization[0]["number"] if finalization else None
+
+            if pr_number is not None:
+                candidate=next((p for p in pending if p["number"]==pr_number),None)
+                if candidate is not None and candidate.get("registry_mutation"):
+                    covered,missing=batch_manifest_coverage(root,pending,pr_number)
+                    if len(pending)>1 and not missing:
+                        result["batch_covered_prs"]=sorted(n for n in covered if n!=pr_number)
+                        result["batch_coverage_missing"]=[]
+                        result["active_donor_pr"]=pr_number
+                        result["finalization_order"]=[pr_number]
+                        result["result"]="DONOR_INTAKE_READY_TO_FINALIZE"
+                        result["intake_workload_units"]=candidate.get("workload_units")
+                        result["next_finalizable_donor_pr"]=pr_number
+                        return result
+                    if len(registry_mutators)>MAX_ACTIVE_CANONICAL_REGISTRY_MUTATION_PRS:
+                        result["batch_coverage_missing"]=missing
+                        result["findings"].append("MULTIPLE_CANONICAL_REGISTRY_MUTATION_PRS_REQUIRE_EXACT_BATCH_COVERAGE")
+                        return result
 
             if pr_number is None:
                 if len(active) >= MAX_ACTIVE_DONOR_INTAKES:
