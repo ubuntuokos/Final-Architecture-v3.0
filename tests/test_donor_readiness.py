@@ -9,7 +9,8 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"src"))
 import fa3_donor_readiness as readiness
 from fa3_donor_readiness import (inspect_registry,pending_prs,pending_prs_graphql,gate,is_donor_pr,
     is_donor_intake_pr,effective_donor_intake_pr,donor_intake_workload,
-    MAX_ACTIVE_DONOR_INTAKES,REGISTRY,REJECTION_AUDIT,git_blob_sha,planning_snapshot_findings)
+    MAX_ACTIVE_DONOR_INTAKES,REGISTRY,REJECTION_AUDIT,git_blob_sha,planning_snapshot_findings,
+    planning_processed_donor_findings)
 
 def source():
     v={"donor_id":"FA3-DONOR-X-001","source":{"normalized_key":"github:x/y"},
@@ -30,6 +31,40 @@ class Tests(unittest.TestCase):
         r=inspect_registry(Path(__file__).resolve().parents[1])
         self.assertEqual(r["findings"],[])
         self.assertGreaterEqual(r["count"],1059)
+    def test_implementation_plan_may_analyze_unregistered_processed_donor_only_in_bounded_scope(self):
+        reg={"entries":[source()]}
+        row={
+            "planning_processed_donors":[
+                {"normalized_key":"github:example/new-planning-donor"}
+            ],
+            "planning_donor_analysis_exception":{
+                "scope":"ORIGINATING_CONVERSATION_AND_DIRECT_CONTINUATIONS_ONLY",
+                "planning_only":True,
+                "cross_conversation_reuse":False,
+                "lineage_ref":"conversation:implementation-plan-root"
+            }
+        }
+        planned=planning_processed_donor_findings(row,reg,allow_unregistered=True)
+        self.assertEqual(planned["findings"],[])
+        self.assertEqual(planned["unregistered_keys"],["github:example/new-planning-donor"])
+        execution=planning_processed_donor_findings(row,reg,allow_unregistered=False)
+        self.assertIn(
+            "PROCESSED_PLANNING_DONOR_NOT_REGISTERED:github:example/new-planning-donor",
+            execution["findings"])
+
+    def test_plan_exception_requires_exact_conversation_lineage_scope(self):
+        reg={"entries":[source()]}
+        row={"planning_processed_donors":[{"normalized_key":"github:example/new-planning-donor"}]}
+        result=planning_processed_donor_findings(row,reg,allow_unregistered=True)
+        self.assertIn("PLANNING_DONOR_EXCEPTION_SCOPE_INVALID",result["findings"])
+
+    def test_registered_processed_planning_donor_needs_no_exception_at_execution(self):
+        reg={"entries":[source()]}
+        row={"planning_processed_donors":[{"normalized_key":"github:x/y"}]}
+        result=planning_processed_donor_findings(row,reg,allow_unregistered=False)
+        self.assertEqual(result["findings"],[])
+        self.assertEqual(result["unregistered_keys"],[])
+
     def test_rejected_donor_cannot_remain_in_active_registry(self):
         t,root,p=fixture()
         with t:
