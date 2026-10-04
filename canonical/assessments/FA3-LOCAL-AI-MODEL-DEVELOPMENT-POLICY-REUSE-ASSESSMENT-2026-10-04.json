@@ -1,0 +1,125 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-LOCAL-AI-MODEL-DEVELOPMENT-POLICY-REUSE-ASSESSMENT-2026-10-04",
+  "project_id": "FA3-LOCAL-AI-MODEL-DEVELOPMENT-POLICY-001",
+  "intent_id": "FA3-LOCAL-AI-MODEL-DEVELOPMENT-POLICY-INTENT-2026-10-04",
+  "intent_path": "canonical/intents/FA3-LOCAL-AI-MODEL-DEVELOPMENT-POLICY-INTENT-2026-10-04.json",
+  "covered_ids": [
+    "FA3-LOCAL-AI-MODEL-DEVELOPMENT-POLICY-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-MODEL-MANAGER-001",
+    "FA3-ENGINE-SELECTION-FABRIC-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-HARDWARE-DISCOVERY-001"
+  ],
+  "project_status": "OWNER_APPROVED_STATIC_POLICY_MATERIALIZATION",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "MANDATORY_MODEL_AND_IMPLEMENTATION_REFERENCE_DISCOVERY"
+    },
+    {
+      "id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+      "use": "PUBLISHED_MAIN_PLANNING_INPUT_ONLY"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "EXCLUSIVE_PROVIDER_AND_MODEL_ROUTING_AUTHORITY"
+    },
+    {
+      "id": "FA3-MODEL-MANAGER-001",
+      "use": "MODEL_ARTIFACT_DISCOVERY_ACQUISITION_STORAGE_AND_LIFECYCLE"
+    },
+    {
+      "id": "FA3-ENGINE-SELECTION-FABRIC-001",
+      "use": "SHARED_USER_VISIBLE_ENGINE_PROVIDER_SELECTION_PATTERN"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "EXCLUSIVE_RUNTIME_RESOURCE_ADMISSION_AND_PLACEMENT"
+    },
+    {
+      "id": "FA3-HARDWARE-DISCOVERY-001",
+      "use": "CURRENT_HOST_HARDWARE_CONTEXT"
+    },
+    {
+      "id": "FA3-LICENSE-RIGHTS-001",
+      "use": "MODEL_AND_WEIGHT_RIGHTS_GATE"
+    },
+    {
+      "id": "FA3-MODEL-ARTIFACT-SECURITY-001",
+      "use": "MODEL_ARTIFACT_SECURITY_GATE"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "SECOND_MODEL_SELECTOR_AUTHORITY",
+      "reason": "MODEL_ROUTER_ALREADY_OWNS_MODEL_ROUTING"
+    },
+    {
+      "id": "SECOND_RESOURCE_SELECTOR_AUTHORITY",
+      "reason": "HRB_ALREADY_OWNS_DEVICE_AND_RESOURCE_PLACEMENT"
+    },
+    {
+      "id": "APPLICATION_DIRECT_MODEL_DOWNLOAD",
+      "reason": "MODEL_MANAGER_AND_MODEL_ARTIFACT_SECURITY_MUST_MEDIATE_ACQUISITION"
+    },
+    {
+      "id": "STATIC_HARDWARE_BLIND_DEFAULT_MODEL",
+      "reason": "OWNER_REQUIRES_CURRENT_HARDWARE_AWARE_RECOMMENDATION"
+    },
+    {
+      "id": "HIDE_NON_PRIMARY_COMPATIBLE_MODELS",
+      "reason": "OWNER_REQUIRES_VISIBLE_OPTIONAL_ALTERNATIVES"
+    }
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hrb_bound": true,
+    "display_gpu_implicit_ai_enlistment": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "global_host_mutation": false,
+    "automatic_package_install": false,
+    "automatic_model_download": false,
+    "existing_model_and_provider_authorities_preserved": true
+  },
+  "donor_planning_snapshot": {
+    "published_main_commit": "6be38def0d6a56b4e8fded74fb3c5ed2e3c1506f",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "1362d75186c6da74e5cf947fdf0b8867d462636a",
+    "donor_registry_sha256": "b8d0eb42ee02885863af375071ffae89033664089ddba3c69682a8d0f7c7cff1",
+    "donor_registry_entry_count": 1427
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "retrospective_consumer_impact_reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "shared_component_ids": [
+      "FA3-AUTH-MODEL-ROUTER-001",
+      "FA3-MODEL-MANAGER-001",
+      "FA3-ENGINE-SELECTION-FABRIC-001",
+      "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+    ],
+    "consumer_scope": [
+      "PLANNED_APPLICATIONS",
+      "IN_PROGRESS_APPLICATIONS",
+      "MATERIALIZED_APPLICATIONS"
+    ],
+    "local_duplicate_created": false
+  },
+  "donor_adoption": [],
+  "pending_or_unmerged_donors_consumed": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "implementation_readiness": "READY_FOR_POLICY_MATERIALIZATION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false
+}
