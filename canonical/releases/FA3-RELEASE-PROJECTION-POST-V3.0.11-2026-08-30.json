@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "598e8b68737bcf9831b4ba55176fb744dc7c406d",
-    "pre_projection_root_tree_sha": "e998e47995706bb797a30db9af8712f55ae84fce",
-    "pre_projection_canonical_tree_sha": "15fc1878c3c2635c1c1e7298b1bcd8e7c39c445a",
-    "commits_ahead_of_v3_0_11_conformance_commit": 3090,
-    "total_post_baseline_commits": 3090,
-    "delta_file_count": 2992,
-    "delta_added_files": 2986,
+    "pre_projection_head_sha": "0746eb0f9bfbb7f08ab521d6fba8c1b269c5e501",
+    "pre_projection_root_tree_sha": "1d11694925a2a497af536d3fae2a0c549ef3b14f",
+    "pre_projection_canonical_tree_sha": "e8ea3bc2ca38a9270f279f550774647cc87ffb88",
+    "commits_ahead_of_v3_0_11_conformance_commit": 3095,
+    "total_post_baseline_commits": 3095,
+    "delta_file_count": 2994,
+    "delta_added_files": 2988,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,7 +46,7 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1401,
+    "canonical_files_in_post_baseline_delta": 1403,
     "evidence_files_in_post_baseline_delta": 172,
     "source_files_in_post_baseline_delta": 378,
     "test_files_in_post_baseline_delta": 355,
@@ -523,6 +523,7 @@
       "canonical/decisions/FA3-DEC-DEMUCS-2026-08-29.json",
       "canonical/decisions/FA3-DEC-DESKTOP-SECRET-BACKEND-ADAPTER-2026-09-19.json",
       "canonical/decisions/FA3-DEC-DEVELOPER-AGENT-COORDINATION-2026-08-30.json",
+      "canonical/decisions/FA3-DEC-DONOR-INTAKE-COMMAND-EQUIVALENCE-2026-10-04.json",
       "canonical/decisions/FA3-DEC-DONOR-INTAKE-CONCURRENCY-2026-10-03.json",
       "canonical/decisions/FA3-DEC-DONOR-LIFECYCLE-APPLICATION-SYNC-2026-09-30.json",
       "canonical/decisions/FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28.json",
@@ -1072,7 +1073,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2982,
+  "manifest_entry_count": 2984,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1801,7 +1802,7 @@
     },
     {
       "path": "AGENTS.md",
-      "git_blob_sha": "fee784aea80e41640d05442a8b4b152e027152b5",
+      "git_blob_sha": "7f530eebf72c4ec0f2f5132c9d1778f317e08a1b",
       "baseline_delta_status": "added"
     },
     {
@@ -5246,7 +5247,7 @@
     },
     {
       "path": "canonical/contracts/FA3-DONOR-CHAT-INGEST-001.json",
-      "git_blob_sha": "9e49d38bb2748a0451fafad3d345db844ede3d11",
+      "git_blob_sha": "1b98d4efda190b0e0465ed3165af4f331a663bc7",
       "baseline_delta_status": "added"
     },
     {
@@ -5915,6 +5916,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/current-host-impact/FA3-CH-IMPACT-DONOR-COMMAND-EQUIVALENCE-20261004.json",
+      "git_blob_sha": "f2f3a1e46ecf16ea0ebec4bd714acc4c8fd728a0",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/current-host-impact/FA3-CH-IMPACT-HIDREAM-GENERATIVE-MEDIA-MESH-PR674-20261004.json",
       "git_blob_sha": "b365a85d0554805f53471f4fa547b9ea4df43cda",
       "baseline_delta_status": "added"
@@ -6145,8 +6151,13 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-DONOR-INTAKE-COMMAND-EQUIVALENCE-2026-10-04.json",
+      "git_blob_sha": "b67febdaca027bb5a036147d6240b7bd92795d8c",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-DONOR-INTAKE-CONCURRENCY-2026-10-03.json",
-      "git_blob_sha": "fa1c2bbb3b21f921fcfdea6af661d86c9eb7ebec",
+      "git_blob_sha": "b9b4c9edaa376c8e7b2e979ac95f4206a156271c",
       "baseline_delta_status": "added"
     },
     {
@@ -10476,7 +10487,7 @@
     },
     {
       "path": "docs/donor-chat-history-bridge.md",
-      "git_blob_sha": "00a4c33306b15f04d80e6f09208a4c0316596176",
+      "git_blob_sha": "2ca499c100ac995ad56e296e2c0485712fbcb06f",
       "baseline_delta_status": "added"
     },
     {
@@ -10621,7 +10632,7 @@
     },
     {
       "path": "docs/donor-reference-registry.md",
-      "git_blob_sha": "4c96dc9579c53d837d42b100331ccb8809373116",
+      "git_blob_sha": "5f9eab35145bcb5fc563c73bf1015b5e06c56032",
       "baseline_delta_status": "added"
     },
     {
@@ -12836,7 +12847,7 @@
     },
     {
       "path": "src/fa3_donor_chat_import.py",
-      "git_blob_sha": "692e7e240dc690bd6e85cb3f1bff846cd5d26e43",
+      "git_blob_sha": "7ba3e508681f16245af9a4d8b7d0f20ca2913bad",
       "baseline_delta_status": "added"
     },
     {
@@ -12846,12 +12857,12 @@
     },
     {
       "path": "src/fa3_donor_readiness.py",
-      "git_blob_sha": "01c611c1278062a86a40a4a031d1c044a5c2f6f8",
+      "git_blob_sha": "f96314bfd2d2d7cf4052005ded146408ca7b6d24",
       "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_donor_registry.py",
-      "git_blob_sha": "95c3a37d5d0cd101e9a15b644b03b717905c8f21",
+      "git_blob_sha": "6b07135780d3ec630c64c57b8dd2501e618f7a66",
       "baseline_delta_status": "added"
     },
     {
@@ -14656,7 +14667,7 @@
     },
     {
       "path": "tests/test_donor_chat_import.py",
-      "git_blob_sha": "9892b3b7cb94882cd40f12c5946a8da9b63cfc02",
+      "git_blob_sha": "563bafeaaef2eb4bbaba23c263cd4a93aaad6d9c",
       "baseline_delta_status": "added"
     },
     {
@@ -14801,7 +14812,7 @@
     },
     {
       "path": "tests/test_donor_readiness.py",
-      "git_blob_sha": "874af65998da6a58f50ff7cd788ee7eb51637849",
+      "git_blob_sha": "db918fe9a62188a85a5c0fbfc575473bbe95b360",
       "baseline_delta_status": "added"
     },
     {
@@ -15636,7 +15647,7 @@
     },
     {
       "path": "tests/test_reuse_discovery_gate.py",
-      "git_blob_sha": "c479267819274a41ed78baf17492d27d7a20d3a8",
+      "git_blob_sha": "b368a86e8e8395e6a7465dffc2b1812af798de77",
       "baseline_delta_status": "added"
     },
     {
