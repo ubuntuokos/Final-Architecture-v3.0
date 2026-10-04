@@ -7,9 +7,9 @@
   "parent_main": "b5052f6595a3fdad84ed7a06e6276f8af5a8dcd8",
   "parent_registry_blob_sha": "1362d75186c6da74e5cf947fdf0b8867d462636a",
   "parent_entry_count": 1427,
-  "resulting_registry_blob_sha": "8142e9dc6014b6c0c40865ecc5c642b9112a4c55",
-  "resulting_entry_count": 1512,
-  "new_source_count": 85,
+  "resulting_registry_blob_sha": "e58b430aadb84b7d842d2f707116b183068f3ad9",
+  "resulting_entry_count": 1525,
+  "new_source_count": 98,
   "capability_baseline": 175,
   "capability_delta": 0,
   "authority_delta": 0,
@@ -104,6 +104,20 @@
       "head": "73567bc6f8f8d50119a24a92366d7d6787c09e18",
       "contribution": 22,
       "mode": "EXACT_REGISTRY_DELTA"
+    },
+    {
+      "pr": 704,
+      "head": "aab23277cf7d38d7b55b73bf0cae12491cb49dde",
+      "contribution": 7,
+      "matched_existing_reconciled": 1,
+      "mode": "QUEUE_DELTA_MATERIALIZED_WITH_STALE_SOURCE_KEY_DEDUP"
+    },
+    {
+      "pr": 706,
+      "head": "82c73af42bc4d8ce6e2f64ed6d911be95444e550",
+      "contribution": 6,
+      "matched_existing_reconciled": 4,
+      "mode": "QUEUE_DELTA_MATERIALIZED_WITH_IN_PLACE_ENRICHMENT"
     }
   ],
   "stale_branch_policy": {
@@ -112,7 +126,8 @@
     "donor_delta_only_rehydration": true,
     "non_donor_payload_admitted": false,
     "source_identity_network_revalidation_claimed": false,
-    "runtime_or_provider_admission_claimed": false
+    "runtime_or_provider_admission_claimed": false,
+    "source_key_collision_resolution": "PUBLISHED_OR_CURRENT_BATCH_CANONICAL_IDENTITY_WINS_ENRICH_IN_PLACE"
   },
   "materialized": [
     {
@@ -168,6 +183,30 @@
       "normalized_key": "https://arxiv.org/",
       "locator": "https://arxiv.org/",
       "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-ASCEND-PYTORCH-001",
+      "normalized_key": "github:ascend/pytorch",
+      "locator": "https://github.com/Ascend/pytorch",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-ASCEND-SAMPLES-001",
+      "normalized_key": "github:ascend/samples",
+      "locator": "https://github.com/Ascend/samples",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-ASCEND-TORCHAIR-001",
+      "normalized_key": "github:ascend/torchair",
+      "locator": "https://github.com/Ascend/torchair",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-ASCEND-TRITON-ASCEND-LEGACY-001",
+      "normalized_key": "github:ascend/triton-ascend",
+      "locator": "https://github.com/Ascend/triton-ascend",
+      "status": "SUPERSEDED"
     },
     {
       "donor_id": "FA3-DONOR-AUTO-RIGGING-TOPIC-001",
@@ -314,6 +353,12 @@
       "status": "ACCEPTED_REFERENCE"
     },
     {
+      "donor_id": "FA3-DONOR-EDUAPPS-CDG-OPENDX-001",
+      "normalized_key": "github:eduapps-cdg/opendx",
+      "locator": "https://github.com/EduApps-CDG/OpenDX",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
       "donor_id": "FA3-DONOR-GITHUB-TOPIC-AI-3D-MODEL-GENERATOR-001",
       "normalized_key": "github:topics/ai-3d-model-generator",
       "locator": "https://github.com/topics/ai-3d-model-generator",
@@ -446,6 +491,12 @@
       "status": "ACCEPTED_REFERENCE"
     },
     {
+      "donor_id": "FA3-DONOR-HUAWEI-CANN-DOCS-910-001",
+      "normalized_key": "web:hiascend:cann-community-edition:9.1",
+      "locator": "https://www.hiascend.com/document/detail/en/CANNCommunityEdition/910/index/index.html",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
       "donor_id": "FA3-DONOR-HUBERTUSGBECKER-PROMPT-LIBRARY-001",
       "normalized_key": "github:hubertusgbecker/prompt-library",
       "locator": "https://github.com/hubertusgbecker/prompt-library",
@@ -548,6 +599,30 @@
       "status": "ACCEPTED_REFERENCE"
     },
     {
+      "donor_id": "FA3-DONOR-MICROSOFT-DIRECTML-001",
+      "normalized_key": "github:microsoft/directml",
+      "locator": "https://github.com/microsoft/directml",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-MICROSOFT-DIRECTX-LINUX-WSL-ARTICLE-001",
+      "normalized_key": "web:microsoft:directx-heart-linux",
+      "locator": "https://devblogs.microsoft.com/directx/directx-heart-linux/",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-MICROSOFT-DIRECTXTK-001",
+      "normalized_key": "github:microsoft/directxtk",
+      "locator": "https://github.com/microsoft/DirectXTK",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-MICROSOFT-DIRECTXTK12-001",
+      "normalized_key": "github:microsoft/directxtk12",
+      "locator": "https://github.com/microsoft/directxtk12",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
       "donor_id": "FA3-DONOR-MUDLER-LOCALAI-001",
       "normalized_key": "github:mudler/localai",
       "locator": "https://github.com/mudler/localai",
@@ -557,6 +632,12 @@
       "donor_id": "FA3-DONOR-NICKCENT-RENOISE-AI-ASSISTANT-001",
       "normalized_key": "github:nickcent/renoise-ai-assistant",
       "locator": "https://github.com/nickcent/Renoise-AI-Assistant",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-OPENRA-ORG-001",
+      "normalized_key": "github:openra",
+      "locator": "https://github.com/OpenRA",
       "status": "ACCEPTED_REFERENCE"
     },
     {
@@ -608,9 +689,21 @@
       "status": "ACCEPTED_REFERENCE"
     },
     {
+      "donor_id": "FA3-DONOR-TRITON-LANG-TRITON-ASCEND-001",
+      "normalized_key": "github:triton-lang/triton-ascend",
+      "locator": "https://github.com/triton-lang/triton-ascend",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
       "donor_id": "FA3-DONOR-UEBRIDGEMCP-001",
       "normalized_key": "github:uuuuzz/uebridgemcp",
       "locator": "https://github.com/uuuuzz/UEBridgeMCP",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-VLLM-ASCEND-001",
+      "normalized_key": "github:vllm-project/vllm-ascend",
+      "locator": "https://github.com/vllm-project/vllm-ascend",
       "status": "ACCEPTED_REFERENCE"
     },
     {
@@ -627,11 +720,48 @@
     }
   ],
   "invariants": [
-    "SOURCE_KEY_UNION_IS_EXACTLY_85_NEW_IDENTITIES_OVER_PARENT_MAIN",
+    "SOURCE_KEY_UNION_IS_EXACTLY_98_NEW_IDENTITIES_OVER_PARENT_MAIN_AFTER_LIVE_QUEUE_RECONCILIATION",
     "DONOR_IDS_AND_SOURCE_KEYS_ARE_UNIQUE",
     "CAPABILITY_BASELINE_REMAINS_175",
     "NO_NEW_ARCHITECTURAL_AUTHORITY",
     "NO_USAGE_EDGE_OR_RUNTIME_PROVIDER_MODEL_ADMISSION",
     "ORIGINAL_PR_HEADS_REMAIN_HISTORICAL_PROVENANCE"
+  ],
+  "reconciled_existing_identities": [
+    {
+      "pr": 704,
+      "key": "github:microsoft/onnxruntime",
+      "reason": "STALE_DELTA_SOURCE_KEY_ALREADY_CANONICAL",
+      "donor_id": "FA3-DONOR-MICROSOFT-ONNX-RUNTIME-001",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "pr": 706,
+      "key": "github:microsoft/directxshadercompiler",
+      "reason": "PROMOTED_AND_ENRICHED_IN_PLACE",
+      "donor_id": "FA3-DONOR-MICROSOFT-DIRECTXSHADERCOMPILER-001",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "pr": 706,
+      "key": "github:doitsujin/dxvk",
+      "reason": "PROMOTED_AND_ENRICHED_IN_PLACE",
+      "donor_id": "FA3-DONOR-DOITSUJIN-DXVK-001",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "pr": 706,
+      "key": "github:microsoft/directxtex",
+      "reason": "PROMOTED_AND_ENRICHED_IN_PLACE_WITH_WIKI_PROVENANCE",
+      "donor_id": "FA3-DONOR-MICROSOFT-DIRECTXTEX-001",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "pr": 706,
+      "key": "github:microsoft/directx-headers",
+      "reason": "PROMOTED_AND_ENRICHED_IN_PLACE",
+      "donor_id": "FA3-DONOR-MICROSOFT-DIRECTX-HEADERS-001",
+      "status": "ACCEPTED_REFERENCE"
+    }
   ]
 }
