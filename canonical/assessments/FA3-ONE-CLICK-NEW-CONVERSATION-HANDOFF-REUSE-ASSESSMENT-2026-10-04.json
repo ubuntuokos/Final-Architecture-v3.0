@@ -79,7 +79,15 @@
     "second_ui_authority_created": false,
     "second_clipboard_authority_created": false
   },
-  "mandatory_source_reviews": [],
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "authority": false,
+      "automatic_selection": false,
+      "rationale": "The one-click new-conversation handoff rule is shared UI/clipboard interaction governance. No Khronos graphics, compute, media, XR or related open-standard adapter is required for this rule."
+    }
+  ],
   "donor_planning_snapshot": {
     "published_main_commit": "90d3928905a5fcfa328a527b82741b3faa78b4a6",
     "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
