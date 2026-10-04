@@ -6,7 +6,7 @@ import re
 from typing import Any
 
 from fa3_cuda_compat_ir import CudaTranslationUnitIR
-from fa3_cuda_compat_runtime import AMD_RUNTIME_MAP, runtime_api_support
+from fa3_cuda_compat_runtime import AMD_RUNTIME_TOKEN_MAP, runtime_api_support
 
 
 def _sha256(text: str) -> str:
@@ -26,7 +26,7 @@ def lower_amd_hip(source: str, ir: CudaTranslationUnitIR) -> dict[str, Any]:
         return {"result":"DENY","classification":"UNAVAILABLE","limitations":[f"UNSUPPORTED_RUNTIME_SYMBOL:{x}" for x in runtime["unsupported_symbols"]],"source":None,"target_backend":"hip","target_language":"HIP_CPP"}
     translated = re.sub(r'^\s*#\s*include\s*[<"]cuda_runtime\.h[>"]\s*$', "#include <hip/hip_runtime.h>", source, flags=re.MULTILINE)
     if "hip/hip_runtime.h" not in translated: translated = "#include <hip/hip_runtime.h>\n" + translated
-    translated = _rewrite_runtime_calls(translated, AMD_RUNTIME_MAP)
+    translated = _rewrite_runtime_calls(translated, AMD_RUNTIME_TOKEN_MAP)
     return {"result":"PASS","classification":"FULL_EQUIVALENCE","limitations":[],"source":translated,"target_backend":"hip","target_language":"HIP_CPP","runtime_map":runtime,"translated_sha256":_sha256(translated)}
 
 
