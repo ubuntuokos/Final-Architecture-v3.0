@@ -6,7 +6,10 @@
   "intent_path": "canonical/intents/FA3-GOAL-EXECUTION-APPLICATION-INTENT-2026-09-28.json",
   "covered_ids": [
     "FA3-GOAL-EXECUTION-CONTRACTS-001",
-    "FA3-RULE-NO-OPEN-ENDED-TASK-EXPANSION-001"
+    "FA3-RULE-NO-OPEN-ENDED-TASK-EXPANSION-001",
+    "FA3-AGENT-WORKLOAD-RUNTIME-001",
+    "FA3-AGENT-WORKLOAD-TASK-001",
+    "FA3-AGENT-EXECUTION-PLAN-001"
   ],
   "project_status": "OWNER_APPROVED_GOVERNANCE_HARDENING_MATERIALIZED",
   "result": "PASS",
@@ -22,6 +25,10 @@
     {
       "id": "FA3-GOAL-EXECUTION-CONTRACTS-001",
       "use": "EXTEND_EXISTING_USER_OWNED_GOAL_AND_SCOPE_CONTRACT"
+    },
+    {
+      "id": "FA3-AGENT-WORKLOAD-RUNTIME-001",
+      "use": "EXISTING_SHARED_EXECUTABLE_TASK_CONTRACT_AND_FAIL_CLOSED_ADMISSION_BOUNDARY"
     },
     {
       "id": "FA3-REUSE-DISCOVERY-001",
@@ -104,10 +111,13 @@
     "retrospective_consumer_impact_reviewed": true,
     "multi_application_reuse_detected": true,
     "disposition": "SHARED",
-    "rationale": "Task-scope provenance and no-implicit-expansion semantics are cross-application governance and therefore remain in the existing shared Goal Execution/Orchestration layer rather than being duplicated in individual applications.",
+    "rationale": "Task-scope provenance and no-implicit-expansion semantics are cross-application governance. They are enforced in the existing shared Goal Execution and Agent Workload task/execution-plan contracts rather than duplicated in individual applications.",
     "shared_component_ids": [
       "FA3-GOAL-EXECUTION-CONTRACTS-001",
-      "FA3-RULE-NO-OPEN-ENDED-TASK-EXPANSION-001"
+      "FA3-RULE-NO-OPEN-ENDED-TASK-EXPANSION-001",
+      "FA3-AGENT-WORKLOAD-RUNTIME-001",
+      "FA3-AGENT-WORKLOAD-TASK-001",
+      "FA3-AGENT-EXECUTION-PLAN-001"
     ],
     "consumer_scope": [
       "Assistant",
