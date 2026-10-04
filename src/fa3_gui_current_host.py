@@ -38,7 +38,7 @@ FATAL_LOG_MARKERS = (
     "no Qt platform plugin could be initialized",
 )
 
-RUNTIME_SURFACE_ROOTS = ("apps/fa3-control-center",)
+RUNTIME_SURFACE_ROOTS = ("apps/fa3-control-center", "apps/shared/generative-media")
 RUNTIME_SURFACE_FILES = (
     "src/fa3_desktop_admission.py",
     "src/fa3_gui_current_host.py",
