@@ -71,13 +71,18 @@ class VoiceWorkspace:
         lang=str(req.get("language","")).replace("_","-")
         if lang not in {"hu","hu-HU"}: raise VoiceWorkspaceError("current workspace routing materializes hu-HU only")
         mode=req.get("mode","plain"); key="voice_clone" if mode in {"voice_clone","zero_shot","cross_lingual","instruct2"} else "plain_or_preset_tts"
-        candidates=self.admission["routing"]["hu-HU"][key]; requested=req.get("provider_id")
-        if requested:
-            if requested not in candidates: raise VoiceWorkspaceError("provider override outside Model Router candidate set")
-            return requested
-        if req.get("candidate_execution_ack") is True and key=="plain_or_preset_tts" and "FA3-PROVIDER-PIPER-001" in candidates:
-            return "FA3-PROVIDER-PIPER-001"
-        return candidates[0]
+        candidates=self.admission["routing"]["hu-HU"][key]
+        receipt_path=str(req.get("router_selection_receipt_path") or os.environ.get("FA3_VOICE_ROUTER_RECEIPT","")).strip()
+        if not receipt_path: raise VoiceWorkspaceError("Model Router selection receipt required")
+        path=Path(receipt_path).expanduser().resolve()
+        if not path.is_file(): raise VoiceWorkspaceError("Model Router selection receipt missing")
+        receipt=json.loads(path.read_text(encoding="utf-8"))
+        if receipt.get("authority_id")!="FA3-AUTH-MODEL-ROUTER-001": raise VoiceWorkspaceError("invalid Model Router authority receipt")
+        provider=str(receipt.get("selected_provider_id",""))
+        if provider not in candidates: raise VoiceWorkspaceError("Model Router selected provider outside canonical voice candidate set")
+        if receipt.get("silent_fallback") is not False: raise VoiceWorkspaceError("silent fallback receipt forbidden")
+        if provider=="FA3-PROVIDER-PIPER-001" and req.get("candidate_execution_ack") is not True: raise VoiceWorkspaceError("candidate provider requires explicit user acknowledgement")
+        return provider
     def generate(self,req):
         for k in ("text","language","voice_identity_ref","license_and_rights_ref"):
             if not str(req.get(k,"")).strip(): raise VoiceWorkspaceError(k+" required")
