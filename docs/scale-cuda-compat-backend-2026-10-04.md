@@ -29,3 +29,9 @@ The current SCALE Free License observed on 2026-10-04 is non-commercial-only. Th
 ## Promotion state
 
 The implementation is present, but runtime promotion is not claimed. Physical Current Host or target-host qualification is required for the SCALE path before promotion. Historical or simulated PASS is not accepted.
+
+## Central application access
+
+The compatibility implementation is a **platform-wide shared service**. Every current and future CFA3 application uses the same application-facing entry point, `src/fa3_cuda_compat_shared.py:resolve_cuda_compatibility`. There is no per-application allowlist and no application may carry a duplicate SCALE/CUDA compatibility core.
+
+The application identifier is used only for provenance and audit context. Applications may request or permit a compatibility candidate, but they do not gain provider-selection or execution authority. Candidate resolution never equals execution authorization: translation opt-in, License & Rights admission, exact device binding, Hardware Safety and an authorized HRB lease remain mandatory. No application-specific integration may silently fall back to another backend, device, provider or cloud path.
