@@ -22,6 +22,15 @@ A plain-language goal is not executable, a goal plan grants no tool/model/resour
 5. Check independent criterion evidence through existing Journal/original artifacts and canonical Evidence/Gate. Source-level assess_evidence only requests independent verification; it cannot authenticate evidence or close a goal by itself.
 6. Repair within granted limits or escalate, without permission expansion, newly introduced AI participants, hidden model fallback or infinite retries.
 
+
+## Task scope and no implicit expansion
+
+Canonical rule `FA3-RULE-NO-OPEN-ENDED-TASK-EXPANSION-001` makes task provenance mandatory. An executable task candidate must declare one of `EXPLICIT_USER_SCOPE`, `REQUIRED_FOR_APPROVED_GOAL`, or `EXPLICIT_USER_SCOPE_EXTENSION`, and every `scope_ref` must resolve to the current user-owned goal's `scope.in_scope`. An explicit scope extension requires a new goal revision.
+
+There is no executable task class equivalent to “Mit lehetne még megcsinálni?”, “What next?”, optional improvement discovery, assistant-suggested backlog growth or opportunistic follow-up work. Those may not be relabeled into an allowed origin. A planner executes the user-defined goal; it does not invent a successor goal.
+
+Repair remains bounded to the original scope and acceptance criteria. A completed task or goal does not automatically create a successor task. New work requires new explicit user intent or a revised approved goal. This is a governance restriction only: it adds no capability or authority, and Temporal remains the sole durable lifecycle owner.
+
 ## Hardware Audit
 
 Planning is CPU-only viable, vendor-neutral and works at 0..N accelerators. No fixed CUDA, ROCm, oneAPI, NPU, NUMA or display session assumption is introduced. Hardware discovery and actual resource placement remain the existing Hardware Discovery/HRB authorities. With any other GPU or NPU present, a display GPU may join AI only after explicit task-and-model-specific in-application assignment; never automatically. Wayland preferred, X11 supported when GUI arrives. Do not alter AdGuardHome ports or the host hardware/driver configuration as an incidental goal step.
