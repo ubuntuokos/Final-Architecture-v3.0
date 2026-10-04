@@ -62,6 +62,8 @@ def fixture():
 def task():
     return {
         "task_id": "task-01", "criterion_ids": ["C-01"],
+        "scope_origin": "REQUIRED_FOR_APPROVED_GOAL",
+        "scope_refs": ["synthetic test fixture"],
         "action_id": "orchestration.inspect", "effect": "READ",
         "agent_definition_ref": "agent-existing-01",
         "domain": "durable-workflow",
@@ -208,6 +210,50 @@ class GoalFoundationTests(unittest.TestCase):
             compile_plan(ROOT, fixture(), [task(), {**task(), "task_id": "task-02"},
                                           {**task(), "task_id": "task-03"}], preflight())
 
+    def test_task_scope_provenance_required_and_bounded(self):
+        t = task()
+        del t["scope_origin"]
+        with self.assertRaises(GoalContractError):
+            compile_plan(ROOT, fixture(), [t], preflight())
+
+        t = task()
+        t["scope_origin"] = "WHAT_NEXT"
+        with self.assertRaises(GoalContractError):
+            compile_plan(ROOT, fixture(), [t], preflight())
+
+        t = task()
+        t["scope_refs"] = ["unapproved optional improvement"]
+        with self.assertRaises(GoalContractError):
+            compile_plan(ROOT, fixture(), [t], preflight())
+
+    def test_explicit_scope_extension_requires_revised_goal(self):
+        t = task()
+        t["scope_origin"] = "EXPLICIT_USER_SCOPE_EXTENSION"
+        with self.assertRaises(GoalContractError):
+            compile_plan(ROOT, fixture(), [t], preflight())
+
+        g = fixture()
+        g["revision"] = 2
+        plan = compile_plan(ROOT, g, [t], preflight())
+        self.assertEqual(plan["steps"][0]["scope_origin"], "EXPLICIT_USER_SCOPE_EXTENSION")
+
+    def test_open_ended_followup_task_class_is_denied(self):
+        for origin in ("WHAT_NEXT", "OPTIONAL_IMPROVEMENT", "ASSISTANT_SUGGESTED",
+                       "OPPORTUNISTIC_TASK", "AUTO_BACKLOG"):
+            with self.subTest(origin=origin):
+                t = task()
+                t["scope_origin"] = origin
+                with self.assertRaises(GoalContractError):
+                    compile_plan(ROOT, fixture(), [t], preflight())
+
+    def test_repair_remains_inside_original_scope_and_criteria(self):
+        a = assess_evidence(fixture(), [])
+        repair = propose_repair(fixture(), a, 0)
+        self.assertEqual(repair["criterion_ids"], ["C-01"])
+        self.assertEqual(repair["scope_refs"], ["synthetic test fixture"])
+        self.assertFalse(repair["scope_expansion_allowed"])
+        self.assertFalse(repair["new_criteria_allowed"])
+
     def test_valid_evidence_is_only_canonical_gate_candidate(self):
         plan = compile_plan(ROOT, fixture(), [task()], preflight())
         result = assess_evidence(fixture(), evidence(), plan=plan)
@@ -258,6 +304,18 @@ class GoalFoundationTests(unittest.TestCase):
         self.assertIs(x["x-fa3-invariants"]["new_architectural_authority"], False)
         self.assertIs(x["x-fa3-invariants"]["new_capability"], False)
         self.assertEqual(x["x-fa3-invariants"]["capability_baseline"], 175)
+        self.assertIs(x["x-fa3-invariants"]["implicit_task_scope_expansion"], False)
+        self.assertIs(x["x-fa3-invariants"]["task_scope_provenance_required"], True)
+        self.assertEqual(x["x-fa3-invariants"]["open_ended_followup_task_generation"], "DENY")
+        self.assertEqual(x["x-fa3-invariants"]["completed_task_auto_successor"], "DENY")
+
+    def test_canonical_no_open_ended_task_decision(self):
+        x = json.loads((ROOT / "canonical/decisions/FA3-DEC-NO-OPEN-ENDED-TASK-EXPANSION-2026-10-04.json").read_text())
+        self.assertEqual(x["rule_id"], "FA3-RULE-NO-OPEN-ENDED-TASK-EXPANSION-001")
+        self.assertEqual(x["capability_count_after"], 175)
+        self.assertEqual(x["new_architectural_authorities"], 0)
+        self.assertEqual(x["invariants"]["implicit_task_expansion"], "DENY")
+        self.assertFalse(x["invariants"]["completed_task_creates_successor_task"])
 
 
     def test_cli_validates_without_execution_and_redacts_invalid_data(self):
