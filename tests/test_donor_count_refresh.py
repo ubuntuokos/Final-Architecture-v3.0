@@ -1,6 +1,7 @@
 """Automatic and explicit FA3 donor count refresh regressions."""
 from __future__ import annotations
 
+import hashlib
 import json
 import subprocess
 import sys
@@ -55,13 +56,18 @@ class CountRefreshTests(unittest.TestCase):
         self.assertEqual(state["capability_count"], 175)
 
     def test_owner_approved_plan_exact_processed_set_can_register_without_second_donornak_marker(self):
+        plan_rel="docs/test-approved-plan.md"
+        plan=self.root/plan_rel
+        plan.parent.mkdir(parents=True,exist_ok=True)
+        plan.write_text("# approved plan\nprocessed: github:example/planned\n",encoding="utf-8")
         approval_rel="canonical/decisions/FA3-DEC-TEST-PLAN-APPROVAL.json"
         approval=self.root/approval_rel
         approval.parent.mkdir(parents=True,exist_ok=True)
         approval.write_text(json.dumps({
             "status":"APPROVED",
             "explicit_user_approval":True,
-            "approved_plan_sha256":"a"*64,
+            "approved_plan_path":plan_rel,
+            "approved_plan_sha256":hashlib.sha256(plan.read_bytes()).hexdigest(),
             "user_request_ref":"conversation:test-plan",
             "donor_registration_authorization":"APPROVED_PLAN_PROCESSED_DONORS_ONLY",
             "approved_processed_donor_keys":["github:example/planned"]
@@ -80,13 +86,18 @@ class CountRefreshTests(unittest.TestCase):
         self.assertFalse(entry["submission_review"]["second_donornak_marker_required"])
 
     def test_approved_plan_registration_rejects_donor_outside_exact_processed_set(self):
+        plan_rel="docs/test-approved-plan.md"
+        plan=self.root/plan_rel
+        plan.parent.mkdir(parents=True,exist_ok=True)
+        plan.write_text("# approved plan\nprocessed: github:example/allowed\n",encoding="utf-8")
         approval_rel="canonical/decisions/FA3-DEC-TEST-PLAN-APPROVAL.json"
         approval=self.root/approval_rel
         approval.parent.mkdir(parents=True,exist_ok=True)
         approval.write_text(json.dumps({
             "status":"APPROVED",
             "explicit_user_approval":True,
-            "approved_plan_sha256":"b"*64,
+            "approved_plan_path":plan_rel,
+            "approved_plan_sha256":hashlib.sha256(plan.read_bytes()).hexdigest(),
             "user_request_ref":"conversation:test-plan",
             "donor_registration_authorization":"APPROVED_PLAN_PROCESSED_DONORS_ONLY",
             "approved_processed_donor_keys":["github:example/allowed"]
