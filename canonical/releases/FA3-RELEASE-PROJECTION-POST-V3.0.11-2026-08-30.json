@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "6e43ef42c3095aeeb3f3d87f01cfbafe9f28f23f",
-    "pre_projection_root_tree_sha": "0ab836498a7cdf48208c68878e99c636bcc2cd07",
-    "pre_projection_canonical_tree_sha": "d42696277a7f02b71c521b7b7794b4af1be3fc70",
-    "commits_ahead_of_v3_0_11_conformance_commit": 3122,
-    "total_post_baseline_commits": 3122,
-    "delta_file_count": 3002,
-    "delta_added_files": 2996,
+    "pre_projection_head_sha": "3145a906282d9a6f34d2f23e645c4f0dcf86de26",
+    "pre_projection_root_tree_sha": "ad8bfc9ce89275650473e28fe2ddd2330bd644a7",
+    "pre_projection_canonical_tree_sha": "76cb23413b98330479cca58969b72defe081a21d",
+    "commits_ahead_of_v3_0_11_conformance_commit": 3125,
+    "total_post_baseline_commits": 3125,
+    "delta_file_count": 3003,
+    "delta_added_files": 2997,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,7 +46,7 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1408,
+    "canonical_files_in_post_baseline_delta": 1409,
     "evidence_files_in_post_baseline_delta": 172,
     "source_files_in_post_baseline_delta": 378,
     "test_files_in_post_baseline_delta": 356,
@@ -1074,7 +1074,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2992,
+  "manifest_entry_count": 2993,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -4699,6 +4699,11 @@
     {
       "path": "canonical/current-host-capability-test-qualifications.json",
       "git_blob_sha": "2e367b1ae44b2cba64f7504af90ffddff5b60add",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/current-host-impact/CFA3-DONOR-INTAKE-BATCH-ACCELERATION-CURRENT-HOST-IMPACT-2026-10-04.json",
+      "git_blob_sha": "4bc75b247ec970cf40ce8c05c6b37021fb085358",
       "baseline_delta_status": "added"
     },
     {
@@ -12888,7 +12893,7 @@
     },
     {
       "path": "src/fa3_donor_readiness.py",
-      "git_blob_sha": "42311322689c42fe616b0481702b21e2c29af3da",
+      "git_blob_sha": "9b3e8b9526f4562fa2efea05d93d398ce5af10cc",
       "baseline_delta_status": "added"
     },
     {
