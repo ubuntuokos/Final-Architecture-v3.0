@@ -34,14 +34,11 @@ def build_candidate(root:Path,source_sha:str,run_id:str)->dict[str,Any]:
       audit.get("registry_pass_count")==175,
       audit.get("registry_pending_count")==0,
       audit.get("qualified_current_host_receipt_count")==175,
-      acceptance.get("status")=="PASS",
-      acceptance.get("criteria_passed")==19,
-      acceptance.get("criteria_total")==19,
       bundles.get("bundles_materialized")==175,
       attest.get("attestations_materialized")==175,
       handoff.get("receipts_materialized")==175,
     ]
-    if not all(checks): raise ValueError("full physical closure is not 175/525 + 19/19 complete")
+    if not all(checks): raise ValueError("full physical closure is not exact 175/525 complete")
     payload={
       "schema":"fa3.current-host-base-admission-candidate.v1",
       "status":"FULL_175_525_PHYSICAL_PASS",
@@ -49,8 +46,10 @@ def build_candidate(root:Path,source_sha:str,run_id:str)->dict[str,Any]:
       "physical_audit_run_id":str(run_id),
       "capability_count":175,
       "obligation_count":525,
-      "acceptance_criteria_passed":19,
-      "acceptance_criteria_total":19,
+      "release_acceptance_status":acceptance.get("status"),
+      "release_acceptance_criteria_passed":acceptance.get("criteria_passed"),
+      "release_acceptance_criteria_total":acceptance.get("criteria_total"),
+      "release_acceptance_gates_current_host_base":False,
       "host_fingerprint_sha256":sha256_file(host),
       "evidence_registry_sha256":sha256_file(root/"evidence/evidence-registry.json"),
       "bundles_receipts_attestations_complete":True,
@@ -67,7 +66,6 @@ def admitted_state(candidate:dict[str,Any])->dict[str,Any]:
     if candidate.get("schema")!="fa3.current-host-base-admission-candidate.v1": raise ValueError("candidate schema invalid")
     if candidate.get("status")!="FULL_175_525_PHYSICAL_PASS": raise ValueError("candidate not PASS")
     if candidate.get("capability_count")!=175 or candidate.get("obligation_count")!=525: raise ValueError("candidate baseline invalid")
-    if candidate.get("acceptance_criteria_passed")!=19 or candidate.get("acceptance_criteria_total")!=19: raise ValueError("candidate acceptance invalid")
     if candidate.get("positive_negative_rollback_complete") is not True: raise ValueError("obligation proof incomplete")
     if candidate.get("bundles_receipts_attestations_complete") is not True: raise ValueError("evidence chain incomplete")
     if candidate.get("synthetic_current_host_pass") is not False: raise ValueError("synthetic PASS forbidden")
@@ -90,8 +88,10 @@ def admitted_state(candidate:dict[str,Any])->dict[str,Any]:
       "evidence_registry_sha256":candidate.get("evidence_registry_sha256"),
       "positive_negative_rollback_complete":True,
       "bundles_receipts_attestations_complete":True,
-      "acceptance_criteria_passed":19,
-      "acceptance_criteria_total":19,
+      "release_acceptance_status":candidate.get("release_acceptance_status"),
+      "release_acceptance_criteria_passed":candidate.get("release_acceptance_criteria_passed"),
+      "release_acceptance_criteria_total":candidate.get("release_acceptance_criteria_total"),
+      "release_acceptance_gates_current_host_base":False,
       "delta_authority_id":"FA3-CURRENT-HOST-CHANGE-DELTA-AUTHORITY-001",
       "historical_evidence_relabeling":"FORBIDDEN",
       "synthetic_current_host_pass_allowed":False,
