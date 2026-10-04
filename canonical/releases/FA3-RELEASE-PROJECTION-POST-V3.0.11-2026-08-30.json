@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "598e8b68737bcf9831b4ba55176fb744dc7c406d",
-    "pre_projection_root_tree_sha": "e998e47995706bb797a30db9af8712f55ae84fce",
-    "pre_projection_canonical_tree_sha": "15fc1878c3c2635c1c1e7298b1bcd8e7c39c445a",
-    "commits_ahead_of_v3_0_11_conformance_commit": 3090,
-    "total_post_baseline_commits": 3090,
-    "delta_file_count": 2992,
-    "delta_added_files": 2986,
+    "pre_projection_head_sha": "a25981ec5bb2439841d87b67ef4163e721f16722",
+    "pre_projection_root_tree_sha": "47f05a553face1207e6e9198d77e2a30e8cdd37d",
+    "pre_projection_canonical_tree_sha": "3f6ec873f77ea4f413d1b0e9ec6aecd86e47b515",
+    "commits_ahead_of_v3_0_11_conformance_commit": 3105,
+    "total_post_baseline_commits": 3105,
+    "delta_file_count": 2996,
+    "delta_added_files": 2990,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,7 +46,7 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1401,
+    "canonical_files_in_post_baseline_delta": 1405,
     "evidence_files_in_post_baseline_delta": 172,
     "source_files_in_post_baseline_delta": 378,
     "test_files_in_post_baseline_delta": 355,
@@ -604,6 +604,7 @@
       "canonical/decisions/FA3-DEC-NEURAL-RENDERING-OPENDLSS-NR-2026-09-23.json",
       "canonical/decisions/FA3-DEC-NO-OPEN-ENDED-TASK-EXPANSION-2026-10-04.json",
       "canonical/decisions/FA3-DEC-OBSIDIAN-KNOWLEDGE-WORKSPACE-2026-09-07.json",
+      "canonical/decisions/FA3-DEC-ONE-CLICK-NEW-CONVERSATION-HANDOFF-2026-10-04.json",
       "canonical/decisions/FA3-DEC-OPENBMB-2026-09-02.json",
       "canonical/decisions/FA3-DEC-OPENCLAW-API-LIST-RECONCILIATION-2026-10-02.json",
       "canonical/decisions/FA3-DEC-OPENCUT-PROGRAMMABLE-EDITOR-2026-09-01.json",
@@ -1072,7 +1073,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2982,
+  "manifest_entry_count": 2986,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1801,7 +1802,7 @@
     },
     {
       "path": "AGENTS.md",
-      "git_blob_sha": "fee784aea80e41640d05442a8b4b152e027152b5",
+      "git_blob_sha": "b7042bb10aca6c0c6ff8aff8021d7b033194e8d4",
       "baseline_delta_status": "added"
     },
     {
@@ -3621,7 +3622,7 @@
     },
     {
       "path": "canonical/FA3-GATE-UI-COMPONENT-FABRIC-001.json",
-      "git_blob_sha": "aa8eca60c69a78121bbfc0e6bf0e315d4dfc0145",
+      "git_blob_sha": "9dcbe8c66e3b4a347e794b79635f529f45336fa1",
       "baseline_delta_status": "added"
     },
     {
@@ -4730,6 +4731,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/FA3-ONE-CLICK-NEW-CONVERSATION-HANDOFF-REUSE-ASSESSMENT-2026-10-04.json",
+      "git_blob_sha": "0b33ab377e91d4bf1931db3d8fc15ded41d9b6f9",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/assessments/FA3-OPENCLAW-API-LIST-RECONCILIATION-REUSE-ASSESSMENT-2026-10-02.json",
       "git_blob_sha": "c82942119ce2a63376a4cf9555adae2694c238a9",
       "baseline_delta_status": "added"
@@ -5791,7 +5797,7 @@
     },
     {
       "path": "canonical/contracts/FA3-UI-COMPONENT-FABRIC-CONTRACTS-001.json",
-      "git_blob_sha": "eeff7b27825e9f086b3bbf3954e5f16394cbd9d7",
+      "git_blob_sha": "c7a094a094d5d6f78564d323a4f734165819b348",
       "baseline_delta_status": "added"
     },
     {
@@ -5922,6 +5928,11 @@
     {
       "path": "canonical/current-host-impact/FA3-CH-IMPACT-NO-OPEN-ENDED-TASK-EXPANSION-20261004.json",
       "git_blob_sha": "24bed144d4c0cf599ac9062882260dbf55c29fd7",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/current-host-impact/FA3-CH-IMPACT-ONE-CLICK-NEW-CONVERSATION-HANDOFF-20261004.json",
+      "git_blob_sha": "963bec78cf2ac108153235ac692e2e8e7512c22a",
       "baseline_delta_status": "added"
     },
     {
@@ -6547,6 +6558,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-OBSIDIAN-KNOWLEDGE-WORKSPACE-2026-09-07.json",
       "git_blob_sha": "e33cff615258313dc4ca5d499bb13fbd45d5c9f3",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-ONE-CLICK-NEW-CONVERSATION-HANDOFF-2026-10-04.json",
+      "git_blob_sha": "3639b990f418cd16508319967dc7998b46aa95c1",
       "baseline_delta_status": "added"
     },
     {
@@ -7407,6 +7423,11 @@
     {
       "path": "canonical/intents/FA3-NEURAL-RENDERING-APPLICATION-INTENT-001.json",
       "git_blob_sha": "a4c03bf5a3c4f19daf4c78f5879ee9c50980d4a3",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/intents/FA3-ONE-CLICK-NEW-CONVERSATION-HANDOFF-APPLICATION-INTENT-2026-10-04.json",
+      "git_blob_sha": "8ccb5b14601763349df2dc10192b7874163a811c",
       "baseline_delta_status": "added"
     },
     {
@@ -8376,7 +8397,7 @@
     },
     {
       "path": "canonical/profiles/FA3-UI-COMPONENT-FABRIC-001.json",
-      "git_blob_sha": "a8f7b493af5e3148074f1a4b9e273d883a450df0",
+      "git_blob_sha": "1f1bbe41f23b5c907695f6772eb5239a4db5746e",
       "baseline_delta_status": "added"
     },
     {
@@ -14036,7 +14057,7 @@
     },
     {
       "path": "src/fa3_ui_component_fabric_gate.py",
-      "git_blob_sha": "ac8739a1cd11cd3d4b1af2643efea82bd4de5296",
+      "git_blob_sha": "42c2ca3ef83972fab50fe574beb92a1b41f09a80",
       "baseline_delta_status": "added"
     },
     {
@@ -15816,7 +15837,7 @@
     },
     {
       "path": "tests/test_ui_component_fabric_gate.py",
-      "git_blob_sha": "efd7f82602e4e4edc7dac5f30f329fe0a4258d21",
+      "git_blob_sha": "450bb40b34932c080275ee7c242a067f2edbfcea",
       "baseline_delta_status": "added"
     },
     {
