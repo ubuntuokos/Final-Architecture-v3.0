@@ -1,0 +1,144 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-CUDA-PORTABILITY-SHARED-FUNCTION-REUSE-ASSESSMENT-2026-10-04",
+  "project_id": "FA3-CUDA-PORTABILITY-SHARED-FUNCTION-POLICY-001",
+  "intent_id": "FA3-CUDA-PORTABILITY-SHARED-FUNCTION-APPLICATION-INTENT-2026-10-04",
+  "intent_path": "canonical/intents/FA3-CUDA-PORTABILITY-SHARED-FUNCTION-APPLICATION-INTENT-2026-10-04.json",
+  "covered_ids": [
+    "FA3-CUDA-PORTABILITY-SHARED-FUNCTION-POLICY-001",
+    "FA3-HARDWARE-BASELINE-001"
+  ],
+  "project_status": "OWNER_DIRECTIVE_STATIC_POLICY_MATERIALIZATION",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "MANDATORY_EXISTING_REUSE_DISCOVERY"
+    },
+    {
+      "id": "FA3-HARDWARE-BASELINE-001",
+      "use": "EXISTING_VENDOR_NEUTRAL_HARDWARE_BASELINE"
+    },
+    {
+      "id": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+      "use": "EXISTING_DEVICE_AND_BACKEND_COMPATIBILITY_DISCOVERY"
+    },
+    {
+      "id": "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001",
+      "use": "EXISTING_ACCELERATOR_EXECUTION_PATH_AND_LEASE_CONTRACT"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "EXISTING_RESOURCE_PLACEMENT_AND_LEASE_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "EXISTING_MODEL_PROVIDER_ROUTING_AUTHORITY"
+    },
+    {
+      "id": "FA3-TUTORIAL-SHARED-CAPABILITY-POLICY-001",
+      "use": "EXISTING_SHARED_FIRST_PLACEMENT_PATTERN_REUSED_WITHOUT_TUTORIAL_SCOPE"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "NEW_ACCELERATOR_AUTHORITY",
+      "reason": "HRB_REMAINS_EXCLUSIVE_RESOURCE_AUTHORITY"
+    },
+    {
+      "id": "APPLICATION_LOCAL_CUDA_FUNCTIONAL_CORE",
+      "reason": "MULTI_APPLICATION_ACCELERATOR_FUNCTION_MUST_BE_SHARED"
+    },
+    {
+      "id": "GLOBAL_CUDA_REQUIREMENT",
+      "reason": "VENDOR_NEUTRAL_HARDWARE_BASELINE_REMAINS_CANONICAL"
+    },
+    {
+      "id": "SILENT_TRANSLATION_OR_BACKEND_FALLBACK",
+      "reason": "EXISTING_EXECUTION_PATH_POLICY_REQUIRES_EXPLICIT_COMPATIBILITY_AND_NO_SILENT_SUBSTITUTION"
+    },
+    {
+      "id": "NEW_TOP_LEVEL_CAPABILITY",
+      "reason": "RULE_COMPOSES_EXISTING_HARDWARE_PORTABILITY_SHARED_PLACEMENT_AND_UX_DISCLOSURE_BEHAVIOR"
+    }
+  ],
+  "pattern_reuse": [
+    {
+      "source_id": "FA3-HARDWARE-BASELINE-001",
+      "pattern": "VENDOR_NEUTRAL_DYNAMIC_HARDWARE_AND_WORKLOAD_SCOPED_COMPATIBILITY"
+    },
+    {
+      "source_id": "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001",
+      "pattern": "NATIVE_PORTABLE_TRANSLATION_EXECUTION_PATH_BINDING"
+    },
+    {
+      "source_id": "FA3-TUTORIAL-SHARED-CAPABILITY-POLICY-001",
+      "pattern": "ONE_SHARED_FUNCTIONAL_CORE_WITH_APPLICATION_SPECIFIC_ADAPTERS"
+    }
+  ],
+  "existing_authority_bindings": {
+    "hardware_discovery": "NON_AUTHORITY_CAPABILITY",
+    "resource_admission_placement_lease": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "gaps": [],
+  "hardware_audit": {
+    "result": "PASS",
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "no_global_cuda_floor": true,
+    "target_hardware_assessment_required_for_cuda_oriented_functions": true,
+    "physical_current_host_pass_claimed": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "application_local_duplicate_backend_created": false
+  },
+  "donor_planning_snapshot": {
+    "published_main_commit": "90d3928905a5fcfa328a527b82741b3faa78b4a6",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "1362d75186c6da74e5cf947fdf0b8867d462636a",
+    "donor_registry_sha256": "b8d0eb42ee02885863af375071ffae89033664089ddba3c69682a8d0f7c7cff1",
+    "donor_registry_entry_count": 1427
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "shared_component_ids": [
+      "FA3-CUDA-PORTABILITY-SHARED-FUNCTION-POLICY-001"
+    ],
+    "retrospective_consumer_impact_reviewed": true,
+    "local_duplicate_created": false,
+    "rationale": "Strongly CUDA-oriented functionality may affect multiple FA3/CFA3 applications and target accelerator families; its functional core therefore belongs behind one shared vendor-neutral contract with application-local UI/workflow adapters only."
+  },
+  "pending_or_unmerged_donors_consumed": false,
+  "donor_usage_edges_created": 0,
+  "adopted_donors": [],
+  "donor_pattern_reuse": [],
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "available_candidate_ids": [],
+      "matched_candidate_ids": [],
+      "roles": [
+        "MANDATORY_SOURCE_FAMILY_REVIEW"
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_activation": false
+    }
+  ]
+}
