@@ -58,6 +58,7 @@ Item {
                         ComboBox { id: voiceBox; Layout.preferredWidth: 180; model: ["Narrator","Character A","Character B"] }
                         ComboBox { id: languageBox; Layout.preferredWidth: 120; model: ["hu-HU","en-US","de-DE"] }
                     }
+                    TextField { id: rightsRef; Layout.fillWidth: true; placeholderText: "License & Rights evidence ref"; }
                     TextArea {
                         id: scriptEditor
                         Layout.fillWidth: true
@@ -67,7 +68,7 @@ Item {
                     }
                     RowLayout { Layout.fillWidth: true; TextField { id: capturePath; Layout.fillWidth: true; placeholderText: "Local 16 kHz mono PCM WAV for Capture/STT" } Button { text: "Transcribe"; enabled: fa3VoiceWorkspace.state === "READY" && capturePath.text.length > 0; onClicked: fa3VoiceWorkspace.transcribe(capturePath.text, languageBox.currentText) } }
                     RowLayout {
-                        Button { text: "Generate"; enabled: fa3VoiceWorkspace.state === "READY"; onClicked: fa3VoiceWorkspace.generate(scriptEditor.text, voiceBox.currentText, languageBox.currentText, 0, false, candidateAck.checked) }
+                        Button { text: "Generate"; enabled: fa3VoiceWorkspace.state === "READY" && rightsRef.text.length > 0; onClicked: fa3VoiceWorkspace.generate(scriptEditor.text, voiceBox.currentText, languageBox.currentText, rightsRef.text, 0, false, candidateAck.checked) }
                         CheckBox { id: candidateAck; text: "Allow candidate CPU provider"; checked: false }
                         Button { text: "Preview"; enabled: false }
                         Button { text: "Add to timeline"; enabled: false }
