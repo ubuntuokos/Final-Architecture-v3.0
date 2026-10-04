@@ -23,6 +23,7 @@ CONTRACT_ID = "FA3-GOAL-EXECUTION-CONTRACTS-001"
 MODE = frozenset({"AUTO", "APPROVAL", "HYBRID"})
 EFFECT = frozenset({"READ", "WRITE", "DESTRUCTIVE"})
 CHECK = frozenset({"DETERMINISTIC", "HUMAN", "SEMANTIC_ADVISORY_WITH_INDEPENDENT_CHECK"})
+SCOPE_ORIGIN = frozenset({"EXPLICIT_USER_SCOPE", "REQUIRED_FOR_APPROVED_GOAL", "EXPLICIT_USER_SCOPE_EXTENSION"})
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
 _FORBIDDEN_FIELDS = frozenset({
     "api_key", "password", "secret", "secret_value", "token", "bearer_token",
@@ -70,6 +71,20 @@ def _reject_forbidden(value: Any) -> None:
         for child in value:
             _reject_forbidden(child)
 
+
+
+def validate_task_scope_provenance(goal: dict[str, Any], step: dict[str, Any]) -> tuple[str, list[str]]:
+    """Require deterministic provenance from every executable task candidate to user-owned scope."""
+    origin = _required(step.get("scope_origin"), "scope_origin")
+    if origin not in SCOPE_ORIGIN:
+        raise GoalContractError("task scope origin is not executable")
+    refs = _unique_strings(step.get("scope_refs"), "scope_refs")
+    in_scope = set(goal["scope"]["in_scope"])
+    if not set(refs).issubset(in_scope):
+        raise GoalContractError("task scope reference outside approved goal scope")
+    if origin == "EXPLICIT_USER_SCOPE_EXTENSION" and goal["revision"] < 2:
+        raise GoalContractError("explicit scope extension requires a revised goal")
+    return origin, refs
 
 def digest(payload: dict[str, Any]) -> str:
     return hashlib.sha256(
@@ -191,6 +206,7 @@ def compile_plan(root: Path | str, goal_value: dict[str, Any], steps: list[dict[
             raise GoalContractError("step must be object")
         _reject_forbidden(step)
         tid = _required(step.get("task_id"), "task_id")
+        scope_origin, scope_refs = validate_task_scope_provenance(goal, step)
         if tid in seen:
             raise GoalContractError("duplicate task id")
         seen.add(tid)
@@ -239,6 +255,7 @@ def compile_plan(root: Path | str, goal_value: dict[str, Any], steps: list[dict[
         checked = validate_workload_task(workload)
         planned.append({
             "task_id": tid, "criterion_ids": cids, "effect": effect,
+            "scope_origin": scope_origin, "scope_refs": scope_refs,
             "uaf_action_ref": action, "workload_candidate": checked,
             "design_route": routing,
             "requires_effect_authorization": effect != "READ" or policy["mode"] != "AUTO",
@@ -338,5 +355,8 @@ def propose_repair(goal_value: dict[str, Any], assessment: dict[str, Any],
                    "ESCALATE_BUDGET_EXHAUSTED" if remaining <= 0 else
                    "PROPOSE_AUTHORIZED_REPAIR"),
         "effect_authorization": False, "execution_performed": False,
+        "scope_refs": list(goal["scope"]["in_scope"]),
+        "scope_expansion_allowed": False, "new_criteria_allowed": False,
+        "successor_task_allowed": False if not failed else None,
         "require_fresh_policy_and_admission": True,
     }
