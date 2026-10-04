@@ -1,0 +1,13 @@
+{
+  "schema": "fa3.current-host-structural-impact.v1",
+  "id": "FA3-CH-IMPACT-ACTION-PIN-REGRESSION-GATE-20261004",
+  "status": "NO_RUNTIME_IMPACT",
+  "structural_changes": [
+    "src/fa3_permanent_gate_hardening.py",
+    "src/fa3_trusted_control_plane_gate.py"
+  ],
+  "current_host_changes": [],
+  "physical_requalification_required": false,
+  "historical_evidence_reused": false,
+  "rationale": "This change strengthens existing permanent/trusted CI policy enforcement so every Current Host workflow and every workflow containing an explicit Current Host marker is automatically checked for immutable 40-hex GitHub Action pins. It does not change runtime execution, providers, runner selection, host-resource allocation, hardware behavior, proof recipes, evidence semantics, application behavior, or promotion authority. It prevents future workflow setup-policy regressions only; therefore no fresh physical Current Host requalification or FULL-525 replay is required."
+}
