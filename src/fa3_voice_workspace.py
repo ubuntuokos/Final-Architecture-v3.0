@@ -2,11 +2,18 @@
 from __future__ import annotations
 import hashlib,json,os,sqlite3,time,uuid,wave
 from pathlib import Path
-from typing import Any
+from typing import Any,Protocol
 from fa3_piper_provider import execute_piper
 from fa3_whisper_stt_provider import execute_transcription,RuntimeOptions
 from fa3_voice_synthesis_gate import validate_transformation_request
 class VoiceWorkspaceError(RuntimeError): pass
+class VoiceProviderAdapter(Protocol):
+    provider_id:str
+    def execute(self,request:dict[str,Any],output:Path)->dict[str,Any]: ...
+class PiperAdapter:
+    provider_id="FA3-PROVIDER-PIPER-001"
+    def execute(self,request:dict[str,Any],output:Path)->dict[str,Any]: return execute_piper(request,output)
+
 def _sha(path:Path)->str:
     h=hashlib.sha256()
     with path.open("rb") as f:
@@ -20,7 +27,7 @@ class VoiceWorkspace:
         self.assets=self.state/"assets"; self.assets.mkdir(exist_ok=True)
         self.db=sqlite3.connect(self.state/"voice-studio.sqlite3"); self.db.row_factory=sqlite3.Row
         self.db.executescript("create table if not exists profiles(id text primary key,payload text not null,updated real not null); create table if not exists jobs(id text primary key,kind text not null,state text not null,payload text not null,result text,error text,created real not null,updated real not null); create table if not exists captures(id text primary key,payload text not null,created real not null);")
-        self.db.commit(); self.admission=json.loads((self.root/"canonical/FA3-VOICE-PROVIDER-ADMISSION-001.json").read_text())
+        self.db.commit(); self.admission=json.loads((self.root/"canonical/FA3-VOICE-PROVIDER-ADMISSION-001.json").read_text()); self.adapters={"FA3-PROVIDER-PIPER-001":PiperAdapter()}
     def close(self): self.db.close()
     def health(self): return {"status":"ok","profile_id":"FA3-VOICE-001","capability_baseline":175,"state_dir":str(self.state),"production_provider_claim":False}
     def list_profiles(self): return [json.loads(r["payload"]) for r in self.db.execute("select payload from profiles order by updated desc")]
@@ -71,10 +78,10 @@ class VoiceWorkspace:
         provider=self._route(req); jid="job-"+uuid.uuid4().hex; now=time.time()
         self.db.execute("insert into jobs(id,kind,state,payload,created,updated) values(?,?,?,?,?,?)",(jid,"VOICE_GENERATION","RUNNING",json.dumps(req,ensure_ascii=False),now,now)); self.db.commit()
         try:
-            if provider=="FA3-PROVIDER-PIPER-001":
-                if req.get("candidate_execution_ack") is not True: raise VoiceWorkspaceError("Piper is candidate-only; explicit candidate_execution_ack required")
-                result=execute_piper({**req,"mode":req.get("mode","plain"),"device":"cpu"},self.assets/(jid+".wav"))
-            else: raise VoiceWorkspaceError(provider+" has no admitted workspace executor on this host")
+            adapter=self.adapters.get(provider)
+            if adapter is None: raise VoiceWorkspaceError(provider+" has no admitted workspace executor on this host")
+            if provider=="FA3-PROVIDER-PIPER-001" and req.get("candidate_execution_ack") is not True: raise VoiceWorkspaceError("Piper is candidate-only; explicit candidate_execution_ack required")
+            result=adapter.execute({**req,"mode":req.get("mode","plain"),"device":"cpu"},self.assets/(jid+".wav"))
             if req.get("target_duration_ms"):
                 with wave.open(result["audio_path"],"rb") as w: actual=round(w.getnframes()*1000/w.getframerate())
                 result["fit_to_clip"]=self.fit_to_clip(int(req["target_duration_ms"]),actual)
