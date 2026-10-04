@@ -36,7 +36,7 @@
   "current_host_changes": [
     "canonical/FA3-CUDA-COMPAT-NATIVE-CURRENT-HOST-CONFORMANCE-001.json"
   ],
-  "rationale": "The changeset evolves the CFA3-owned shared CUDA compatibility core to structured IR V2, bounded runtime/build compatibility inspection, AMD HIP lowering and Intel SYCL-primary/OpenCL-secondary lowering. Spectral Compute SCALE is neither built nor loaded. Fresh exact-head positive, negative and rollback execution on supported physical AMD and Intel target hosts remains required before runtime promotion; no simulated PASS is claimed.",
+  "rationale": "The changeset evolves the CFA3-owned shared CUDA compatibility core to structured IR V2, bounded runtime/build compatibility inspection, AMD HIP lowering and Intel SYCL-primary/OpenCL-secondary lowering. Spectral Compute SCALE is neither built nor loaded. The release-included native provider now has explicit Apache-2.0 License & Rights descriptor coverage while external target toolchain rights remain separate. Fresh exact-head positive, negative and rollback execution on supported physical AMD and Intel target hosts remains required before runtime promotion; no simulated PASS is claimed.",
   "structural_changes": [
     ".github/workflows/fa3-cuda-compat-native.yml",
     "canonical/FA3-GATE-CUDA-COMPAT-NATIVE-001.json",
@@ -47,6 +47,8 @@
     "canonical/decisions/FA3-DEC-CUDA-COMPAT-OROCHI-DONOR-USE-2026-10-04.json",
     "canonical/decisions/FA3-DEC-CUDA-COMPAT-ROCM-EXAMPLES-DONOR-USE-2026-10-04.json",
     "canonical/enforcement-policy.json",
+    "canonical/license-rights-descriptor-registry.json",
+    "canonical/license-rights/descriptors/FA3-PROVIDER-CFA3-NATIVE-CUDA-COMPAT-001.json",
     "canonical/providers/FA3-PROVIDER-CFA3-NATIVE-CUDA-COMPAT-001.json",
     "src/fa3_cuda_compat_gate.py",
     "src/fa3_cuda_compat_runtime.py",
