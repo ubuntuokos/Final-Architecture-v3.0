@@ -32,6 +32,24 @@ class VoiceWorkspaceFlowTests(unittest.TestCase):
         self.assertEqual(row["provider_decision"]["selected_provider_id"],"FA3-PROVIDER-XTTS-001")
         self.assertEqual(row["provider_decision"]["selected_model_id"],"RESOLVED_BY_MODEL_ROUTER_RUNTIME")
 
+    def test_transcription_staging_and_result_binding(self):
+        capture=self.store.create_capture("hu-HU","local-audio-ref","")
+        staged=self.store.stage_transcription(capture["capture_id"],"hu-HU",False)
+        self.assertEqual(staged["status"],"TRANSCRIBING")
+        result={
+            "status":"PASS","provider_id":"FA3-PROVIDER-WHISPER-001","language":"hu",
+            "segments":[{"text":"szia"}],"execution_evidence":{"runtime_version":"test"}
+        }
+        accepted=self.store.accept_transcription_result(capture["capture_id"],result)
+        self.assertEqual(accepted["status"],"TRANSCRIBED")
+        self.assertEqual(accepted["raw_transcript"],"szia")
+
+    def test_result_rejected_before_dispatch(self):
+        job=self.store.submit_generation(self.req,admitted_providers={"FA3-PROVIDER-XTTS-001"})
+        result={"provider_id":"FA3-PROVIDER-XTTS-001","model_id":"runtime-model","model_revision":"rev-1","audio_path":"local-output.wav","audio_sha256":"a"*64,"sample_rate_hz":24000,"channels":1,"voice_identity_ref":"voice-narrator-hu","language":"hu-HU","synthetic_disclosure":"SYNTHETIC_AUDIO","license_and_rights_ref":"rights:1","execution_evidence":"evidence:1"}
+        with self.assertRaises(VoiceWorkspaceDenied):
+            self.store.accept_generation_result(job["job_id"],result)
+
     def test_quick_dub_requires_known_profile(self):
         with self.assertRaises(VoiceWorkspaceDenied):
             self.store.quick_dub_plan("en-US","hu-HU",[{"speaker":"A","voice_profile_id":"missing"}],True)
@@ -42,6 +60,9 @@ class VoiceWorkspaceFlowTests(unittest.TestCase):
     def test_result_handoff_and_cancel(self):
         job=self.store.submit_generation(self.req,admitted_providers={"FA3-PROVIDER-XTTS-001"})
         result={"provider_id":"FA3-PROVIDER-XTTS-001","model_id":"runtime-model","model_revision":"rev-1","audio_path":"local-output.wav","audio_sha256":"a"*64,"sample_rate_hz":24000,"channels":1,"voice_identity_ref":"voice-narrator-hu","language":"hu-HU","synthetic_disclosure":"SYNTHETIC_AUDIO","license_and_rights_ref":"rights:1","execution_evidence":"evidence:1"}
+        dispatched=self.store.authorize_dispatch(job["job_id"],"uaf:test","hrb:test")
+        self.assertEqual(dispatched["status"],"DISPATCHED")
+        self.assertEqual(dispatched["temporal_dispatch"]["workflow_type"],"fa3.voice.generate")
         completed=self.store.accept_generation_result(job["job_id"],result)
         self.assertEqual(completed["status"],"COMPLETED")
         handoff=self.store.timeline_handoff(job["job_id"],"clip-1","align:1",True)
