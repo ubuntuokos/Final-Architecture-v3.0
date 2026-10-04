@@ -290,6 +290,7 @@ def pending_prs_graphql(token,repo=REPO,graphql=None,get=None):
                           "head_repo_full_name":head_repo_full_name,
                           "intake":intake,
                           "registry_mutation":any(f.get("filename")==REGISTRY for f in live_intake_files),
+                          "batch_manifest":any(str(f.get("filename","")).startswith("canonical/deltas/CFA3-DONOR-") for f in live_intake_files),
                           "workload_units":donor_intake_workload(live_intake_files) if intake else None})
         page=conn.get("pageInfo")
         if not isinstance(page,dict):
@@ -421,6 +422,7 @@ def pending_prs(get,repo=REPO):
                               "head_repo_full_name":head_repo.get("full_name"),
                               "intake":intake,
                               "registry_mutation":any(f.get("filename")==REGISTRY for f in live_intake_files),
+                              "batch_manifest":any(str(f.get("filename","")).startswith("canonical/deltas/CFA3-DONOR-") for f in live_intake_files),
                               "workload_units":donor_intake_workload(live_intake_files) if intake else None})
         if len(prs)<100: return sorted(found,key=lambda p:p["number"])
     raise ValueError("TOO_MANY_OPEN_PRS")
@@ -577,7 +579,7 @@ def gate(root,phase="status",token="",assessment=None,plan=None,approval=None,
 
             if pr_number is not None:
                 candidate=next((p for p in pending if p["number"]==pr_number),None)
-                if candidate is not None and candidate.get("registry_mutation"):
+                if candidate is not None and candidate.get("batch_manifest"):
                     covered,missing=batch_manifest_coverage(root,pending,pr_number)
                     if len(pending)>1 and not missing:
                         result["batch_covered_prs"]=sorted(n for n in covered if n!=pr_number)
@@ -588,9 +590,9 @@ def gate(root,phase="status",token="",assessment=None,plan=None,approval=None,
                         result["intake_workload_units"]=candidate.get("workload_units")
                         result["next_finalizable_donor_pr"]=pr_number
                         return result
-                    if len(registry_mutators)>MAX_ACTIVE_CANONICAL_REGISTRY_MUTATION_PRS:
+                    if missing:
                         result["batch_coverage_missing"]=missing
-                        result["findings"].append("MULTIPLE_CANONICAL_REGISTRY_MUTATION_PRS_REQUIRE_EXACT_BATCH_COVERAGE")
+                        result["findings"].append("BATCH_MANIFEST_DOES_NOT_COVER_ALL_LIVE_INTAKES")
                         return result
 
             if pr_number is None:
