@@ -31,5 +31,15 @@
     "executable_current_host_path_added": false
   },
   "rationale": "This changes development/admission requirements only. It does not activate a model/provider, allocate a device, download an artifact, start a process, mutate host state or claim physical execution. Each later application runtime implementation remains subject to its own Current Host reconciliation and physical evidence.",
-  "future_rule": "Any executable local-model recommendation, acquisition, installation, routing or accelerator-placement implementation must perform fresh Current Host impact reconciliation and any required non-simulated physical qualification before promotion."
+  "future_rule": "Any executable local-model recommendation, acquisition, installation, routing or accelerator-placement implementation must perform fresh Current Host impact reconciliation and any required non-simulated physical qualification before promotion.",
+  "structural_changes": [
+    ".github/workflows/fa3-local-ai-model-development-policy.yml",
+    "canonical/FA3-LOCAL-AI-MODEL-DEVELOPMENT-POLICY-001.json",
+    "canonical/assessments/FA3-LOCAL-AI-MODEL-DEVELOPMENT-POLICY-REUSE-ASSESSMENT-2026-10-04.json",
+    "canonical/intents/FA3-LOCAL-AI-MODEL-DEVELOPMENT-POLICY-INTENT-2026-10-04.json",
+    "canonical/local-ai-model-development-enforcement.json",
+    "src/fa3_local_ai_model_development_gate.py"
+  ],
+  "historical_evidence_reused": false,
+  "current_host_changes": []
 }
