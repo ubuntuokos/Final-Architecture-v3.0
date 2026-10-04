@@ -3,23 +3,23 @@
   "id": "FA3-CUDA-COMPAT-NATIVE-APPLICATION-INTENT-2026-10-04",
   "project_id": "FA3-PROVIDER-CFA3-NATIVE-CUDA-COMPAT-001",
   "project_type": "SHARED_NATIVE_EXECUTION_COMPATIBILITY_CORE",
-  "title": "Implement CFA3-native shared CUDA compatibility translation",
-  "status": "OWNER_APPROVED_FOR_IMPLEMENTATION",
+  "title": "Implement CFA3-native shared CUDA compatibility fabric",
+  "status": "OWNER_APPROVED_FINAL_PLAN_V2_IMPLEMENTED_PENDING_VERIFICATION",
   "date": "2026-10-04",
-  "goal": "Provide one CFA3-owned CUDA-oriented source compatibility and translation core to every current and future CFA3 application, targeting AMD and Intel through existing native/portable execution backends without any Spectral Compute SCALE build or runtime dependency.",
+  "goal": "Provide one CFA3-owned structured CUDA compatibility fabric to every current and future CFA3 application, with AMD HIP and Intel SYCL/OpenCL target lowerings, build/runtime compatibility inspection, explicit portability classifications, and no Spectral Compute SCALE build/runtime dependency.",
   "requirements": [
     "CUDA is a backend interface, not a capability.",
-    "The implementation is one central shared CFA3-native core available to every current and future CFA3 application.",
-    "Spectral Compute SCALE must not be a build dependency, runtime dependency, binary-loading dependency, or activation requirement.",
-    "Application-local CUDA compatibility or translation cores are forbidden.",
-    "AMD translation targets the admitted ROCm/HIP execution path.",
-    "Intel translation targets admitted Level Zero/OpenCL execution paths.",
-    "CUDA source feature coverage must be analyzed per workload and unsupported semantics must fail closed with a user-visible limitation.",
-    "Closed CUDA binaries, PTX, CUBIN and FATBIN are not claimed by the initial implementation.",
-    "Translation execution must be explicitly allowed by workload policy.",
-    "HRB remains placement and lease authority.",
-    "Native NVIDIA CUDA remains available independently and is not replaced.",
-    "No silent backend, device, provider or cloud fallback.",
+    "One central shared CFA3-native functional core serves every current and future CFA3 application; application-local compatibility cores are forbidden.",
+    "Spectral Compute SCALE is not a build, runtime, binary-loading, installer or activation dependency.",
+    "CUDA source is analyzed through the bounded structured CFA3 CUDA IR frontend before target lowering.",
+    "AMD supported-subset translation targets admitted ROCm/HIP and is classified FULL_EQUIVALENCE only for that admitted subset.",
+    "Intel supported-subset translation targets SYCL/Level Zero primarily and OpenCL secondarily and is classified FUNCTIONALLY_REDUCED with explicit limitations.",
+    "Every target result is FULL_EQUIVALENCE, FUNCTIONALLY_REDUCED or UNAVAILABLE.",
+    "Unknown CUDA semantics, runtime symbols and nvcc options fail closed; no silent option or backend fallback.",
+    "Build plans and runtime maps are inspection/preparation artifacts and never authorize execution.",
+    "PTX, CUBIN, FATBIN, closed CUDA binary compatibility, full CUDA/nvcc/Driver/CUDA-X parity are not claimed.",
+    "Translation execution requires explicit workload policy; HRB remains placement/lease authority and Hardware Safety retains precedence.",
+    "Native NVIDIA CUDA remains independent and primary where admitted.",
     "Physical Current Host or target-host evidence is required before runtime promotion.",
     "Capability baseline remains 175 with no new architectural authority."
   ],
@@ -83,5 +83,11 @@
     "access": "CENTRAL_SHARED_ENTRYPOINT",
     "application_allowlist": false,
     "application_local_implementation": false
-  }
+  },
+  "approved_plan": "docs/cfa3-native-cuda-compat-final-plan-2026-10-04.md",
+  "plan_approval_record": "canonical/decisions/FA3-DEC-CUDA-COMPAT-NATIVE-PLAN-APPROVAL-2026-10-04.json",
+  "approved_donor_use_decisions": [
+    "canonical/decisions/FA3-DEC-CUDA-COMPAT-OROCHI-DONOR-USE-2026-10-04.json",
+    "canonical/decisions/FA3-DEC-CUDA-COMPAT-ROCM-EXAMPLES-DONOR-USE-2026-10-04.json"
+  ]
 }
