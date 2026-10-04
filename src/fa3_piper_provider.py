@@ -19,7 +19,7 @@ def execute_piper(req:dict[str,Any],output:Path)->dict[str,Any]:
     if not exe: raise PiperDenied("piper executable not installed")
     root_raw=os.environ.get("FA3_PIPER_MODEL_ROOT","")
     if not root_raw: raise PiperDenied("FA3_PIPER_MODEL_ROOT is not configured")
-    root=Path(root_raw).expanduser().resolve(); model=Path(str(req.get("model_path",""))).expanduser().resolve()
+    root=Path(root_raw).expanduser().resolve(); model_raw=str(req.get("model_path") or os.environ.get("FA3_PIPER_MODEL_PATH","")); model=Path(model_raw).expanduser().resolve()
     if not root.is_dir() or root not in model.parents: raise PiperDenied("model must be under FA3_PIPER_MODEL_ROOT")
     meta=model.with_suffix(model.suffix+".fa3.json")
     if not model.is_file() or not meta.is_file(): raise PiperDenied("model or FA3 metadata missing")
