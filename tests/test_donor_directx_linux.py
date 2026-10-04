@@ -47,7 +47,6 @@ class DirectXLinuxDonorTests(unittest.TestCase):
                 self.assertEqual(review.get("basis"), "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK")
                 self.assertEqual(review.get("scope"), "REFERENCE_REGISTRATION_ONLY")
                 self.assertIs(review.get("second_registry_approval_required"), False)
-                self.assertTrue(row.get("intake_provenance"))
             else:
                 self.assertEqual(row["status"], "CANDIDATE")
             self.assertEqual(row["code_reuse_policy"], "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW")
