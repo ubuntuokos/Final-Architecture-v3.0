@@ -4,6 +4,7 @@ import QtQuick.Layouts
 
 Rectangle {
     id: root
+    objectName: "generativeMediaMeshPanel"
     property color panel: "#091624"
     property color borderColor: "#1d3550"
     property color textPrimary: "#f5f8fc"
@@ -32,10 +33,11 @@ Rectangle {
 
         RowLayout {
             Layout.fillWidth: true
-            Label { text: "Generative Media Capability Mesh"; color: root.textPrimary; font.bold: true; font.pixelSize: 13; Layout.fillWidth: true }
-            Label { text: "RUNTIME GATED"; color: root.accent; font.bold: true; font.pixelSize: 9 }
+            Label { id: titleLabel; text: "Generative Media Capability Mesh"; color: root.textPrimary; font.bold: true; font.pixelSize: 13; Layout.fillWidth: true }
+            Label { id: runtimeGateLabel; text: "RUNTIME GATED"; color: root.accent; font.bold: true; font.pixelSize: 9 }
         }
         Label {
+            id: authorityLabel
             Layout.fillWidth: true
             text: "FA3-native shared projection · capability baseline 175 · Model Router → HRB · Temporal workflow authority"
             color: root.textMuted
@@ -67,11 +69,28 @@ Rectangle {
             }
         }
         Label {
+            id: childAdmissionLabel
             Layout.fillWidth: true
             text: "HiDream child providers: not admitted · explicit child donor marker + rights/security/coexistence/runtime gates required"
             color: root.textMuted
             font.pixelSize: 8
             wrapMode: Text.WordWrap
+        }
+    }
+
+    function currentHostProbeReport() {
+        return {
+            "panelObjectName": objectName,
+            "panelVisible": visible && width > 0 && height > 0,
+            "panelWidth": width,
+            "panelHeight": height,
+            "titleVisible": titleLabel.visible && titleLabel.width > 0 && titleLabel.height > 0,
+            "runtimeGateVisible": runtimeGateLabel.visible && runtimeGateLabel.width > 0 && runtimeGateLabel.height > 0,
+            "authorityVisible": authorityLabel.visible && authorityLabel.width > 0 && authorityLabel.height > 0,
+            "childAdmissionVisible": childAdmissionLabel.visible && childAdmissionLabel.width > 0 && childAdmissionLabel.height > 0,
+            "runtimeGateText": runtimeGateLabel.text,
+            "authorityText": authorityLabel.text,
+            "childAdmissionText": childAdmissionLabel.text
         }
     }
 }
