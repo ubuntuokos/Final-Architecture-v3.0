@@ -244,6 +244,8 @@ def compile_plan(root: Path | str, goal_value: dict[str, Any], steps: list[dict[
             "schema": "fa3.agent-workload-task.v1",
             "task_id": tid,
             "root_task_id": goal["goal_id"],
+            "scope_origin": scope_origin,
+            "scope_refs": list(scope_refs),
             "action_ref": action,
             "agent_definition_ref": agent,
             "resource_requirements": copy.deepcopy(step.get("resource_requirements", {})),
@@ -341,12 +343,34 @@ def propose_repair(goal_value: dict[str, Any], assessment: dict[str, Any],
                    attempted_retries: int) -> dict[str, Any]:
     """Return a finite, nonexecuting repair proposal, not a right to retry."""
     goal = validate_goal(goal_value)
-    if assessment.get("schema") != ASSESS_SCHEMA or assessment.get("goal_digest") != digest(goal):
+    if (assessment.get("schema") != ASSESS_SCHEMA or
+            assessment.get("goal_id") != goal["goal_id"] or
+            assessment.get("goal_revision") != goal["revision"] or
+            assessment.get("goal_digest") != digest(goal)):
         raise GoalContractError("assessment does not match immutable goal revision")
+    rows = assessment.get("criteria")
+    if not isinstance(rows, list):
+        raise GoalContractError("assessment criteria must be list")
+    expected_ids = [c["criterion_id"] for c in goal["acceptance_criteria"]]
+    seen: set[str] = set()
+    allowed_statuses = {"MISSING", "BLOCKED", "UNPROVEN", "READY_FOR_CANONICAL_VERIFICATION"}
+    for row in rows:
+        if not isinstance(row, dict):
+            raise GoalContractError("assessment criterion must be object")
+        cid = _required(row.get("criterion_id"), "assessment.criterion_id")
+        if cid in seen:
+            raise GoalContractError("duplicate assessment criterion")
+        if cid not in expected_ids:
+            raise GoalContractError("assessment refers to unknown criterion")
+        if row.get("status") not in allowed_statuses:
+            raise GoalContractError("assessment criterion status invalid")
+        seen.add(cid)
+    if seen != set(expected_ids):
+        raise GoalContractError("assessment criterion set incomplete")
     if type(attempted_retries) is not int or attempted_retries < 0:
         raise GoalContractError("invalid retry count")
     remaining = goal["execution_policy"]["limits"]["max_retries"] - attempted_retries
-    failed = [r["criterion_id"] for r in assessment.get("criteria", [])
+    failed = [r["criterion_id"] for r in rows
               if r["status"] != "READY_FOR_CANONICAL_VERIFICATION"]
     return {
         "schema": "fa3.goal-repair-proposal.v1", "goal_digest": digest(goal),
