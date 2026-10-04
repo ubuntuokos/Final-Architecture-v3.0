@@ -23,10 +23,12 @@ class Adk2DerivedRuntimeSemanticsTests(unittest.TestCase):
     def test_artifact_version_cannot_skip(self):
         with self.assertRaises(RuntimeSemanticsError): validate_artifact_write("out/a.bin",1,2,previous_version=1,requested_version=3)
     def test_execution_plan_compiler_binds_task_graph_model_and_budget(self):
-        task={"schema":"fa3.agent-workload-task.v1","task_id":"t","root_task_id":"t","action_ref":"orchestration.execute","agent_definition_ref":"a","workspace_refs":[],"resource_requirements":{},"network_envelope_ref":"n","model_intent":{"required_capabilities":["tools"]},"authorized_ai_participants":["a"],"fanout_limits":{"max_children":1,"max_depth":1,"max_concurrent_children":1,"max_runtime_seconds":60,"max_retries":1,"max_tool_calls":2,"max_model_requests":2},"provenance_refs":[]}
+        task={"schema":"fa3.agent-workload-task.v1","task_id":"t","root_task_id":"t","scope_origin":"REQUIRED_FOR_APPROVED_GOAL","scope_refs":["approved:t"],"action_ref":"orchestration.execute","agent_definition_ref":"a","workspace_refs":[],"resource_requirements":{},"network_envelope_ref":"n","model_intent":{"required_capabilities":["tools"]},"authorized_ai_participants":["a"],"fanout_limits":{"max_children":1,"max_depth":1,"max_concurrent_children":1,"max_runtime_seconds":60,"max_retries":1,"max_tool_calls":2,"max_model_requests":2},"provenance_refs":[]}
         graph={"schema":"fa3.agent-workflow-graph.v1","graph_id":"g","entry_node":"n1","yaml_is_canonical":False,"nodes":[{"node_id":"n1","kind":"AGENT","side_effecting":False}],"edges":[]}
         model={"schema":"fa3.model-capability-descriptor.v1","logical_model_id":"default","source":"PROVIDER_DECLARED","router_authority":"FA3-AUTH-MODEL-ROUTER-001","model_id_heuristic":False,"capabilities":{"tools":True,"structured_output":False,"media_input":False,"media_output":False,"streaming":True}}
         plan=compile_execution_plan(task,graph,model,task_spec_digest="sha256:t",max_transfer_hops=2)
         self.assertEqual("fa3.agent-execution-plan.v1",plan["schema"])
         self.assertEqual(2,plan["ledger"]["limits"]["transfer_hops"])
+        self.assertEqual("REQUIRED_FOR_APPROVED_GOAL",plan["scope_origin"])
+        self.assertEqual(["approved:t"],plan["scope_refs"])
 if __name__=="__main__": unittest.main()

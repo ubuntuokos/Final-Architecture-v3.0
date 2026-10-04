@@ -55,3 +55,8 @@ The reference gate proves schema, authority, negative-regression and distributio
 The mandatory child profile `FA3-AGENT-RUNTIME-SEMANTICS-001` adds provider-neutral graph, budget, resume/retry, model-capability, tool-confirmation, agent-transfer, MCP normalization, session/event and artifact-boundary semantics derived from selected Google ADK 2.x patterns. The implementation is FA3-native; Google ADK is REFERENCE_ONLY and is not a runtime dependency.
 
 The child gate `FA3-ADK2-DERIVED-AGENT-RUNTIME-GATESET-001` is invoked by the existing Agent Workload Runtime gate, so these semantics are globally enforced through the already-mandatory parent gate without creating a new authority or capability.
+
+
+## Task-scope provenance closure
+
+Every admitted `fa3.agent-workload-task.v1` carries `scope_origin` and non-empty `scope_refs`. The only admitted origins are `EXPLICIT_USER_SCOPE`, `REQUIRED_FOR_APPROVED_GOAL`, and `EXPLICIT_USER_SCOPE_EXTENSION`. Open-ended successor classes such as WHAT_NEXT, optional improvement, assistant-suggested, opportunistic or auto-backlog work fail closed at the common workload validator. This keeps task-scope provenance intact after Goal Execution planning and across direct Orchestration-to-Workload compilation. Completing a task does not create a successor task.

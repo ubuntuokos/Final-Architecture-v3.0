@@ -7,6 +7,8 @@
   "required": [
     "schema",
     "task_id",
+    "scope_refs",
+    "scope_origin",
     "task_spec_digest",
     "workflow_graph",
     "model_capability_descriptor",
@@ -66,6 +68,23 @@
         }
       },
       "additionalProperties": false
+    },
+    "scope_origin": {
+      "type": "string",
+      "enum": [
+        "EXPLICIT_USER_SCOPE",
+        "REQUIRED_FOR_APPROVED_GOAL",
+        "EXPLICIT_USER_SCOPE_EXTENSION"
+      ]
+    },
+    "scope_refs": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
     }
   },
   "additionalProperties": false

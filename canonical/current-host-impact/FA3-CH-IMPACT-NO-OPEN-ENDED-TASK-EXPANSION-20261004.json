@@ -1,0 +1,20 @@
+{
+  "schema": "fa3.current-host-structural-impact.v1",
+  "id": "FA3-CH-IMPACT-NO-OPEN-ENDED-TASK-EXPANSION-20261004",
+  "status": "NO_RUNTIME_IMPACT",
+  "structural_changes": [
+    ".github/workflows/fa3-goal-execution-foundation.yml",
+    "canonical/contracts/FA3-AGENT-EXECUTION-PLAN-001.schema.json",
+    "canonical/contracts/FA3-AGENT-WORKLOAD-RUNTIME-CONTRACTS-001.json",
+    "canonical/contracts/FA3-AGENT-WORKLOAD-TASK-001.schema.json",
+    "canonical/contracts/FA3-GOAL-EXECUTION-CONTRACTS-001.schema.json",
+    "canonical/decisions/FA3-DEC-NO-OPEN-ENDED-TASK-EXPANSION-2026-10-04.json",
+    "src/fa3_adk2_runtime_gate.py",
+    "src/fa3_agent_workload.py",
+    "src/fa3_agent_workload_gate.py"
+  ],
+  "current_host_changes": [],
+  "physical_requalification_required": false,
+  "historical_evidence_reused": false,
+  "rationale": "This hardens task-scope provenance at the existing Goal Execution and Agent Workload admission/validation boundaries. It does not add or change a runner, provider, device/resource allocation, host service, Current Host proof recipe, hardware behavior, execution authority, or promotion claim. Executable workloads now fail closed when task scope provenance is missing or open-ended; the native/current-host execution mechanism is unchanged. Therefore no fresh physical Current Host requalification is required."
+}

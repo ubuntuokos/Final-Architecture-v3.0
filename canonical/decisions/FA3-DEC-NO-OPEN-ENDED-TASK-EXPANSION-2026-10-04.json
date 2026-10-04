@@ -1,0 +1,59 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-NO-OPEN-ENDED-TASK-EXPANSION-2026-10-04",
+  "date": "2026-10-04",
+  "status": "CANONICAL_CLOSED",
+  "subject": "No open-ended or implicit task expansion",
+  "decision": "ACCEPT_AND_MANDATE",
+  "rule_id": "FA3-RULE-NO-OPEN-ENDED-TASK-EXPANSION-001",
+  "contract_family_id": "FA3-GOAL-EXECUTION-CONTRACTS-001",
+  "canonical_classification": "P0/MUST task-scope governance invariant: executable work must be traceable to explicit user scope or a necessary approved-goal dependency; no assistant-generated open-ended successor/backlog task is an executable task class.",
+  "allowed_scope_origins": [
+    "EXPLICIT_USER_SCOPE",
+    "REQUIRED_FOR_APPROVED_GOAL",
+    "EXPLICIT_USER_SCOPE_EXTENSION"
+  ],
+  "prohibited_task_classes": [
+    "WHAT_NEXT",
+    "OPTIONAL_IMPROVEMENT",
+    "ASSISTANT_SUGGESTED",
+    "OPPORTUNISTIC_TASK",
+    "AUTO_BACKLOG"
+  ],
+  "invariants": {
+    "implicit_task_expansion": "DENY",
+    "open_ended_followup_task_generation": "DENY",
+    "assistant_generated_optional_backlog_execution": "DENY",
+    "missing_scope": "FAIL_CLOSED",
+    "task_requires_scope_provenance": true,
+    "completed_task_creates_successor_task": false,
+    "new_task_requires_explicit_user_or_required_goal_provenance": true,
+    "repair_scope_must_be_subset_of_original_scope": true,
+    "repair_criteria_must_be_subset_of_original_acceptance_criteria": true
+  },
+  "applies_retroactively_to_governance": [
+    "Assistant",
+    "Coach",
+    "Mentor",
+    "Manager",
+    "Agent Workload",
+    "Orchestration Workforce",
+    "Temporal workflows",
+    "delegated task graphs",
+    "Control Center task surfaces",
+    "current and future FA3 applications"
+  ],
+  "completion_states": [
+    "DONE",
+    "BLOCKED",
+    "PARTIAL",
+    "FAILED",
+    "WAITING_FOR_APPROVAL",
+    "STOP_HUMAN_INTERVENTION_REQUIRED"
+  ],
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "temporal_authority": "SOLE_GLOBAL_DURABLE_LIFECYCLE_OWNER",
+  "promotion_claimed": false
+}

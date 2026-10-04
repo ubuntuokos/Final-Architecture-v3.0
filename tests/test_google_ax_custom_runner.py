@@ -10,6 +10,7 @@ class GoogleAxCustomRunnerTests(unittest.TestCase):
     def fixtures(self):
         task={
             "schema":"fa3.agent-workload-task.v1","task_id":"agent-task-1","root_task_id":"agent-task-1",
+            "scope_origin":"REQUIRED_FOR_APPROVED_GOAL","scope_refs":["approved:agent-task-1"],
             "action_ref":"orchestration.execute","agent_definition_ref":"agent:def:1","workspace_refs":["workspace-1"],
             "resource_requirements":{"cpu_physical_cores":1},"network_envelope_ref":"net:1",
             "model_intent":{"capability":"coding","locality":"prefer_local"},"authorized_ai_participants":["agent:def:1"],
