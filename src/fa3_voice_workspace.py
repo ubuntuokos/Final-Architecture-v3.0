@@ -50,6 +50,8 @@ class VoiceWorkspace:
         if requested:
             if requested not in candidates: raise VoiceWorkspaceError("provider override outside Model Router candidate set")
             return requested
+        if req.get("candidate_execution_ack") is True and key=="plain_or_preset_tts" and "FA3-PROVIDER-PIPER-001" in candidates:
+            return "FA3-PROVIDER-PIPER-001"
         return candidates[0]
     def generate(self,req):
         for k in ("text","language","voice_identity_ref","license_and_rights_ref"):
