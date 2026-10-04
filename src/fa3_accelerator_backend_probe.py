@@ -221,9 +221,11 @@ def _native_cuda_compat_backend(
     if device.vendor == "AMD":
         preferred = ("rocm",)
         target = "HIP_CPP"
+        compat = "FULL_EQUIVALENCE"
     elif device.vendor == "INTEL" and device.kind == "gpu":
         preferred = ("level-zero", "opencl")
-        target = "OPENCL_C"
+        target = "SYCL_CPP_PRIMARY_OPENCL_C_SECONDARY"
+        compat = "FUNCTIONALLY_REDUCED"
     else:
         return None
 
@@ -233,6 +235,9 @@ def _native_cuda_compat_backend(
     )
     if base is None:
         return None
+    frameworks = ["cuda-compat", "cfa3-native", base.name]
+    if device.vendor == "INTEL" and base.name == "level-zero":
+        frameworks.append("sycl")
     return AcceleratorBackendDescriptor(
         name="cfa3-cuda-compat",
         backend_class="translation",
@@ -241,12 +246,13 @@ def _native_cuda_compat_backend(
         binding_scope=base.binding_scope,
         runtime_version=base.runtime_version,
         driver_version=base.driver_version,
-        framework_backends=("cuda-compat", "cfa3-native", base.name),
+        framework_backends=tuple(frameworks),
         experimental=True,
         evidence_sources=tuple(base.evidence_sources) + (
-            "cfa3-native-cuda-compat:v1",
+            "cfa3-native-cuda-compat:v2",
             "external-scale-runtime-dependency:false",
             f"translation-target:{target}",
+            f"compatibility-classification:{compat}",
             f"requires-device-backend:{base.name}",
         ),
     )
