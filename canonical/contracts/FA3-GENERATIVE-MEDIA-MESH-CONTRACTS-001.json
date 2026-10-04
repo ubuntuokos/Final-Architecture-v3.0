@@ -1,0 +1,120 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001",
+  "name": "Provider-Neutral Generative Media Capability Mesh Contracts",
+  "status": "CANONICAL_STATIC_RUNTIME_GATED",
+  "provider_neutral": true,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "reuses": [
+    "FA3-IMGGEN-CONTRACTS-001",
+    "FA3-MMG-CONTEXT-IR-CONTRACTS-001",
+    "FA3-VIDEO-REFINEMENT-CONTRACTS-001",
+    "FA3-MOTION-VIDEO-EXECUTION-CONTRACTS-001"
+  ],
+  "contracts": [
+    "GenerativeMediaMeshRequest",
+    "ImageGenerationEditIntent",
+    "StoryboardGenerationIntent",
+    "MotionTrajectoryIntent",
+    "RegionalVideoEditIntent",
+    "VideoRefinementIntent",
+    "CharacterAnimationIntent",
+    "GenerativeResearchExperimentIntent",
+    "MultimodalSkillAdvisoryIntent",
+    "ProviderEligibilityReceipt",
+    "ProjectionLossReport",
+    "GenerativeMediaMeshReceipt"
+  ],
+  "intent_classes": {
+    "image": [
+      "TEXT_TO_IMAGE",
+      "INSTRUCTION_EDIT",
+      "REFERENCE_EDIT",
+      "SUBJECT_PERSONALIZATION",
+      "LAYOUT_TEXT",
+      "PHYSICAL_CONSISTENCY_CONSTRAINT"
+    ],
+    "storyboard": [
+      "SCENE_TO_BOARD",
+      "SHOT_TO_BOARD",
+      "VARIANT_GENERATION"
+    ],
+    "motion": [
+      "OBJECT_TRAJECTORY",
+      "CAMERA_TRAJECTORY",
+      "IMAGE_TO_VIDEO"
+    ],
+    "video_edit": [
+      "REGIONAL_ADD",
+      "REGIONAL_REMOVE",
+      "REGIONAL_REPLACE",
+      "REGIONAL_STYLE"
+    ],
+    "refinement": [
+      "UPSCALE",
+      "DETAIL_REFINE",
+      "DENOISE_RECONSTRUCT",
+      "GENERATOR_REFINER"
+    ],
+    "character": [
+      "REFERENCE_CONDITIONING",
+      "POSE_MOTION_TRANSFER",
+      "CHARACTER_REPLACEMENT",
+      "TEMPORAL_CONSISTENCY"
+    ],
+    "research": [
+      "SAMPLER_DISTILLATION",
+      "DIFFUSION_RL",
+      "LATENT_PIXEL_ARCHITECTURE",
+      "AUTOREGRESSIVE_ARCHITECTURE",
+      "CONCEPT_INTERVENTION"
+    ],
+    "routing": [
+      "MULTIMODAL_SKILL_SCORING_ADVISORY"
+    ]
+  },
+  "application_projection_rules": {
+    "direct_child_repository_binding": false,
+    "direct_provider_binding": false,
+    "native_project_authority_preserved": true,
+    "screenplay_canon_mutation_by_generation": false,
+    "provider_specific_prompt_is_downstream_only": true,
+    "provider_specific_runtime_parameters_are_downstream_only": true
+  },
+  "authority_boundaries": {
+    "provider_model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource_placement": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "workflow": "TEMPORAL_EXISTING_AUTHORITY",
+    "capability_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "security_license": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "story": "FA3-STORY-001",
+    "scene_camera": "FA3-DCC-RT3D-001",
+    "engine_selector": "PREFERENCE_AND_COMPATIBILITY_ONLY_NOT_AUTHORITY"
+  },
+  "hard_rules": {
+    "cpu_reference_or_non_ai_manual_path_required_at_fabric_level": true,
+    "gpu_npu_execution_optional_and_hrb_admitted": true,
+    "automatic_display_gpu_enrollment": false,
+    "silent_provider_model_backend_fallback": false,
+    "child_repo_execution_requires_individual_admission": true,
+    "org_level_donor_does_not_admit_children": true,
+    "weights_datasets_dependencies_require_separate_rights": true,
+    "restricted_reference_cannot_be_sole_implementation": true,
+    "multimodal_skill_scoring_is_advisory_only": true,
+    "temporal_remains_durable_workflow_authority": true,
+    "static_materialization_is_not_physical_current_host_pass": true,
+    "runtime_promotion_requires_positive_negative_rollback_evidence": true
+  },
+  "child_admission_policy": {
+    "parent_donor_id": "FA3-DONOR-HIDREAM-AI-ORG-001",
+    "automatic_child_registration": false,
+    "automatic_provider_admission": false,
+    "automatic_model_admission": false,
+    "explicit_child_donor_marker_required": true,
+    "independent_provenance_license_rights_security_coexistence_hardware_review_required": true
+  }
+}
