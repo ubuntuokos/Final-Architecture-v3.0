@@ -28,8 +28,11 @@ def gate(root: Path) -> dict[str, Any]:
         "impact": "canonical/current-host-impact/FA3-CH-IMPACT-SCALE-CUDA-COMPAT-20261004.json",
         "cuda_policy": "canonical/FA3-CUDA-PORTABILITY-SHARED-FUNCTION-POLICY-001.json",
         "rights_policy": "canonical/license-rights-policy.json",
-        "shared_entrypoint": "src/fa3_cuda_compat_shared.py",
     }
+    shared_entrypoint = root / "src/fa3_cuda_compat_shared.py"
+    if not shared_entrypoint.is_file():
+        findings.append("missing-shared-entrypoint:src/fa3_cuda_compat_shared.py")
+
     data: dict[str, dict[str, Any]] = {}
     for key, rel in required.items():
         try:
