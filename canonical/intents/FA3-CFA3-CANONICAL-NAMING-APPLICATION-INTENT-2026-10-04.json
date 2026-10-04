@@ -1,0 +1,38 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-CFA3-CANONICAL-NAMING-APPLICATION-INTENT-2026-10-04",
+  "project_id": "FA3-CFA3-CANONICAL-NAMING-COMPATIBILITY-POLICY-001",
+  "project_type": "POLICY",
+  "goal": "Make CFA3 the final canonical product name while preserving FA3 as a fully equivalent historical alias and protecting all historical and machine-readable identifiers from destructive rename.",
+  "required_capabilities": [
+    "IDENTITY_COMPATIBILITY",
+    "PROVENANCE_PRESERVATION",
+    "BACKWARD_COMPATIBILITY"
+  ],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "PRODUCT_RENAME_AMBIGUITY",
+    "HISTORICAL_REFERENCE_SPLIT",
+    "DESTRUCTIVE_IDENTIFIER_RENAME",
+    "TRACEABILITY_BREAKAGE"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [],
+  "namespace_claims": {
+    "requires_global_namespace_rewrite": false,
+    "changes_existing_api_abi": false,
+    "changes_storage_paths": false,
+    "changes_environment_variables": false
+  },
+  "security_requirements": [
+    "NO_DESTRUCTIVE_HISTORY_REWRITE",
+    "NO_SILENT_MACHINE_IDENTIFIER_RENAME"
+  ],
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001"
+  ],
+  "gui_requirements": [
+    "NEW_USER_FACING_PRODUCT_NAME_IS_CFA3"
+  ]
+}
