@@ -2,7 +2,7 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 PREFIX="${HOME}/.local/lib/fa3"
-install -d -m0755 "$PREFIX/bin" "$PREFIX/src" "$PREFIX/canonical" "${HOME}/.config/systemd/user"
+install -d -m0755 "$PREFIX/bin" "$PREFIX/src" "$PREFIX/canonical" "${HOME}/.config/systemd/user" "${HOME}/.local/state/fa3"
 install -m0555 "$ROOT/bin/fa3-voice-studio" "$PREFIX/bin/fa3-voice-studio"
 install -m0444 "$ROOT/src/fa3_voice_studio_server.py" "$PREFIX/src/fa3_voice_studio_server.py"
 install -m0444 "$ROOT/src/fa3_voice_workspace.py" "$PREFIX/src/fa3_voice_workspace.py"
