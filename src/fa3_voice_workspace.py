@@ -383,15 +383,46 @@ class VoiceWorkspaceStore:
             "uaf_authority": UAF,
             "execution_requested": False,
         }
-        capture["status"] = "TRANSCRIBING"
+        capture["status"] = "TRANSCRIPTION_STAGED_UAF"
         capture["updated_at"] = utcnow()
         self.state["activity"] = {
-            "state": "TRANSCRIBING",
+            "state": "PAUSED",
             "application": "fa3.voice-studio",
             "actor": "user",
             "voice_profile_id": "",
             "job_id": request_id,
-            "visible": True,
+            "visible": False,
+        }
+        self._save()
+        return copy.deepcopy(capture)
+
+    def begin_transcription(self, capture_id: str, uaf_execution_ref: str) -> dict[str, Any]:
+        capture = self.state["captures"].get(_clean(capture_id))
+        if not capture or capture.get("status") != "TRANSCRIPTION_STAGED_UAF":
+            raise VoiceWorkspaceDenied("transcription execution requires staged capture")
+        if not _clean(uaf_execution_ref):
+            raise VoiceWorkspaceDenied("UAF execution reference required for transcription")
+        capture["status"] = "TRANSCRIBING"
+        capture["updated_at"] = utcnow()
+        capture["transcription_request"]["execution_requested"] = True
+        capture["transcription_request"]["uaf_execution_ref"] = _clean(uaf_execution_ref)
+        self.state["activity"] = {
+            "state": "TRANSCRIBING", "application": "fa3.voice-studio", "actor": "user",
+            "voice_profile_id": "", "job_id": capture["transcription_request"]["request_id"], "visible": True,
+        }
+        self._save()
+        return copy.deepcopy(capture)
+
+    def fail_transcription(self, capture_id: str, reason: str) -> dict[str, Any]:
+        capture = self.state["captures"].get(_clean(capture_id))
+        if not capture:
+            raise VoiceWorkspaceDenied("unknown capture")
+        capture["status"] = "BLOCKED"
+        capture["updated_at"] = utcnow()
+        capture["transcription_error"] = _clean(reason)
+        self.state["activity"] = {
+            "state": "ERROR", "application": "fa3.voice-studio", "actor": "user",
+            "voice_profile_id": "", "job_id": str((capture.get("transcription_request") or {}).get("request_id") or ""), "visible": True,
         }
         self._save()
         return copy.deepcopy(capture)
