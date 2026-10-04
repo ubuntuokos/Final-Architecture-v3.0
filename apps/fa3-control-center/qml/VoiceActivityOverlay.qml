@@ -8,6 +8,7 @@ Rectangle {
     property string applicationName: "QuickClip"
     property string actorName: "Assistant"
     property string voiceName: "Narrator (hu-HU)"
+    property string jobId: ""
     property bool localProcessing: true
     property color panel: "#111318"
     property color border: "#3a424e"
@@ -34,7 +35,11 @@ Rectangle {
         Label { text: root.applicationName + " · " + root.actorName + " · " + root.voiceName; color: textPrimary; elide: Text.ElideRight; Layout.fillWidth: true }
         RowLayout {
             Button { text: "Pause"; enabled: false }
-            Button { text: "Stop"; enabled: false }
+            Button {
+                text: "Stop"
+                enabled: root.jobId.length > 0
+                onClicked: fa3VoiceWorkspace.cancelJob(root.jobId, "USER_STOP_FROM_OVERLAY")
+            }
             Item { Layout.fillWidth: true }
             Label { text: "visible voice activity required"; color: textMuted; font.pixelSize: 9 }
         }
