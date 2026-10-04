@@ -58,6 +58,22 @@ class NativeCudaCompatTests(unittest.TestCase):
         self.assertIn("hipFree(p)", result["artifact"]["source"])
         self.assertEqual("FULL_EQUIVALENCE", result["compatibility_result"])
 
+    def test_amd_runtime_types_and_copy_kind_are_mapped_before_full_equivalence(self):
+        source = SIMPLE + "\nvoid copy(float *dst, float *src) { cudaError_t e = cudaMemcpy(dst, src, 16, cudaMemcpyHostToDevice); if (e != cudaSuccess) {} }"
+        result = translate_cuda_kernel_source(source, target_vendor="AMD")
+        self.assertEqual("PASS", result["result"], result)
+        translated = result["artifact"]["source"]
+        self.assertIn("hipError_t", translated)
+        self.assertIn("hipMemcpyHostToDevice", translated)
+        self.assertIn("hipSuccess", translated)
+        self.assertNotIn("cudaMemcpyHostToDevice", translated)
+
+    def test_unknown_cuda_runtime_identifier_blocks_amd_full_equivalence(self):
+        source = SIMPLE + "\nvoid x() { cudaInventedType thing; }"
+        report = analyze_cuda_source(source, target_vendor="AMD")
+        self.assertFalse(report["supported"])
+        self.assertIn("UNSUPPORTED_CUDA_IDENTIFIER:cudaInventedType", report["unsupported_features"])
+
     def test_intel_sycl_is_primary_and_functionally_reduced(self):
         result = translate_cuda_kernel_source(SIMPLE, target_vendor="INTEL")
         self.assertEqual("PASS", result["result"], result)
@@ -67,6 +83,13 @@ class NativeCudaCompatTests(unittest.TestCase):
         self.assertIn("#include <sycl/sycl.hpp>", result["artifact"]["source"])
         self.assertIn("item.get_local_id(2)", result["artifact"]["source"])
         self.assertIn("SYCL_HOST_QUEUE_LAUNCH_WRAPPER_REQUIRED", result["artifact"]["limitations"])
+
+    def test_intel_launch_bounds_is_removed_by_structured_lowerer(self):
+        source = "__global__ __launch_bounds__(256) void k(float *x) { int i = threadIdx.x; x[i] = 1.0f; }"
+        result = translate_cuda_kernel_source(source, target_vendor="INTEL")
+        self.assertEqual("PASS", result["result"], result)
+        self.assertNotIn("__launch_bounds__", result["artifact"]["source"])
+        self.assertIn("inline void k(", result["artifact"]["source"])
 
     def test_intel_opencl_remains_explicit_secondary_target(self):
         result = translate_cuda_kernel_source(SIMPLE, target_vendor="INTEL", target_backend="opencl")
@@ -114,6 +137,16 @@ class NativeCudaCompatTests(unittest.TestCase):
         self.assertEqual("FUNCTIONALLY_REDUCED", intel["classification"])
         self.assertEqual("UNAVAILABLE", missing["classification"])
         self.assertFalse(amd["runtime_execution_authorized"])
+
+    def test_two_token_nvcc_architecture_option_is_preserved(self):
+        plan = make_build_plan(
+            sources=["kernel.cu"],
+            nvcc_args=["-gencode", "arch=compute_90,code=sm_90"],
+            target_vendor="AMD",
+            target_backend="hip",
+        )
+        self.assertEqual("PASS", plan["result"], plan)
+        self.assertEqual(["-gencode", "arch=compute_90,code=sm_90"], plan["normalized_nvcc_options"])
 
     def test_unknown_nvcc_option_is_denied_not_dropped(self):
         plan = make_build_plan(
