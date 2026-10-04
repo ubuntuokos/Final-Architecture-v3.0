@@ -68,6 +68,7 @@ def _base_state() -> dict[str, Any]:
             "application": "fa3.voice-studio",
             "actor": "",
             "voice_profile_id": "",
+            "job_id": "",
             "visible": False,
         },
     }
@@ -306,6 +307,7 @@ class VoiceWorkspaceStore:
             "application": "fa3.voice-studio",
             "actor": "",
             "voice_profile_id": req["voice_identity_ref"],
+            "job_id": job_id,
             "visible": True,
         }
         self._save()
@@ -346,7 +348,7 @@ class VoiceWorkspaceStore:
         job["updated_at"] = utcnow()
         self.state["activity"] = {
             "state": "IDLE", "application": "fa3.voice-studio", "actor": "",
-            "voice_profile_id": job["request"]["voice_identity_ref"], "visible": False,
+            "voice_profile_id": job["request"]["voice_identity_ref"], "job_id": job_id, "visible": False,
         }
         self._save()
         return copy.deepcopy(job)
