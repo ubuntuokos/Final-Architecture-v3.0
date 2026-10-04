@@ -1208,41 +1208,6 @@
       }
     },
     {
-      "id": "FA3-USAGE-ANTIGRAVITY-GENERATIVE-MEDIA-MESH-001",
-      "donor_id": "FA3-DONOR-GOOGLE-ANTIGRAVITY-SDK-PYTHON-001",
-      "usage_kind": "ARCHITECTURE_PATTERN",
-      "pattern": "MULTIMODAL_AGENT_TOOL_SESSION_HANDOFF",
-      "primary_consumer": {
-        "kind": "PROFILE",
-        "id": "FA3-GENERATIVE-MEDIA-MESH-001"
-      },
-      "status": "ACTIVE",
-      "adopted_at": "2026-10-04",
-      "capability_baseline": 175,
-      "code_imported": false,
-      "runtime_dependency": false,
-      "provider_admission": false,
-      "model_admission": false,
-      "automatic_activation": false,
-      "current_host_impact": {
-        "classification": "NO_RUNTIME_IMPACT",
-        "reason": "Multimodal handoff pattern only; MCP/Model Router authorities unchanged."
-      },
-      "fa3_bindings": {
-        "profile_ids": [
-          "FA3-GENERATIVE-MEDIA-MESH-001"
-        ],
-        "contract_ids": [
-          "FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001"
-        ],
-        "authority_ids": [
-          "FA3-AUTH-MCP-GATEWAY-001",
-          "FA3-AUTH-MODEL-ROUTER-001"
-        ],
-        "shared_module_ids": []
-      }
-    },
-    {
       "id": "FA3-USAGE-TOBYFLOW-GENERATIVE-MEDIA-MESH-001",
       "donor_id": "FA3-DONOR-TOBYFLOW-001",
       "usage_kind": "REFERENCE_BINDING",
