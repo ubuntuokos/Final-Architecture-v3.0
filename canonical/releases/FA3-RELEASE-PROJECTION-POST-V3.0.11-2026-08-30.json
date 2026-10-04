@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "73ae98a8db785aa3781a8569b8d827dc8eb55586",
-    "pre_projection_root_tree_sha": "0e0ef008840a49b967b1b21dd1236651be2ad03d",
-    "pre_projection_canonical_tree_sha": "aa1aa54b4ba5b422e7ce6399ccc90aa43d48359e",
-    "commits_ahead_of_v3_0_11_conformance_commit": 3103,
-    "total_post_baseline_commits": 3103,
-    "delta_file_count": 2998,
-    "delta_added_files": 2992,
+    "pre_projection_head_sha": "ff5bf7a972006b54ae2d563733a1e090e1851de2",
+    "pre_projection_root_tree_sha": "6617f47973e72fbf0ff29778aeae42940ce614bd",
+    "pre_projection_canonical_tree_sha": "a331c84fe97d0438d3be79922ada330cd0471482",
+    "commits_ahead_of_v3_0_11_conformance_commit": 3108,
+    "total_post_baseline_commits": 3108,
+    "delta_file_count": 3001,
+    "delta_added_files": 2995,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,10 +46,10 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1406,
+    "canonical_files_in_post_baseline_delta": 1407,
     "evidence_files_in_post_baseline_delta": 172,
     "source_files_in_post_baseline_delta": 378,
-    "test_files_in_post_baseline_delta": 355,
+    "test_files_in_post_baseline_delta": 356,
     "workflow_files_in_post_baseline_delta": 143,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -1073,7 +1073,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2988,
+  "manifest_entry_count": 2991,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -7016,6 +7016,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/deltas/FA3-DONOR-RAY-PATH-TRACING-ECOSYSTEM-2026-10-04.json",
+      "git_blob_sha": "876d20c6ae1cbd87c468548b8ce3ed022880914f",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/deltas/FA3-DONOR-SUPERCOOL-ORG-2026-10-03.json",
       "git_blob_sha": "5c44ec35b6122c62dbcc38089c46edca446aa9b5",
       "baseline_delta_status": "added"
@@ -10648,6 +10653,11 @@
     {
       "path": "docs/donor-paperclip-2026-10-02.md",
       "git_blob_sha": "6361f51331f67761c8b383a004c75c1b1ea8f2fa",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/donor-ray-path-tracing-ecosystem-2026-10-04.md",
+      "git_blob_sha": "057a67d7d5816d882ec1de5aec05a7e5c5851db6",
       "baseline_delta_status": "added"
     },
     {
@@ -14828,6 +14838,11 @@
     {
       "path": "tests/test_donor_production_import_migration_curation.py",
       "git_blob_sha": "909e05507edc6e85d75685925600440f5d48f663",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_donor_ray_path_tracing_ecosystem_20261004.py",
+      "git_blob_sha": "ac94be82f8f43b5086cb562cadd29081b7313c1d",
       "baseline_delta_status": "added"
     },
     {
