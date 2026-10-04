@@ -37,7 +37,7 @@ def _opencl_pointer_parameter(param: str) -> str:
 
 
 def _rewrite_opencl_kernel_signatures(source: str) -> str:
-    pattern = re.compile(r"\b__global__\s+void\s+([A-Za-z_]\w*)\s*\(([^(){}]*)\)")
+    pattern = re.compile(r"\b__global__\s+(?:__launch_bounds__\s*\([^)]*\)\s*)?void\s+([A-Za-z_]\w*)\s*\(([^(){}]*)\)")
     def repl(match: re.Match[str]) -> str:
         raw = match.group(2).strip()
         params = "" if not raw else ", ".join(_opencl_pointer_parameter(part) for part in raw.split(","))
@@ -61,7 +61,7 @@ def lower_intel_opencl(source: str, ir: CudaTranslationUnitIR) -> dict[str, Any]
 
 
 def _rewrite_sycl_kernel_signatures(source: str) -> str:
-    pattern=re.compile(r"\b__global__\s+void\s+([A-Za-z_]\w*)\s*\(([^(){}]*)\)")
+    pattern=re.compile(r"\b__global__\s+(?:__launch_bounds__\s*\([^)]*\)\s*)?void\s+([A-Za-z_]\w*)\s*\(([^(){}]*)\)")
     def repl(m: re.Match[str]) -> str:
         raw=m.group(2).strip(); params="sycl::nd_item<3> item" if not raw else f"{raw}, sycl::nd_item<3> item"
         return f"inline void {m.group(1)}({params})"
