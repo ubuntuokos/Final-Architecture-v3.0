@@ -1,0 +1,64 @@
+{
+  "schema": "fa3.decision-fabric-assessment.v1",
+  "project_id": "FA3-GENERATIVE-MEDIA-MESH-DECISION-ASSESSMENT-2026-10-04",
+  "covered_ids": [
+    "FA3-GENERATIVE-MEDIA-MESH-001",
+    "FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001"
+  ],
+  "assessment": "REQUIRED",
+  "rationale": "Decision Fabric may only rank or abstain among a deterministically eligible capability/provider candidate set after Layer Guard and existing policy filters. It cannot admit HiDream children, expand candidates, select hardware, bypass Model Router, grant permission, authorize fallback or promote runtime evidence.",
+  "decision_points": [
+    {
+      "id": "generative-media-bounded-candidate-ranking",
+      "purpose": "rank already eligible generative-media capability/provider candidates when user policy allows advisory ranking",
+      "contract": "RANK",
+      "candidate_source": "FA3-AUTH-MODEL-ROUTER-001 / deterministic eligibility projection",
+      "final_policy_owner": "FA3-AUTH-MODEL-ROUTER-001 / AUTH-HUMAN",
+      "failure_policy": "FAIL_CLOSED"
+    },
+    {
+      "id": "multimodal-skill-advisory-abstention",
+      "purpose": "return advisory skill score or abstain without expanding the candidate set",
+      "contract": "RANK_OR_ABSTAIN",
+      "candidate_source": "FA3-GENERATIVE-MEDIA-MESH-001",
+      "final_policy_owner": "Layer Guard / FA3-AUTH-MODEL-ROUTER-001",
+      "failure_policy": "FAIL_CLOSED"
+    }
+  ],
+  "not_delegated": [
+    "provider/model admission",
+    "provider/model routing authority",
+    "candidate-set construction or expansion",
+    "fallback authorization",
+    "host resource placement",
+    "credential access",
+    "license/security admission",
+    "workflow authority",
+    "runtime promotion",
+    "Current Host evidence promotion"
+  ],
+  "project_radar_checked": true,
+  "project_radar_review": {
+    "scope": "FA3 Generative Media Capability Mesh",
+    "result": "BOUNDED_DECISION_FABRIC_ADVISORY_POINTS_ONLY",
+    "note": "Any ranking operates only on pre-eligible candidates and may abstain; deterministic policy and authorities remain final."
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "global_accelerator_requirement": false,
+    "accelerator_cardinality": "0..N"
+  },
+  "security_boundary": {
+    "may_grant_permission": false,
+    "may_expand_candidate_set": false,
+    "may_create_agent": false,
+    "may_admit_model": false,
+    "may_admit_provider": false
+  },
+  "shadow_mode_required": true,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false
+}
