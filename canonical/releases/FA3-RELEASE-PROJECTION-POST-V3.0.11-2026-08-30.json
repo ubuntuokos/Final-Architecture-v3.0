@@ -48,8 +48,8 @@
   "overlay_inventory": {
     "canonical_files_in_post_baseline_delta": 1406,
     "evidence_files_in_post_baseline_delta": 172,
-    "source_files_in_post_baseline_delta": 378,
-    "test_files_in_post_baseline_delta": 355,
+    "source_files_in_post_baseline_delta": 379,
+    "test_files_in_post_baseline_delta": 356,
     "workflow_files_in_post_baseline_delta": 143,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -1073,7 +1073,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 3002,
+  "manifest_entry_count": 3004,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1672,7 +1672,7 @@
     },
     {
       "path": ".github/workflows/fa3-scale-cuda-compat.yml",
-      "git_blob_sha": "2613f69e5d7bcc22a61044de21ff752808ac4df1",
+      "git_blob_sha": "16bfc0807889e4985b41a8e0ad9d85d3aaa66248",
       "baseline_delta_status": "added"
     },
     {
@@ -3607,7 +3607,7 @@
     },
     {
       "path": "canonical/assessments/FA3-SCALE-CUDA-COMPAT-REUSE-ASSESSMENT-2026-10-04.json",
-      "git_blob_sha": "81ed130d2c38c1c5d7fa6ec0c428911e638bd7be",
+      "git_blob_sha": "7519879a609a06c2f631c903710c657e12340eb3",
       "baseline_delta_status": "added"
     },
     {
@@ -4427,7 +4427,7 @@
     },
     {
       "path": "canonical/contracts/FA3-SCALE-CUDA-COMPAT-CONTRACTS-001.json",
-      "git_blob_sha": "a583fbf2b770a2f0837e232303fc52fb4c032694",
+      "git_blob_sha": "1c11a4b880713e743498591aaad0af06468d2bd5",
       "baseline_delta_status": "added"
     },
     {
@@ -7467,7 +7467,7 @@
     },
     {
       "path": "canonical/intents/FA3-SCALE-CUDA-COMPAT-APPLICATION-INTENT-2026-10-04.json",
-      "git_blob_sha": "2acf13ec345c3a3c89b2adf10c277315e5721d4c",
+      "git_blob_sha": "fac43291461dda005de8ea0f6d4d76a5dec9a34e",
       "baseline_delta_status": "added"
     },
     {
@@ -8967,7 +8967,7 @@
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-SCALE-CUDA-COMPAT-001.json",
-      "git_blob_sha": "8fba17637f22777c164e416cf39911fad3c9ccef",
+      "git_blob_sha": "655d1585a4300a42f9c22478542d3d7b2671a5e4",
       "baseline_delta_status": "added"
     },
     {
@@ -11067,7 +11067,7 @@
     },
     {
       "path": "docs/scale-cuda-compat-backend-2026-10-04.md",
-      "git_blob_sha": "051d804efbdd3be6d689475cc67d94554046cf93",
+      "git_blob_sha": "b75f63075f4a534bf9c3cb967e3993e4e360d05a",
       "baseline_delta_status": "added"
     },
     {
@@ -12711,6 +12711,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_cuda_compat_shared.py",
+      "git_blob_sha": "bbe4f6aabdfb36a794c65db83577ac7ac0e2ad63",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_current_host_base_admission.py",
       "git_blob_sha": "f000e1072da71eedf24737ef3b9ed61d77b04e05",
       "baseline_delta_status": "added"
@@ -13932,7 +13937,7 @@
     },
     {
       "path": "src/fa3_scale_backend_gate.py",
-      "git_blob_sha": "116152c71cf0aa5a2143592446cdc394bd248658",
+      "git_blob_sha": "e8dca3337f1f2aa477443920579a2c018f9b7f5f",
       "baseline_delta_status": "added"
     },
     {
@@ -14518,6 +14523,11 @@
     {
       "path": "tests/test_creative_project_workflow.py",
       "git_blob_sha": "7b1826e7cf2779590c3089c34b31407e546a53df",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_cuda_compat_shared.py",
+      "git_blob_sha": "07e14fa44801a14ec177b22f475125468277ff6f",
       "baseline_delta_status": "added"
     },
     {
@@ -18125,6 +18135,12 @@
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
     "capability_count_after": 175,
-    "reconciliation_status": "CANONICAL_IMPLEMENTED_CONDITIONAL_PENDING_PHYSICAL_CURRENT_HOST_AND_RIGHTS_ADMISSION"
+    "reconciliation_status": "CANONICAL_SHARED_ALL_APPLICATION_ACCESS_IMPLEMENTED_CONDITIONAL_PENDING_PHYSICAL_CURRENT_HOST_AND_RIGHTS_ADMISSION",
+    "shared_application_scope": "ALL_CURRENT_AND_FUTURE_CFA3_APPLICATIONS",
+    "central_entrypoint": "src/fa3_cuda_compat_shared.py:resolve_cuda_compatibility",
+    "application_allowlist": false,
+    "application_local_backend_core": "FORBIDDEN",
+    "candidate_resolution_is_execution_authorization": false,
+    "hrb_lease_required_before_execution": true
   }
 }
