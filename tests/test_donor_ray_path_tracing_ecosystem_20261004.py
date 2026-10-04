@@ -65,7 +65,11 @@ class WaitingRayPathTracingDonorIntakeTests(unittest.TestCase):
         self.assertEqual(d["matched_existing_count"], 2)
         self.assertEqual(set(d["matched_existing_normalized_keys"]), EXISTING_KEYS)
         self.assertEqual(d["new_source_count"], 22)
+        self.assertEqual(d["reconciled_existing_count"], 2)
         self.assertEqual(d["proposed_entry_count"], 1449)
+        reconciled = {x["normalized_key"]: x for x in d["matched_existing_reconciliation"]}
+        self.assertEqual(set(reconciled), EXISTING_KEYS)
+        self.assertTrue(all(x["action"].startswith("PROMOTE_OR_PRESERVE_ACCEPTED_REFERENCE") for x in reconciled.values()))
         self.assertEqual(
             {row["normalized_key"] for row in d["canonical_identities"]},
             NEW_KEYS,
