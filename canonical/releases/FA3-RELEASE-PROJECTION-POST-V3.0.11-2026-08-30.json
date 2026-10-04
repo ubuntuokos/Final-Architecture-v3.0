@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "73ae98a8db785aa3781a8569b8d827dc8eb55586",
-    "pre_projection_root_tree_sha": "0e0ef008840a49b967b1b21dd1236651be2ad03d",
-    "pre_projection_canonical_tree_sha": "aa1aa54b4ba5b422e7ce6399ccc90aa43d48359e",
-    "commits_ahead_of_v3_0_11_conformance_commit": 3103,
-    "total_post_baseline_commits": 3103,
-    "delta_file_count": 2998,
-    "delta_added_files": 2992,
+    "pre_projection_head_sha": "718ddc1a5b2df2c823a85b81df09282d6325a2cb",
+    "pre_projection_root_tree_sha": "e819bc04bf44d977ece5260dd676f346b05afb0c",
+    "pre_projection_canonical_tree_sha": "16e020cca1575ae3959ec4dbba5574981df07a86",
+    "commits_ahead_of_v3_0_11_conformance_commit": 3124,
+    "total_post_baseline_commits": 3124,
+    "delta_file_count": 3001,
+    "delta_added_files": 2995,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,7 +46,7 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1406,
+    "canonical_files_in_post_baseline_delta": 1408,
     "evidence_files_in_post_baseline_delta": 172,
     "source_files_in_post_baseline_delta": 378,
     "test_files_in_post_baseline_delta": 355,
@@ -552,6 +552,7 @@
       "canonical/decisions/FA3-DEC-HUMAN-MOTION-HARDWARE-CONFORMANCE-2026-09-12.json",
       "canonical/decisions/FA3-DEC-HYBRID-EDITORIAL-2026-08-31.json",
       "canonical/decisions/FA3-DEC-IDEATION-ADVISORY-2026-09-12.json",
+      "canonical/decisions/FA3-DEC-IMPLEMENTATION-PLAN-DONOR-EXCEPTION-2026-10-04.json",
       "canonical/decisions/FA3-DEC-INFERENCE-CACHE-HARDENING-2026-09-07.json",
       "canonical/decisions/FA3-DEC-INFERENCE-PORTABILITY-2026-08-31.json",
       "canonical/decisions/FA3-DEC-INFERENCE-PORTABILITY-RECONCILIATION-2026-09-23.json",
@@ -1073,7 +1074,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2988,
+  "manifest_entry_count": 2991,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -5936,6 +5937,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/current-host-impact/FA3-CH-IMPACT-IMPLEMENTATION-PLAN-DONOR-EXCEPTION-20261004.json",
+      "git_blob_sha": "74d309f572d9ade6e04318fd44c3f352864a16ba",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/current-host-impact/FA3-CH-IMPACT-NO-OPEN-ENDED-TASK-EXPANSION-20261004.json",
       "git_blob_sha": "24bed144d4c0cf599ac9062882260dbf55c29fd7",
       "baseline_delta_status": "added"
@@ -6177,7 +6183,7 @@
     },
     {
       "path": "canonical/decisions/FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28.json",
-      "git_blob_sha": "503019cb9114888638da6eff8d9482a81d249db8",
+      "git_blob_sha": "a419a29a0a9023a3a187466e8e7892d9751aed43",
       "baseline_delta_status": "added"
     },
     {
@@ -6303,6 +6309,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-IDEATION-ADVISORY-2026-09-12.json",
       "git_blob_sha": "c7b8702bd39f4a1c3935f37fb5972851122d9778",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-IMPLEMENTATION-PLAN-DONOR-EXCEPTION-2026-10-04.json",
+      "git_blob_sha": "d4f8595c73aa44d907e3ccd561576fd45a688628",
       "baseline_delta_status": "added"
     },
     {
@@ -10652,7 +10663,7 @@
     },
     {
       "path": "docs/donor-reference-registry.md",
-      "git_blob_sha": "4c96dc9579c53d837d42b100331ccb8809373116",
+      "git_blob_sha": "5b4110ab349575a18b6669b98bbfc425812b5ab3",
       "baseline_delta_status": "added"
     },
     {
@@ -10662,7 +10673,7 @@
     },
     {
       "path": "docs/donor-repair/DONOR_READINESS.md",
-      "git_blob_sha": "5b2aa947fa17dacb0fc9f0e16088b04dcb5cdf74",
+      "git_blob_sha": "2631554678f77382afe32ff689dff9a397ec136c",
       "baseline_delta_status": "added"
     },
     {
@@ -10833,6 +10844,11 @@
     {
       "path": "docs/human-motion-current-host.md",
       "git_blob_sha": "b52a7851d7be15971e686cefaff4da931a2f7a95",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/implementation-plan-donor-exception-2026-10-04.md",
+      "git_blob_sha": "9c55af9548e0c90b7623ba9d16e4e8a176aeb348",
       "baseline_delta_status": "added"
     },
     {
@@ -12877,12 +12893,12 @@
     },
     {
       "path": "src/fa3_donor_readiness.py",
-      "git_blob_sha": "01c611c1278062a86a40a4a031d1c044a5c2f6f8",
+      "git_blob_sha": "597a86d6d32ded3b93043738b7bea9c55880b9ba",
       "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_donor_registry.py",
-      "git_blob_sha": "95c3a37d5d0cd101e9a15b644b03b717905c8f21",
+      "git_blob_sha": "ce14249c050bd766deaea35c8c184650741fc698",
       "baseline_delta_status": "added"
     },
     {
@@ -14702,7 +14718,7 @@
     },
     {
       "path": "tests/test_donor_count_refresh.py",
-      "git_blob_sha": "d0be116c5ba1896640860bb1467eee42e4ef03d8",
+      "git_blob_sha": "7e696f26e56b7770d32e31a2296c322bbe812812",
       "baseline_delta_status": "added"
     },
     {
@@ -14832,7 +14848,7 @@
     },
     {
       "path": "tests/test_donor_readiness.py",
-      "git_blob_sha": "874af65998da6a58f50ff7cd788ee7eb51637849",
+      "git_blob_sha": "a43245812188e604b07833a4ba7fbc109925cb96",
       "baseline_delta_status": "added"
     },
     {
@@ -15667,7 +15683,7 @@
     },
     {
       "path": "tests/test_reuse_discovery_gate.py",
-      "git_blob_sha": "c479267819274a41ed78baf17492d27d7a20d3a8",
+      "git_blob_sha": "b38a7bd0d152021dce2325936f0f35d7a008eaa9",
       "baseline_delta_status": "added"
     },
     {
