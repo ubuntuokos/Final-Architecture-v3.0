@@ -4,6 +4,9 @@ import QtQuick.Layouts
 
 Item {
     id: root
+    property string runtimeMessage: fa3VoiceWorkspace.state + (fa3VoiceWorkspace.lastError.length ? " · " + fa3VoiceWorkspace.lastError : "")
+    Component.onCompleted: fa3VoiceWorkspace.refresh()
+    Connections { target: fa3VoiceWorkspace; function onGenerationCompleted(result) { root.runtimeMessage = "INSERT READY · " + result.job_id } function onFitCompleted(result) { root.runtimeMessage = "FIT · " + result.decision } function onQuickDubCompleted(result) { root.runtimeMessage = "DUB PLAN READY · " + result.schema } }
     property color panel: "#20242a"
     property color panelRaised: "#292f38"
     property color border: "#3a424e"
@@ -50,26 +53,26 @@ Item {
                         TabButton { text: "From Text" }
                     }
                     Label { text: "Script"; color: root.textMuted }
-                    TextArea { Layout.fillWidth: true; Layout.preferredHeight: 110; text: "Mutasd be 30 másodpercben ezt a terméket."; wrapMode: TextEdit.Wrap }
+                    TextArea { id: quickScript; Layout.fillWidth: true; Layout.preferredHeight: 110; text: "Mutasd be 30 másodpercben ezt a terméket."; wrapMode: TextEdit.Wrap }
                     GridLayout {
                         columns: 2
                         Layout.fillWidth: true
-                        Label { text: "Voice"; color: root.textMuted } ComboBox { Layout.fillWidth: true; model: ["Narrator (hu-HU)","Character A","Character B"] }
-                        Label { text: "Language"; color: root.textMuted } ComboBox { Layout.fillWidth: true; model: ["Hungarian (hu-HU)","English (en-US)"] }
+                        Label { text: "Voice"; color: root.textMuted } ComboBox { id: quickVoice; Layout.fillWidth: true; model: ["Narrator (hu-HU)","Character A","Character B"] }
+                        Label { text: "Language"; color: root.textMuted } ComboBox { id: quickLanguage; Layout.fillWidth: true; model: ["hu-HU","en-US"] }
                         Label { text: "Style"; color: root.textMuted } ComboBox { Layout.fillWidth: true; model: ["Natural","Energetic","Calm"] }
                         Label { text: "Duration"; color: root.textMuted } ComboBox { Layout.fillWidth: true; model: ["Fit to Clip (27.8 s)","Keep original timing"] }
                         Label { text: "Effects"; color: root.textMuted } ComboBox { Layout.fillWidth: true; model: ["None","Studio","Radio","Warm"] }
                     }
                     CheckBox { text: "Generate editable captions"; checked: true }
-                    CheckBox { text: "Duck background music"; checked: true }
+                    CheckBox { id: duckMusic; text: "Duck background music"; checked: true }
                     CheckBox { text: "Preserve previous take"; checked: true }
                     RowLayout {
                         Button { text: "Dictate"; enabled: false }
                         Button { text: "Preview"; enabled: false }
                         Item { Layout.fillWidth: true }
                     }
-                    Button { Layout.fillWidth: true; text: "Generate & Insert"; enabled: false }
-                    Label { text: "RUNTIME GATED · actions delegate through UAF → FA3-VOICE-001 → Model Router → HRB"; color: root.orange; wrapMode: Text.WordWrap; Layout.fillWidth: true; font.pixelSize: 10 }
+                    Button { Layout.fillWidth: true; text: "Generate & Insert"; enabled: fa3VoiceWorkspace.state === "READY"; onClicked: fa3VoiceWorkspace.generate(quickScript.text, quickVoice.currentText, quickLanguage.currentText, 27800, duckMusic.checked, true) }
+                    Label { text: root.runtimeMessage + " · UAF → FA3-VOICE-001 → Model Router → HRB"; color: fa3VoiceWorkspace.state === "READY" ? root.green : root.orange; wrapMode: Text.WordWrap; Layout.fillWidth: true; font.pixelSize: 10 }
                 }
             }
 
@@ -92,7 +95,7 @@ Item {
                     RadioButton { text: "Suggest shorter script · Preview → explicit Apply" }
                     RadioButton { text: "Extend video" }
                     RadioButton { text: "Keep original timing" }
-                    RowLayout { Button { text: "Preview"; enabled: false } Button { text: "Apply"; enabled: false } }
+                    RowLayout { Button { text: "Preview Fit"; enabled: fa3VoiceWorkspace.state === "READY"; onClicked: fa3VoiceWorkspace.fitToClip(27800,31200) } Button { text: "Apply"; enabled: false } }
 
                     Rectangle { Layout.fillWidth: true; height: 1; color: root.border }
                     Label { text: "Takes"; color: root.textPrimary; font.bold: true }
@@ -112,6 +115,7 @@ Item {
                     Label { text: "Speaker 1 → Voice Profile A"; color: root.textMuted }
                     Label { text: "Speaker 2 → Voice Profile B"; color: root.textMuted }
                     Label { text: "STT → speaker segmentation → optional translation → voice mapping → TTS → alignment → editable mix"; color: root.textMuted; wrapMode: Text.WordWrap; Layout.fillWidth: true }
+                    Button { text: "Build Quick Dub Plan"; enabled: fa3VoiceWorkspace.state === "READY"; onClicked: fa3VoiceWorkspace.quickDub("CURRENT_QUICKCLIP_MEDIA", "en", "hu-HU") }
                     Item { Layout.fillHeight: true }
                 }
             }
