@@ -26,13 +26,19 @@ class GenerativeMediaMeshTests(unittest.TestCase):
 
     def test_hidream_children_fail_closed(self):
         p = load("canonical/profiles/FA3-GENERATIVE-MEDIA-MESH-001.json")
-        self.assertTrue(all("BLOCKED_PENDING_EXPLICIT_CHILD_DONOR_MARKER" in x["state"] for x in p["hidream_children"]["wave_a"]))
-        self.assertFalse(p["hidream_children"]["automatic_execution"])
+        child = p["hidream_children"]
+        self.assertFalse(child["automatic_execution"])
+        self.assertFalse(child["automatic_registration"])
+        self.assertFalse(child["canonical_child_queue"])
+        self.assertFalse(child["child_sources_canonicalized"])
+        self.assertEqual(child["admission_state"], "BLOCKED_PENDING_EXPLICIT_CHILD_DONOR_MARKERS_AND_INDIVIDUAL_GATES")
 
     def test_no_physical_pass_claim(self):
         d = load("canonical/decisions/FA3-DEC-HIDREAM-GENERATIVE-MEDIA-MESH-2026-10-04.json")
         self.assertFalse(d["runtime_promotion_claim"])
         self.assertFalse(d["current_host_pass_claimed"])
+        self.assertFalse(d["approval_binding"]["exact_head_repository_owner_approved_review_observed"])
+        self.assertTrue(d["approval_binding"]["finalization_fail_closed_until_owner_review"])
 
 if __name__ == "__main__":
     unittest.main()
