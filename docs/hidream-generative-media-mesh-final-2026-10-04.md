@@ -17,7 +17,7 @@ The canonical shared profile is `FA3-GENERATIVE-MEDIA-MESH-001` and the provider
 
 ## Material donor-pattern reuse
 
-The materialization reuses already-published patterns from Diffusers, xDiT, VideoSys, NVlabs Sana/SoL-Refiner, AI Visual Prompt Cookbook, stickman-video-director, See-Through, HiRoute, SystemOneHarness and Google Antigravity. TobyFlow is used only as a reference-only workflow/UI pattern because no open-source license is verified in the canonical donor record.
+The materialization reuses already-published patterns from Diffusers, xDiT, VideoSys, NVlabs Sana/SoL-Refiner, AI Visual Prompt Cookbook, stickman-video-director, See-Through, HiRoute and SystemOneHarness. TobyFlow is used only as a reference-only workflow/UI pattern because no open-source license is verified in the canonical donor record. Google Antigravity was reviewed but is not materially adopted here because its existing donor-intake regression requires no application usage registration without a separate adoption decision.
 
 No donor code is copied by this change. No donor runtime, model or provider is admitted.
 
