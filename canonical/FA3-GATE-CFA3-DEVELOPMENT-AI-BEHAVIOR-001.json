@@ -1,0 +1,33 @@
+{
+  "schema": "fa3.gate.v1",
+  "id": "FA3-GATE-CFA3-DEVELOPMENT-AI-BEHAVIOR-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "enforcement_id": "CFA3-DEVELOPMENT-AI-BEHAVIOR-GATESET-001",
+  "entrypoint": "src/cfa3_development_ai_behavior_gate.py::gate",
+  "fail_closed": true,
+  "policy_id": "CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001",
+  "decision_id": "CFA3-DEC-DEVELOPMENT-AI-BEHAVIOR-LAYERING-2026-10-05",
+  "tests": [
+    "tests/test_cfa3_development_ai_behavior.py"
+  ],
+  "required_boundaries": [
+    "FA3-AUTH-SECURITY-GOV-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-AUTH-OBS-EVIDENCE-001"
+  ],
+  "layering": {
+    "development_execution_discipline": "L1",
+    "task_and_orchestration": "L2",
+    "security_and_effect_authorization": "L3",
+    "model_policy": "L4",
+    "projection_ux_and_compatibility": "L5",
+    "human_scope_and_override": "L0"
+  },
+  "capability_count": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "static_pass_promotes_runtime": false,
+  "current_host_runtime_promotion_claim": false
+}
