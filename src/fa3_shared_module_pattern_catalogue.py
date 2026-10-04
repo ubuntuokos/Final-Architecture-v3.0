@@ -241,6 +241,67 @@ def validate(root: Path) -> dict[str, Any]:
             if number < 1 or number > 175:
                 fail("MATERIALIZED_COMPONENT_CAPABILITY_ID_OUT_OF_BASELINE", f"{cid}:{cap}")
 
+        if cid == "FA3-SHARED-CONVERSATION-SESSION-001":
+            profile_invariants = set(profile.get("invariants", []))
+            contract_invariants = set(contract.get("invariants", []))
+            required_profile_invariants = {
+                "NEW_CONVERSATION_HANDOFF_SINGLE_COPY_SURFACE_REQUIRED",
+                "NEW_CONVERSATION_HANDOFF_ONE_ACTION_FULL_PAYLOAD_COPY_REQUIRED",
+                "NEW_CONVERSATION_HANDOFF_MINIMUM_LENGTH_EXEMPTION_FORBIDDEN",
+            }
+            required_contract_invariants = {
+                "NEW_CONVERSATION_HANDOFF_MUST_USE_EXACTLY_ONE_COPYABLE_SURFACE",
+                "NEW_CONVERSATION_HANDOFF_FULL_PAYLOAD_MUST_COPY_IN_ONE_USER_ACTION",
+                "NEW_CONVERSATION_HANDOFF_PAYLOAD_SPLIT_FORBIDDEN",
+                "NEW_CONVERSATION_HANDOFF_MANUAL_SELECTION_FORBIDDEN",
+                "NEW_CONVERSATION_HANDOFF_SCROLL_TO_COPY_FORBIDDEN",
+            }
+            handoff = profile.get("new_conversation_handoff", {})
+            handoff_contract = contract.get("conversation_handoff_contract", {})
+            required_semantics = contract.get("required_semantics", {})
+            if not required_profile_invariants.issubset(profile_invariants):
+                fail("CONVERSATION_HANDOFF_PROFILE_INVARIANT_MISSING", cid)
+            if "ConversationHandoff" not in contract.get("contracts", []):
+                fail("CONVERSATION_HANDOFF_CONTRACT_MISSING", cid)
+            if not required_contract_invariants.issubset(contract_invariants):
+                fail("CONVERSATION_HANDOFF_CONTRACT_INVARIANT_MISSING", cid)
+            if (
+                handoff.get("presentation") != "EXACTLY_ONE_COPYABLE_HANDOFF_SURFACE_OR_WINDOW"
+                or handoff.get("copy_semantics") != "ONE_USER_ACTION_COPIES_COMPLETE_HANDOFF_PAYLOAD"
+                or handoff.get("minimum_payload_length_exemption") is not False
+                or handoff.get("split_payload_across_surfaces") != "FORBIDDEN"
+                or handoff.get("manual_selection_required") != "FORBIDDEN"
+                or handoff.get("scrolling_required_for_copy") != "FORBIDDEN"
+                or handoff.get("outside_surface_payload_content") != "FORBIDDEN"
+                or handoff.get("development_and_product_scope") is not True
+            ):
+                fail("CONVERSATION_HANDOFF_PROFILE_SEMANTICS_INVALID", cid)
+            if (
+                required_semantics.get("new_conversation_handoff")
+                != "SINGLE_COPYABLE_SURFACE_ONE_ACTION_COMPLETE_PAYLOAD"
+                or required_semantics.get("new_conversation_handoff_short_payload")
+                != "SAME_RULE_APPLIES_TO_ONE_WORD_OR_ONE_CHARACTER"
+                or handoff_contract.get("payload_cardinality") != 1
+                or handoff_contract.get("copy_surface_cardinality") != 1
+                or handoff_contract.get("required_copy_actions") != 1
+                or handoff_contract.get("applies_when_payload_is_one_word") is not True
+                or handoff_contract.get("applies_when_payload_is_one_character") is not True
+                or handoff_contract.get("payload_text_outside_surface_allowed") is not False
+                or handoff_contract.get("ui_acceptance")
+                != "COMPLETE_PAYLOAD_AVAILABLE_TO_CLIPBOARD_WITH_ONE_USER_ACTION_WITHOUT_MANUAL_SELECTION_OR_SCROLL_DEPENDENCY"
+            ):
+                fail("CONVERSATION_HANDOFF_CONTRACT_SEMANTICS_INVALID", cid)
+            if not (
+                handoff.get("minimum_payload_length_exemption") is False
+                and handoff_contract.get("applies_when_payload_is_one_word") is True
+                and handoff_contract.get("applies_when_payload_is_one_character") is True
+                and handoff.get("presentation") == "EXACTLY_ONE_COPYABLE_HANDOFF_SURFACE_OR_WINDOW"
+                and handoff_contract.get("copy_surface_cardinality") == 1
+                and handoff.get("copy_semantics") == "ONE_USER_ACTION_COPIES_COMPLETE_HANDOFF_PAYLOAD"
+                and handoff_contract.get("required_copy_actions") == 1
+            ):
+                fail("CONVERSATION_HANDOFF_PROFILE_CONTRACT_PARITY_INVALID", cid)
+
         runtime = profile.get("runtime_materialization", {})
         for key in (
             "new_service", "new_daemon", "new_port", "new_socket",
