@@ -21,7 +21,8 @@
     "network_fetch": false,
     "production_provider_claim": false,
     "workflow_authority": "TEMPORAL",
-    "local_sqlite_role": "NON_AUTHORITATIVE_JOB_LEDGER_AND_PROFILE_CACHE"
+    "local_sqlite_role": "NON_AUTHORITATIVE_JOB_LEDGER_AND_PROFILE_CACHE",
+    "rights_evidence": "REQUIRED_CALLER_OR_PROJECT_EVIDENCE_REF_NO_SYNTHETIC_DEFAULT"
   },
   "surfaces": [
     "create.voice-studio",
@@ -44,7 +45,9 @@
     "xtts": "ADAPTER_NOT_MATERIALIZED_BY_THIS_CHANGE",
     "cosyvoice": "EXISTING_SEPARATE_PROVIDER_ADAPTER",
     "silent_fallback": false,
-    "voice_transformation": "ADMITTED_PROVIDER_REQUIRED_FAIL_CLOSED"
+    "voice_transformation": "ADMITTED_PROVIDER_REQUIRED_FAIL_CLOSED",
+    "selection_receipt": "REQUIRED_FROM_FA3_AUTH_MODEL_ROUTER_001",
+    "application_auto_provider_selection": false
   },
   "current_host": {
     "status": "PENDING_FRESH_CURRENT_HOST_REQUALIFICATION",
