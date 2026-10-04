@@ -9,7 +9,7 @@ MAX_BODY=4*1024*1024
 def token_path():
     base=Path(os.environ.get("XDG_RUNTIME_DIR","/tmp"))/"fa3"; base.mkdir(parents=True,exist_ok=True)
     p=base/"voice-studio.token"
-    if not p.exists(): p.write_text(secrets.token_urlsafe(32),encoding="utf-8"); p.chmod(0o600)
+    p.write_text(secrets.token_urlsafe(32),encoding="utf-8"); p.chmod(0o600)
     return p
 class Handler(BaseHTTPRequestHandler):
     workspace=None; token=""; server_version="FA3VoiceStudio/1.0"
