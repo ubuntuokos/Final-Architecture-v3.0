@@ -87,6 +87,7 @@ from fa3_browser_action_gate import gate as browser_action_runtime_gate
 from fa3_browser_cdp_gate import gate as browser_cdp_provider_gate
 from fa3_neural_rendering_gate import gate as neural_rendering_gate
 from fa3_hair_groom_gate import gate as hair_groom_gate
+from fa3_cuda_compat_gate import gate as cuda_compat_native_gate
 from fa3_khronos_open_standards_gate import gate as khronos_open_standards_gate
 from fa3_audacity_mcp_gate import gate as audacity_mcp_gate
 from fa3_agent_instructions_gate import gate as agent_instructions_gate
@@ -228,6 +229,10 @@ def static_check(root:Path):
     hair_groom_ref=hair_groom_gate(root)
     if hair_groom_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-149","Shared Hair/Groom mandatory static gate failed",hair_groom_gate=hair_groom_ref))
+
+    cuda_compat_native_ref=cuda_compat_native_gate(root)
+    if cuda_compat_native_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-151","CFA3 native CUDA compatibility mandatory static gate failed",cuda_compat_native_gate=cuda_compat_native_ref))
     agent_instructions_ref=agent_instructions_gate(root)
     if agent_instructions_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-114","Repository agent-instruction projection governance gate failed",agent_instructions_gate=agent_instructions_ref))
@@ -311,6 +316,8 @@ def static_check(root:Path):
         fs.append(finding("FA3-STATIC-113","Agent-instruction projection gate is not bound into global enforcement policy"))
     if "FA3-SHARED-HAIR-GROOM-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-150","Shared Hair/Groom gate is not bound into global enforcement policy"))
+    if "FA3-CUDA-COMPAT-NATIVE-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-152","CFA3 native CUDA compatibility gate is not bound into global enforcement policy"))
     if "FA3-OPENBMB-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-070","OpenBMB provider-family boundary/hardware gate is not bound into global enforcement policy"))
     if "FA3-GPU-KERNEL-RUNTIME-GATESET-001" not in pol.get("mandatory_reference_gates",[]):

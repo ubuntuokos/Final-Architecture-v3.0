@@ -214,6 +214,50 @@ def _host_backend(
     )
 
 
+def _native_cuda_compat_backend(
+    device: AcceleratorDeviceDescriptor,
+    backends: list[AcceleratorBackendDescriptor],
+) -> AcceleratorBackendDescriptor | None:
+    if device.vendor == "AMD":
+        preferred = ("rocm",)
+        target = "HIP_CPP"
+        compat = "FULL_EQUIVALENCE"
+    elif device.vendor == "INTEL" and device.kind == "gpu":
+        preferred = ("level-zero", "opencl")
+        target = "SYCL_CPP_PRIMARY_OPENCL_C_SECONDARY"
+        compat = "FUNCTIONALLY_REDUCED"
+    else:
+        return None
+
+    base = next(
+        (backend for name in preferred for backend in backends if backend.name == name),
+        None,
+    )
+    if base is None:
+        return None
+    frameworks = ["cuda-compat", "cfa3-native", base.name]
+    if device.vendor == "INTEL" and base.name == "level-zero":
+        frameworks.append("sycl")
+    return AcceleratorBackendDescriptor(
+        name="cfa3-cuda-compat",
+        backend_class="translation",
+        detected=True,
+        available=bool(base.available),
+        binding_scope=base.binding_scope,
+        runtime_version=base.runtime_version,
+        driver_version=base.driver_version,
+        framework_backends=tuple(frameworks),
+        experimental=True,
+        evidence_sources=tuple(base.evidence_sources) + (
+            "cfa3-native-cuda-compat:v2",
+            "external-scale-runtime-dependency:false",
+            f"translation-target:{target}",
+            f"compatibility-classification:{compat}",
+            f"requires-device-backend:{base.name}",
+        ),
+    )
+
+
 def enrich_accelerator_backends(
     devices: Iterable[AcceleratorDeviceDescriptor],
     *,
@@ -331,6 +375,10 @@ def enrich_accelerator_backends(
             if descriptor is not None:
                 backends.append(descriptor)
 
+        native_compat = _native_cuda_compat_backend(device, backends)
+        if native_compat is not None:
+            backends.append(native_compat)
+
         enriched.append(
             replace(
                 device,
@@ -361,5 +409,8 @@ def discover_backend_probe_summary(
             "host_unbound_backend_may_authorize_device": False,
             "available_requires_device_binding": True,
             "translation_requires_explicit_policy": True,
+            "cfa3_native_cuda_compat_backend": "cfa3-cuda-compat",
+            "external_scale_runtime_dependency": False,
+            "native_cuda_compat_target_vendors": ["AMD", "INTEL"],
         },
     }

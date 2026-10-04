@@ -1,0 +1,61 @@
+{
+  "schema": "fa3.license-rights-descriptor.v1",
+  "subject": {
+    "id": "FA3-PROVIDER-CFA3-NATIVE-CUDA-COMPAT-001",
+    "type": "CODE"
+  },
+  "source": {
+    "locator": "canonical/providers/FA3-PROVIDER-CFA3-NATIVE-CUDA-COMPAT-001.json",
+    "revision": "a33e6d9992c213203c328b55547411e2042bb067"
+  },
+  "license": {
+    "declared": "Apache-2.0",
+    "detected": [
+      "Apache-2.0"
+    ],
+    "concluded": "Apache-2.0",
+    "effective": "Apache-2.0"
+  },
+  "rights": {
+    "modification_allowed": true,
+    "redistribution_allowed": true,
+    "commercial_use_allowed": true,
+    "output_usage_rights": null,
+    "scope": "CFA3_NATIVE_SHARED_CUDA_COMPATIBILITY_FRONTEND_IR_TRANSLATION_BUILD_AND_RUNTIME_COMPATIBILITY_CODE_ONLY"
+  },
+  "obligations": {
+    "attribution_required": true,
+    "source_offer_required": false,
+    "entitlement_required": false,
+    "entitlement_reference": null,
+    "unresolved": []
+  },
+  "disposition": "ALLOW_WITH_OBLIGATIONS",
+  "evidence": [
+    "LICENSE",
+    "NOTICE",
+    "canonical/providers/FA3-PROVIDER-CFA3-NATIVE-CUDA-COMPAT-001.json",
+    "canonical/contracts/FA3-CUDA-COMPAT-NATIVE-CONTRACTS-001.json",
+    "canonical/assessments/FA3-CUDA-COMPAT-NATIVE-REUSE-ASSESSMENT-2026-10-04.json",
+    "docs/cfa3-native-cuda-compat-final-plan-2026-10-04.md",
+    "src/fa3_cuda_compat_frontend.py",
+    "src/fa3_cuda_compat_ir.py",
+    "src/fa3_cuda_compat_backends.py",
+    "src/fa3_cuda_compat_runtime.py",
+    "src/fa3_cuda_compat_build.py",
+    "src/fa3_cuda_compat_native.py",
+    "src/fa3_cuda_compat_shared.py"
+  ],
+  "boundaries": {
+    "donor_pattern_sources": [
+      "FA3-DONOR-GPUOPEN-OROCHI-001",
+      "FA3-DONOR-ROCM-EXAMPLES-001"
+    ],
+    "donor_code_copy": false,
+    "external_scale_runtime_or_build_dependency": false,
+    "external_target_toolchains_relicensed": false,
+    "amd_rocm_hip_rights_separate": true,
+    "intel_sycl_level_zero_opencl_rights_separate": true,
+    "nvidia_cuda_rights_separate": true
+  }
+}
