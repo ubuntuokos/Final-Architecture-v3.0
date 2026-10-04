@@ -1,0 +1,150 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-MESHY-RUNWARE-API-EVANGELIST-2026-10-04",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "STAGED_PENDING_EXACT_HEAD_GATES",
+  "mode": "APPEND_ONLY_OWNER_EXPLICIT_REFERENCE_INTAKE_WITH_TOPIC_ALIAS_COLLAPSE",
+  "parent_main": "df24cb9d1fa2413b08c8d47461bdb2db799585f6",
+  "parent_registry_blob_sha": "1362d75186c6da74e5cf947fdf0b8867d462636a",
+  "parent_entry_count": 1427,
+  "submitted_url_count": 10,
+  "duplicate_submission_count": 0,
+  "canonical_alias_collapse_count": 3,
+  "unique_source_count": 7,
+  "matched_existing_count": 0,
+  "new_source_count": 7,
+  "proposed_entry_count": 1434,
+  "canonical_registry_materialized": false,
+  "waiting_queue_only": true,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "usage_edges_created": 0,
+  "provider_count_policy": "DYNAMIC_UNCHANGED",
+  "approval_ref": "docs/donor-meshy-runware-api-evangelist-2026-10-04.md",
+  "requirements": [
+    "Preserve all 10 exact owner-marked submitted URLs in provenance/discovery metadata.",
+    "Collapse the four Meshy GitHub topic/filter views to one canonical topic identity while preserving every submitted URL.",
+    "Treat GitHub topic and organization records as discovery indexes only; do not recursively admit child repositories.",
+    "Treat meshy-dev/Meshy-guide as a repository-level reference only; no code, dependency, service, model, asset or runtime admission is created by this intake.",
+    "Any selected child repository, SDK, API, MCP surface, model, asset or hosted service requires independent provenance, License & Rights, security, Software Coexistence, Hardware Safety/model-runtime and usage-edge review before material adoption.",
+    "Model/provider execution remains under Model Router and HRB authority; upstream GPU/cloud assumptions do not override FA3 CPU-only or display-GPU policies.",
+    "API Evangelist material is discovery/governance/reference input only and creates no API-provider or MCP authority.",
+    "Fixed capability baseline 175 and dynamic provider-count policy remain unchanged.",
+    "No automatic fetch, install, code copy, dependency adoption, provider/model selection, runtime activation or Current Host claim.",
+    "This delta is a FIFO waiting intake only until the rolling five-slot gate admits it; pending records are excluded from canonical planning."
+  ],
+  "sources": [
+    [
+      "https://github.com/topics/meshy?o=asc&s=updated",
+      "FA3-DONOR-GITHUB-TOPIC-MESHY-001"
+    ],
+    [
+      "https://github.com/topics/meshy?l=python&o=asc&s=updated",
+      "FA3-DONOR-GITHUB-TOPIC-MESHY-001"
+    ],
+    [
+      "https://github.com/meshy-dev/Meshy-guide",
+      "FA3-DONOR-MESHY-DEV-MESHY-GUIDE-001"
+    ],
+    [
+      "https://github.com/topics/meshy?l=python",
+      "FA3-DONOR-GITHUB-TOPIC-MESHY-001"
+    ],
+    [
+      "https://github.com/meshy-dev",
+      "FA3-DONOR-MESHY-DEV-ORG-001"
+    ],
+    [
+      "https://github.com/topics/meshy?l=html",
+      "FA3-DONOR-GITHUB-TOPIC-MESHY-001"
+    ],
+    [
+      "https://github.com/topics/ai-3d-model-generator",
+      "FA3-DONOR-GITHUB-TOPIC-AI-3D-MODEL-GENERATOR-001"
+    ],
+    [
+      "https://github.com/runware",
+      "FA3-DONOR-RUNWARE-ORG-001"
+    ],
+    [
+      "https://github.com/topics/runware?l=shell",
+      "FA3-DONOR-GITHUB-TOPIC-RUNWARE-001"
+    ],
+    [
+      "https://github.com/api-evangelist",
+      "FA3-DONOR-API-EVANGELIST-ORG-001"
+    ]
+  ],
+  "canonical_identities": [
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-MESHY-001",
+      "normalized_key": "github:topics/meshy",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "DISCOVERY_INDEX"
+    },
+    {
+      "donor_id": "FA3-DONOR-MESHY-DEV-MESHY-GUIDE-001",
+      "normalized_key": "github:meshy-dev/meshy-guide",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "TUTORIAL_AND_WORKFLOW_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-MESHY-DEV-ORG-001",
+      "normalized_key": "github:meshy-dev",
+      "kind": "GITHUB_ORGANIZATION",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "DISCOVERY_INDEX"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-AI-3D-MODEL-GENERATOR-001",
+      "normalized_key": "github:topics/ai-3d-model-generator",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "DISCOVERY_INDEX"
+    },
+    {
+      "donor_id": "FA3-DONOR-RUNWARE-ORG-001",
+      "normalized_key": "github:runware",
+      "kind": "GITHUB_ORGANIZATION",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "DISCOVERY_INDEX"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-RUNWARE-001",
+      "normalized_key": "github:topics/runware",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "DISCOVERY_INDEX"
+    },
+    {
+      "donor_id": "FA3-DONOR-API-EVANGELIST-ORG-001",
+      "normalized_key": "github:api-evangelist",
+      "kind": "GITHUB_ORGANIZATION",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "DISCOVERY_INDEX"
+    }
+  ],
+  "boundaries": {
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "automatic_code_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "child_repository_auto_registration": false,
+    "usage_edge_created": false,
+    "capability_count_change": false,
+    "authority_change": false,
+    "runtime_change": false,
+    "current_host_pass_claimed": false,
+    "canonical_planning_visibility": false
+  },
+  "serialization_scope": "ROLLING_FIVE_SLOT_DONOR_MAINTENANCE",
+  "serialization_order": "FIFO_SLOT_ADMISSION_THEN_ASCENDING_CANONICAL_DONOR_MUTATION_WORKLOAD_WITH_FIFO_TIES",
+  "max_active_donor_intakes": 5,
+  "expected_initial_state": "FIFO_WAITING_AFTER_EXISTING_OPEN_DONOR_INTAKES"
+}
