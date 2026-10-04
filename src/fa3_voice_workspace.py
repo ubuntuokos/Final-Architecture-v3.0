@@ -4,6 +4,7 @@ import hashlib,json,os,sqlite3,time,uuid,wave
 from pathlib import Path
 from typing import Any
 from fa3_piper_provider import execute_piper
+from fa3_whisper_stt_provider import execute_transcription,RuntimeOptions
 class VoiceWorkspaceError(RuntimeError): pass
 def _sha(path:Path)->str:
     h=hashlib.sha256()
@@ -34,6 +35,12 @@ class VoiceWorkspace:
         cid=str(p.get("id") or "capture-"+uuid.uuid4().hex)
         out={**p,"schema":"fa3.voice-capture.v1","id":cid,"audio_path":str(path),"audio_sha256":_sha(path)}
         self.db.execute("insert into captures(id,payload,created) values(?,?,?)",(cid,json.dumps(out,ensure_ascii=False),time.time())); self.db.commit(); return out
+    def transcribe(self,p):
+        path=Path(str(p.get("audio_path",""))).expanduser().resolve()
+        if not path.is_file(): raise VoiceWorkspaceError("audio_path missing")
+        req={"schema":"fa3.stt-media-request.v1","required_result_schema":"fa3.stt-media-result.v1","time_origin":"RELATIVE_ZERO","task":"transcribe","audio_path":str(path),"audio_hash":_sha(path),"language":str(p.get("language") or "auto")}
+        options=RuntimeOptions(model=str(p.get("model") or "turbo"),device="cpu",offline=True,model_cache=os.environ.get("FA3_WHISPER_MODEL_CACHE"),word_timestamps=True)
+        return execute_transcription(self.root,req,options)
     def fit_to_clip(self,target_ms:int,actual_ms:int,max_speedup:float=1.15):
         if target_ms<=0 or actual_ms<=0: raise VoiceWorkspaceError("positive durations required")
         if actual_ms<=target_ms: return {"decision":"ACCEPT_AND_PAD","target_ms":target_ms,"actual_ms":actual_ms,"pad_ms":target_ms-actual_ms,"text_rewrite":False}
@@ -73,9 +80,10 @@ class VoiceWorkspace:
         except Exception as e:
             self.db.execute("update jobs set state='FAILED',error=?,updated=? where id=?",(str(e),time.time(),jid)); self.db.commit(); raise
     def dispatch_action(self,action:str,payload:dict):
-        allowed={"voice.speak","voice.profile.put","voice.fit-to-clip","voice.quick-dub.plan"}
+        allowed={"voice.speak","voice.transcribe","voice.profile.put","voice.fit-to-clip","voice.quick-dub.plan"}
         if action not in allowed: raise VoiceWorkspaceError("unsupported UAF voice action")
         if action=="voice.speak": return self.generate(payload)
+        if action=="voice.transcribe": return self.transcribe(payload)
         if action=="voice.profile.put": return self.put_profile(payload)
         if action=="voice.fit-to-clip": return self.fit_to_clip(int(payload["target_ms"]),int(payload["actual_ms"]))
         return self.quick_dub_plan(payload)
