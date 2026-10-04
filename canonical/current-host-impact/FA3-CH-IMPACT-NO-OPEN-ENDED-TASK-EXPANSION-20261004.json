@@ -1,0 +1,14 @@
+{
+  "schema": "fa3.current-host-structural-impact.v1",
+  "id": "FA3-CH-IMPACT-NO-OPEN-ENDED-TASK-EXPANSION-20261004",
+  "status": "NO_RUNTIME_IMPACT",
+  "structural_changes": [
+    ".github/workflows/fa3-goal-execution-foundation.yml",
+    "canonical/contracts/FA3-GOAL-EXECUTION-CONTRACTS-001.schema.json",
+    "canonical/decisions/FA3-DEC-NO-OPEN-ENDED-TASK-EXPANSION-2026-10-04.json"
+  ],
+  "current_host_changes": [],
+  "physical_requalification_required": false,
+  "historical_evidence_reused": false,
+  "rationale": "This changes canonical task-scope governance and CI coverage for the existing non-authoritative Goal Execution planning foundation. It adds no execution authority, provider/runtime path, host resource behavior, hardware behavior, evidence promotion semantics, or Current Host proof recipe; compile_plan remains plan-only and cannot invoke runtime effects. The Control Center change is explanatory UI text only."
+}
