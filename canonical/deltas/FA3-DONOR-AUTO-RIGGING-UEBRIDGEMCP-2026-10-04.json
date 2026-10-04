@@ -1,0 +1,68 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-AUTO-RIGGING-UEBRIDGEMCP-2026-10-04",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "MATERIALIZED_PENDING_EXACT_HEAD_GATES",
+  "mode": "APPEND_ONLY_OWNER_EXPLICIT_REFERENCE_INTAKE",
+  "parent_commit": "a3071208cf182857d4c49dad4f0d17bf9fe68a6a",
+  "parent_registry_blob_sha": "1362d75186c6da74e5cf947fdf0b8867d462636a",
+  "parent_entry_count": 1427,
+  "source_count": 2,
+  "unique_source_key_count": 2,
+  "matched_existing_count": 0,
+  "proposed_entry_count": 1429,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "provider_count_policy": "DYNAMIC_UNCHANGED",
+  "approval_ref": "docs/donor-auto-rigging-uebridgemcp-2026-10-04.md",
+  "sources": [
+    {
+      "url": "https://github.com/topics/auto-rigging",
+      "donor_id": "FA3-DONOR-AUTO-RIGGING-TOPIC-001",
+      "normalized_key": "github:topics/auto-rigging",
+      "classification": "GITHUB_TOPIC_DISCOVERY_INDEX"
+    },
+    {
+      "url": "https://github.com/uuuuzz/UEBridgeMCP",
+      "donor_id": "FA3-DONOR-UEBRIDGEMCP-001",
+      "normalized_key": "github:uuuuzz/uebridgemcp",
+      "classification": "GITHUB_REPOSITORY_REFERENCE",
+      "observed_head": "51c7a0c2288fc00a36aa6b11b73e2789a58ea68e",
+      "observed_release": "v1.19.0",
+      "observed_license": "GPL-3.0"
+    }
+  ],
+  "requirements": [
+    "Preserve both exact owner-marked URLs as separate canonical donor/reference identities.",
+    "Treat the auto-rigging topic as a dynamic discovery index only; child repositories are not recursively registered or admitted.",
+    "Treat UEBridgeMCP as reference-only; GPL-3.0 source copying, bundling or runtime/plugin adoption remains blocked pending exact License & Rights and Unreal-license compatibility review.",
+    "Reuse of UEBridgeMCP architectural patterns must remain subordinate to existing FA3 task-group authority, Layer Guard/testor, MCP/UAF authorization, Security, Evidence, HRB, Software Coexistence and Current Host rules.",
+    "Any concrete auto-rigging child repository or model selected later requires independent exact-source provenance, License & Rights, security, Hardware Safety/model-runtime review and typed donor usage edge.",
+    "Fixed capability baseline 175 and dynamic provider-count policy remain unchanged.",
+    "No automatic fetch, install, code copy, dependency adoption, runtime activation, provider/model admission or Current Host PASS claim."
+  ],
+  "boundaries": {
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "automatic_code_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "topic_child_repository_auto_registration": false,
+    "uebridgemcp_runtime_admission": false,
+    "uebridgemcp_source_copy": false,
+    "usage_edge_created": false,
+    "capability_count_change": false,
+    "authority_change": false,
+    "runtime_change": false,
+    "current_host_pass_claimed": false
+  },
+  "submitted_url_count": 2,
+  "new_source_count": 2,
+  "serialization_scope": "ROLLING_FIVE_SLOT_DONOR_MAINTENANCE",
+  "serialization_order": "ASCENDING_ESTIMATED_INTAKE_WORKLOAD_THEN_FIFO",
+  "max_active_donor_intakes": 5,
+  "expected_initial_state": "FIFO_WAITING_BEHIND_EARLIER_OPEN_DONOR_INTAKES"
+}
