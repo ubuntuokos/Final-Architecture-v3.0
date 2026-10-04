@@ -1,0 +1,41 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-GENERATIVE-MEDIA-MESH-001",
+  "status": "STATIC_MATERIALIZATION_GATE",
+  "priority": "P0",
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "required_files": [
+    "canonical/profiles/FA3-GENERATIVE-MEDIA-MESH-001.json",
+    "canonical/contracts/FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001.json",
+    "canonical/assessments/FA3-HIDREAM-GENERATIVE-MEDIA-MESH-REUSE-ASSESSMENT-2026-10-04.json",
+    "canonical/decisions/FA3-DEC-HIDREAM-GENERATIVE-MEDIA-MESH-2026-10-04.json",
+    "apps/shared/generative-media/qml/GenerativeMediaMeshPanel.qml",
+    "src/fa3_generative_media_mesh_gate.py",
+    "tests/test_generative_media_mesh_20261004.py"
+  ],
+  "static_gate_command": "python src/fa3_generative_media_mesh_gate.py",
+  "regression_command": "python -m unittest tests/test_generative_media_mesh_20261004.py",
+  "fail_closed_requirements": {
+    "model_router_exclusive_provider_model_authority": true,
+    "hrb_exclusive_local_device_placement_authority": true,
+    "temporal_durable_workflow_authority": true,
+    "engine_selector_non_authoritative": true,
+    "hidream_org_does_not_admit_children": true,
+    "explicit_child_donor_marker_required": true,
+    "silent_fallback_forbidden": true,
+    "automatic_display_gpu_enrollment_forbidden": true,
+    "physical_current_host_pass_required_for_runtime_promotion": true
+  },
+  "runtime_promotion_claim": false,
+  "physical_current_host_pass_claimed": false,
+  "closure_semantics": "STATIC_ARCHITECTURE_AND_GUI_MATERIALIZATION_COMPLETE_RUNTIME_CHILD_ADMISSION_REMAINS_FAIL_CLOSED",
+  "enforcement_binding": {
+    "existing_gate": "FA3-GATE-GUI-001",
+    "existing_entrypoint": "src/fa3_gui_gate.py::validate",
+    "mesh_entrypoint": "src/fa3_generative_media_mesh_gate.py::run",
+    "dedicated_workflow_required": false,
+    "enforced_in_existing_gui_ci_path": true
+  }
+}
