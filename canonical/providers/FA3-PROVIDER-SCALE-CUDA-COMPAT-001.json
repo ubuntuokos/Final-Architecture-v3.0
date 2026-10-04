@@ -118,5 +118,11 @@
   },
   "normative_constraint": "SCALE is an optional shared CUDA-compatibility backend, not a capability and not a mandatory FA3 dependency. Its presence never authorizes execution. AMD use requires exact device binding, explicit translation allowance, License & Rights admission and HRB placement; Intel support is not claimed; no silent fallback is permitted.",
   "capability_baseline_release": "2026-09-26/v3.1.0",
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "distribution": {
+    "class": "USER_LOCAL_EXTERNAL",
+    "release_bundle_status": "EXCLUDED",
+    "product_bundle_allowed": false,
+    "classification_basis": "SCALE is externally supplied and not bundled or redistributed by FA3/CFA3; runtime use remains separately License & Rights gated."
+  }
 }
