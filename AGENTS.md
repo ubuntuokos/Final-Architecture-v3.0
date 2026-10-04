@@ -94,3 +94,12 @@ Every change that modifies FA3 structural behavior must assess and reconcile its
 - Use `NO_RUNTIME_IMPACT` only with a substantive rationale and `physical_requalification_required=false`.
 - Historical Current Host evidence is immutable and must never be inherited as proof for a structurally changed active release.
 - The fail-closed gate `src/fa3_current_host_structural_impact_gate.py` and workflow `.github/workflows/fa3-current-host-structural-impact.yml` enforce this rule.
+
+
+## FA3 explicit task-scope closure rule (2026-10-04)
+
+FA3 development has no autonomous task class equivalent to **“Mit lehetne még megcsinálni?” / “What else could be done?”**. Do not create optional-improvement, assistant-suggested, opportunistic, auto-backlog or completed-task successor work merely because additional work is conceivable.
+
+A task may enter planning or execution only when its scope provenance is one of: `EXPLICIT_USER_SCOPE`, `REQUIRED_FOR_APPROVED_GOAL`, or an owner-requested `EXPLICIT_USER_SCOPE_EXTENSION` bound to a revised goal. Missing or unknown provenance fails closed. Every executable `fa3.agent-workload-task.v1` must carry the same `scope_origin` and non-empty `scope_refs`; planning layers may not strip this provenance before Agent Workload admission.
+
+Repair work is bounded to the original approved scope and original acceptance-criterion IDs. It may not invent a new criterion, expand scope, or silently create a successor task. When the explicit task is complete, completion is terminal unless the owner explicitly creates or extends the next task. Canonical authority: `FA3-RULE-NO-OPEN-ENDED-TASK-EXPANSION-001`.

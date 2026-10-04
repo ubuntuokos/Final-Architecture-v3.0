@@ -39,6 +39,11 @@ FORBIDDEN_KEYS={
     "gpu_index","gpu_ordinal","cuda_visible_devices","rocr_visible_devices",
 }
 HEX40=re.compile(r"^[0-9a-f]{40}$")
+TASK_SCOPE_ORIGINS=frozenset({
+    "EXPLICIT_USER_SCOPE",
+    "REQUIRED_FOR_APPROVED_GOAL",
+    "EXPLICIT_USER_SCOPE_EXTENSION",
+})
 
 class WorkloadContractError(ValueError):
     pass
@@ -71,12 +76,18 @@ def validate_fanout_limits(limits: dict[str, Any]) -> None:
 def validate_task(task: dict[str, Any]) -> dict[str, Any]:
     if task.get("schema") != TASK_SCHEMA:
         raise WorkloadContractError("task schema mismatch")
-    required=("task_id","root_task_id","action_ref","agent_definition_ref","resource_requirements","network_envelope_ref","model_intent","authorized_ai_participants","fanout_limits")
+    required=("task_id","root_task_id","scope_origin","scope_refs","action_ref","agent_definition_ref","resource_requirements","network_envelope_ref","model_intent","authorized_ai_participants","fanout_limits")
     if any(k not in task for k in required):
         raise WorkloadContractError("task missing required field")
     for key in ("task_id","root_task_id","action_ref","agent_definition_ref","network_envelope_ref"):
         if not _nonempty(task.get(key)):
             raise WorkloadContractError(f"invalid {key}")
+    if task.get("scope_origin") not in TASK_SCOPE_ORIGINS:
+        raise WorkloadContractError("task scope_origin missing, unknown or open-ended")
+    scope_refs=task.get("scope_refs")
+    if (not isinstance(scope_refs,list) or not scope_refs or
+            any(not _nonempty(x) for x in scope_refs) or len(set(scope_refs)) != len(scope_refs)):
+        raise WorkloadContractError("task scope_refs must be a non-empty unique string list")
     if not isinstance(task.get("resource_requirements"), dict) or not isinstance(task.get("model_intent"), dict):
         raise WorkloadContractError("resource_requirements/model_intent must be objects")
     if any(k in task["model_intent"] for k in ("provider","provider_id","endpoint","model_id")):
@@ -214,6 +225,8 @@ def compile_orchestration_workload(
     network_envelope_ref: str,
     model_intent: dict[str, Any],
     fanout_limits: dict[str, Any],
+    scope_origin: str,
+    scope_refs: list[str],
     root_task_id: str | None = None,
     work_item_ref: str | None = None,
 ) -> dict[str, Any]:
@@ -231,6 +244,8 @@ def compile_orchestration_workload(
         "schema": TASK_SCHEMA,
         "task_id": task_id,
         "root_task_id": root_task_id or task_id,
+        "scope_origin": scope_origin,
+        "scope_refs": list(scope_refs),
         "parent_task_id": None,
         "work_item_ref": work_item_ref,
         "action_ref": "orchestration.execute",
@@ -271,6 +286,8 @@ def compile_execution_plan(
     return {
         "schema": "fa3.agent-execution-plan.v1",
         "task_id": checked_task["task_id"],
+        "scope_origin": checked_task["scope_origin"],
+        "scope_refs": copy.deepcopy(checked_task["scope_refs"]),
         "task_spec_digest": task_spec_digest,
         "workflow_graph": checked_graph,
         "model_capability_descriptor": checked_model,

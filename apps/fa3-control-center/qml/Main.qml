@@ -996,7 +996,7 @@ ApplicationWindow {
                     cards: [
                         {title: "Interactive Agents", subtitle: "Goose és desktop agent projection.", badge: "ROUTED", tone: window.accent},
                         {title: "Durable Workflows", subtitle: "Temporal authority állapot és futások.", badge: "READ", tone: window.green},
-                        {title: "Tasks", subtitle: "Current tasks, approvals és blockers.", badge: "QUEUE", tone: window.orange},
+                        {title: "Tasks", subtitle: "Csak explicit vagy jóváhagyott célhoz szükséges scope-ból származó taskok, approvals és blockers.", badge: "QUEUE", tone: window.orange},
                         {title: "Tool Execution", subtitle: "Central MCP mediation és policy outcome.", badge: "GATED", tone: window.magenta},
                         {title: "RTD Data Sources", subtitle: "Workflow-szintű élő adatforrás-kötések az RTD Providers policy- és freshness-határán keresztül.", badge: "DATA", tone: window.cyan},
                         {title: "Imported Packs · Agency Agents", subtitle: "12 canonical FA3 role + 5 canonical template · upstream body nincs vendorizálva · runtime/provider külön admission. Kattintás csak az Agent Action Centerhez navigál; nincs közvetlen provider execution.", badge: "CANONICAL", tone: window.cyan, routeId: "agents.action-center"},
