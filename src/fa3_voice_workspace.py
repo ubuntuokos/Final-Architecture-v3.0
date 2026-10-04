@@ -43,6 +43,14 @@ class VoiceWorkspace:
         cid=str(p.get("id") or "capture-"+uuid.uuid4().hex)
         out={**p,"schema":"fa3.voice-capture.v1","id":cid,"audio_path":str(path),"audio_sha256":_sha(path)}
         self.db.execute("insert into captures(id,payload,created) values(?,?,?)",(cid,json.dumps(out,ensure_ascii=False),time.time())); self.db.commit(); return out
+    def effects_plan(self,p):
+        source=str(p.get("source_audio_ref","")).strip()
+        chain=p.get("chain")
+        if not source or not isinstance(chain,list): raise VoiceWorkspaceError("source_audio_ref and chain required")
+        allowed={"pitch","eq","compression","reverb","delay","chorus","gain","highpass","lowpass"}
+        for step in chain:
+            if not isinstance(step,dict) or str(step.get("effect","")).lower() not in allowed: raise VoiceWorkspaceError("unsupported effect")
+        return {"schema":"fa3.voice-effects-plan.v1","source_audio_ref":source,"chain":chain,"non_destructive":True,"original_overwrite":False,"execution_authority":"FA3-AUDIO-001","runtime_status":"PENDING_ADMITTED_AUDIO_PROCESSOR"}
     def transform_preflight(self,p):
         return validate_transformation_request(p,rights_admitted=bool(p.get("rights_admitted")),provider_status=str(p.get("provider_status") or "REFERENCE_ONLY"),provider_reference_only=bool(p.get("provider_reference_only",True)),resource_admission_ref=p.get("resource_admission_ref"))
     def transcribe(self,p):
@@ -90,11 +98,12 @@ class VoiceWorkspace:
         except Exception as e:
             self.db.execute("update jobs set state='FAILED',error=?,updated=? where id=?",(str(e),time.time(),jid)); self.db.commit(); raise
     def dispatch_action(self,action:str,payload:dict):
-        allowed={"voice.speak","voice.transcribe","voice.transform.preflight","voice.profile.put","voice.fit-to-clip","voice.quick-dub.plan"}
+        allowed={"voice.speak","voice.transcribe","voice.transform.preflight","voice.effects.plan","voice.profile.put","voice.fit-to-clip","voice.quick-dub.plan"}
         if action not in allowed: raise VoiceWorkspaceError("unsupported UAF voice action")
         if action=="voice.speak": return self.generate(payload)
         if action=="voice.transcribe": return self.transcribe(payload)
         if action=="voice.transform.preflight": return self.transform_preflight(payload)
+        if action=="voice.effects.plan": return self.effects_plan(payload)
         if action=="voice.profile.put": return self.put_profile(payload)
         if action=="voice.fit-to-clip": return self.fit_to_clip(int(payload["target_ms"]),int(payload["actual_ms"]))
         return self.quick_dub_plan(payload)
