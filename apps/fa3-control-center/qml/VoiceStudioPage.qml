@@ -291,8 +291,29 @@ Item {
                             ComboBox { id: captureLanguage; Layout.fillWidth: true; model: ["hu-HU","en-US","de-DE"] }
                             TextField { id: captureSource; Layout.fillWidth: true; placeholderText: "Authorized local audio/microphone artifact ref" }
                             TextArea { id: captureTranscript; Layout.fillWidth: true; Layout.preferredHeight: 130; placeholderText: "Optional raw transcript"; wrapMode: TextEdit.Wrap }
+                            RowLayout {
+                                Layout.fillWidth: true
+                                Button {
+                                    text: fa3VoiceWorkspace.recording ? "Recording…" : "Start Microphone"
+                                    enabled: !fa3VoiceWorkspace.recording
+                                    onClicked: fa3VoiceWorkspace.startMicrophoneCapture(captureLanguage.currentText)
+                                }
+                                Button {
+                                    text: "Stop & Add"
+                                    enabled: fa3VoiceWorkspace.recording
+                                    onClicked: fa3VoiceWorkspace.stopMicrophoneCapture(captureTranscript.text)
+                                }
+                            }
+                            Label {
+                                text: fa3VoiceWorkspace.recording
+                                      ? "Recording to: " + fa3VoiceWorkspace.recordingPath
+                                      : "Microphone idle"
+                                color: fa3VoiceWorkspace.recording ? root.orange : root.textMuted
+                                elide: Text.ElideMiddle
+                                Layout.fillWidth: true
+                            }
                             Button {
-                                text: "Add to Capture Inbox"
+                                text: "Add Existing Audio to Capture Inbox"
                                 Layout.fillWidth: true
                                 onClicked: fa3VoiceWorkspace.createCapture(captureLanguage.currentText, captureSource.text, captureTranscript.text)
                             }
