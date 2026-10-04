@@ -1,0 +1,46 @@
+{
+  "schema": "fa3.owner-exception.v1",
+  "id": "FA3-OWNER-EXCEPTION-HIDREAM-GENERATIVE-MEDIA-MESH-PR674-CI-REPAIR-2026-10-04",
+  "status": "ACTIVE_SINGLE_PR_CI_REPAIR_EXCEPTION",
+  "owner": "ubuntuokos",
+  "owner_instruction": "Folytasd autonóm módon az FA3 ubuntuokos/Final-Architecture-v3.0 repository #674 PR-jének teljes lezárását a jelenlegi GitHub-állapotból.",
+  "prior_owner_approval": "jóváhagyom",
+  "recorded_date": "2026-10-04",
+  "repository": "ubuntuokos/Final-Architecture-v3.0",
+  "pull_request": 674,
+  "authorized_transition_parent_head": "2f05dffe7d1b15e034c8beb22a09a25692804790",
+  "triggering_authoritative_ci": {
+    "current_host_structural_impact_run": 37195058197,
+    "reuse_discovery_run": 37195058124,
+    "central_mcp_gateway_run": 37195058218,
+    "findings": [
+      "canonical/assessments/FA3-GENERATIVE-MEDIA-MESH-DECISION-ASSESSMENT-2026-10-04.json missing from structural impact coverage",
+      "src/fa3_gui_gate.py line 3 IndentationError caused by misplaced Generative Media Mesh CMake assertion"
+    ]
+  },
+  "reason": "Authoritative exact-head CI exposed two deterministic PR-674-specific defects after the prior closure commit. This exception authorizes exactly one atomic repair commit limited to those defects and their audit binding.",
+  "scope": "WAIVE_SEPARATE_EXACT_HEAD_APPROVE_REVIEW_ONLY_FOR_PR674_AND_AUTHORIZE_ONE_ATOMIC_CI_REPAIR_COMMIT",
+  "authorized_administrative_commit_chain": {
+    "max_commits": 1,
+    "allowed_paths": [
+      "canonical/exceptions/FA3-OWNER-EXCEPTION-HIDREAM-GENERATIVE-MEDIA-MESH-PR674-CI-REPAIR-2026-10-04.json",
+      "canonical/current-host-impact/FA3-CH-IMPACT-HIDREAM-GENERATIVE-MEDIA-MESH-PR674-20261004.json",
+      "canonical/decisions/FA3-DEC-HIDREAM-GENERATIVE-MEDIA-MESH-2026-10-04.json",
+      "src/fa3_gui_gate.py"
+    ],
+    "any_other_path_change_invalidates_exception": true
+  },
+  "invariants": {
+    "capability_baseline": 175,
+    "capability_delta": 0,
+    "authority_delta": 0,
+    "material_feature_scope_delta": 0,
+    "required_status_checks_still_mandatory": true,
+    "branch_protection_still_mandatory": true,
+    "unresolved_review_threads_forbidden": true,
+    "child_repository_auto_admission": false,
+    "runtime_promotion_claim": false,
+    "physical_current_host_pass_claim": false,
+    "historical_current_host_evidence_reuse": false
+  }
+}

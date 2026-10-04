@@ -1,0 +1,41 @@
+{
+  "schema": "fa3.owner-exception.v1",
+  "id": "FA3-OWNER-EXCEPTION-HIDREAM-GENERATIVE-MEDIA-MESH-PR674-ACTION-PINNING-2026-10-04",
+  "status": "ACTIVE_SINGLE_PR_CI_INFRASTRUCTURE_REPAIR_EXCEPTION",
+  "owner": "ubuntuokos",
+  "owner_instruction": "Folytasd ha lehetséges",
+  "prior_owner_approval": "jóváhagyom",
+  "recorded_date": "2026-10-04",
+  "repository": "ubuntuokos/Final-Architecture-v3.0",
+  "pull_request": 674,
+  "authorized_transition_parent_head": "befa0ac169a0e8d794dd72522c527cf763155382",
+  "triggering_authoritative_ci": {
+    "release_projection_reconcile_run": 37198645682,
+    "job": 111425588782,
+    "finding": "GitHub rejected actions/checkout@v4, actions/setup-python@v5 and actions/upload-artifact@v4 because repository policy requires full-length commit SHA pinning."
+  },
+  "reason": "The repository-owned release-projection reconciler could not reach its own validation or generation logic because its external Actions references were not pinned to full commit SHAs. The permanent enforcement workflow already provides repository-approved SHA pins for the same Actions.",
+  "scope": "AUTHORIZE_ONE_PR674_CI_INFRASTRUCTURE_REPAIR_COMMIT_LIMITED_TO_FULL_SHA_ACTION_PINNING",
+  "authorized_administrative_commit_chain": {
+    "max_commits": 2,
+    "allowed_paths": [
+      "canonical/exceptions/FA3-OWNER-EXCEPTION-HIDREAM-GENERATIVE-MEDIA-MESH-PR674-ACTION-PINNING-2026-10-04.json",
+      ".github/workflows/fa3-release-projection-reconcile.yml"
+    ],
+    "workflow_change_limit": "Replace only actions/checkout, actions/setup-python and actions/upload-artifact version tags with repository-approved full commit SHA pins; no workflow behavior change.",
+    "prior_final_reconciliation_exception_remains_required": true,
+    "any_other_path_change_invalidates_exception": true
+  },
+  "invariants": {
+    "capability_baseline": 175,
+    "capability_delta": 0,
+    "authority_delta": 0,
+    "material_feature_scope_delta": 0,
+    "required_status_checks_still_mandatory": true,
+    "branch_protection_still_mandatory": true,
+    "unresolved_review_threads_forbidden": true,
+    "runtime_promotion_claim": false,
+    "physical_current_host_pass_claim": false,
+    "historical_current_host_evidence_reuse": false
+  }
+}

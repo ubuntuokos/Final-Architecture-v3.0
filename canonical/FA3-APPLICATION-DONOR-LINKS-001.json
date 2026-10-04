@@ -1076,6 +1076,335 @@
         "fa3.video-editor",
         "fa3.quickclip"
       ]
+    },
+    {
+      "id": "FA3-USAGE-VISUAL-PROMPT-GENERATIVE-MEDIA-MESH-001",
+      "donor_id": "FA3-DONOR-VIGOZHAO-AI-VISUAL-PROMPT-COOKBOOK-001",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "VISUAL_PROMPT_CAMERA_STYLE_STRUCTURE",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-GENERATIVE-MEDIA-MESH-001"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-04",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "current_host_impact": {
+        "classification": "STRUCTURAL_REASSESSMENT_REQUIRED",
+        "reason": "Shared generative-media profile and GUI projection changed; runtime promotion remains separate."
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-001"
+        ],
+        "contract_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      }
+    },
+    {
+      "id": "FA3-USAGE-STICKMAN-DIRECTOR-GENERATIVE-MEDIA-MESH-001",
+      "donor_id": "FA3-DONOR-KAOMEI-STICKMAN-VIDEO-DIRECTOR-001",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "SHOT_BEAT_CONTINUITY_DURATION_CONTRACT",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-GENERATIVE-MEDIA-MESH-001"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-04",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "current_host_impact": {
+        "classification": "STRUCTURAL_REASSESSMENT_REQUIRED",
+        "reason": "Storyboard/shot projection added; runtime promotion remains separate."
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-001"
+        ],
+        "contract_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      }
+    },
+    {
+      "id": "FA3-USAGE-SEE-THROUGH-GENERATIVE-MEDIA-MESH-001",
+      "donor_id": "FA3-DONOR-SEE-THROUGH-001",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "LAYER_OCCLUSION_PREPROCESSING",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-GENERATIVE-MEDIA-MESH-001"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-04",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "current_host_impact": {
+        "classification": "STRUCTURAL_REASSESSMENT_REQUIRED",
+        "reason": "Shared image/character preprocessing semantics added; execution remains separately admitted."
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-001"
+        ],
+        "contract_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      }
+    },
+    {
+      "id": "FA3-USAGE-HIROUTE-GENERATIVE-MEDIA-MESH-001",
+      "donor_id": "FA3-DONOR-HIGRESS-GROUP-HIROUTE-001",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "BOUNDED_STAGE_AWARE_ROUTING_WITH_EXPLICIT_EXHAUSTION",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-GENERATIVE-MEDIA-MESH-001"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-04",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT",
+        "reason": "Policy pattern only; Model Router remains sole provider/model authority."
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-001"
+        ],
+        "contract_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001"
+        ],
+        "authority_ids": [
+          "FA3-AUTH-MODEL-ROUTER-001"
+        ],
+        "shared_module_ids": []
+      }
+    },
+    {
+      "id": "FA3-USAGE-TOBYFLOW-GENERATIVE-MEDIA-MESH-001",
+      "donor_id": "FA3-DONOR-TOBYFLOW-001",
+      "usage_kind": "REFERENCE_BINDING",
+      "pattern": "VISUAL_DAG_BATCH_RETRY_PROGRESS_UI_REFERENCE",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-GENERATIVE-MEDIA-MESH-001"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-04",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "reference_only": true,
+      "material_adoption": false,
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT",
+        "reason": "Reference-only UX/workflow pattern; Temporal remains workflow authority and no TobyFlow code/runtime is used."
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-001"
+        ],
+        "contract_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      }
+    },
+    {
+      "id": "FA3-USAGE-DIFFUSERS-GENERATIVE-MEDIA-MESH-001",
+      "donor_id": "FA3-DONOR-HUGGINGFACE-DIFFUSERS-001",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "PROVIDER_NEUTRAL_DIFFUSION_PIPELINE_PATTERN",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-GENERATIVE-MEDIA-MESH-001",
+        "relationship": "PATTERN_SOURCE"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-04",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "current_host_impact": {
+        "classification": "STRUCTURAL_REASSESSMENT_REQUIRED",
+        "reason": "Provider-neutral architecture pattern only; no donor runtime, model or device authority is admitted."
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-001"
+        ],
+        "contract_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      }
+    },
+    {
+      "id": "FA3-USAGE-XDIT-GENERATIVE-MEDIA-MESH-001",
+      "donor_id": "FA3-DONOR-XDIT-001",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "ZERO_TO_N_ACCELERATOR_DIT_RESOURCE_PROJECTION_PATTERN",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-GENERATIVE-MEDIA-MESH-001",
+        "relationship": "PATTERN_SOURCE"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-04",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT",
+        "reason": "Provider-neutral architecture pattern only; no donor runtime, model or device authority is admitted."
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-001"
+        ],
+        "contract_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      }
+    },
+    {
+      "id": "FA3-USAGE-VIDEOSYS-GENERATIVE-MEDIA-MESH-001",
+      "donor_id": "FA3-DONOR-VIDEOSYS-001",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "GENERATION_RUNTIME_SERVING_LIFECYCLE_PATTERN",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-GENERATIVE-MEDIA-MESH-001",
+        "relationship": "PATTERN_SOURCE"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-04",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT",
+        "reason": "Provider-neutral architecture pattern only; no donor runtime, model or device authority is admitted."
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-001"
+        ],
+        "contract_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      }
+    },
+    {
+      "id": "FA3-USAGE-SANA-GENERATIVE-MEDIA-MESH-001",
+      "donor_id": "FA3-DONOR-NVLABS-SANA-001",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "GENERATOR_REFINER_LIFECYCLE_PATTERN",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-GENERATIVE-MEDIA-MESH-001",
+        "relationship": "PATTERN_SOURCE"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-04",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "current_host_impact": {
+        "classification": "STRUCTURAL_REASSESSMENT_REQUIRED",
+        "reason": "Provider-neutral architecture pattern only; no donor runtime, model or device authority is admitted."
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-001"
+        ],
+        "contract_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      }
+    },
+    {
+      "id": "FA3-USAGE-SYSTEM-ONE-GENERATIVE-MEDIA-MESH-001",
+      "donor_id": "FA3-DONOR-SYSTEM-ONE-HARNESS-001",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "CONFIDENCE_GATE_HANDOFF_TRACE_PATTERN",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-GENERATIVE-MEDIA-MESH-001",
+        "relationship": "PATTERN_SOURCE"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-04",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT",
+        "reason": "Provider-neutral architecture pattern only; no donor runtime, model or device authority is admitted."
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-001"
+        ],
+        "contract_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      }
     }
   ],
   "donor_usage_contract": {
