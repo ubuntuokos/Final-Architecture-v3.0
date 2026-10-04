@@ -4,6 +4,7 @@ import QtQuick.Layouts
 
 Item {
     id: root
+    objectName: "aiStudioPage"
 
     property color panel: "#0b1728"
     property color panelRaised: "#0f2035"
@@ -39,6 +40,43 @@ Item {
         {title: "Weboldal", badge: "PUBLISH", tone: root.cyan, summary: "Webes publikáció, preview és deployment workflow-k.", actions: ["Page/content planning", "Preview", "Asset handoff", "Controlled deployment"]},
         {title: "Prezentáció", badge: "PUBLISH", tone: root.green, summary: "Prezentációk készítése, exportja és publikációs átadása.", actions: ["Deck outline", "Slide generation", "Speaker notes", "Export és handoff"]}
     ]
+
+    function _currentHostProbeRect(item) {
+        var point = item.mapToItem(root, 0, 0)
+        return {"x": point.x, "y": point.y, "width": item.width, "height": item.height}
+    }
+
+    function _currentHostProbeIntersects(a, b) {
+        return a.x < b.x + b.width && a.x + a.width > b.x
+            && a.y < b.y + b.height && a.y + a.height > b.y
+    }
+
+    function currentHostGenerativeMediaProbeReport() {
+        var panelRect = _currentHostProbeRect(meshPanel)
+        var summaryRect = _currentHostProbeRect(moduleSummaryLabel)
+        var separatorRect = _currentHostProbeRect(actionsSeparator)
+        var headingRect = _currentHostProbeRect(actionsHeading)
+        var panelState = meshPanel.currentHostProbeReport()
+        var adjacentOverlap = _currentHostProbeIntersects(panelRect, summaryRect)
+            || _currentHostProbeIntersects(panelRect, separatorRect)
+            || _currentHostProbeIntersects(panelRect, headingRect)
+        return {
+            "pageObjectName": objectName,
+            "pageVisible": visible && width > 0 && height > 0,
+            "pageMode": pageMode,
+            "selectedIndex": selectedIndex,
+            "selectedModule": modules[selectedIndex].title,
+            "panelRect": panelRect,
+            "summaryRect": summaryRect,
+            "separatorRect": separatorRect,
+            "headingRect": headingRect,
+            "panelInsidePage": panelRect.x >= 0 && panelRect.y >= 0
+                && panelRect.x + panelRect.width <= width
+                && panelRect.y + panelRect.height <= height,
+            "adjacentOverlap": adjacentOverlap,
+            "panel": panelState
+        }
+    }
 
     function stateLabel(state) {
         if (state === "INSTALLED") return "TELEPÍTVE"
@@ -247,6 +285,7 @@ Item {
                             }
 
                             Label {
+                                id: moduleSummaryLabel
                                 Layout.fillWidth: true
                                 text: root.modules[root.selectedIndex].summary
                                 color: root.textMuted
@@ -255,12 +294,13 @@ Item {
                             }
 
                             GenerativeMediaMeshPanel {
+                                id: meshPanel
                                 Layout.fillWidth: true
                                 visible: ["Image", "Video", "Animation", "Story / Screenplay"].indexOf(root.modules[root.selectedIndex].title) >= 0
                             }
 
-                            Rectangle { Layout.fillWidth: true; height: 1; color: root.border }
-                            Label { text: "Elérhető felületek / műveletek"; color: root.textPrimary; font.pixelSize: 13; font.bold: true }
+                            Rectangle { id: actionsSeparator; Layout.fillWidth: true; height: 1; color: root.border }
+                            Label { id: actionsHeading; text: "Elérhető felületek / műveletek"; color: root.textPrimary; font.pixelSize: 13; font.bold: true }
 
                             Repeater {
                                 model: root.modules[root.selectedIndex].actions
