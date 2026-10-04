@@ -66,7 +66,8 @@ Item {
                         wrapMode: TextEdit.Wrap
                     }
                     RowLayout {
-                        Button { text: "Generate"; enabled: fa3VoiceWorkspace.state === "READY"; onClicked: fa3VoiceWorkspace.generate(scriptEditor.text, voiceBox.currentText, languageBox.currentText, 0, false, true) }
+                        Button { text: "Generate"; enabled: fa3VoiceWorkspace.state === "READY"; onClicked: fa3VoiceWorkspace.generate(scriptEditor.text, voiceBox.currentText, languageBox.currentText, 0, false, candidateAck.checked) }
+                        CheckBox { id: candidateAck; text: "Allow candidate CPU provider"; checked: false }
                         Button { text: "Preview"; enabled: false }
                         Button { text: "Add to timeline"; enabled: false }
                         Item { Layout.fillWidth: true }
