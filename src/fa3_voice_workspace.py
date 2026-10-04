@@ -326,12 +326,109 @@ class VoiceWorkspaceStore:
             self._save()
         return copy.deepcopy(job)
 
+    def authorize_dispatch(self, job_id: str, uaf_execution_ref: str, resource_admission_ref: str) -> dict[str, Any]:
+        job = self.state["jobs"].get(_clean(job_id))
+        if not job:
+            raise VoiceWorkspaceDenied("unknown job")
+        if job["status"] != "ROUTE_READY" or not isinstance(job.get("provider_decision"), dict):
+            raise VoiceWorkspaceDenied("dispatch requires ROUTE_READY job and provider decision")
+        if not _clean(uaf_execution_ref) or not _clean(resource_admission_ref):
+            raise VoiceWorkspaceDenied("UAF execution and resource admission references are required")
+        job["status"] = "DISPATCHED"
+        job["updated_at"] = utcnow()
+        job["execution_requested"] = True
+        job["runtime_execution_allowed"] = True
+        job["uaf_execution_ref"] = _clean(uaf_execution_ref)
+        job["resource_admission_ref"] = _clean(resource_admission_ref)
+        job["temporal_dispatch"] = {
+            "schema": "fa3.voice-temporal-dispatch.v1",
+            "workflow_type": "fa3.voice.generate",
+            "workflow_id": f"voice-generation::{job_id}",
+            "idempotency_key": job["request"]["request_id"],
+            "job_id": job_id,
+            "uaf_execution_ref": job["uaf_execution_ref"],
+            "resource_admission_ref": job["resource_admission_ref"],
+            "provider_decision": copy.deepcopy(job["provider_decision"]),
+            "execution_authority": UAF,
+            "workflow_authority": WORKFLOW,
+        }
+        self.state["activity"] = {
+            "state": "GENERATING",
+            "application": "fa3.voice-studio",
+            "actor": "",
+            "voice_profile_id": job["request"]["voice_identity_ref"],
+            "job_id": job_id,
+            "visible": True,
+        }
+        self._save()
+        return copy.deepcopy(job)
+
+    def stage_transcription(self, capture_id: str, language: str, refine: bool = False) -> dict[str, Any]:
+        capture = self.state["captures"].get(_clean(capture_id))
+        if not capture:
+            raise VoiceWorkspaceDenied("unknown capture")
+        if not _clean(language):
+            raise VoiceWorkspaceDenied("transcription language is required")
+        request_id = _id("stt-request")
+        capture["transcription_request"] = {
+            "schema": "fa3.voice-transcription-stage.v1",
+            "request_id": request_id,
+            "action_id": "voice.transcribe",
+            "capture_id": capture_id,
+            "language": _clean(language),
+            "refine": bool(refine),
+            "provider_profile": "FA3-STT-MEDIA-001",
+            "provider_id": "FA3-PROVIDER-WHISPER-001",
+            "model_router_authority": MODEL_ROUTER,
+            "uaf_authority": UAF,
+            "execution_requested": False,
+        }
+        capture["status"] = "TRANSCRIBING"
+        capture["updated_at"] = utcnow()
+        self.state["activity"] = {
+            "state": "TRANSCRIBING",
+            "application": "fa3.voice-studio",
+            "actor": "user",
+            "voice_profile_id": "",
+            "job_id": request_id,
+            "visible": True,
+        }
+        self._save()
+        return copy.deepcopy(capture)
+
+    def accept_transcription_result(self, capture_id: str, result: dict[str, Any]) -> dict[str, Any]:
+        capture = self.state["captures"].get(_clean(capture_id))
+        if not capture:
+            raise VoiceWorkspaceDenied("unknown capture")
+        request = capture.get("transcription_request")
+        if not isinstance(request, dict):
+            raise VoiceWorkspaceDenied("capture has no staged transcription request")
+        if result.get("status") != "PASS" or result.get("provider_id") != "FA3-PROVIDER-WHISPER-001":
+            raise VoiceWorkspaceDenied("transcription result is not an admitted Whisper PASS")
+        if not isinstance(result.get("segments"), list) or not isinstance(result.get("execution_evidence"), dict):
+            raise VoiceWorkspaceDenied("transcription result evidence is incomplete")
+        transcript = " ".join(
+            _clean(segment.get("text"))
+            for segment in result["segments"]
+            if isinstance(segment, dict) and _clean(segment.get("text"))
+        ).strip()
+        capture["raw_transcript"] = transcript
+        capture["transcription_result"] = copy.deepcopy(result)
+        capture["status"] = "TRANSCRIBED"
+        capture["updated_at"] = utcnow()
+        self.state["activity"] = {
+            "state": "IDLE", "application": "fa3.voice-studio", "actor": "user",
+            "voice_profile_id": "", "job_id": request["request_id"], "visible": False,
+        }
+        self._save()
+        return copy.deepcopy(capture)
+
     def accept_generation_result(self, job_id: str, result: dict[str, Any]) -> dict[str, Any]:
         job = self.state["jobs"].get(_clean(job_id))
         if not job:
             raise VoiceWorkspaceDenied("unknown job")
-        if job["status"] not in {"ROUTE_READY", "DISPATCHED", "RUNNING"}:
-            raise VoiceWorkspaceDenied("job is not eligible to accept a provider result")
+        if job["status"] not in {"DISPATCHED", "RUNNING"}:
+            raise VoiceWorkspaceDenied("job must be DISPATCHED/RUNNING before accepting provider result")
         required = ["provider_id", "model_id", "model_revision", "audio_path", "audio_sha256",
                     "sample_rate_hz", "channels", "voice_identity_ref", "language",
                     "synthetic_disclosure", "license_and_rights_ref", "execution_evidence"]
@@ -462,6 +559,9 @@ def main() -> int:
     p = sub.add_parser("cancel"); p.add_argument("job_id"); p.add_argument("--reason", default="")
     p = sub.add_parser("fit"); p.add_argument("target_ms", type=int); p.add_argument("generated_ms", type=int)
     p = sub.add_parser("quick-dub"); p.add_argument("source_language"); p.add_argument("target_language"); p.add_argument("speaker_mappings"); p.add_argument("--translation", action="store_true")
+    p = sub.add_parser("dispatch"); p.add_argument("job_id"); p.add_argument("uaf_execution_ref"); p.add_argument("resource_admission_ref")
+    p = sub.add_parser("transcribe-stage"); p.add_argument("capture_id"); p.add_argument("language"); p.add_argument("--refine", action="store_true")
+    p = sub.add_parser("transcribe-result"); p.add_argument("capture_id"); p.add_argument("result")
     p = sub.add_parser("accept-result"); p.add_argument("job_id"); p.add_argument("result")
     p = sub.add_parser("handoff"); p.add_argument("job_id"); p.add_argument("clip_id"); p.add_argument("--caption-alignment-ref", default=""); p.add_argument("--no-ducking", action="store_true")
     p = sub.add_parser("status"); p.add_argument("--job-id", default="")
@@ -483,6 +583,12 @@ def main() -> int:
             out = fit_to_clip_plan(args.target_ms, args.generated_ms)
         elif args.operation == "quick-dub":
             out = store.quick_dub_plan(args.source_language, args.target_language, _load_json_arg(args.speaker_mappings), args.translation)
+        elif args.operation == "dispatch":
+            out = store.authorize_dispatch(args.job_id, args.uaf_execution_ref, args.resource_admission_ref)
+        elif args.operation == "transcribe-stage":
+            out = store.stage_transcription(args.capture_id, args.language, args.refine)
+        elif args.operation == "transcribe-result":
+            out = store.accept_transcription_result(args.capture_id, _load_json_arg(args.result))
         elif args.operation == "accept-result":
             out = store.accept_generation_result(args.job_id, _load_json_arg(args.result))
         elif args.operation == "handoff":
