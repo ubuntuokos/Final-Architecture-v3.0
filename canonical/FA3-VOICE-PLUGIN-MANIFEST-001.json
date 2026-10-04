@@ -1,0 +1,94 @@
+{
+  "schema": "fa3.plugin-manifest.v1",
+  "id": "FA3-VOICE-PLUGIN-MANIFEST-001",
+  "version": "1.0.0",
+  "name": "FA3 Shared Voice Plugin",
+  "status": "CANONICAL_MATERIALIZED",
+  "profile_id": "FA3-VOICE-STUDIO-001",
+  "authority": false,
+  "shared_core": "FA3-VOICE-001",
+  "projections": {
+    "QUICK": {
+      "hosts": [
+        "fa3.quickclip",
+        "fa3.presentation"
+      ],
+      "actions": [
+        "voice.generate.submit",
+        "voice.fit-to-clip.plan",
+        "voice.timeline.insert",
+        "voice.capture",
+        "voice.status"
+      ],
+      "ai_features": [
+        "TTS",
+        "STT",
+        "SCRIPT_SHORTENING_OPTIONAL",
+        "VOICE_STYLE_OPTIONAL"
+      ]
+    },
+    "STANDARD": {
+      "hosts": [
+        "fa3.video-editor",
+        "fa3.story-screenplay",
+        "fa3.unified-messenger"
+      ],
+      "actions": [
+        "voice.generate.submit",
+        "voice.fit-to-clip.plan",
+        "voice.quick-dub.plan",
+        "voice.timeline.insert",
+        "voice.capture",
+        "voice.transcribe",
+        "voice.status"
+      ],
+      "ai_features": [
+        "TTS",
+        "STT",
+        "TRANSLATION_OPTIONAL",
+        "VOICE_STYLE_OPTIONAL"
+      ]
+    },
+    "ADVANCED": {
+      "hosts": [
+        "fa3.audio-studio",
+        "fa3.narration-studio",
+        "fa3.voice-studio"
+      ],
+      "actions": [
+        "voice.profile.list",
+        "voice.profile.get",
+        "voice.profile.upsert",
+        "voice.generate.submit",
+        "voice.quick-dub.plan",
+        "voice.timeline.insert",
+        "voice.capture",
+        "voice.transcribe",
+        "voice.speak",
+        "voice.stop",
+        "voice.status"
+      ],
+      "ai_features": [
+        "TTS",
+        "STT",
+        "VOICE_TRANSFORMATION_OPTIONAL",
+        "TRANSLATION_OPTIONAL",
+        "VOICE_STYLE_OPTIONAL"
+      ]
+    }
+  },
+  "permissions": {
+    "microphone": "HOST_PERMISSION_REQUIRED",
+    "filesystem": "SCOPED_PROJECT_OR_USER_SELECTED_ONLY",
+    "network": "DENY_BY_DEFAULT",
+    "model_provider_execution": "DELEGATE_TO_FA3_VOICE_AND_MODEL_ROUTER",
+    "accelerator": "DELEGATE_TO_HRB",
+    "canonical_write": false
+  },
+  "direct_cuda_ordinal_allowed": false,
+  "arbitrary_model_path_allowed": false,
+  "arbitrary_provider_endpoint_allowed": false,
+  "capability_count": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}
