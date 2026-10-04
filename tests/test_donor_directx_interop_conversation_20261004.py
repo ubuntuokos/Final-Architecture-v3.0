@@ -21,6 +21,7 @@ NEW = {
     "FA3-DONOR-MICROSOFT-DIRECTX-LINUX-WSL-ARTICLE-001",
     "FA3-DONOR-MICROSOFT-DIRECTML-001",
     "FA3-DONOR-OPENRA-ORG-001",
+    "FA3-DONOR-OCP-OPENNETWORKLINUX-001",
 }
 
 
@@ -40,12 +41,12 @@ class WaitingDirectXInteropDonorIntakeTests(unittest.TestCase):
 
     def test_exact_owner_marked_batch_is_preserved(self):
         d = self.delta
-        self.assertEqual(d["submitted_url_count"], 10)
-        self.assertEqual(len(d["submitted_urls"]), 10)
-        self.assertEqual(len(set(d["submitted_urls"])), 10)
+        self.assertEqual(d["submitted_url_count"], 11)
+        self.assertEqual(len(d["submitted_urls"]), 11)
+        self.assertEqual(len(set(d["submitted_urls"])), 11)
         self.assertEqual(d["matched_existing_count"], 4)
-        self.assertEqual(d["new_source_count"], 6)
-        self.assertEqual(d["proposed_entry_count_after_slot_reconciliation"], 1433)
+        self.assertEqual(d["new_source_count"], 7)
+        self.assertEqual(d["proposed_entry_count_after_slot_reconciliation"], 1434)
         self.assertIn("OWNER_EXPLICIT_DONORNAK_BATCH", d["approval_mode"])
 
     def test_existing_records_are_not_duplicated(self):
@@ -68,6 +69,14 @@ class WaitingDirectXInteropDonorIntakeTests(unittest.TestCase):
         self.assertEqual(row["kind"], "GITHUB_ORGANIZATION")
         self.assertEqual(row["mode"], "DISCOVERY_INDEX")
         self.assertFalse(row["recursive_child_admission"])
+
+    def test_opennetworklinux_is_reference_only(self):
+        rows = {e["donor_id"]: e for e in self.delta["planned_new_identities"]}
+        row = rows["FA3-DONOR-OCP-OPENNETWORKLINUX-001"]
+        self.assertEqual(row["mode"], "NETWORK_APPLIANCE_PLATFORM_ABSTRACTION_AND_HARDWARE_MANAGEMENT_REFERENCE")
+        self.assertEqual(row["lifecycle_observation"], "MAINTENANCE_MODE_PENDING_ARCHIVAL")
+        self.assertEqual(row["runtime_admission"], "NOT_PROPOSED")
+        self.assertIn("MIXED", row["license_observation"])
 
     def test_runtime_and_authority_boundaries(self):
         b = self.delta["boundaries"]
