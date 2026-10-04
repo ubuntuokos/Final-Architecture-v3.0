@@ -115,3 +115,14 @@ FA3 development has no autonomous task class equivalent to **“Mit lehetne még
 A task may enter planning or execution only when its scope provenance is one of: `EXPLICIT_USER_SCOPE`, `REQUIRED_FOR_APPROVED_GOAL`, or an owner-requested `EXPLICIT_USER_SCOPE_EXTENSION` bound to a revised goal. Missing or unknown provenance fails closed. Every executable `fa3.agent-workload-task.v1` must carry the same `scope_origin` and non-empty `scope_refs`; planning layers may not strip this provenance before Agent Workload admission.
 
 Repair work is bounded to the original approved scope and original acceptance-criterion IDs. It may not invent a new criterion, expand scope, or silently create a successor task. When the explicit task is complete, completion is terminal unless the owner explicitly creates or extends the next task. Canonical authority: `FA3-RULE-NO-OPEN-ENDED-TASK-EXPANSION-001`.
+
+
+## CFA3 canonical naming and FA3 compatibility rule
+
+- The final canonical product/system name is **CFA3**.
+- In natural-language system references, **FA3**, **CFA3**, **FA3/CFA3**, and **CFA3/FA3** are semantically equivalent and refer to the same system. This equivalence applies retroactively and forward.
+- Treat **FA3** as the historical origin alias, never as a separate product merely because an older plan, PR, decision, donor analysis, capability record, document, or test uses that name.
+- Use **CFA3** as the primary name in new user-facing text, plans, and documentation. Transitional forms such as **CFA3 (formerly FA3)**, **FA3/CFA3**, and **CFA3/FA3** remain valid when historical context matters.
+- Do **not** mass-rewrite history or machine-readable identifiers. Existing `FA3-*`, `fa3.*`, `fa3_*`, filenames, schema/decision/profile IDs, namespaces, API/ABI identifiers, environment variables, storage paths, CLI names, and automation contracts may remain unchanged for compatibility and provenance.
+- The semantic alias rule never authorizes a literal identifier rename. Any machine identifier migration requires its own explicit owner-approved compatibility plan and must preserve backward compatibility and referential integrity.
+- This naming rule creates no new capability or architectural authority and does not alter the fixed 175-capability baseline or Current Host runtime state.
