@@ -15,7 +15,7 @@ Verified published parent:
 
 ## Exact owner-marked source set and deduplication
 
-Ten exact URLs were submitted across the conversation.
+Eleven exact URLs were submitted across the conversation.
 
 ### Already present in the canonical registry
 
@@ -38,8 +38,9 @@ These are not duplicated. The later intake turn must promote/enrich the existing
 | https://devblogs.microsoft.com/directx/directx-heart-linux/ | `FA3-DONOR-MICROSOFT-DIRECTX-LINUX-WSL-ARTICLE-001` | WSL GPU-PV / Linux D3D12 architecture reference only |
 | https://github.com/microsoft/directml | `FA3-DONOR-MICROSOFT-DIRECTML-001` | ML operator/graph/dispatch and optional Windows/WSL provider reference; maintenance mode |
 | https://github.com/OpenRA | `FA3-DONOR-OPENRA-ORG-001` | organization discovery index only; no child repository is recursively admitted |
+| https://github.com/opencomputeproject/OpenNetworkLinux | `FA3-DONOR-OCP-OPENNETWORKLINUX-001` | network-appliance platform abstraction / hardware-management reference; maintenance mode; mixed-license review required |
 
-Parent-relative canonical count after eventual slot admission would be **1433**, subject to rebase-time duplicate reconciliation.
+Parent-relative canonical count after eventual slot admission would be **1434**, subject to rebase-time duplicate reconciliation.
 
 ## Architecture use boundary
 
@@ -71,6 +72,7 @@ This intake itself creates **zero usage edges**. Actual adoption requires explic
 - DirectML: repository source is MIT, but the DirectML redistributable/runtime is a separate distribution/admission concern.
 - Microsoft WSL DirectX article: documentation/reference only; `libd3d12.so`, `libdxcore.so` and WSL GPU-PV runtime components are not authorized for bundling by this intake.
 - OpenRA organization: no organization-wide license inference. Representative child repositories, including GPL-licensed projects, require separate source-level admission before material reuse.
+- OpenNetworkLinux: upstream is maintenance-mode/pending archival. The repository has EPL-1.0 as a general default but also Debian-derived and vendor-specific components (including Broadcom terms); exact file/dependency rights review is mandatory before material reuse. It is a platform/network reference, not a CFA3 base OS or DirectX runtime.
 
 ## FIFO state
 
