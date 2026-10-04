@@ -4,6 +4,9 @@ import QtQuick.Layouts
 
 Item {
     id: root
+    property string runtimeMessage: fa3VoiceWorkspace.state + (fa3VoiceWorkspace.lastError.length ? " · " + fa3VoiceWorkspace.lastError : "")
+    Component.onCompleted: fa3VoiceWorkspace.refresh()
+    Connections { target: fa3VoiceWorkspace; function onGenerationCompleted(result) { root.runtimeMessage = "COMPLETED · " + result.job_id } }
     property color panel: "#20242a"
     property color panelRaised: "#292f38"
     property color border: "#3a424e"
@@ -52,21 +55,22 @@ Item {
                     spacing: 10
                     RowLayout {
                         ComboBox { Layout.fillWidth: true; model: ["Project: Demo Story","Project: QuickClip","Project: Narration"] }
-                        ComboBox { Layout.preferredWidth: 180; model: ["Narrator","Character A","Character B"] }
-                        ComboBox { Layout.preferredWidth: 120; model: ["hu-HU","en-US","de-DE"] }
+                        ComboBox { id: voiceBox; Layout.preferredWidth: 180; model: ["Narrator","Character A","Character B"] }
+                        ComboBox { id: languageBox; Layout.preferredWidth: 120; model: ["hu-HU","en-US","de-DE"] }
                     }
                     TextArea {
+                        id: scriptEditor
                         Layout.fillWidth: true
                         Layout.preferredHeight: 170
                         text: "Írd ide vagy illeszd be a narráció szövegét. A provider- és hardverválasztást a Model Router + HRB végzi."
                         wrapMode: TextEdit.Wrap
                     }
                     RowLayout {
-                        Button { text: "Generate"; enabled: false }
+                        Button { text: "Generate"; enabled: fa3VoiceWorkspace.state === "READY"; onClicked: fa3VoiceWorkspace.generate(scriptEditor.text, voiceBox.currentText, languageBox.currentText, 0, false, true) }
                         Button { text: "Preview"; enabled: false }
                         Button { text: "Add to timeline"; enabled: false }
                         Item { Layout.fillWidth: true }
-                        Label { text: "RUNTIME GATED"; color: root.orange; font.bold: true }
+                        Label { text: root.runtimeMessage; color: fa3VoiceWorkspace.state === "READY" ? root.green : root.orange; font.bold: true }
                     }
                     Rectangle {
                         Layout.fillWidth: true
@@ -146,7 +150,7 @@ Item {
                         wrapMode: Text.WordWrap
                         color: root.textMuted
                         font.pixelSize: 10
-                        text: "This GUI is a non-authoritative intent surface. Runtime buttons stay disabled until an independently admitted voice provider/model route and current-host evidence exist."
+                        text: "This GUI is a non-authoritative client of the authenticated Shared Voice service. Provider/model/device authority remains with FA3-VOICE-001, Model Router and HRB; candidate execution never implies production promotion."
                     }
                 }
             }
