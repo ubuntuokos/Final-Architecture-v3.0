@@ -1,5 +1,6 @@
 #pragma once
 #include <QObject>
+#include <functional>
 #include <QVariantList>
 #include <QVariantMap>
 class QNetworkAccessManager;
