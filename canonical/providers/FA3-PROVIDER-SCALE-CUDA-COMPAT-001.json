@@ -1,0 +1,122 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-SCALE-CUDA-COMPAT-001",
+  "name": "Spectral Compute SCALE CUDA Compatibility Backend",
+  "version": "1.0.0",
+  "status": "IMPLEMENTED_CONDITIONAL_EXTERNAL_BACKEND_NOT_PROMOTED",
+  "provider_role": "OPTIONAL_AMD_CUDA_COMPATIBILITY_TRANSLATION_BACKEND",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "SHARED_COMPUTE_BACKEND",
+    "CUDA_COMPATIBILITY_BACKEND",
+    "AMD_EXECUTION_PATH",
+    "TRANSLATION_BACKEND",
+    "EXTERNAL_RUNTIME",
+    "LICENSE_RIGHTS_GATED"
+  ],
+  "profiles": [
+    "FA3-HARDWARE-BASELINE-001",
+    "FA3-HOST-RESOURCE-BROKER-001",
+    "FA3-GPU-KERNEL-RUNTIME-001"
+  ],
+  "contracts": [
+    "FA3-SCALE-CUDA-COMPAT-CONTRACTS-001"
+  ],
+  "capability_projection": [
+    "CAP-005",
+    "CAP-006",
+    "CAP-056",
+    "CAP-060",
+    "CAP-069",
+    "CAP-078",
+    "CAP-087",
+    "CAP-137",
+    "CAP-143"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "activation_mode": "EXPLICIT_CONDITIONAL_DISABLED_WITHOUT_RIGHTS_ADMISSION",
+  "runtime_activation_status": "NOT_PROMOTED_PENDING_PHYSICAL_CURRENT_HOST_OR_TARGET_HOST_EVIDENCE",
+  "current_host_runtime_evidence": false,
+  "shared_only": true,
+  "application_local_functional_core": "FORBIDDEN",
+  "backend": {
+    "name": "scale-cuda",
+    "class": "translation",
+    "cuda_is_capability": false,
+    "cuda_is_backend_interface": true,
+    "target_vendor_materialized": [
+      "AMD"
+    ],
+    "upstream_nvidia_mode": "KNOWN_BUT_NOT_SELECTED_AS_FA3_PRIMARY_PATH",
+    "intel_support": "UNAVAILABLE_NOT_CLAIMED",
+    "exact_device_binding": "SCALEINFO_PCI_BDF",
+    "framework_backends": [
+      "cuda-compat",
+      "scale"
+    ],
+    "translation_must_be_explicitly_allowed": true
+  },
+  "detection": {
+    "tool": "scaleinfo",
+    "configured_root_environment": "FA3_SCALE_DIR",
+    "read_only": true,
+    "auto_install": false,
+    "auto_activate_scaleenv": false,
+    "path_mutation": false,
+    "device_presence_implies_admission": false
+  },
+  "rights": {
+    "authority": "FA3-AUTH-SECURITY-GOV-001",
+    "receipt_schema": "fa3.scale-execution-rights-receipt.v1",
+    "subject_id": "FA3-EXTERNAL-SCALE-TOOLKIT",
+    "commercial_context_default": true,
+    "free_license_observed_2026_10_04": "NON_COMMERCIAL_ONLY",
+    "bundled_distribution": "NOT_ADMITTED_BY_THIS_CHANGE",
+    "commercial_execution_requires": [
+      "COMMERCIAL_USE_ALLOWED_TRUE",
+      "OPAQUE_ENTITLEMENT_REFERENCE",
+      "EXECUTION_ALLOWED_TRUE",
+      "RIGHTS_RESULT_PASS"
+    ],
+    "raw_license_secret_in_repository": "FORBIDDEN"
+  },
+  "required_admission": [
+    "LIVE_HARDWARE_DISCOVERY_AND_REVALIDATION",
+    "EXACT_SCALEINFO_PCI_BDF_BINDING",
+    "SCALE_TARGET_PRESENT_FOR_SELECTED_AMD_DEVICE",
+    "LICENSE_RIGHTS_RECEIPT_PASS",
+    "EXPLICIT_TRANSLATION_PATH_ALLOWED_BY_WORKLOAD",
+    "AUTHORIZED_HRB_LEASE",
+    "HARDWARE_SAFETY_PASS",
+    "WORKLOAD_FEATURE_COVERAGE_EVIDENCE",
+    "CORRECTNESS_PASS",
+    "PERFORMANCE_AND_MEMORY_LIMITATION_DISCLOSURE_WHEN_MATERIAL",
+    "PHYSICAL_CURRENT_HOST_OR_TARGET_HOST_EVIDENCE_BEFORE_PROMOTION"
+  ],
+  "fallback_semantics": "NO_SILENT_BACKEND_DEVICE_PROVIDER_OR_CLOUD_SUBSTITUTION",
+  "portability_result": {
+    "AMD": "CONDITIONAL_IMPLEMENTED_NOT_PHYSICALLY_PROMOTED",
+    "NVIDIA": "USE_NATIVE_CUDA_BY_DEFAULT_SCALE_COMPILER_MODE_NOT_REQUIRED_FOR_FA3_EXECUTION",
+    "INTEL": "UNAVAILABLE_VIA_SCALE_USE_SEPARATE_INTEL_CROSS_VENDOR_PATHS"
+  },
+  "authority_boundaries": {
+    "placement_and_lease": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "license_rights": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "upstream_reference": {
+    "vendor": "Spectral Compute Ltd",
+    "documentation": "https://docs.scale-lang.com/",
+    "compile_cuda": "https://docs.scale-lang.com/stable/manual/tutorials/how-to-use/",
+    "licensing": "https://docs.scale-lang.com/stable/licensing/",
+    "observed_on": "2026-10-04"
+  },
+  "normative_constraint": "SCALE is an optional shared CUDA-compatibility backend, not a capability and not a mandatory FA3 dependency. Its presence never authorizes execution. AMD use requires exact device binding, explicit translation allowance, License & Rights admission and HRB placement; Intel support is not claimed; no silent fallback is permitted.",
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}
