@@ -1240,6 +1240,171 @@
         "authority_ids": [],
         "shared_module_ids": []
       }
+    },
+    {
+      "id": "FA3-USAGE-DIFFUSERS-GENERATIVE-MEDIA-MESH-001",
+      "donor_id": "FA3-DONOR-HUGGINGFACE-DIFFUSERS-001",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "PROVIDER_NEUTRAL_DIFFUSION_PIPELINE_PATTERN",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-GENERATIVE-MEDIA-MESH-001",
+        "relationship": "PATTERN_SOURCE"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-04",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "current_host_impact": {
+        "classification": "STRUCTURAL_REASSESSMENT_REQUIRED",
+        "reason": "Provider-neutral architecture pattern only; no donor runtime, model or device authority is admitted."
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-001"
+        ],
+        "contract_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      }
+    },
+    {
+      "id": "FA3-USAGE-XDIT-GENERATIVE-MEDIA-MESH-001",
+      "donor_id": "FA3-DONOR-XDIT-001",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "ZERO_TO_N_ACCELERATOR_DIT_RESOURCE_PROJECTION_PATTERN",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-GENERATIVE-MEDIA-MESH-001",
+        "relationship": "PATTERN_SOURCE"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-04",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT",
+        "reason": "Provider-neutral architecture pattern only; no donor runtime, model or device authority is admitted."
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-001"
+        ],
+        "contract_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      }
+    },
+    {
+      "id": "FA3-USAGE-VIDEOSYS-GENERATIVE-MEDIA-MESH-001",
+      "donor_id": "FA3-DONOR-VIDEOSYS-001",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "GENERATION_RUNTIME_SERVING_LIFECYCLE_PATTERN",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-GENERATIVE-MEDIA-MESH-001",
+        "relationship": "PATTERN_SOURCE"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-04",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT",
+        "reason": "Provider-neutral architecture pattern only; no donor runtime, model or device authority is admitted."
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-001"
+        ],
+        "contract_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      }
+    },
+    {
+      "id": "FA3-USAGE-SANA-GENERATIVE-MEDIA-MESH-001",
+      "donor_id": "FA3-DONOR-NVLABS-SANA-001",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "GENERATOR_REFINER_LIFECYCLE_PATTERN",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-GENERATIVE-MEDIA-MESH-001",
+        "relationship": "PATTERN_SOURCE"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-04",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "current_host_impact": {
+        "classification": "STRUCTURAL_REASSESSMENT_REQUIRED",
+        "reason": "Provider-neutral architecture pattern only; no donor runtime, model or device authority is admitted."
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-001"
+        ],
+        "contract_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      }
+    },
+    {
+      "id": "FA3-USAGE-SYSTEM-ONE-GENERATIVE-MEDIA-MESH-001",
+      "donor_id": "FA3-DONOR-SYSTEM-ONE-HARNESS-001",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "CONFIDENCE_GATE_HANDOFF_TRACE_PATTERN",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-GENERATIVE-MEDIA-MESH-001",
+        "relationship": "PATTERN_SOURCE"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-04",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT",
+        "reason": "Provider-neutral architecture pattern only; no donor runtime, model or device authority is admitted."
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-001"
+        ],
+        "contract_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      }
     }
   ],
   "donor_usage_contract": {
