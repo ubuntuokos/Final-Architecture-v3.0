@@ -1,0 +1,172 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-DIRECTX-INTEROP-CONVERSATION-2026-10-04",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "STAGED_PENDING_INTAKE_SLOT",
+  "mode": "OWNER_EXPLICIT_DONORNAK_BATCH_WITH_DEDUPLICATION",
+  "parent_main": "b5052f6595a3fdad84ed7a06e6276f8af5a8dcd8",
+  "parent_registry_blob_sha": "1362d75186c6da74e5cf947fdf0b8867d462636a",
+  "parent_entry_count": 1427,
+  "submitted_url_count": 10,
+  "submitted_urls": [
+    "https://github.com/microsoft/DirectXTK",
+    "https://github.com/EduApps-CDG/OpenDX",
+    "https://github.com/microsoft/DirectXShaderCompiler",
+    "https://github.com/doitsujin/DXVK",
+    "https://github.com/microsoft/DirectXTex/wiki/DirectXTex",
+    "https://github.com/microsoft/DirectX-Headers",
+    "https://github.com/microsoft/directxtk12",
+    "https://devblogs.microsoft.com/directx/directx-heart-linux/",
+    "https://github.com/microsoft/directml",
+    "https://github.com/OpenRA"
+  ],
+  "approval_mode": "OWNER_EXPLICIT_DONORNAK_BATCH_IN_ORIGINATING_CONVERSATION",
+  "duplicate_submission_count": 0,
+  "matched_existing_count": 4,
+  "matched_pending_intake_count": 0,
+  "new_source_count": 6,
+  "proposed_entry_count_after_slot_reconciliation": 1433,
+  "canonical_registry_materialized": false,
+  "waiting_queue_only": true,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "usage_edges_created": 0,
+  "provider_count_policy": "DYNAMIC_UNCHANGED",
+  "existing_matches": [
+    {
+      "submitted_url": "https://github.com/microsoft/DirectXShaderCompiler",
+      "donor_id": "FA3-DONOR-MICROSOFT-DIRECTXSHADERCOMPILER-001",
+      "normalized_key": "github:microsoft/directxshadercompiler",
+      "planned_action": "PROMOTE_OR_ENRICH_IN_PLACE_AFTER_INTAKE_SLOT",
+      "no_duplicate_record": true
+    },
+    {
+      "submitted_url": "https://github.com/doitsujin/DXVK",
+      "donor_id": "FA3-DONOR-DOITSUJIN-DXVK-001",
+      "normalized_key": "github:doitsujin/dxvk",
+      "planned_action": "PROMOTE_OR_ENRICH_IN_PLACE_AFTER_INTAKE_SLOT",
+      "no_duplicate_record": true
+    },
+    {
+      "submitted_url": "https://github.com/microsoft/DirectXTex/wiki/DirectXTex",
+      "donor_id": "FA3-DONOR-MICROSOFT-DIRECTXTEX-001",
+      "normalized_key": "github:microsoft/directxtex",
+      "planned_action": "ADD_WIKI_URL_AS_PROVENANCE_ALIAS_AND_PROMOTE_OR_ENRICH_IN_PLACE",
+      "no_duplicate_record": true
+    },
+    {
+      "submitted_url": "https://github.com/microsoft/DirectX-Headers",
+      "donor_id": "FA3-DONOR-MICROSOFT-DIRECTX-HEADERS-001",
+      "normalized_key": "github:microsoft/directx-headers",
+      "planned_action": "PROMOTE_OR_ENRICH_IN_PLACE_AFTER_INTAKE_SLOT",
+      "no_duplicate_record": true
+    }
+  ],
+  "planned_new_identities": [
+    {
+      "submitted_url": "https://github.com/microsoft/DirectXTK",
+      "donor_id": "FA3-DONOR-MICROSOFT-DIRECTXTK-001",
+      "normalized_key": "github:microsoft/directxtk",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "HIGH_LEVEL_D3D11_CAPABILITY_AND_ARCHITECTURE_REFERENCE",
+      "observed_revision": "74e9b3c3871280b3a8b9907f862c55a50ae392ef",
+      "license_observation": "MIT",
+      "source_copying": "ELIGIBLE_ONLY_AFTER_NORMAL_LICENSE_PROVENANCE_SECURITY_REVIEW"
+    },
+    {
+      "submitted_url": "https://github.com/EduApps-CDG/OpenDX",
+      "donor_id": "FA3-DONOR-EDUAPPS-CDG-OPENDX-001",
+      "normalized_key": "github:eduapps-cdg/opendx",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "EARLY_NATIVE_LINUX_DIRECT3D_ARCHITECTURE_REFERENCE",
+      "observed_revision": "8508eaf722fd62bff8c4868695df1b790276b68d",
+      "license_observation": "MIXED_REVIEW_REQUIRED_ROOT_MIT_AND_FILE_LEVEL_SPDX_VARIANCE_OBSERVED",
+      "source_copying": "BLOCKED_PENDING_FILE_LEVEL_LICENSE_AND_RIGHTS_CLEARANCE"
+    },
+    {
+      "submitted_url": "https://github.com/microsoft/directxtk12",
+      "donor_id": "FA3-DONOR-MICROSOFT-DIRECTXTK12-001",
+      "normalized_key": "github:microsoft/directxtk12",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "HIGH_LEVEL_D3D12_RESOURCE_PIPELINE_AND_ARCHITECTURE_REFERENCE",
+      "observed_revision": "6fc18afe6dc4875fef662d8d7f27241afa51f4f4",
+      "license_observation": "MIT",
+      "source_copying": "ELIGIBLE_ONLY_AFTER_NORMAL_LICENSE_PROVENANCE_SECURITY_REVIEW"
+    },
+    {
+      "submitted_url": "https://devblogs.microsoft.com/directx/directx-heart-linux/",
+      "donor_id": "FA3-DONOR-MICROSOFT-DIRECTX-LINUX-WSL-ARTICLE-001",
+      "normalized_key": "web:microsoft:directx-heart-linux",
+      "kind": "VENDOR_DOCUMENTATION",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "WSL_GPU_PV_AND_LINUX_D3D12_ARCHITECTURE_REFERENCE",
+      "observed_publication_date": "2020-05-19",
+      "license_observation": "VENDOR_DOCUMENTATION_REFERENCE_ONLY",
+      "source_copying": "REFERENCE_ONLY",
+      "runtime_bundling": "NOT_AUTHORIZED"
+    },
+    {
+      "submitted_url": "https://github.com/microsoft/directml",
+      "donor_id": "FA3-DONOR-MICROSOFT-DIRECTML-001",
+      "normalized_key": "github:microsoft/directml",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "ML_OPERATOR_GRAPH_DISPATCH_AND_OPTIONAL_WINDOWS_WSL_PROVIDER_REFERENCE",
+      "observed_revision": "8700779fe7a09ea7a007cf3d7ab4293c78e41017",
+      "license_observation": "MIT_REPOSITORY_RUNTIME_DISTRIBUTION_REQUIRES_SEPARATE_REVIEW",
+      "lifecycle_observation": "MAINTENANCE_MODE",
+      "source_copying": "ELIGIBLE_ONLY_AFTER_NORMAL_LICENSE_PROVENANCE_SECURITY_REVIEW",
+      "runtime_admission": "SEPARATE"
+    },
+    {
+      "submitted_url": "https://github.com/OpenRA",
+      "donor_id": "FA3-DONOR-OPENRA-ORG-001",
+      "normalized_key": "github:openra",
+      "kind": "GITHUB_ORGANIZATION",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "DISCOVERY_INDEX",
+      "license_observation": "PER_REPOSITORY_NO_ORGANIZATION_WIDE_LICENSE_INFERENCE",
+      "source_copying": "CHILD_REPOSITORIES_REQUIRE_SEPARATE_REVIEW_AND_ADMISSION",
+      "recursive_child_admission": false
+    }
+  ],
+  "reference_scope": [
+    "Direct3D 8-11 to Vulkan compatibility and native-source porting patterns",
+    "Direct3D 12 and DXR to Vulkan compatibility patterns",
+    "HLSL to SPIR-V and DXIL shader compilation",
+    "official D3D12 API and ABI definitions without treating headers as runtime",
+    "backend-neutral texture processing, DDS and BC texture pipeline patterns",
+    "D3D11 and D3D12 high-level graphics utility and resource-management patterns",
+    "WSL2 GPU paravirtualization and optional D3D12 provider architecture",
+    "DirectML operator, graph and dispatch semantics without making DirectML the CFA3 ML authority",
+    "native Linux Direct3D implementation research without vendor-specific duplicated DirectX stacks",
+    "cross-platform platform-interface, threaded graphics, mod/trait and server architecture discovery from OpenRA"
+  ],
+  "boundaries": {
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "automatic_code_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "usage_edge_created": false,
+    "capability_count_change": false,
+    "authority_change": false,
+    "runtime_change": false,
+    "current_host_pass_claimed": false,
+    "canonical_planning_visibility_for_new_sources": false,
+    "application_local_directx_core_allowed": false,
+    "vendor_specific_duplicate_directx_core_allowed": false
+  },
+  "serialization_scope": "ROLLING_FIVE_SLOT_DONOR_MAINTENANCE",
+  "serialization_order": "FIFO_SLOT_ADMISSION_THEN_ASCENDING_CANONICAL_DONOR_MUTATION_WORKLOAD_WITH_FIFO_TIES",
+  "max_active_donor_intakes": 5,
+  "observed_active_window": [651, 657, 663, 664, 671],
+  "observed_waiting_ahead": [672, 673, 675, 676, 682, 683, 684, 686, 693, 699, 704],
+  "expected_initial_state": "FIFO_WAITING_FOR_DONOR_INTAKE_SLOT"
+}
