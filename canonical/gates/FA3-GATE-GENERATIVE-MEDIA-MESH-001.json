@@ -30,5 +30,12 @@
   },
   "runtime_promotion_claim": false,
   "physical_current_host_pass_claimed": false,
-  "closure_semantics": "STATIC_ARCHITECTURE_AND_GUI_MATERIALIZATION_COMPLETE_RUNTIME_CHILD_ADMISSION_REMAINS_FAIL_CLOSED"
+  "closure_semantics": "STATIC_ARCHITECTURE_AND_GUI_MATERIALIZATION_COMPLETE_RUNTIME_CHILD_ADMISSION_REMAINS_FAIL_CLOSED",
+  "enforcement_binding": {
+    "existing_gate": "FA3-GATE-GUI-001",
+    "existing_entrypoint": "src/fa3_gui_gate.py::validate",
+    "mesh_entrypoint": "src/fa3_generative_media_mesh_gate.py::run",
+    "dedicated_workflow_required": false,
+    "enforced_in_existing_gui_ci_path": true
+  }
 }
