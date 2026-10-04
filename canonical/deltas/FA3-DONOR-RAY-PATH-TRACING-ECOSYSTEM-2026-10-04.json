@@ -261,7 +261,7 @@
     "Preserve all 29 exact owner-submitted URLs as intake provenance.",
     "Collapse filtered/sorted GitHub topic URLs to their topic identity while preserving exact submitted URLs.",
     "Collapse the Intel releases subpath to the repository identity while preserving the releases URL as provenance.",
-    "Do not duplicate published sources github:gpuopen-librariesandsdks or github:intel/intel-graphics-compiler.",
+    "Do not duplicate published sources github:gpuopen-librariesandsdks or github:intel/intel-graphics-compiler; reconcile them in place and promote/preserve ACCEPTED_REFERENCE under the owner's explicit donor designation.",
     "Organization and topic records are discovery indexes only and do not recursively admit child repositories.",
     "No source authorizes copying, dependency adoption, installation, driver replacement, provider/model admission or runtime promotion.",
     "Strong CUDA/RTX-oriented functionality is constrained by FA3-CUDA-PORTABILITY-SHARED-FUNCTION-POLICY-001 and shared-only placement.",
@@ -312,5 +312,18 @@
     699,
     704
   ],
-  "expected_initial_state": "FIFO_WAITING_FOR_DONOR_INTAKE_SLOT"
+  "expected_initial_state": "FIFO_WAITING_FOR_DONOR_INTAKE_SLOT",
+  "matched_existing_reconciliation": [
+    {
+      "normalized_key": "github:gpuopen-librariesandsdks",
+      "donor_id": "FA3-DONOR-AMD-GPUOPEN-LIBRARIES-SDKS-001",
+      "action": "PROMOTE_OR_PRESERVE_ACCEPTED_REFERENCE_IN_PLACE_NO_DUPLICATE"
+    },
+    {
+      "normalized_key": "github:intel/intel-graphics-compiler",
+      "donor_id": "FA3-DONOR-INTEL-INTEL-GRAPHICS-COMPILER-001",
+      "action": "PROMOTE_OR_PRESERVE_ACCEPTED_REFERENCE_IN_PLACE_NO_DUPLICATE"
+    }
+  ],
+  "reconciled_existing_count": 2
 }
