@@ -4,10 +4,17 @@
   "status": "NO_RUNTIME_IMPACT",
   "structural_changes": [
     "src/fa3_permanent_gate_hardening.py",
-    "src/fa3_trusted_control_plane_gate.py"
+    "src/fa3_trusted_control_plane_gate.py",
+    ".github/workflows/fa3-browser-cdp-provider.yml",
+    ".github/workflows/fa3-caption-subtitle.yml",
+    ".github/workflows/fa3-decision-fabric.yml",
+    ".github/workflows/fa3-desktop-portability.yml",
+    ".github/workflows/fa3-neural-rendering-reference.yml",
+    ".github/workflows/fa3-secret-broker-reference-gate.yml",
+    ".github/workflows/openfx-reference-gate.yml"
   ],
   "current_host_changes": [],
   "physical_requalification_required": false,
   "historical_evidence_reused": false,
-  "rationale": "This change strengthens existing permanent/trusted CI policy enforcement so every Current Host workflow and every workflow containing an explicit Current Host marker is automatically checked for immutable 40-hex GitHub Action pins. It does not change runtime execution, providers, runner selection, host-resource allocation, hardware behavior, proof recipes, evidence semantics, application behavior, or promotion authority. It prevents future workflow setup-policy regressions only; therefore no fresh physical Current Host requalification or FULL-525 replay is required."
+  "rationale": "This change strengthens existing permanent/trusted CI policy enforcement so every Current Host workflow and every workflow containing an explicit Current Host marker is automatically checked for immutable 40-hex GitHub Action pins. During fail-closed validation, seven additional Current Host-adjacent workflows with 17 legacy tag-based Action references were discovered and converted to the repository's canonical immutable Action SHAs. Workflow triggers, permissions, jobs, runners, commands, runtime/provider behavior, host-resource allocation, hardware behavior, proof recipes, evidence semantics and promotion authority remain unchanged. The change only removes mutable CI dependency references and prevents their recurrence; therefore no fresh physical Current Host requalification or FULL-525 replay is required."
 }
