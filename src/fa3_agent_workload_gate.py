@@ -57,7 +57,7 @@ def expect_ax_runner_error(fn) -> bool:
     return False
 
 def regression_cases() -> dict[str, Any]:
-    task={"schema":"fa3.agent-workload-task.v1","task_id":"t1","root_task_id":"t1","action_ref":"orchestration.execute",
+    task={"schema":"fa3.agent-workload-task.v1","task_id":"t1","root_task_id":"t1","scope_origin":"REQUIRED_FOR_APPROVED_GOAL","scope_refs":["approved:test-scope"],"action_ref":"orchestration.execute",
           "agent_definition_ref":"agent:def:1","workspace_refs":["ws:1"],"resource_requirements":{"cpu_physical_cores":1},
           "network_envelope_ref":"net:1","model_intent":{"capability":"coding","locality":"prefer_local"},
           "authorized_ai_participants":["agent:def:1"],
@@ -73,6 +73,8 @@ def regression_cases() -> dict[str, Any]:
     bad_ws=copy.deepcopy(ws); bad_ws["sources"][0].pop("commit"); bad_ws["sources"][0]["branch"]="main"
     bad_cp=copy.deepcopy(cp); bad_cp["secret_material_present"]=True
     bad_fan=copy.deepcopy(task); bad_fan["fanout_limits"].pop("max_depth")
+    bad_scope_missing=copy.deepcopy(task); bad_scope_missing.pop("scope_origin")
+    bad_scope_open=copy.deepcopy(task); bad_scope_open["scope_origin"]="WHAT_NEXT"
     projection=project_to_ax(task,ws,net)
     ax_ws={"schema":"fa3.agent-workspace.v1","workspace_id":"workspace-1","sources":[],"bootstrap_mode":"NONE"}
     ax_task=copy.deepcopy(task); ax_task["task_id"]="agent-task-1"; ax_task["root_task_id"]="agent-task-1"; ax_task["workspace_refs"]=["workspace-1"]
@@ -96,7 +98,7 @@ def regression_cases() -> dict[str, Any]:
     ax_debug=copy.deepcopy(ax_binding); ax_debug["debug"]=True
     ax_wild=copy.deepcopy(ax_net); ax_wild["egress"]=[{"host":"*","port":443}]
     cases=[
-      ("VALID_TASK", not bool(validate_task(task) is None)),
+      ("VALID_TASK", not bool(validate_task(task) is None) and expect_error(lambda: validate_task(bad_scope_missing)) and expect_error(lambda: validate_task(bad_scope_open))),
       ("RAW_SECRET_REJECTED", expect_error(lambda: validate_task(bad_secret))),
       ("DIRECT_MODEL_PROVIDER_REJECTED", expect_error(lambda: validate_task(bad_model))),
       ("NETWORK_DEFAULT_ALLOW_REJECTED", expect_error(lambda: validate_network_envelope(bad_net))),
@@ -124,6 +126,7 @@ def regression_cases() -> dict[str, Any]:
           agent_definition_ref="agent:def:1",workspace_refs=["ws:1"],network_envelope_ref="net:1",
           model_intent={"capability":"coding"},
           fanout_limits={"max_children":2,"max_depth":1,"max_concurrent_children":1,"max_runtime_seconds":300,"max_retries":1,"max_tool_calls":10,"max_model_requests":10},
+          scope_origin="REQUIRED_FOR_APPROVED_GOAL",scope_refs=["approved:orch-1"],
        )["action_ref"]=="orchestration.execute"),
     ]
     return {"result":"PASS" if all(ok for _,ok in cases) else "FAIL","cases":[{"id":cid,"pass":bool(ok)} for cid,ok in cases]}
@@ -168,7 +171,7 @@ def gate(root: Path) -> dict[str, Any]:
       (p.get("id")==PROFILE_ID and p.get("priority")=="P0" and p.get("requirement")=="MUST","AWR-010","profile identity/priority drift"),
       (p.get("new_capability") is False and p.get("new_architectural_authority") is False and p.get("capability_count")==cap and p.get("capability_bindings")==["CAP-028"],"AWR-011","capability/authority baseline drift"),
       (p.get("authority_boundaries",{}).get("durable_workflow")=="TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY" and p.get("authority_boundaries",{}).get("host_resources")=="FA3-AUTH-HOST-RESOURCE-BROKER-001" and p.get("authority_boundaries",{}).get("model_routing")=="FA3-AUTH-MODEL-ROUTER-001" and p.get("authority_boundaries",{}).get("tool_mediation")=="FA3-AUTH-MCP-GATEWAY-001","AWR-012","authority boundary drift"),
-      (c.get("id")==CONTRACT_ID and c.get("capability_count")==cap and c.get("provider_neutral") is True and c.get("fail_closed") is True,"AWR-013","contract baseline drift"),
+      (c.get("id")==CONTRACT_ID and c.get("capability_count")==cap and c.get("provider_neutral") is True and c.get("fail_closed") is True and c.get("task_contract",{}).get("task_scope_provenance_required") is True and c.get("task_contract",{}).get("open_ended_task_generation")=="DENY" and c.get("task_contract",{}).get("completed_task_auto_successor")=="DENY","AWR-013","contract baseline or task-scope governance drift"),
       (d.get("id")==DECISION_ID and d.get("new_capabilities")==0 and d.get("new_architectural_authorities")==0 and d.get("current_host_runtime_promotion_claim") is False,"AWR-014","decision promotion/baseline drift"),
       (a.get("project_id")==ASSESSMENT_ID and a.get("assessment")=="RECOMMENDED" and a.get("project_radar_checked") is True and a.get("capability_delta")==0 and a.get("authority_delta")==0,"AWR-015","Decision Fabric assessment invalid"),
       (r.get("id")==REFERENCE_ID and r.get("commit")==AX_COMMIT and r.get("license")=="Apache-2.0" and r.get("observed_repository_facts",{}).get("api_version")=="ax.io/v1alpha1" and r.get("observed_repository_facts",{}).get("upstream_breaking_changes_warning") is True and r.get("observed_repository_facts",{}).get("workspace_git_immutable_commit_supported") is False and r.get("fa3_interpretation",{}).get("architectural_authority") is False,"AWR-016","Google AX immutable provenance or interpretation drift"),
