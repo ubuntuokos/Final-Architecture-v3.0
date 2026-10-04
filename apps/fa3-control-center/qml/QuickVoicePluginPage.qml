@@ -65,13 +65,14 @@ Item {
                     }
                     CheckBox { text: "Generate editable captions"; checked: true }
                     CheckBox { id: duckMusic; text: "Duck background music"; checked: true }
+                    CheckBox { id: quickCandidateAck; text: "Allow candidate CPU provider"; checked: false }
                     CheckBox { text: "Preserve previous take"; checked: true }
                     RowLayout {
                         Button { text: "Dictate"; enabled: false }
                         Button { text: "Preview"; enabled: false }
                         Item { Layout.fillWidth: true }
                     }
-                    Button { Layout.fillWidth: true; text: "Generate & Insert"; enabled: fa3VoiceWorkspace.state === "READY"; onClicked: fa3VoiceWorkspace.generate(quickScript.text, quickVoice.currentText, quickLanguage.currentText, 27800, duckMusic.checked, true) }
+                    Button { Layout.fillWidth: true; text: "Generate & Insert"; enabled: fa3VoiceWorkspace.state === "READY"; onClicked: fa3VoiceWorkspace.generate(quickScript.text, quickVoice.currentText, quickLanguage.currentText, 27800, duckMusic.checked, quickCandidateAck.checked) }
                     Label { text: root.runtimeMessage + " · UAF → FA3-VOICE-001 → Model Router → HRB"; color: fa3VoiceWorkspace.state === "READY" ? root.green : root.orange; wrapMode: Text.WordWrap; Layout.fillWidth: true; font.pixelSize: 10 }
                 }
             }
