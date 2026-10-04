@@ -41,6 +41,8 @@ qt_add_executable(fa3-control-center
     src/SystemDeviceModel.h
     src/WorkloadModeStateService.cpp
     src/WorkloadModeStateService.h
+    src/VoiceWorkspaceService.cpp
+    src/VoiceWorkspaceService.h
 )
 
 set_source_files_properties(qml/Main.qml PROPERTIES QT_RESOURCE_ALIAS Main.qml)
@@ -158,6 +160,7 @@ install(TARGETS fa3-control-center
 install(PROGRAMS
     "${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/fa3-app-provisioner.py"
     "${CMAKE_CURRENT_SOURCE_DIR}/../../bin/fa3-session-vault-init"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../bin/fa3-voice-studio"
     DESTINATION libexec
 )
 
