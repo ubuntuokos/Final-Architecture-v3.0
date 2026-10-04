@@ -51,7 +51,14 @@ class AmdRocmDonorRegistryTest(unittest.TestCase):
         for key in REQUIRED_KEYS:
             with self.subTest(source=key):
                 entry = self.by_key[key]
-                self.assertEqual(entry["status"], "CANDIDATE")
+                if entry["status"] == "ACCEPTED_REFERENCE":
+                    review = entry.get("submission_review", {})
+                    self.assertEqual(review.get("basis"), "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK")
+                    self.assertEqual(review.get("scope"), "REFERENCE_REGISTRATION_ONLY")
+                    self.assertIs(review.get("second_registry_approval_required"), False)
+                    self.assertTrue(entry.get("intake_provenance"))
+                else:
+                    self.assertEqual(entry["status"], "CANDIDATE")
                 self.assertTrue(entry["discoverable_for_planning"])
                 self.assertFalse(entry["authority"])
                 self.assertEqual(entry["code_reuse_policy"], "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW")
