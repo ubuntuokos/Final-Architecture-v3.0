@@ -1,0 +1,178 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-CUDA-COMPAT-NATIVE-REUSE-ASSESSMENT-2026-10-04",
+  "project_id": "FA3-PROVIDER-CFA3-NATIVE-CUDA-COMPAT-001",
+  "intent_id": "FA3-CUDA-COMPAT-NATIVE-APPLICATION-INTENT-2026-10-04",
+  "covered_ids": [
+    "FA3-PROVIDER-CFA3-NATIVE-CUDA-COMPAT-001",
+    "FA3-CUDA-COMPAT-NATIVE-CONTRACTS-001"
+  ],
+  "project_status": "OWNER_APPROVED_NATIVE_IMPLEMENTATION_PRESENT_PENDING_PHYSICAL_RUNTIME_PROMOTION",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "MANDATORY_EXISTING_REUSE_DISCOVERY"
+    },
+    {
+      "id": "FA3-CUDA-PORTABILITY-SHARED-FUNCTION-POLICY-001",
+      "use": "SHARED_ONLY_CUDA_ORIENTED_FUNCTION_AND_NO_SILENT_FALLBACK_POLICY"
+    },
+    {
+      "id": "FA3-HARDWARE-BASELINE-001",
+      "use": "EXISTING_VENDOR_NEUTRAL_HARDWARE_BASELINE"
+    },
+    {
+      "id": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+      "use": "EXISTING_LIVE_DEVICE_AND_BACKEND_DISCOVERY"
+    },
+    {
+      "id": "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001",
+      "use": "EXISTING_RESOURCE_PLACEMENT_RESERVATION_AND_LEASE_CONTRACT"
+    },
+    {
+      "id": "FA3-GPU-KERNEL-RUNTIME-CONTRACTS-001",
+      "use": "EXISTING_PROVIDER_NEUTRAL_KERNEL_EXECUTION_CONTRACT"
+    },
+    {
+      "id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "use": "EXISTING_OPENCL_SPIRV_COMPUTE_SOURCE_FAMILY_AND_ADAPTERS"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "APPLICATION_LOCAL_CUDA_COMPAT_IMPLEMENTATION",
+      "reason": "CUDA_ORIENTED_FUNCTIONAL_CORE_IS_SHARED_ONLY"
+    },
+    {
+      "id": "SPECTRAL_COMPUTE_SCALE_RUNTIME",
+      "reason": "OWNER_DECISION_REQUIRES_CFA3_NATIVE_IMPLEMENTATION_WITH_NO_SCALE_BUILD_OR_RUNTIME_DEPENDENCY"
+    },
+    {
+      "id": "SCALE_AS_GLOBAL_CUDA_REQUIREMENT",
+      "reason": "CUDA_IS_BACKEND_NOT_CAPABILITY_AND_CPU_ONLY_BASELINE_REMAINS_MANDATORY"
+    },
+    {
+      "id": "SILENT_TRANSLATION_FALLBACK",
+      "reason": "TRANSLATION_REQUIRES_EXPLICIT_WORKLOAD_POLICY_AND_FEATURE_ADMISSION"
+    }
+  ],
+  "donor_planning_snapshot": {
+    "published_main_commit": "b5052f6595a3fdad84ed7a06e6276f8af5a8dcd8",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "1362d75186c6da74e5cf947fdf0b8867d462636a",
+    "donor_registry_entry_count": 1427,
+    "donor_registry_sha256": "b8d0eb42ee02885863af375071ffae89033664089ddba3c69682a8d0f7c7cff1"
+  },
+  "pending_or_unmerged_donors_consumed": false,
+  "donor_usage_edges_created": 0,
+  "adopted_donors": [],
+  "external_source_admission": {
+    "source": "Spectral Compute SCALE",
+    "donor_admission_created": false,
+    "reason": "Not consumed as runtime/build dependency or donor implementation; retained only as the functional problem/reference target from the technical discussion."
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "shared_component_ids": [
+      "FA3-PROVIDER-CFA3-NATIVE-CUDA-COMPAT-001"
+    ],
+    "retrospective_consumer_impact_reviewed": true,
+    "local_duplicate_created": false,
+    "rationale": "CUDA-oriented compatibility execution is one platform-wide CFA3-native shared service. Every current and future application uses the same resolver and translator; applications may provide workload context but may not duplicate the backend core or bypass HRB, Hardware Safety, feature admission or evidence gates.",
+    "consumer_scope": [
+      "PLANNED_APPLICATIONS",
+      "IN_PROGRESS_APPLICATIONS",
+      "MATERIALIZED_APPLICATIONS",
+      "FUTURE_APPLICATIONS"
+    ],
+    "central_entrypoint": "src/fa3_cuda_compat_shared.py:resolve_cuda_compatibility",
+    "application_allowlist": false,
+    "application_local_access_adapter_may_duplicate_backend_core": false
+  },
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "implementation_readiness": "NATIVE_TRANSLATOR_V1_IMPLEMENTED_PENDING_PHYSICAL_CURRENT_HOST_OR_TARGET_HOST_QUALIFICATION",
+  "current_host_runtime_promotion_claim": false,
+  "intent_path": "canonical/intents/FA3-CUDA-COMPAT-NATIVE-APPLICATION-INTENT-2026-10-04.json",
+  "pattern_reuse": [
+    {
+      "source_id": "FA3-CUDA-PORTABILITY-SHARED-FUNCTION-POLICY-001",
+      "pattern": "CUDA_IS_BACKEND_NOT_CAPABILITY_AND_SHARED_ONLY"
+    },
+    {
+      "source_id": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+      "pattern": "EXACT_LIVE_DEVICE_BACKEND_BINDING"
+    },
+    {
+      "source_id": "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001",
+      "pattern": "EXPLICIT_TRANSLATION_EXECUTION_PATH_AND_LEASE"
+    },
+    {
+      "source_id": "FA3-GPU-KERNEL-RUNTIME-CONTRACTS-001",
+      "pattern": "PROVIDER_NEUTRAL_TRANSLATION_BACKEND_AND_EXECUTION_RECEIPT"
+    }
+  ],
+  "existing_authority_bindings": {
+    "hardware_discovery": "NON_AUTHORITY_CAPABILITY",
+    "resource_admission_placement_lease": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "license_rights": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "gaps": [],
+  "hardware_audit": {
+    "result": "PASS",
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "no_global_cuda_floor": true,
+    "physical_current_host_pass_claimed": false,
+    "target_backend_vendors": [
+      "AMD",
+      "INTEL"
+    ]
+  },
+  "coexistence": {
+    "result": "PASS",
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "application_local_duplicate_backend_created": false,
+    "external_scale_installation_preserved": true,
+    "external_scale_dependency": false
+  },
+  "donor_pattern_reuse": [],
+  "global_promotion_claim": false,
+  "current_host_impact": {
+    "classification": "STRUCTURAL_REASSESSMENT_RECONCILED_PENDING_PHYSICAL_REQUALIFICATION",
+    "structural_impact_record": "canonical/current-host-impact/FA3-CH-IMPACT-CUDA-COMPAT-NATIVE-20261004.json",
+    "conformance_record": "canonical/FA3-CUDA-COMPAT-NATIVE-CURRENT-HOST-CONFORMANCE-001.json",
+    "physical_requalification_required": true,
+    "physical_pass_claimed": false,
+    "historical_evidence_reused": false,
+    "runtime_promotion_claim": false
+  },
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_MATCH",
+      "available_candidate_ids": [
+        "fa3.khronos.opencl",
+        "fa3.khronos.spirv-tools"
+      ],
+      "matched_candidate_ids": [
+        "fa3.khronos.opencl"
+      ],
+      "roles": [
+        "INTEL_PORTABLE_COMPUTE_TARGET_AND_OPEN_STANDARDS_REUSE"
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_activation": false,
+      "disposition": "REUSE_EXISTING_OPENCL_COMPUTE_PROVIDER_PATH_FOR_INTEL_V1_TARGET; NO_NEW_KHRONOS_AUTHORITY"
+    }
+  ]
+}
