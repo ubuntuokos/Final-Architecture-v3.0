@@ -35,9 +35,11 @@ jobs:
         run: |
           python -m py_compile \
             src/fa3_scale_backend.py \
+            src/fa3_cuda_compat_shared.py \
             src/fa3_accelerator_backend_probe.py \
             src/fa3_scale_backend_gate.py \
             tests/test_scale_backend.py \
+            tests/test_cuda_compat_shared.py \
             tests/test_scale_backend_integration.py \
             tests/test_scale_backend_gate.py
       - name: SCALE backend regressions
@@ -46,6 +48,7 @@ jobs:
         run: |
           python -m unittest \
             tests.test_scale_backend \
+            tests.test_cuda_compat_shared \
             tests.test_scale_backend_integration \
             tests.test_scale_backend_gate
       - name: Canonical SCALE backend gate
