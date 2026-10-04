@@ -1,0 +1,67 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-IMPLEMENTATION-PLAN-DONOR-EXCEPTION-2026-10-04",
+  "date": "2026-10-04",
+  "status": "CANONICAL",
+  "title": "Conversation-scoped donor analysis during implementation planning with mandatory post-approval registration",
+  "decision": "ALLOW_CONVERSATION_SCOPED_UNREGISTERED_DONOR_ANALYSIS_DURING_IMPLEMENTATION_PLANNING_AND_REQUIRE_CANONICAL_REGISTRATION_OF_EVERY_PROCESSED_DONOR_AFTER_PLAN_APPROVAL_BEFORE_EXECUTION",
+  "scope": {
+    "applies_to": "IMPLEMENTATION_PLAN_PREPARATION_ONLY",
+    "conversation_scope": "ORIGINATING_CONVERSATION_AND_DIRECT_CONTINUATIONS_ONLY",
+    "cross_conversation_carryover": false,
+    "raw_search_hits_are_processed_donors": false,
+    "processed_donor_definition": "A discovered external source that receives substantive technical analysis, comparison, pattern extraction, constraint analysis, or contributes information to the implementation plan."
+  },
+  "planning_exception": {
+    "permits_before_plan_approval": [
+      "DONOR_SEARCH",
+      "DONOR_TECHNICAL_ANALYSIS",
+      "DONOR_COMPARISON",
+      "DONOR_PATTERN_EXTRACTION",
+      "DONOR_CONSTRAINT_ANALYSIS",
+      "PLAN_INFORMING_REFERENCE_PROCESSING"
+    ],
+    "requires_prior_registry_membership": false,
+    "requires_prior_donornak_marker": false,
+    "planning_only": true,
+    "does_not_authorize": [
+      "CANONICAL_DONOR_ADOPTION",
+      "CODE_COPY",
+      "DEPENDENCY_INSTALLATION",
+      "PROVIDER_ADMISSION",
+      "MODEL_ADMISSION",
+      "RUNTIME_ACTIVATION",
+      "IMPLEMENTATION_EXECUTION",
+      "ARCHITECTURAL_AUTHORITY"
+    ]
+  },
+  "post_approval_barrier": {
+    "trigger": "IMPLEMENTATION_PLAN_APPROVED_BY_OWNER",
+    "required_action": "REGISTER_EVERY_PROCESSED_PLANNING_DONOR_IN_CANONICAL_DONOR_REGISTRY",
+    "registration_authorization": "APPROVED_PLAN_EXACT_PROCESSED_DONOR_SET_IS_BOUNDED_OWNER_AUTHORIZATION",
+    "second_donornak_marker_required": false,
+    "execution_before_registration": false,
+    "fail_closed_finding": "PROCESSED_PLANNING_DONOR_NOT_REGISTERED",
+    "registration_must_be_published_and_visible_in_verified_main_snapshot": true
+  },
+  "machine_contract": {
+    "assessment_processed_donor_field": "planning_processed_donors",
+    "assessment_scope_field": "planning_donor_analysis_exception",
+    "required_scope_value": "ORIGINATING_CONVERSATION_AND_DIRECT_CONTINUATIONS_ONLY",
+    "approval_exact_set_field": "approved_processed_donor_keys",
+    "approval_authorization_field": "donor_registration_authorization",
+    "approval_authorization_value": "APPROVED_PLAN_PROCESSED_DONORS_ONLY",
+    "plan_phase": "plan",
+    "execution_phase": "execute",
+    "readiness_gate": "src/fa3_donor_readiness.py",
+    "registry_writer": "src/fa3_donor_registry.py"
+  },
+  "donor_registry_mutation_for_this_policy_implementation": false,
+  "donor_registry_mutation_rationale": "This policy implementation consulted the existing canonical registry and governance only; it did not substantively process any new external donor.",
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 175,
+  "authority": false,
+  "runtime_promotion_claim": false,
+  "current_host_runtime_promotion_claim": false
+}
