@@ -7,7 +7,7 @@
   "parent_main": "b5052f6595a3fdad84ed7a06e6276f8af5a8dcd8",
   "parent_registry_blob_sha": "1362d75186c6da74e5cf947fdf0b8867d462636a",
   "parent_entry_count": 1427,
-  "submitted_url_count": 10,
+  "submitted_url_count": 11,
   "submitted_urls": [
     "https://github.com/microsoft/DirectXTK",
     "https://github.com/EduApps-CDG/OpenDX",
@@ -18,14 +18,15 @@
     "https://github.com/microsoft/directxtk12",
     "https://devblogs.microsoft.com/directx/directx-heart-linux/",
     "https://github.com/microsoft/directml",
-    "https://github.com/OpenRA"
+    "https://github.com/OpenRA",
+    "https://github.com/opencomputeproject/OpenNetworkLinux"
   ],
   "approval_mode": "OWNER_EXPLICIT_DONORNAK_BATCH_IN_ORIGINATING_CONVERSATION",
   "duplicate_submission_count": 0,
   "matched_existing_count": 4,
   "matched_pending_intake_count": 0,
-  "new_source_count": 6,
-  "proposed_entry_count_after_slot_reconciliation": 1433,
+  "new_source_count": 7,
+  "proposed_entry_count_after_slot_reconciliation": 1434,
   "canonical_registry_materialized": false,
   "waiting_queue_only": true,
   "capability_baseline": 175,
@@ -132,6 +133,19 @@
       "license_observation": "PER_REPOSITORY_NO_ORGANIZATION_WIDE_LICENSE_INFERENCE",
       "source_copying": "CHILD_REPOSITORIES_REQUIRE_SEPARATE_REVIEW_AND_ADMISSION",
       "recursive_child_admission": false
+    },
+    {
+      "submitted_url": "https://github.com/opencomputeproject/OpenNetworkLinux",
+      "donor_id": "FA3-DONOR-OCP-OPENNETWORKLINUX-001",
+      "normalized_key": "github:opencomputeproject/opennetworklinux",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "NETWORK_APPLIANCE_PLATFORM_ABSTRACTION_AND_HARDWARE_MANAGEMENT_REFERENCE",
+      "observed_revision": "28f52e623a5f820598fda549f5c86c670081a48b",
+      "lifecycle_observation": "MAINTENANCE_MODE_PENDING_ARCHIVAL",
+      "license_observation": "MIXED_EPL_1_0_DEFAULT_PLUS_DEBIAN_AND_VENDOR_SPECIFIC_COMPONENT_TERMS",
+      "source_copying": "BLOCKED_PENDING_FILE_AND_DEPENDENCY_LEVEL_LICENSE_AND_RIGHTS_CLEARANCE",
+      "runtime_admission": "NOT_PROPOSED"
     }
   ],
   "reference_scope": [
@@ -144,7 +158,8 @@
     "WSL2 GPU paravirtualization and optional D3D12 provider architecture",
     "DirectML operator, graph and dispatch semantics without making DirectML the CFA3 ML authority",
     "native Linux Direct3D implementation research without vendor-specific duplicated DirectX stacks",
-    "cross-platform platform-interface, threaded graphics, mod/trait and server architecture discovery from OpenRA"
+    "cross-platform platform-interface, threaded graphics, mod/trait and server architecture discovery from OpenRA",
+    "bare-metal network appliance platform abstraction, hardware inventory, ONLP-style device management, image/package composition and Network/Edge integration patterns from OpenNetworkLinux"
   ],
   "boundaries": {
     "automatic_fetch": false,
@@ -166,7 +181,25 @@
   "serialization_scope": "ROLLING_FIVE_SLOT_DONOR_MAINTENANCE",
   "serialization_order": "FIFO_SLOT_ADMISSION_THEN_ASCENDING_CANONICAL_DONOR_MUTATION_WORKLOAD_WITH_FIFO_TIES",
   "max_active_donor_intakes": 5,
-  "observed_active_window": [651, 657, 663, 664, 671],
-  "observed_waiting_ahead": [672, 673, 675, 676, 682, 683, 684, 686, 693, 699, 704],
+  "observed_active_window": [
+    651,
+    657,
+    663,
+    664,
+    671
+  ],
+  "observed_waiting_ahead": [
+    672,
+    673,
+    675,
+    676,
+    682,
+    683,
+    684,
+    686,
+    693,
+    699,
+    704
+  ],
   "expected_initial_state": "FIFO_WAITING_FOR_DONOR_INTAKE_SLOT"
 }
