@@ -260,7 +260,26 @@ Item {
         ColumnLayout {
             width: parent.width
             ComboBox { id: quickCaptureLanguage; Layout.fillWidth: true; model: ["hu-HU","en-US","de-DE"] }
-            TextField { id: quickCaptureSource; Layout.fillWidth: true; placeholderText: "Authorized local audio or microphone artifact ref" }
+            RowLayout {
+                Layout.fillWidth: true
+                Button {
+                    text: "Start Microphone"
+                    enabled: !fa3VoiceWorkspace.recording
+                    onClicked: fa3VoiceWorkspace.startMicrophoneCapture(quickCaptureLanguage.currentText)
+                }
+                Button {
+                    text: "Stop & Add"
+                    enabled: fa3VoiceWorkspace.recording
+                    onClicked: fa3VoiceWorkspace.stopMicrophoneCapture(quickCaptureTranscript.text)
+                }
+            }
+            Label {
+                text: fa3VoiceWorkspace.recording ? fa3VoiceWorkspace.recordingPath : "Or add an existing local audio artifact:"
+                color: fa3VoiceWorkspace.recording ? root.orange : root.textMuted
+                elide: Text.ElideMiddle
+                Layout.fillWidth: true
+            }
+            TextField { id: quickCaptureSource; Layout.fillWidth: true; placeholderText: "Authorized local audio artifact ref" }
             TextArea { id: quickCaptureTranscript; Layout.fillWidth: true; Layout.preferredHeight: 100; placeholderText: "Optional transcript"; wrapMode: TextEdit.Wrap }
         }
         onAccepted: fa3VoiceWorkspace.createCapture(
