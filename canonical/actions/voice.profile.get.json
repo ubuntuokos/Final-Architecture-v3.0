@@ -1,0 +1,93 @@
+{
+  "schema": "fa3.uaf.action-contract.v1",
+  "id": "voice.profile.get",
+  "version": "1.0.0",
+  "description": "Resolve one Voice Profile by stable identity without provider execution.",
+  "input_schema": {
+    "type": "object",
+    "required": [
+      "voice_profile_id"
+    ],
+    "properties": {
+      "voice_profile_id": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "profile",
+      "evidence_refs"
+    ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "profile": {
+        "type": "object"
+      },
+      "evidence_refs": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "semantics": {
+    "mutating": false,
+    "idempotent": true,
+    "retry_safe": true,
+    "long_running": false
+  },
+  "exposure": {
+    "gui": true,
+    "agent": true,
+    "cli": true,
+    "mcp": true,
+    "a2a": true,
+    "automation": true,
+    "http": false
+  },
+  "security": {
+    "authentication": "required",
+    "authorization": "required",
+    "approval": "none",
+    "audit": "required"
+  },
+  "resources": {
+    "hrb_required": false,
+    "cpu": {
+      "physical_cores": {
+        "minimum": 0
+      },
+      "logical_processors": null
+    },
+    "accelerator": {
+      "required": false,
+      "cardinality": "0..N"
+    },
+    "memory": {
+      "admission": "provider-declared"
+    }
+  },
+  "provider": {
+    "selection": "policy-bounded-capability-match",
+    "preferred_role": "FA3-VOICE-001"
+  },
+  "evidence": {
+    "required": true,
+    "decision_receipt_required": true
+  },
+  "authority_bindings": {
+    "voice": "FA3-VOICE-001",
+    "model_router": "FA3-AUTH-MODEL-ROUTER-001",
+    "resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "uaf": "FA3-UNIFIED-ACTION-FABRIC-001"
+  }
+}
