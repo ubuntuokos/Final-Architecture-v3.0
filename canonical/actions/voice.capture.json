@@ -1,0 +1,107 @@
+{
+  "schema": "fa3.uaf.action-contract.v1",
+  "id": "voice.capture",
+  "version": "1.0.0",
+  "description": "Create a local Capture/Inbox voice record from authorized microphone or audio input.",
+  "input_schema": {
+    "type": "object",
+    "required": [
+      "language",
+      "source_ref"
+    ],
+    "properties": {
+      "language": {
+        "type": "string"
+      },
+      "source_ref": {
+        "type": "string",
+        "minLength": 1
+      },
+      "transcript": {
+        "type": "string"
+      },
+      "purpose": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "capture_id",
+      "artifact",
+      "evidence_refs"
+    ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "capture_id": {
+        "type": "string"
+      },
+      "artifact": {
+        "type": "object"
+      },
+      "evidence_refs": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "semantics": {
+    "mutating": true,
+    "idempotent": false,
+    "retry_safe": false,
+    "long_running": false
+  },
+  "exposure": {
+    "gui": true,
+    "agent": true,
+    "cli": true,
+    "mcp": true,
+    "a2a": true,
+    "automation": true,
+    "http": false
+  },
+  "security": {
+    "authentication": "required",
+    "authorization": "required",
+    "approval": "policy",
+    "audit": "required"
+  },
+  "resources": {
+    "hrb_required": false,
+    "cpu": {
+      "physical_cores": {
+        "minimum": 0
+      },
+      "logical_processors": null
+    },
+    "accelerator": {
+      "required": false,
+      "cardinality": "0..N"
+    },
+    "memory": {
+      "admission": "provider-declared"
+    }
+  },
+  "provider": {
+    "selection": "policy-bounded-capability-match",
+    "preferred_role": "FA3-VOICE-001"
+  },
+  "evidence": {
+    "required": true,
+    "decision_receipt_required": true
+  },
+  "authority_bindings": {
+    "voice": "FA3-VOICE-001",
+    "model_router": "FA3-AUTH-MODEL-ROUTER-001",
+    "resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "uaf": "FA3-UNIFIED-ACTION-FABRIC-001"
+  }
+}
