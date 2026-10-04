@@ -1,7 +1,7 @@
 {
   "schema": "fa3.decision-record.v1",
   "id": "FA3-DEC-HIDREAM-GENERATIVE-MEDIA-MESH-2026-10-04",
-  "status": "MATERIALIZED_PENDING_EXACT_HEAD_OWNER_APPROVAL",
+  "status": "OWNER_EXCEPTION_RECORDED_PENDING_REQUIRED_CHECKS",
   "owner_approval_date": "2026-10-04",
   "intent_id": "FA3-HIDREAM-GENERATIVE-MEDIA-MESH-APPLICATION-INTENT-2026-10-04",
   "assessment_id": "FA3-HIDREAM-GENERATIVE-MEDIA-MESH-REUSE-ASSESSMENT-2026-10-04",
@@ -25,11 +25,17 @@
   "current_host_pass_claimed": false,
   "approval_binding": {
     "plan_approved_by_owner_in_conversation": true,
-    "owner_instruction": "Jóváhagyom, készítsd el a lezárásig",
+    "owner_instruction": "jóváhagyom",
     "approved_plan_document": "docs/hidream-generative-media-mesh-final-2026-10-04.md",
-    "exact_head_repository_owner_approved_review_required": true,
+    "exact_head_repository_owner_approved_review_required": false,
     "exact_head_repository_owner_approved_review_observed": false,
-    "finalization_fail_closed_until_owner_review": true
+    "owner_exception_active": true,
+    "owner_exception_record": "canonical/exceptions/FA3-OWNER-EXCEPTION-HIDREAM-GENERATIVE-MEDIA-MESH-PR674-2026-10-04.json",
+    "owner_exception_scope": "GITHUB_SELF_REVIEW_IMPOSSIBILITY_ONLY",
+    "owner_exception_does_not_waive_required_checks": true,
+    "owner_exception_does_not_waive_branch_protection": true,
+    "owner_exception_does_not_waive_runtime_or_current_host_gates": true,
+    "finalization_fail_closed_until_required_checks": true
   },
   "child_recommendations_are_analysis_only_not_canonical_queue": true
 }
