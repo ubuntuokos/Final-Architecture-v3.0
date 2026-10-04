@@ -1,0 +1,13 @@
+{
+  "schema": "fa3.current-host-structural-impact.v1",
+  "id": "FA3-CH-IMPACT-PR674-POST-MERGE-AUDIT-PINNING-20261004",
+  "status": "NO_RUNTIME_IMPACT",
+  "structural_changes": [
+    ".github/workflows/fa3-current-host-post-merge-audit.yml",
+    ".github/workflows/fa3-global-current-host-closure.yml"
+  ],
+  "current_host_changes": [],
+  "physical_requalification_required": false,
+  "historical_evidence_reused": false,
+  "rationale": "This repair is limited to replacing mutable GitHub Action version tags with repository-approved full commit SHA pins after PR #674 exposed setup-time policy rejection in the post-merge Current Host audit. It does not change runner selection, audit planning semantics, physical proof requirements, evidence acceptance, capability coverage, Model Router/HRB authority, runtime behavior, or promotion policy. The Generative Media Mesh remains separately PENDING_FRESH_PHYSICAL_CURRENT_HOST_REQUALIFICATION and no Current Host PASS is claimed."
+}
