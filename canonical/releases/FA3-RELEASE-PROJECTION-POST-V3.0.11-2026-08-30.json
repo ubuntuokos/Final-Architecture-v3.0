@@ -1074,7 +1074,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 3016,
+  "manifest_entry_count": 3017,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -4953,7 +4953,7 @@
     },
     {
       "path": "canonical/decisions/FA3-DEC-CUDA-COMPAT-NATIVE-PLAN-APPROVAL-2026-10-04.json",
-      "git_blob_sha": "86c919f6ae17bc75528372fb846647b3a2b80253",
+      "git_blob_sha": "f58509307a9c206cee20f7602a94f1e393c972ca",
       "baseline_delta_status": "added"
     },
     {
@@ -5904,6 +5904,11 @@
     {
       "path": "canonical/engine-selection-enforcement.json",
       "git_blob_sha": "53f14daa9a5d4169fcbf4b41727215e6f3de372f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/exceptions/FA3-OWNER-EXCEPTION-CUDA-COMPAT-NATIVE-PR700-CI-REPAIR-2026-10-04.json",
+      "git_blob_sha": "e4943ad2b9d7649c4fbede610be86c33e77d24f0",
       "baseline_delta_status": "added"
     },
     {
@@ -17104,8 +17109,8 @@
     "repository_release_surface_complete": true,
     "self_excluded_path": "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
     "mutable_runtime_evidence_receipts_excluded": true,
-    "source_snapshot_anchor": "d42c46b68491d845594b09aa71ea02016bc77baa",
-    "regenerated_from_branch_head": "d42c46b68491d845594b09aa71ea02016bc77baa",
+    "source_snapshot_anchor": "72ce206cbe39f880ae738949653277e6cb4c0252",
+    "regenerated_from_branch_head": "72ce206cbe39f880ae738949653277e6cb4c0252",
     "buzz_reconciliation_generator": "tools/fa3_buzz_global_reconcile.py",
     "buzz_deterministic_regeneration_pass": true,
     "gtcrn_reconciliation_generator": "tools/fa3_gtcrn_global_reconcile.py",
@@ -17146,7 +17151,7 @@
     "neural_rendering_snapshot_head": "c487c9d9e245ad841c09b2148aaac2b5e96e0bbb",
     "cuda_compat_native_reconciliation_generator": "CFA3 controlled Git-object regeneration",
     "cuda_compat_native_deterministic_regeneration_pass": true,
-    "cuda_compat_native_snapshot_head": "d42c46b68491d845594b09aa71ea02016bc77baa"
+    "cuda_compat_native_snapshot_head": "72ce206cbe39f880ae738949653277e6cb4c0252"
   },
   "inference_cache_hardening_reconciliation": {
     "parent_gate_id": "FA3-INFERENCE-PORTABILITY-GATESET-001",
@@ -18233,6 +18238,12 @@
     "owner_exception_record": "canonical/exceptions/FA3-OWNER-EXCEPTION-CUDA-COMPAT-NATIVE-PR700-SELF-REVIEW-2026-10-04.json",
     "owner_exception_scope": "WAIVE_GITHUB_SELF_APPROVE_REVIEW_ONLY_FOR_PR700_AFTER_EXPLICIT_EXACT_HEAD_OWNER_APPROVAL_AND_AUTHORIZE_ONE_ADMINISTRATIVE_BINDING_COMMIT",
     "material_feature_scope_delta": 0,
-    "runtime_promotion_claim": false
+    "runtime_promotion_claim": false,
+    "owner_exception_records": [
+      "canonical/exceptions/FA3-OWNER-EXCEPTION-CUDA-COMPAT-NATIVE-PR700-SELF-REVIEW-2026-10-04.json",
+      "canonical/exceptions/FA3-OWNER-EXCEPTION-CUDA-COMPAT-NATIVE-PR700-CI-REPAIR-2026-10-04.json"
+    ],
+    "ci_repair_parent_head": "72ce206cbe39f880ae738949653277e6cb4c0252",
+    "ci_repair_trigger_run": 37235622547
   }
 }
