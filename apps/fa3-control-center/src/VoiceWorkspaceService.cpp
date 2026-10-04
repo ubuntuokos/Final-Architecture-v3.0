@@ -30,6 +30,7 @@ void VoiceWorkspaceService::generate(const QString &text,const QString &voice,co
  QVariantMap p{{"text",text},{"language",language},{"voice_identity_ref",voice},{"mode","plain"},{"license_and_rights_ref","FA3-VOICE-WORKSPACE-USER-AUTHORIZED"},{"candidate_execution_ack",candidateAck},{"music_ducking",musicDucking}};if(targetMs>0)p["target_duration_ms"]=targetMs;
  postJson("/api/generate",p,[this](const QVariantMap &v){emit generationCompleted(v);refresh();});
 }
+void VoiceWorkspaceService::transcribe(const QString &audioPath,const QString &language){postJson("/api/transcribe",{{"audio_path",audioPath},{"language",language}},[this](const QVariantMap &v){emit transcriptionCompleted(v);});}
 void VoiceWorkspaceService::putProfile(const QString &profileId,const QString &consentRef,bool humanVoice){postJson("/api/profiles",{{"id",profileId},{"consent_ref",consentRef},{"human_voice",humanVoice}},[this](const QVariantMap &){refresh();});}
 void VoiceWorkspaceService::fitToClip(int targetMs,int actualMs){postJson("/api/fit-to-clip",{{"target_ms",targetMs},{"actual_ms",actualMs}},[this](const QVariantMap &v){emit fitCompleted(v);});}
 void VoiceWorkspaceService::quickDub(const QString &sourceMedia,const QString &sourceLanguage,const QString &targetLanguage){postJson("/api/quick-dub",{{"source_media_ref",sourceMedia},{"source_language",sourceLanguage},{"target_language",targetLanguage}},[this](const QVariantMap &v){emit quickDubCompleted(v);});}
