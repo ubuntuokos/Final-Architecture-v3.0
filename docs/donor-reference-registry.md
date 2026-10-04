@@ -10,6 +10,8 @@ The registry centralizes external projects, repositories, algorithms, research, 
 
 Only a LINK explicitly preceded by the user's `donornak` marker (with or without a colon) may enter this registry. A marker can introduce one clearly grouped batch of links. Links marked `donor:`, tentative research, suggestions, unmarked resources, and assistant-generated references are **analysis only**: no candidate entry, queue, sync, source admission or other donor mutation without subsequent explicit owner direction.
 
+A narrow implementation-planning exception is defined by `FA3-DEC-IMPLEMENTATION-PLAN-DONOR-EXCEPTION-2026-10-04`. During preparation of an implementation plan, discovered donors may be substantively analyzed without prior registry membership or a prior `donornak` marker, but only inside the originating planning conversation and its direct continuations. This exception is analysis/planning-only and grants no code-copy, dependency, provider/model, runtime, adoption or execution authority. Once the owner approves the plan, the exact set of donors recorded as substantively processed by that plan becomes a bounded registration mandate and authorization: every one of those donors must be published in the canonical registry before implementation execution may continue; no second per-link `donornak` marker is required for that exact approved set.
+
 A verified owner-marked link is pre-reviewed for reference registration and becomes `ACCEPTED_REFERENCE` once published, without another catalog approval. A previous `REJECTED` or `SUPERSEDED` entry requires a separate explicit reconciliation. Intake NEVER approves license, copying, installation, reuse or runtime. To register a directly marked source, an authorized operator can use:
 
 ```bash
@@ -38,6 +40,8 @@ See [FA3 Tutorial → Shared Capability → Application Manual plan](FA3-TUTORIA
 ## Planning
 
 Before a new or materially modified FA3 application, capability, or module is implemented, Reuse Discovery queries the registry and the rest of the canonical reuse sources. Matching is deterministic from capability/domain/problem/target/tag metadata. The Decision Fabric may rank already eligible candidates but cannot expand the candidate set.
+
+For implementation-plan research, a Reuse Assessment may additionally record `planning_processed_donors` that are not yet registered, together with a `planning_donor_analysis_exception` scoped to `ORIGINATING_CONVERSATION_AND_DIRECT_CONTINUATIONS_ONLY`. The `plan` readiness phase may accept that state for planning only. The `entry`, `execute`, and `finalize` paths fail closed on any `PROCESSED_PLANNING_DONOR_NOT_REGISTERED:*` finding. The authoritative execution path is `execute`, which also requires proof of an approved plan; `entry` is a readiness/preflight surface and does not itself grant execution authority.
 
 ## Hardware Audit
 
