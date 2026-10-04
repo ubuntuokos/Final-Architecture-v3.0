@@ -32,6 +32,43 @@ def _normalized_key(kind: str, locator: str) -> str:
         return "github:" + body
     return kind.lower() + ":" + low if ":" not in low else low
 
+def _approved_plan_registration(root: Path, approval_ref: str | None, normalized_key: str) -> dict[str, Any] | None:
+    """Validate bounded registration authority from an owner-approved implementation plan."""
+    if not approval_ref:
+        return None
+    rel = Path(approval_ref)
+    if (
+        rel.is_absolute()
+        or ".." in rel.parts
+        or rel.as_posix() != approval_ref
+        or len(rel.parts) < 3
+        or rel.parts[0] != "canonical"
+        or rel.parts[1] != "decisions"
+    ):
+        raise ValueError("INVALID_PLAN_APPROVAL_RECORD")
+    approval_path = root.resolve() / rel
+    if approval_path.is_symlink() or not approval_path.is_file():
+        raise ValueError("PLAN_APPROVAL_RECORD_UNAVAILABLE")
+    decision = _load(approval_path)
+    approved_keys = decision.get("approved_processed_donor_keys")
+    approved_plan_sha256 = decision.get("approved_plan_sha256")
+    if (
+        decision.get("status") != "APPROVED"
+        or decision.get("explicit_user_approval") is not True
+        or decision.get("donor_registration_authorization") != "APPROVED_PLAN_PROCESSED_DONORS_ONLY"
+        or not isinstance(approved_keys, list)
+        or not all(isinstance(key, str) and key for key in approved_keys)
+        or not isinstance(approved_plan_sha256, str)
+        or len(approved_plan_sha256) != 64
+        or not isinstance(decision.get("user_request_ref"), str)
+        or not decision.get("user_request_ref")
+    ):
+        raise ValueError("INVALID_PLAN_APPROVAL_FOR_DONOR_REGISTRATION")
+    if normalized_key not in approved_keys:
+        raise ValueError("DONOR_NOT_IN_APPROVED_PLAN_PROCESSED_SET")
+    return decision
+
+
 def _merge_strings(existing: Any, incoming: list[str]) -> list[str]:
     base = [str(x) for x in existing] if isinstance(existing, list) else []
     return sorted(set(base + [x for x in incoming if x]))
@@ -125,18 +162,22 @@ def capture_candidate(
     dry_run: bool = False,
     owner_submitted_link: bool = False,
     explicit_donor_marker: bool = False,
+    plan_approval_ref: str | None = None,
 ) -> dict[str, Any]:
-    if not explicit_donor_marker:
-        raise ValueError("DONORNAK_MARKER_REQUIRED: analysis only until explicit owner instruction")
+    key = _normalized_key(source_kind, source_locator)
+    approved_plan = _approved_plan_registration(root, plan_approval_ref, key) if plan_approval_ref else None
+    if not explicit_donor_marker and approved_plan is None:
+        raise ValueError("DONORNAK_MARKER_REQUIRED: analysis only until explicit owner instruction or approved-plan registration")
     if owner_submitted_link and not source_locator.strip().lower().startswith(("https://", "http://")):
         raise ValueError("owner donor registration requires a link")
+    if approved_plan is not None and not source_locator.strip().lower().startswith(("https://", "http://")):
+        raise ValueError("approved-plan donor registration requires a source link")
     path = root.resolve() / REGISTRY_REL
     registry = _load(path)
     if registry.get("id") != "FA3-DONOR-REFERENCE-REGISTRY-001":
         raise ValueError("unexpected donor registry id")
     if owner_submitted_link and not source_locator.strip().lower().startswith(("https://", "http://")):
         raise ValueError("owner pre-reviewed registration requires a submitted source link")
-    key = _normalized_key(source_kind, source_locator)
     today = seen_date or dt.date.today().isoformat()
     entries = registry.get("entries")
     backfill = registry.get("backfill")
@@ -163,8 +204,11 @@ def capture_candidate(
     if key in audited and (match is None or not _security_reentry_verified(match)):
         raise ValueError("REJECTED_DONOR_REENTRY_REQUIRES_VERIFIED_SAFE_MAINTENANCE")
     created = match is None
-    if match is None and not (owner_submitted_link and source_locator.lower().startswith(("https://", "http://"))):
-        raise ValueError("NEW_DONOR_REQUIRES_EXPLICIT_OWNER_MARKED_LINK")
+    if match is None and not (
+        (owner_submitted_link and source_locator.lower().startswith(("https://", "http://")))
+        or approved_plan is not None
+    ):
+        raise ValueError("NEW_DONOR_REQUIRES_EXPLICIT_OWNER_MARKED_LINK_OR_APPROVED_PLAN")
     if match is None:
         base_id = f"FA3-DONOR-{_slug(name)}-001"
         used = {str(row.get("donor_id")) for row in entries if isinstance(row, dict)}
@@ -177,7 +221,7 @@ def capture_candidate(
             "donor_id": donor_id,
             "name": name,
             "source": {"kind": source_kind.upper(), "locator": source_locator, "normalized_key": key},
-            "status": "ACCEPTED_REFERENCE" if owner_submitted_link else "CANDIDATE",
+            "status": "ACCEPTED_REFERENCE" if (owner_submitted_link or approved_plan is not None) else "CANDIDATE",
             "discovered_from": [discovered_from],
             "first_seen": today,
             "last_seen": today,
@@ -201,17 +245,26 @@ def capture_candidate(
             "automatic_model_selection": False,
         }
         entries.append(match)
-    # Direct owner-submitted donor links are pre-reviewed for registry inclusion.
-    # A historical rejection/supersession cannot be silently overwritten.
-    if owner_submitted_link:
+    # Direct owner-marked links and exact approved-plan processed sets are
+    # pre-reviewed for registry inclusion only. Neither path authorizes reuse.
+    if owner_submitted_link or approved_plan is not None:
         if match.get("status") == "SUPERSEDED":
             raise ValueError("superseded source needs explicit conflict reconciliation")
         match["status"] = "ACCEPTED_REFERENCE"
-        match["submission_review"] = {
-            "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
-            "scope": "REFERENCE_REGISTRATION_ONLY",
-            "second_registry_approval_required": False,
-        }
+        if approved_plan is not None:
+            match["submission_review"] = {
+                "basis": "OWNER_APPROVED_IMPLEMENTATION_PLAN_PROCESSED_DONOR_SET",
+                "scope": "REFERENCE_REGISTRATION_ONLY",
+                "approval_ref": plan_approval_ref,
+                "second_donornak_marker_required": False,
+                "second_registry_approval_required": False,
+            }
+        else:
+            match["submission_review"] = {
+                "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+                "scope": "REFERENCE_REGISTRATION_ONLY",
+                "second_registry_approval_required": False,
+            }
     match["last_seen"] = today
     match["discovered_from"] = _merge_strings(match.get("discovered_from"), [discovered_from])
     match["tags"] = _merge_strings(match.get("tags"), tags or [])
@@ -281,6 +334,10 @@ def main() -> int:
                    help="Owner explicitly marked this link as donornak before submission")
     p.add_argument("--owner-donor-marker", choices=["donornak"],
                    help="Operator attests the owner wrote donornak before this link")
+    p.add_argument("--approved-plan-registration", action="store_true",
+                   help="Register one donor from the exact processed-donor set of an owner-approved implementation plan")
+    p.add_argument("--plan-approval-record",
+                   help="Canonical approval decision containing the exact approved processed donor keys")
     args = p.parse_args()
     if args.refresh_count:
         path = Path(args.root).resolve() / REGISTRY_REL
@@ -296,7 +353,10 @@ def main() -> int:
         return 0
     # A dry run on an unmarked link is permitted analysis, never candidate
     # registration. Production writes still require owner marker attestation.
-    if args.dry_run and (not args.owner_submitted_link or args.owner_donor_marker != "donornak"):
+    approved_plan_mode = args.approved_plan_registration and bool(args.plan_approval_record)
+    if args.plan_approval_record and not args.approved_plan_registration:
+        p.error("--plan-approval-record requires --approved-plan-registration")
+    if args.dry_run and (not args.owner_submitted_link or args.owner_donor_marker != "donornak") and not approved_plan_mode:
         print(json.dumps({"result": "ANALYSIS_ONLY_UNMARKED_LINK",
                           "created": False, "registry_mutated": False,
                           "dry_run": True}, ensure_ascii=False))
@@ -306,13 +366,20 @@ def main() -> int:
             p.error("mention intake requires trusted owner role and explicit donornak attestation")
         name, kind, locator = parse_donor_mention(args.mention, name=args.name, source=args.source_locator)
     else:
-        if args.owner_donor_marker != "donornak":
-            p.error("only an explicitly owner-marked donornak link may be registered")
-        if not args.owner_submitted_link:
-            p.error("--owner-submitted-link required for new direct donor intake")
-        if not args.name:
-            p.error("--name is required unless --mention identifies a GitHub project")
-        name, kind, locator = args.name, args.source_kind, args.source_locator or ("project:" + args.name)
+        if args.approved_plan_registration:
+            if not args.plan_approval_record:
+                p.error("--plan-approval-record is required for approved-plan registration")
+            if not args.name or not args.source_locator:
+                p.error("--name and --source are required for approved-plan registration")
+            name, kind, locator = args.name, args.source_kind, args.source_locator
+        else:
+            if args.owner_donor_marker != "donornak":
+                p.error("only an explicitly owner-marked donornak link may be registered")
+            if not args.owner_submitted_link:
+                p.error("--owner-submitted-link required for new direct donor intake")
+            if not args.name:
+                p.error("--name is required unless --mention identifies a GitHub project")
+            name, kind, locator = args.name, args.source_kind, args.source_locator or ("project:" + args.name)
     result = capture_candidate(
         Path(args.root), name=name, source_kind=kind,
         source_locator=locator, tags=args.tag, capabilities=args.capability,
@@ -321,6 +388,7 @@ def main() -> int:
         seen_date=args.seen_date, dry_run=args.dry_run,
         owner_submitted_link=args.owner_submitted_link,
         explicit_donor_marker=bool(args.mention or args.owner_donor_marker == "donornak"),
+        plan_approval_ref=args.plan_approval_record if args.approved_plan_registration else None,
     )
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0
