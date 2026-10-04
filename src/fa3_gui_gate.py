@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+    for token in ["FA3_GENERATIVE_MEDIA_MESH_PANEL_QML", "GenerativeMediaMeshPanel.qml"]:
+        if token not in cmake_text: failures.append(f"cmake-generative-media-mesh-qml-missing:{token}")
 
 import json
 
 from fa3_release_baseline import module_active_capability_count
+from fa3_generative_media_mesh_gate import run as run_generative_media_mesh_gate
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -32,6 +35,7 @@ REQUIRED = {
     "qml": ROOT / "apps/fa3-control-center/qml/Main.qml",
     "models_providers_qml": ROOT / "apps/fa3-control-center/qml/ModelsProvidersPage.qml",
     "studio_qml": ROOT / "apps/fa3-control-center/qml/AiStudioPage.qml",
+    "generative_media_mesh_qml": ROOT / "apps/shared/generative-media/qml/GenerativeMediaMeshPanel.qml",
     "subtitle_studio_qml": ROOT / "apps/fa3-control-center/qml/SubtitleStudioPage.qml",
     "narration_studio_qml": ROOT / "apps/fa3-control-center/qml/NarrationStudioPage.qml",
     "voice_studio_qml": ROOT / "apps/fa3-control-center/qml/VoiceStudioPage.qml",
@@ -171,6 +175,10 @@ def validate() -> list[str]:
         if module not in studio_qml: failures.append(f"qml-studio-module-missing:{module}")
     for office_surface in ["Writer", "Calc", "Impress", "Preview", "Apply/UNO", "Undo"]:
         if office_surface not in studio_qml: failures.append(f"qml-office-surface-missing:{office_surface}")
+    generative_mesh_qml = REQUIRED["generative_media_mesh_qml"].read_text(encoding="utf-8")
+    for token in ["Generative Media Capability Mesh", "RUNTIME GATED", "Model Router", "HRB", "175", "HiDream child providers: not admitted"]:
+        if token not in generative_mesh_qml: failures.append(f"qml-generative-media-mesh-boundary-missing:{token}")
+    if "GenerativeMediaMeshPanel" not in studio_qml: failures.append("qml-generative-media-mesh-studio-wiring-missing")
     if "createDraftChangeSet" not in qml: failures.append("qml-changeset-intent-missing")
     if "id: askButton" not in qml or "id: askMenu" not in qml or "y: parent.height" not in qml: failures.append("qml-ask-menu-anchor-missing")
     if "id: modulePage" not in qml or "model: modulePage.cards" not in qml or "width: modulePage.availableWidth" not in qml: failures.append("qml-module-page-render-contract-missing")
@@ -378,6 +386,8 @@ def validate() -> list[str]:
     if "qml6-module-qtquick-dialogs" not in installer: failures.append("chat-file-installer-dialogs-missing")
     desktop = REQUIRED["desktop"].read_text(encoding="utf-8")
     if "Exec=fa3-control-center" not in desktop: failures.append("desktop-entry-exec-missing")
+    for finding in run_generative_media_mesh_gate():
+        failures.append(f"generative-media-mesh:{finding}")
     return failures
 
 
