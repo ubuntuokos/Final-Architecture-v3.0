@@ -22,6 +22,7 @@ def gate(root:Path)->dict:
       chk('req.get("device","cpu")!="cpu"' in p and "FA3_PIPER_MODEL_ROOT" in p,"VOICEAPP-010","Piper CPU/model boundary missing")
       chk("QNetworkAccessManager" in cpp and "Authorization" in cpp and "/api/generate" in cpp,"VOICEAPP-011","GUI live client missing")
       chk("fa3VoiceWorkspace.generate" in v and "fa3VoiceWorkspace.generate" in q and "fa3VoiceWorkspace.quickDub" in q,"VOICEAPP-012","QML action binding missing")
+      chk("Allow candidate CPU provider" in v and "checked: false" in v and "Allow candidate CPU provider" in q and "checked: false" in q,"VOICEAPP-013","explicit candidate acknowledgement UI missing")
     return {"schema":"fa3.voice-studio-application-gate.v1","result":"PASS" if not findings else "FAIL","findings":findings}
 if __name__=="__main__":
  import argparse; ap=argparse.ArgumentParser();ap.add_argument("--root",default=str(Path(__file__).resolve().parents[1]));a=ap.parse_args();r=gate(Path(a.root));print(json.dumps(r,indent=2));raise SystemExit(0 if r["result"]=="PASS" else 2)
