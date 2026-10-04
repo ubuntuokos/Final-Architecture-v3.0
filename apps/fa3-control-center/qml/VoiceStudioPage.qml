@@ -6,7 +6,7 @@ Item {
     id: root
     property string runtimeMessage: fa3VoiceWorkspace.state + (fa3VoiceWorkspace.lastError.length ? " · " + fa3VoiceWorkspace.lastError : "")
     Component.onCompleted: fa3VoiceWorkspace.refresh()
-    Connections { target: fa3VoiceWorkspace; function onGenerationCompleted(result) { root.runtimeMessage = "COMPLETED · " + result.job_id } }
+    Connections { target: fa3VoiceWorkspace; function onGenerationCompleted(result) { root.runtimeMessage = "COMPLETED · " + result.job_id } function onTranscriptionCompleted(result) { root.runtimeMessage = "TRANSCRIBED · " + result.language } }
     property color panel: "#20242a"
     property color panelRaised: "#292f38"
     property color border: "#3a424e"
@@ -65,6 +65,7 @@ Item {
                         text: "Írd ide vagy illeszd be a narráció szövegét. A provider- és hardverválasztást a Model Router + HRB végzi."
                         wrapMode: TextEdit.Wrap
                     }
+                    RowLayout { Layout.fillWidth: true; TextField { id: capturePath; Layout.fillWidth: true; placeholderText: "Local 16 kHz mono PCM WAV for Capture/STT" } Button { text: "Transcribe"; enabled: fa3VoiceWorkspace.state === "READY" && capturePath.text.length > 0; onClicked: fa3VoiceWorkspace.transcribe(capturePath.text, languageBox.currentText) } }
                     RowLayout {
                         Button { text: "Generate"; enabled: fa3VoiceWorkspace.state === "READY"; onClicked: fa3VoiceWorkspace.generate(scriptEditor.text, voiceBox.currentText, languageBox.currentText, 0, false, candidateAck.checked) }
                         CheckBox { id: candidateAck; text: "Allow candidate CPU provider"; checked: false }
