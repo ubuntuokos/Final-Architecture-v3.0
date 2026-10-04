@@ -1840,10 +1840,11 @@ ApplicationWindow {
         anchors.bottom: parent.bottom
         anchors.rightMargin: 22
         anchors.bottomMargin: window.statusStripVisible ? 56 : 22
-        activityState: "IDLE"
-        applicationName: "QuickClip"
-        actorName: "Assistant"
-        voiceName: "Narrator (hu-HU)"
+        activityState: String(fa3VoiceWorkspace.activity.state || "IDLE")
+        applicationName: String(fa3VoiceWorkspace.activity.application || "Voice Studio")
+        actorName: String(fa3VoiceWorkspace.activity.actor || "")
+        voiceName: String(fa3VoiceWorkspace.activity.voice_profile_id || "")
+        jobId: String(fa3VoiceWorkspace.activity.job_id || "")
         panel: "#111318"
         border: window.border
         textPrimary: window.textPrimary
