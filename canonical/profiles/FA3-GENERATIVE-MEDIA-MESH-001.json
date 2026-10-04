@@ -65,34 +65,12 @@
   ],
   "hidream_parent_reference": "FA3-DONOR-HIDREAM-AI-ORG-001",
   "hidream_children": {
-    "wave_a": [
-      {
-        "source": "https://github.com/HiDream-ai/HiDream-O1-Image",
-        "role": "IMAGE_GENERATION_EDIT_STORYBOARD",
-        "state": "BLOCKED_PENDING_EXPLICIT_CHILD_DONOR_MARKER_AND_INDIVIDUAL_ADMISSION"
-      },
-      {
-        "source": "https://github.com/HiDream-ai/HiDream-E1",
-        "role": "INSTRUCTION_IMAGE_EDIT",
-        "state": "BLOCKED_PENDING_EXPLICIT_CHILD_DONOR_MARKER_AND_INDIVIDUAL_ADMISSION"
-      },
-      {
-        "source": "https://github.com/HiDream-ai/MotionPro",
-        "role": "OBJECT_CAMERA_MOTION",
-        "state": "BLOCKED_PENDING_EXPLICIT_CHILD_DONOR_MARKER_AND_INDIVIDUAL_ADMISSION"
-      },
-      {
-        "source": "https://github.com/HiDream-ai/ReCo",
-        "role": "REGIONAL_VIDEO_EDIT",
-        "state": "BLOCKED_PENDING_EXPLICIT_CHILD_DONOR_MARKER_AND_INDIVIDUAL_ADMISSION"
-      },
-      {
-        "source": "https://github.com/HiDream-ai/PS-SR",
-        "role": "VIDEO_SUPER_RESOLUTION_REFINEMENT",
-        "state": "BLOCKED_PENDING_EXPLICIT_CHILD_DONOR_MARKER_AND_INDIVIDUAL_ADMISSION"
-      }
-    ],
-    "automatic_execution": false
+    "automatic_execution": false,
+    "automatic_registration": false,
+    "canonical_child_queue": false,
+    "child_sources_canonicalized": false,
+    "admission_state": "BLOCKED_PENDING_EXPLICIT_CHILD_DONOR_MARKERS_AND_INDIVIDUAL_GATES",
+    "analysis_only_recommendations_not_registry_metadata": true
   },
   "gui_bindings": {
     "shared_surface": "create.ai-studio.generative-media-mesh",
@@ -110,7 +88,7 @@
     "fa3_visual_style_required": true,
     "donor_branded_ui_forbidden": true
   },
-  "runtime_status": "STATIC_MATERIALIZATION_COMPLETE_PROVIDER_EXECUTION_BLOCKED_UNTIL_INDIVIDUAL_ADMISSION",
+  "runtime_status": "STATIC_MATERIALIZATION_COMPLETE_CHILD_PROVIDER_EXECUTION_BLOCKED_UNTIL_EXPLICIT_CHILD_DONOR_MARKERS_AND_INDIVIDUAL_ADMISSION",
   "current_host": {
     "structural_gui_change": true,
     "physical_requalification_required": true,
