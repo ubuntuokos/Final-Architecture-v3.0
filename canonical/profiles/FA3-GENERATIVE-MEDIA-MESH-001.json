@@ -122,5 +122,8 @@
       "donor_id": "FA3-DONOR-GOOGLE-ANTIGRAVITY-SDK-PYTHON-001",
       "reason": "ORIGINAL_DONOR_INTAKE_INVARIANT_FORBIDS_APPLICATION_USAGE_REGISTRATION_WITHOUT_SEPARATE_ADOPTION_DECISION"
     }
-  ]
+  ],
+  "gate_id": "FA3-GATE-GENERATIVE-MEDIA-MESH-001",
+  "static_gate_command": "python src/fa3_generative_media_mesh_gate.py",
+  "regression_command": "python -m unittest tests/test_generative_media_mesh_20261004.py"
 }
