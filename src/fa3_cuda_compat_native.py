@@ -6,7 +6,7 @@ from typing import Any
 
 from fa3_cuda_compat_backends import lower_amd_hip, lower_intel_opencl, lower_intel_sycl
 from fa3_cuda_compat_frontend import SOURCE_KIND, parse_cuda_translation_unit
-from fa3_cuda_compat_runtime import runtime_api_support
+from fa3_cuda_compat_runtime import AMD_RUNTIME_TOKEN_MAP, runtime_api_support
 
 NATIVE_BACKEND_NAME = "cfa3-cuda-compat"
 EXTERNAL_SCALE_RUNTIME_DEPENDENCY = False
@@ -74,12 +74,17 @@ def analyze_cuda_source(source: str, *, target_vendor: str, source_kind: str = S
             if feature in ir.detected_features: findings.add(feature)
         if target["target_backend"] == "sycl" and "SHARED_MEMORY" in ir.detected_features:
             findings.add("CUDA_SHARED_MEMORY_REQUIRES_SYCL_LOCAL_ACCESSOR_ADAPTER")
-        if ir.runtime_calls: findings.add("CUDA_RUNTIME_API_REQUIRES_HOST_ADAPTER")
+        if ir.cuda_identifiers:
+            findings.add("CUDA_RUNTIME_API_REQUIRES_HOST_ADAPTER")
+            for symbol in ir.cuda_identifiers:
+                limitations.add(f"CUDA_RUNTIME_IDENTIFIER_REQUIRES_HOST_ADAPTER:{symbol}")
         limitations.add("HOST_LAUNCH_ADAPTER_REQUIRED")
         limitations.add("SYCL_QUEUE_AND_CONTEXT_BINDING_REQUIRED" if target["target_backend"]=="sycl" else "OPENCL_HOST_LAUNCH_BINDING_REQUIRED")
     elif vendor == "AMD":
         runtime = runtime_api_support(ir.runtime_calls,target_vendor="AMD",target_backend="hip")
         for symbol in runtime["unsupported_symbols"]: findings.add(f"UNSUPPORTED_RUNTIME_SYMBOL:{symbol}")
+        for symbol in sorted(set(ir.cuda_identifiers) - set(AMD_RUNTIME_TOKEN_MAP)):
+            findings.add(f"UNSUPPORTED_CUDA_IDENTIFIER:{symbol}")
     findings_list=sorted(findings)
     supported=not findings_list
     compatibility="UNAVAILABLE" if not supported else ("FULL_EQUIVALENCE" if vendor=="AMD" else "FUNCTIONALLY_REDUCED")
@@ -90,7 +95,7 @@ def analyze_cuda_source(source: str, *, target_vendor: str, source_kind: str = S
         "target_language":target.get("target_language") if target else None,
         "required_device_backends":list(target.get("required_device_backends",())) if target else [],
         "alternative_target_backends":list(target.get("alternative_target_backends",())) if target else [],
-        "detected_features":list(ir.detected_features),"runtime_calls":list(ir.runtime_calls),"driver_calls":list(ir.driver_calls),"math_calls":list(ir.math_calls),
+        "detected_features":list(ir.detected_features),"runtime_calls":list(ir.runtime_calls),"cuda_identifiers":list(ir.cuda_identifiers),"driver_calls":list(ir.driver_calls),"math_calls":list(ir.math_calls),
         "kernel_count":len(ir.kernels),"ir":ir.as_dict(),"unsupported_features":findings_list,"known_limitations":sorted(limitations),
         "result":compatibility,"compatibility_result":compatibility,"supported":supported,
         "full_cuda_parity_claimed":False,"closed_binary_compatibility_claimed":False,
