@@ -174,6 +174,8 @@ class GoalFoundationTests(unittest.TestCase):
                          "fa3.agent-workload-task.v1")
         self.assertEqual(plan["steps"][0]["runtime_admission"],
                          "PENDING_EXISTING_AUTHORITIES")
+        self.assertEqual(plan["steps"][0]["workload_candidate"]["scope_origin"], "EXPLICIT_USER_SCOPE")
+        self.assertEqual(plan["steps"][0]["workload_candidate"]["scope_refs"], ["synthetic test fixture"])
 
     def test_preflight_missing_authority_fails(self):
         p = preflight()
@@ -288,6 +290,17 @@ class GoalFoundationTests(unittest.TestCase):
         g["revision"] = 2
         with self.assertRaises(GoalContractError):
             assess_evidence(g, evidence(), plan=p)
+
+    def test_repair_rejects_foreign_or_incomplete_criterion_sets(self):
+        assessment = assess_evidence(fixture(), [])
+        forged = copy.deepcopy(assessment)
+        forged["criteria"].append({"criterion_id": "C-foreign", "status": "BLOCKED", "reason": "FORGED"})
+        with self.assertRaises(GoalContractError):
+            propose_repair(fixture(), forged, 0)
+        incomplete = copy.deepcopy(assessment)
+        incomplete["criteria"] = []
+        with self.assertRaises(GoalContractError):
+            propose_repair(fixture(), incomplete, 0)
 
     def test_repair_is_bounded_and_never_executes(self):
         a = assess_evidence(fixture(), [])
