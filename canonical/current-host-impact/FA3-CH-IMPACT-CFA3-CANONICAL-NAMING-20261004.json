@@ -1,0 +1,19 @@
+{
+  "schema": "fa3.current-host-structural-impact.v1",
+  "id": "FA3-CH-IMPACT-CFA3-CANONICAL-NAMING-20261004",
+  "date": "2026-10-04",
+  "status": "NO_RUNTIME_IMPACT",
+  "capability_count": 175,
+  "structural_changes": [
+    "canonical/FA3-CFA3-CANONICAL-NAMING-COMPATIBILITY-POLICY-001.json",
+    "canonical/decisions/FA3-DEC-CFA3-CANONICAL-NAMING-2026-10-04.json",
+    "src/fa3_enforce.py",
+    "src/fa3_naming_compatibility_gate.py"
+  ],
+  "current_host_changes": [],
+  "physical_requalification_required": false,
+  "historical_evidence_reused": false,
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "rationale": "This change defines and enforces repository-wide CFA3 product naming and FA3 alias interpretation only, including a fail-closed binding into the existing global static enforcement path. It does not add or modify executable product runtime behavior, provider/model admission, package dependencies, device drivers, services, ports, credentials, hardware state, HRB paths or Current Host evidence collection. Existing FA3 machine identifiers remain unchanged unless separately migrated."
+}

@@ -1,0 +1,111 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-CFA3-CANONICAL-NAMING-REUSE-ASSESSMENT-2026-10-04",
+  "project_id": "FA3-CFA3-CANONICAL-NAMING-COMPATIBILITY-POLICY-001",
+  "intent_id": "FA3-CFA3-CANONICAL-NAMING-APPLICATION-INTENT-2026-10-04",
+  "intent_path": "canonical/intents/FA3-CFA3-CANONICAL-NAMING-APPLICATION-INTENT-2026-10-04.json",
+  "covered_ids": [
+    "FA3-CFA3-CANONICAL-NAMING-COMPATIBILITY-POLICY-001"
+  ],
+  "project_status": "OWNER_DIRECTIVE_STATIC_POLICY_MATERIALIZATION",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "MANDATORY_EXISTING_REUSE_DISCOVERY"
+    },
+    {
+      "id": "FA3-CUDA-PORTABILITY-SHARED-FUNCTION-POLICY-001",
+      "use": "EXISTING_REPOSITORY_PRECEDENT_ALREADY_TREATS_FA3_AND_CFA3_AS_ONE_PRODUCT_SCOPE"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "MASS_RENAME_EXISTING_FA3_IDENTIFIERS",
+      "reason": "WOULD_BREAK_REFERENTIAL_INTEGRITY_HISTORY_OR_COMPATIBILITY"
+    },
+    {
+      "id": "SECOND_PRODUCT_IDENTITY_FOR_FA3",
+      "reason": "OWNER_DIRECTIVE_DEFINES_FA3_AS_HISTORICAL_ALIAS_OF_CFA3"
+    },
+    {
+      "id": "NEW_ARCHITECTURAL_AUTHORITY",
+      "reason": "NAMING_POLICY_REQUIRES_NO_NEW_AUTHORITY"
+    },
+    {
+      "id": "NEW_TOP_LEVEL_CAPABILITY",
+      "reason": "NAMING_AND_ALIAS_SEMANTICS_USE_EXISTING_IDENTITY_AND_COMPATIBILITY_BEHAVIOR"
+    }
+  ],
+  "pattern_reuse": [
+    {
+      "source_id": "FA3-CUDA-PORTABILITY-SHARED-FUNCTION-POLICY-001",
+      "pattern": "FA3_AND_CFA3_ALREADY_SHARE_ONE_POLICY_SCOPE"
+    }
+  ],
+  "existing_authority_bindings": {
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "gaps": [],
+  "hardware_audit": {
+    "result": "PASS",
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_behavior_changed": false,
+    "physical_current_host_pass_claimed": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespace_contract_complete": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "claims_default_port": false,
+    "runtime_resources_created": false
+  },
+  "donor_planning_snapshot": {
+    "published_main_commit": "b5052f6595a3fdad84ed7a06e6276f8af5a8dcd8",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "1362d75186c6da74e5cf947fdf0b8867d462636a",
+    "donor_registry_sha256": "b8d0eb42ee02885863af375071ffae89033664089ddba3c69682a8d0f7c7cff1",
+    "donor_registry_entry_count": 1427
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "GLOBAL_POLICY",
+    "shared_component_ids": [
+      "FA3-CFA3-CANONICAL-NAMING-COMPATIBILITY-POLICY-001"
+    ],
+    "retrospective_consumer_impact_reviewed": true,
+    "local_duplicate_created": false,
+    "rationale": "Product identity interpretation is repository-wide and must be governed once rather than duplicated per application."
+  },
+  "pending_or_unmerged_donors_consumed": false,
+  "donor_usage_edges_created": 0,
+  "adopted_donors": [],
+  "donor_pattern_reuse": [],
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "available_candidate_ids": [],
+      "matched_candidate_ids": [],
+      "roles": [
+        "MANDATORY_SOURCE_FAMILY_REVIEW"
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_activation": false
+    }
+  ],
+  "intent_contract_validation": "PASS"
+}
