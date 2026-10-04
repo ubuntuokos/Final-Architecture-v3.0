@@ -9,6 +9,7 @@
   "goal": "Allow explicitly admitted CUDA-oriented workloads to use Spectral Compute SCALE on supported AMD GPUs without making CUDA a capability, without application-local CUDA cores, and without silent fallback.",
   "requirements": [
     "SCALE is a shared backend adapter, not a capability.",
+    "The central shared compatibility implementation must be available through one common entry point to every current and future CFA3 application; per-application backend cores and access allowlists are forbidden.",
     "AMD device binding must use live exact PCI identity from SCALE discovery.",
     "SCALE execution must be license-rights gated and disabled without a valid receipt.",
     "No automatic SCALE install, scaleenv activation, PATH mutation, driver mutation or package mutation.",
@@ -67,5 +68,16 @@
     "FA3-AUTH-HOST-RESOURCE-BROKER-001",
     "FA3-LICENSE-RIGHTS-001"
   ],
-  "reuse_discovery_declared": true
+  "reuse_discovery_declared": true,
+  "consumer_scope": {
+    "applications": [
+      "PLANNED_APPLICATIONS",
+      "IN_PROGRESS_APPLICATIONS",
+      "MATERIALIZED_APPLICATIONS",
+      "FUTURE_APPLICATIONS"
+    ],
+    "access": "CENTRAL_SHARED_ENTRYPOINT",
+    "application_allowlist": false,
+    "application_local_implementation": false
+  }
 }
