@@ -1,0 +1,76 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-PHRESHOS-ORG-2026-10-04",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "MATERIALIZED_PENDING_EXACT_HEAD_GATES",
+  "mode": "APPEND_ONLY_OWNER_EXPLICIT_REFERENCE_INTAKE",
+  "parent_commit": "df24cb9d1fa2413b08c8d47461bdb2db799585f6",
+  "parent_registry_blob_sha": "1362d75186c6da74e5cf947fdf0b8867d462636a",
+  "parent_entry_count": 1427,
+  "source_count": 1,
+  "unique_source_key_count": 1,
+  "matched_existing_count": 0,
+  "proposed_entry_count": 1428,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "provider_count_policy": "DYNAMIC_UNCHANGED",
+  "approval_ref": "docs/donor-phreshos-org-2026-10-04.md",
+  "observed_child_repository_count": 21,
+  "requirements": [
+    "Preserve the exact owner-marked PhreshOS GitHub organization URL as one canonical organization-level donor/reference identity.",
+    "Treat the organization as a discovery index only; child repositories are not recursively admitted.",
+    "Any selected child repository requires independent exact-source provenance plus License & Rights, security, Software Coexistence, dependency/runtime and usage-edge review.",
+    "PhreshOS System/Core/SDK/UI patterns may inform FA3-native designs but do not create a second runtime, permission, orchestration or application authority.",
+    "Human, agent, CLI and inter-application access patterns remain subject to existing FA3 UAF/MCP, Security, Temporal and application authority boundaries.",
+    "Upstream Node/Bun/web assumptions do not override FA3 CPU-only, Hardware Safety, host coexistence or Current Host evidence requirements.",
+    "Fixed capability baseline 175 and dynamic provider-count policy remain unchanged.",
+    "No automatic fetch, install, code copy, dependency adoption, provider/model selection, runtime activation or Current Host claim."
+  ],
+  "sources": [
+    {
+      "url": "https://github.com/PhreshOS",
+      "normalized_key": "github:phreshos",
+      "donor_id": "FA3-DONOR-PHRESHOS-ORG-001",
+      "kind": "GITHUB_ORGANIZATION",
+      "status": "ACCEPTED_REFERENCE",
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      }
+    }
+  ],
+  "discovery_classes": [
+    "CANONICAL_CORE_CONTRACTS",
+    "SYSTEM_AUTHORITY_AND_ADAPTER_BOUNDARIES",
+    "PROGRAM_PROCESS_ENDPOINT_LIFECYCLE",
+    "INTER_PROGRAM_COMMUNICATION",
+    "PERMISSION_AND_CAPABILITY_BOUNDARIES",
+    "HUMAN_AGENT_UNIFIED_OPERATIONS",
+    "MACHINE_DISCOVERABLE_COMMAND_SCHEMA",
+    "CLIENT_SERVER_EXTERNAL_ADAPTER_SYMMETRY",
+    "SHARED_APPEARANCE_AND_ACCESSIBLE_UI",
+    "VERIFIED_PACKAGING_INSTALLATION_AND_BOOTSTRAP"
+  ],
+  "boundaries": {
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "automatic_code_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "child_repository_auto_registration": false,
+    "usage_edge_created": false,
+    "capability_count_change": false,
+    "authority_change": false,
+    "runtime_change": false,
+    "current_host_pass_claimed": false
+  },
+  "submitted_url_count": 1,
+  "new_source_count": 1,
+  "serialization_scope": "ROLLING_FIVE_SLOT_DONOR_MAINTENANCE",
+  "serialization_order": "ASCENDING_ESTIMATED_INTAKE_WORKLOAD_THEN_FIFO",
+  "max_active_donor_intakes": 5,
+  "expected_initial_state": "ACTIVE_SLOT_PENDING_FIFO_FINALIZATION_AFTER_EARLIER_ONE_SOURCE_INTAKE_664"
+}
