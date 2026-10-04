@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOMOC ON)
 
-find_package(Qt6 6.4 REQUIRED COMPONENTS Quick QuickControls2 QuickDialogs2 WebEngineQuick PrintSupport Network DBus)
+find_package(Qt6 6.4 REQUIRED COMPONENTS Quick QuickControls2 QuickDialogs2 WebEngineQuick PrintSupport Network DBus Multimedia)
 
 qt_standard_project_setup(REQUIRES 6.4)
 
@@ -151,6 +151,7 @@ target_link_libraries(fa3-control-center
         Qt6::PrintSupport
         Qt6::Network
         Qt6::DBus
+        Qt6::Multimedia
 )
 
 install(TARGETS fa3-control-center
