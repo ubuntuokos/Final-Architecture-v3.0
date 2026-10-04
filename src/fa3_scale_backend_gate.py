@@ -6,9 +6,10 @@ import json
 from pathlib import Path
 from typing import Any
 
+from fa3_release_baseline import module_active_capability_count
 from fa3_scale_backend import evaluate_scale_execution_rights, parse_scaleinfo
 
-CAPABILITY_COUNT = 175
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 
 
 def loadj(root: Path, rel: str) -> dict[str, Any]:
