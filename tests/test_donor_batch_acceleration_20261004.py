@@ -30,15 +30,15 @@ class DonorBatchAccelerationTests(unittest.TestCase):
 
     def test_exact_backlog_union_and_baseline(self):
         self.assertEqual(self.registry["capability_count"], 175)
-        self.assertEqual(len(self.registry["entries"]), 1512)
-        self.assertEqual(self.registry["backfill"]["entry_count"], 1512)
+        self.assertEqual(len(self.registry["entries"]), 1525)
+        self.assertEqual(self.registry["backfill"]["entry_count"], 1525)
         self.assertEqual(self.manifest["parent_entry_count"], 1427)
-        self.assertEqual(self.manifest["new_source_count"], 85)
-        self.assertEqual(self.manifest["resulting_entry_count"], 1512)
+        self.assertEqual(self.manifest["new_source_count"], 98)
+        self.assertEqual(self.manifest["resulting_entry_count"], 1525)
         self.assertEqual(self.manifest["capability_delta"], 0)
         self.assertEqual(self.manifest["authority_delta"], 0)
-        self.assertEqual(sum(x["contribution"] for x in self.manifest["source_prs"]), 85)
-        self.assertEqual(len(self.manifest["source_prs"]), 15)
+        self.assertEqual(sum(x["contribution"] for x in self.manifest["source_prs"]), 98)
+        self.assertEqual(len(self.manifest["source_prs"]), 17)
 
     def test_materialized_identities_are_unique_and_present(self):
         entries = self.registry["entries"]
@@ -47,7 +47,7 @@ class DonorBatchAccelerationTests(unittest.TestCase):
         self.assertEqual(len(ids), len(set(ids)))
         self.assertEqual(len(keys), len(set(keys)))
         materialized = self.manifest["materialized"]
-        self.assertEqual(len(materialized), 85)
+        self.assertEqual(len(materialized), 98)
         registry_ids = set(ids)
         registry_keys = set(keys)
         for row in materialized:
@@ -66,6 +66,17 @@ class DonorBatchAccelerationTests(unittest.TestCase):
         pending[0]["head_sha"] = "0" * 40
         _, mismatch = batch_manifest_coverage(ROOT, pending, 999999)
         self.assertEqual(mismatch, [self.manifest["source_prs"][0]["pr"]])
+
+    def test_live_queue_stale_dedup_and_existing_enrichment(self):
+        reconciled = self.manifest["reconciled_existing_identities"]
+        self.assertEqual(len(reconciled), 5)
+        by_key = {x["source"]["normalized_key"]: x for x in self.registry["entries"]}
+        self.assertEqual(by_key["github:microsoft/onnxruntime"]["donor_id"], "FA3-DONOR-MICROSOFT-ONNX-RUNTIME-001")
+        self.assertEqual(by_key["github:microsoft/onnxruntime"]["status"], "ACCEPTED_REFERENCE")
+        self.assertEqual(by_key["github:microsoft/directxshadercompiler"]["status"], "ACCEPTED_REFERENCE")
+        self.assertEqual(by_key["github:doitsujin/dxvk"]["status"], "ACCEPTED_REFERENCE")
+        self.assertEqual(by_key["github:microsoft/directxtex"]["status"], "ACCEPTED_REFERENCE")
+        self.assertEqual(by_key["github:microsoft/directx-headers"]["status"], "ACCEPTED_REFERENCE")
 
     def test_single_writer_batch_policy_is_canonical(self):
         self.assertEqual(MAX_ACTIVE_DONOR_INTAKES, 5)
