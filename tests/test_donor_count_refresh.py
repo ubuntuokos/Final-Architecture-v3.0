@@ -60,6 +60,12 @@ class CountRefreshTests(unittest.TestCase):
         plan=self.root/plan_rel
         plan.parent.mkdir(parents=True,exist_ok=True)
         plan.write_text("# approved plan\nprocessed: github:example/planned\n",encoding="utf-8")
+        assessment_rel="canonical/assessments/FA3-TEST-PLAN-DONOR-ASSESSMENT.json"
+        assessment=self.root/assessment_rel
+        assessment.parent.mkdir(parents=True,exist_ok=True)
+        assessment.write_text(json.dumps({
+            "planning_processed_donors":[{"normalized_key":"github:example/planned"}]
+        }),encoding="utf-8")
         approval_rel="canonical/decisions/FA3-DEC-TEST-PLAN-APPROVAL.json"
         approval=self.root/approval_rel
         approval.parent.mkdir(parents=True,exist_ok=True)
@@ -68,6 +74,8 @@ class CountRefreshTests(unittest.TestCase):
             "explicit_user_approval":True,
             "approved_plan_path":plan_rel,
             "approved_plan_sha256":hashlib.sha256(plan.read_bytes()).hexdigest(),
+            "approved_donor_assessment_path":assessment_rel,
+            "approved_donor_assessment_sha256":hashlib.sha256(assessment.read_bytes()).hexdigest(),
             "user_request_ref":"conversation:test-plan",
             "donor_registration_authorization":"APPROVED_PLAN_PROCESSED_DONORS_ONLY",
             "approved_processed_donor_keys":["github:example/planned"]
@@ -90,6 +98,12 @@ class CountRefreshTests(unittest.TestCase):
         plan=self.root/plan_rel
         plan.parent.mkdir(parents=True,exist_ok=True)
         plan.write_text("# approved plan\nprocessed: github:example/allowed\n",encoding="utf-8")
+        assessment_rel="canonical/assessments/FA3-TEST-PLAN-DONOR-ASSESSMENT.json"
+        assessment=self.root/assessment_rel
+        assessment.parent.mkdir(parents=True,exist_ok=True)
+        assessment.write_text(json.dumps({
+            "planning_processed_donors":[{"normalized_key":"github:example/allowed"}]
+        }),encoding="utf-8")
         approval_rel="canonical/decisions/FA3-DEC-TEST-PLAN-APPROVAL.json"
         approval=self.root/approval_rel
         approval.parent.mkdir(parents=True,exist_ok=True)
@@ -98,6 +112,8 @@ class CountRefreshTests(unittest.TestCase):
             "explicit_user_approval":True,
             "approved_plan_path":plan_rel,
             "approved_plan_sha256":hashlib.sha256(plan.read_bytes()).hexdigest(),
+            "approved_donor_assessment_path":assessment_rel,
+            "approved_donor_assessment_sha256":hashlib.sha256(assessment.read_bytes()).hexdigest(),
             "user_request_ref":"conversation:test-plan",
             "donor_registration_authorization":"APPROVED_PLAN_PROCESSED_DONORS_ONLY",
             "approved_processed_donor_keys":["github:example/allowed"]
@@ -109,6 +125,38 @@ class CountRefreshTests(unittest.TestCase):
                 owner_submitted_link=False,explicit_donor_marker=False,
                 plan_approval_ref=approval_rel,seen_date="2026-10-04")
         self.assertEqual(self.current()["backfill"]["entry_count"],0)
+
+    def test_approved_plan_registration_rejects_approval_set_not_equal_to_assessment(self):
+        plan_rel="docs/test-approved-plan.md"
+        plan=self.root/plan_rel
+        plan.parent.mkdir(parents=True,exist_ok=True)
+        plan.write_text("# approved plan\n",encoding="utf-8")
+        assessment_rel="canonical/assessments/FA3-TEST-PLAN-DONOR-ASSESSMENT.json"
+        assessment=self.root/assessment_rel
+        assessment.parent.mkdir(parents=True,exist_ok=True)
+        assessment.write_text(json.dumps({
+            "planning_processed_donors":[{"normalized_key":"github:example/processed"}]
+        }),encoding="utf-8")
+        approval_rel="canonical/decisions/FA3-DEC-TEST-PLAN-APPROVAL.json"
+        approval=self.root/approval_rel
+        approval.parent.mkdir(parents=True,exist_ok=True)
+        approval.write_text(json.dumps({
+            "status":"APPROVED",
+            "explicit_user_approval":True,
+            "approved_plan_path":plan_rel,
+            "approved_plan_sha256":hashlib.sha256(plan.read_bytes()).hexdigest(),
+            "approved_donor_assessment_path":assessment_rel,
+            "approved_donor_assessment_sha256":hashlib.sha256(assessment.read_bytes()).hexdigest(),
+            "user_request_ref":"conversation:test-plan",
+            "donor_registration_authorization":"APPROVED_PLAN_PROCESSED_DONORS_ONLY",
+            "approved_processed_donor_keys":["github:example/other"]
+        }),encoding="utf-8")
+        with self.assertRaisesRegex(ValueError,"APPROVED_PROCESSED_DONOR_SET_MISMATCH"):
+            capture_candidate(
+                self.root,name="other",source_kind="GITHUB",
+                source_locator="https://github.com/example/other",
+                owner_submitted_link=False,explicit_donor_marker=False,
+                plan_approval_ref=approval_rel,seen_date="2026-10-04")
 
     def test_batched_ingest_commits_one_coherent_count(self):
         sources = " ".join("https://github.com/example/tool" + str(i) for i in range(4))
