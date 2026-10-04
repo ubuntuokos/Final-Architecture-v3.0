@@ -20,7 +20,7 @@ def run():
         findings.append("GMM-001 capability baseline drift")
     if profile.get("new_capability") is not False or profile.get("new_architectural_authority") is not False:
         findings.append("GMM-002 capability or authority expansion")
-    if assessment.get("donor_planning_snapshot", {}).get("pending_or_unmerged_donors_consumed") is not False:
+    if assessment.get("pending_or_unmerged_donors_consumed") is not False:
         findings.append("GMM-003 pending donor consumed")
     if decision.get("child_admission_state") != "BLOCKED_PENDING_EXPLICIT_CHILD_DONOR_MARKERS_AND_INDIVIDUAL_GATES":
         findings.append("GMM-004 child admission not fail-closed")
