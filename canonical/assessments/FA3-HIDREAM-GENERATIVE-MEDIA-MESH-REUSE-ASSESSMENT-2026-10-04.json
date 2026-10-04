@@ -1,0 +1,83 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-HIDREAM-GENERATIVE-MEDIA-MESH-REUSE-ASSESSMENT-2026-10-04",
+  "project_id": "FA3-GENERATIVE-MEDIA-MESH-001",
+  "intent_id": "FA3-HIDREAM-GENERATIVE-MEDIA-MESH-APPLICATION-INTENT-2026-10-04",
+  "result": "PASS_STATIC_MATERIALIZATION_ONLY",
+  "donor_planning_snapshot": {
+    "published_main_commit": "df24cb9d1fa2413b08c8d47461bdb2db799585f6",
+    "donor_registry_blob_sha": "1362d75186c6da74e5cf947fdf0b8867d462636a",
+    "donor_registry_entry_count": 1427,
+    "capability_count": 175,
+    "pending_or_unmerged_donors_consumed": false
+  },
+  "shared_capability_placement": {
+    "required": true,
+    "selected_profile_id": "FA3-GENERATIVE-MEDIA-MESH-001",
+    "application_local_duplication": false,
+    "rationale": "Image, storyboard, motion, video refinement, character animation, research and skill-scoring semantics span multiple FA3 applications and therefore belong in one provider-neutral shared layer."
+  },
+  "donor_pattern_reuse": [
+    {
+      "donor_id": "FA3-DONOR-HUGGINGFACE-DIFFUSERS-001",
+      "use": "PROVIDER_NEUTRAL_DIFFUSION_PIPELINE_PATTERN"
+    },
+    {
+      "donor_id": "FA3-DONOR-XDIT-001",
+      "use": "ZERO_TO_N_ACCELERATOR_DIT_RESOURCE_PROJECTION_PATTERN"
+    },
+    {
+      "donor_id": "FA3-DONOR-VIDEOSYS-001",
+      "use": "GENERATION_RUNTIME_SERVING_LIFECYCLE_PATTERN"
+    },
+    {
+      "donor_id": "FA3-DONOR-NVLABS-SANA-001",
+      "use": "GENERATOR_REFINER_LIFECYCLE_PATTERN"
+    },
+    {
+      "donor_id": "FA3-DONOR-VIGOZHAO-AI-VISUAL-PROMPT-COOKBOOK-001",
+      "use": "VISUAL_PROMPT_CAMERA_STYLE_STRUCTURE_PATTERN"
+    },
+    {
+      "donor_id": "FA3-DONOR-KAOMEI-STICKMAN-VIDEO-DIRECTOR-001",
+      "use": "SHOT_BEAT_CONTINUITY_DURATION_PATTERN"
+    },
+    {
+      "donor_id": "FA3-DONOR-SEE-THROUGH-001",
+      "use": "LAYER_OCCLUSION_PREPROCESSING_PATTERN"
+    },
+    {
+      "donor_id": "FA3-DONOR-HIGRESS-GROUP-HIROUTE-001",
+      "use": "BOUNDED_STAGE_AWARE_ROUTING_PATTERN"
+    },
+    {
+      "donor_id": "FA3-DONOR-SYSTEM-ONE-HARNESS-001",
+      "use": "CONFIDENCE_GATE_HANDOFF_TRACE_PATTERN"
+    },
+    {
+      "donor_id": "FA3-DONOR-GOOGLE-ANTIGRAVITY-SDK-PYTHON-001",
+      "use": "MULTIMODAL_AGENT_TOOL_SESSION_PATTERN"
+    },
+    {
+      "donor_id": "FA3-DONOR-TOBYFLOW-001",
+      "use": "VISUAL_DAG_BATCH_RETRY_PROGRESS_UI_PATTERN_REFERENCE_ONLY"
+    }
+  ],
+  "hidream_org_use": {
+    "donor_id": "FA3-DONOR-HIDREAM-AI-ORG-001",
+    "use": "DISCOVERY_AND_PROVENANCE_PARENT_ONLY",
+    "material_runtime_adoption": false,
+    "usage_edge_required_for_runtime": false,
+    "child_repositories_inherited": false
+  },
+  "donor_usage_edges_created": 7,
+  "existing_usage_edges_reused": 4,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 175,
+  "current_host_impact": {
+    "classification": "STRUCTURAL_REASSESSMENT_REQUIRED",
+    "physical_requalification_required": true,
+    "physical_pass_claimed": false
+  }
+}
