@@ -1,0 +1,186 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-VOICE-STUDIO-CONTRACTS-001",
+  "version": "1.0.0",
+  "profile_id": "FA3-VOICE-STUDIO-001",
+  "status": "CANONICAL",
+  "provider_neutral": true,
+  "contracts": {
+    "workspace_state": {
+      "schema": "fa3.voice-workspace-state.v1",
+      "required": [
+        "schema",
+        "version",
+        "voice_profiles",
+        "captures",
+        "jobs",
+        "handoffs"
+      ],
+      "local_only": true,
+      "canonical_authority": false
+    },
+    "voice_profile": {
+      "schema": "fa3.voice-profile-record.v1",
+      "required": [
+        "voice_profile_id",
+        "name",
+        "languages",
+        "identity_kind",
+        "consent_status",
+        "created_at",
+        "updated_at"
+      ],
+      "identity_kind_enum": [
+        "SYNTHETIC",
+        "HUMAN_AUTHORIZED",
+        "PRESET"
+      ],
+      "rules": [
+        "HUMAN_AUTHORIZED requires a non-empty consent_proof_ref and consent_status=GRANTED",
+        "profile cannot select physical provider/model/device",
+        "voice profile identity is stable across applications"
+      ]
+    },
+    "capture": {
+      "schema": "fa3.voice-capture-record.v1",
+      "required": [
+        "capture_id",
+        "language",
+        "source_ref",
+        "created_at",
+        "status",
+        "provenance"
+      ],
+      "status_enum": [
+        "CAPTURED",
+        "TRANSCRIBING",
+        "TRANSCRIBED",
+        "REFINED",
+        "PROMOTED_TO_REFERENCE",
+        "BLOCKED",
+        "CANCELLED"
+      ],
+      "rules": [
+        "original source_ref and raw transcript lineage are immutable",
+        "network egress requires separate authorization"
+      ]
+    },
+    "generation_job": {
+      "schema": "fa3.voice-generation-job.v1",
+      "required": [
+        "job_id",
+        "request",
+        "status",
+        "created_at",
+        "authority_bindings"
+      ],
+      "status_enum": [
+        "QUEUED",
+        "BLOCKED_NOT_ADMITTED",
+        "ROUTE_READY",
+        "DISPATCHED",
+        "RUNNING",
+        "COMPLETED",
+        "FAILED",
+        "CANCELLED"
+      ],
+      "rules": [
+        "application may stage and persist jobs but cannot self-admit providers",
+        "ROUTE_READY requires a valid FA3-VOICE-001 provider decision",
+        "DISPATCHED requires UAF mediation and fresh policy/resource checks",
+        "COMPLETED requires provider result and execution evidence"
+      ]
+    },
+    "fit_to_clip": {
+      "schema": "fa3.voice-fit-to-clip-plan.v1",
+      "required": [
+        "target_duration_ms",
+        "generated_duration_ms",
+        "options",
+        "silent_text_rewrite"
+      ],
+      "silent_text_rewrite": false,
+      "bounded_rate_range": [
+        0.85,
+        1.15
+      ],
+      "options": [
+        "BOUNDED_RATE_ADJUSTMENT",
+        "SCRIPT_SHORTENING_PROPOSAL",
+        "EXTEND_VIDEO",
+        "KEEP_ORIGINAL_TIMING"
+      ]
+    },
+    "quick_dub": {
+      "schema": "fa3.voice-quick-dub-plan.v1",
+      "required": [
+        "source_language",
+        "target_language",
+        "speaker_mappings",
+        "stages",
+        "status"
+      ],
+      "stages": [
+        "STT",
+        "SPEAKER_SEGMENTATION",
+        "OPTIONAL_TRANSLATION",
+        "VOICE_PROFILE_MAPPING",
+        "TTS",
+        "ALIGNMENT",
+        "EDITABLE_MIX"
+      ],
+      "rules": [
+        "translation is optional and separately routed",
+        "speaker mappings require known Voice Profiles",
+        "no automatic voice identity inference authorizes cloning"
+      ]
+    },
+    "timeline_handoff": {
+      "schema": "fa3.voice-timeline-handoff.v1",
+      "required": [
+        "handoff_id",
+        "job_id",
+        "clip_id",
+        "audio_asset_ref",
+        "tracks",
+        "editable",
+        "provenance"
+      ],
+      "rules": [
+        "handoff does not mutate a host timeline without host/UAF authorization",
+        "caption and ducking tracks remain editable"
+      ]
+    },
+    "plugin_host": {
+      "schema": "fa3.voice-plugin-host-contract.v1",
+      "required": [
+        "plugin_id",
+        "projection",
+        "host_application",
+        "allowed_actions",
+        "permissions"
+      ],
+      "projection_enum": [
+        "QUICK",
+        "STANDARD",
+        "ADVANCED"
+      ],
+      "rules": [
+        "plugin cannot own model/provider/device routing",
+        "host grants only declared typed actions",
+        "AI subfeatures are independently toggleable"
+      ]
+    }
+  },
+  "authority_bindings": {
+    "voice": "FA3-VOICE-001",
+    "model_router": "FA3-AUTH-MODEL-ROUTER-001",
+    "hrb": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "uaf": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "mcp": "FA3-AUTH-MCP-GATEWAY-001",
+    "workflow": "Temporal"
+  },
+  "capability_count": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}
