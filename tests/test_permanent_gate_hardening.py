@@ -7,6 +7,8 @@ from pathlib import Path
 from fa3_permanent_gate_hardening import (
     canonical_json_bytes,
     explicit_gate_pass,
+    discover_current_host_workflows,
+    protected_action_pin_workflows,
     scan_workflow_action_pins,
     verify_binding,
     authority_input_snapshot,
@@ -72,6 +74,49 @@ def test_action_pin_guard_rejects_mutable_tags(tmp_path: Path):
         == []
     )
 
+
+
+def test_current_host_workflow_discovery_covers_filename_and_content(tmp_path: Path):
+    workflow_root = tmp_path / ".github/workflows"
+    workflow_root.mkdir(parents=True)
+    (workflow_root / "direct-current-host.yml").write_text(
+        "steps:\n  - uses: actions/checkout@"
+        "3d3c42e5aac5ba805825da76410c181273ba90b1\n",
+        encoding="utf-8",
+    )
+    (workflow_root / "adjacent.yml").write_text(
+        "name: adjacent\n# verifies current_host evidence linkage\n",
+        encoding="utf-8",
+    )
+    (workflow_root / "unrelated.yml").write_text(
+        "name: unrelated\n", encoding="utf-8"
+    )
+
+    discovered = discover_current_host_workflows(
+        tmp_path, ["current-host", "current_host", "fa3-current-host"]
+    )
+    assert ".github/workflows/direct-current-host.yml" in discovered
+    assert ".github/workflows/adjacent.yml" in discovered
+    assert ".github/workflows/unrelated.yml" not in discovered
+
+
+def test_protected_action_pin_scope_includes_current_host_adjacent_workflows(tmp_path: Path):
+    workflow_root = tmp_path / ".github/workflows"
+    workflow_root.mkdir(parents=True)
+    (workflow_root / "protected.yml").write_text("name: protected\n", encoding="utf-8")
+    (workflow_root / "adjacent.yml").write_text(
+        "name: adjacent\n# current-host evidence guard\n", encoding="utf-8"
+    )
+    config = {
+        "sha_pinned_workflows": [".github/workflows/protected.yml"],
+        "sha_pin_current_host_linked_workflows": True,
+        "current_host_workflow_markers": ["current-host", "current_host", "fa3-current-host"],
+    }
+    paths = protected_action_pin_workflows(tmp_path, config)
+    assert paths == [
+        ".github/workflows/adjacent.yml",
+        ".github/workflows/protected.yml",
+    ]
 
 def test_binding_verifier_fails_after_subject_mutation(tmp_path: Path):
     subject = tmp_path / "subject.json"
@@ -140,7 +185,7 @@ def test_trusted_workflow_never_executes_candidate_code():
     )
     assert (
         scan_workflow_action_pins(
-            ROOT, config["sha_pinned_workflows"]
+            ROOT, protected_action_pin_workflows(ROOT, config)
         )
         == []
     )
