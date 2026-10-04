@@ -25,5 +25,65 @@
     "silent fallback",
     "simulated Current Host PASS",
     "donor-branded standalone application"
-  ]
+  ],
+  "required_capabilities": [
+    "CAP-005",
+    "CAP-014",
+    "CAP-016",
+    "CAP-041",
+    "CAP-069",
+    "CAP-095",
+    "CAP-111",
+    "CAP-112",
+    "CAP-128",
+    "CAP-135",
+    "CAP-143",
+    "CAP-148",
+    "CAP-149",
+    "CAP-154",
+    "CAP-156",
+    "CAP-159",
+    "CAP-160",
+    "CAP-163",
+    "CAP-166",
+    "CAP-167"
+  ],
+  "optional_capabilities": [],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_mutation": false,
+    "live_resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3",
+    "service_prefix": "fa3",
+    "config_root": "$XDG_CONFIG_HOME/fa3",
+    "cache_root": "$XDG_CACHE_HOME/fa3",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3",
+    "socket_namespace": "fa3",
+    "data_root": "$XDG_DATA_HOME/fa3",
+    "desktop_prefix": "org.fa3",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "FA3-IMGGEN-CONTRACTS-001",
+    "FA3-MMG-CONTEXT-IR-CONTRACTS-001",
+    "FA3-VIDEO-001",
+    "FA3-VIDEO-REFINEMENT-CONTRACTS-001",
+    "FA3-ENGINE-SELECTION-FABRIC-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-LICENSE-RIGHTS-001",
+    "FA3-AUTH-OBS-EVIDENCE-001"
+  ],
+  "reuse_discovery_declared": true
 }
