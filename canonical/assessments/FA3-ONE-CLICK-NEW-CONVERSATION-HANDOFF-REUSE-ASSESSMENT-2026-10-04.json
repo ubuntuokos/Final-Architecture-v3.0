@@ -1,0 +1,130 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-ONE-CLICK-NEW-CONVERSATION-HANDOFF-REUSE-ASSESSMENT-2026-10-04",
+  "project_id": "FA3-UI-COMPONENT-FABRIC-001",
+  "intent_id": "FA3-ONE-CLICK-NEW-CONVERSATION-HANDOFF-APPLICATION-INTENT-2026-10-04",
+  "intent_path": "canonical/intents/FA3-ONE-CLICK-NEW-CONVERSATION-HANDOFF-APPLICATION-INTENT-2026-10-04.json",
+  "covered_ids": [
+    "FA3-UI-COMPONENT-FABRIC-001",
+    "FA3-UI-COMPONENT-FABRIC-CONTRACTS-001",
+    "FA3-RULE-ONE-CLICK-NEW-CONVERSATION-HANDOFF-001"
+  ],
+  "project_status": "OWNER_APPROVED_CROSS_APPLICATION_UX_GOVERNANCE_MATERIALIZATION",
+  "result": "PASS",
+  "reuse_disposition": "REUSE_EXISTING_SHARED_UI_COMPONENT_FABRIC",
+  "assessment_provenance": {
+    "type": "OWNER_APPROVED_REUSE_REASSESSMENT",
+    "reviewed_on": "2026-10-04",
+    "planning_basis": "PUBLISHED_MAIN_DONOR_REGISTRY_ONLY",
+    "owner_approved_plan": true,
+    "owner_approved_materialization": true
+  },
+  "selected_reuse": [
+    {
+      "id": "FA3-UI-COMPONENT-FABRIC-001",
+      "use": "EXISTING_SHARED_UI_COMPONENT_AND_INTERACTION_GOVERNANCE"
+    },
+    {
+      "id": "FA3-DESKTOP-001",
+      "use": "EXISTING_DESKTOP_CLIPBOARD_AND_UI_PLATFORM_BOUNDARY"
+    },
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "MANDATORY_EXISTING_REUSE_AND_DONOR_PLANNING_GATE"
+    },
+    {
+      "id": "FA3-OS-PRIVACY-GOVERNANCE",
+      "use": "PRESERVE_GENERIC_CLIPBOARD_CAPTURE_DENY; ALLOW_ONLY EXPLICIT USER-INITIATED HANDOFF COPY"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "NEW_HANDOFF_UI_AUTHORITY",
+      "reason": "THE REQUIREMENT IS A CROSS-APPLICATION UI INVARIANT AND BELONGS IN THE EXISTING UI COMPONENT FABRIC"
+    },
+    {
+      "id": "NEW_CLIPBOARD_AUTHORITY",
+      "reason": "ONE-CLICK COPY IS A USER-INITIATED UI ACTION; EXISTING DESKTOP/PLATFORM CLIPBOARD SUPPORT REMAINS THE EXECUTION BOUNDARY"
+    },
+    {
+      "id": "EXTERNAL_DONOR_FOR_HANDOFF_COPY",
+      "reason": "PUBLISHED DONOR REGISTRY REVIEW FOUND NO REQUIRED EXTERNAL DONOR; THE EXISTING SHARED UI FABRIC FULLY COVERS THE RULE"
+    }
+  ],
+  "pattern_reuse": [
+    "SHARED_UI_COMPONENT_FABRIC",
+    "FAIL_CLOSED_HANDOFF_INTEGRITY",
+    "EXPLICIT_USER_INITIATED_CLIPBOARD_WRITE"
+  ],
+  "gaps": [],
+  "existing_authority_bindings": {
+    "ui_component_fabric": "FA3-UI-COMPONENT-FABRIC-001",
+    "desktop": "FA3-DESKTOP-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "runtime_hardware_change": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_hijack": false,
+    "second_ui_authority_created": false,
+    "second_clipboard_authority_created": false
+  },
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "authority": false,
+      "automatic_selection": false,
+      "rationale": "The one-click new-conversation handoff rule is shared UI/clipboard interaction governance. No Khronos graphics, compute, media, XR or related open-standard adapter is required for this rule."
+    }
+  ],
+  "donor_planning_snapshot": {
+    "published_main_commit": "90d3928905a5fcfa328a527b82741b3faa78b4a6",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "1362d75186c6da74e5cf947fdf0b8867d462636a",
+    "donor_registry_sha256": "b8d0eb42ee02885863af375071ffae89033664089ddba3c69682a8d0f7c7cff1",
+    "donor_registry_entry_count": 1427
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "retrospective_consumer_impact_reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "rationale": "New-conversation handoff rendering and copy semantics are cross-application UI behavior. They are materialized once in the existing FA3 UI Component Fabric and projected to every CFA3/FA3 consumer surface rather than duplicated per application.",
+    "shared_component_ids": [
+      "FA3-UI-COMPONENT-FABRIC-001",
+      "FA3-UI-COMPONENT-FABRIC-CONTRACTS-001"
+    ],
+    "consumer_scope": [
+      "FA3/CFA3 development handoffs",
+      "Assistant",
+      "Coach",
+      "Mentor",
+      "Manager",
+      "Agent Workload",
+      "Orchestration Workforce",
+      "Control Center",
+      "current and future CFA3/FA3 applications"
+    ],
+    "local_duplicate_created": false
+  },
+  "pending_or_unmerged_donors_consumed": false,
+  "donor_adoption_authorized": false,
+  "adoption_authorized": false,
+  "implementation_readiness": "READY_FOR_GOVERNANCE_FINALIZATION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}

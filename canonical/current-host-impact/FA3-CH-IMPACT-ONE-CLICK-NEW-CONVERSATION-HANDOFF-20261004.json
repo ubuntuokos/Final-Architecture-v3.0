@@ -1,0 +1,15 @@
+{
+  "schema": "fa3.current-host-structural-impact.v1",
+  "id": "FA3-CH-IMPACT-ONE-CLICK-NEW-CONVERSATION-HANDOFF-20261004",
+  "status": "NO_RUNTIME_IMPACT",
+  "structural_changes": [
+    "canonical/decisions/FA3-DEC-ONE-CLICK-NEW-CONVERSATION-HANDOFF-2026-10-04.json",
+    "canonical/contracts/FA3-UI-COMPONENT-FABRIC-CONTRACTS-001.json",
+    "canonical/FA3-GATE-UI-COMPONENT-FABRIC-001.json",
+    "src/fa3_ui_component_fabric_gate.py"
+  ],
+  "current_host_changes": [],
+  "physical_requalification_required": false,
+  "historical_evidence_reused": false,
+  "rationale": "This changes canonical development governance and the shared UI Component Fabric contract/gate so future CFA3/FA3 new-conversation handoff surfaces must expose one atomic one-click copy target. It does not materialize or change a current-host QML surface, clipboard backend, runner, provider, model, host service, resource allocation, hardware behavior, Current Host proof recipe, evidence semantics or promotion authority. No runtime PASS is claimed; therefore no fresh physical Current Host requalification is required for this governance/contract closure."
+}

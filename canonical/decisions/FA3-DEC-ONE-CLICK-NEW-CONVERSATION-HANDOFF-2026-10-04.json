@@ -1,0 +1,52 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-ONE-CLICK-NEW-CONVERSATION-HANDOFF-2026-10-04",
+  "date": "2026-10-04",
+  "status": "CANONICAL_CLOSED",
+  "subject": "One-click complete new-conversation handoff",
+  "decision": "ACCEPT_AND_MANDATE",
+  "rule_id": "FA3-RULE-ONE-CLICK-NEW-CONVERSATION-HANDOFF-001",
+  "contract_family_id": "FA3-UI-COMPONENT-FABRIC-CONTRACTS-001",
+  "canonical_classification": "P0/MUST cross-application handoff UX invariant: every new-conversation handoff payload is one atomic copy target and the complete payload is copied by one explicit user action, including one-word or single-character handoffs.",
+  "applies_to": {
+    "fa3_cfa3_development_process": true,
+    "cfa3_fa3_product": true,
+    "current_and_future_applications": true,
+    "assistant_agent_workflow_surfaces": true
+  },
+  "trigger_semantics": [
+    "OWNER_REQUESTS_FOLYTASD_UJ_BESZELGETESBEN_OR_SEMANTIC_EQUIVALENT",
+    "PRODUCT_SURFACE_GENERATES_HANDOFF_FOR_NEW_CONVERSATION_SESSION_OR_CONTEXT"
+  ],
+  "invariants": {
+    "complete_handoff_payload_in_exactly_one_copy_target": true,
+    "required_copy_activation_count": 1,
+    "visible_direct_copy_control_required": true,
+    "split_payload_across_copy_targets": "FORBIDDEN",
+    "payload_fragment_outside_single_copy_target": "FORBIDDEN",
+    "manual_text_selection_required": false,
+    "scrolling_required_to_copy_complete_payload": false,
+    "visual_scrolling_may_not_change_copy_scope": true,
+    "one_word_or_single_character_exception": false,
+    "payload_length_exception": false,
+    "user_initiated_clipboard_write_only": true,
+    "clipboard_read_before_copy": false,
+    "background_clipboard_capture": "FORBIDDEN",
+    "clipboard_unavailable_or_copy_failure": "FAIL_CLOSED_NOT_READY"
+  },
+  "non_payload_companion_text": {
+    "allowed": true,
+    "may_be_required_to_continue_in_new_conversation": false,
+    "may_contain_handoff_payload_fragment": false
+  },
+  "shared_product_projection": {
+    "profile_id": "FA3-UI-COMPONENT-FABRIC-001",
+    "contract_id": "FA3-UI-COMPONENT-FABRIC-CONTRACTS-001",
+    "local_duplicate_required": false
+  },
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "current_host_runtime_promotion_claim": false,
+  "promotion_claimed": false
+}

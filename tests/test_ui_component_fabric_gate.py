@@ -68,5 +68,47 @@ class UiComponentFabricGateTests(unittest.TestCase):
         self.assertFalse(evidence["individual_component_production_admitted"])
 
 
+    def test_one_click_new_conversation_handoff_is_mandatory_and_atomic(self):
+        contract = load("canonical/contracts/FA3-UI-COMPONENT-FABRIC-CONTRACTS-001.json")
+        self.assertEqual(load_active_release_baseline(ROOT).capability_count, contract["capability_count"])
+        self.assertIn("NewConversationHandoffDescriptor", contract["contracts"])
+        handoff = contract["new_conversation_handoff"]
+        self.assertEqual("FA3-RULE-ONE-CLICK-NEW-CONVERSATION-HANDOFF-001", handoff["rule_id"])
+        self.assertEqual("P0", handoff["priority"])
+        self.assertEqual("MUST", handoff["requirement"])
+        payload = handoff["payload_integrity"]
+        self.assertTrue(payload["complete_payload_in_exactly_one_copy_target"])
+        self.assertEqual("FORBIDDEN", payload["split_payload_across_copy_targets"])
+        self.assertEqual("FORBIDDEN", payload["payload_fragment_outside_single_copy_target"])
+        self.assertFalse(payload["one_word_or_single_character_exempt"])
+        self.assertFalse(payload["payload_length_exempt"])
+        interaction = handoff["interaction"]
+        self.assertTrue(interaction["visible_direct_copy_control_required"])
+        self.assertEqual(1, interaction["required_copy_activation_count"])
+        self.assertFalse(interaction["manual_text_selection_required"])
+        self.assertFalse(interaction["scrolling_required_to_copy_complete_payload"])
+        self.assertTrue(interaction["visual_scrolling_may_not_change_copy_scope"])
+
+    def test_handoff_clipboard_is_explicit_write_only_and_decision_covers_both_lines(self):
+        contract = load("canonical/contracts/FA3-UI-COMPONENT-FABRIC-CONTRACTS-001.json")
+        clipboard = contract["new_conversation_handoff"]["clipboard"]
+        self.assertEqual("EXPLICIT_USER_INITIATED_WRITE_ONLY", clipboard["mode"])
+        self.assertFalse(clipboard["read_before_copy"])
+        self.assertFalse(clipboard["background_capture"])
+        self.assertFalse(clipboard["generic_clipboard_capture"])
+        self.assertEqual("FAIL_CLOSED_NOT_READY", clipboard["unavailable_or_copy_failure"])
+
+        decision = load("canonical/decisions/FA3-DEC-ONE-CLICK-NEW-CONVERSATION-HANDOFF-2026-10-04.json")
+        self.assertEqual("CANONICAL_CLOSED", decision["status"])
+        self.assertEqual("ACCEPT_AND_MANDATE", decision["decision"])
+        self.assertTrue(decision["applies_to"]["fa3_cfa3_development_process"])
+        self.assertTrue(decision["applies_to"]["cfa3_fa3_product"])
+        self.assertFalse(decision["invariants"]["one_word_or_single_character_exception"])
+        self.assertEqual(1, decision["invariants"]["required_copy_activation_count"])
+        self.assertEqual(175, decision["capability_count_after"])
+        self.assertEqual(0, decision["new_capabilities"])
+        self.assertEqual(0, decision["new_architectural_authorities"])
+
+
 if __name__ == "__main__":
     unittest.main()
