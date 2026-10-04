@@ -24,6 +24,18 @@ This file is a scoped operational projection for coding agents. It is not a cano
 - Never apply overvoltage, out-of-policy overclocking, unsafe power limits, or bypass thermal, current, fan, firmware, driver or other hardware safety protections.
 - If the safe operating range cannot be proven for the exact device and control, fail closed and do not mutate the hardware setting. Existing user tuning is not authority to increase or extend tuning.
 
+## CUDA-oriented portability and shared-function rule
+
+- This rule applies to the **FA3/CFA3 development process** and to the resulting **FA3/CFA3 product behavior**.
+- A donor, library, model, runtime component, algorithm or feature path classified as **strongly CUDA-oriented** is not rejected merely for CUDA orientation. Before application integration or runtime admission, assess whether the same function can run on the actual target hardware through a native, portable, translation/compatibility, or independently admitted alternative implementation/provider.
+- Target-hardware assessment must not skip AMD or Intel when those are relevant deployment targets. NVIDIA, AMD and Intel are the minimum reference vendor families; live discovered hardware and approved deployment targets determine the actual matrix.
+- Record each target as **FULL_EQUIVALENCE**, **FUNCTIONALLY_REDUCED**, or **UNAVAILABLE**. Never assume feature parity from device presence, framework claims, or a translation layer.
+- A strongly CUDA-oriented functional core may exist **only in a shared FA3/CFA3 layer/service/contract**. Application-local CUDA-oriented functional cores and duplicated per-application backend implementations are forbidden unless an explicit reviewed exception is recorded. Applications may contain only UI integration, workflow adapters, application context, presentation and limitation disclosure around the shared core.
+- If an alternative backend is functionally reduced, the affected FA3/CFA3 UI must clearly disclose the target hardware, selected backend/alternative and the missing or reduced functions; material performance or memory restrictions must also be shown when known.
+- If the function is unavailable on the selected target hardware, fail closed and mark the function unavailable/disabled. Do not silently switch to CUDA, another accelerator, a cloud provider, or a reduced path.
+- HRB remains the resource placement/lease authority, Model Router remains model/provider routing authority, Hardware Safety retains precedence, and the existing display-GPU rule remains unchanged.
+- Material runtime admission requires a target/backend test matrix and evidence. A policy or static test PASS does not create physical Current Host PASS.
+
 ## Change discipline
 
 - Add or update tests for governed behavior changes.

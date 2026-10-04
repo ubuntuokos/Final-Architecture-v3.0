@@ -134,12 +134,66 @@ class HardwarePortabilityGateTests(unittest.TestCase):
 
         self.assertTrue(enforcement["hardware_safety_fail_closed"])
         self.assertEqual("FA3-DEC-HARDWARE-SAFETY-2026-09-26",enforcement["hardware_safety_decision_id"])
-        self.assertEqual(40,enforcement["mandatory_rule_count"])
+        self.assertEqual(47,enforcement["mandatory_rule_count"])
         self.assertEqual(
             "MANDATORY_FAIL_CLOSED_HARDWARE_SAFETY_ENVELOPE_NO_UNSAFE_HARDWARE_TUNING",
             decision["decision"],
         )
         self.assertFalse(decision["enforcement"]["user_override_may_bypass_safety_envelope"])
+
+
+    def test_cuda_oriented_capabilities_require_shared_portable_assessment(self):
+        policy=json.loads((ROOT/"canonical/FA3-CUDA-PORTABILITY-SHARED-FUNCTION-POLICY-001.json").read_text(encoding="utf-8"))
+        profile=json.loads((ROOT/"canonical/profiles/FA3-HARDWARE-BASELINE-001.json").read_text(encoding="utf-8"))
+        enforcement=json.loads((ROOT/"canonical/hardware-portability-enforcement.json").read_text(encoding="utf-8"))
+
+        self.assertEqual({"FA3","CFA3"},set(policy["scope"]["product_families"]))
+        assess=policy["mandatory_portability_assessment"]
+        self.assertTrue(assess["required_before_application_integration"])
+        self.assertTrue({"NVIDIA","AMD","INTEL"} <= set(assess["reference_vendor_families"]))
+        self.assertEqual(
+            {"FULL_EQUIVALENCE","FUNCTIONALLY_REDUCED","UNAVAILABLE"},
+            set(assess["assessment_result_enum"]),
+        )
+
+        placement=policy["shared_placement_policy"]
+        self.assertEqual("SHARED_LAYER_ONLY",placement["strongly_cuda_oriented_function_core"])
+        self.assertEqual("FORBIDDEN",placement["application_local_functional_core"])
+        ux=policy["product_runtime_and_ux_policy"]
+        self.assertTrue(ux["limitation_disclosure_required"])
+        self.assertFalse(ux["may_hide_reduced_functionality"])
+        self.assertFalse(ux["may_silently_fallback_to_cuda_or_other_backend"])
+
+        bound=profile["cuda_portability_shared_function_policy"]
+        self.assertEqual("SHARED_LAYER_ONLY",bound["function_core_placement"])
+        self.assertEqual("MANDATORY_USER_VISIBLE",bound["reduced_functionality_disclosure"])
+        self.assertFalse(bound["silent_backend_substitution"])
+
+        required={
+            "STRONGLY_CUDA_ORIENTED_CAPABILITY_REQUIRES_TARGET_HARDWARE_ALTERNATIVE_ASSESSMENT",
+            "AMD_AND_INTEL_ALTERNATIVE_PATHS_MUST_NOT_BE_SKIPPED_WHEN_TARGETED",
+            "CUDA_ORIENTED_FUNCTIONAL_CORE_MUST_BE_SHARED_LAYER_ONLY",
+            "APPLICATION_LOCAL_CUDA_ORIENTED_FUNCTIONAL_CORE_IS_FORBIDDEN",
+            "TARGET_HARDWARE_FUNCTIONAL_REDUCTION_MUST_BE_USER_VISIBLE",
+            "TARGET_BACKEND_UNAVAILABLE_MUST_FAIL_CLOSED",
+            "NO_SILENT_CUDA_OR_ACCELERATOR_BACKEND_SUBSTITUTION",
+        }
+        self.assertTrue(required <= set(enforcement["p0_invariants"]))
+        mandatory={row["invariant"] for row in enforcement["rules"] if row["mandatory"]}
+        self.assertTrue(required <= mandatory)
+
+    def test_gate_report_exposes_cuda_portability_shared_policy(self):
+        result=evaluate(ROOT)
+        policy=result["cuda_portability_shared_function"]
+        self.assertTrue(policy["target_hardware_assessment_required"])
+        self.assertEqual("SHARED_LAYER_ONLY",policy["function_core_placement"])
+        self.assertEqual("MANDATORY_USER_VISIBLE",policy["reduced_functionality_disclosure"])
+        self.assertEqual("FAIL_CLOSED_DISABLED_OR_UNAVAILABLE",policy["unavailable_behavior"])
+        self.assertFalse(policy["silent_backend_substitution"])
+        names={row["name"]:row["status"] for row in result["checks"]}
+        self.assertEqual("PASS",names["cuda-portability-shared-function-policy"])
+        self.assertEqual("PASS",names["cuda-portability-enforcement-rules"])
+
 
     def test_runtime_fixed_vendor_lists_are_blocking(self):
         for line in (
