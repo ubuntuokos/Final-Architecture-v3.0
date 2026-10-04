@@ -114,6 +114,7 @@ jobs:
                       or p.startswith('canonical/deltas/FA3-DONOR-')
                       or p.startswith('canonical/deltas/CFA3-DONOR-')
                       or p == 'canonical/decisions/CFA3-DEC-DONOR-INTAKE-BATCH-ACCELERATION-2026-10-04.json'
+            or p == 'canonical/assessments/CFA3-DONOR-INTAKE-BATCH-ACCELERATION-REUSE-ASSESSMENT-2026-10-04.json'
                       or p.startswith('canonical/current-host-impact/CFA3-DONOR-INTAKE-BATCH-ACCELERATION-')
                       or (p.startswith('canonical/references/') and 'DONOR' in p.upper())
                       or p.startswith('tests/test_donor_') or p.startswith('tests/test_donors_'))
