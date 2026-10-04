@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "73ae98a8db785aa3781a8569b8d827dc8eb55586",
-    "pre_projection_root_tree_sha": "0e0ef008840a49b967b1b21dd1236651be2ad03d",
-    "pre_projection_canonical_tree_sha": "aa1aa54b4ba5b422e7ce6399ccc90aa43d48359e",
-    "commits_ahead_of_v3_0_11_conformance_commit": 3103,
-    "total_post_baseline_commits": 3103,
-    "delta_file_count": 2998,
-    "delta_added_files": 2992,
+    "pre_projection_head_sha": "fc7b819709ada8efb44d163554575c1606d1e855",
+    "pre_projection_root_tree_sha": "5caae59613f1d1a213fbb448e836f2179bf4b578",
+    "pre_projection_canonical_tree_sha": "cf2c7a08c177a380e5895f2cd296e7f9428b45aa",
+    "commits_ahead_of_v3_0_11_conformance_commit": 3111,
+    "total_post_baseline_commits": 3111,
+    "delta_file_count": 3000,
+    "delta_added_files": 2994,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,7 +46,7 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1406,
+    "canonical_files_in_post_baseline_delta": 1408,
     "evidence_files_in_post_baseline_delta": 172,
     "source_files_in_post_baseline_delta": 378,
     "test_files_in_post_baseline_delta": 355,
@@ -605,6 +605,7 @@
       "canonical/decisions/FA3-DEC-NEURAL-RENDERING-OPENDLSS-NR-2026-09-23.json",
       "canonical/decisions/FA3-DEC-NO-OPEN-ENDED-TASK-EXPANSION-2026-10-04.json",
       "canonical/decisions/FA3-DEC-OBSIDIAN-KNOWLEDGE-WORKSPACE-2026-09-07.json",
+      "canonical/decisions/FA3-DEC-ONE-CLICK-CONVERSATION-HANDOFF-2026-10-04.json",
       "canonical/decisions/FA3-DEC-OPENBMB-2026-09-02.json",
       "canonical/decisions/FA3-DEC-OPENCLAW-API-LIST-RECONCILIATION-2026-10-02.json",
       "canonical/decisions/FA3-DEC-OPENCUT-PROGRAMMABLE-EDITOR-2026-09-01.json",
@@ -1073,7 +1074,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2988,
+  "manifest_entry_count": 2990,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1802,7 +1803,7 @@
     },
     {
       "path": "AGENTS.md",
-      "git_blob_sha": "e35006cc5ff935ce123096ef09f38a4eebae5d30",
+      "git_blob_sha": "4c1d8d2c76674ba9c0efa1aec997bc45de6788b8",
       "baseline_delta_status": "added"
     },
     {
@@ -5642,7 +5643,7 @@
     },
     {
       "path": "canonical/contracts/FA3-SHARED-CONVERSATION-SESSION-CONTRACTS-001.json",
-      "git_blob_sha": "c49e9c8417c1d388b0113de161bb92524c9d97f5",
+      "git_blob_sha": "4de7dcffd804c2fad0a8ab828298def874797737",
       "baseline_delta_status": "added"
     },
     {
@@ -5938,6 +5939,11 @@
     {
       "path": "canonical/current-host-impact/FA3-CH-IMPACT-NO-OPEN-ENDED-TASK-EXPANSION-20261004.json",
       "git_blob_sha": "24bed144d4c0cf599ac9062882260dbf55c29fd7",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/current-host-impact/FA3-CH-IMPACT-ONE-CLICK-CONVERSATION-HANDOFF-20261004.json",
+      "git_blob_sha": "3bd5f9d7916742b05ef4a2ba75255e54f3aed361",
       "baseline_delta_status": "added"
     },
     {
@@ -6568,6 +6574,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-OBSIDIAN-KNOWLEDGE-WORKSPACE-2026-09-07.json",
       "git_blob_sha": "e33cff615258313dc4ca5d499bb13fbd45d5c9f3",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-ONE-CLICK-CONVERSATION-HANDOFF-2026-10-04.json",
+      "git_blob_sha": "21fd0c7fb3325acb1f30b707f4e0e446741eb0d5",
       "baseline_delta_status": "added"
     },
     {
@@ -8327,7 +8338,7 @@
     },
     {
       "path": "canonical/profiles/FA3-SHARED-CONVERSATION-SESSION-001.json",
-      "git_blob_sha": "f3cd52a5777fc06f407f2817f5567a27a030ca85",
+      "git_blob_sha": "d7550e31777cf584a4141965387aaf14458db54a",
       "baseline_delta_status": "added"
     },
     {
