@@ -50,13 +50,20 @@
   "gaps": [],
   "hardware_audit": {
     "result": "PASS",
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
     "hardware_behavior_changed": false,
     "physical_current_host_pass_claimed": false
   },
   "coexistence": {
     "result": "PASS",
-    "runtime_or_package_mutation": false,
-    "global_namespace_rewrite": false
+    "namespace_contract_complete": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "claims_default_port": false,
+    "runtime_resources_created": false
   },
   "donor_planning_snapshot": {
     "published_main_commit": "b5052f6595a3fdad84ed7a06e6276f8af5a8dcd8",
@@ -99,5 +106,6 @@
       "automatic_selection": false,
       "automatic_activation": false
     }
-  ]
+  ],
+  "intent_contract_validation": "PASS"
 }
