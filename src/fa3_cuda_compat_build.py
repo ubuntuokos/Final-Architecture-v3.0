@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from typing import Any, Iterable
 
-_VALUE_FLAGS = {"-I", "-D", "-U", "-include", "-isystem", "-o", "-x", "--std", "-std"}
+_VALUE_FLAGS = {"-I", "-D", "-U", "-include", "-isystem", "-o", "-x", "--std", "-std", "-arch", "--gpu-architecture", "-gencode", "--generate-code"}
 _PREFIX_FLAGS = ("-I", "-D", "-U", "-std=", "--std=", "-O")
 _EXACT_FLAGS = {
     "-g", "-G", "-lineinfo", "--use_fast_math",
