@@ -55,7 +55,7 @@ jobs:
     name: language-gateway / P0
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Compile gates, collector and reference runtime
         run: |
           python3 -m py_compile \

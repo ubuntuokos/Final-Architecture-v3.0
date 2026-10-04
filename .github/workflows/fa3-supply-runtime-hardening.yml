@@ -59,9 +59,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: {fetch-depth: 0, persist-credentials: false}
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with: {python-version: "3.12"}
       - name: Syntax
         run: python -m py_compile src/fa3_supply_chain_admission.py src/fa3_provider_runtime.py src/fa3_upstream_patchset.py src/fa3_hrb_composite_lease.py src/fa3_supply_runtime_hardening_gate.py tools/fa3_supply_chain_scan.py tools/fa3_bind_provider_runtime.py tools/fa3_prepare_upstream_patchset.py
@@ -77,7 +77,7 @@ jobs:
         run: ./bin/fa3-enforce distribution-compliance
       - name: Diff whitespace
         run: git diff --check HEAD^ HEAD
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         if: always()
         with:
           name: fa3-supply-runtime-hardening-gate
