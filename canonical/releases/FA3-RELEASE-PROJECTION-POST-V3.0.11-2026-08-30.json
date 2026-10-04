@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "c87de3b9ae925f502a465d110e2bf50b82a308df",
-    "pre_projection_root_tree_sha": "2d261c841b2d619693079197f8560ee6e8bbe553",
-    "pre_projection_canonical_tree_sha": "3db40abf375c6f55a9904bcfd3bdffb333a3cf07",
-    "commits_ahead_of_v3_0_11_conformance_commit": 2982,
-    "total_post_baseline_commits": 2982,
-    "delta_file_count": 2966,
-    "delta_added_files": 2960,
+    "pre_projection_head_sha": "25dc8ea801e306efaf2350b70bee85f60ca56f95",
+    "pre_projection_root_tree_sha": "6267c95a1b777741499c445fbed9f632c09ef529",
+    "pre_projection_canonical_tree_sha": "b74f2a58525a5f2a5967d7682858b15dd86c04f6",
+    "commits_ahead_of_v3_0_11_conformance_commit": 2997,
+    "total_post_baseline_commits": 2997,
+    "delta_file_count": 2975,
+    "delta_added_files": 2969,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,11 +46,11 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1379,
+    "canonical_files_in_post_baseline_delta": 1384,
     "evidence_files_in_post_baseline_delta": 172,
-    "source_files_in_post_baseline_delta": 377,
-    "test_files_in_post_baseline_delta": 354,
-    "workflow_files_in_post_baseline_delta": 143,
+    "source_files_in_post_baseline_delta": 378,
+    "test_files_in_post_baseline_delta": 355,
+    "workflow_files_in_post_baseline_delta": 144,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENCY-AGENTS-001.json",
@@ -1068,7 +1068,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2956,
+  "manifest_entry_count": 2965,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1481,6 +1481,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": ".github/workflows/fa3-local-ai-model-development-policy.yml",
+      "git_blob_sha": "6deb0a71735ec80d8f368da84d5723215b5b4fcc",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": ".github/workflows/fa3-marketing-current-host.yml",
       "git_blob_sha": "0a0b9eaf2026f5befdc6df314e101d11d7171e46",
       "baseline_delta_status": "added"
@@ -1797,7 +1802,7 @@
     },
     {
       "path": "AGENTS.md",
-      "git_blob_sha": "eb6f31cf5d578368fbee81219f81a6acadc83a8a",
+      "git_blob_sha": "62edaef312217dcb8b8364656b3b318b5e963479",
       "baseline_delta_status": "added"
     },
     {
@@ -2917,7 +2922,7 @@
     },
     {
       "path": "canonical/FA3-AI-STUDIO-APP-CATALOG-001.json",
-      "git_blob_sha": "ec1c925f853967143791fa1d8dfbdd2cccec26d7",
+      "git_blob_sha": "83a77e5f5387fd1e5f0c6c1289c6741ce39094cf",
       "baseline_delta_status": "added"
     },
     {
@@ -3748,6 +3753,11 @@
     {
       "path": "canonical/FA3-LAVASR-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "f9523a154d0e2d4961bed0ff0ee13235ff6ca261",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-LOCAL-AI-MODEL-DEVELOPMENT-POLICY-001.json",
+      "git_blob_sha": "507d3d8c6553ee48ab522905fba96dd22f987e44",
       "baseline_delta_status": "added"
     },
     {
@@ -4668,6 +4678,11 @@
     {
       "path": "canonical/assessments/FA3-LICENSE-RIGHTS-REUSE-ASSESSMENT-001.json",
       "git_blob_sha": "25138ba9f9454ebc5cc5e332ff0c082ba8511c44",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/assessments/FA3-LOCAL-AI-MODEL-DEVELOPMENT-POLICY-REUSE-ASSESSMENT-2026-10-04.json",
+      "git_blob_sha": "fee85f30826842ae4f33e6c1133db701903275a3",
       "baseline_delta_status": "added"
     },
     {
@@ -5868,6 +5883,11 @@
     {
       "path": "canonical/current-host-impact/FA3-CH-IMPACT-175-525-RECONCILIATION-20260930.json",
       "git_blob_sha": "3249fc3c166443f9c3ea3f331513c1ca5622a6e6",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/current-host-impact/FA3-LOCAL-AI-MODEL-DEVELOPMENT-POLICY-2026-10-04.json",
+      "git_blob_sha": "5face4ea2691b32eb0be925ddece693013da4c19",
       "baseline_delta_status": "added"
     },
     {
@@ -7271,6 +7291,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/intents/FA3-LOCAL-AI-MODEL-DEVELOPMENT-POLICY-INTENT-2026-10-04.json",
+      "git_blob_sha": "6d401aa1d065fea6121600f4f6040950f22cbe30",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/intents/FA3-MINIMAX-H3-RUNTIME-ADMISSION-APPLICATION-INTENT-2026-10-02.json",
       "git_blob_sha": "d80c5ea9283c1eb894adecfb1b8ca4284f6bc283",
       "baseline_delta_status": "added"
@@ -7478,6 +7503,11 @@
     {
       "path": "canonical/license-rights/provenance/FA3-AGENT-RUNNERS-001.json",
       "git_blob_sha": "a530b1825d4c82e1b3c857c479be70d5409b84c9",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/local-ai-model-development-enforcement.json",
+      "git_blob_sha": "e7a0fcc3137887dc586eb0981bc4ce6981ffa4d8",
       "baseline_delta_status": "added"
     },
     {
@@ -10711,6 +10741,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/local-ai-model-development-policy.md",
+      "git_blob_sha": "068eaa495f0a862b5d3591d11a1a29167920f4a4",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/mentor/FA3-MENTOR-ENHANCEMENT-001.md",
       "git_blob_sha": "3bbb45b0c25cf630695f18eef94b8a84c0cd664c",
       "baseline_delta_status": "added"
@@ -13121,6 +13156,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_local_ai_model_development_gate.py",
+      "git_blob_sha": "2589eec0e5a81126c4a52eafd477b108c211cbf6",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_local_decision_provider.py",
       "git_blob_sha": "0740efacb8198682b5eeff50b8edcfc8dd39f487",
       "baseline_delta_status": "added"
@@ -15073,6 +15113,11 @@
     {
       "path": "tests/test_license_rights_audit.py",
       "git_blob_sha": "b4de6e6c0a7d04ae85c858653cfb60b7eefb587c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_local_ai_model_development_gate.py",
+      "git_blob_sha": "f865d17192ef090df9ef49e0072c959d2d7e8ccf",
       "baseline_delta_status": "added"
     },
     {
