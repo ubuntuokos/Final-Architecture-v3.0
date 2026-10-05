@@ -22,6 +22,7 @@ from fa3_task_scope_closure import (
     MAX_SAME_BLOCKER_ATTEMPTS,
     NEW_TASK_DISCOVERED,
     POLICY_ID,
+    REQUESTED_RESULT_SCOPE_GUARD_ID,
     TaskScopeClosureError,
     assert_execution_allowed,
     blocker_fingerprint,
@@ -142,11 +143,39 @@ class TaskScopeClosureTests(unittest.TestCase):
         self.assertEqual(binding["policy_id"], POLICY_ID)
         self.assertEqual(binding["max_same_blocker_attempts"], 3)
         self.assertFalse(binding["automatic_scope_expansion"])
+        self.assertEqual(binding["requested_result_scope_guard_id"], REQUESTED_RESULT_SCOPE_GUARD_ID)
+        self.assertTrue(binding["requested_result_is_exclusive_execution_target"])
+        self.assertEqual(
+            binding["action_admission"],
+            "DIRECTLY_REQUIRED_FOR_REQUESTED_RESULT_OR_MINIMUM_NECESSARY_BLOCKER_RESOLUTION",
+        )
+        self.assertEqual(binding["self_generated_subtask"], "FORBIDDEN")
+        self.assertEqual(
+            binding["blocker_resolution_scope"],
+            "MINIMUM_NECESSARY_FOR_REQUESTED_RESULT_ONLY",
+        )
+        self.assertFalse(binding["blocker_resolution_may_expand_scope"])
+        self.assertEqual(binding["completion_after_requested_result"], "STOP")
+        self.assertFalse(binding["automatic_post_completion_work"])
         changed = goal()
         changed["revision"] = 8
         self.assertNotEqual(goal_scope_binding(changed)["goal_digest"], binding["goal_digest"])
         with self.assertRaises(TaskScopeClosureError):
             validate_goal_scope_binding(binding, expected_root_task_id="other-goal")
+
+    def test_requested_result_scope_guard_is_immutable_in_task_control(self):
+        binding, control = self.control()
+        self.assertEqual(control["requested_result_scope_guard_id"], REQUESTED_RESULT_SCOPE_GUARD_ID)
+        self.assertTrue(control["requested_result_is_exclusive_execution_target"])
+        self.assertEqual(control["self_generated_subtask"], "FORBIDDEN")
+        tampered = copy.deepcopy(control)
+        tampered["automatic_post_completion_work"] = True
+        with self.assertRaises(TaskScopeClosureError):
+            validate_task_control(tampered, expected_binding=binding)
+        tampered = copy.deepcopy(control)
+        tampered["blocker_resolution_may_expand_scope"] = True
+        with self.assertRaises(TaskScopeClosureError):
+            validate_task_control(tampered, expected_binding=binding)
 
     def test_main_task_binding_is_immutable_and_owner_only(self):
         binding, control = self.control()
