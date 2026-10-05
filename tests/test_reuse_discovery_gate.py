@@ -13,6 +13,7 @@ from fa3_reuse_assessment import assess_intent
 from fa3_reuse_catalog import build_catalog
 from fa3_reuse_resolver import bounded_rank, resolve
 from fa3_reuse_gate import (
+    _khronos_review_findings,
     validate_assessment_donor_usage_edges,
     validate_donor_planning_snapshot,
     validate_shared_capability_placement,
@@ -90,6 +91,32 @@ class ReuseDiscoveryTests(unittest.TestCase):
         self.assertIn(review["review_status"], {"MATCHED", "REVIEWED_NO_MATCH"})
         self.assertFalse(review["authority"])
         self.assertFalse(review["automatic_selection"])
+
+    def test_khronos_review_is_derived_when_committed_mirror_is_omitted(self):
+        assessment = {
+            "id": "TEST-REUSE-ASSESSMENT",
+            "intent_id": self.intent["id"],
+            "result": "PASS",
+        }
+        self.assertEqual([], _khronos_review_findings(ROOT, self.intent, assessment))
+
+    def test_khronos_committed_mirror_must_match_canonical_resolver(self):
+        generated = assess_intent(ROOT, self.intent)
+        review = copy.deepcopy(next(
+            row for row in generated["mandatory_source_reviews"]
+            if row["source_family_id"] == "FA3-KHRONOS-OPEN-STANDARDS-001"
+        ))
+        review["review_status"] = (
+            "REVIEWED_NO_MATCH" if review["review_status"] == "MATCHED" else "MATCHED"
+        )
+        assessment = {
+            "id": "TEST-REUSE-ASSESSMENT",
+            "intent_id": self.intent["id"],
+            "result": "PASS",
+            "mandatory_source_reviews": [review],
+        }
+        findings = _khronos_review_findings(ROOT, self.intent, assessment)
+        self.assertEqual(["REUSE-KHRONOS-ADOPT-006"], [row["code"] for row in findings])
 
     def test_donor_registry_backfill_is_central_and_non_authoritative(self):
         registry = json.loads((ROOT / "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json").read_text(encoding="utf-8"))
