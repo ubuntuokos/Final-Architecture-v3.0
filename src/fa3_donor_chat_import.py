@@ -208,7 +208,7 @@ def ingest(
         "unlinked_skipped": 0, "ambiguous_skipped": 0, "excluded_self": 0,
         "analysis_only": 0, "dry_run": dry_run, "origin": origin,
     }
-    approved = []
+    approved: list[tuple[str, str, str, str]] = []
     pending_owner_sources: list[tuple[str, str, str]] | None = None
     for record in records:
         stats["records_scanned"] += 1
@@ -285,7 +285,7 @@ def ingest(
             continue
         if sources:
             stats["signal_records"] += 1
-            approved.extend(sources)
+            approved.extend((name, kind, locator, owner_command or "donornak") for name, kind, locator in sources)
         else:
             stats["analysis_only"] += 1
     if not approved:
@@ -316,7 +316,7 @@ def ingest(
             audit_stage.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(audit_source, audit_stage)
             seen = set()
-            for name, kind, locator in approved:
+            for name, kind, locator, command in approved:
                 key = _normalized_key(kind, locator)
                 if key == _SELF_REPO:
                     stats["excluded_self"] += 1
@@ -328,7 +328,7 @@ def ingest(
                     stage_root, name=name, source_kind=kind, source_locator=locator,
                     tags=["explicit-owner-donor-command"], discovered_from=origin,
                     owner_submitted_link=True, explicit_donor_marker=True,
-                    owner_donor_command=owner_command or "donornak",
+                    owner_donor_command=command,
                 )
                 stats["created" if result["created"] else "merged"] += 1
             if (stats["created"] or stats["merged"]) and not dry_run:
