@@ -10,11 +10,11 @@
     ".github/workflows/fa3-permanent-enforcement.yml",
     "canonical/FA3-GATE-AGENT-WORKLOAD-RUNTIME-001.json",
     "canonical/agent-workload-runtime-enforcement.json",
-    "canonical/contracts/FA3-CLOSED-LOOP-AGENT-OPERATIONS-CONTRACTS-001.json",
-    "canonical/contracts/FA3-GOAL-EXECUTION-CONTRACTS-001.schema.json",
-    "canonical/contracts/FA3-AGENT-WORKLOAD-TASK-001.schema.json",
     "canonical/contracts/FA3-AGENT-EXECUTION-PLAN-001.schema.json",
     "canonical/contracts/FA3-AGENT-WORKLOAD-RUNTIME-CONTRACTS-001.json",
+    "canonical/contracts/FA3-AGENT-WORKLOAD-TASK-001.schema.json",
+    "canonical/contracts/FA3-CLOSED-LOOP-AGENT-OPERATIONS-CONTRACTS-001.json",
+    "canonical/contracts/FA3-GOAL-EXECUTION-CONTRACTS-001.schema.json",
     "canonical/decisions/FA3-DEC-TASK-SCOPE-CLOSURE-POLICY-2026-10-03.json",
     "src/cfa3_development_ai_behavior_gate.py",
     "src/fa3_adk2_runtime_gate.py",
@@ -22,8 +22,7 @@
     "src/fa3_agent_workload_gate.py"
   ],
   "current_host_changes": [
-    "canonical/FA3-AGENT-WORKLOAD-RUNTIME-CURRENT-HOST-CONFORMANCE-001.json",
-    "canonical/FA3-GATE-AGENT-WORKLOAD-RUNTIME-CURRENT-HOST-001.json"
+    "canonical/current-host-impact/FA3-CH-IMPACT-TASK-SCOPE-CLOSURE-20261005.json"
   ],
   "physical_requalification_required": true,
   "physical_requalification_dispatched": false,
@@ -31,6 +30,6 @@
   "current_host_runtime_promotion_claim": false,
   "global_promotion_claim": false,
   "stabilization_freeze_respected": true,
-  "rationale": "The shared Agent Workload start/resume admission path now rejects stale, frozen or closed task-scope controls. This is a real runtime-admission behavior change, so physical Current Host requalification is required. No manual Current Host workflow is dispatched while the Current Host stabilization freeze remains active.",
+  "rationale": "The shared Agent Workload start/resume admission path and its protected integration gates now reject stale, frozen or closed task-scope controls. This is a real runtime-admission behavior change, so fresh physical Current Host requalification is required. The changed impact record reconciles this changeset structurally; no historical physical evidence is inherited and no manual Current Host workflow is dispatched while the stabilization freeze is active.",
   "current_host_status": "PENDING_FRESH_PHYSICAL_CURRENT_HOST_REQUALIFICATION"
 }
