@@ -16,6 +16,8 @@ Item {
     property color magenta: "#b778ff"
 
     property var workItems: []
+    property var workHierarchy: []
+    property var checkIns: []
     property var activityRows: []
     property var agentWorkloads: []
     property string projectionState: "ADAPTER-GATED"
@@ -23,6 +25,8 @@ Item {
 
     signal refreshRequested()
     signal createWorkItemRequested()
+    signal createGoalRequested()
+    signal createCheckInRequested()
     signal transitionRequested(string canonicalWorkItemId, string requestedState)
     signal providerConfigureRequested(string providerId)
 
@@ -43,7 +47,7 @@ Item {
                 Layout.fillWidth: true
                 Label { text: "Work Management"; color: root.textPrimary; font.pixelSize: 21; font.bold: true }
                 Label {
-                    text: "Kaneo + Kanboard · provider-neutral projects, boards, tasks and automation projection"
+                    text: "Goal → Production/Project → Workstream → Milestone → Task · provider-neutral Work Management"
                     color: root.textMuted
                     font.pixelSize: 10
                 }
@@ -89,7 +93,8 @@ Item {
             id: tabs
             Layout.fillWidth: true
             TabButton { text: "Overview" }
-            TabButton { text: "Projects / Boards / Tasks" }
+            TabButton { text: "Goals / Projects / Milestones / Tasks" }
+            TabButton { text: "Check-ins / Risks" }
             TabButton { text: "Automations" }
             TabButton { text: "Agent Workloads" }
             TabButton { text: "Activity" }
@@ -137,8 +142,9 @@ Item {
                     spacing: 8
                     RowLayout {
                         Layout.fillWidth: true
-                        Label { text: "Unified work-item projection"; color: root.textPrimary; font.pixelSize: 15; font.bold: true }
+                        Label { text: "Unified goal / project / milestone / task projection"; color: root.textPrimary; font.pixelSize: 15; font.bold: true }
                         Item { Layout.fillWidth: true }
+                        Button { text: "New goal"; onClicked: root.createGoalRequested() }
                         Button { text: "New work item"; onClicked: root.createWorkItemRequested() }
                     }
                     Label {
@@ -169,6 +175,51 @@ Item {
                                     Label { text: (modelData.project_workspace_scope || "") + " · " + (modelData.provider_id || "provider-neutral"); color: root.textMuted; font.pixelSize: 9 }
                                 }
                                 Label { text: modelData.current_state || "UNKNOWN"; color: root.accent; font.bold: true }
+                            }
+                        }
+                    }
+                }
+            }
+
+            Item {
+                ColumnLayout {
+                    anchors.fill: parent
+                    spacing: 8
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Label { text: "Check-ins / risks / blockers"; color: root.textPrimary; font.pixelSize: 15; font.bold: true }
+                        Item { Layout.fillWidth: true }
+                        Button { text: "New check-in"; onClicked: root.createCheckInRequested() }
+                    }
+                    Label {
+                        visible: root.checkIns.length === 0
+                        Layout.fillWidth: true
+                        wrapMode: Text.WordWrap
+                        color: root.textMuted
+                        text: "Nincs check-in. A check-in canonical emberi/alkalmazási forrás; AI összegzés csak derived projection lehet, nem írhatja felül a source truth-t."
+                    }
+                    ListView {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        clip: true
+                        model: root.checkIns
+                        spacing: 4
+                        delegate: Rectangle {
+                            width: ListView.view.width
+                            height: 82
+                            radius: 6
+                            color: root.panel
+                            border.color: root.border
+                            RowLayout {
+                                anchors.fill: parent
+                                anchors.margins: 10
+                                ColumnLayout {
+                                    Layout.fillWidth: true
+                                    Label { text: modelData.subject_ref || "Check-in"; color: root.textPrimary; font.bold: true }
+                                    Label { text: "Next: " + ((modelData.next_actions || []).join(", ")); color: root.textMuted; font.pixelSize: 9 }
+                                    Label { text: "Blockers: " + ((modelData.blockers || []).join(", ")); color: root.textMuted; font.pixelSize: 9 }
+                                }
+                                Label { text: modelData.status || "UNKNOWN"; color: root.accent; font.bold: true }
                             }
                         }
                     }
