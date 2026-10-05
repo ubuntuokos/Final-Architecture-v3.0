@@ -61,7 +61,7 @@ jobs:
           findings=report.get("findings") or []
           proof_failures=[f for f in findings
                           if f=="MAIN_MOVED_DURING_SCAN" or f.startswith("PROOF_UNAVAILABLE:")]
-          if rows is None or proof_failures:
+          if rows is None or report.get("result")=="BLOCKED" or proof_failures:
               raise SystemExit("live donor inventory proof unavailable; refusing cross-PR revalidation")
           if not rows:
               print("No live donor-intake PRs require cross-PR revalidation.")
@@ -212,7 +212,7 @@ jobs:
               f for f in refreshed_findings
               if f=="MAIN_MOVED_DURING_SCAN" or f.startswith("PROOF_UNAVAILABLE:")
           ]
-          if refreshed_rows is None or refreshed_proof_failures:
+          if refreshed_rows is None or refreshed.get("result")=="BLOCKED" or refreshed_proof_failures:
               fail_required_check(
                   final,
                   "Donor finalizer live inventory proof became unavailable",

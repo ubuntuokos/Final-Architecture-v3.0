@@ -10,12 +10,18 @@ from fa3_donor_readiness import (
     BATCH_DECISION,
     BATCH_ROLE,
     DONOR_DELTA_PREFIXES,
+    REGISTRY,
     _candidate_manifest_paths,
+    _published_batch_decision,
+    is_donor_intake_pr,
+    validate_batch_finalizer,
 )
 
 class DonorBatchFinalizerBootstrapTests(unittest.TestCase):
-    def test_cfa3_batch_delta_prefix_is_recognized(self):
-        self.assertIn("canonical/deltas/CFA3-DONOR-", DONOR_DELTA_PREFIXES)
+    def test_cfa3_batch_manifest_is_governed_metadata_not_a_standalone_intake_slot(self):
+        path = "canonical/deltas/CFA3-DONOR-BACKLOG-CONSOLIDATION-2026-10-04.json"
+        self.assertNotIn("canonical/deltas/CFA3-DONOR-", DONOR_DELTA_PREFIXES)
+        self.assertFalse(is_donor_intake_pr({"title": "batch metadata"}, [{"filename": path}]))
 
     def test_known_non_batch_pr_never_falls_back_to_local_batch_manifest(self):
         candidate = {
@@ -37,6 +43,74 @@ class DonorBatchFinalizerBootstrapTests(unittest.TestCase):
         self.assertIn('gate(Path(".").resolve(),"intake",token=token)', text)
         self.assertIn("finalizer=order[0]", text)
         self.assertIn("refreshed_finalizer=refreshed_order[0] if refreshed_order else None", text)
+
+    def test_batch_approval_is_loaded_only_from_published_tree(self):
+        decision = _published_batch_decision(ROOT)
+        self.assertIsInstance(decision, dict)
+        self.assertEqual(decision["id"], "CFA3-DEC-DONOR-INTAKE-BATCH-ACCELERATION-2026-10-04")
+        self.assertTrue(decision["explicit_user_approval"])
+
+    def test_missing_candidate_registry_blob_fails_closed(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            manifest_rel = "canonical/deltas/CFA3-DONOR-BACKLOG-CONSOLIDATION-2026-10-04.json"
+            (root / "canonical/deltas").mkdir(parents=True)
+            (root / "canonical/decisions").mkdir(parents=True)
+            (root / REGISTRY).write_text("{}", encoding="utf-8")
+            (root / BATCH_DECISION).write_text(
+                json.dumps({
+                    "id": "CFA3-DEC-DONOR-INTAKE-BATCH-ACCELERATION-2026-10-04",
+                    "status": "APPROVED",
+                    "explicit_user_approval": True,
+                    "rules": {
+                        "canonical_mutation_mode": "ROLLING_BATCH_SINGLE_WRITER",
+                        "max_active_canonical_registry_mutation_prs": 1,
+                    },
+                }),
+                encoding="utf-8",
+            )
+            (root / manifest_rel).write_text(
+                json.dumps({
+                    "batch_role": BATCH_ROLE,
+                    "batch_finalizer_pr": 705,
+                    "decision_ref": BATCH_DECISION,
+                    "status": "MATERIALIZED_PENDING_EXACT_HEAD_GATES",
+                    "capability_baseline": 175,
+                    "capability_delta": 0,
+                    "authority_delta": 0,
+                    "source_prs": [{"pr": 651, "head": "a" * 40, "contribution": 0}],
+                    "new_source_count": 0,
+                    "resulting_registry_blob_sha": "b" * 40,
+                }),
+                encoding="utf-8",
+            )
+            pending = [
+                {"number": 651, "head_sha": "a" * 40, "registry_mutation": False},
+                {"number": 705, "head_sha": "c" * 40, "registry_mutation": True},
+            ]
+            candidate = {
+                "number": 705,
+                "head_sha": "c" * 40,
+                "registry_mutation": True,
+                "file_paths": [manifest_rel],
+            }
+            result = validate_batch_finalizer(
+                root,
+                pending,
+                candidate,
+                {"count": 0, "registry": {"entries": []}},
+                require_complete=False,
+            )
+            self.assertIn(
+                "PROOF_UNAVAILABLE:BATCH_CANDIDATE_REGISTRY_BLOB:705",
+                result["findings"],
+            )
+
+    def test_revalidation_refuses_blocked_gate_results(self):
+        text = (ROOT / ".github/workflows/fa3-donor-intake-revalidation.yml").read_text()
+        self.assertIn('report.get("result")=="BLOCKED"', text)
+        self.assertIn('refreshed.get("result")=="BLOCKED"', text)
 
     def test_bootstrap_has_no_registry_materialization(self):
         decision = json.loads((ROOT / "canonical/decisions/CFA3-DEC-DONOR-BATCH-FINALIZER-BOOTSTRAP-2026-10-05.json").read_text())
