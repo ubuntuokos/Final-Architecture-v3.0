@@ -1,0 +1,57 @@
+{
+  "schema": "fa3.donor-use-decision.v1",
+  "id": "FA3-DEC-COVERT-CODER-GOVERNED-EXECUTION-DONOR-USE-2026-10-05",
+  "status": "APPROVED_MATERIALIZED",
+  "decision_date": "2026-10-05",
+  "donor_id": "FA3-DONOR-ANONYMOUSNOMAD-COVERT-CODER-001",
+  "upstream": {
+    "repository": "https://github.com/AnonymousNomad/covert-coder",
+    "branch": "covert-production",
+    "observed_commit": "81aff88b924db05c689dc734aa3e67605f4b18ce",
+    "root_license_observed": "Apache-2.0",
+    "root_license_blob_sha": "d645695673349e3947e8e5ae42332d0ac3164cd7"
+  },
+  "adoption": {
+    "mode": "CFA3_NATIVE_ARCHITECTURE_PATTERN_ONLY",
+    "source_code_copied": false,
+    "runtime_dependency": false,
+    "dependency_installation": false,
+    "provider_admission": false,
+    "model_admission": false,
+    "service_or_port_added": false,
+    "current_host_promotion_claim": false
+  },
+  "usage_edges": [
+    "FA3-USAGE-COVERT-CODER-MODEL-ROUTER-001",
+    "FA3-USAGE-COVERT-CODER-MCP-TYPED-EXECUTION-001",
+    "FA3-USAGE-COVERT-CODER-EXTENSION-TRUST-001",
+    "FA3-USAGE-COVERT-CODER-EVIDENCE-STATE-001"
+  ],
+  "affected_existing_owners": [
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-AUTH-MCP-GATEWAY-001",
+    "FA3-EXTENSION-BOUNDARY-001",
+    "FA3-AUTH-OBS-EVIDENCE-001",
+    "FA3-ORCHESTRATION-WORKFORCE-001"
+  ],
+  "adopted_patterns": [
+    "CONFIGURED_SELECTED_OBSERVED_EXECUTION_IDENTITY_SEPARATION",
+    "NO_SILENT_FALLBACK_WITH_EXPLICIT_RECEIPT",
+    "TYPED_PROPOSAL_TO_POLICY_APPROVAL_EXECUTION_VERIFICATION_CHAIN",
+    "EXTERNAL_PLUGIN_ARTIFACT_MODEL_OUTPUT_UNTRUSTED_BY_DEFAULT",
+    "IMPLEMENTED_AVAILABLE_CONFIGURED_AUTHENTICATED_QUALIFIED_AUTHORIZED_EXECUTED_VERIFIED_READY_STATE_SEPARATION",
+    "LATER_GREEN_RERUN_DOES_NOT_ERASE_UNEXPLAINED_PRIOR_FAILURE"
+  ],
+  "invariants": {
+    "capability_baseline": 175,
+    "capability_delta": 0,
+    "architectural_authority_delta": 0,
+    "existing_authorities_remain_authoritative": true,
+    "no_parallel_execution_authority": true,
+    "no_parallel_model_router": true,
+    "no_parallel_evidence_authority": true,
+    "cpu_only_baseline_unchanged": true,
+    "hardware_safety_unchanged": true,
+    "physical_current_host_pass_not_claimed": true
+  }
+}
