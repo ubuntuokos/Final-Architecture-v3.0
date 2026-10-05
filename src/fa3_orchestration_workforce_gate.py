@@ -54,7 +54,20 @@ def gate(root):
     req=load(root/"examples/orchestration-workforce-media.json");plan=compile_cross_domain_plan(root,req);ap=compile_plan_envelopes(root,req,plan);chk(plan.get("status")=="READY" and len(plan["decisions"])==4 and all(e.get("uaf_action",{}).get("action_id")=="orchestration.delegate" for e in ap["envelopes"]),f,"ORCH-027","media/UAF plan invalid")
     chk("FA3-ORCHESTRATION-GOVERNANCE-CONTRACTS-001" in p.get("contracts",[]),f,"ORCH-029","governance contract not bound to profile")
     chk(reg.get("capability_count")==count,f,"ORCH-030","workforce registry capability baseline drift")
-    chk(g.get("capability_count")==count and len(g.get("contracts",[]))>=12 and not g.get("new_architectural_authority"),f,"ORCH-031","governance contract invalid")
+    chk(g.get("capability_count")==count and len(g.get("contracts",[]))>=14 and not g.get("new_architectural_authority"),f,"ORCH-031","governance contract invalid")
+    gov={x.get("id"):x for x in g.get("contracts",[]) if isinstance(x,dict)}
+    chk(
+        gov.get("FA3-ORCH-GOV-013",{}).get("requirement")=="MUST"
+        and "distinct claims" in gov.get("FA3-ORCH-GOV-013",{}).get("rule","")
+        and "MUST NOT be inferred" in gov.get("FA3-ORCH-GOV-013",{}).get("rule",""),
+        f,"ORCH-039","truth-state separation contract missing or weakened"
+    )
+    chk(
+        gov.get("FA3-ORCH-GOV-014",{}).get("requirement")=="MUST"
+        and "MUST NOT delete, overwrite or silently convert" in gov.get("FA3-ORCH-GOV-014",{}).get("rule","")
+        and "explicit evidence-backed disposition" in gov.get("FA3-ORCH-GOV-014",{}).get("rule",""),
+        f,"ORCH-040","failure-evidence preservation contract missing or weakened"
+    )
     chk(plan.get("governance_contract")=="FA3-ORCHESTRATION-GOVERNANCE-CONTRACTS-001" and plan.get("monitor_projection",{}).get("authority") is False,f,"ORCH-032","monitor/governance projection invalid")
     apv=bind_approval("plan",1,"a"*64,"IMPLEMENT",["orchestration.execute"],"AUTH-HUMAN");chk(approval_allows(apv,"plan",1,"a"*64,"orchestration.execute") and not approval_allows(apv,"plan",2,"a"*64,"orchestration.execute"),f,"ORCH-033","version-bound approval invalid")
     cur=issue_execution_claim("task","a",1,"i1",["read"],"2026-10-01T00:00:00+00:00");nxt=issue_execution_claim("task","b",2,"i2",["read"],"2026-10-01T01:00:00+00:00")
