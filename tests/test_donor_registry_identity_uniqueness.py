@@ -79,7 +79,7 @@ class DonorIdentityUniquenessTests(unittest.TestCase):
         self.assertEqual(anil["source"]["normalized_key"], "github:anil-matcha/open-generative-ai")
         self.assertEqual(anil["source"]["upstream_pin"]["commit_sha"], "9d939bc8f29ae39b778a2ce4146a9c1df12700f4")
 
-    def test_historical_alias_capture_is_idempotent(self):
+    def test_historical_alias_is_preserved_and_direct_recapture_requires_owner_link(self):
         from tempfile import TemporaryDirectory
         from fa3_donor_registry import capture_candidate, REJECTION_AUDIT_REL
         with TemporaryDirectory() as d:
@@ -92,9 +92,22 @@ class DonorIdentityUniquenessTests(unittest.TestCase):
             audit = root / REJECTION_AUDIT_REL
             audit.write_text(json.dumps({"id":"FA3-DONOR-REJECTION-AUDIT-001",
                                          "entries":[]}), encoding="utf-8")
-            result = capture_candidate(root, name="OpenCut", source_kind="PROJECT",
-                                       source_locator="project:OpenCut", seen_date="2026-09-29",
-                                       explicit_donor_marker=True)
+
+            with self.assertRaisesRegex(ValueError, "DONOR_INTAKE_AUTHORIZATION_REQUIRED"):
+                capture_candidate(root, name="OpenCut", source_kind="PROJECT",
+                                  source_locator="project:OpenCut", seen_date="2026-09-29",
+                                  explicit_donor_marker=True)
+
+            result = capture_candidate(
+                root,
+                name="OpenCut",
+                source_kind="GITHUB",
+                source_locator="https://github.com/OpenCut-app/OpenCut",
+                seen_date="2026-09-29",
+                owner_submitted_link=True,
+                explicit_donor_marker=True,
+                owner_donor_command="donornak",
+            )
             after = json.loads(path.read_text())
             self.assertFalse(result["created"])
             self.assertEqual(result["normalized_key"], "github:opencut-app/opencut")
