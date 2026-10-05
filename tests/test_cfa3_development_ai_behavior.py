@@ -460,5 +460,20 @@ class Cfa3DevelopmentAiBehaviorTests(unittest.TestCase):
         self.assertTrue(receipt["fact_promotion_allowed"])
         self.assertTrue(receipt["authoritative_result_precedence"])
 
+    def test_owner_restriction_precedes_external_state_fact_check(self):
+        ctx = base_context("READ")
+        ctx["current_owner_restriction_allows"] = False
+        ctx["external_state_claim"] = {
+            "requested_classification": "FACT",
+            "verification_available": False,
+            "verification_performed": False,
+            "ai_self_statement_only": True,
+        }
+        result = authorize_action(ctx)
+        self.assertEqual("STOP", result["decision"])
+        self.assertIn("DEV-10", result["rule_ids"])
+        self.assertIn("AI-10", result["rule_ids"])
+        self.assertNotIn("AI-12", result["rule_ids"])
+
 if __name__ == "__main__":
     unittest.main()

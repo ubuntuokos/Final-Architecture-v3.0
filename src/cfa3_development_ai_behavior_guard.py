@@ -376,10 +376,6 @@ def authorize_action(context: Mapping[str, Any]) -> dict:
         return _stop({"AI-09"}, f"INVALID_OWNER_OVERRIDE:{exc}")
     applied_overrides: set[str] = set()
     external_state_check = None
-    if "external_state_claim" in context:
-        external_state_check = evaluate_external_state_claim(context["external_state_claim"])
-        if external_state_check.get("decision") != "ALLOW":
-            return external_state_check
 
     if context["current_owner_restriction_allows"] is not True:
         return _stop({"DEV-10", "AI-10"}, "CURRENT_OWNER_RESTRICTION_DENIES_ACTION")
@@ -408,6 +404,11 @@ def authorize_action(context: Mapping[str, Any]) -> dict:
         if not _override_allows(override, needed):
             return _stop(needed, "AUTONOMOUS_WORKAROUND_FORBIDDEN")
         applied_overrides.update(needed)
+
+    if "external_state_claim" in context:
+        external_state_check = evaluate_external_state_claim(context["external_state_claim"])
+        if external_state_check.get("decision") != "ALLOW":
+            return external_state_check
 
     self_correction = _self_correction_check(context)
     if self_correction is not None and self_correction.get("decision") != "ALLOW":
