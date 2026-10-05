@@ -78,6 +78,18 @@
       "name": "Temporal Singularity",
       "requirement": "MUST",
       "rule": "Temporal remains the sole global durable workflow lifecycle authority; delegated Conductors and runners own only bounded task-local execution state."
+    },
+    {
+      "id": "FA3-ORCH-GOV-013",
+      "name": "Truth-State Separation",
+      "requirement": "MUST",
+      "rule": "IMPLEMENTED, AVAILABLE, CONFIGURED, AUTHENTICATED, QUALIFIED, AUTHORIZED, EXECUTED, VERIFIED and READY are distinct claims. A later state MUST NOT be inferred solely from an earlier state."
+    },
+    {
+      "id": "FA3-ORCH-GOV-014",
+      "name": "Failure Evidence Preservation",
+      "requirement": "MUST",
+      "rule": "A later successful retry or rerun MUST NOT delete, overwrite or silently convert an earlier unexplained failure into PASS. Prior failure evidence remains preserved until an explicit evidence-backed disposition explains it."
     }
   ],
   "paperclip_reference_boundary": {
@@ -93,5 +105,14 @@
     "temporal_sole_global_durable_lifecycle": true,
     "reason": "Paperclip is a canonical donor/reference for the already materialized FA3-native governance pattern set after PR #626; no upstream runtime, scheduler, control-plane or authority adoption.",
     "approval_ref": "FA3-DEC-PAPERCLIP-ORCHESTRATION-GOVERNANCE-DONOR-USE-2026-10-03"
+  },
+  "covert_coder_reference_boundary": {
+    "donor_id": "FA3-DONOR-ANONYMOUSNOMAD-COVERT-CODER-001",
+    "usage_edge_id": "FA3-USAGE-COVERT-CODER-EVIDENCE-STATE-001",
+    "usage_kind": "ARCHITECTURE_PATTERN",
+    "source_copy": false,
+    "runtime_dependency": false,
+    "evidence_authority_adoption": false,
+    "reason": "Covert Coder reinforces FA3-native truth-state separation and failure-preservation semantics only; canonical Evidence/Gate authority remains unchanged."
   }
 }
