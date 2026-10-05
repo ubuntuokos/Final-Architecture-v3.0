@@ -21,6 +21,7 @@ TASK_CONTROL_SCHEMA = "fa3.task-scope-control.v1"
 FOLLOWUP_SCHEMA = "fa3.task-followup-handoff.v1"
 MAIN_TASK_EVENT_SCHEMA = "cfa3.main-task-event.v1"
 MAIN_TASK_CONTINUITY_ID = "CFA3-MAIN-TASK-CONTINUITY-001"
+REQUESTED_RESULT_SCOPE_GUARD_ID = "CFA3-REQUESTED-RESULT-ONLY-SCOPE-GUARD-001"
 EVIDENCE_AUTHORITY = "FA3-AUTH-OBS-EVIDENCE-001"
 MAX_SAME_BLOCKER_ATTEMPTS = 3
 MAIN_TASK_EVENT_KINDS = frozenset({
@@ -107,6 +108,14 @@ def goal_scope_binding(goal: dict[str, Any]) -> dict[str, Any]:
         "main_task_switch_authority": "EXPLICIT_OWNER_ONLY",
         "main_task_automatic_reassignment": False,
         "parallel_event_can_replace_main_task": False,
+        "requested_result_scope_guard_id": REQUESTED_RESULT_SCOPE_GUARD_ID,
+        "requested_result_is_exclusive_execution_target": True,
+        "action_admission": "DIRECTLY_REQUIRED_FOR_REQUESTED_RESULT_OR_MINIMUM_NECESSARY_BLOCKER_RESOLUTION",
+        "self_generated_subtask": "FORBIDDEN",
+        "blocker_resolution_scope": "MINIMUM_NECESSARY_FOR_REQUESTED_RESULT_ONLY",
+        "blocker_resolution_may_expand_scope": False,
+        "completion_after_requested_result": "STOP",
+        "automatic_post_completion_work": False,
         "max_same_blocker_attempts": MAX_SAME_BLOCKER_ATTEMPTS,
         "automatic_scope_expansion": False,
         "out_of_scope_followup": "NEW_TASK_REQUIRED",
@@ -147,6 +156,22 @@ def validate_goal_scope_binding(
         raise TaskScopeClosureError("automatic main-task reassignment forbidden")
     if binding.get("parallel_event_can_replace_main_task") is not False:
         raise TaskScopeClosureError("parallel events cannot replace the main task")
+    if binding.get("requested_result_scope_guard_id") != REQUESTED_RESULT_SCOPE_GUARD_ID:
+        raise TaskScopeClosureError("requested-result scope guard identity drift")
+    if binding.get("requested_result_is_exclusive_execution_target") is not True:
+        raise TaskScopeClosureError("requested result must remain the exclusive execution target")
+    if binding.get("action_admission") != "DIRECTLY_REQUIRED_FOR_REQUESTED_RESULT_OR_MINIMUM_NECESSARY_BLOCKER_RESOLUTION":
+        raise TaskScopeClosureError("action admission must remain requested-result bound")
+    if binding.get("self_generated_subtask") != "FORBIDDEN":
+        raise TaskScopeClosureError("self-generated subtasks are forbidden")
+    if binding.get("blocker_resolution_scope") != "MINIMUM_NECESSARY_FOR_REQUESTED_RESULT_ONLY":
+        raise TaskScopeClosureError("blocker resolution must remain minimum-necessary and requested-result bound")
+    if binding.get("blocker_resolution_may_expand_scope") is not False:
+        raise TaskScopeClosureError("blocker resolution cannot expand scope")
+    if binding.get("completion_after_requested_result") != "STOP":
+        raise TaskScopeClosureError("execution must stop after the requested result")
+    if binding.get("automatic_post_completion_work") is not False:
+        raise TaskScopeClosureError("automatic post-completion work is forbidden")
     if binding.get("max_same_blocker_attempts") != MAX_SAME_BLOCKER_ATTEMPTS:
         raise TaskScopeClosureError("same blocker attempt limit must be exactly three")
     if binding.get("automatic_scope_expansion") is not False:
@@ -188,6 +213,14 @@ def start_task_control(
         "main_task_switch_authority": checked["main_task_switch_authority"],
         "main_task_automatic_reassignment": False,
         "parallel_event_can_replace_main_task": False,
+        "requested_result_scope_guard_id": checked["requested_result_scope_guard_id"],
+        "requested_result_is_exclusive_execution_target": checked["requested_result_is_exclusive_execution_target"],
+        "action_admission": checked["action_admission"],
+        "self_generated_subtask": checked["self_generated_subtask"],
+        "blocker_resolution_scope": checked["blocker_resolution_scope"],
+        "blocker_resolution_may_expand_scope": checked["blocker_resolution_may_expand_scope"],
+        "completion_after_requested_result": checked["completion_after_requested_result"],
+        "automatic_post_completion_work": checked["automatic_post_completion_work"],
         "main_task_events": [],
         "control_revision": 1,
         "state": ACTIVE,
@@ -308,6 +341,22 @@ def validate_task_control(
         raise TaskScopeClosureError("task control cannot enable automatic main-task reassignment")
     if control.get("parallel_event_can_replace_main_task") is not False:
         raise TaskScopeClosureError("parallel event cannot replace active main task")
+    if control.get("requested_result_scope_guard_id") != REQUESTED_RESULT_SCOPE_GUARD_ID:
+        raise TaskScopeClosureError("task control requested-result scope guard identity drift")
+    if control.get("requested_result_is_exclusive_execution_target") is not True:
+        raise TaskScopeClosureError("task control must preserve requested result as exclusive execution target")
+    if control.get("action_admission") != "DIRECTLY_REQUIRED_FOR_REQUESTED_RESULT_OR_MINIMUM_NECESSARY_BLOCKER_RESOLUTION":
+        raise TaskScopeClosureError("task control action admission drift")
+    if control.get("self_generated_subtask") != "FORBIDDEN":
+        raise TaskScopeClosureError("task control cannot allow self-generated subtasks")
+    if control.get("blocker_resolution_scope") != "MINIMUM_NECESSARY_FOR_REQUESTED_RESULT_ONLY":
+        raise TaskScopeClosureError("task control blocker-resolution scope drift")
+    if control.get("blocker_resolution_may_expand_scope") is not False:
+        raise TaskScopeClosureError("task control blocker resolution cannot expand scope")
+    if control.get("completion_after_requested_result") != "STOP":
+        raise TaskScopeClosureError("task control must stop after requested result completion")
+    if control.get("automatic_post_completion_work") is not False:
+        raise TaskScopeClosureError("task control automatic post-completion work is forbidden")
     events = control.get("main_task_events")
     if not isinstance(events, list):
         raise TaskScopeClosureError("main_task_events must be a list")
@@ -347,7 +396,11 @@ def validate_task_control(
             "goal_id", "goal_revision", "goal_digest", "scope_digest",
             "main_task_continuity_id", "main_task_id", "main_task_binding_revision",
             "main_task_switch_authority", "main_task_automatic_reassignment",
-            "parallel_event_can_replace_main_task",
+            "parallel_event_can_replace_main_task", "requested_result_scope_guard_id",
+            "requested_result_is_exclusive_execution_target", "action_admission",
+            "self_generated_subtask", "blocker_resolution_scope",
+            "blocker_resolution_may_expand_scope", "completion_after_requested_result",
+            "automatic_post_completion_work",
         ):
             if control.get(key) != binding.get(key):
                 raise TaskScopeClosureError(f"task control binding mismatch: {key}")
