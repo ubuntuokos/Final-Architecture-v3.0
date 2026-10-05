@@ -23,9 +23,11 @@
     "authoritative_review": "DETERMINISTIC_CANONICAL_REUSE_RESOLVER_OUTPUT",
     "matching_pass_reuse_assessment_required": true,
     "committed_review_mirror_required": false,
-    "committed_review_mirror_if_present_must_match": true,
+    "committed_review_mirror_if_present_must_match": false,
     "explicit_application_intent_reuse_discovery_reference_required": false,
-    "rationale": "Reuse Discovery is already a global P0 MUST profile; repeating its id and its generated Khronos review in every project artifact created recurring administrative drift without adding independent evidence."
+    "rationale": "Reuse Discovery is a global P0 MUST profile. The canonical resolver recomputes the current Khronos review for every in-scope intent. Stored review rows are historical non-authoritative mirrors: absence or candidate-set drift must not create recurring administrative failures, while any mirror that claims authority or automatic selection remains fail-closed.",
+    "committed_review_mirror_if_present_safety_invariants_must_hold": true,
+    "historical_dynamic_candidate_drift_is_authoritative": false
   },
   "current_host_runtime_promotion_claim": false,
   "runtime_change": false,

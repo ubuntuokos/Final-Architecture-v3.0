@@ -4,7 +4,9 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass
 from typing import Any, Iterable
 
-CAPABILITY_COUNT = 175
+from fa3_release_baseline import module_active_capability_count
+
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 SHARED_APPLICATION_SCOPE = "ALL_CAPABILITY_COMPATIBLE_CFA3_APPLICATIONS"
 TRACE_MODES = frozenset({"RAY_TRACING", "PATH_TRACING"})
 HARDWARE_POLICIES = frozenset({"REQUIRED", "PREFERRED", "DISABLED"})

@@ -527,7 +527,8 @@ def _khronos_review_findings(
     ApplicationIntent is reviewed whether or not it repeats the profile id in
     integration_requirements.  The canonical resolver is the single source of
     truth for the source-family review.  A committed review row is an optional
-    mirror; when present it must match the deterministic resolver output.
+    historical mirror; dynamic candidate/status drift is non-authoritative, while
+    its non-authoritative safety invariants remain fail-closed.
     """
     findings: list[dict[str, Any]] = []
     generated = assess_intent(root, intent)
@@ -576,21 +577,16 @@ def _khronos_review_findings(
         return findings
 
     committed = committed_reviews[0]
-    mirror_fields = (
-        "review_status", "available_candidate_ids", "matched_candidate_ids",
-        "roles", "authority", "automatic_selection", "automatic_activation",
-    )
-    mismatches = [
-        field for field in mirror_fields
-        if committed.get(field) != review.get(field)
-    ]
-    if mismatches:
+    if not (
+        committed.get("review_status") in {"MATCHED", "REVIEWED_NO_MATCH"}
+        and committed.get("authority") is False
+        and committed.get("automatic_selection") is False
+    ):
         findings.append(finding(
             "REUSE-KHRONOS-ADOPT-006",
-            "committed Khronos review mirror differs from canonical resolver output",
+            "committed Khronos review mirror violates non-authoritative safety invariants",
             intent_id=intent.get("id"),
             assessment_id=assessment.get("id"),
-            mismatched_fields=mismatches,
         ))
     return findings
 

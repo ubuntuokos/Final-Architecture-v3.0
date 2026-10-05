@@ -717,8 +717,6 @@
       ],
       "status": "MATERIALIZED_STATIC",
       "authority": false,
-      "local_duplicate_core_forbidden": true,
-      "capability_based_access": true,
       "retrospective_review_required": true,
       "manual_update_required": true,
       "capability_loss_allowed": false,
@@ -728,8 +726,7 @@
       },
       "fa3_bindings": {
         "profile_ids": [
-          "FA3-SHARED-RAY-PATH-TRACING-001",
-          "FA3-ENGINE-SELECTION-FABRIC-001"
+          "FA3-SHARED-RAY-PATH-TRACING-001"
         ],
         "contract_ids": [
           "FA3-SHARED-RAY-PATH-TRACING-CONTRACTS-001"
@@ -746,7 +743,9 @@
       },
       "gui_surface_ids": [
         "models.engines"
-      ]
+      ],
+      "local_ui_adapter_only": true,
+      "pattern_catalogue_refs": []
     }
   ],
   "governance_decisions": [
@@ -1571,13 +1570,7 @@
         "authority_ids": [],
         "shared_module_ids": []
       },
-      "consumers": [
-        {
-          "kind": "ENGINE_RECORD",
-          "id": "FA3-ENGINE-FA3-RAY-PATH-TRACING-001",
-          "relationship": "SHARED_FABRIC_PROJECTION"
-        }
-      ],
+      "consumers": [],
       "current_host_impact": {
         "classification": "NO_RUNTIME_IMPACT",
         "reason": "Architecture/reference pattern only; no donor code, runtime, provider, model, hardware execution or Current Host PASS is admitted."
@@ -1622,13 +1615,7 @@
         "authority_ids": [],
         "shared_module_ids": []
       },
-      "consumers": [
-        {
-          "kind": "ENGINE_RECORD",
-          "id": "FA3-ENGINE-FA3-RAY-PATH-TRACING-001",
-          "relationship": "SHARED_FABRIC_PROJECTION"
-        }
-      ],
+      "consumers": [],
       "current_host_impact": {
         "classification": "NO_RUNTIME_IMPACT",
         "reason": "Architecture/reference pattern only; no donor code, runtime, provider, model, hardware execution or Current Host PASS is admitted."
@@ -1673,13 +1660,7 @@
         "authority_ids": [],
         "shared_module_ids": []
       },
-      "consumers": [
-        {
-          "kind": "ENGINE_RECORD",
-          "id": "FA3-ENGINE-FA3-RAY-PATH-TRACING-001",
-          "relationship": "SHARED_FABRIC_PROJECTION"
-        }
-      ],
+      "consumers": [],
       "current_host_impact": {
         "classification": "NO_RUNTIME_IMPACT",
         "reason": "Architecture/reference pattern only; no donor code, runtime, provider, model, hardware execution or Current Host PASS is admitted."
@@ -1724,13 +1705,7 @@
         "authority_ids": [],
         "shared_module_ids": []
       },
-      "consumers": [
-        {
-          "kind": "ENGINE_RECORD",
-          "id": "FA3-ENGINE-FA3-RAY-PATH-TRACING-001",
-          "relationship": "SHARED_FABRIC_PROJECTION"
-        }
-      ],
+      "consumers": [],
       "current_host_impact": {
         "classification": "NO_RUNTIME_IMPACT",
         "reason": "Architecture/reference pattern only; no donor code, runtime, provider, model, hardware execution or Current Host PASS is admitted."
@@ -1775,13 +1750,7 @@
         "authority_ids": [],
         "shared_module_ids": []
       },
-      "consumers": [
-        {
-          "kind": "ENGINE_RECORD",
-          "id": "FA3-ENGINE-FA3-RAY-PATH-TRACING-001",
-          "relationship": "SHARED_FABRIC_PROJECTION"
-        }
-      ],
+      "consumers": [],
       "current_host_impact": {
         "classification": "NO_RUNTIME_IMPACT",
         "reason": "Architecture/reference pattern only; no donor code, runtime, provider, model, hardware execution or Current Host PASS is admitted."
@@ -1877,13 +1846,7 @@
         "authority_ids": [],
         "shared_module_ids": []
       },
-      "consumers": [
-        {
-          "kind": "ENGINE_RECORD",
-          "id": "FA3-ENGINE-FA3-RAY-PATH-TRACING-001",
-          "relationship": "SHARED_FABRIC_PROJECTION"
-        }
-      ],
+      "consumers": [],
       "current_host_impact": {
         "classification": "NO_RUNTIME_IMPACT",
         "reason": "Architecture/reference pattern only; no donor code, runtime, provider, model, hardware execution or Current Host PASS is admitted."

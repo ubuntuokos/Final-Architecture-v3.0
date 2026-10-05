@@ -100,15 +100,29 @@ class ReuseDiscoveryTests(unittest.TestCase):
         }
         self.assertEqual([], _khronos_review_findings(ROOT, self.intent, assessment))
 
-    def test_khronos_committed_mirror_must_match_canonical_resolver(self):
+    def test_khronos_historical_mirror_candidate_drift_is_non_authoritative(self):
         generated = assess_intent(ROOT, self.intent)
         review = copy.deepcopy(next(
             row for row in generated["mandatory_source_reviews"]
             if row["source_family_id"] == "FA3-KHRONOS-OPEN-STANDARDS-001"
         ))
-        review["review_status"] = (
-            "REVIEWED_NO_MATCH" if review["review_status"] == "MATCHED" else "MATCHED"
-        )
+        review["available_candidate_ids"] = ["historical.snapshot"]
+        review["matched_candidate_ids"] = []
+        assessment = {
+            "id": "TEST-REUSE-ASSESSMENT",
+            "intent_id": self.intent["id"],
+            "result": "PASS",
+            "mandatory_source_reviews": [review],
+        }
+        self.assertEqual([], _khronos_review_findings(ROOT, self.intent, assessment))
+
+    def test_khronos_historical_mirror_cannot_claim_authority(self):
+        generated = assess_intent(ROOT, self.intent)
+        review = copy.deepcopy(next(
+            row for row in generated["mandatory_source_reviews"]
+            if row["source_family_id"] == "FA3-KHRONOS-OPEN-STANDARDS-001"
+        ))
+        review["authority"] = True
         assessment = {
             "id": "TEST-REUSE-ASSESSMENT",
             "intent_id": self.intent["id"],
