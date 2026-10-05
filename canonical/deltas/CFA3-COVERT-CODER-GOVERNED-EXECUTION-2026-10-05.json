@@ -1,0 +1,31 @@
+{
+  "schema": "cfa3.donor-adoption-delta.v1",
+  "id": "CFA3-COVERT-CODER-GOVERNED-EXECUTION-2026-10-05",
+  "date": "2026-10-05",
+  "base_branch": "cfa3/application-work-capability-donor-usage-20261005",
+  "donor_registry_before": 1792,
+  "donor_registry_after": 1793,
+  "donor_added": "FA3-DONOR-ANONYMOUSNOMAD-COVERT-CODER-001",
+  "donor_status": "ACCEPTED_REFERENCE",
+  "donor_usage_edges_added": 4,
+  "usage_edge_ids": [
+    "FA3-USAGE-COVERT-CODER-MODEL-ROUTER-001",
+    "FA3-USAGE-COVERT-CODER-MCP-TYPED-EXECUTION-001",
+    "FA3-USAGE-COVERT-CODER-EXTENSION-TRUST-001",
+    "FA3-USAGE-COVERT-CODER-EVIDENCE-STATE-001"
+  ],
+  "source_copy": false,
+  "runtime_admission": false,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "current_host_impact": "NO_RUNTIME_IMPACT_STATIC_GOVERNANCE_HARDENING",
+  "parent_dependencies": [
+    "PR-714 donor baseline",
+    "PR-717 application/work/capability donor usage"
+  ],
+  "overlap_protection": [
+    "PR-715 shared compatibility propagation",
+    "PR-716 application/work/capability operating model"
+  ],
+  "note": "Stacked adoption delta only; does not modify PR-715/PR-716-owned new canonical files."
+}
