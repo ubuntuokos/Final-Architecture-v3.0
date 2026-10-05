@@ -206,50 +206,48 @@ def _atomic_write(path: Path, value: dict[str, Any]) -> None:
 def resolve_donor_reference(registry: dict[str, Any], reference: str) -> dict[str, Any]:
     """Resolve a donor ID, normalized key or URL through explicit supersedence.
 
-    Historical SUPERSEDED records remain immutable provenance.  Only the
-    declared donor_replacement_reference_id may redirect them, and a redirected
-    chain must terminate at ACCEPTED_REFERENCE. Missing targets, cycles and
-    ambiguous identities fail closed.
+    Historical SUPERSEDED records remain immutable provenance. Only the
+    declared donor_replacement_reference_id may redirect them. Ambiguity is
+    evaluated for the requested identity/replacement chain only; unrelated
+    duplicate fixture aliases cannot invalidate an otherwise resolvable donor.
     """
     entries = registry.get("entries")
     if not isinstance(entries, list):
         raise ValueError("INVALID_DONOR_REGISTRY")
 
-    by_id: dict[str, dict[str, Any]] = {}
-    by_key: dict[str, dict[str, Any]] = {}
-    aliases: dict[str, dict[str, Any]] = {}
+    by_id: dict[str, list[dict[str, Any]]] = {}
+    by_key: dict[str, list[dict[str, Any]]] = {}
+    aliases: dict[str, list[dict[str, Any]]] = {}
     for row in entries:
         if not isinstance(row, dict) or not isinstance(row.get("source"), dict):
             continue
         donor_id = row.get("donor_id")
         key = row["source"].get("normalized_key")
         if isinstance(donor_id, str) and donor_id:
-            if donor_id in by_id:
-                raise ValueError("AMBIGUOUS_DONOR_ID:" + donor_id)
-            by_id[donor_id] = row
+            by_id.setdefault(donor_id, []).append(row)
         if isinstance(key, str) and key:
-            if key in by_key:
-                raise ValueError("AMBIGUOUS_DONOR_KEY:" + key)
-            by_key[key] = row
+            by_key.setdefault(key, []).append(row)
         for alias in row.get("legacy_source_keys", []):
-            if not isinstance(alias, str) or not alias:
-                continue
-            if alias in aliases and aliases[alias] is not row:
-                raise ValueError("AMBIGUOUS_DONOR_ALIAS:" + alias)
-            aliases[alias] = row
+            if isinstance(alias, str) and alias:
+                aliases.setdefault(alias, []).append(row)
 
     candidates = [reference]
     if isinstance(reference, str) and reference.lower().startswith(("https://", "http://")):
         candidates.append(_normalized_key("WEBSITE", reference))
-    current = next(
-        (by_id.get(value) or by_key.get(value) or aliases.get(value)
-         for value in candidates
-         if isinstance(value, str) and (value in by_id or value in by_key or value in aliases)),
-        None,
-    )
-    if current is None:
-        raise ValueError("DONOR_REFERENCE_NOT_FOUND:" + str(reference))
 
+    matches: list[dict[str, Any]] = []
+    for value in candidates:
+        if not isinstance(value, str):
+            continue
+        for row in by_id.get(value, []) + by_key.get(value, []) + aliases.get(value, []):
+            if all(row is not existing for existing in matches):
+                matches.append(row)
+    if not matches:
+        raise ValueError("DONOR_REFERENCE_NOT_FOUND:" + str(reference))
+    if len(matches) != 1:
+        raise ValueError("AMBIGUOUS_DONOR_REFERENCE:" + str(reference))
+
+    current = matches[0]
     requested_id = current.get("donor_id")
     chain: list[str] = []
     visited: set[str] = set()
@@ -264,10 +262,12 @@ def resolve_donor_reference(registry: dict[str, Any], reference: str) -> dict[st
         replacement = current.get("donor_replacement_reference_id")
         if not isinstance(replacement, str) or not replacement:
             raise ValueError("SUPERSEDED_DONOR_REPLACEMENT_MISSING:" + donor_id)
-        target = by_id.get(replacement)
-        if target is None:
+        targets = by_id.get(replacement, [])
+        if not targets:
             raise ValueError("SUPERSEDED_DONOR_REPLACEMENT_NOT_FOUND:" + donor_id)
-        current = target
+        if len(targets) != 1:
+            raise ValueError("AMBIGUOUS_DONOR_REPLACEMENT:" + replacement)
+        current = targets[0]
 
     resolved_id = current.get("donor_id")
     if chain and current.get("status") != "ACCEPTED_REFERENCE":
