@@ -1853,6 +1853,177 @@
           "canonical/decisions/FA3-DEC-NVIDIA-RTX-RAY-PATH-TRACING-001-2026-10-05.json"
         ]
       }
+    },
+    {
+      "id": "FA3-USAGE-PHRESHOS-APPLICATION-WORK-CAPABILITY-001",
+      "donor_id": "FA3-DONOR-PHRESHOS-ORG-001",
+      "donor_capability_key": "canonical-application-operation-context-and-authority-separation-pattern",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "status": "ACTIVE",
+      "primary_consumer": {
+        "kind": "CANONICAL_RECORD",
+        "id": "FA3-APPLICATION-WORK-CAPABILITY-OWNER-MAP-001",
+        "relationship": "ARCHITECTURE_PATTERN_HOST"
+      },
+      "fa3_bindings": {
+        "profile_ids": [],
+        "contract_ids": [],
+        "authority_ids": [],
+        "shared_module_ids": []
+      },
+      "consumers": [
+        {
+          "kind": "CONTRACT",
+          "id": "FA3-WORK-MANAGEMENT-SEMANTIC-CONTRACTS-001",
+          "relationship": "PATTERN_CONSUMER"
+        },
+        {
+          "kind": "CONTRACT",
+          "id": "FA3-APPLICATION-RUNTIME-LIFECYCLE-CONTRACTS-001",
+          "relationship": "PATTERN_CONSUMER"
+        },
+        {
+          "kind": "CONTRACT",
+          "id": "FA3-AGENT-APPLICATION-BLUEPRINT-EXTENSION-CONTRACTS-001",
+          "relationship": "PATTERN_CONSUMER"
+        },
+        {
+          "kind": "CONTRACT",
+          "id": "FA3-APPLICATION-OPERATION-HANDOFF-CONTRACTS-001",
+          "relationship": "PATTERN_CONSUMER"
+        }
+      ],
+      "current_host_impact": {
+        "classification": "STRUCTURAL_REASSESSMENT_REQUIRED"
+      },
+      "provenance": {
+        "evidence_classification": "EXPLICIT_CANONICAL_DONOR_PATTERN_USE_NO_CODE_COPY",
+        "implementation_pr": 716,
+        "code_imported": false,
+        "runtime_dependency": false
+      }
+    },
+    {
+      "id": "FA3-USAGE-CLOUDFLARE-OS-APPLICATION-WORK-CAPABILITY-001",
+      "donor_id": "FA3-DONOR-CLOUDFLARE-OS-001",
+      "donor_capability_key": "capability-scoped-gatekeeper-blueprint-gadget-pattern",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "status": "ACTIVE",
+      "primary_consumer": {
+        "kind": "CONTRACT",
+        "id": "FA3-CAPABILITY-GRANT-SCOPE-CONTRACTS-001",
+        "relationship": "PATTERN_DERIVED_NATIVE_CONTRACT"
+      },
+      "fa3_bindings": {
+        "profile_ids": [],
+        "contract_ids": [],
+        "authority_ids": [],
+        "shared_module_ids": []
+      },
+      "consumers": [
+        {
+          "kind": "CONTRACT",
+          "id": "FA3-TASK-CAPSULE-CONTRACTS-001",
+          "relationship": "PATTERN_CONSUMER"
+        },
+        {
+          "kind": "CONTRACT",
+          "id": "FA3-AGENT-APPLICATION-BLUEPRINT-EXTENSION-CONTRACTS-001",
+          "relationship": "PATTERN_CONSUMER"
+        },
+        {
+          "kind": "CONTRACT",
+          "id": "FA3-APPLICATION-RUNTIME-LIFECYCLE-CONTRACTS-001",
+          "relationship": "PATTERN_CONSUMER"
+        }
+      ],
+      "current_host_impact": {
+        "classification": "STRUCTURAL_REASSESSMENT_REQUIRED"
+      },
+      "provenance": {
+        "evidence_classification": "EXPLICIT_CANONICAL_DONOR_PATTERN_USE_NO_CODE_COPY",
+        "implementation_pr": 716,
+        "code_imported": false,
+        "runtime_dependency": false
+      }
+    },
+    {
+      "id": "FA3-USAGE-OPERATELY-WORK-MANAGEMENT-V2-001",
+      "donor_id": "FA3-DONOR-GITHUB-OPERATELY-779FE47B-001",
+      "donor_capability_key": "goal-project-milestone-task-checkin-activity-pattern",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "status": "ACTIVE",
+      "primary_consumer": {
+        "kind": "CONTRACT",
+        "id": "FA3-WORK-MANAGEMENT-SEMANTIC-CONTRACTS-001",
+        "relationship": "PATTERN_DERIVED_NATIVE_CONTRACT"
+      },
+      "fa3_bindings": {
+        "profile_ids": [],
+        "contract_ids": [],
+        "authority_ids": [],
+        "shared_module_ids": []
+      },
+      "consumers": [
+        {
+          "kind": "GUI_SURFACE",
+          "id": "home.work-management",
+          "relationship": "GUI_PROJECTION"
+        },
+        {
+          "kind": "CANONICAL_RECORD",
+          "id": "FA3-APPLICATION-WORK-CAPABILITY-OWNER-MAP-001",
+          "relationship": "OWNER_MAP_REFERENCE"
+        }
+      ],
+      "current_host_impact": {
+        "classification": "STRUCTURAL_REASSESSMENT_REQUIRED"
+      },
+      "provenance": {
+        "evidence_classification": "EXPLICIT_CANONICAL_DONOR_PATTERN_USE_NO_CODE_COPY",
+        "implementation_pr": 716,
+        "code_imported": false,
+        "runtime_dependency": false
+      }
+    },
+    {
+      "id": "FA3-USAGE-WEBOSOSE-APPLICATION-LIFECYCLE-V2-001",
+      "donor_id": "FA3-DONOR-WEBOSOSE-ORG-001",
+      "donor_capability_key": "application-service-lifecycle-and-system-service-pattern",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "status": "ACTIVE",
+      "primary_consumer": {
+        "kind": "CONTRACT",
+        "id": "FA3-APPLICATION-RUNTIME-LIFECYCLE-CONTRACTS-001",
+        "relationship": "PATTERN_DERIVED_NATIVE_CONTRACT"
+      },
+      "fa3_bindings": {
+        "profile_ids": [],
+        "contract_ids": [],
+        "authority_ids": [],
+        "shared_module_ids": []
+      },
+      "consumers": [
+        {
+          "kind": "CANONICAL_RECORD",
+          "id": "FA3-APPLICATION-WORK-CAPABILITY-OWNER-MAP-001",
+          "relationship": "OWNER_MAP_REFERENCE"
+        },
+        {
+          "kind": "CONTRACT",
+          "id": "FA3-APPLICATION-OPERATION-HANDOFF-CONTRACTS-001",
+          "relationship": "SERVICE_ADDRESSING_PATTERN_CONSUMER"
+        }
+      ],
+      "current_host_impact": {
+        "classification": "STRUCTURAL_REASSESSMENT_REQUIRED"
+      },
+      "provenance": {
+        "evidence_classification": "EXPLICIT_CANONICAL_DONOR_PATTERN_USE_NO_CODE_COPY",
+        "implementation_pr": 716,
+        "code_imported": false,
+        "runtime_dependency": false
+      }
     }
   ],
   "donor_usage_contract": {

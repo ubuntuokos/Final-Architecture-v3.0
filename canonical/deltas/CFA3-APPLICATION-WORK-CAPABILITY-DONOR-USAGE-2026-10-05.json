@@ -1,0 +1,61 @@
+{
+  "schema": "fa3.donor-usage-delta.v1",
+  "id": "CFA3-APPLICATION-WORK-CAPABILITY-DONOR-USAGE-2026-10-05",
+  "date": "2026-10-05",
+  "status": "MATERIALIZED_USAGE_EDGE_DELTA",
+  "parent_donor_baseline_pr": 714,
+  "implementation_pr": 716,
+  "capability_baseline": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "code_imported": false,
+  "runtime_dependency_added": false,
+  "provider_admission_added": false,
+  "model_admission_added": false,
+  "usage_edges": [
+    {
+      "donor_id": "FA3-DONOR-PHRESHOS-ORG-001",
+      "source": "https://github.com/PhreshOS",
+      "usage_edge_id": "FA3-USAGE-PHRESHOS-APPLICATION-WORK-CAPABILITY-001",
+      "pattern": "canonical application operation/context and authority separation",
+      "primary_target": "FA3-APPLICATION-WORK-CAPABILITY-OWNER-MAP-001",
+      "additional_targets": [
+        "FA3-APPLICATION-OPERATION-HANDOFF-CONTRACTS-001"
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-CLOUDFLARE-OS-001",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "usage_edge_id": "FA3-USAGE-CLOUDFLARE-OS-APPLICATION-WORK-CAPABILITY-001",
+      "pattern": "capability-scoped Gatekeeper / Blueprint / sandboxed Gadget",
+      "primary_target": "FA3-CAPABILITY-GRANT-SCOPE-CONTRACTS-001"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-OPERATELY-779FE47B-001",
+      "source": "https://github.com/operately",
+      "usage_edge_id": "FA3-USAGE-OPERATELY-WORK-MANAGEMENT-V2-001",
+      "pattern": "goal/project/milestone/task/check-in/activity",
+      "primary_target": "FA3-WORK-MANAGEMENT-SEMANTIC-CONTRACTS-001"
+    },
+    {
+      "donor_id": "FA3-DONOR-WEBOSOSE-ORG-001",
+      "source": "https://github.com/webosose",
+      "usage_edge_id": "FA3-USAGE-WEBOSOSE-APPLICATION-LIFECYCLE-V2-001",
+      "pattern": "application/service lifecycle and system service separation",
+      "primary_target": "FA3-APPLICATION-RUNTIME-LIFECYCLE-CONTRACTS-001",
+      "additional_targets": [
+        "FA3-APPLICATION-OPERATION-HANDOFF-CONTRACTS-001"
+      ]
+    }
+  ],
+  "closure_invariants": {
+    "materially_used_donor_without_registry_record": 0,
+    "materially_used_donor_without_usage_edge": 0,
+    "reference_only_topic_indexes_require_usage_edge": false,
+    "no_donor_code_copy": true
+  },
+  "notes": [
+    "WebOS topic/index sources were used for discovery during planning only and are not material adoption edges in PR 716.",
+    "All four materially used donor sources are ACCEPTED_REFERENCE on the parent #714 donor baseline branch."
+  ]
+}
