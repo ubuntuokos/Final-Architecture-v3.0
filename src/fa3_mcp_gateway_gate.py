@@ -63,6 +63,28 @@ def validate(root: Path) -> list[dict[str, Any]]:
         (profile.get("canonical_transport", {}).get("mode") == "STATELESS", "MCP-FINAL-007", "Canonical transport must be stateless"),
         (contracts.get("transport", {}).get("mcp_session_id") == "REJECT", "MCP-FINAL-008", "Modern MCP session id must be rejected"),
         (contracts.get("transport", {}).get("server_discover") is True, "MCP-FINAL-009", "server/discover must be supported"),
+        (
+            contracts.get("execution_chain", {}).get("model_or_agent_output_is") == "UNTRUSTED_PROPOSAL"
+            and contracts.get("execution_chain", {}).get("ordered_stages") == [
+                "PARSE","SCHEMA_VALIDATE","CAPABILITY_VALIDATE","POLICY_AUTHORIZE",
+                "APPROVAL_WHEN_REQUIRED","EXECUTE_THROUGH_EXISTING_AUTHORITY",
+                "RETURN_RESULT","INDEPENDENT_VERIFY","EMIT_EVIDENCE_RECEIPT"
+            ]
+            and contracts.get("execution_chain", {}).get("stage_skipping") == "FORBIDDEN"
+            and contracts.get("execution_chain", {}).get("verification_may_grant_execution_authority") is False
+            and contracts.get("execution_chain", {}).get("proposal_may_grant_execution_authority") is False,
+            "MCP-FINAL-023",
+            "typed proposal-to-execution chain drift",
+        ),
+        (
+            contracts.get("security", {}).get("model_generated_tool_request") == "UNTRUSTED_INPUT"
+            and contracts.get("security", {}).get("plugin_or_extension_generated_tool_request") == "UNTRUSTED_INPUT"
+            and contracts.get("security", {}).get("imported_artifact_generated_action") == "UNTRUSTED_INPUT"
+            and contracts.get("security", {}).get("authorization_and_verification_must_remain_distinct") is True
+            and contracts.get("security", {}).get("receipt_separates_proposal_authorization_execution_and_verification") is True,
+            "MCP-FINAL-024",
+            "untrusted-input or authorization/verification separation drift",
+        ),
         (decision.get("status") == "FINAL", "MCP-FINAL-010", "Central MCP decision is not FINAL"),
         (decision.get("new_capabilities") == 0 and decision.get("new_architectural_authorities") == 0, "MCP-FINAL-011", "Decision changes baseline"),
         (reference.get("runtime_dependency") is False and reference.get("authority") is False, "MCP-FINAL-012", "Microsoft reference became a runtime authority"),
