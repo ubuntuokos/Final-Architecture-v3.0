@@ -1,0 +1,38 @@
+{
+  "schema": "cfa3.donor-batch-bootstrap-decision.v1",
+  "id": "CFA3-DEC-DONOR-BATCH-FINALIZER-BOOTSTRAP-2026-10-05",
+  "status": "APPROVED",
+  "explicit_user_approval": true,
+  "user_request_ref": "conversation:2026-10-05:approved-bootstrap-policy-pr",
+  "purpose": "Publish only the batch-finalizer recognition/bootstrap logic required by pull_request_target before PR #705 can become the canonical rolling donor batch finalizer.",
+  "source_pr": 705,
+  "source_pr_head": "537d74d428a6b4b1d8b12f17f6396ee48b1d616c",
+  "published_main_parent": "ab9ef901d032943e32b68d397c141d62a652d609",
+  "scope": {
+    "donor_registry_mutation": false,
+    "donor_entry_delta": 0,
+    "capability_baseline": 175,
+    "capability_delta": 0,
+    "authority_delta": 0,
+    "runtime_delta": 0,
+    "current_host_physical_requalification": false
+  },
+  "admitted_changes": [
+    "src/fa3_donor_readiness.py batch-aware exact-head finalizer discovery/validation",
+    ".github/workflows/fa3-donor-intake-revalidation.yml batch-aware main-side cross-PR revalidation",
+    "targeted regression/provenance/impact evidence"
+  ],
+  "deferred_to_pr_705": [
+    "canonical donor registry materialization",
+    "batch manifest publication",
+    "donor serialization fast-append scheduling",
+    "Permanent Canonical final-head scheduling",
+    "source donor PR closure"
+  ],
+  "safety": {
+    "no_workflow_manual_dispatch": true,
+    "no_source_pr_close_before_exact_union_publication": true,
+    "no_ruleset_bypass": true,
+    "fail_closed": true
+  }
+}
