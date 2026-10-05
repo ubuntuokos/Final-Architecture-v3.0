@@ -10,6 +10,7 @@
     "canonical/FA3-GATE-REGISTRY-001.json",
     "canonical/decisions/CFA3-DEC-DEVELOPMENT-AI-BEHAVIOR-LAYERING-2026-10-05.json",
     "canonical/enforcement-policy.json",
+    "src/cfa3_development_ai_behavior_guard.py",
     "src/cfa3_development_ai_behavior_gate.py",
     "src/fa3_enforce.py"
   ],
@@ -18,5 +19,5 @@
   "historical_evidence_reused": false,
   "current_host_runtime_promotion_claim": false,
   "global_promotion_claim": false,
-  "rationale": "This materialization defines and enforces a cross-cutting development and AI/agent behavior policy, updates the canonical mandatory gate membership, global enforcement wiring, repository agent projection, tests, documentation and unified release projection. It does not activate a new provider, model, daemon, scheduler, hardware path, resource lease, service, port, credential flow, driver, package, Current Host collector, or runtime promotion. Existing orchestration, Security Governance, Model Router, HRB and Evidence authorities remain unchanged. Runtime consumers may call the shared fail-closed preflight, but host topology and physical execution eligibility are unchanged."
+  "rationale": "This materialization defines and enforces a cross-cutting development and AI/agent behavior policy, including the DEV-11 / AI-11 deterministic self-correction exception in the shared fail-closed guard, updates the canonical mandatory gate membership, global enforcement wiring, repository agent projection, tests, documentation and unified release projection. It does not activate a new provider, model, daemon, scheduler, hardware path, resource lease, service, port, credential flow, driver, package, Current Host collector, or runtime promotion. Existing orchestration, Security Governance, Model Router, HRB and Evidence authorities remain unchanged. Runtime consumers may call the shared fail-closed preflight, but host topology and physical execution eligibility are unchanged."
 }
