@@ -1,0 +1,45 @@
+{
+  "schema": "fa3.decision-fabric-assessment.v1",
+  "project_id": "FA3-SHARED-AI-COMPOSITION-DECISION-ASSESSMENT-2026-10-01",
+  "covered_ids": [
+    "FA3-SHARED-AI-INTERACTION-001",
+    "FA3-SHARED-KNOWLEDGE-RETRIEVAL-001",
+    "FA3-SHARED-MULTIMODAL-SOURCE-001",
+    "FA3-SHARED-CONVERSATION-SESSION-001",
+    "FA3-SHARED-TOOL-ACTION-MEDIATION-001"
+  ],
+  "assessment": "NOT_APPLICABLE",
+  "rationale": "These shared profile/contract families define typed composition, provenance, routing and mediation boundaries. Eligibility, permissions, provider/model routing, resource admission, tool mediation and runtime promotion remain deterministic under existing Model Router, Security Governance, MCP/UAF, HRB and evidence gates. The shared layer must not rank candidates, expand eligible sets, grant permissions, select providers/models, create agents or promote runtime evidence. Existing consumers may independently use the already-canonical Decision Fabric after their own deterministic eligibility checks.",
+  "decision_points": [],
+  "not_delegated": [
+    "model or provider eligibility and routing authority",
+    "tool or action authorization",
+    "human approval requirements",
+    "host resource admission placement or leasing",
+    "secret access",
+    "knowledge access control",
+    "capability admission",
+    "runtime or evidence promotion"
+  ],
+  "project_radar_checked": true,
+  "project_radar_review": {
+    "scope": "Five shared AI composition profile/contract families against existing FA3 Decision Fabric boundaries",
+    "result": "NO_NEW_DECISION_FABRIC_DECISION_POINT_REQUIRED",
+    "note": "Shared composition is deterministic and authority-neutral; any advisory ranking remains in already-admitted consumer workflows."
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "global_accelerator_requirement": false
+  },
+  "security_boundary": {
+    "may_grant_permission": false,
+    "may_expand_candidate_set": false,
+    "may_create_agent": false,
+    "may_admit_model": false,
+    "may_admit_provider": false
+  },
+  "shadow_mode_required": false,
+  "capability_delta": 0,
+  "authority_delta": 0
+}

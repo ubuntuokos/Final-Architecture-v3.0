@@ -5,7 +5,7 @@
   "contract_family": "FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001",
   "runtime_conformance": "FA3-DEVELOPER-AGENT-COORDINATION-RUNTIME-CONFORMANCE-001",
   "fail_closed": true,
-  "mandatory_rule_count": 16,
+  "mandatory_rule_count": 18,
   "p0_invariants": [
     "DAC_EXPLICIT_TYPED_TASK_AND_DELEGATION",
     "DAC_ISOLATED_MUTATING_WORKSPACES",
@@ -22,7 +22,9 @@
     "DAC_EXECUTION_EVIDENCE_ATTRIBUTABLE",
     "DAC_EPHEMERAL_WORKER_CLEANUP_REQUIRED",
     "DAC_REFERENCE_E2E_POSITIVE_AND_NEGATIVE_PASS",
-    "DAC_REFERENCE_E2E_NOT_CURRENT_HOST_PROVIDER_PROMOTION"
+    "DAC_REFERENCE_E2E_NOT_CURRENT_HOST_PROVIDER_PROMOTION",
+    "DAC_HUMAN_AUDITABLE_MODEL_COMMUNICATION",
+    "DAC_PRIVATE_MODEL_LANGUAGE_FORBIDDEN"
   ],
   "runtime_reference_e2e_required": true,
   "external_provider_runtime_required": false,
@@ -32,5 +34,6 @@
   "report_paths": [
     "reports/developer-agent-coordination-gate-report.json",
     "reports/developer-agent-coordination-e2e-report.json"
-  ]
+  ],
+  "communication_policy": "FA3-AI-COMMS-001"
 }

@@ -1,0 +1,29 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-API-MEGA-LIST-INGESTION-CORE-2026-10-01",
+  "date": "2026-10-01",
+  "status": "CANONICAL_CLOSED",
+  "subject": "API Mega List pinned-snapshot ingestion core",
+  "decision": "MATERIALIZE_NON_AUTHORITATIVE_OFFLINE_DISCOVERY_INGESTION",
+  "profile_id": "FA3-EXTERNAL-API-DISCOVERY-001",
+  "source_id": "FA3-SOURCE-API-MEGA-LIST-001",
+  "candidate_store_policy_id": "FA3-EXTERNAL-DISCOVERY-CANDIDATE-STORE-001",
+  "rules": {
+    "source_snapshot_must_be_immutable": true,
+    "network_fetch_by_ingestion_core": false,
+    "affiliate_and_tracking_parameters_are_identity_neutral": true,
+    "secret_values_are_never_persisted": true,
+    "candidate_store_is_non_authoritative": true,
+    "candidate_store_is_rebuildable": true,
+    "automatic_donor_creation": false,
+    "automatic_provider_admission": false,
+    "automatic_mcp_registration": false,
+    "automatic_activation": false
+  },
+  "current_host_impact": "STRUCTURAL_REASSESSMENT_REQUIRED",
+  "current_host_obligation_delta": 0,
+  "runtime_promotion_claim": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 175
+}

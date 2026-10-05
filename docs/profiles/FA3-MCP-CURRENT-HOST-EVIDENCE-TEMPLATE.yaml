@@ -1,0 +1,104 @@
+profile: FA3-MCP-CURRENT-HOST-001
+status: PENDING_CURRENT_HOST
+host_profile: null
+commit: null
+generated_at: null
+checks:
+  - id: MCP-CH-01
+    name: gateway_health_readiness
+    expected: PASS
+    result: PENDING
+    evidence_ref: null
+  - id: MCP-CH-02
+    name: single_logical_endpoint
+    expected: PASS
+    result: PENDING
+    evidence_ref: null
+  - id: MCP-CH-03
+    name: canonical_capability_discovery
+    expected: PASS
+    result: PENDING
+    evidence_ref: null
+  - id: MCP-CH-04
+    name: malformed_request_rejected
+    expected: DENY
+    result: PENDING
+    evidence_ref: null
+  - id: MCP-CH-05
+    name: admitted_provider_invocation
+    expected: PASS
+    result: PENDING
+    evidence_ref: null
+  - id: MCP-CH-06
+    name: managed_stdio_adapter
+    expected: PASS_IF_USED
+    result: PENDING
+    evidence_ref: null
+  - id: MCP-CH-07
+    name: policy_deny
+    expected: DENY
+    result: PENDING
+    evidence_ref: null
+  - id: MCP-CH-08
+    name: mandatory_approval_missing
+    expected: DENY
+    result: PENDING
+    evidence_ref: null
+  - id: MCP-CH-09
+    name: direct_provider_bypass
+    expected: DENY
+    result: PENDING
+    evidence_ref: null
+  - id: MCP-CH-10
+    name: durable_secret_leak
+    expected: DENY
+    result: PENDING
+    evidence_ref: null
+  - id: MCP-CH-11
+    name: hrb_required_without_lease
+    expected: DENY
+    result: PENDING
+    evidence_ref: null
+  - id: MCP-CH-12
+    name: valid_hrb_lease_execution
+    expected: PASS
+    result: PENDING
+    evidence_ref: null
+  - id: MCP-CH-13
+    name: timeout_cancellation
+    expected: PASS
+    result: PENDING
+    evidence_ref: null
+  - id: MCP-CH-14
+    name: evidence_receipt
+    expected: PASS
+    result: PENDING
+    evidence_ref: null
+  - id: MCP-CH-15
+    name: unhealthy_provider_not_dispatched
+    expected: PASS
+    result: PENDING
+    evidence_ref: null
+  - id: MCP-CH-16
+    name: unknown_capability_provider
+    expected: DENY
+    result: PENDING
+    evidence_ref: null
+  - id: MCP-CH-17
+    name: gui_no_self_promotion
+    expected: PASS
+    result: PENDING
+    evidence_ref: null
+  - id: MCP-CH-18
+    name: no_authority_capture
+    expected: PASS
+    result: PENDING
+    evidence_ref: null
+  - id: MCP-CH-19
+    name: registry_evidence_reconciliation
+    expected: PASS
+    result: PENDING
+    evidence_ref: null
+
+# This file is intentionally all-PENDING. Runtime promotion is prohibited until
+# current-host evidence fills every mandatory check with an admissible result.

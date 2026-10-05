@@ -22,7 +22,7 @@
   "canonical_root": false,
   "architectural_authority": false,
   "new_capability": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "hard_dependency_for_profile": true,
   "exclusive_media_engine": false,
   "upstream": {
@@ -67,7 +67,10 @@
     "prefer": "NVDEC_OR_HW_DECODE -> CUDA_FILTERS_WHEN_SUPPORTED -> NVENC_OR_ADMITTED_ENCODER",
     "runtime_codec_support_matrix_required": true,
     "av1_encode_must_not_be_assumed": true,
-    "copy_minimization_required": true
+    "copy_minimization_required": true,
+    "accelerated_neural_nvidia_primary_path": "FA3-PROVIDER-PYNVVIDEOCODEC-001",
+    "dnn_processing_role": "SUPPORTED_COMPATIBILITY_PATH_NOT_PRIMARY_NVIDIA_AI_FRAME_PATH",
+    "zero_host_roundtrip_subprofile": "FA3-MEDIA-GPU-ZEROCOPY-001"
   },
   "forbidden_authorities": [
     "DURABLE_ORCHESTRATION_AUTHORITY",
@@ -87,5 +90,7 @@
     "quality_receipt_required": true,
     "rollback_evidence_required": true,
     "current_host_runtime_promotion_claimed": false
-  }
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

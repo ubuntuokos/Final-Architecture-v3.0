@@ -1,0 +1,91 @@
+{
+  "schema": "fa3.reference-matrix.v1",
+  "id": "FA3-MODERNIZATION-PROVIDER-CANDIDATES-2026-09-25",
+  "observed_at": "2026-09-25",
+  "status": "REFERENCE_ONLY_NOT_ADMISSION",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "candidates": [
+    {
+      "candidate_id": "VLLM",
+      "upstream": "vllm-project/vllm",
+      "role": "OPTIONAL_LOCAL_LLM_SERVING_RUNTIME",
+      "observed_release": "v0.30.0",
+      "immutable_reference_commit": "ced6857afa0ea7b2e3f0846a62e1394e90f15607",
+      "release_published_at": "2026-09-22T05:20:54Z",
+      "admission_status": "NOT_ADMITTED_REFERENCE_ONLY",
+      "required_authority_bindings": [
+        "FA3-AUTH-MODEL-ROUTER-001",
+        "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+      ],
+      "supply_chain_admission_required": true,
+      "current_host_e2e_required": true
+    },
+    {
+      "candidate_id": "STABLEHLO",
+      "upstream": "openxla/stablehlo",
+      "role": "PORTABLE_IR_INTERCHANGE_COMPILER_INPUT",
+      "observed_release": "MAIN_SNAPSHOT",
+      "immutable_reference_commit": "b9029ac2228a12e176ea20e56f7d3dcb6bf8a019",
+      "release_published_at": null,
+      "admission_status": "NOT_ADMITTED_REFERENCE_ONLY",
+      "resource_authority": false,
+      "supply_chain_admission_required": true,
+      "current_host_e2e_required": true
+    },
+    {
+      "candidate_id": "TVM",
+      "upstream": "apache/tvm",
+      "role": "OPTIONAL_COMPILER_BACKEND",
+      "observed_release": "v0.26.0",
+      "immutable_reference_commit": "c7b458e946bc4266915da582457476bdcd9705ae",
+      "release_published_at": "2026-08-11T01:02:45Z",
+      "admission_status": "NOT_ADMITTED_REFERENCE_ONLY",
+      "resource_authority": false,
+      "supply_chain_admission_required": true,
+      "current_host_e2e_required": true
+    },
+    {
+      "candidate_id": "TETRAGON",
+      "upstream": "cilium/tetragon",
+      "role": "OPTIONAL_RUNTIME_ENFORCEMENT_PROVIDER",
+      "observed_release": "v1.7.1",
+      "immutable_reference_commit": "99ca93d98710b98a42551bf3c12613e32888885d",
+      "release_published_at": "2026-08-25T11:40:47Z",
+      "admission_status": "NOT_ADMITTED_REFERENCE_ONLY",
+      "security_authority": false,
+      "supply_chain_admission_required": true,
+      "current_host_e2e_required": true
+    },
+    {
+      "candidate_id": "LANCEDB",
+      "upstream": "lancedb/lancedb",
+      "role": "OPTIONAL_DERIVED_KNOWLEDGE_ACCELERATOR",
+      "observed_release": "v0.40.0-beta.11",
+      "immutable_reference_commit": "1d4f4e7a0d0c653c66d6b68745e8ef1871d24c88",
+      "release_published_at": "2026-09-24T10:05:30Z",
+      "prerelease": true,
+      "admission_status": "NOT_ADMITTED_REFERENCE_ONLY",
+      "knowledge_authority": false,
+      "supply_chain_admission_required": true,
+      "current_host_e2e_required": true
+    }
+  ],
+  "license_policy": "LICENSE_AND_DISTRIBUTION_MUST_BE_REDISCOVERED_AND_ADMITTED_BY_EXISTING_SCS_BEFORE_RUNTIME_USE",
+  "installation_policy": "NO_AUTOMATIC_DOWNLOAD_INSTALL_OR_ACTIVATION_FROM_THIS_REFERENCE",
+  "evidence_policy": "UPSTREAM_REFERENCE_IS_NOT_CURRENT_HOST_OR_PRODUCTION_EVIDENCE",
+  "distribution_class": "REFERENCE_ONLY",
+  "release_bundle_status": "EXCLUDED",
+  "runtime_dependency": false,
+  "installation_required": false,
+  "product_bundle_allowed": false,
+  "imported": {
+    "code": false,
+    "content": false,
+    "registry": false,
+    "skills": false,
+    "installer": false,
+    "plugins": false
+  }
+}

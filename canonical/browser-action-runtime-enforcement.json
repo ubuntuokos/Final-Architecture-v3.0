@@ -1,0 +1,19 @@
+{
+  "schema": "fa3.enforcement.v1",
+  "id": "FA3-BROWSER-ACTION-RUNTIME-ENFORCEMENT-001",
+  "status": "CANONICAL",
+  "gate_id": "FA3-BROWSER-ACTION-RUNTIME-GATESET-001",
+  "gate": "src/fa3_browser_action_gate.py",
+  "tests": [
+    "tests/test_browser_action_runtime.py",
+    "tests/test_decision_fabric.py",
+    "tests/test_browser_session_bridge.py",
+    "tests/test_browser_session_gate.py"
+  ],
+  "workflow": ".github/workflows/fa3-browser-action-runtime.yml",
+  "fail_closed": true,
+  "capability_count": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}

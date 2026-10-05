@@ -1,0 +1,45 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-ANTI-SLOP-UPSTREAM-REFERENCE-2026-09-23",
+  "repository": "miqdadbadjuber/anti-slop",
+  "observed_commit": "0e384b7bff3301c8ec56dea300330772fed28e6a",
+  "observed_date": "2026-09-23",
+  "observed_version": "3.2.15",
+  "source_identity": {
+    "readme_blob_sha": "04b81aa3fa0683c684528b1d613d1d79dcaa8b58",
+    "license_blob_sha": "5fdb95f1efdbd865b9e8958d6ec5f20a06bcb951",
+    "package_blob_sha": "9d4a481d4e5644d9f74ce5f3f5a072ec67aa695e",
+    "security_blob_sha": "5ad6a74e1ca6b6bff373f4f2ac09db819c37501f"
+  },
+  "license": {
+    "name": "MIT",
+    "spdx_expression": "MIT",
+    "commercial_distribution_compatible_with_FA3_product": true
+  },
+  "disposition": "PATTERN_SOURCE",
+  "distribution_class": "REFERENCE_ONLY",
+  "imported": {
+    "code": false,
+    "content": false,
+    "registry": false,
+    "skills": false,
+    "installer": false,
+    "plugins": false
+  },
+  "runtime_dependency": false,
+  "installation_required": false,
+  "product_bundle_allowed": false,
+  "adopted_patterns_reimplemented_natively": [
+    "quality_filter_not_design_authority",
+    "tiered_hard_purpose_quality_rule_model",
+    "delivery_gate",
+    "concern_scoped_quality_skills"
+  ],
+  "explicit_non_adoption": [
+    "upstream_runtime_dependency",
+    "upstream_installer",
+    "automatic_agent_entry_file_mutation",
+    "upstream_plugin_distribution",
+    "upstream_rule_text_as_canonical_FA3_policy"
+  ]
+}

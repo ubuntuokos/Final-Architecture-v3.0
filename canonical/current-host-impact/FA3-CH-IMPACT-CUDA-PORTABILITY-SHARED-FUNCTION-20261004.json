@@ -1,0 +1,21 @@
+{
+  "schema": "fa3.current-host-structural-impact.v1",
+  "id": "FA3-CH-IMPACT-CUDA-PORTABILITY-SHARED-FUNCTION-20261004",
+  "date": "2026-10-04",
+  "status": "NO_RUNTIME_IMPACT",
+  "capability_count": 175,
+  "structural_changes": [
+    "canonical/FA3-CUDA-PORTABILITY-SHARED-FUNCTION-POLICY-001.json",
+    "canonical/FA3-GATE-HARDWARE-PORTABILITY-001.json",
+    "canonical/decisions/FA3-DEC-CUDA-PORTABILITY-SHARED-FUNCTION-2026-10-04.json",
+    "canonical/hardware-portability-enforcement.json",
+    "canonical/profiles/FA3-HARDWARE-BASELINE-001.json",
+    "src/fa3_hardware_portability_gate.py"
+  ],
+  "current_host_changes": [],
+  "physical_requalification_required": false,
+  "historical_evidence_reused": false,
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "rationale": "This changes canonical portability policy, CI enforcement and developer/product governance for strongly CUDA-oriented functions, but it does not add or modify an executable FA3/CFA3 host runtime, provider, model, package dependency, device driver, service, daemon, port/socket, credential delivery, hardware mutation, HRB lease path, accelerator backend implementation, or Current Host evidence collector. The runtime authorities and existing execution paths remain unchanged; therefore no physical Current Host requalification is required for this policy-only enforcement change. Any later material backend/provider implementation under this rule requires its own Current Host structural-impact assessment and physical requalification when runtime or host behavior changes."
+}

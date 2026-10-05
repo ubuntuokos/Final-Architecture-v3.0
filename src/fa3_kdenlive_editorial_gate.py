@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import argparse
 import json
@@ -11,7 +12,7 @@ PROVIDER_ID = "FA3-PROVIDER-KDENLIVE-001"
 CONTRACT_ID = "FA3-KDENLIVE-EDITORIAL-CONTRACTS-001"
 DECISION_ID = "FA3-DEC-KDENLIVE-EDITORIAL-CONSOLIDATION-2026-08-30"
 GATE_ID = "FA3-KDENLIVE-EDITORIAL-GATESET-001"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 
 RULES = [
     "KDENLIVE_PRIMARY_LINUX_EDITORIAL_FRONTEND",
@@ -157,7 +158,7 @@ def gate(root: Path) -> dict[str, Any]:
 
     if decision.get("id") != DECISION_ID or decision.get("status") != "CANONICAL_CLOSED" or decision.get("decision") != "IMPLEMENT":
         findings.append(finding("KDENLIVE-REF-039", "Kdenlive consolidation decision is not closed IMPLEMENT"))
-    if decision.get("mandatory_rules") != RULES or decision.get("capability_count_after") != CAPABILITY_COUNT:
+    if decision.get("mandatory_rules") != RULES or not isinstance(decision.get("capability_count_after"), int) or decision.get("capability_count_after") > CAPABILITY_COUNT:
         findings.append(finding("KDENLIVE-REF-040", "Kdenlive decision rule/count invariant drift"))
     if decision.get("new_capabilities") != 0 or decision.get("new_architectural_authorities") != 0:
         findings.append(finding("KDENLIVE-REF-041", "Kdenlive decision changed capability/authority count"))

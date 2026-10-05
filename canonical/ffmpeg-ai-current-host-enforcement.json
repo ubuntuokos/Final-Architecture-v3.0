@@ -5,13 +5,13 @@
   "parent_gate_id": "FA3-GATE-FFMPEG-AI-001",
   "conformance_id": "FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001",
   "profile_id": "FA3-NEURAL-MEDIA-EXECUTION-001",
-  "status": "MATERIALIZED_REAL_EXECUTION_PENDING",
+  "status": "MATERIALIZED_VENDOR_NEUTRAL_HOST_REAL_EXECUTION_PENDING",
   "fail_closed": true,
-  "capability_count": 143,
+  "capability_count": 175,
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
   "required_current_host_evidence": [
-    "LIVE_T7910_CPU_NUMA_FINGERPRINT",
+    "LIVE_VENDOR_NEUTRAL_CPU_NUMA_FINGERPRINT",
     "LIVE_NVIDIA_GPU_UUID_PCI_BDF_INVENTORY",
     "UNEXPIRED_HRB_NEURAL_MEDIA_LEASE",
     "IMMUTABLE_SIGNED_FFMPEG_BUILD_TRUST",
@@ -34,5 +34,7 @@
     "CONDA_OR_MAMBA_BASELINE",
     "PASS_WITHOUT_BUILD_TRUST_OR_QUALITY_EVIDENCE"
   ],
-  "promotion_semantics": "Component current-host PASS does not equal global FA3 promotion."
+  "promotion_semantics": "Component current-host PASS does not equal global FA3 promotion.",
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

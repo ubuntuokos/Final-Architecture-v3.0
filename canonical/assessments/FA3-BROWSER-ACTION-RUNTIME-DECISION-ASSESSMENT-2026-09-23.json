@@ -1,0 +1,53 @@
+{
+  "schema": "fa3.decision-fabric-assessment.v1",
+  "project_id": "FA3-BROWSER-ACTION-RUNTIME-JEV-ULTRAFAST-2026-09-23",
+  "covered_ids": [
+    "FA3-BROWSER-ACTION-RUNTIME-001"
+  ],
+  "assessment": "REQUIRED",
+  "rationale": "Browser automation requires bounded semantic selection only over an FA3-generated action space. Decision Fabric may select an observed candidate, but browser execution, permission, model routing, provider admission, resources, security and success verification remain with their existing FA3 authorities.",
+  "decision_points": [
+    {
+      "id": "browser-bounded-action-selection",
+      "purpose": "select exactly one currently observed and runtime-authorized browser action candidate",
+      "contract": "SELECT_ONE",
+      "candidate_source": "FA3-BROWSER-ACTION-RUNTIME-001",
+      "final_policy_owner": "FA3-WEB-AI-001 / UAF / existing FA3 policy authorities",
+      "failure_policy": "FAIL_CLOSED"
+    },
+    {
+      "id": "browser-stop-continue-signal",
+      "purpose": "provide a bounded stop/continue judgment when deterministic browser state alone is insufficient",
+      "contract": "STOP_CONTINUE",
+      "candidate_source": "FA3-BROWSER-ACTION-RUNTIME-001",
+      "final_policy_owner": "FA3-WEB-AI-001",
+      "failure_policy": "FAIL_CLOSED"
+    }
+  ],
+  "not_delegated": [
+    "browser execution authority",
+    "permission or approval authority",
+    "candidate-set construction or expansion",
+    "model/provider admission or physical routing",
+    "secret access",
+    "HRB resource leasing",
+    "independent outcome verification",
+    "evidence promotion"
+  ],
+  "project_radar_checked": true,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "global_accelerator_requirement": false
+  },
+  "security_boundary": {
+    "may_grant_permission": false,
+    "may_expand_candidate_set": false,
+    "may_create_agent": false,
+    "may_admit_model": false,
+    "may_admit_provider": false
+  },
+  "shadow_mode_required": true,
+  "capability_delta": 0,
+  "authority_delta": 0
+}

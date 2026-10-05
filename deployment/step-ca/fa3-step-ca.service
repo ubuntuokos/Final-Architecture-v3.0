@@ -1,0 +1,41 @@
+[Unit]
+Description=FA3 internal PKI issuing CA (Smallstep step-ca)
+Documentation=https://github.com/smallstep/certificates
+After=network-online.target
+Wants=network-online.target
+ConditionPathExists=/etc/fa3/step-ca/ca.json
+ConditionPathExists=/var/lib/fa3-step-ca/certs/root_ca.crt
+ConditionPathExists=/var/lib/fa3-step-ca/certs/intermediate_ca.crt
+ConditionPathExists=/var/lib/fa3-step-ca/secrets/intermediate_ca_key
+
+[Service]
+Type=simple
+User=fa3-step-ca
+Group=fa3-step-ca
+UMask=0077
+StateDirectory=fa3-step-ca
+LoadCredential=step-ca-password:/etc/fa3/secrets/step-ca-password
+ExecStart=/usr/local/bin/step-ca /etc/fa3/step-ca/ca.json --password-file=%d/step-ca-password
+Restart=on-failure
+RestartSec=5s
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+ProtectClock=true
+ProtectHostname=true
+RestrictSUIDSGID=true
+RestrictNamespaces=true
+LockPersonality=true
+MemoryDenyWriteExecute=true
+CapabilityBoundingSet=
+AmbientCapabilities=
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+ReadWritePaths=/var/lib/fa3-step-ca
+
+[Install]
+WantedBy=multi-user.target

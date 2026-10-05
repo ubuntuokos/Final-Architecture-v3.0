@@ -1,0 +1,183 @@
+{
+  "schema": "fa3.external-skill-radar.v1",
+  "id": "FA3-EXTERNAL-SKILL-RADAR-001",
+  "status": "CANONICAL_DISCOVERY_REFERENCE",
+  "parent_profile": "FA3-SKILL-FABRIC-001",
+  "authority": false,
+  "install_authority": false,
+  "admission_authority": false,
+  "runtime_authority": false,
+  "automatic_download": false,
+  "automatic_install": false,
+  "automatic_activation": false,
+  "capability_count": 175,
+  "sources": [
+    {
+      "repository": "agentskills/agentskills",
+      "commit": "69ef37e9424c0a7ea9dd2293b559e43ec8176379",
+      "role": "FORMAT_SPEC_REFERENCE",
+      "license": "Apache-2.0",
+      "classification": "REFERENCE_ONLY"
+    },
+    {
+      "repository": "anthropics/skills",
+      "commit": "33375500bcea98d610eb30ce10ac4e59b89c390d",
+      "role": "PACKAGING_AND_PROGRESSIVE_DISCLOSURE_REFERENCE",
+      "license": "PER_SKILL_OR_SOURCE_SPECIFIC_REVIEW_REQUIRED",
+      "classification": "REFERENCE_ONLY"
+    },
+    {
+      "repository": "addyosmani/agent-skills",
+      "commit": "2686b620fc1fed2e8f60c704839c766b8594c6b6",
+      "role": "PROCESS_ROUTING_EVAL_QUALITY_FLOOR_AND_SKILL_LINT_REFERENCE",
+      "license": "MIT",
+      "classification": "REFERENCE_ONLY"
+    },
+    {
+      "repository": "NVIDIA/SkillSpector",
+      "commit": "c7958a3268d9498644b22edb75d0f051bbc8cbfc",
+      "role": "SECURITY_INSPECTION_PATTERN_OR_OPTIONAL_PROVIDER_CANDIDATE",
+      "license": "Apache-2.0",
+      "classification": "REFERENCE_ONLY"
+    },
+    {
+      "repository": "microsoft/SkillOpt",
+      "commit": "79124b37e9a6371e13b753f8bcd7adb1e493ade1",
+      "role": "OFFLINE_SKILL_IMPROVEMENT_PATTERN_REFERENCE",
+      "license": "MIT",
+      "classification": "REFERENCE_ONLY"
+    },
+    {
+      "repository": "trailofbits/skills",
+      "commit": "0cc1c73a5e96749ab32d7ea5e14892fafa6972ae",
+      "role": "SECURITY_PROCEDURE_CATALOG_REFERENCE",
+      "license": "CC-BY-SA-4.0_REPOSITORY_LICENSE_REVIEW_INDIVIDUAL_CONTENT",
+      "classification": "REFERENCE_ONLY"
+    },
+    {
+      "repository": "github/awesome-copilot",
+      "commit": "1f5644080a525d26a2e24f61a7609fb9b261c21a",
+      "role": "CROSS_HARNESS_CATALOG_REFERENCE",
+      "license": "MIT",
+      "classification": "REFERENCE_ONLY"
+    },
+    {
+      "repository": "K-Dense-AI/scientific-agent-skills",
+      "commit": "49c6e97775eaa18ba791bebe23162a70ae601c18",
+      "role": "DOMAIN_SKILL_CATALOG_REFERENCE",
+      "license": "MIT_REPOSITORY_INDIVIDUAL_SKILL_LICENSE_REVIEW_REQUIRED",
+      "classification": "REFERENCE_ONLY"
+    },
+    {
+      "repository": "mattpocock/skills",
+      "commit": "c55ee46073ed923f86ce59a5eb3b6d895095d1b7",
+      "role": "ENGINEERING_DISCIPLINE_AND_WORKFLOW_PATTERN_REFERENCE",
+      "license": "MIT",
+      "classification": "REFERENCE_ONLY"
+    },
+    {
+      "repository": "microsoft/skills",
+      "commit": "23d0dac5f83f268166a17f0bc7dc6c73dc348a33",
+      "role": "SKILL_EVALUATION_EXPLORER_AND_CROSS_HARNESS_REFERENCE",
+      "license": "MIT",
+      "classification": "REFERENCE_ONLY"
+    },
+    {
+      "repository": "dotnet/skills",
+      "commit": "a55fbf42c36a37b94ec07291bd79cb6b6bf3a04d",
+      "role": "SKILL_VALUE_AND_ENGINEERING_REFERENCE",
+      "license": "MIT",
+      "classification": "REFERENCE_ONLY"
+    },
+    {
+      "repository": "emilkowalski/skills",
+      "commit": "d16ebe60d09a5ba2afcb7054ede9d0a10c9f6128",
+      "role": "UI_MOTION_AND_DESIGN_QUALITY_REFERENCE",
+      "license": "MIT",
+      "classification": "REFERENCE_ONLY"
+    },
+    {
+      "repository": "awesome-skills/code-review-skill",
+      "commit": "4850184dfd7765ea7b3c5c4e9b6cf8e0815ee7cb",
+      "role": "PROGRESSIVE_DISCLOSURE_CODE_REVIEW_REFERENCE",
+      "license": "MIT",
+      "classification": "REFERENCE_ONLY"
+    },
+    {
+      "repository": "Tencent/BrowserSkill",
+      "commit": "147727a0e2ded65a7d0f364beea8cc2ebcdec8af",
+      "role": "BROWSER_SESSION_AGENT_WINDOW_BORROW_RETURN_AND_HUMAN_ASSISTANCE_PATTERN_REFERENCE",
+      "license": "MIT",
+      "classification": "REFERENCE_ONLY"
+    },
+    {
+      "repository": "MicrosoftDocs/Agent-Skills",
+      "commit": "1e593dd0d55091fb66568c9194b29d8155453977",
+      "role": "HOST_PATH_COMPATIBILITY_AND_DOC_DERIVATION_REFERENCE",
+      "license": "CC-BY-4.0_REVIEW_REQUIRED",
+      "classification": "REFERENCE_ONLY"
+    }
+  ],
+  "invariants": [
+    "RADAR_DISCOVERY_IS_NOT_INSTALLATION",
+    "RADAR_DISCOVERY_IS_NOT_ADMISSION",
+    "CATALOG_RANKING_IS_NOT_TRUST",
+    "EVERY_IMPORTED_SKILL_REQUIRES_IMMUTABLE_SOURCE_AND_OWN_LICENSE_REVIEW",
+    "EVERY_IMPORTED_SKILL_REQUIRES_FA3_NORMALIZATION_SECURITY_EVAL_AND_ADMISSION",
+    "REFERENCE_ONLY_SOURCE_NEVER_ENTERS_RELEASE_BUNDLE_AS_IMPORTED_PAYLOAD"
+  ],
+  "reuse_discovery_binding": {
+    "profile_id": "FA3-REUSE-DISCOVERY-001",
+    "catalog_id": "FA3-REUSE-CATALOG-001",
+    "role": "REFERENCE_IDEA_SOURCE_ONLY",
+    "discovery_is_installation": false,
+    "discovery_is_admission": false,
+    "discovery_is_activation": false,
+    "catalog_is_trust_authority": false
+  },
+  "discovery_feeds": [
+    {
+      "surface": "https://github.com/topics/skill",
+      "classification": "DISCOVERY_FEED_ONLY"
+    },
+    {
+      "surface": "https://github.com/topics/skill-md",
+      "classification": "DISCOVERY_FEED_ONLY"
+    },
+    {
+      "surface": "https://github.com/topics/codex-skills",
+      "classification": "DISCOVERY_FEED_ONLY"
+    },
+    {
+      "surface": "https://github.com/topics/github-skills",
+      "classification": "DISCOVERY_FEED_ONLY"
+    },
+    {
+      "surface": "https://github.com/topics/ai-skills",
+      "classification": "DISCOVERY_FEED_ONLY"
+    },
+    {
+      "surface": "https://github.com/SKILLS",
+      "classification": "TRAINING_REFERENCE_ONLY"
+    }
+  ],
+  "documentation_surfaces": [
+    {
+      "surface": "https://agentskills.io/",
+      "classification": "FORMAT_DOCUMENTATION_REFERENCE_ONLY"
+    },
+    {
+      "surface": "https://opencode.ai/v2/docs/skills/",
+      "classification": "HOST_COMPATIBILITY_DOCUMENTATION_REFERENCE_ONLY"
+    },
+    {
+      "surface": "https://antigravity.google/docs/skills/",
+      "classification": "HOST_COMPATIBILITY_DOCUMENTATION_REFERENCE_ONLY"
+    },
+    {
+      "surface": "https://microsoft.github.io/skills/",
+      "classification": "SKILL_EXPLORER_REFERENCE_ONLY"
+    }
+  ],
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}

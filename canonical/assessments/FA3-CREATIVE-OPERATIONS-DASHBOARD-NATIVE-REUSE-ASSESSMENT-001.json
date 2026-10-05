@@ -1,0 +1,68 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-CREATIVE-OPERATIONS-DASHBOARD-NATIVE-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-CREATIVE-OPERATIONS-DASHBOARD-001",
+  "intent_id": "FA3-CREATIVE-OPERATIONS-DASHBOARD-NATIVE-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-CREATIVE-OPERATIONS-DASHBOARD-NATIVE-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-CREATIVE-OPERATIONS-DASHBOARD-001",
+    "FA3-DEC-CREATIVE-OPERATIONS-DASHBOARD-NATIVE-2026-09-26",
+    "FA3-CREATIVE-OPERATIONS-DASHBOARD-CONTRACTS-001"
+  ],
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "use": "ACTION_MEDIATION_AND_TYPED_DISPATCH_BOUNDARY"
+    },
+    {
+      "id": "FA3-AUTH-SECURITY-GOV-001",
+      "use": "SECURITY_POLICY_BOUNDARY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "AUDITABLE_EXECUTION_EVIDENCE"
+    },
+    {
+      "id": "FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-CONTRACTS-001",
+      "use": "GENERIC_LOCAL_GENERATIVE_MEDIA_LIFECYCLE_INTEGRATION_WITHOUT_EXTERNAL_DASHBOARD_AUTHORITY"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "EXTERNAL_DASHBOARD_PROVIDER_AUTHORITY",
+      "reason": "FA3_NATIVE_DASHBOARD_AND_ACTION_DISPATCH_ALREADY_SATISFY_THE_REQUIRED_CAPABILITIES"
+    },
+    {
+      "id": "FREE_FORM_SHELL_LAUNCHER",
+      "reason": "VIOLATES_FIXED_TYPED_ACTION_AND_SECURITY_BOUNDARIES"
+    }
+  ],
+  "pattern_reuse": [
+    "FA3-PATTERN-PROVIDER-NEUTRAL-ADAPTER-001",
+    "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001"
+  ],
+  "existing_authority_bindings": {
+    "actions": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_claim": false
+  },
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false
+}

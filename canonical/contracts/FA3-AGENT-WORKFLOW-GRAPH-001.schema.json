@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.local/contracts/FA3-AGENT-WORKFLOW-GRAPH-001.schema.json",
+  "x-fa3-contract-id": "FA3-AGENT-WORKFLOW-GRAPH-001",
+  "title": "FA3 Agent Workflow Graph",
+  "type": "object",
+  "required": [
+    "schema",
+    "graph_id",
+    "entry_node",
+    "nodes",
+    "edges"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.agent-workflow-graph.v1"
+    },
+    "graph_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "entry_node": {
+      "type": "string",
+      "minLength": 1
+    },
+    "yaml_is_canonical": {
+      "const": false
+    },
+    "nodes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "node_id",
+          "kind"
+        ],
+        "properties": {
+          "node_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kind": {
+            "enum": [
+              "AGENT",
+              "FUNCTION",
+              "SEQUENTIAL",
+              "PARALLEL",
+              "LOOP",
+              "DECISION"
+            ]
+          },
+          "side_effecting": {
+            "type": "boolean"
+          },
+          "retry": {
+            "type": "object"
+          },
+          "resume_policy": {
+            "enum": [
+              "RERUN_FAILED",
+              "REUSE_COMPLETED_DIGEST_BOUND"
+            ]
+          },
+          "idempotency_key_strategy": {
+            "type": "string",
+            "minLength": 1
+          },
+          "compensation_action_ref": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "from",
+          "to"
+        ],
+        "properties": {
+          "from": {
+            "type": "string",
+            "minLength": 1
+          },
+          "to": {
+            "type": "string",
+            "minLength": 1
+          },
+          "condition": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

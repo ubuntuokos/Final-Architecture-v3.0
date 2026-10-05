@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import argparse
 import json
@@ -14,7 +15,7 @@ from typing import Any, Callable
 EXECUTABLE_GATE_ID = "FA3-GATE-MUNDER-DIFFLIN-001"
 GATESET_ID = "FA3-MUNDER-DIFFLIN-GATESET-001"
 PROVIDER_ID = "FA3-PROVIDER-MUNDER-DIFFLIN-001"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 
 CASE_IDS = [
     "MD-001", "MD-002", "MD-003", "MD-004", "MD-005",

@@ -1,0 +1,107 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-GENERATIVE-MEDIA-MESH-001",
+  "name": "Shared Generative Media Capability Mesh",
+  "version": "1.0.0",
+  "status": "PROPOSED_STATIC_MATERIALIZATION_PRESENT_PENDING_EXACT_HEAD_OWNER_APPROVAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-005",
+    "CAP-014",
+    "CAP-016",
+    "CAP-041",
+    "CAP-069",
+    "CAP-095",
+    "CAP-111",
+    "CAP-112",
+    "CAP-128",
+    "CAP-135",
+    "CAP-143",
+    "CAP-148",
+    "CAP-149",
+    "CAP-154",
+    "CAP-156",
+    "CAP-159",
+    "CAP-160",
+    "CAP-163",
+    "CAP-166",
+    "CAP-167"
+  ],
+  "contracts": [
+    "FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001",
+    "FA3-IMGGEN-CONTRACTS-001",
+    "FA3-MMG-CONTEXT-IR-CONTRACTS-001",
+    "FA3-VIDEO-REFINEMENT-CONTRACTS-001"
+  ],
+  "dependencies": [
+    "FA3-VIDEO-001",
+    "FA3-ENGINE-SELECTION-FABRIC-001",
+    "FA3-AI-MODULE-FACTORY-001"
+  ],
+  "consumer_applications": [
+    "fa3.video-editor",
+    "fa3.quickclip",
+    "fa3.story-screenplay",
+    "fa3.character-studio",
+    "fa3.ai-module-factory",
+    "reference.krita"
+  ],
+  "donor_pattern_sources": [
+    "FA3-DONOR-HUGGINGFACE-DIFFUSERS-001",
+    "FA3-DONOR-XDIT-001",
+    "FA3-DONOR-VIDEOSYS-001",
+    "FA3-DONOR-NVLABS-SANA-001",
+    "FA3-DONOR-VIGOZHAO-AI-VISUAL-PROMPT-COOKBOOK-001",
+    "FA3-DONOR-KAOMEI-STICKMAN-VIDEO-DIRECTOR-001",
+    "FA3-DONOR-SEE-THROUGH-001",
+    "FA3-DONOR-HIGRESS-GROUP-HIROUTE-001",
+    "FA3-DONOR-SYSTEM-ONE-HARNESS-001",
+    "FA3-DONOR-TOBYFLOW-001"
+  ],
+  "hidream_parent_reference": "FA3-DONOR-HIDREAM-AI-ORG-001",
+  "hidream_children": {
+    "automatic_execution": false,
+    "automatic_registration": false,
+    "canonical_child_queue": false,
+    "child_sources_canonicalized": false,
+    "admission_state": "BLOCKED_PENDING_EXPLICIT_CHILD_DONOR_MARKERS_AND_INDIVIDUAL_GATES",
+    "analysis_only_recommendations_not_registry_metadata": true
+  },
+  "gui_bindings": {
+    "shared_surface": "create.ai-studio.generative-media-mesh",
+    "exact_application_placements": [
+      "Image / Photo Studio: Create > Generate; Edit > AI Edit; Edit > Constraints > Physical Consistency",
+      "Story / Screenplay: Visualize > Storyboard",
+      "Shot Designer: Motion > Trajectory; Camera > Generated Motion",
+      "Video Editor: AI > Generate; AI > Regional Edit; AI > Refine / Enhance",
+      "Quick Video: Generate > Visual; Generate > Motion",
+      "Character Studio: Animation > Motion Transfer; Appearance > Virtual Try-On (rights-gated)",
+      "AI Module Factory: Experiments > Generative Media",
+      "Model Manager: Models > Generative Media",
+      "FA3 Control Center: Models > Engines"
+    ],
+    "fa3_visual_style_required": true,
+    "donor_branded_ui_forbidden": true
+  },
+  "runtime_status": "IMPLEMENTATION_PRESENT_NOT_CANONICAL_FINALIZED_CHILD_PROVIDER_EXECUTION_BLOCKED",
+  "current_host": {
+    "structural_gui_change": true,
+    "physical_requalification_required": true,
+    "physical_pass_claimed": false,
+    "runtime_promotion_claim": false
+  },
+  "reference_considered_not_adopted": [
+    {
+      "donor_id": "FA3-DONOR-GOOGLE-ANTIGRAVITY-SDK-PYTHON-001",
+      "reason": "ORIGINAL_DONOR_INTAKE_INVARIANT_FORBIDS_APPLICATION_USAGE_REGISTRATION_WITHOUT_SEPARATE_ADOPTION_DECISION"
+    }
+  ],
+  "gate_id": "FA3-GATE-GENERATIVE-MEDIA-MESH-001",
+  "static_gate_command": "python src/fa3_generative_media_mesh_gate.py",
+  "regression_command": "python -m unittest tests/test_generative_media_mesh_20261004.py"
+}

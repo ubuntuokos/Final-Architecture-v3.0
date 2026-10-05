@@ -5,13 +5,15 @@ import hashlib
 import json
 import subprocess
 from pathlib import Path
+from fa3_release_baseline import load_active_release_baseline
 
 PROJECTION_ID = "FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30"
 PROJECTION_PATH = "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json"
 DECISION_PATH = "canonical/decisions/FA3-DEC-UNIFIED-POST-V3.0.11-PROJECTION-2026-08-30.json"
-BASE_RELEASE = "2026-08-23/v3.0.11"
 BASE_COMMIT = "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60"
-CAPABILITY_COUNT = 143
+SOURCE_GRAPH_RELEASE = "2026-08-23/v3.0.11"
+PROJECTION_SEMANTICS = "CAPABILITY_MODEL_EXPANSION_143_TO_175_WITH_COMPATIBILITY_STABLE_PROJECTION_PATH"
+PREVIOUS_CAPABILITY_COUNT = 143
 EXPECTED_SOURCE_GRAPH_SHA256 = "0418528b52fd9a29d993fc69c1ea508f57cd527d96e234d738c6b8fc553c4f16"
 EXPECTED_SOURCE_GRAPH_NODES = 1615
 EXPECTED_SOURCE_GRAPH_EDGES = 6144
@@ -66,6 +68,19 @@ DAC_COLLECTOR_PATH = "evidence/collect-developer-agent-coordination-e2e.py"
 DAC_EXAMPLE_PATH = "examples/developer-agent-coordination-request.json"
 DAC_RUNNER_PATH = "bin/fa3-developer-agent-coordination-e2e"
 DAC_RECONCILIATION_STATUS = "GLOBAL_PROJECTION_RECONCILED_CI_REFERENCE_E2E_REQUIRED"
+AI_COMMS_PROFILE_ID = "FA3-AI-COMMS-001"
+AI_COMMS_CONTRACT_ID = "FA3-AI-COMMS-CONTRACTS-001"
+AI_COMMS_DECISION_ID = "FA3-DEC-AI-COMMS-2026-09-22"
+AI_COMMS_GATE_ID = "FA3-AI-COMMS-GATESET-001"
+AI_COMMS_PROFILE_PATH = "canonical/profiles/FA3-AI-COMMS-001.json"
+AI_COMMS_CONTRACT_PATH = "canonical/contracts/FA3-AI-COMMS-CONTRACTS-001.json"
+AI_COMMS_DECISION_PATH = "canonical/decisions/FA3-DEC-AI-COMMS-2026-09-22.json"
+AI_COMMS_ENFORCEMENT_PATH = "canonical/ai-comms-enforcement.json"
+AI_COMMS_RUNTIME_PATH = "src/fa3_ai_comms.py"
+AI_COMMS_GATE_PATH = "src/fa3_ai_comms_gate.py"
+AI_COMMS_TEST_PATH = "tests/test_ai_comms.py"
+AI_COMMS_WORKFLOW_PATH = ".github/workflows/fa3-ai-comms-gate.yml"
+AI_COMMS_RECONCILIATION_STATUS = "GLOBAL_PROJECTION_RECONCILED_P0_HUMAN_AUDITABLE_GATE_REQUIRED"
 CODEX_PROVIDER_ID = "FA3-PROVIDER-CODEX-001"
 CODEX_GATE_ID = "FA3-CODEX-GATESET-001"
 CODEX_CONTRACT_ID = "FA3-CODEX-ADAPTER-CONTRACTS-001"
@@ -373,20 +388,18 @@ VPLC_RECONCILIATION_STATUS = "GLOBAL_PROJECTION_RECONCILED_CANONICAL_REFERENCE_P
 
 HWPORT_PROFILE_ID = "FA3-HARDWARE-BASELINE-001"
 HWPORT_CONTRACT_ID = "FA3-HARDWARE-DISCOVERY-CONTRACTS-001"
-HWPORT_DECISION_ID = "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03"
+HWPORT_DECISION_ID = "FA3-DEC-HARDWARE-AUDIT-2026-09-20"
 HWPORT_GATE_ID = "FA3-HARDWARE-PORTABILITY-GATESET-001"
 HWPORT_EXECUTABLE_GATE_ID = "FA3-GATE-HARDWARE-PORTABILITY-001"
 HWPORT_PROFILE_PATH = "canonical/profiles/FA3-HARDWARE-BASELINE-001.json"
 HWPORT_CONTRACT_PATH = "canonical/contracts/FA3-HARDWARE-DISCOVERY-CONTRACTS-001.json"
-HWPORT_DECISION_PATH = "canonical/decisions/FA3-DEC-HARDWARE-PORTABILITY-2026-09-03.json"
+HWPORT_DECISION_PATH = "canonical/decisions/FA3-DEC-HARDWARE-AUDIT-2026-09-20.json"
 HWPORT_GATE_RECORD_PATH = "canonical/FA3-GATE-HARDWARE-PORTABILITY-001.json"
 HWPORT_ENFORCEMENT_PATH = "canonical/hardware-portability-enforcement.json"
-HWPORT_EVIDENCE_PATH = "evidence/reference/hardware-portability-ci-2026-09-03.json"
-HWPORT_AUDIT_PATH = "evidence/reference/hardware-portability-repository-audit-2026-09-03.json"
 HWPORT_GATE_PATH = "src/fa3_hardware_portability_gate.py"
 HWPORT_TEST_PATH = "tests/test_hardware_portability_gate.py"
 HWPORT_CAPABILITY_IDS = ("CAP-001", "CAP-006", "CAP-062", "CAP-063", "CAP-065", "CAP-130", "CAP-137", "CAP-142", "CAP-143")
-HWPORT_RECONCILIATION_STATUS = "GLOBAL_PROJECTION_RECONCILED_CANONICAL_REPOSITORY_AUDIT_PASS_CURRENT_HOST_DYNAMIC_DISCOVERY_PENDING"
+HWPORT_RECONCILIATION_STATUS = "VENDOR_NEUTRAL_CANONICAL_AUDIT_CURRENT_HOST_FRESH_EVIDENCE_PENDING"
 
 _MUTABLE_TOP_LEVEL = {".git", "reports", "acceptance", "promotion", ".pytest_cache", ".mypy_cache", ".fa3-current-host"}
 _MUTABLE_DIR_NAMES = {"__pycache__"}
@@ -438,6 +451,20 @@ def _git(root: Path, *args: str) -> str:
     return proc.stdout.strip()
 
 
+def _git_z(root: Path, *args: str) -> str:
+    proc = subprocess.run(
+        ["git", "-C", str(root), *args],
+        capture_output=True,
+        check=False,
+    )
+    if proc.returncode != 0:
+        stderr = proc.stderr.decode("utf-8", "surrogateescape").strip()
+        raise RuntimeError(
+            f"git {' '.join(args)} failed with rc={proc.returncode}: {stderr}"
+        )
+    return proc.stdout.decode("utf-8", "surrogateescape")
+
+
 def _git_is_ancestor(root: Path, ancestor: str, descendant: str) -> bool:
     proc = subprocess.run(
         ["git", "-C", str(root), "merge-base", "--is-ancestor", ancestor, descendant],
@@ -485,21 +512,26 @@ def _snapshot_release_surface_equivalent_except_projection(
 
 
 def _diff_rows(root: Path, snapshot_head: str):
-    raw = _git(root, "diff", "--name-status", "--find-renames", BASE_COMMIT, snapshot_head)
+    raw = _git_z(root, "diff", "--name-status", "-z", "--find-renames", BASE_COMMIT, snapshot_head)
+    tokens = raw.split("\0")
+    if tokens and tokens[-1] == "":
+        tokens.pop()
     rows = []
-    for line in raw.splitlines():
-        if not line:
-            continue
-        parts = line.split("\t")
-        status = parts[0]
+    i = 0
+    while i < len(tokens):
+        status = tokens[i]
+        i += 1
         if status.startswith(("R", "C")):
-            if len(parts) < 3:
-                raise RuntimeError(f"unparseable rename/copy row: {line}")
-            path = parts[-1]
+            if i + 1 >= len(tokens):
+                raise RuntimeError(f"unparseable rename/copy record: {status}")
+            _old_path = tokens[i]
+            path = tokens[i + 1]
+            i += 2
         else:
-            if len(parts) < 2:
-                raise RuntimeError(f"unparseable name-status row: {line}")
-            path = parts[1]
+            if i >= len(tokens):
+                raise RuntimeError(f"unparseable name-status record: {status}")
+            path = tokens[i]
+            i += 1
         rows.append((status, path))
     return rows
 
@@ -555,6 +587,9 @@ def collect_git_snapshot_facts(root: Path, snapshot_head: str):
 
 def gate(root: Path):
     root = Path(root).resolve()
+    active_baseline = load_active_release_baseline(root)
+    BASE_RELEASE = active_baseline.release
+    CAPABILITY_COUNT = active_baseline.capability_count
     findings = []
 
     projection = loadj(root / PROJECTION_PATH)
@@ -573,14 +608,15 @@ def gate(root: Path):
     if (
         projection.get("base_release") != BASE_RELEASE
         or projection.get("base_release_commit") != BASE_COMMIT
-        or projection.get("projection_semantics") != "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_UPDATE"
+        or projection.get("projection_semantics") != PROJECTION_SEMANTICS
     ):
         findings.append(finding("FA3-RELEASE-PROJECTION-002", "Baseline release/commit or projection semantics changed"))
 
     invariants = projection.get("invariants", {})
     if (
         invariants.get("canonical_capability_count") != CAPABILITY_COUNT
-        or invariants.get("new_capabilities") != 0
+        or invariants.get("new_capabilities") != CAPABILITY_COUNT - PREVIOUS_CAPABILITY_COUNT
+        or invariants.get("previous_canonical_capability_count") != PREVIOUS_CAPABILITY_COUNT
         or invariants.get("new_architectural_authorities") != 0
         or invariants.get("baseline_semantics_frozen") is not True
     ):
@@ -597,7 +633,8 @@ def gate(root: Path):
 
     source_graph = projection.get("baseline_source_graph", {})
     if (
-        attestation.get("release") != BASE_RELEASE
+        attestation.get("release") != SOURCE_GRAPH_RELEASE
+        or source_graph.get("release") != SOURCE_GRAPH_RELEASE
         or attestation.get("sha256") != EXPECTED_SOURCE_GRAPH_SHA256
         or attestation.get("graph_nodes") != EXPECTED_SOURCE_GRAPH_NODES
         or attestation.get("graph_edges") != EXPECTED_SOURCE_GRAPH_EDGES
@@ -625,6 +662,263 @@ def gate(root: Path):
     manifest_paths = {m.get("path") for m in manifest}
     if projection.get("manifest_entry_count") != len(manifest) or len(manifest_paths) != len(manifest):
         findings.append(finding("FA3-RELEASE-PROJECTION-008", "Projection manifest cardinality/uniqueness mismatch"))
+
+    neural_rendering = projection.get("neural_rendering_reconciliation", {})
+    neural_rendering_paths = {
+        "canonical/profiles/FA3-NEURAL-RENDERING-001.json",
+        "canonical/contracts/FA3-NEURAL-RENDERING-CONTRACTS-001.json",
+        "canonical/providers/FA3-PROVIDER-OPENDLSS-NR-001.json",
+        "canonical/decisions/FA3-DEC-NEURAL-RENDERING-OPENDLSS-NR-2026-09-23.json",
+        "canonical/references/FA3-OPENDLSS-NR-UPSTREAM-REFERENCE-2026-09-23.json",
+        "canonical/FA3-GATE-NEURAL-RENDERING-001.json",
+        "canonical/FA3-NEURAL-RENDERING-RUNTIME-CONFORMANCE-001.json",
+        "canonical/neural-rendering-enforcement.json",
+        "canonical/actions/render.neural.evaluate.json",
+        "canonical/actions/render.neural.execute.json",
+        "canonical/actions/render.neural.browser.execute.json",
+        "evidence/reference/neural-rendering-opendlss-nr-reference-2026-09-23.json",
+        "src/fa3_neural_rendering.py",
+        "src/fa3_neural_rendering_jev_adapter.py",
+        "src/fa3_opendlss_nr_provider.py",
+        "src/fa3_neural_rendering_gate.py",
+        "src/fa3_neural_rendering_current_host_gate.py",
+        "tests/test_neural_rendering.py",
+        "tests/test_opendlss_nr_provider.py",
+        "tests/test_neural_rendering_current_host_gate.py",
+        "tests/test_neural_rendering_gate.py",
+        ".github/workflows/fa3-neural-rendering-reference.yml",
+        ".github/workflows/fa3-neural-rendering-current-host.yml",
+    }
+    if (
+        neural_rendering.get("profile_id") != "FA3-NEURAL-RENDERING-001"
+        or neural_rendering.get("contract_id") != "FA3-NEURAL-RENDERING-CONTRACTS-001"
+        or neural_rendering.get("decision_id") != "FA3-DEC-NEURAL-RENDERING-OPENDLSS-NR-2026-09-23"
+        or neural_rendering.get("provider_id") != "FA3-PROVIDER-OPENDLSS-NR-001"
+        or neural_rendering.get("gate_id") != "FA3-NEURAL-RENDERING-GATESET-001"
+        or neural_rendering.get("reference_evidence_status") != "STATIC_REFERENCE_EXECUTABLE_PASS_NOT_PROVIDER_RUNTIME_E2E"
+        or neural_rendering.get("current_host_provider_e2e") != "PENDING_COMPATIBLE_CURRENT_HOST_EXECUTION"
+        or neural_rendering.get("production_provider_admission") is not False
+        or neural_rendering.get("global_promotion_claim") is not False
+        or neural_rendering.get("existing_429_capability_closure_reopened") is not False
+        or neural_rendering.get("new_capabilities") != 0
+        or neural_rendering.get("new_architectural_authorities") != 0
+        or neural_rendering.get("capability_count_after") != CAPABILITY_COUNT
+        or "FA3-NEURAL-RENDERING-GATESET-001" not in projection_gates
+        or "FA3-NEURAL-RENDERING-GATESET-001" not in policy_gates
+        or not neural_rendering_paths.issubset(manifest_paths)
+    ):
+        findings.append(finding(
+            "FA3-RELEASE-PROJECTION-119",
+            "Neural Rendering/OpenDLSS-NR global release reconciliation invariant mismatch",
+            missing_manifest_paths=sorted(neural_rendering_paths - manifest_paths),
+        ))
+
+    supply_runtime = projection.get("supply_runtime_hardening_reconciliation", {})
+    supply_runtime_required_paths = {
+        "canonical/profiles/FA3-PROVIDER-RUNTIME-001.json",
+        "canonical/contracts/FA3-PROVIDER-RUNTIME-CONTRACTS-001.json",
+        "canonical/contracts/FA3-SCS-CONTRACTS-001.json",
+        "canonical/contracts/FA3-HOST-RESOURCE-BROKER-CONTRACTS-001.json",
+        "canonical/contracts/FA3-RUNTIME-HARDENING-CONTRACTS-001.json",
+        "canonical/decisions/FA3-DEC-SUPPLY-RUNTIME-HRB-HARDENING-2026-09-25.json",
+        "canonical/FA3-GATE-SUPPLY-RUNTIME-HARDENING-001.json",
+        "canonical/supply-runtime-hardening-enforcement.json",
+        "canonical/supply-chain-license-policy.json",
+        "src/fa3_supply_chain_admission.py",
+        "src/fa3_provider_runtime.py",
+        "src/fa3_upstream_patchset.py",
+        "src/fa3_hrb_composite_lease.py",
+        "src/fa3_supply_runtime_hardening_gate.py",
+        "tools/fa3_supply_chain_scan.py",
+        "tools/fa3_bind_provider_runtime.py",
+        "tools/fa3_prepare_upstream_patchset.py",
+        "tests/test_supply_runtime_hardening.py",
+        ".github/workflows/fa3-supply-runtime-hardening.yml",
+        "docs/FA3-SUPPLY-RUNTIME-HRB-HARDENING-2026-09-25.md",
+        "canonical/upstream-patches/FA3-UPSTREAM-PATCHSET-TENCENTDB-AGENT-MEMORY-001.json",
+        "canonical/upstream-patches/FA3-UPSTREAM-PATCHSET-OPENCUT-001.json",
+        "canonical/schemas/software-supply-chain-receipt.v1.json",
+        "canonical/schemas/provider-runtime-environment.v1.json",
+        "canonical/schemas/resource-reservation-plan.v1.json",
+        "canonical/schemas/upstream-patch-set.v1.json",
+        "canonical/hrb-deterministic-locality-enforcement.json",
+        "canonical/intents/FA3-PROVIDER-RUNTIME-APPLICATION-INTENT-001.json",
+        "canonical/intents/FA3-SCS-AUTOMATED-ADMISSION-APPLICATION-INTENT-001.json",
+        "canonical/intents/FA3-HRB-COMPOSITE-RESERVATION-APPLICATION-INTENT-001.json",
+        "canonical/intents/FA3-HU-AQC-CURRENT-HOST-APPLICATION-INTENT-001.json",
+        "canonical/assessments/FA3-PROVIDER-RUNTIME-REUSE-ASSESSMENT-001.json",
+        "canonical/assessments/FA3-SCS-AUTOMATED-ADMISSION-REUSE-ASSESSMENT-001.json",
+        "canonical/assessments/FA3-HRB-COMPOSITE-RESERVATION-REUSE-ASSESSMENT-001.json",
+        "canonical/assessments/FA3-HU-AQC-CURRENT-HOST-REUSE-ASSESSMENT-001.json",
+        "canonical/FA3-SUPPLY-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001.json",
+        "canonical/FA3-GATE-SUPPLY-RUNTIME-HARDENING-CURRENT-HOST-001.json",
+        "canonical/schemas/hu-aqc-golden-corpus-manifest.v1.json",
+        "src/fa3_supply_runtime_hardening_current_host_gate.py",
+        "evidence/collect-hrb-composite-current-host.py",
+        "evidence/collect-provider-runtime-current-host.py",
+        "fa3-current-host/templates/provider-runtime-venv.example.json",
+        "fa3-current-host/templates/provider-runtime-oci.example.json",
+        "fa3-current-host/templates/provider-runtime-host-native.example.json",
+        "evidence/collect-hu-aqc-golden-corpus-current-host.py",
+        "tests/test_supply_runtime_hardening_current_host.py",
+        ".github/workflows/fa3-supply-runtime-hardening-current-host.yml",
+        "fa3-current-host/templates/hrb-composite-plan.example.json",
+        "fa3-current-host/templates/hrb-composite-capacity.example.json",
+        "fa3-current-host/templates/hu-aqc-golden-corpus.example.json",
+        "docs/FA3-SUPPLY-RUNTIME-HRB-HARDENING-CURRENT-HOST.md",
+    }
+    if (
+        supply_runtime.get("decision_id") != "FA3-DEC-SUPPLY-RUNTIME-HRB-HARDENING-2026-09-25"
+        or supply_runtime.get("provider_runtime_profile_id") != "FA3-PROVIDER-RUNTIME-001"
+        or supply_runtime.get("provider_runtime_contract_id") != "FA3-PROVIDER-RUNTIME-CONTRACTS-001"
+        or supply_runtime.get("gate_id") != "FA3-SUPPLY-RUNTIME-HARDENING-GATESET-001"
+        or supply_runtime.get("capability_count_after") != CAPABILITY_COUNT
+        or supply_runtime.get("new_capabilities") != 0
+        or supply_runtime.get("new_architectural_authorities") != 0
+        or supply_runtime.get("hu_aqc_current_host_promotion_claim") is not False
+        or supply_runtime.get("current_host_conformance_id") != "FA3-SUPPLY-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001"
+        or supply_runtime.get("current_host_gate_id") != "FA3-SUPPLY-RUNTIME-HARDENING-CURRENT-HOST-GATESET-001"
+        or supply_runtime.get("hrb_current_host_scope") != "CONTROL_PLANE_ONLY_NO_PRODUCTION_BROKER_PROMOTION"
+        or supply_runtime.get("scs_current_host_status") != "PENDING_REAL_LOCAL_SCANNER_EXECUTION"
+        or supply_runtime.get("provider_runtime_current_host_status") != "PENDING_REAL_SELECTED_PROVIDER_RUNTIME_EXECUTION"
+        or supply_runtime.get("hrb_composite_current_host_status") != "PENDING_REAL_CONTROL_PLANE_EXECUTION"
+        or supply_runtime.get("hu_aqc_golden_corpus_current_host_status") != "PENDING_REAL_CORPUS_EXECUTION"
+        or supply_runtime.get("global_promotion_claim") is not False
+        or "FA3-SUPPLY-RUNTIME-HARDENING-GATESET-001" not in projection_gates
+        or not supply_runtime_required_paths.issubset(manifest_paths)
+    ):
+        findings.append(finding("FA3-RELEASE-PROJECTION-123","Supply-chain / Provider Runtime / HRB composite hardening reconciliation invariant mismatch"))
+
+    runtime_hardening = projection.get("runtime_hardening_reconciliation", {})
+    runtime_hardening_required_paths = {
+        "canonical/profiles/FA3-RUNTIME-ISOLATION-001.json",
+        "canonical/profiles/FA3-AGENT-SANDBOX-001.json",
+        "canonical/profiles/FA3-MEDIA-GPU-ZEROCOPY-001.json",
+        "canonical/profiles/FA3-HU-AQC-001.json",
+        "canonical/profiles/FA3-PROMOTION-SHADOW-001.json",
+        "canonical/contracts/FA3-RUNTIME-HARDENING-CONTRACTS-001.json",
+        "canonical/providers/FA3-PROVIDER-PYNVVIDEOCODEC-001.json",
+        "canonical/decisions/FA3-DEC-RUNTIME-HARDENING-SHADOW-2026-09-19.json",
+        "canonical/FA3-GATE-RUNTIME-HARDENING-001.json",
+        "canonical/runtime-hardening-enforcement.json",
+        "src/fa3_runtime_hardening.py",
+        "src/fa3_runtime_hardening_gate.py",
+        "tests/test_runtime_hardening_gate.py",
+        "canonical/FA3-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001.json",
+        "canonical/FA3-GATE-RUNTIME-HARDENING-CURRENT-HOST-001.json",
+        "canonical/runtime-hardening-current-host-enforcement.json",
+        "canonical/decisions/FA3-DEC-RUNTIME-HARDENING-CURRENT-HOST-2026-09-19.json",
+        "canonical/references/FA3-RUNTIME-HARDENING-CURRENT-HOST-UPSTREAM-REFERENCE-2026-09-19.json",
+        "src/fa3_runtime_hardening_current_host.py",
+        "src/fa3_runtime_hardening_current_host_gate.py",
+        "evidence/collect-runtime-isolation-sandbox-current-host.py",
+        "evidence/collect-media-gpu-zerocopy-current-host.py",
+        "evidence/collect-hu-aqc-current-host.py",
+        "evidence/collect-promotion-shadow-current-host.py",
+        "tests/test_runtime_hardening_current_host_gate.py",
+        "docs/runtime-hardening-current-host.md",
+        ".github/workflows/fa3-runtime-hardening-current-host.yml",
+        "fa3-current-host/manifest.json",
+    }
+    if (
+        runtime_hardening.get("profile_ids") != [
+            "FA3-RUNTIME-ISOLATION-001",
+            "FA3-AGENT-SANDBOX-001",
+            "FA3-MEDIA-GPU-ZEROCOPY-001",
+            "FA3-HU-AQC-001",
+            "FA3-PROMOTION-SHADOW-001",
+        ]
+        or runtime_hardening.get("contract_id") != "FA3-RUNTIME-HARDENING-CONTRACTS-001"
+        or runtime_hardening.get("provider_id") != "FA3-PROVIDER-PYNVVIDEOCODEC-001"
+        or runtime_hardening.get("decision_id") != "FA3-DEC-RUNTIME-HARDENING-SHADOW-2026-09-19"
+        or runtime_hardening.get("gate_id") != "FA3-RUNTIME-HARDENING-GATESET-001"
+        or runtime_hardening.get("current_host_conformance_id")
+        != "FA3-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001"
+        or runtime_hardening.get("current_host_gate_id")
+        != "FA3-RUNTIME-HARDENING-CURRENT-HOST-GATESET-001"
+        or runtime_hardening.get("current_host_decision_id")
+        != "FA3-DEC-RUNTIME-HARDENING-CURRENT-HOST-2026-09-19"
+        or runtime_hardening.get("current_host_runtime_status")
+        != "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING"
+        or runtime_hardening.get("current_host_runtime_promotion_claim") is not False
+        or runtime_hardening.get("current_host_surfaces") != [
+            "RUNTIME_ISOLATION_AGENT_SANDBOX",
+            "MEDIA_ACCELERATOR_MEMORY_RESIDENCY",
+            "HU_AQC",
+            "PROMOTION_SHADOW",
+        ]
+        or runtime_hardening.get("reconciliation_status")
+        != "GLOBAL_RELEASE_RECONCILED_STATIC_GATE_ENFORCED_CURRENT_HOST_RUNTIME_PENDING"
+        or runtime_hardening.get("shadow_execution_authoritative") is not False
+        or runtime_hardening.get("production_gate_bypass") is not False
+        or runtime_hardening.get("new_capabilities") != 0
+        or runtime_hardening.get("new_architectural_authorities") != 0
+        or runtime_hardening.get("capability_count_after") != CAPABILITY_COUNT
+        or "FA3-RUNTIME-HARDENING-GATESET-001" not in projection_gates
+        or not runtime_hardening_required_paths.issubset(manifest_paths)
+    ):
+        findings.append(
+            finding(
+                "FA3-RELEASE-PROJECTION-109",
+                "Runtime hardening/shadow global release reconciliation invariant mismatch",
+                missing_manifest_paths=sorted(runtime_hardening_required_paths - manifest_paths),
+            )
+        )
+
+    cap028_host = projection.get("cap028_current_host_reconciliation", {})
+    cap028_required_paths = {
+        "canonical/profiles/FA3-AGENT-EXEC-001.json",
+        "canonical/current-host-capability-test-qualifications.json",
+        "canonical/current-host-capability-qualification-constituent-producers.json",
+        "canonical/current-host-capability-test-executors.json",
+        "src/fa3_cap028_agent_execution_current_host.py",
+        "tests/test_cap028_agent_execution_current_host.py",
+        ".github/workflows/fa3-global-current-host-closure.yml",
+        "fa3-current-host/manifest.json",
+        "docs/current-host-runner.md",
+    }
+    cap028_registry = next(
+        (row for row in records if row.get("subject_id") == "CAP-028"),
+        {},
+    )
+    cap028_qualification_ids = [
+        "FA3-QUAL-CAP-028-POS-001",
+        "FA3-QUAL-CAP-028-NEG-001",
+        "FA3-QUAL-CAP-028-ROLLBACK-001",
+    ]
+    if (
+        cap028_host.get("subject_id") != "CAP-028"
+        or cap028_host.get("qualification_ids") != cap028_qualification_ids
+        or cap028_host.get("producer_adapter") != "src/fa3_cap028_agent_execution_current_host.py"
+        or cap028_host.get("execution_backend") != "WASMTIME_WASI"
+        or cap028_host.get("status") != "REGISTERED_REAL_CURRENT_HOST_EXECUTION_PENDING"
+        or cap028_host.get("source_decision_ids") != cap028_registry.get("source_decision_ids")
+        or cap028_host.get("source_decision_count") != len(cap028_registry.get("source_decision_ids", []))
+        or cap028_host.get("registered_obligation_delta") != 3
+        or cap028_host.get("registered_executor_count_after") != 18
+        or cap028_host.get("pending_executor_count_after") != 411
+        or cap028_host.get("hosted_ci_substitution_allowed") is not False
+        or cap028_host.get("optional_provider_runtime_required") is not False
+        or cap028_host.get("current_host_runtime_pass_claim") is not False
+        or cap028_host.get("global_promotion_claim") is not False
+        or cap028_host.get("new_capabilities") != 0
+        or cap028_host.get("new_architectural_authorities") != 0
+        or cap028_host.get("capability_count_after") != CAPABILITY_COUNT
+        or policy.get("cap028_current_host_subject_id") != "CAP-028"
+        or policy.get("cap028_current_host_qualification_ids") != cap028_qualification_ids
+        or policy.get("cap028_current_host_producer_adapter") != "src/fa3_cap028_agent_execution_current_host.py"
+        or policy.get("cap028_current_host_execution_backend") != "WASMTIME_WASI"
+        or policy.get("cap028_current_host_status") != "REGISTERED_REAL_CURRENT_HOST_EXECUTION_PENDING"
+        or policy.get("cap028_current_host_global_promotion_claim") is not False
+        or not cap028_required_paths.issubset(manifest_paths)
+    ):
+        findings.append(
+            finding(
+                "FA3-RELEASE-PROJECTION-110",
+                "CAP-028 current-host capability qualification reconciliation invariant mismatch",
+                missing_manifest_paths=sorted(cap028_required_paths - manifest_paths),
+            )
+        )
 
     kanboard = projection.get("kanboard_reconciliation", {})
     inventory = projection.get("overlay_inventory", {})
@@ -894,8 +1188,11 @@ def gate(root: Path):
         or dac_contract.get("capability_count") != CAPABILITY_COUNT
         or dac_conformance.get("id") != "FA3-DEVELOPER-AGENT-COORDINATION-RUNTIME-CONFORMANCE-001"
         or dac_conformance.get("runtime_id") != DAC_RUNTIME_ID
-        or dac_conformance.get("runtime_version") != "0.1.0"
+        or dac_conformance.get("runtime_version") != "0.2.0"
         or dac_conformance.get("status") != "REFERENCE_RUNTIME"
+        or dac_contract.get("communication_policy") != AI_COMMS_PROFILE_ID
+        or dac.get("runtime_version") != "0.2.0"
+        or dac.get("communication_policy") != AI_COMMS_PROFILE_ID
         or dac_conformance.get("executable_e2e", {}).get("current_host_production_claim") is not False
         or dac_decision.get("status") != "CANONICAL_CLOSED"
         or dac_decision.get("new_capabilities") != 0
@@ -908,6 +1205,87 @@ def gate(root: Path):
                 reconciliation_status=dac.get("reconciliation_status"),
                 missing_overlay_members=missing_dac_overlay_members,
                 missing_manifest_paths=dac_manifest_missing,
+            )
+        )
+
+    ai_comms = projection.get("ai_comms_reconciliation", {})
+    required_ai_comms_manifest_paths = {
+        AI_COMMS_PROFILE_PATH,
+        AI_COMMS_CONTRACT_PATH,
+        AI_COMMS_DECISION_PATH,
+        AI_COMMS_ENFORCEMENT_PATH,
+        AI_COMMS_RUNTIME_PATH,
+        AI_COMMS_GATE_PATH,
+        AI_COMMS_TEST_PATH,
+        AI_COMMS_WORKFLOW_PATH,
+        "bin/fa3-enforce",
+        "src/fa3_enforce.py",
+        "canonical/enforcement-policy.json",
+    }
+    missing_ai_comms_overlay_members = []
+    for key, required in {
+        "profile_records": AI_COMMS_PROFILE_PATH,
+        "contract_records": AI_COMMS_CONTRACT_PATH,
+        "decision_records": AI_COMMS_DECISION_PATH,
+    }.items():
+        if required not in inventory.get(key, []):
+            missing_ai_comms_overlay_members.append({"inventory": key, "path": required})
+    ai_comms_manifest_missing = sorted(required_ai_comms_manifest_paths - manifest_paths)
+    ai_comms_profile = loadj(root / AI_COMMS_PROFILE_PATH) if (root / AI_COMMS_PROFILE_PATH).is_file() else {}
+    ai_comms_contract = loadj(root / AI_COMMS_CONTRACT_PATH) if (root / AI_COMMS_CONTRACT_PATH).is_file() else {}
+    ai_comms_decision = loadj(root / AI_COMMS_DECISION_PATH) if (root / AI_COMMS_DECISION_PATH).is_file() else {}
+    ai_comms_enforcement = loadj(root / AI_COMMS_ENFORCEMENT_PATH) if (root / AI_COMMS_ENFORCEMENT_PATH).is_file() else {}
+    cap028_ai_comms = next((item for item in records if item.get("subject_id") == "CAP-028"), {})
+    if (
+        ai_comms.get("profile_id") != AI_COMMS_PROFILE_ID
+        or ai_comms.get("contract_id") != AI_COMMS_CONTRACT_ID
+        or ai_comms.get("decision_id") != AI_COMMS_DECISION_ID
+        or ai_comms.get("gate_id") != AI_COMMS_GATE_ID
+        or ai_comms.get("reconciliation_status") != AI_COMMS_RECONCILIATION_STATUS
+        or ai_comms.get("priority") != "P0"
+        or ai_comms.get("requirement") != "MUST"
+        or ai_comms.get("fail_closed") is not True
+        or ai_comms.get("private_model_language_forbidden") is not True
+        or ai_comms.get("human_readable_semantics_authoritative") is not True
+        or ai_comms.get("model_router_reused") is not True
+        or ai_comms.get("parallel_model_router_created") is not False
+        or ai_comms.get("current_host_production_claim") is not False
+        or ai_comms.get("new_capabilities") != 0
+        or ai_comms.get("new_architectural_authorities") != 0
+        or ai_comms.get("capability_count_after") != CAPABILITY_COUNT
+        or AI_COMMS_GATE_ID not in projection_gates
+        or AI_COMMS_GATE_ID not in policy_gates
+        or missing_ai_comms_overlay_members
+        or ai_comms_manifest_missing
+        or ai_comms_profile.get("id") != AI_COMMS_PROFILE_ID
+        or ai_comms_profile.get("status") != "CANONICAL"
+        or ai_comms_profile.get("priority") != "P0"
+        or ai_comms_profile.get("requirement") != "MUST"
+        or ai_comms_profile.get("new_capability") is not False
+        or ai_comms_profile.get("new_architectural_authority") is not False
+        or ai_comms_profile.get("capability_count") != CAPABILITY_COUNT
+        or "PRIVATE_MODEL_LANGUAGE_FORBIDDEN" not in ai_comms_profile.get("invariants", [])
+        or ai_comms_contract.get("id") != AI_COMMS_CONTRACT_ID
+        or ai_comms_contract.get("parent_profile") != AI_COMMS_PROFILE_ID
+        or "PRIVATE_MODEL_LANGUAGE" not in ai_comms_contract.get("forbidden_semantics", [])
+        or ai_comms_decision.get("id") != AI_COMMS_DECISION_ID
+        or ai_comms_decision.get("status") != "CANONICAL_CLOSED"
+        or ai_comms_decision.get("new_capabilities") != 0
+        or ai_comms_decision.get("new_architectural_authorities") != 0
+        or ai_comms_decision.get("model_router_reconciliation", {}).get("authority_reused") is not True
+        or ai_comms_decision.get("model_router_reconciliation", {}).get("parallel_router_created") is not False
+        or ai_comms_enforcement.get("gate_id") != AI_COMMS_GATE_ID
+        or ai_comms_enforcement.get("fail_closed") is not True
+        or ai_comms_enforcement.get("current_host_production_promotion_claim") is not False
+        or AI_COMMS_DECISION_ID not in cap028_ai_comms.get("source_decision_ids", [])
+    ):
+        findings.append(
+            finding(
+                "FA3-RELEASE-PROJECTION-111",
+                "AI communication human-auditable/private-language prohibition release reconciliation mismatch",
+                reconciliation_status=ai_comms.get("reconciliation_status"),
+                missing_overlay_members=missing_ai_comms_overlay_members,
+                missing_manifest_paths=ai_comms_manifest_missing,
             )
         )
 
@@ -2308,12 +2686,11 @@ def gate(root: Path):
         HWPORT_DECISION_PATH,
         HWPORT_GATE_RECORD_PATH,
         HWPORT_ENFORCEMENT_PATH,
-        HWPORT_EVIDENCE_PATH,
-        HWPORT_AUDIT_PATH,
         HWPORT_GATE_PATH,
         HWPORT_TEST_PATH,
         "canonical/profiles/FA3-HW-001.json",
         "canonical/contracts/FA3-HW-CONTRACTS-001.json",
+        "canonical/hrb-systemd-manager-current-host-enforcement.json",
         "canonical/profiles/FA3-HW-MGPU-001.json",
         "canonical/contracts/FA3-HW-MGPU-CONTRACTS-001.json",
         "canonical/profiles/FA3-HOST-RESOURCE-BROKER-001.json",
@@ -2329,7 +2706,6 @@ def gate(root: Path):
         "profile_records": [HWPORT_PROFILE_PATH],
         "contract_records": [HWPORT_CONTRACT_PATH],
         "decision_records": [HWPORT_DECISION_PATH],
-        "reference_evidence_records": [HWPORT_EVIDENCE_PATH, HWPORT_AUDIT_PATH],
     }
     missing_hwport_inventory = [
         {"inventory": key, "path": required}
@@ -2342,22 +2718,30 @@ def gate(root: Path):
     hwport_contract = loadj(root / HWPORT_CONTRACT_PATH) if (root / HWPORT_CONTRACT_PATH).is_file() else {}
     hwport_decision = loadj(root / HWPORT_DECISION_PATH) if (root / HWPORT_DECISION_PATH).is_file() else {}
     hwport_gate_record = loadj(root / HWPORT_GATE_RECORD_PATH) if (root / HWPORT_GATE_RECORD_PATH).is_file() else {}
-    hwport_evidence = loadj(root / HWPORT_EVIDENCE_PATH) if (root / HWPORT_EVIDENCE_PATH).is_file() else {}
-    hwport_audit = loadj(root / HWPORT_AUDIT_PATH) if (root / HWPORT_AUDIT_PATH).is_file() else {}
+    hwport_root_profile = loadj(root / "canonical/profiles/FA3-HW-001.json") if (root / "canonical/profiles/FA3-HW-001.json").is_file() else {}
+    hwport_root_contract = loadj(root / "canonical/contracts/FA3-HW-CONTRACTS-001.json") if (root / "canonical/contracts/FA3-HW-CONTRACTS-001.json").is_file() else {}
+    hwport_hrb_current_host = loadj(root / "canonical/hrb-systemd-manager-current-host-enforcement.json") if (root / "canonical/hrb-systemd-manager-current-host-enforcement.json").is_file() else {}
+    hwport_accelerator = hwport_profile.get("portable_minimum", {}).get("accelerator", {})
+    hwport_discovery_envelope = hwport_contract.get("portable_minimum_envelope", {})
+    hwport_root_accelerator = hwport_root_profile.get("minimum_portable_hardware_envelope", {}).get("accelerator", {})
+    hwport_root_contract_accelerator = hwport_root_contract.get("portable_minimum_envelope", {}).get("accelerator", {})
+    hwport_workload_policy = hwport_decision.get("workload_admission_policy", {})
     invalid_hwport_bindings = []
     for capability_id in HWPORT_CAPABILITY_IDS:
         record = next((item for item in records if item.get("subject_id") == capability_id), {})
         status = record.get("hardware_portability_projection_status", {})
         if (
             HWPORT_DECISION_ID not in record.get("source_decision_ids", [])
-            or HWPORT_EVIDENCE_PATH not in record.get("evidence_artifacts", [])
             or record.get("status") != "PENDING_CURRENT_HOST"
             or record.get("promotion_state") != "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE"
             or status.get("profile_id") != HWPORT_PROFILE_ID
             or status.get("contract_id") != HWPORT_CONTRACT_ID
             or status.get("gate_id") != HWPORT_GATE_ID
-            or status.get("current_host_runtime_evidence") != "PENDING_REAL_CURRENT_HOST_EXECUTION"
+            or status.get("current_host_runtime_evidence") != "PENDING_FRESH_CURRENT_HOST_EXECUTION"
             or status.get("ci_reference_pass_does_not_promote_runtime") is not True
+            or status.get("decision_id") != HWPORT_DECISION_ID
+            or status.get("legacy_host_evidence_accepted") is not False
+            or status.get("static_pass_is_current_host_pass") is not False
         ):
             invalid_hwport_bindings.append(capability_id)
 
@@ -2369,11 +2753,9 @@ def gate(root: Path):
         or hardware_portability.get("executable_gate_id") != HWPORT_EXECUTABLE_GATE_ID
         or hardware_portability.get("capability_bindings") != list(HWPORT_CAPABILITY_IDS)
         or hardware_portability.get("reconciliation_status") != HWPORT_RECONCILIATION_STATUS
-        or hardware_portability.get("reference_evidence") != HWPORT_EVIDENCE_PATH
-        or hardware_portability.get("repository_audit") != HWPORT_AUDIT_PATH
-        or hardware_portability.get("reference_evidence_status") != "PASS"
-        or hardware_portability.get("repository_audit_status") != "PASS"
-        or hardware_portability.get("current_host_runtime_evidence") != "PENDING_REAL_CURRENT_HOST_EXECUTION"
+        or hardware_portability.get("current_host_runtime_evidence") != "PENDING_FRESH_CURRENT_HOST_EXECUTION"
+        or hardware_portability.get("legacy_host_evidence_accepted") is not False
+        or hardware_portability.get("exact_current_host_hardware") != "FRESH_EVIDENCE_ONLY_NOT_CANONICAL"
         or hardware_portability.get("current_host_runtime_promotion_claim") is not False
         or hardware_portability.get("new_capabilities") != 0
         or hardware_portability.get("new_architectural_authorities") != 0
@@ -2387,22 +2769,41 @@ def gate(root: Path):
         or hwport_profile.get("relationship", {}).get("parent") != "FA3-HW-001"
         or hwport_profile.get("new_capability") is not False
         or hwport_profile.get("new_architectural_authority") is not False
+        or hwport_accelerator.get("qualifying_device_count_min") != 0
+        or hwport_accelerator.get("cpu_only_host_conforms") is not True
+        or hwport_accelerator.get("cpu_only_workload_requires_lease") is not False
+        or hwport_accelerator.get("vendor_pin") != "FORBIDDEN"
+        or hwport_accelerator.get("global_runtime_api_pin") != "FORBIDDEN"
         or hwport_contract.get("id") != HWPORT_CONTRACT_ID
         or hwport_contract.get("provider_neutral") is not True
+        or hwport_contract.get("discovery_semantics", {}).get("accelerator_enumeration") != "DYNAMIC_0_TO_N"
+        or hwport_discovery_envelope.get("accelerator_devices_min") != 0
+        or hwport_discovery_envelope.get("cpu_only_host_conforms") is not True
+        or hwport_discovery_envelope.get("cpu_only_workload_requires_accelerator_lease") is not False
+        or hwport_root_accelerator.get("minimum_qualifying_device_count") != 0
+        or hwport_root_accelerator.get("cpu_only_host_conforms") is not True
+        or hwport_root_accelerator.get("cpu_only_workload_requires_lease") is not False
+        or hwport_root_contract_accelerator.get("qualifying_device_count_min") != 0
+        or hwport_root_contract_accelerator.get("cpu_only_host_conforms") is not True
+        or hwport_root_contract_accelerator.get("cpu_only_workload_requires_lease") is not False
         or hwport_decision.get("id") != HWPORT_DECISION_ID
         or hwport_decision.get("status") != "ACCEPTED_MATERIALIZED"
+        or hwport_decision.get("decision") != "SINGLE_CURRENT_VENDOR_NEUTRAL_HARDWARE_AUDIT_NO_LEGACY_HOST_BASELINE"
+        or hwport_decision.get("evidence_policy", {}).get("legacy_hardware_audit_artifacts") != "REMOVE_FROM_REPOSITORY"
+        or hwport_decision.get("evidence_policy", {}).get("legacy_host_specific_records") != "REMOVE_FROM_REPOSITORY"
+        or hwport_workload_policy.get("accelerator_cardinality_global") != "0_TO_N"
+        or hwport_workload_policy.get("cpu_only_workload_requests_accelerator_lease") is not False
+        or hwport_workload_policy.get("accelerator_required_workload") != "REQUIRES_COMPATIBLE_DISCOVERED_DEVICE_AND_HRB_LEASE"
+        or "ACCELERATOR_CARDINALITY_IS_LIVE_DISCOVERED_DYNAMIC_0_TO_N_CPU_ONLY_CONFORMANT" not in hwport_hrb_current_host.get("p0_invariants", [])
+        or "GPU_CARDINALITY_IS_LIVE_DISCOVERED_DYNAMIC_" + "1_TO_N" in hwport_hrb_current_host.get("p0_invariants", [])
         or hwport_gate_record.get("id") != HWPORT_EXECUTABLE_GATE_ID
         or hwport_gate_record.get("fail_closed") is not True
-        or hwport_evidence.get("status") != "PASS"
-        or hwport_evidence.get("current_host_runtime_promotion_claim") is not False
-        or hwport_audit.get("status") != "PASS"
-        or hwport_audit.get("blocking_hardcoded_production_assumptions") != 0
-        or hwport_audit.get("current_host_runtime_promotion_claim") is not False
+        or hwport_gate_record.get("decision_id") != HWPORT_DECISION_ID
     ):
         findings.append(
             finding(
                 "FA3-RELEASE-PROJECTION-037",
-                "Hardware portability baseline/discovery/repository-audit global reconciliation invariant mismatch",
+                "Hardware vendor-neutral baseline/discovery/audit projection invariant mismatch",
                 reconciliation_status=hardware_portability.get("reconciliation_status"),
                 missing_inventory_members=missing_hwport_inventory,
                 missing_manifest_paths=missing_hwport_manifest,
@@ -2443,7 +2844,8 @@ def gate(root: Path):
         decision.get("id") != "FA3-DEC-UNIFIED-POST-V3.0.11-PROJECTION-2026-08-30"
         or decision.get("status") != "CANONICAL"
         or decision.get("capability_count_after") != CAPABILITY_COUNT
-        or decision.get("new_capabilities") != 0
+        or decision.get("new_capabilities") != CAPABILITY_COUNT - PREVIOUS_CAPABILITY_COUNT
+        or decision.get("previous_canonical_capability_count") != PREVIOUS_CAPABILITY_COUNT
         or decision.get("new_architectural_authorities") != 0
         or decision.get("projection_id") != PROJECTION_ID
     ):
@@ -2605,6 +3007,383 @@ def gate(root: Path):
                 )
             )
 
+    marketing_agent_native = projection.get("marketing_agent_native_reconciliation", {})
+    marketing_agent_native_paths = {
+        "canonical/FA3-GATE-MARKETING-AGENT-NATIVE-001.json",
+        "canonical/FA3-MARKETING-RUNTIME-CONFORMANCE-001.json",
+        "canonical/contracts/FA3-MARKETING-DECISION-FABRIC-CONTRACTS-001.json",
+        "canonical/contracts/FA3-MARKETING-DECISION-RECEIPT-001.schema.json",
+        "canonical/contracts/FA3-MARKETING-CURRENT-HOST-EVIDENCE-002.schema.json",
+        "canonical/decisions/FA3-DEC-MARKETING-AGENT-NATIVE-JEV-2026-09-23.json",
+        "evidence/reference/marketing-agent-native-ci-2026-09-23.json",
+        "src/fa3_marketing_decision_fabric.py",
+        "src/fa3_marketing_uaf.py",
+        "src/fa3_marketing_agent_native_gate.py",
+        "src/fa3_marketing_current_host_gate.py",
+        ".github/workflows/fa3-marketing-current-host.yml",
+    }
+    if (
+        marketing_agent_native.get("profile_id") != "FA3-MARKETING-001"
+        or marketing_agent_native.get("contract_id") != "FA3-MARKETING-DECISION-FABRIC-CONTRACTS-001"
+        or marketing_agent_native.get("decision_id") != "FA3-DEC-MARKETING-AGENT-NATIVE-JEV-2026-09-23"
+        or marketing_agent_native.get("gate_id") != "FA3-MARKETING-AGENT-NATIVE-GATESET-001"
+        or marketing_agent_native.get("action_count") != 15
+        or marketing_agent_native.get("reference_evidence_status") != "STATIC_AND_REFERENCE_PASS_NOT_RUNTIME"
+        or marketing_agent_native.get("current_host_required_evidence_level") != "CURRENT_HOST_PRODUCTION_E2E_PASS"
+        or marketing_agent_native.get("current_host_status") != "PENDING_CURRENT_HOST_PRODUCTION_E2E"
+        or marketing_agent_native.get("production_provider_admission") is not False
+        or marketing_agent_native.get("global_promotion_claim") is not False
+        or marketing_agent_native.get("new_capabilities") != 0
+        or marketing_agent_native.get("new_architectural_authorities") != 0
+        or marketing_agent_native.get("capability_count_after") != CAPABILITY_COUNT
+        or "FA3-MARKETING-AGENT-NATIVE-GATESET-001" not in projection_gates
+        or "FA3-MARKETING-AGENT-NATIVE-GATESET-001" not in policy_gates
+        or not marketing_agent_native_paths.issubset(manifest_paths)
+    ):
+        findings.append(finding(
+            "FA3-RELEASE-PROJECTION-118",
+            "Marketing Agent Native/Jev advisory reconciliation invariant mismatch",
+            missing_manifest_paths=sorted(marketing_agent_native_paths - manifest_paths),
+        ))
+
+    caption_subtitle = projection.get("caption_subtitle_reconciliation", {})
+    caption_subtitle_paths = {
+        "canonical/FA3-GATE-CAPTION-SUBTITLE-001.json",
+        "canonical/profiles/FA3-CAPTION-SUBTITLE-001.json",
+        "canonical/contracts/FA3-CAPTION-SUBTITLE-CONTRACTS-001.json",
+        "canonical/decisions/FA3-DEC-CAPTION-NARRATION-STUDIOS-2026-09-23.json",
+        "canonical/references/FA3-CAPTION-SUBTITLE-UPSTREAM-REFERENCE-2026-09-23.json",
+        "canonical/caption-subtitle-enforcement.json",
+        "canonical/providers/FA3-PROVIDER-CAPTION-NATIVE-001.json",
+        "evidence/reference/caption-subtitle-ci-2026-09-23.json",
+        "evidence/reference/caption-subtitle-current-host-2026-09-25.json",
+        "src/fa3_caption_subtitle.py",
+        "src/fa3_caption_workflows.py",
+        "src/fa3_caption_uaf.py",
+        "src/fa3_caption_studio_server.py",
+        "src/fa3_caption_subtitle_gate.py",
+        "src/fa3_caption_subtitle_current_host_gate.py",
+        "bin/fa3-caption-studio",
+        "bin/fa3-narration-studio",
+        ".github/workflows/fa3-caption-subtitle.yml",
+        ".github/workflows/fa3-caption-subtitle-current-host.yml",
+    }
+    if (
+        caption_subtitle.get("profile_id") != "FA3-CAPTION-SUBTITLE-001"
+        or caption_subtitle.get("contract_id") != "FA3-CAPTION-SUBTITLE-CONTRACTS-001"
+        or caption_subtitle.get("decision_id") != "FA3-DEC-CAPTION-NARRATION-STUDIOS-2026-09-23"
+        or caption_subtitle.get("gate_id") != "FA3-CAPTION-SUBTITLE-GATESET-001"
+        or caption_subtitle.get("native_provider_id") != "FA3-PROVIDER-CAPTION-NATIVE-001"
+        or caption_subtitle.get("action_count") != 13
+        or caption_subtitle.get("reference_evidence_status") != "STATIC_AND_REFERENCE_PASS_NOT_PROVIDER_RUNTIME"
+        or caption_subtitle.get("current_host_gate_id") != "FA3-CAPTION-SUBTITLE-CURRENT-HOST-GATESET-001"
+        or caption_subtitle.get("current_host_application_status") != "CURRENT_HOST_APPLICATION_E2E_PASS"
+        or caption_subtitle.get("current_host_application_evidence") != "evidence/reference/caption-subtitle-current-host-2026-09-25.json"
+        or caption_subtitle.get("current_host_validated_implementation_commit") != "aac58ecfa5cb4dd2b8450794e270a19d885b1bb7"
+        or caption_subtitle.get("gui_physical_current_host_status") != "PENDING_MANUAL_REQUALIFICATION"
+        or caption_subtitle.get("voice_provider_audio_runtime") != "SEPARATE_FA3_VOICE_ADMISSION"
+        or caption_subtitle.get("hardsub_ocr_runtime") != "PENDING_ADMITTED_OCR_PROVIDER"
+        or caption_subtitle.get("global_promotion_claim") is not False
+        or caption_subtitle.get("new_capabilities") != 0
+        or caption_subtitle.get("new_architectural_authorities") != 0
+        or caption_subtitle.get("capability_count_after") != CAPABILITY_COUNT
+        or "FA3-CAPTION-SUBTITLE-GATESET-001" not in projection_gates
+        or "FA3-CAPTION-SUBTITLE-GATESET-001" not in policy_gates
+        or not caption_subtitle_paths.issubset(manifest_paths)
+    ):
+        findings.append(finding(
+            "FA3-RELEASE-PROJECTION-125",
+            "Caption/Subtitle/Narration Fabric reconciliation invariant mismatch",
+            missing_manifest_paths=sorted(caption_subtitle_paths - manifest_paths),
+        ))
+
+    gui_current_host = projection.get("gui_current_host_closure_reconciliation", {})
+    gui_current_host_paths = {
+        "canonical/intents/FA3-GUI-CURRENT-HOST-APPLICATION-INTENT-001.json",
+        "canonical/assessments/FA3-GUI-CURRENT-HOST-REUSE-ASSESSMENT-001.json",
+        "canonical/FA3-GUI-RUNTIME-CONFORMANCE-001.json",
+        "canonical/FA3-GATE-GUI-CURRENT-HOST-001.json",
+        "canonical/gui-current-host-enforcement.json",
+        "src/fa3_gui_current_host.py",
+        "src/fa3_gui_current_host_gate.py",
+        "evidence/collect-gui-current-host.py",
+        ".github/workflows/fa3-gui-current-host.yml",
+        "tests/test_fa3_gui_current_host.py",
+    }
+    gui_state_pending = (
+        gui_current_host.get("status") == "EXECUTABLE_CURRENT_HOST_CLOSURE_MATERIALIZED_PENDING_RUN"
+        and gui_current_host.get("current_host_receipt_present") is False
+        and gui_current_host.get("production_admitted") is False
+        and gui_current_host.get("runtime_promotion_claim") is False
+        and gui_current_host.get("reconciliation_status")
+        == "EXECUTABLE_CLOSURE_MATERIALIZED_CURRENT_HOST_PENDING"
+    )
+    gui_state_pass = (
+        gui_current_host.get("status") == "CURRENT_HOST_PASS"
+        and gui_current_host.get("current_host_receipt_present") is True
+        and gui_current_host.get("production_admitted") is True
+        and gui_current_host.get("runtime_promotion_claim") is True
+        and gui_current_host.get("reconciliation_status")
+        == "CURRENT_HOST_PHYSICAL_GUI_RUNTIME_PASS"
+    )
+    if (
+        gui_current_host.get("profile_id") != "FA3-DESKTOP-001"
+        or gui_current_host.get("application_intent_id") != "FA3-GUI-CURRENT-HOST-APPLICATION-INTENT-001"
+        or gui_current_host.get("reuse_assessment_id") != "FA3-GUI-CURRENT-HOST-REUSE-ASSESSMENT-001"
+        or gui_current_host.get("conformance_id") != "FA3-GUI-RUNTIME-CONFORMANCE-001"
+        or gui_current_host.get("gate_id") != "FA3-GUI-CURRENT-HOST-GATESET-001"
+        or gui_current_host.get("gate_record_id") != "FA3-GATE-GUI-CURRENT-HOST-001"
+        or gui_current_host.get("workflow") != ".github/workflows/fa3-gui-current-host.yml"
+        or gui_current_host.get("collector") != "evidence/collect-gui-current-host.py"
+        or gui_current_host.get("required_evidence_level")
+        != "CURRENT_HOST_ADMITTED_DESKTOP_SESSION_RUNTIME_PASS"
+        or gui_current_host.get("admission_scope") != "GUI_CONTROL_CENTER_PROCESS_RUNTIME_ONLY"
+        or gui_current_host.get("secret_backend_admission") != "FAIL_SEPARATE_AUTHORITY_NOT_PROMOTED"
+        or gui_current_host.get("tested_path") != "CONTROL_CENTER_STARTUP_SESSION_VAULT_UNCONFIGURED"
+        or gui_current_host.get("secret_backend_authority") != "AUTH-SECRETS"
+        or gui_current_host.get("secret_backend_capability") != "CAP-003"
+        or gui_current_host.get("secret_backend_required_for_tested_path") is not False
+        or gui_current_host.get("secret_backend_pass_claimed") is not False
+        or gui_current_host.get("secret_backend_authority_owner") != "CAP-003"
+        or gui_current_host.get("secret_backend_used_for_gui_runtime_admission") is not False
+        or gui_current_host.get("hardware_audit", {}).get("vendor_neutral") is not True
+        or gui_current_host.get("hardware_audit", {}).get("cpu_only_viable") is not True
+        or gui_current_host.get("hardware_audit", {}).get("accelerator_cardinality") != "0..N"
+        or gui_current_host.get("hardware_audit", {}).get("global_accelerator_requirement") is not False
+        or gui_current_host.get("software_coexistence", {}).get("required") is not True
+        or gui_current_host.get("software_coexistence", {}).get("namespaced") is not True
+        or gui_current_host.get("software_coexistence", {}).get("upstream_uninstall_required") is not False
+        or gui_current_host.get("software_coexistence", {}).get("global_mutation") is not False
+        or not (gui_state_pending or gui_state_pass)
+        or gui_current_host.get("global_promotion_claim") is not False
+        or gui_current_host.get("new_capabilities") != 0
+        or gui_current_host.get("new_architectural_authorities") != 0
+        or gui_current_host.get("capability_count_after") != CAPABILITY_COUNT
+        or "FA3-GUI-CURRENT-HOST-GATESET-001" not in projection_gates
+        or "FA3-GUI-CURRENT-HOST-GATESET-001" not in policy_gates
+        or not gui_current_host_paths.issubset(manifest_paths)
+    ):
+        findings.append(finding(
+            "FA3-RELEASE-PROJECTION-124",
+            "GUI physical current-host closure reconciliation invariant mismatch",
+            missing_manifest_paths=sorted(gui_current_host_paths - manifest_paths),
+        ))
+
+    agency_agent_definition = projection.get("agency_agents_agent_definition_reconciliation", {})
+    agency_agent_definition_paths = {
+        "canonical/providers/FA3-PROVIDER-AGENCY-AGENTS-001.json",
+        "canonical/references/FA3-AGENCY-AGENTS-UPSTREAM-REFERENCE-2026-09-23.json",
+        "canonical/registries/FA3-AGENCY-AGENTS-CURATED-CANDIDATES-001.json",
+        "canonical/profiles/FA3-AGENT-DEFINITION-001.json",
+        "canonical/contracts/FA3-AGENT-DEFINITION-CONTRACTS-001.json",
+        "canonical/FA3-AGENT-DEFINITION-REGISTRY-001.json",
+        "canonical/FA3-GATE-AGENCY-AGENTS-001.json",
+        "canonical/FA3-GATE-AGENT-DEFINITION-001.json",
+        "canonical/agency-agents-enforcement.json",
+        "canonical/agent-definition-enforcement.json",
+        "canonical/decisions/FA3-DEC-AGENCY-AGENTS-INTEGRATION-2026-09-23.json",
+        "canonical/FA3-GUI-SURFACE-REGISTRY-001.json",
+        "canonical/FA3-ORCHESTRATION-WORKFORCE-REGISTRY-001.json",
+        "src/fa3_agency_agents_gate.py",
+        "src/fa3_agent_definition_gate.py",
+        "src/fa3_orchestration_workforce_gate.py",
+        "src/fa3_gui_gate.py",
+        "apps/fa3-control-center/qml/Main.qml",
+        ".github/workflows/fa3-agency-agents-gate.yml",
+        ".github/workflows/fa3-agent-definition-gate.yml",
+    }
+    if (
+        agency_agent_definition.get("source_provider_id") != "FA3-PROVIDER-AGENCY-AGENTS-001"
+        or agency_agent_definition.get("source_reference_id") != "FA3-AGENCY-AGENTS-UPSTREAM-REFERENCE-2026-09-23"
+        or agency_agent_definition.get("candidate_catalog_id") != "FA3-AGENCY-AGENTS-CURATED-CANDIDATES-001"
+        or agency_agent_definition.get("profile_id") != "FA3-AGENT-DEFINITION-001"
+        or agency_agent_definition.get("contract_id") != "FA3-AGENT-DEFINITION-CONTRACTS-001"
+        or agency_agent_definition.get("registry_id") != "FA3-AGENT-DEFINITION-REGISTRY-001"
+        or agency_agent_definition.get("agency_gate_id") != "FA3-AGENCY-AGENTS-GATESET-001"
+        or agency_agent_definition.get("agent_definition_gate_id") != "FA3-AGENT-DEFINITION-GATESET-001"
+        or agency_agent_definition.get("canonical_role_definition_count") != 12
+        or agency_agent_definition.get("canonical_template_definition_count") != 5
+        or agency_agent_definition.get("upstream_bodies_vendored") is not False
+        or agency_agent_definition.get("source_distribution_class") != "EXTERNAL_REDISTRIBUTABLE"
+        or agency_agent_definition.get("source_release_bundle_status") != "EXCLUDED"
+        or agency_agent_definition.get("normalized_definition_distribution_class") != "FA3_NATIVE"
+        or agency_agent_definition.get("gui_surface_id") != "agency-agents.imported-pack"
+        or agency_agent_definition.get("gui_parent_route") != "agents.workflows"
+        or agency_agent_definition.get("gui_mode") != "READ_ONLY_CANONICAL_DEFINITIONS"
+        or (
+            (
+                agency_agent_definition.get("gui_current_host_status") == "PENDING_CURRENT_HOST"
+                and agency_agent_definition.get("gui_runtime_promotion_claim") is False
+                and agency_agent_definition.get("reconciliation_status")
+                == "CANONICAL_SOURCE_NORMALIZED_TO_FA3_DEFINITIONS_GUI_STATIC_RECONCILED_CURRENT_HOST_PENDING"
+                and gui_state_pending
+            )
+            or (
+                agency_agent_definition.get("gui_current_host_status") == "CURRENT_HOST_PASS"
+                and agency_agent_definition.get("gui_runtime_promotion_claim") is True
+                and agency_agent_definition.get("reconciliation_status")
+                == "CANONICAL_SOURCE_NORMALIZED_TO_FA3_DEFINITIONS_GUI_CURRENT_HOST_PASS"
+                and gui_state_pass
+            )
+        ) is not True
+        or agency_agent_definition.get("runtime_provider_admission_by_reference_provider") is not False
+        or agency_agent_definition.get("global_promotion_claim") is not False
+        or agency_agent_definition.get("new_capabilities") != 0
+        or agency_agent_definition.get("new_architectural_authorities") != 0
+        or agency_agent_definition.get("capability_count_after") != CAPABILITY_COUNT
+        or "FA3-AGENCY-AGENTS-GATESET-001" not in projection_gates
+        or "FA3-AGENT-DEFINITION-GATESET-001" not in projection_gates
+        or "FA3-AGENCY-AGENTS-GATESET-001" not in policy_gates
+        or "FA3-AGENT-DEFINITION-GATESET-001" not in policy_gates
+        or not agency_agent_definition_paths.issubset(manifest_paths)
+    ):
+        findings.append(finding(
+            "FA3-RELEASE-PROJECTION-120",
+            "Agency Agents / Agent Definition global release reconciliation invariant mismatch",
+            missing_manifest_paths=sorted(agency_agent_definition_paths - manifest_paths),
+        ))
+
+    external_llm = projection.get("external_llm_catalog_reconciliation", {})
+    external_llm_paths = {
+        "canonical/profiles/FA3-EXTERNAL-LLM-CATALOG-001.json",
+        "canonical/contracts/FA3-EXTERNAL-LLM-CATALOG-CONTRACTS-001.json",
+        "canonical/references/FA3-FREELLM-UPSTREAM-REFERENCE-2026-09-24.json",
+        "canonical/decisions/FA3-DEC-EXTERNAL-LLM-CATALOG-2026-09-24.json",
+        "canonical/assessments/FA3-EXTERNAL-LLM-CATALOG-DECISION-ASSESSMENT-2026-09-24.json",
+        "canonical/FA3-GATE-EXTERNAL-LLM-CATALOG-001.json",
+        "canonical/external-llm-catalog-enforcement.json",
+        "canonical/FA3-GUI-SURFACE-REGISTRY-001.json",
+        "canonical/distribution-registry.json",
+        "canonical/distribution-manifest.json",
+        "canonical/enforcement-policy.json",
+        "src/fa3_external_llm_catalog.py",
+        "src/fa3_external_llm_catalog_gate.py",
+        "src/fa3_enforce.py",
+        "scripts/fa3_reconcile_release_projection.py",
+        "apps/fa3-control-center/src/ExternalLlmCatalogModel.h",
+        "apps/fa3-control-center/src/ExternalLlmCatalogModel.cpp",
+        "apps/fa3-control-center/src/main.cpp",
+        "apps/fa3-control-center/qml/ProviderExplorerView.qml",
+        "apps/fa3-control-center/qml/ModelsProvidersPage.qml",
+        "apps/fa3-control-center/CMakeLists.txt",
+        "tests/test_external_llm_catalog_gate.py",
+        "tests/fixtures/freellm-readme-mini.md",
+        "docs/external-llm-catalog.md",
+        "evidence/reference/external-llm-catalog-ci-2026-09-24.json",
+        ".github/workflows/fa3-external-llm-catalog.yml",
+        ".github/workflows/fa3-permanent-enforcement.yml",
+    }
+    if (
+        external_llm.get("profile_id") != "FA3-EXTERNAL-LLM-CATALOG-001"
+        or external_llm.get("contract_id") != "FA3-EXTERNAL-LLM-CATALOG-CONTRACTS-001"
+        or external_llm.get("decision_id") != "FA3-DEC-EXTERNAL-LLM-CATALOG-2026-09-24"
+        or external_llm.get("assessment_id") != "FA3-EXTERNAL-LLM-CATALOG-2026-09-24"
+        or external_llm.get("reference_id") != "FA3-FREELLM-UPSTREAM-REFERENCE-2026-09-24"
+        or external_llm.get("gate_id") != "FA3-EXTERNAL-LLM-CATALOG-GATESET-001"
+        or external_llm.get("executable_gate_id") != "FA3-GATE-EXTERNAL-LLM-CATALOG-001"
+        or external_llm.get("source_commit") != "4a91e1d93a6df0753ade804f75b4e17fbad89886"
+        or external_llm.get("source_distribution_class") != "REFERENCE_ONLY"
+        or external_llm.get("source_release_bundle_status") != "EXCLUDED"
+        or external_llm.get("state_machine") != ["DISCOVERED", "OBSERVED", "VERIFIED", "ADMITTED", "ENABLED"]
+        or external_llm.get("parser_initial_state") != "DISCOVERED"
+        or external_llm.get("model_routing_authority") != "FA3-AUTH-MODEL-ROUTER-001"
+        or external_llm.get("decision_fabric_role") != "BOUNDED_ADVISORY_RANKING_ONLY"
+        or external_llm.get("decision_candidate_expansion") is not False
+        or external_llm.get("silent_local_to_cloud_fallback") is not False
+        or external_llm.get("gui_surface_id") != "models.provider-explorer"
+        or external_llm.get("gui_parent_route") != "models.providers"
+        or external_llm.get("gui_mode") != "READ_ONLY_DISCOVERY_AND_DRAFT_ADMISSION_INTENT"
+        or external_llm.get("current_host_remote_provider_status") != "PROVIDER_ADMISSION_AND_ENTITLEMENT_SEPARATE"
+        or external_llm.get("current_host_runtime_promotion_claim") is not False
+        or external_llm.get("global_promotion_claim") is not False
+        or external_llm.get("new_capabilities") != 0
+        or external_llm.get("new_architectural_authorities") != 0
+        or external_llm.get("capability_count_after") != CAPABILITY_COUNT
+        or external_llm.get("reconciliation_status") != "CANONICAL_DISCOVERY_CATALOG_GUI_STATIC_RECONCILED_REMOTE_PROVIDER_ADMISSION_SEPARATE"
+        or "FA3-EXTERNAL-LLM-CATALOG-GATESET-001" not in projection_gates
+        or "FA3-EXTERNAL-LLM-CATALOG-GATESET-001" not in policy_gates
+        or not external_llm_paths.issubset(manifest_paths)
+    ):
+        findings.append(finding(
+            "FA3-RELEASE-PROJECTION-121",
+            "External LLM Catalog global release reconciliation invariant mismatch",
+            missing_manifest_paths=sorted(external_llm_paths - manifest_paths),
+        ))
+
+    model_router_provider_execution = projection.get("model_router_provider_execution_reconciliation", {})
+    model_router_provider_execution_paths = {
+        "canonical/profiles/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-001.json",
+        "canonical/profiles/FA3-LLM-PROTOCOL-COMPAT-001.json",
+        "canonical/contracts/FA3-MODEL-ROUTER-EXECUTION-CONTRACTS-001.json",
+        "canonical/contracts/FA3-LLM-PROTOCOL-COMPAT-CONTRACTS-001.json",
+        "canonical/contracts/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CURRENT-HOST-CONFIG-001.schema.json",
+        "canonical/assessments/FA3-ANTIGRAVITY-DERIVATION-ASSESSMENT-2026-09-24.json",
+        "canonical/assessments/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-DECISION-ASSESSMENT-2026-09-24.json",
+        "canonical/decisions/FA3-DEC-ANTIGRAVITY-DERIVED-EXECUTION-MEDIATION-2026-09-24.json",
+        "canonical/references/FA3-ANTIGRAVITY-UPSTREAM-REFERENCE-2026-09-24.json",
+        "canonical/FA3-GATE-MODEL-ROUTER-PROVIDER-EXECUTION-001.json",
+        "canonical/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CURRENT-HOST-CONFORMANCE-001.json",
+        "canonical/model-router-provider-execution-enforcement.json",
+        "canonical/FA3-GUI-SURFACE-REGISTRY-001.json",
+        "canonical/distribution-registry.json",
+        "canonical/distribution-manifest.json",
+        "canonical/enforcement-policy.json",
+        "src/fa3_model_router_provider_execution.py",
+        "src/fa3_model_router_provider_execution_gate.py",
+        "src/fa3_model_router_provider_execution_current_host_gate.py",
+        "src/fa3_enforce.py",
+        "evidence/collect-model-router-provider-execution-current-host.py",
+        "evidence/reference/model-router-provider-execution-ci-2026-09-24.json",
+        "bin/fa3-model-router-provider-execution-current-host.py",
+        "scripts/fa3_reconcile_release_projection.py",
+        "apps/fa3-control-center/qml/ProviderExecutionView.qml",
+        "apps/fa3-control-center/qml/ModelsProvidersPage.qml",
+        "tests/test_model_router_provider_execution.py",
+        "tests/test_model_router_provider_execution_current_host.py",
+        ".github/workflows/fa3-model-router-provider-execution-gate.yml",
+        ".github/workflows/fa3-model-router-provider-execution-current-host.yml",
+    }
+    if (
+        model_router_provider_execution.get("profile_id") != "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-001"
+        or model_router_provider_execution.get("protocol_profile_id") != "FA3-LLM-PROTOCOL-COMPAT-001"
+        or model_router_provider_execution.get("contract_id") != "FA3-MODEL-ROUTER-EXECUTION-CONTRACTS-001"
+        or model_router_provider_execution.get("protocol_contract_id") != "FA3-LLM-PROTOCOL-COMPAT-CONTRACTS-001"
+        or model_router_provider_execution.get("decision_id") != "FA3-DEC-ANTIGRAVITY-DERIVED-EXECUTION-MEDIATION-2026-09-24"
+        or model_router_provider_execution.get("assessment_id") != "FA3-ANTIGRAVITY-DERIVATION-ASSESSMENT-2026-09-24"
+        or model_router_provider_execution.get("decision_fabric_assessment_id") != "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-DECISION-ASSESSMENT-2026-09-24"
+        or model_router_provider_execution.get("reference_id") != "FA3-ANTIGRAVITY-UPSTREAM-REFERENCE-2026-09-24"
+        or model_router_provider_execution.get("gate_id") != "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-GATESET-001"
+        or model_router_provider_execution.get("executable_gate_id") != "FA3-GATE-MODEL-ROUTER-PROVIDER-EXECUTION-001"
+        or model_router_provider_execution.get("model_routing_authority") != "FA3-AUTH-MODEL-ROUTER-001"
+        or model_router_provider_execution.get("gateway_data_plane") != "FA3-LLM-GATEWAY-001"
+        or model_router_provider_execution.get("secret_authority") != "FA3-SECRET-BROKER-001"
+        or model_router_provider_execution.get("decision_fabric_role") != "BOUNDED_ADVISORY_ONLY"
+        or model_router_provider_execution.get("agent_definition_provider_model_credential_selection") is not False
+        or model_router_provider_execution.get("silent_local_to_cloud_fallback") is not False
+        or model_router_provider_execution.get("silent_protocol_schema_loss") is not False
+        or model_router_provider_execution.get("upstream_code_imported") is not False
+        or model_router_provider_execution.get("upstream_runtime_dependency") is not False
+        or model_router_provider_execution.get("gui_surface_id") != "models.provider-execution"
+        or model_router_provider_execution.get("gui_parent_route") != "models.providers"
+        or model_router_provider_execution.get("current_host_conformance_id") != "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CURRENT-HOST-CONFORMANCE-001"
+        or model_router_provider_execution.get("current_host_producer") != "bin/fa3-model-router-provider-execution-current-host.py"
+        or model_router_provider_execution.get("current_host_config_schema") != "canonical/contracts/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CURRENT-HOST-CONFIG-001.schema.json"
+        or model_router_provider_execution.get("current_host_status") != "PRODUCER_MATERIALIZED_PENDING_REAL_PROVIDER_EXECUTION_EVIDENCE"
+        or model_router_provider_execution.get("global_promotion_claim") is not False
+        or model_router_provider_execution.get("new_capabilities") != 0
+        or model_router_provider_execution.get("new_architectural_authorities") != 0
+        or model_router_provider_execution.get("capability_count_after") != CAPABILITY_COUNT
+        or model_router_provider_execution.get("reconciliation_status") != "CANONICAL_EXECUTION_CORE_GUI_STATIC_RECONCILED_CURRENT_HOST_PRODUCER_MATERIALIZED_E2E_PENDING"
+        or "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-GATESET-001" not in projection_gates
+        or "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-GATESET-001" not in policy_gates
+        or not model_router_provider_execution_paths.issubset(manifest_paths)
+    ):
+        findings.append(finding(
+            "FA3-RELEASE-PROJECTION-122",
+            "Model Router Provider Execution global release reconciliation invariant mismatch",
+            missing_manifest_paths=sorted(model_router_provider_execution_paths - manifest_paths),
+        ))
+
     result = "PASS" if not findings else "FAIL"
     report = {
         "schema": "fa3.release-projection-gate-report.v1",
@@ -2633,6 +3412,7 @@ def gate(root: Path):
             "autogpt_reconciliation": autogpt.get("reconciliation_status"),
             "autogpt_runtime_activation_status": autogpt.get("runtime_activation_status"),
             "developer_agent_coordination_reconciliation": dac.get("reconciliation_status"),
+            "ai_comms_reconciliation": ai_comms.get("reconciliation_status"),
             "codex_reconciliation": codex.get("reconciliation_status"),
             "codex_current_host_production_e2e": codex.get("current_host_production_e2e"),
             "ai_infra_guard_reconciliation": aisec.get("reconciliation_status"),
@@ -2640,6 +3420,14 @@ def gate(root: Path):
             "ai_infra_guard_current_host_runtime_evidence": aisec.get("current_host_runtime_evidence"),
             "hybrid_editorial_reconciliation": hybrid.get("reconciliation_status"),
             "marketing_reconciliation": marketing.get("reconciliation_status"),
+            "marketing_agent_native_reconciliation": marketing_agent_native.get("current_host_status"),
+            "caption_subtitle_reconciliation": caption_subtitle.get("current_host_application_status"),
+            "agency_agents_agent_definition_reconciliation": agency_agent_definition.get("reconciliation_status"),
+            "agency_agents_gui_current_host_status": agency_agent_definition.get("gui_current_host_status"),
+            "gui_current_host_closure_status": gui_current_host.get("reconciliation_status"),
+            "external_llm_catalog_reconciliation": external_llm.get("reconciliation_status"),
+            "external_llm_catalog_remote_provider_status": external_llm.get("current_host_remote_provider_status"),
+            "neural_rendering_reconciliation": neural_rendering.get("current_host_provider_e2e"),
             "stability_sgm_reconciliation": stability_sgm.get("reconciliation_status"),
             "opencut_reconciliation": opencut.get("reconciliation_status"),
             "opencut_runtime_activation_status": opencut.get("runtime_activation_status"),

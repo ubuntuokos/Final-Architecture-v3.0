@@ -1,0 +1,78 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-ENGINE-SELECTION-FABRIC-001",
+  "name": "Unified Engine Registry, Engine/Provider Selection & Compatibility Projection",
+  "version": "1.0.0",
+  "status": "CANONICAL_STATIC_MATERIALIZED_RUNTIME_EXECUTION_SEPARATE",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capabilities": [
+    "CAP-043",
+    "CAP-121",
+    "CAP-126",
+    "CAP-159",
+    "CAP-160",
+    "CAP-161",
+    "CAP-163",
+    "CAP-164"
+  ],
+  "contract_id": "FA3-ENGINE-SELECTION-CONTRACTS-001",
+  "registry_id": "FA3-ENGINE-REGISTRY-001",
+  "selection_scopes": [
+    "GLOBAL",
+    "APPLICATION",
+    "WORKSPACE",
+    "PROJECT",
+    "SEQUENCE",
+    "SCENE",
+    "TRACK",
+    "CLIP",
+    "NODE",
+    "TASK"
+  ],
+  "authority_boundaries": {
+    "engine_preference_and_user_policy": "FA3-ENGINE-SELECTION-FABRIC-001_NON_AUTHORITY_INTENT_ONLY",
+    "provider_and_model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource_admission_placement_reservation_lease": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "secrets": "FA3-AUTH-SECRETS-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "license_rights": "FA3-LICENSE-RIGHTS-001",
+    "registry_governance": "FA3-REGISTRY-001"
+  },
+  "coexistence": {
+    "upstream_base_engines_preserved": true,
+    "fa3_native_engines_parallel": true,
+    "forced_replacement": false,
+    "upstream_uninstall_required": false,
+    "host_global_environment_mutation": false,
+    "silent_fallback": false,
+    "silent_format_loss": false,
+    "project_engine_lock_in": false
+  },
+  "gui": {
+    "shared_qml": "apps/shared/engine-selector/qml/EngineSelectorPanel.qml",
+    "compact_and_advanced_modes": false,
+    "capability_search": true,
+    "multi_scope_override": true,
+    "compare_surface": true,
+    "health_visibility": true,
+    "privacy_cost_license_hardware_filters": false,
+    "control_center_route": "models.engines",
+    "control_center_page": "apps/fa3-control-center/qml/EngineManagerPage.qml",
+    "control_center_service": "apps/fa3-control-center/src/EngineSelectorService.cpp",
+    "runtime_projection": "CATALOG_FILTER_COMPARE_AND_NON_EXECUTING_SELECTION_INTENT",
+    "unmaterialized_controls": [
+      "COMPACT_ADVANCED_MODE_SWITCH",
+      "PRIVACY_FILTER",
+      "COST_FILTER",
+      "LICENSE_FILTER",
+      "HARDWARE_FILTER"
+    ]
+  },
+  "current_host_runtime_promotion_claim": false
+}

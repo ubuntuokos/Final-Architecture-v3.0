@@ -1,0 +1,47 @@
+{
+  "schema": "fa3.compute-profile-policy.v1",
+  "id": "FA3-COMPUTE-PROFILE-001",
+  "title": "Measured Compute Profile",
+  "status": "CANONICAL_POLICY",
+  "capability_count_source": "canonical/FA3-RELEASE-CAPABILITY-BASELINE-001.json",
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "fail_closed": true,
+  "host_attestation_policy": "FA3-HOST-ATTESTATION-001",
+  "purpose": "DESCRIBE_MEASURED_RESOURCE_CAPABILITY_WITHOUT_NAMED_HARDWARE_ADMISSION",
+  "metric_catalog": [
+    "cpu.physical_cores",
+    "cpu.fp32_score",
+    "memory.bandwidth_gbps",
+    "numa.local_latency_p95_ns",
+    "numa.remote_latency_p95_ns",
+    "gpu.fp32_score",
+    "gpu.fp16_score",
+    "gpu.bf16_score",
+    "gpu.int8_score",
+    "gpu.vram_gib",
+    "pcie.h2d_gbps",
+    "pcie.d2h_gbps",
+    "gpu.p2p_gbps",
+    "media.nvenc_sessions",
+    "media.nvdec_score",
+    "storage.seq_read_gbps",
+    "storage.random_read_iops"
+  ],
+  "profile_semantics": {
+    "multidimensional": true,
+    "measurement_receipt_required": true,
+    "selected_accelerator_set_must_be_explicit": true,
+    "missing_required_metric_is_fail_closed": true
+  },
+  "aggregate_scores": {
+    "cu_tu_allowed_for_diagnostics_or_gui": true,
+    "cu_tu_allowed_for_production_admission": false,
+    "single_scalar_admission_authority_forbidden": true
+  },
+  "invariants": [
+    "NO_DIMENSION_COMPENSATION",
+    "NO_EXACT_SKU_REQUIRED_FOR_PORTABLE_ADMISSION",
+    "PROFILE_MUST_BIND_HOST_ATTESTATION_SHA256"
+  ]
+}

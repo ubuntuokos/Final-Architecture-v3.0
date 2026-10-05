@@ -1,19 +1,33 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 import json
 
 PROFILE_ID = "FA3-MARKETING-001"
 GATE_ID = "FA3-GATE-MARKETING-001"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 
 def native_hungarian_content_valid(content):
     text = str(content.get("text", ""))
+    quality = content.get("quality_receipt")
+    quality = quality if isinstance(quality, dict) else {}
+    dimensions = quality.get("dimensions", {})
     return (
         content.get("locale") == "hu-HU"
         and content.get("generation_mode") == "NATIVE_HUNGARIAN_GENERATION"
         and content.get("translation_source_locale") is None
         and any(ch in text for ch in "áéíóöőúüűÁÉÍÓÖŐÚÜŰ")
         and len(text.strip()) >= 20
+        and quality.get("language_identified") == "hu-HU"
+        and quality.get("single_metric_authority") is False
+        and all(
+            dimensions.get(name) is True
+            for name in ("grammar_style", "terminology", "register", "policy")
+        )
+        and (
+            quality.get("human_review_required") is False
+            or quality.get("human_review_pass") is True
+        )
     )
 
 def delivery_allowed(intent):
@@ -64,6 +78,18 @@ def run_reference_e2e(request=None):
         "quality_gate": "CAP-125",
         "quality_pass": True,
         "tone_profile": "TEGEZO",
+        "quality_receipt": {
+            "language_identified": "hu-HU",
+            "single_metric_authority": False,
+            "dimensions": {
+                "grammar_style": True,
+                "terminology": True,
+                "register": True,
+                "policy": True,
+            },
+            "human_review_required": True,
+            "human_review_pass": True,
+        },
     }
     email = {
         "via_central_mcp": True,

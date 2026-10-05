@@ -1,0 +1,20 @@
+{
+  "schema": "fa3.executable-gate-record.v1",
+  "id": "FA3-GATE-OPENMP-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "profile_id": "FA3-OPENMP-RUNTIME-GOVERNANCE-001",
+  "contract_id": "FA3-OPENMP-RUNTIME-GOVERNANCE-CONTRACTS-001",
+  "enforcement_id": "FA3-OPENMP-GATESET-001",
+  "parent_gate_id": "FA3-GATE-CPU-NUMA-THREADING-001",
+  "entrypoint": "src/fa3_openmp_governance_gate.py",
+  "runtime": "src/fa3_openmp_governance.py",
+  "test": "tests/test_openmp_runtime_governance.py",
+  "fail_closed": true,
+  "mandatory_checks": 24,
+  "capability_count": 175,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "current_host_runtime_promotion_claim": false,
+  "promotion_semantics": "Static and synthetic OpenMP governance checks never substitute for observed current-host affinity, runtime-family, target-device and workload evidence."
+}

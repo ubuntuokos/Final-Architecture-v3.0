@@ -1,0 +1,99 @@
+# OpenClaw API List → FA3 External Discovery reconciliation
+
+`cporter202/openclaw-api-list` is materialized as a pinned, untrusted discovery
+source inside the existing shared `FA3-EXTERNAL-API-DISCOVERY-001` capability.
+It is not a donor registration, provider, MCP admission, skill admission, runtime
+dependency or architectural authority.
+
+Pinned snapshot: `3afa19dd12f3cdc6bc2e297e9b6945059ada0cae`.
+
+No repository license was detected at assessment time, so FA3 keeps this source
+discovery-metadata-only until license and service terms are separately admitted.
+
+## Reconciliation
+
+- API Mega List remains the high-breadth discovery baseline.
+- OpenClaw API List adds an agent-oriented curated overlay for APIs, MCP, skills,
+  webhooks and integrations.
+- Apify is identity/provenance context. Its organization donor record and ecosystem
+  assessment do not auto-admit child repositories, Actors, MCP wrappers or providers.
+
+OpenClaw links commonly carry `fpr` affiliate parameters. The shared normalizer
+removes affiliate/tracking keys before candidate identity is computed. Upstream
+language such as “MCP = plug in directly” is catalogue advice, not FA3 admission.
+
+The existing offline pipeline now accepts immutable snapshots for both catalogues,
+preserves source identity in receipts, and rejects source-id/repository mismatch
+fail-closed. OpenClaw accepts recursive `README.md` surfaces plus the root
+`OPENCLAW_RECOMMENDED.md` curated surface.
+
+Capability baseline remains 175; provider count remains dynamic; donor registry is
+unchanged; Current Host obligation delta is zero.
+
+## Structured metadata hardening
+
+The shared catalog adapter extracts only sanitized discovery metadata. For OpenClaw
+tables this includes category, display name, sanitized description, source section,
+MCP/skill/webhook **hints**, and an explicit Apify Actor identity when the canonical
+locator is an `apify.com/<owner>/<actor>` URL. These are discovery signals only:
+they are not protocol conformance, provider admission, MCP registration, donor
+adoption, ranking authority, or activation evidence.
+
+Raw source URLs are not persisted. Affiliate/tracking parameters and secret-bearing
+query values are removed before identity is computed, and descriptions are stripped
+of embedded URLs before persistence.
+
+## Multi-source reconciliation
+
+`FA3 External API Discovery` now supports deterministic reconciliation of multiple
+immutable catalog snapshots into the same derived Candidate Store:
+
+```text
+bin/fa3-external-api-discovery reconcile \
+  --snapshot-dir /path/to/api-mega-list-snapshot \
+  --snapshot-dir /path/to/openclaw-api-list-snapshot
+```
+
+Candidate identity remains the sanitized provider/service/locator tuple, so the same
+listing observed in API Mega List and OpenClaw collapses to one candidate while
+retaining per-source provenance, including source ID, repository, pinned commit,
+source path and line. Input ordering cannot change candidate identity.
+
+Apify remains identity/provenance context in this reconciliation. There is no direct
+Apify catalog ingestion, no Actor/provider/MCP auto-admission, and no inherited
+usage edge from `FA3-DONOR-APIFY-ORG-001`.
+
+## Candidate → admission-review handoff
+
+Discovery candidates can now be converted into a deterministic **draft review plan**
+with the existing `fa3-external-api-discovery` CLI. This is a handoff into the
+existing FA3 admission authorities, not a new admission engine:
+
+```text
+bin/fa3-external-api-discovery review-plan \
+  --store /path/to/candidate-store.json \
+  --candidate-id EXTDISC-... \
+  --target-kind mcp
+```
+
+The target kind must be explicitly chosen from provider, MCP, skill, webhook or
+Apify Actor. Catalog hints never select the target automatically. The plan is bound
+to the candidate digest, Candidate Store digest and pinned source provenance.
+
+The lifecycle is represented explicitly as:
+
+`DISCOVER → NORMALIZE → DEDUPLICATE → PROVENANCE → LICENSE_TERMS →
+ENDPOINT_VERIFY → PROTOCOL_SCHEMA → SECURITY → SECRETS → EGRESS →
+CAPABILITY_MAP → POLICY → SANDBOX → CONFORMANCE → REGISTRY_ADMISSION`.
+
+Only the first three stages may be marked
+`PASS_FROM_DERIVED_DISCOVERY`. Every later stage is emitted as
+`PENDING_REVIEW`. Creating the plan performs no network probe, secret resolution,
+registry mutation, provider/MCP/Actor admission, runtime activation, donor
+registration, donor usage edge, or Current Host promotion.
+
+License/service terms remain governed by
+`FA3-LICENSE-RIGHTS-CONTRACTS-001`; MCP execution remains governed by the Central
+MCP Gateway; secrets remain governed by Secret Broker; resources remain governed by
+HRB. An Apify Actor identity discovered through OpenClaw does not inherit
+`FA3-DONOR-APIFY-ORG-001` donor status.

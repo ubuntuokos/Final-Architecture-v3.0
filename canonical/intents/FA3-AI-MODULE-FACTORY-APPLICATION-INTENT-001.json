@@ -1,0 +1,110 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-AI-MODULE-FACTORY-APPLICATION-INTENT-001",
+  "project_id": "FA3-AI-MODULE-FACTORY-001",
+  "project_type": "APPLICATION",
+  "goal": "Materialize a provider-neutral FA3 AI Module Factory that turns approved work, human corrections and workflow evidence from FA3 applications into rights-qualified Knowledge, Preference, Skill Adapter, Workflow or Native Model module drafts while reusing CAP-095 and all existing routing, resource, rights, orchestration and evidence authorities.",
+  "required_capabilities": [
+    "CAP-004",
+    "CAP-006",
+    "CAP-094",
+    "CAP-095",
+    "CAP-098",
+    "CAP-141"
+  ],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "work-derived-ai",
+    "dataset-qualification",
+    "human-correction-capture",
+    "module-strategy-selection",
+    "multimodal-training-adaptation",
+    "evaluation-handoff"
+  ],
+  "input_modalities": [
+    "TEXT",
+    "DOCUMENT",
+    "IMAGE",
+    "VIDEO",
+    "AUDIO",
+    "MUSIC",
+    "SCENE_METADATA",
+    "WORKFLOW_TRACE",
+    "HUMAN_CORRECTION",
+    "APPROVAL_RECEIPT"
+  ],
+  "output_modalities": [
+    "KNOWLEDGE_MODULE_DRAFT",
+    "PREFERENCE_MODULE_DRAFT",
+    "SKILL_ADAPTER_DRAFT",
+    "WORKFLOW_MODULE_DRAFT",
+    "NATIVE_MODEL_DRAFT",
+    "CAP095_JOB_INTENT"
+  ],
+  "execution_classes": [
+    "GUI_SESSION",
+    "STATIC_QUALIFICATION",
+    "DRAFT_PERSISTENCE",
+    "GOVERNED_RUNTIME_HANDOFF"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_mutation": false,
+    "live_resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3",
+    "service_prefix": "fa3",
+    "config_root": "$XDG_CONFIG_HOME/fa3/ai-module-factory",
+    "cache_root": "$XDG_CACHE_HOME/fa3/ai-module-factory",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/ai-module-factory",
+    "data_root": "$XDG_DATA_HOME/fa3/ai-module-factory",
+    "desktop_prefix": "org.fa3",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "security_requirements": [
+    "AI_DISABLE_DENY_WINS",
+    "LICENSE_AND_RIGHTS_FAIL_CLOSED",
+    "PROVENANCE_VERIFIED_BEFORE_MODULE_DATA_USE",
+    "MODEL_ROUTER_REMAINS_SOLE_MODEL_PROVIDER_ROUTING_AUTHORITY",
+    "HRB_REMAINS_SOLE_HOST_RESOURCE_AUTHORITY",
+    "NO_DIRECT_PROVIDER_EXECUTION",
+    "NO_DIRECT_HARDWARE_SELECTION",
+    "NO_SILENT_FALLBACK",
+    "NO_RUNTIME_PROMOTION_FROM_STATIC_MATERIALIZATION",
+    "HUMAN_APPROVAL_REQUIRED_BEFORE_EXECUTION_OR_PUBLICATION"
+  ],
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "FA3-LICENSE-RIGHTS-001",
+    "FA3-SHARED-KNOWLEDGE-RETRIEVAL-001",
+    "FA3-SHARED-MULTIMODAL-SOURCE-001",
+    "FA3-SHARED-AI-INTERACTION-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-OBS-EVIDENCE-001"
+  ],
+  "gui_requirements": [
+    "QT6_QML_STANDALONE_APPLICATION",
+    "CONTROL_CENTER_ROUTE_PROJECTION",
+    "CONTEXT_AWARE_SOURCE_APPLICATION_ADAPTERS",
+    "ADVANCED_TRAINING_PARAMETERS_NOT_DEFAULT_VIEW"
+  ],
+  "task_classes": [
+    "training",
+    "multimodal",
+    "knowledge",
+    "evaluation",
+    "governance"
+  ],
+  "skill_triggers": []
+}

@@ -1,0 +1,43 @@
+name: FA3 PyRIT Reference Gate
+
+on:
+  pull_request:
+    paths:
+      - canonical/providers/FA3-PROVIDER-PYRIT-001.json
+      - canonical/profiles/FA3-AI-SEC-VALIDATION-001.json
+      - canonical/decisions/FA3-DEC-PYRIT-2026-09-12.json
+      - canonical/references/FA3-PYRIT-UPSTREAM-REFERENCE-2026-09-12.json
+      - canonical/pyrit-enforcement.json
+      - canonical/pyrit-runtime-admission.json
+      - evidence/reference/pyrit-reference-pass.json
+      - src/fa3_pyrit_gate.py
+      - tests/test_pyrit_gate.py
+      - .github/workflows/pyrit-reference-gate.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pyrit-reference-gate:
+    name: pyrit-reference-gate / fail-closed
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile gate
+        run: python -m py_compile src/fa3_pyrit_gate.py tests/test_pyrit_gate.py
+
+      - name: Run PyRIT regressions
+        run: PYTHONPATH=src python -m unittest tests.test_pyrit_gate -v
+
+      - name: Run canonical PyRIT gate
+        run: PYTHONPATH=src python src/fa3_pyrit_gate.py

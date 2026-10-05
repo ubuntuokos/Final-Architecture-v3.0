@@ -1,0 +1,161 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-REUSE-DISCOVERY-001",
+  "name": "Capability, Contract, Pattern & Implementation Reuse Discovery Profile",
+  "version": "1.1.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "relationship": {
+    "type": "CROSS-CUTTING-OVERLAY",
+    "parent": "FA3-REGISTRY-001"
+  },
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "contracts": [
+    "FA3-REUSE-DISCOVERY-CONTRACTS-001",
+    "FA3-APPLICATION-INTENT-001",
+    "FA3-REUSABLE-PATTERN-001",
+    "FA3-REUSE-ASSESSMENT-001"
+  ],
+  "catalog": "FA3-REUSE-CATALOG-001",
+  "source_federation": [
+    "FA3-REGISTRY-001",
+    "canonical/mcp-capability-registry.json",
+    "canonical/profiles",
+    "canonical/contracts",
+    "canonical/providers",
+    "canonical/actions",
+    "canonical/references",
+    "canonical/patterns",
+    "canonical/third-party",
+    "FA3-GUI-SURFACE-REGISTRY-001",
+    "FA3-DISTRIBUTION-REGISTRY-001",
+    "FA3-JEV-CODE-REUSE-001",
+    "External Project Radar",
+    "FA3-SKILL-FABRIC-001",
+    "FA3-SKILL-REGISTRY-001",
+    "FA3-EXTERNAL-SKILL-RADAR-001",
+    "canonical/FA3-KHRONOS-ADAPTER-REGISTRY-001.json",
+    "canonical/integrations/FA3-KHRONOS-OPEN-STANDARDS-INTEGRATION-001.json",
+    "FA3-DONOR-REFERENCE-REGISTRY-001"
+  ],
+  "lifecycle": [
+    "INTENT",
+    "DISCOVER",
+    "DISCOVER_DONOR_REFERENCE_REGISTRY",
+    "DISCOVER_OPEN_STANDARD_SOURCES",
+    "DISCOVER_SKILLS_AND_EXTERNAL_SKILL_SOURCES",
+    "FILTER",
+    "ASSESS_REUSE",
+    "IDENTIFY_GAPS",
+    "CHECK_AUTHORITY",
+    "CHECK_COEXISTENCE",
+    "CHECK_HARDWARE",
+    "PROPOSE",
+    "ADMIT",
+    "IMPLEMENT"
+  ],
+  "agent_native_projection": {
+    "contract": "ReuseContext",
+    "output": "ReuseProposal",
+    "proposal_is_admission": false,
+    "candidate_set_expansion": false
+  },
+  "decision_fabric": {
+    "applicability": "RECOMMENDED_ONLY_FOR_RANKING_AMONG_DETERMINISTICALLY_ELIGIBLE_CANDIDATES",
+    "candidate_expansion": "DENY",
+    "policy_override": "DENY",
+    "license_security_override": "DENY"
+  },
+  "hardware_audit": {
+    "profile_id": "FA3-HARDWARE-BASELINE-001",
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "implementation_status": "MATERIALIZED_STATIC_REFERENCE_EXECUTABLE_PASS_RUNTIME_PROMOTION_NOT_APPLICABLE",
+  "current_host_runtime_promotion_claim": false,
+  "reference_evidence": "evidence/reference/reuse-discovery-ci-2026-09-24.json",
+  "reference_evidence_status": "PASS",
+  "skill_fabric_binding": {
+    "profile_id": "FA3-SKILL-FABRIC-001",
+    "registry_id": "FA3-SKILL-REGISTRY-001",
+    "external_radar_id": "FA3-EXTERNAL-SKILL-RADAR-001",
+    "only_admitted_skill_may_be_selected_for_task_context": true,
+    "activation_remains_task_scoped": true,
+    "external_skill_source_is_reference_only": true,
+    "external_catalog_is_trust_authority": false,
+    "automatic_install": false,
+    "automatic_activation": false
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "open_standards_reuse_binding": {
+    "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+    "adapter_registry_id": "FA3-KHRONOS-ADAPTER-REGISTRY-001",
+    "integration_map_id": "FA3-KHRONOS-OPEN-STANDARDS-INTEGRATION-001",
+    "review_required_for_every_new_application": true,
+    "allowed_dispositions": [
+      "MATCHED",
+      "REVIEWED_NO_MATCH"
+    ],
+    "roles": [
+      "RUNTIME_PROVIDER_SOURCE",
+      "INTERCHANGE_STANDARD_SOURCE",
+      "DESIGN_PATTERN_INSTRUCTION_SOURCE"
+    ],
+    "authority": false,
+    "automatic_selection": false,
+    "automatic_activation": false
+  },
+  "donor_reference_binding": {
+    "registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "review_required_for_every_new_or_materially_modified_application_capability_or_module": true,
+    "potential_donor_signal_requires_capture": false,
+    "default_capture_state": "NO_CAPTURE_ANALYSIS_ONLY",
+    "candidate_is_admission": false,
+    "candidate_is_dependency": false,
+    "code_import_requires_separate_license_security_and_admission_review": true,
+    "future_application_matching": true,
+    "authority": false,
+    "automatic_selection": false,
+    "automatic_activation": false,
+    "owner_marker_required": "donornak",
+    "owner_role_required": true,
+    "owner_marked_link_capture_state": "ACCEPTED_REFERENCE",
+    "pending_donor_prs_excluded_from_planning": true,
+    "published_main_registry_only": true,
+    "legacy_registry_embedded_capture_policy_superseded_by": "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28",
+    "planning_snapshot_gate_id": "FA3-DONOR-PLANNING-SNAPSHOT-GATESET-001",
+    "planning_snapshot_required_for_material_change": true,
+    "planning_snapshot_published_main_commit_required": true,
+    "planning_snapshot_registry_blob_sha_required": true,
+    "planning_snapshot_registry_sha256_required": true,
+    "planning_snapshot_registry_entry_count_required": true,
+    "stale_snapshot_requires_reassessment_before_finalization": true,
+    "owner_marker_semantics": "NORMALIZED_MARKER_FOR_EXACT_APPROVED_OWNER_COMMAND_SET",
+    "approved_owner_commands": [
+      "donornak",
+      "vedd fel donornak",
+      "add a donorlistához"
+    ],
+    "command_equivalence_decision_ref": "FA3-DEC-DONOR-INTAKE-COMMAND-EQUIVALENCE-2026-10-04",
+    "implementation_plan_exception_decision_ref": "FA3-DEC-IMPLEMENTATION-PLAN-DONOR-EXCEPTION-2026-10-04",
+    "approved_plan_exact_processed_set_registration_allowed": true,
+    "approved_plan_registration_is_reference_only": true,
+    "execution_requires_processed_donors_on_published_main": true
+  },
+  "shared_capability_placement_review": {
+    "required_for_material_change": true,
+    "multi_application_feature_shared_first": true,
+    "local_duplication_requires_reviewed_justification": true,
+    "retrospective_consumer_impact_required": true,
+    "capability_loss_forbidden": true
+  }
+}

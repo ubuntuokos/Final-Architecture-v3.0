@@ -1,0 +1,82 @@
+{
+  "schema": "cfa3.donor-rolling-batch-finalizer.v1",
+  "id": "CFA3-DONOR-TILE-AI-BATCH-FINALIZER-2026-10-05",
+  "status": "MATERIALIZED_PENDING_EXACT_HEAD_GATES",
+  "canonical_name": "CFA3",
+  "historical_alias": "FA3",
+  "batch_role": "CANONICAL_ROLLING_BATCH_FINALIZER",
+  "batch_finalizer_pr": 713,
+  "decision_ref": "canonical/decisions/CFA3-DEC-DONOR-INTAKE-BATCH-ACCELERATION-2026-10-04.json",
+  "parent_main": "1b59f383b027c73c207bda1187c4cf71ad9ce33c",
+  "parent_registry_blob_sha": "03bd0b56a1c176efc224cdd1bc6a091562663390",
+  "parent_entry_count": 1548,
+  "resulting_registry_blob_sha": "eb15f93415d599400a5c99e6f5651c8805d052e4",
+  "resulting_entry_count": 1551,
+  "new_source_count": 3,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "usage_edges_created": 0,
+  "source_prs": [
+    {
+      "pr": 711,
+      "head": "e4fe02e71aa8fe2530beccd7f31a7150869d2e90",
+      "contribution": 3,
+      "mode": "QUEUE_DELTA_MATERIALIZED",
+      "live_head_advanced_from": "4e7dc96ec5f0eaef465b9f30244c98cfbae903e3",
+      "head_refresh_reason": "DEV_11_DELTA_PATH_PREFIX_CORRECTION"
+    }
+  ],
+  "materialized": [
+    {
+      "donor_id": "FA3-DONOR-TILE-AI-TILELANG-001",
+      "normalized_key": "github:tile-ai/tilelang",
+      "locator": "https://github.com/tile-ai/tilelang",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-TILE-AI-TILERT-001",
+      "normalized_key": "github:tile-ai/tilert",
+      "locator": "https://github.com/tile-ai/TileRT",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-TILE-AI-TILEOPS-001",
+      "normalized_key": "github:tile-ai/tileops",
+      "locator": "https://github.com/tile-ai/TileOPs",
+      "status": "ACCEPTED_REFERENCE"
+    }
+  ],
+  "reconciled_existing_identities": [],
+  "boundaries": {
+    "automatic_code_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_admission": false,
+    "automatic_runtime_activation": false,
+    "usage_edge_created": false,
+    "current_host_pass_claimed": false
+  },
+  "head_refreshes": [
+    {
+      "pr": 711,
+      "from": "4e7dc96ec5f0eaef465b9f30244c98cfbae903e3",
+      "to": "e4fe02e71aa8fe2530beccd7f31a7150869d2e90",
+      "reason": "DEV_11_DELTA_PATH_PREFIX_CORRECTION"
+    }
+  ],
+  "rehydration_provenance": {
+    "prior_finalizer_head": "2a5804ca4ffd0858a0854c09c4f0ba7f284ddeda",
+    "target_main": "1b59f383b027c73c207bda1187c4cf71ad9ce33c",
+    "target_main_registry_blob_sha": "03bd0b56a1c176efc224cdd1bc6a091562663390",
+    "method": "EXACT_HEAD_DONOR_DELTA_REHYDRATION",
+    "direct_merge_or_rebase_used": false,
+    "source_pr_non_donor_payload_admitted": false
+  },
+  "stale_branch_policy": {
+    "direct_merge_or_rebase_of_source_pr": false,
+    "exact_head_history_preserved": true,
+    "donor_delta_only_rehydration": true,
+    "non_donor_source_payload_admitted": false
+  }
+}

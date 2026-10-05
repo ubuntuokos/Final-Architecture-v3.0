@@ -1,0 +1,39 @@
+{
+  "schema": "fa3.architecture-decision.v1",
+  "id": "FA3-DEC-SHARED-MODULE-PATTERN-DONOR-CATALOGUE-2026-10-01",
+  "status": "OWNER_APPROVED_MATERIALIZATION",
+  "date": "2026-10-01",
+  "title": "Shared Module Patterns and FA3-native Shared AI Composition",
+  "decision": "Materialize one non-authoritative pattern catalogue on top of the existing Donor & Reference Registry and five FA3-native shared composition profile/contract families: AI Interaction, Knowledge & Retrieval, Multimodal Source, Conversation & Session, and Tool & Action Mediation. Reuse existing FA3 authorities and capabilities; do not adopt the analyzed tutorial/chat stack as an application or runtime dependency.",
+  "invariants": {
+    "capability_baseline": 175,
+    "capability_delta": 0,
+    "architectural_authority_delta": 0,
+    "donor_registry_remains_only_donor_identity_authority": true,
+    "new_donor_requires_explicit_owner_donornak_marker": true,
+    "retroactive_shared_impact_required": true,
+    "current_host_physical_pass_claimed": false,
+    "capability_bindings_derived_from_profile_contract_only": true,
+    "manual_capability_binding_forbidden": true,
+    "analyzed_chat_material_is_donor_intake": false,
+    "runtime_activation_by_this_change": false
+  },
+  "composite_reference_retained": "FA3-MULTIMODAL-ASSISTANT-WORKBENCH-REFERENCE-PATTERN-001",
+  "authority_boundaries": [
+    "Model Router",
+    "HRB",
+    "Orchestrator/Temporal",
+    "Secret Broker",
+    "Security/UAF/MCP",
+    "Evidence/Gates",
+    "Layer Guard"
+  ],
+  "runtime_effect": "STATIC_CONTRACT_AND_MAPPING_ONLY_NO_EXECUTION_RUNTIME",
+  "materialized_shared_components": [
+    "FA3-SHARED-AI-INTERACTION-001",
+    "FA3-SHARED-KNOWLEDGE-RETRIEVAL-001",
+    "FA3-SHARED-MULTIMODAL-SOURCE-001",
+    "FA3-SHARED-CONVERSATION-SESSION-001",
+    "FA3-SHARED-TOOL-ACTION-MEDIATION-001"
+  ]
+}

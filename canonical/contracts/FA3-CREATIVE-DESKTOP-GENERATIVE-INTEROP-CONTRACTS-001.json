@@ -1,0 +1,171 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-CREATIVE-DESKTOP-GENERATIVE-INTEROP-CONTRACTS-001",
+  "name": "Provider-Neutral Creative Desktop Generative Media Interoperability Contracts",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST_WHEN_DESKTOP_EDITOR_GENERATIVE_INTEROP_IS_USED",
+  "provider_neutral": true,
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_bindings": ["CAP-005", "CAP-016", "CAP-120", "CAP-135"],
+  "extends_contracts": [
+    "FA3-IMGGEN-CONTRACTS-001",
+    "FA3-MMG-CONTEXT-IR-CONTRACTS-001",
+    "FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-CONTRACTS-001",
+    "FA3-COMPOSITING-CONTRACTS-001"
+  ],
+  "governed_by": [
+    "FA3-MODEL-ARTIFACT-SECURITY-CONTRACTS-001",
+    "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001",
+    "FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001"
+  ],
+  "contracts": [
+    "CreativeDesktopGenerationSession",
+    "EditorDocumentContext",
+    "LayerSetDescriptor",
+    "SelectionMaskDescriptor",
+    "CanvasGeometryDescriptor",
+    "ColorPipelineDescriptor",
+    "GenerationIntentBinding",
+    "EditorToMMGContextProjection",
+    "GenerativeRuntimeProjection",
+    "LiveEditorTransportDescriptor",
+    "ResultPlacementDirective",
+    "NondestructiveEditReceipt",
+    "EditorGenerationEvidenceReceipt"
+  ],
+  "canonical_execution_chain": [
+    "capture_editor_context",
+    "normalize_editor_semantics",
+    "compile_existing_MultimodalGenerationContextIR",
+    "capability_and_provider_resolution",
+    "security_license_and_dependency_admission",
+    "host_resource_admission",
+    "provider_projection_with_loss_report",
+    "generative_runtime_execution",
+    "result_integrity_and_semantic_validation",
+    "nondestructive_result_placement",
+    "evidence_emission"
+  ],
+  "editor_context": {
+    "required_semantics": [
+      "document_identity",
+      "canvas_geometry",
+      "active_layer",
+      "ordered_layer_set",
+      "visibility_and_opacity",
+      "selection",
+      "mask_and_alpha",
+      "color_space_and_profile",
+      "generation_intent",
+      "result_placement_policy"
+    ],
+    "optional_semantics": [
+      "control_reference_images",
+      "composition_guides",
+      "layer_groups",
+      "live_preview_subscription"
+    ],
+    "rgba_alpha_semantics_must_be_preserved": true,
+    "selection_and_mask_must_not_be_conflated": true,
+    "source_document_mutation_before_validated_result": false
+  },
+  "supported_operation_classes": [
+    "TEXT_TO_IMAGE",
+    "IMAGE_TO_IMAGE",
+    "INPAINT",
+    "OUTPAINT",
+    "UPSCALE",
+    "SELECTION_EDIT",
+    "LAYER_COMPOSITE",
+    "MASK_TRANSFER",
+    "REFERENCE_OR_CONTROL_IMAGE",
+    "RESULT_TO_NEW_LAYER",
+    "RESULT_TO_NEW_DOCUMENT"
+  ],
+  "mmg_context_ir_bridge": {
+    "canonical_contract": "FA3-MMG-CONTEXT-IR-CONTRACTS-001",
+    "canonical_type": "MultimodalGenerationContextIR",
+    "editor_context_is_projection_source_not_new_ir_authority": true,
+    "provider_native_prompt_or_workflow_syntax_upstream_forbidden": true,
+    "projection_loss_report_required": true,
+    "hard_constraint_loss": "FAIL_CLOSED",
+    "provider_specific_limits": "DOWNSTREAM_PROJECTION_ONLY"
+  },
+  "runtime_interop": {
+    "local_first": true,
+    "cloud_dependency_required": false,
+    "endpoint": "DISCOVERED_OR_OPERATOR_CONFIGURED_PROVIDER_LOCAL_ENDPOINT",
+    "hardcoded_host_port_as_canonical_requirement": false,
+    "workflow_resolution": "PROVIDER_PROJECTION_AFTER_CANONICAL_INTENT",
+    "workflow_id_version_hash_provenance_required": true,
+    "custom_nodes": "OPTIONAL_PROVIDER_DEPENDENCIES_SUBJECT_TO_ADMISSION",
+    "live_transport": "OPTIONAL_NON_AUTHORITY_TRANSPORT",
+    "filesystem_transport": "OPTIONAL_PROVIDER_LOCAL_TRANSPORT",
+    "websocket_transport": "OPTIONAL_PROVIDER_LOCAL_TRANSPORT"
+  },
+  "result_policy": {
+    "default_placement": "NEW_LAYER_OR_NEW_DOCUMENT",
+    "destructive_overwrite_by_default": false,
+    "result_integrity_validation_required": true,
+    "source_document_preservation_on_provider_failure": true,
+    "partial_or_ambiguous_result": "DO_NOT_MUTATE_SOURCE_DOCUMENT",
+    "generation_provenance_attachment": "REQUIRED_WHERE_EDITOR_SUPPORTS_METADATA_ATTACHMENT"
+  },
+  "security_and_supply_chain": {
+    "plugin_code_admission_required": true,
+    "workflow_and_custom_node_inventory_required": true,
+    "workflow_and_custom_node_revision_hash_required": true,
+    "model_artifact_security_gate_required": true,
+    "automatic_custom_node_install_or_update": false,
+    "bundled_dependency_license_inventory_required": true,
+    "non_permissive_reference_code_may_be_pattern_source_only": true
+  },
+  "authority_boundaries": {
+    "desktop_document_state": "DESKTOP_EDITOR_PROVIDER_LOCAL_STATE",
+    "canonical_generation_context": "FA3-MMG-CONTEXT-IR-001",
+    "generation_contract": "FA3-IMGGEN-CONTRACTS-001",
+    "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "capability_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_license_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "artifact_model_identity": "FA3-REG-ARTIFACT-MODEL-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "desktop_adapter": "NON_AUTHORITY_TRANSFORMATION_AND_UI_ADAPTER"
+  },
+  "forbidden_roles": [
+    "GLOBAL_ORCHESTRATION_AUTHORITY",
+    "WORKFLOW_AUTHORITY",
+    "MODEL_REGISTRY_AUTHORITY",
+    "MODEL_ROUTER_AUTHORITY",
+    "HOST_RESOURCE_AUTHORITY",
+    "SECURITY_OR_LICENSE_AUTHORITY",
+    "EVIDENCE_AUTHORITY",
+    "PARALLEL_GENERATION_CONTEXT_IR_AUTHORITY"
+  ],
+  "invariants": [
+    "EXISTING_MMG_CONTEXT_IR_REUSED_NOT_DUPLICATED",
+    "EDITOR_LAYER_SELECTION_MASK_ALPHA_SEMANTICS_PRESERVED",
+    "PROVIDER_NATIVE_WORKFLOW_SYNTAX_DOWNSTREAM_ONLY",
+    "PROVIDER_PROJECTION_LOSS_REPORT_REQUIRED",
+    "HARD_CONSTRAINT_LOSS_FAILS_CLOSED",
+    "NO_HARDCODED_GPU_MODEL_COUNT_OR_DEVICE",
+    "NO_HARDCODED_COMFYUI_ENDPOINT_AS_CANONICAL_REQUIREMENT",
+    "CUSTOM_NODE_AND_WORKFLOW_DEPENDENCIES_ADMISSION_GATED",
+    "NONDESTRUCTIVE_RESULT_PLACEMENT_DEFAULT",
+    "PROVIDER_FAILURE_MUST_NOT_CORRUPT_SOURCE_DOCUMENT",
+    "LIVE_TRANSPORT_OPTIONAL_AND_NON_AUTHORITY",
+    "LOCAL_FIRST_NO_CLOUD_DEPENDENCY",
+    "CAPABILITY_COUNT_REMAINS_143",
+    "NO_NEW_ARCHITECTURAL_AUTHORITY"
+  ],
+  "baseline": {
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_before": 143,
+    "capability_count_after": 143
+  }
+}

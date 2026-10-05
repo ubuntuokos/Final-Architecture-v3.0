@@ -14,6 +14,7 @@ on:
       - evidence/collect-model-manager-current-host.py
       - bin/fa3-model-manager-current-host.sh
       - tests/test_model_manager_provider_adapter.py
+      - tests/test_model_manager_current_host_gate.py
 permissions:
   contents: read
 jobs:
@@ -22,7 +23,7 @@ jobs:
     runs-on: [self-hosted, linux, x64, fa3-current-host]
     timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
           fetch-depth: 0
@@ -32,12 +33,11 @@ jobs:
           set -euo pipefail
           test "$(id -u)" -ne 0
           command -v python3
-          test -d /ai-cache || test -d "$HOME/.cache/huggingface"
       - name: Adapter regressions
         shell: bash
         run: |
           set -euo pipefail
-          PYTHONPATH="$GITHUB_WORKSPACE/src" python3 -m unittest tests.test_model_manager_provider_adapter -v
+          PYTHONPATH="$GITHUB_WORKSPACE/src" python3 -m unittest             tests.test_model_manager_provider_adapter             tests.test_model_manager_current_host_gate -v
       - name: Run real local-only provider E2E
         shell: bash
         env:
@@ -48,7 +48,7 @@ jobs:
           bash bin/fa3-model-manager-current-host.sh
       - name: Upload current-host evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: fa3-model-manager-current-host-evidence
           path: |

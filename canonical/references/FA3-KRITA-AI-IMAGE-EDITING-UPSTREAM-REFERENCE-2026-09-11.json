@@ -1,0 +1,30 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-KRITA-AI-IMAGE-EDITING-UPSTREAM-REFERENCE-2026-09-11",
+  "date": "2026-09-11",
+  "status": "CANONICAL_REFERENCE_SNAPSHOT",
+  "title": "Pinned upstream references for Krita AI image editing, local vision assist and agent-control adapters",
+  "source_set": [
+    {"repository": "Acly/krita-ai-diffusion", "revision": "dda58d1c63e361207ccec085efbc34dbd32f1654", "observed_date": "2026-09-11", "license": {"spdx": "GPL-3.0"}, "role": "STRONG_REFERENCE_PROVIDER_PATTERN_AND_OPTIONAL_RUNTIME"},
+    {"repository": "Acly/krita-vision-tools", "revision": "3e7462aa54886ec498474647b507ca863ed22b38", "observed_date": "2026-09-11", "license": {"spdx": "GPL-3.0"}, "role": "OPTIONAL_LOCAL_VISION_REFERENCE_PROVIDER"},
+    {"repository": "dcc-mcp/dcc-mcp-krita", "revision": "5bd6fc6665e396f696ff6f2c6d3115b263762f67", "observed_date": "2026-09-11", "license": {"spdx": "MIT"}, "role": "PRIMARY_TYPED_MCP_ADAPTER_PATTERN_SOURCE"},
+    {"repository": "SanSaSane/krita-mcp", "revision": "1f06e047bf9c9b458d79ece7ef66e678bb667cd3", "observed_date": "2026-09-11", "license": {"spdx": "CC0-1.0"}, "role": "SECURE_LOOPBACK_AND_GUI_THREAD_PATTERN_SOURCE"}
+  ],
+  "fa3_mapping": {
+    "canonical_root": false,
+    "architectural_authority": false,
+    "required_runtime_dependency": false,
+    "profile": "FA3-AI-IMAGE-EDITING-001",
+    "providers": ["FA3-PROVIDER-KRITA-AI-DIFFUSION-001", "FA3-PROVIDER-KRITA-VISION-TOOLS-001", "FA3-PROVIDER-KRITA-MCP-001"]
+  },
+  "license_policy": {
+    "gpl_sources_may_be_runtime_or_pattern_references_subject_to_existing_license_policy": true,
+    "gpl_reference_code_copy_into_permissive_fa3_components": "FORBIDDEN_WITHOUT_EXPLICIT_LICENSE_POLICY_CHANGE",
+    "license_inventory_required": true
+  },
+  "verification": {
+    "static_reference_verified": true,
+    "runtime_execution_verified": false,
+    "production_readiness_claim": false
+  }
+}

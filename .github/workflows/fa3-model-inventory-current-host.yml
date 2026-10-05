@@ -1,0 +1,55 @@
+name: FA3 Model Inventory Current-Host Read-Only E2E
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: fa3-model-inventory-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  current-host:
+    name: model-inventory-current-host / read-only-canonical-store-e2e
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify safe current-host prerequisites
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(id -u)" -ne 0
+          command -v python3
+          store="${FA3_CANONICAL_MODEL_STORE:-${XDG_DATA_HOME:-$HOME/.local/share}/fa3/models}"
+          test -d "$store"
+      - name: Read-only adapter regressions
+        shell: bash
+        env:
+          HF_HUB_OFFLINE: "1"
+          TRANSFORMERS_OFFLINE: "1"
+        run: |
+          set -euo pipefail
+          PYTHONPATH="$GITHUB_WORKSPACE/src" python3 -m unittest tests.test_model_inventory_current_host_adapter -v
+      - name: Run real read-only cross-provider inventory
+        shell: bash
+        env:
+          HF_HUB_OFFLINE: "1"
+          TRANSFORMERS_OFFLINE: "1"
+        run: |
+          set -euo pipefail
+          bash bin/fa3-model-inventory-current-host.sh
+      - name: Upload sanitized current-host inventory evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: fa3-model-inventory-current-host-evidence
+          if-no-files-found: warn
+          path: |
+            evidence/receipts/model-inventory-current-host.json
+            evidence/runtime/model-inventory-current-host/*/summary.json
+            reports/model-inventory-current-host-gate-report.json

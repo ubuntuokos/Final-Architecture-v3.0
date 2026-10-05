@@ -1,0 +1,28 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-KNOWLEDGE-HYBRID-RETRIEVAL-2026-09-18",
+  "status": "FINAL",
+  "date": "2026-09-18",
+  "scope": "FA3-KNOWLEDGE-001",
+  "decision": "Materialize a provider-neutral Hierarchical + Hybrid Retrieval Fabric under the existing FA3-KNOWLEDGE-001 root and add PageIndex Local as the preferred local provider candidate without creating a new authority or capability.",
+  "capability_count_before": 143,
+  "capability_count_after": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "dispositions": {
+    "VectifyAI/PageIndex Local": "ADOPT_AS_LOCAL_PROVIDER_CANDIDATE",
+    "VectifyAI/PageIndex MCP": "KEEP_AS_OPTIONAL_CLOUD_PROVIDER",
+    "VectifyAI/OpenKB": "REFERENCE_OPTIONAL_KNOWLEDGE_COMPILER_NOT_AUTHORITY",
+    "VectifyAI/ConDB": "REFERENCE_OPTIONAL_REBUILDABLE_CONTEXT_ACCELERATION_NOT_AUTHORITY"
+  },
+  "constraints": [
+    "FA3-KNOWLEDGE-001 remains the only Knowledge/RAG canonical root",
+    "FA3-JOURNAL-001 and original artifacts remain source authorities",
+    "PageIndex Local may use only the loopback FA3 Model Router and no direct external model credentials",
+    "Cloud PageIndex requires explicit upload approval and Central MCP Gateway mediation",
+    "OpenKB may compile derived wiki/entity/concept projections but may not become durable source authority",
+    "ConDB may cache/retrieve hierarchical context but all state must be rebuildable from authoritative sources",
+    "RetrievalPlan, RetrievalTrace and ContextPassport are required for hybrid reasoning paths",
+    "Images, video and audio remain binary artifacts; knowledge stores only derived structured projections and evidence locators"
+  ]
+}

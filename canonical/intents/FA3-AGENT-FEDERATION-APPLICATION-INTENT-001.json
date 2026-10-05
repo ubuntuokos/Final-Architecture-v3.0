@@ -1,0 +1,64 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-AGENT-FEDERATION-APPLICATION-INTENT-001",
+  "project_id": "FA3-AGENT-FEDERATION-001",
+  "project_type": "PROFILE",
+  "goal": "Materialize secure cross-host agent federation and coordination by composing existing FA3 agent execution, communication, workflow, security, resource, model-routing, tool-mediation, registry and evidence authorities without creating a parallel authority.",
+  "required_capabilities": [],
+  "optional_capabilities": [
+    "fa3.decision.rank"
+  ],
+  "problem_classes": [
+    "agent-federation",
+    "cross-host-coordination",
+    "secure-agent-communication",
+    "durable-orchestration",
+    "resource-governance"
+  ],
+  "task_classes": [
+    "agent-federation",
+    "cross-host-coordination",
+    "secure-agent-communication",
+    "durable-orchestration",
+    "resource-governance"
+  ],
+  "skill_triggers": [],
+  "input_modalities": [
+    "CANONICAL_METADATA"
+  ],
+  "output_modalities": [
+    "MACHINE_READABLE_ASSESSMENT"
+  ],
+  "execution_classes": [
+    "CPU_ONLY",
+    "OPTIONAL_ACCELERATOR"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "CROSS_HOST_AGENT_FEDERATION_PROTOCOL_AND_POLICY_PROJECTION"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-agent-federation",
+    "service_prefix": "fa3-agent-federation",
+    "config_root": "$XDG_CONFIG_HOME/fa3/agent-federation",
+    "cache_root": "$XDG_CACHE_HOME/fa3/agent-federation",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/agent-federation",
+    "socket_namespace": "fa3/agent-federation",
+    "data_root": "$XDG_DATA_HOME/fa3/agent-federation",
+    "desktop_prefix": "org.fa3.agent.federation",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001"
+  ]
+}

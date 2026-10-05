@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+set -euo pipefail
+[[ "$(id -u)" -ne 0 ]] || { echo "Run as the target desktop user, not root." >&2; exit 2; }
+for cmd in cryptsetup mkfs.ext4 truncate sudo; do command -v "$cmd" >/dev/null 2>&1 || { echo "Missing prerequisite: $cmd" >&2; exit 2; }; done
+IMAGE="${FA3_SESSION_VAULT_IMAGE:-$HOME/.local/share/fa3/state/fa3-state.img}"
+SIZE_MIB="${FA3_SESSION_VAULT_SIZE_MIB:-512}"
+[[ "$SIZE_MIB" =~ ^[0-9]+$ ]] && (( SIZE_MIB >= 128 )) || { echo "FA3_SESSION_VAULT_SIZE_MIB must be an integer >= 128" >&2; exit 2; }
+[[ ! -e "$IMAGE" ]] || { echo "Vault image already exists: $IMAGE" >&2; exit 2; }
+install -d -m0700 "$(dirname "$IMAGE")"
+read -r -s -p "FA3 vault passphrase: " PASS; echo
+read -r -s -p "Repeat passphrase: " PASS2; echo
+[[ -n "$PASS" && "$PASS" == "$PASS2" ]] || { echo "Passphrases do not match." >&2; unset PASS PASS2; exit 2; }
+unset PASS2
+truncate -s "$((SIZE_MIB * 1024 * 1024))" "$IMAGE"
+chmod 0600 "$IMAGE"
+MAPPER="fa3-state-init-$(id -u)"
+MNT="$(mktemp -d)"
+cleanup(){
+  sudo umount "$MNT" >/dev/null 2>&1 || true
+  sudo cryptsetup close "$MAPPER" >/dev/null 2>&1 || true
+  rmdir "$MNT" >/dev/null 2>&1 || true
+  unset PASS || true
+}
+trap cleanup EXIT INT TERM
+printf '%s' "$PASS" | sudo cryptsetup luksFormat --batch-mode --type luks2 --pbkdf argon2id --label FA3_STATE --key-file - "$IMAGE"
+printf '%s' "$PASS" | sudo cryptsetup open --type luks --key-file - "$IMAGE" "$MAPPER"
+unset PASS
+sudo mkfs.ext4 -q -m 0 -L FA3_STATE "/dev/mapper/$MAPPER"
+sudo mount -o nodev,nosuid,noexec "/dev/mapper/$MAPPER" "$MNT"
+sudo chown "$(id -u):$(id -g)" "$MNT"
+chmod 0700 "$MNT"
+mkdir -p "$MNT/pki/root" "$MNT/session" "$MNT/secret-refs"
+chmod 0700 "$MNT/pki" "$MNT/pki/root" "$MNT/session" "$MNT/secret-refs"
+sync
+echo "FA3 encrypted state image initialized: $IMAGE"
+echo "Unlock it from FA3 Control Center. The passphrase was not stored by this initializer."

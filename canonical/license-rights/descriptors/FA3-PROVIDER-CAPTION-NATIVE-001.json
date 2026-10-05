@@ -1,0 +1,57 @@
+{
+  "schema": "fa3.license-rights-descriptor.v1",
+  "subject": {
+    "id": "FA3-PROVIDER-CAPTION-NATIVE-001",
+    "type": "CODE"
+  },
+  "source": {
+    "locator": "canonical/providers/FA3-PROVIDER-CAPTION-NATIVE-001.json",
+    "revision": "d2c695d53e72e508bc8593f0beb46729d5dffcd1"
+  },
+  "license": {
+    "declared": "Apache-2.0",
+    "detected": [
+      "Apache-2.0"
+    ],
+    "concluded": "Apache-2.0",
+    "effective": "Apache-2.0"
+  },
+  "rights": {
+    "modification_allowed": true,
+    "redistribution_allowed": true,
+    "commercial_use_allowed": true,
+    "output_usage_rights": null,
+    "scope": "FA3_NATIVE_CAPTION_AND_NARRATION_PLANNING_PROVIDER_IMPLEMENTATION_ONLY"
+  },
+  "obligations": {
+    "attribution_required": true,
+    "source_offer_required": false,
+    "entitlement_required": false,
+    "entitlement_reference": null,
+    "unresolved": []
+  },
+  "disposition": "ALLOW_WITH_OBLIGATIONS",
+  "evidence": [
+    "LICENSE",
+    "NOTICE",
+    "canonical/providers/FA3-PROVIDER-CAPTION-NATIVE-001.json",
+    "canonical/decisions/FA3-DEC-CAPTION-NARRATION-STUDIOS-2026-09-23.json",
+    "canonical/assessments/FA3-CAPTION-SUBTITLE-REUSE-ASSESSMENT-001.json",
+    "src/fa3_caption_workflows.py",
+    "src/fa3_caption_uaf.py",
+    "evidence/reference/caption-subtitle-current-host-2026-09-25.json"
+  ],
+  "provenance": {
+    "implementation_classification": "FA3_NATIVE",
+    "external_code_copy": "NONE_IN_INITIAL_MATERIALIZATION",
+    "validated_implementation_commit": "aac58ecfa5cb4dd2b8450794e270a19d885b1bb7"
+  },
+  "boundaries": {
+    "external_projects": "REFERENCE_ONLY_UNLESS_SEPARATELY_ADMITTED",
+    "caption_translate": "SEPARATE_EXISTING_LANGUAGE_ROUTING",
+    "hardsub_ocr": "SEPARATE_OCR_PROVIDER_ADMISSION",
+    "narration_synthesis": "SEPARATE_FA3_VOICE_ADMISSION",
+    "narration_mix": "SEPARATE_MEDIA_AUDIO_FABRIC_RIGHTS",
+    "external_model_dataset_voice_and_output_rights_not_relicensed": true
+  }
+}

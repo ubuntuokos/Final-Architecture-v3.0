@@ -1,0 +1,79 @@
+{
+  "schema": "fa3.runtime-admission.v1",
+  "id": "FA3-OBSIDIAN-KNOWLEDGE-WORKSPACE-RUNTIME-ADMISSION-001",
+  "profile_id": "FA3-HUMAN-KNOWLEDGE-WORKSPACE-001",
+  "provider_ids": [
+    "FA3-PROVIDER-OBSIDIAN-001",
+    "FA3-PROVIDER-OBSIDIAN-LOCAL-REST-API-001"
+  ],
+  "status": "NOT_PROMOTED_PENDING_CURRENT_HOST_KNOWLEDGE_WORKSPACE_CONFORMANCE",
+  "current_host_runtime_evidence": "NOT_CLAIMED",
+  "production_provider_admission": false,
+  "admission": {
+    "canonical_reference_design": true,
+    "optional_desktop_provider_registration": true,
+    "optional_plugin_registration": true,
+    "current_host_runtime": false,
+    "global_baseline_dependency": false
+  },
+  "current_host_reference": {
+    "os_family": "Ubuntu/Kubuntu 26.04",
+    "desktop_protocol": "Wayland",
+    "package_format": "deb",
+    "package_version": "1.13.7",
+    "preferred_vault_path": "/Dokumentumok/Obsidian/AI-Platform/",
+    "preferred_vault_path_is_portable_canonical_constant": false,
+    "private_vault_path": "/Dokumentumok/Obsidian/Private/",
+    "private_vault_path_is_agent_visible": false,
+    "desktop_lifecycle": "MANUAL_NON_ROOT_USER_DESKTOP_SESSION",
+    "indexer_lifecycle": "SYSTEMD_USER_GUI_INDEPENDENT"
+  },
+  "required_desktop_configuration": {
+    "autostart": false,
+    "run_as_root": false,
+    "system_service": false,
+    "auto_update": false,
+    "sync_enabled": false,
+    "publish_enabled": false,
+    "headless_enabled": false
+  },
+  "local_rest_mcp_default_configuration": {
+    "enabled": false,
+    "separate_acceptance_required": true,
+    "https_binding": "127.0.0.1:27124",
+    "http_binding_enabled": false,
+    "tls_verification_required": true,
+    "direct_agent_endpoint": false,
+    "central_gateway_route_required": true,
+    "command_execute_allowed": false,
+    "plugin_config_allowed": false,
+    "delete_move_rename_allowed": false
+  },
+  "blocking_conditions": [
+    "pinned Obsidian amd64 deb is not verified on the current host",
+    "approved vault root ownership, permissions, canonical path and private-vault separation are not evidenced",
+    "frontmatter validation, watcher, full reconciliation and index rebuild are not evidenced",
+    "knowledge.search/read mediation and direct filesystem/MCP denial are not evidenced",
+    "agent proposal staging, human promotion, hash-conflict refusal and rollback are not evidenced",
+    "Local REST API plugin remains unadmitted until independent plugin security and supply-chain checks pass",
+    "clean disablement, uninstall and nonblocking provider-outage evidence is not recorded"
+  ],
+  "future_admission_requirements": [
+    "desktop package version and SHA-256 match",
+    "Wayland non-root user-session launch/read/edit smoke pass",
+    "approved vault root is user-configured, canonicalized and symlink-safe",
+    "private vault is excluded from watcher, indexer and all agent routes",
+    "valid approved/index=true note indexes and unknown/private/draft note refuses",
+    "watcher loss is recovered by full reconciliation",
+    "derived index can be destroyed and rebuilt from Markdown plus provenance",
+    "direct agent vault filesystem and direct MCP attempts are denied",
+    "staging, human promotion, content-hash conflict and rollback pass",
+    "optional plugin separately passes TLS, CA verification, secret, operation allowlist and central gateway tests",
+    "provider stop/disable does not block inference, orchestration or canonical memory",
+    "clean rollback and uninstall pass"
+  ],
+  "provider_runtime_required_for_global_promotion_when_disabled": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143
+}

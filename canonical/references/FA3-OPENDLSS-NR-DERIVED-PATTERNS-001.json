@@ -1,0 +1,48 @@
+{
+  "schema": "fa3.reference-pattern-record.v1",
+  "id": "FA3-OPENDLSS-NR-DERIVED-PATTERNS-001",
+  "status": "REFERENCE_ONLY",
+  "source": {
+    "repository": "maanHimself/OpenDLSS-NR",
+    "provider_id": "FA3-PROVIDER-OPENDLSS-NR-001",
+    "immutable_commit": "9d08f4184bbcb9d858e2fb7a7834ec0837a9d2f1"
+  },
+  "authority": false,
+  "source_code_reuse_implied": false,
+  "runtime_dependency_implied": false,
+  "patterns": [
+    {
+      "id": "REFERENCE_VS_OPTIMIZED_PARITY",
+      "fa3_use": "Require reference/optimized backend parity evidence without making either backend canonical authority."
+    },
+    {
+      "id": "INTERMEDIATE_CHECKPOINT_EVIDENCE",
+      "fa3_use": "Allow bounded intermediate render-stage digests or tolerance receipts to localize divergence without promoting upstream claims to current-host evidence."
+    },
+    {
+      "id": "WATCHDOG_TO_EXPLICIT_SAFE_PATH",
+      "fa3_use": "On optimized-chain timeout or incompatibility, stop and require an explicit governed retry/reselection; no silent fallback."
+    },
+    {
+      "id": "MULTI_BACKEND_CANONICAL_SEMANTICS",
+      "fa3_use": "Keep graph semantics provider-neutral while Vulkan/PTX/WebGPU/CPU-capable implementations remain replaceable execution backends."
+    },
+    {
+      "id": "TEMPORAL_INPUT_ENVELOPE",
+      "fa3_use": "Treat frame, motion, depth, normals, masks and temporal history as typed inputs with provenance and evidence references."
+    }
+  ],
+  "hardware_audit": {
+    "global_vendor_requirement": false,
+    "global_accelerator_requirement": false,
+    "accelerator_cardinality": "0..N",
+    "provider_specific_requirements_remain_scoped": true
+  },
+  "current_host_claim": false,
+  "production_admission_claim": false,
+  "distribution_class": "REFERENCE_ONLY",
+  "release_bundle_status": "EXCLUDED",
+  "product_bundle_allowed": false,
+  "runtime_dependency": false,
+  "installation_required": false
+}

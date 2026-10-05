@@ -13,8 +13,10 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Protocol
 
+from fa3_ai_comms import CommunicationDenied, message_semantics_allowed, validate_message_envelope
+
 RUNTIME_ID = "FA3-DEVELOPER-AGENT-COORDINATION-REF-RUNTIME-001"
-RUNTIME_VERSION = "0.1.0"
+RUNTIME_VERSION = "0.2.0"
 FIXTURE_PROVIDER_ID = "FA3-BUILTIN-DETERMINISTIC-FIXTURE-ADAPTER-001"
 INTEGRATION_ACTOR = "FA3_INTEGRATION"
 
@@ -289,13 +291,37 @@ class Coordinator:
         if action != "ALLOW":
             self.event("CIRCUIT_BREAKER", task_id=message.task_id, state="TERMINATE", reason="MESSAGE_HOP_BUDGET")
             raise CoordinationDenied("message hop budget exceeded")
+        try:
+            comm_audit = validate_message_envelope(
+                message.payload,
+                sender=message.sender,
+                recipient=message.recipient,
+            )
+        except CommunicationDenied as exc:
+            self.event(
+                "MESSAGE_POLICY_DENIED",
+                message_id=message.message_id,
+                sender=message.sender,
+                recipient=message.recipient,
+                reason=str(exc),
+                policy_id="FA3-AI-COMMS-001",
+            )
+            raise CoordinationDenied(f"message semantics denied: {exc}") from exc
         mailbox = self.control_root / "mailboxes" / message.recipient
         mailbox.mkdir(parents=True, exist_ok=True)
         final = mailbox / f"{message.message_id}.json"
         temp = mailbox / f".{message.message_id}.tmp"
         _json_write(temp, asdict(message))
         os.replace(temp, final)
-        self.event("MESSAGE_PUBLISHED", message_id=message.message_id, recipient=message.recipient)
+        self.event(
+            "MESSAGE_PUBLISHED",
+            message_id=message.message_id,
+            recipient=message.recipient,
+            communication_mode=comm_audit["communication_mode"],
+            language_tag=comm_audit["language_tag"],
+            human_text_sha256=comm_audit["human_text_sha256"],
+            communication_policy="FA3-AI-COMMS-001",
+        )
         return final
 
     def consume_message(self, recipient: str, message_id: str) -> str:
@@ -464,7 +490,12 @@ class Coordinator:
                     act="request",
                     hop=0,
                     max_hops=min(task.max_message_hops, self.max_message_hops),
-                    payload={"objective": "execute delegated developer task"},
+                    payload={
+                        "communication_mode": "HUMAN_LANGUAGE",
+                        "language_tag": "en-US",
+                        "human_readable_text": "Execute the delegated developer task.",
+                        "human_readable_authoritative": True,
+                    },
                 )
                 self.publish_message(message)
                 first = self.consume_message(task.agent_id, message.message_id)
@@ -575,6 +606,36 @@ def run_reference_e2e() -> dict[str, Any]:
                 provider_id="provider-x", authority_owner="provider-x"
             ),
             "overlapping_worker_diffs_denied": _overlap_negative_flow(base),
+            "private_model_language_denied": not message_semantics_allowed(
+                {
+                    "communication_mode": "HUMAN_LANGUAGE",
+                    "language_tag": "en-US",
+                    "human_readable_text": "This must remain human-auditable.",
+                    "human_readable_authoritative": True,
+                    "private_model_language": {"zxq": "hidden meaning"},
+                }
+            ),
+            "missing_human_readable_semantics_denied": not message_semantics_allowed(
+                {
+                    "communication_mode": "CANONICAL_STRUCTURED",
+                    "language_tag": "en-US",
+                    "human_readable_authoritative": True,
+                    "schema_id": "fa3.agent.status.v1",
+                    "structured_payload": {"status": "DONE"},
+                    "structured_payload_semantics": "SUPPLEMENTAL_TO_HUMAN_TEXT",
+                }
+            ),
+            "unversioned_structured_protocol_denied": not message_semantics_allowed(
+                {
+                    "communication_mode": "CANONICAL_STRUCTURED",
+                    "language_tag": "en-US",
+                    "human_readable_text": "The machine fields are supplemental only.",
+                    "human_readable_authoritative": True,
+                    "schema_id": "private-status",
+                    "structured_payload": {"status": "DONE"},
+                    "structured_payload_semantics": "SUPPLEMENTAL_TO_HUMAN_TEXT",
+                }
+            ),
         }
         status = "PASS" if positive.get("status") == "PASS" and all(negatives.values()) else "FAIL"
         runtime_sha = _sha256_file(Path(__file__).resolve())

@@ -1,0 +1,165 @@
+name: FA3 Donor Serialization
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  push:
+    branches: [main]
+  workflow_dispatch:
+  workflow_call:
+    outputs:
+      full_gate_required:
+        description: Whether the caller must run the full protected canonical gate set
+        value: ${{ jobs.donor-readiness.outputs.full_gate_required }}
+concurrency:
+  group: fa3-donor-intake-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+permissions:
+  contents: read
+  pull-requests: read
+jobs:
+  donor-readiness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      full_gate_required: ${{ steps.readiness.outputs.full_gate_required }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+      - name: Syntax and donor integrity regressions
+        run: |
+          python3 -m py_compile src/fa3_donor_readiness.py src/fa3_donor_registry.py src/fa3_donor_chat_import.py src/fa3_application_donor_index.py
+          PYTHONPATH=src python3 -m unittest tests.test_donor_readiness tests.test_donor_count_refresh tests.test_donor_chat_import tests.test_donor_chat_inbox tests.test_application_donor_index tests.test_ai_studio_app_lifecycle -v
+      - name: Classify metadata-only donor maintenance versus normal PR
+        id: classify
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          if [ "$EVENT_NAME" = pull_request ]; then
+            git fetch --no-tags origin +refs/heads/main:refs/remotes/origin/main
+          fi
+          python3 - <<'PY'
+          import os,subprocess,sys
+          sys.path.insert(0,'src')
+          from fa3_donor_readiness import is_donor_intake_pr
+          event=os.environ.get('EVENT_NAME','')
+          event_base=os.environ.get('EVENT_BASE_SHA','')
+          if event == 'pull_request':
+              live_main=subprocess.check_output(
+                  ['git','rev-parse','refs/remotes/origin/main'],text=True
+              ).strip()
+              base=subprocess.check_output(
+                  ['git','merge-base',live_main,'HEAD'],text=True
+              ).strip()
+              if len(live_main) != 40 or len(base) != 40:
+                  raise RuntimeError('LIVE_MAIN_OR_MERGE_BASE_UNRESOLVED')
+              if event_base and event_base != live_main:
+                  print('Stale PR event base detected:',event_base,'live main:',live_main)
+              names=subprocess.check_output(
+                  ['git','diff','--name-only',base,'HEAD'],text=True
+              ).splitlines()
+              print('Donor classification merge-base:',base,'live main:',live_main)
+          else:
+              base=''
+              names=[]
+          metadata=('canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json',
+                    'canonical/decisions/FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28.json',
+                    'canonical/decisions/FA3-DEC-AGENT-NATIVE-RECONCILIATION-2026-10-01.json',
+                    'canonical/enforcement-policy.json','AGENTS.md',
+                    'src/fa3_donor_readiness.py','src/fa3_donor_registry.py',
+                    'src/fa3_donor_chat_import.py','src/fa3_donor_chat_inbox.py',
+                    'canonical/contracts/FA3-DONOR-CHAT-INGEST-001.json',
+                    'bin/fa3-donor-readiness',
+                    'tests/test_donor_registry_identity_uniqueness.py',
+                    'tests/test_video_clip_topic_donor_curation.py',
+                    'tests/test_donor_readiness.py','src/fa3_goal_preflight.py',
+                    'tests/test_goal_preflight.py','tests/test_reuse_discovery_gate.py','src/fa3_enforce.py',
+                    'src/fa3_reuse_assessment.py',
+                    # Exact donor-governance reuse/profile/projection surfaces.
+                    # Only this known file set is admitted: arbitrary reuse
+                    # source and application changes still classify as mixed.
+                    'canonical/profiles/FA3-REUSE-DISCOVERY-001.json',
+                    'canonical/contracts/FA3-REUSE-DISCOVERY-CONTRACTS-001.json',
+                    'canonical/reuse-discovery-enforcement.json',
+                    'canonical/FA3-DONOR-REJECTION-AUDIT-001.json',
+                    'canonical/decisions/FA3-DEC-DONOR-LIFECYCLE-APPLICATION-SYNC-2026-09-30.json',
+                    'canonical/FA3-APPLICATION-DONOR-LINKS-001.json',
+                    'canonical/FA3-APP-LIFECYCLE-001.json',
+                    'canonical/FA3-AI-STUDIO-APP-CATALOG-001.json',
+                    'canonical/FA3-REUSE-CATALOG-001.json',
+                    'src/fa3_application_donor_index.py',
+                    'src/fa3_reuse_catalog.py',
+                    'src/fa3_reuse_gate.py',
+                    'scripts/fa3_reconcile_release_projection.py',
+                    'docs/application-donor-inventory.md',
+                    'docs/decision-fabric.md',
+                    'tests/test_application_donor_index.py',
+                    'tests/test_ai_studio_app_lifecycle.py',
+                    'tests/test_donor_count_refresh.py',
+                    'tests/test_donor_chat_import.py',
+                    'tests/test_donor_chat_inbox.py',
+                    'tests/test_donor_gguf_comfy_codec_intake.py',
+                    '.github/workflows/fa3-application-donor-inventory.yml',
+                    '.github/workflows/fa3-reuse-discovery.yml',
+                    '.github/workflows/fa3-donor-serialization.yml',
+                    '.github/workflows/fa3-donor-intake-revalidation.yml',
+                    '.github/workflows/fa3-permanent-enforcement.yml')
+          curated_docs = ["docs/donors-office-3d-animation-2026-09-29.md","docs/donor-oracle-ubuntu-kubuntu-2026-09-29.md","docs/donor-opensuse-novel-writing-2026-09-29.md","docs/donor-hpc-mcp-microsoft-2026-09-29.md","docs/donor-multimedia-video-render-mcp-2026-09-29.md","docs/donor-openal-openmax-heif-2026-09-29.md","docs/donor-nnstreamer-onnx-aom-a11y-2026-09-29.md","docs/FA3-ORCHESTRATOR-FUNCTIONAL-DONOR-EXPANSION-2026-09-29.md","docs/donor-ai-orchestrator-topic-2026-09-29.md","docs/godotengine-github-donor-curation-2026-09-29.md","docs/beadboard-agent-coordination-donor-review-2026-09-28.md","docs/beat-tracking-donor-curation-2026-09-28.md","docs/storygen-atelier-donor-review-2026-09-28.md","docs/three-storyboard-donor-curation-2026-09-28.md","docs/creative-writing-donor-curation-2026-09-28.md","docs/storyboard-donor-curation-2026-09-28.md","docs/daw-music-generation-donor-curation-2026-09-28.md","docs/github-video-editor-and-clip-donor-curation-2026-09-28.md","docs/ai-video-editor-video-generation-donor-curation-2026-09-28.md","docs/video-generator-donor-curation-2026-09-28.md","docs/3dcoat-donor-curation-2026-09-28.md","docs/vision-complementary-donor-curation-2026-09-28.md","docs/github-actions-runner-images-donor-curation-2026-09-28.md","docs/chip-huyen-ml-systems-donor-curation-2026-09-28.md","docs/adaptive-representation-donor-curation-2026-09-28.md"]
+          curated_docs += ["docs/script-breakdown-github-donor-curation-2026-09-28.md","docs/scriptwriting-github-donor-curation-2026-09-28.md","docs/production-import-additional-github-donors-2026-09-29.md","docs/production-import-selective-donor-research-2026-09-29.md"]
+          allowed_tests = ["tests/test_donors_office_3d_animation.py","tests/test_donor_oracle_ubuntu_kubuntu.py","tests/test_orchestrator_functional_donor_registry.py","tests/test_video_clip_topic_donor_curation.py","tests/test_3dcoat_donor_registry.py","tests/test_binary_analysis_donor_candidates.py"]
+          def allowed(p):
+              return (p in metadata or p in curated_docs or p in allowed_tests
+                      or p in ('docs/donor-reference-registry.md',
+                               'canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json')
+                      or p.startswith('docs/donor-repair/')
+                      or p.startswith('docs/donor-') or p.startswith('docs/donors-')
+                      or p.startswith('canonical/deltas/FA3-DONOR-')
+                      or p.startswith('canonical/deltas/CFA3-DONOR-')
+                      or p == 'canonical/decisions/CFA3-DEC-DONOR-INTAKE-BATCH-ACCELERATION-2026-10-04.json'
+            or p == 'canonical/assessments/CFA3-DONOR-INTAKE-BATCH-ACCELERATION-REUSE-ASSESSMENT-2026-10-04.json'
+                      or p.startswith('canonical/current-host-impact/CFA3-DONOR-INTAKE-BATCH-ACCELERATION-')
+                      or (p.startswith('canonical/references/') and 'DONOR' in p.upper())
+                      or p.startswith('tests/test_donor_') or p.startswith('tests/test_donors_'))
+          actual_intake=is_donor_intake_pr({'title':os.environ.get('PR_TITLE','')},
+                                           [{'filename':name} for name in names])
+          phase=('intake' if base and actual_intake and all(allowed(n) for n in names) else
+                 'mixed' if base and actual_intake else 'status')
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:f.write('phase='+phase+'\n')
+          print('Donor mode:',phase,'changed files:',len(names))
+          PY
+      - name: Mandatory fail-closed donor readiness
+        id: readiness
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DONOR_PHASE: ${{ steps.classify.outputs.phase }}
+          DONOR_PR: ${{ github.event.pull_request.number }}
+          PR_DRAFT: ${{ github.event.pull_request.draft }}
+        run: |
+          mkdir -p reports
+          set -o pipefail
+          full_gate_required=true
+          if [ "$DONOR_PHASE" = mixed ]; then
+            echo "::error::MIXED_DONOR_INTAKE_NOT_ALLOWED: split donor changes into a bounded donor-intake maintenance PR"
+            exit 2
+          fi
+          if [ "$DONOR_PHASE" = intake ] && [ "$PR_DRAFT" = true ]; then
+            PYTHONPATH=src python3 src/fa3_donor_readiness.py --phase append --pr "$DONOR_PR" | tee reports/donor-readiness-gate-report.json
+            full_gate_required=false
+          elif [ "$DONOR_PHASE" = intake ]; then
+            PYTHONPATH=src python3 src/fa3_donor_readiness.py --phase intake --pr "$DONOR_PR" | tee reports/donor-readiness-gate-report.json
+          else
+            PYTHONPATH=src python3 src/fa3_donor_readiness.py --phase status | tee reports/donor-readiness-gate-report.json
+          fi
+          echo "full_gate_required=$full_gate_required" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: fa3-donor-readiness
+          path: reports/donor-readiness-gate-report.json
+          if-no-files-found: ignore

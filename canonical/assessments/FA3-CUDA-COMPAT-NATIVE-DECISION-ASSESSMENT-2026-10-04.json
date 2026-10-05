@@ -1,0 +1,46 @@
+{
+  "schema": "fa3.decision-fabric-assessment.v1",
+  "project_id": "FA3-CUDA-COMPAT-NATIVE-DECISION-ASSESSMENT-2026-10-04",
+  "covered_ids": [
+    "FA3-PROVIDER-CFA3-NATIVE-CUDA-COMPAT-001"
+  ],
+  "assessment": "NOT_APPLICABLE",
+  "rationale": "Native CUDA compatibility eligibility is deterministic: source feature coverage, exact backend/device binding, workload translation permission, Hardware Safety and HRB lease decide eligibility. Decision Fabric may not infer unsupported CUDA parity, choose a hidden fallback or authorize execution.",
+  "decision_points": [],
+  "not_delegated": [
+    "CUDA feature compatibility",
+    "target backend eligibility",
+    "device binding",
+    "translation permission",
+    "provider admission",
+    "accelerator placement or lease",
+    "hardware-safety admission",
+    "backend substitution",
+    "runtime or Current Host promotion"
+  ],
+  "project_radar_checked": true,
+  "project_radar_review": {
+    "scope": "CFA3-native shared CUDA compatibility core against Decision Fabric authority boundaries",
+    "result": "NO_DECISION_FABRIC_DECISION_POINT",
+    "note": "Existing deterministic hardware discovery, workload policy, source feature analysis and HRB authorities remain authoritative."
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "global_accelerator_requirement": false,
+    "target_vendors": [
+      "AMD",
+      "INTEL"
+    ]
+  },
+  "security_boundary": {
+    "may_grant_permission": false,
+    "may_expand_candidate_set": false,
+    "may_create_agent": false,
+    "may_admit_model": false,
+    "may_admit_provider": false
+  },
+  "shadow_mode_required": false,
+  "capability_delta": 0,
+  "authority_delta": 0
+}

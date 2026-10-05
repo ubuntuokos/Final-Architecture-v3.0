@@ -1,0 +1,469 @@
+{
+  "schema": "fa3.gui-surface-registry.v1",
+  "id": "FA3-GUI-SURFACE-REGISTRY-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "profile": "FA3-DESKTOP-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "rules": {
+    "semantic_route_id_required": true,
+    "stack_layout_index_is_implementation_detail": true,
+    "direct_provider_execution_from_navigation": false,
+    "direct_authority_from_surface": false,
+    "search_and_shortcuts_resolve_semantic_routes": true,
+    "workload_mode_indicator_required_on_all_primary_surfaces": true,
+    "workload_mode_indicator_inherited_from_common_shell": true,
+    "workload_mode_indicator_shared_component": "WorkloadModeIndicator",
+    "workload_mode_indicator_state_provider": "fa3WorkloadMode",
+    "workload_mode_indicator_event_driven": true,
+    "workload_mode_indicator_color_only_forbidden": true,
+    "workload_mode_indicator_global_and_local_state": true,
+    "workload_mode_critical_states_always_visible": [
+      "SAFE_MODE",
+      "DEGRADED",
+      "CONFLICT",
+      "RESOURCE_PRESSURE",
+      "AUTHORITY_LOST"
+    ]
+  },
+  "groups": [
+    "HOME",
+    "CREATE",
+    "AGENTS",
+    "MODELS & DATA",
+    "DECISION & CONTEXT",
+    "INTEGRATIONS",
+    "GOVERNANCE",
+    "SYSTEM"
+  ],
+  "surfaces": [
+    {
+      "route_id": "home.command-center",
+      "title": "Dashboard",
+      "group": "HOME",
+      "projection": "COMMAND_CENTER"
+    },
+    {
+      "route_id": "home.projects",
+      "title": "Projects",
+      "group": "HOME",
+      "projection": "PROJECTS_WORKSPACES"
+    },
+    {
+      "route_id": "home.work-management",
+      "title": "Work Management",
+      "group": "HOME",
+      "projection": "WORK_MANAGEMENT",
+      "mutation": "DRAFT_ONLY",
+      "child_views": [
+        "agent-workloads"
+      ],
+      "agent_workload_profile": "FA3-AGENT-WORKLOAD-RUNTIME-001",
+      "provider_neutral": true,
+      "direct_runtime_execution": false
+    },
+    {
+      "route_id": "create.ai-studio",
+      "title": "AI Studio",
+      "group": "CREATE",
+      "projection": "CREATIVE_OFFICE_PUBLISHING",
+      "agent_native": "CONSUMER",
+      "children": [
+        {
+          "surface_id": "create.ai-studio.generative-media-mesh",
+          "title": "Generative Media Capability Mesh",
+          "projection": "PROVIDER_NEUTRAL_GENERATIVE_MEDIA_PLANNING_AND_STATUS",
+          "profile_id": "FA3-GENERATIVE-MEDIA-MESH-001",
+          "contract_id": "FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001",
+          "mode": "STATIC_MATERIALIZED_RUNTIME_GATED",
+          "direct_provider_execution": false,
+          "direct_model_execution": false,
+          "direct_device_selection": false,
+          "direct_workflow_authority": false,
+          "authority": false,
+          "runtime_promotion_claim": false,
+          "model_router_authority": "FA3-AUTH-MODEL-ROUTER-001",
+          "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+          "application_menu_bindings": [
+            "Image / Photo Studio > Create > Generate",
+            "Image / Photo Studio > Edit > AI Edit",
+            "Image / Photo Studio > Edit > Constraints > Physical Consistency",
+            "Story / Screenplay > Visualize > Storyboard",
+            "Shot Designer > Motion > Trajectory",
+            "Shot Designer > Camera > Generated Motion",
+            "Video Editor > AI > Generate",
+            "Video Editor > AI > Regional Edit",
+            "Video Editor > AI > Refine / Enhance",
+            "Quick Video > Generate > Visual",
+            "Quick Video > Generate > Motion",
+            "Character Studio > Animation > Motion Transfer",
+            "Character Studio > Appearance > Virtual Try-On (rights-gated)",
+            "AI Module Factory > Experiments > Generative Media",
+            "Model Manager > Models > Generative Media",
+            "FA3 Control Center > Models > Engines"
+          ],
+          "child_provider_status": "NOT_ADMITTED",
+          "physical_current_host_requalification_required": true
+        }
+      ]
+    },
+    {
+      "route_id": "create.narration-studio",
+      "title": "Narration Studio",
+      "group": "CREATE",
+      "projection": "CAPTION_TO_NARRATION_PLANNING",
+      "profile_id": "FA3-CAPTION-SUBTITLE-001",
+      "voice_authority": "FA3-VOICE-001",
+      "model_router_authority": "FA3-AUTH-MODEL-ROUTER-001",
+      "mode": "BOUNDED_PLANNING_UI",
+      "direct_provider_execution": false,
+      "provider_selection_authority": false,
+      "authority": false,
+      "runtime_promotion_claim": false
+    },
+    {
+      "route_id": "create.subtitle-studio",
+      "title": "Subtitle Studio",
+      "group": "CREATE",
+      "projection": "CAPTION_SUBTITLE_AUTHORING",
+      "profile_id": "FA3-CAPTION-SUBTITLE-001",
+      "provider_id": "FA3-PROVIDER-CAPTION-NATIVE-001",
+      "mode": "FA3_NATIVE_AUTHORING_UI",
+      "direct_provider_execution": false,
+      "authority": false,
+      "runtime_promotion_claim": false
+    },
+    {
+      "route_id": "create.ai-module-factory",
+      "title": "AI Module Factory",
+      "group": "CREATE",
+      "projection": "WORK_DERIVED_AI_MODULE_FACTORY",
+      "profile_id": "FA3-AI-MODULE-FACTORY-001",
+      "contract_id": "FA3-AI-MODULE-FACTORY-CONTRACTS-001",
+      "mode": "GOVERNED_DRAFT_AND_EVALUATION_UI",
+      "mutation": "DRAFT_ONLY",
+      "direct_provider_execution": false,
+      "direct_model_training": false,
+      "direct_hardware_selection": false,
+      "model_router_authority": "FA3-AUTH-MODEL-ROUTER-001",
+      "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "license_rights_profile": "FA3-LICENSE-RIGHTS-001",
+      "authority": false,
+      "runtime_promotion_claim": false
+    },
+    {
+      "route_id": "create.knowledge",
+      "title": "Knowledge & Retrieval",
+      "group": "CREATE",
+      "projection": "KNOWLEDGE",
+      "decision_fabric": "ADVISORY_CONSUMER"
+    },
+    {
+      "route_id": "agents.action-center",
+      "title": "Agent Action Center",
+      "group": "AGENTS",
+      "projection": "UAF_ACTION_CONTRACTS",
+      "agent_native": "PRIMARY_GUI_PROJECTION",
+      "mutation": "DRAFT_ONLY"
+    },
+    {
+      "route_id": "agents.workflows",
+      "title": "Agents & Workflows",
+      "group": "AGENTS",
+      "projection": "AGENT_WORKFLOW_STATUS",
+      "children": [
+        {
+          "surface_id": "agency-agents.imported-pack",
+          "title": "Agency Agents",
+          "projection": "CANONICAL_AGENT_DEFINITION_REFERENCE",
+          "provider_id": "FA3-PROVIDER-AGENCY-AGENTS-001",
+          "candidate_catalog_id": "FA3-AGENCY-AGENTS-CURATED-CANDIDATES-001",
+          "mode": "READ_ONLY_CANONICAL_DEFINITIONS",
+          "activation_status": "DEFINITION_AVAILABLE_RUNTIME_PROVIDER_SEPARATE",
+          "execution_intent_route": "agents.action-center",
+          "direct_provider_execution": false,
+          "authority": false,
+          "agent_definition_registry_id": "FA3-AGENT-DEFINITION-REGISTRY-001",
+          "current_host_runtime_status": "EXECUTABLE_CURRENT_HOST_CLOSURE_MATERIALIZED_PENDING_RUN",
+          "runtime_conformance_id": "FA3-GUI-RUNTIME-CONFORMANCE-001",
+          "runtime_promotion_claim": false,
+          "runtime_promotion_scope": "GUI_IMPORTED_PACK_SURFACE_ONLY_REQUIRES_FRESH_GUI_CURRENT_HOST",
+          "provider_runtime_admission": false,
+          "global_promotion_claim": false
+        }
+      ]
+    },
+    {
+      "route_id": "models.providers",
+      "title": "Models & Providers",
+      "group": "MODELS & DATA",
+      "projection": "MODEL_PROVIDER_STATUS",
+      "children": [
+        {
+          "surface_id": "models.provider-explorer",
+          "title": "Provider Explorer",
+          "projection": "EXTERNAL_LLM_PROVIDER_DISCOVERY",
+          "profile_id": "FA3-EXTERNAL-LLM-CATALOG-001",
+          "mode": "READ_ONLY_DISCOVERY_AND_DRAFT_ADMISSION_INTENT",
+          "execution_intent_route": "models.external-providers",
+          "direct_provider_execution": false,
+          "direct_credential_entry": false,
+          "direct_router_mutation": false,
+          "authority": false,
+          "runtime_promotion_claim": false
+        },
+        {
+          "surface_id": "models.provider-execution",
+          "title": "Provider Execution",
+          "projection": "MODEL_ROUTER_PROVIDER_EXECUTION",
+          "profile_id": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-001",
+          "protocol_profile_id": "FA3-LLM-PROTOCOL-COMPAT-001",
+          "mode": "READ_ONLY_EXECUTION_AND_COMPATIBILITY_PROJECTION",
+          "direct_provider_execution": false,
+          "direct_credential_entry": false,
+          "direct_router_mutation": false,
+          "credential_values_visible": false,
+          "authority": false,
+          "current_host_runtime_status": "PROVIDER_SPECIFIC_EVIDENCE_SEPARATE_CORE_CLOSED",
+          "runtime_promotion_claim": false,
+          "gui_finalization_obligation": "MUST_RECONCILE_PROVIDER_ADMISSION_BACKLOG"
+        }
+      ],
+      "provider_gui_completion_obligation": {
+        "status": "MANDATORY_ON_PROVIDER_GUI_FINALIZATION",
+        "requirement": "RECONCILE_AND_FINISH_PENDING_PROVIDER_ADMISSION_AND_CURRENT_HOST_EVIDENCE_WORK",
+        "unresolved_item_policy": "EXPLICIT_BLOCKER_STATUS_REQUIRED; SILENT_OMISSION_FORBIDDEN",
+        "required_followups": [
+          "OPENAI_EXTERNAL_BILLING_CURRENT_HOST_E2E",
+          "GOOGLE_GEMINI_PROVIDER_ADMISSION_IF_SELECTED",
+          "GITHUB_COPILOT_PROVIDER_ADMISSION_IF_SELECTED",
+          "OTHER_SELECTED_EXTERNAL_PROVIDER_ADMISSIONS"
+        ],
+        "core_recertification_required": false,
+        "provider_specific_admission_evidence_required": true
+      }
+    },
+    {
+      "route_id": "models.manager",
+      "title": "Model Manager",
+      "group": "MODELS & DATA",
+      "projection": "MODEL_MANAGER"
+    },
+    {
+      "route_id": "models.checkpoints",
+      "title": "Checkpoint Manager",
+      "group": "MODELS & DATA",
+      "projection": "MODEL_ARTIFACT_GOVERNANCE"
+    },
+    {
+      "route_id": "models.remote-ai",
+      "title": "Remote AI Hub",
+      "group": "MODELS & DATA",
+      "projection": "REMOTE_AI_EXEC"
+    },
+    {
+      "route_id": "models.rtd",
+      "title": "RTD Providers",
+      "group": "MODELS & DATA",
+      "projection": "REAL_TIME_DATA"
+    },
+    {
+      "route_id": "models.external-providers",
+      "title": "External Providers Setup",
+      "group": "MODELS & DATA",
+      "projection": "PROVIDER_SETUP",
+      "mutation": "DRAFT_ONLY"
+    },
+    {
+      "route_id": "decision.fabric",
+      "title": "Decision Fabric",
+      "group": "DECISION & CONTEXT",
+      "projection": "DECISION_FABRIC",
+      "decision_fabric": "READ_ONLY"
+    },
+    {
+      "route_id": "decision.inspector",
+      "title": "Decision Inspector",
+      "group": "DECISION & CONTEXT",
+      "projection": "DECISION_TRACE",
+      "decision_fabric": "READ_ONLY"
+    },
+    {
+      "route_id": "decision.context-inspector",
+      "title": "Context Inspector",
+      "group": "DECISION & CONTEXT",
+      "projection": "CONTEXT_SELECTION",
+      "decision_fabric": "BOUNDED_RESTORE"
+    },
+    {
+      "route_id": "decision.project-radar",
+      "title": "External Project Radar",
+      "group": "DECISION & CONTEXT",
+      "projection": "PROJECT_RADAR",
+      "decision_fabric": "READ_ONLY",
+      "children": [
+        {
+          "surface_id": "decision.reusable-assets",
+          "title": "Reusable Assets",
+          "projection": "REUSE_DISCOVERY_DERIVED_CATALOG",
+          "profile_id": "FA3-REUSE-DISCOVERY-001",
+          "mode": "READ_ONLY_DISCOVERY",
+          "direct_runtime_execution": false,
+          "mutation": "NONE",
+          "authority": false
+        }
+      ]
+    },
+    {
+      "route_id": "integrations.root",
+      "title": "Integrations",
+      "group": "INTEGRATIONS",
+      "projection": "INTEGRATIONS"
+    },
+    {
+      "route_id": "integrations.mcp-gateway",
+      "title": "MCP Gateway",
+      "group": "INTEGRATIONS",
+      "projection": "MCP_GATEWAY"
+    },
+    {
+      "route_id": "integrations.fa3-os",
+      "title": "FA3 OS",
+      "group": "INTEGRATIONS",
+      "projection": "FA3_OS"
+    },
+    {
+      "route_id": "governance.security",
+      "title": "Security & Approvals",
+      "group": "GOVERNANCE",
+      "projection": "SECURITY_APPROVALS"
+    },
+    {
+      "route_id": "governance.tokens",
+      "title": "Token Control Center",
+      "group": "GOVERNANCE",
+      "projection": "TOKEN_GOVERNANCE"
+    },
+    {
+      "route_id": "governance.trust",
+      "title": "Trust & Certificates",
+      "group": "GOVERNANCE",
+      "projection": "TRUST_PKI"
+    },
+    {
+      "route_id": "governance.session-vault",
+      "title": "Session Vault / Kulcsvault",
+      "group": "GOVERNANCE",
+      "projection": "SESSION_VAULT"
+    },
+    {
+      "route_id": "governance.evidence",
+      "title": "Evidence",
+      "group": "GOVERNANCE",
+      "projection": "EVIDENCE"
+    },
+    {
+      "route_id": "governance.observability",
+      "title": "Observability",
+      "group": "GOVERNANCE",
+      "projection": "OBSERVABILITY"
+    },
+    {
+      "route_id": "governance.architecture",
+      "title": "Architecture",
+      "group": "GOVERNANCE",
+      "projection": "ARCHITECTURE"
+    },
+    {
+      "route_id": "governance.journal",
+      "title": "Napló / Journal",
+      "group": "GOVERNANCE",
+      "projection": "JOURNAL"
+    },
+    {
+      "route_id": "system.resources",
+      "title": "Resources",
+      "group": "SYSTEM",
+      "projection": "RESOURCE_STATUS"
+    },
+    {
+      "route_id": "system.accelerator-guard",
+      "title": "Accelerator Guard",
+      "group": "SYSTEM",
+      "projection": "ACCELERATOR_GUARD",
+      "mutation": "DRAFT_ONLY"
+    },
+    {
+      "route_id": "system.updates",
+      "title": "Update Center",
+      "group": "SYSTEM",
+      "projection": "UPDATE_FABRIC",
+      "agent_native": "UAF_DRAFT_CONSUMER",
+      "mutation": "DRAFT_ONLY"
+    },
+    {
+      "route_id": "system.settings",
+      "title": "Rendszerbeállítások",
+      "group": "SYSTEM",
+      "projection": "SETTINGS"
+    },
+    {
+      "route_id": "system.runtime",
+      "title": "System",
+      "group": "SYSTEM",
+      "projection": "RUNTIME_INFO"
+    },
+    {
+      "route_id": "global.search",
+      "title": "Keresés",
+      "group": "GLOBAL_TOOL",
+      "projection": "SEARCH"
+    },
+    {
+      "route_id": "global.language",
+      "title": "Tolmács",
+      "group": "GLOBAL_TOOL",
+      "projection": "LANGUAGE_CONTROL"
+    },
+    {
+      "route_id": "agents.orchestration-monitor",
+      "title": "Orchestration Control & Monitoring",
+      "group": "AGENTS",
+      "projection": "ORCHESTRATION_GOVERNANCE_AND_LIVENESS",
+      "profile_id": "FA3-ORCHESTRATION-WORKFORCE-001",
+      "governance_contract": "FA3-ORCHESTRATION-GOVERNANCE-CONTRACTS-001",
+      "mode": "READ_ONLY_RUNTIME_PROJECTION_WITH_DRAFT_CHANGE_REQUESTS",
+      "mutation": "DRAFT_ONLY",
+      "direct_runtime_execution": false,
+      "direct_temporal_mutation": false,
+      "direct_hrb_mutation": false,
+      "direct_model_router_mutation": false,
+      "authority": false,
+      "runtime_promotion_claim": false
+    },
+    {
+      "route_id": "models.engines",
+      "title": "Engine & Provider Manager",
+      "group": "MODELS & DATA",
+      "projection": "ENGINE_REGISTRY_AND_USER_SELECTION",
+      "profile_id": "FA3-ENGINE-SELECTION-FABRIC-001",
+      "contract_id": "FA3-ENGINE-SELECTION-CONTRACTS-001",
+      "registry_id": "FA3-ENGINE-REGISTRY-001",
+      "mode": "READ_ONLY_CATALOG_WITH_NON_EXECUTING_SELECTION_INTENT",
+      "mutation": "NONE_REFERENCE_INTENT_ONLY",
+      "direct_provider_execution": false,
+      "direct_model_selection": false,
+      "direct_hardware_selection": false,
+      "model_router_authority": "FA3-AUTH-MODEL-ROUTER-001",
+      "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "secret_authority": "FA3-AUTH-SECRETS-001",
+      "authority": false,
+      "runtime_promotion_claim": false
+    }
+  ],
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "workload_mode_framework_id": "FA3-WORKLOAD-MODE-FRAMEWORK-001"
+}

@@ -1,0 +1,55 @@
+{
+  "schema": "fa3.decision-fabric-assessment.v1",
+  "project_id": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-DECISION-ASSESSMENT-2026-09-24",
+  "covered_ids": [
+    "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-001",
+    "FA3-LLM-PROTOCOL-COMPAT-001",
+    "FA3-PROVIDER-OPENAI-API-001"
+  ],
+  "assessment": "RECOMMENDED",
+  "rationale": "Provider execution contains one bounded ranking point after the central Model Router has deterministically formed the admitted provider/model set and credential eligibility has been fail-closed filtered. Decision Fabric may rank only that already-eligible execution set using non-secret health, quota-pressure, locality, latency or policy context. Protocol compatibility itself remains deterministic and fail-closed: Decision Fabric must not decide schema loss, protocol admission, security degradation, provider identity or routing. The explicit OpenAI API evidence provider does not add another decision point: it enters this same bounded execution projection only after canonical provider admission, explicit egress policy, Secret Broker credential projection and live current-host evidence.",
+  "decision_points": [
+    {
+      "id": "provider-execution-candidate-ranking",
+      "purpose": "rank already eligible same-policy-domain provider-execution candidates without expanding the candidate set or observing credential values",
+      "contract": "RANK",
+      "candidate_source": "FA3-AUTH-MODEL-ROUTER-001_DETERMINISTIC_ELIGIBLE_SET",
+      "final_policy_owner": "FA3-AUTH-MODEL-ROUTER-001",
+      "failure_policy": "EXISTING_BEHAVIOR"
+    }
+  ],
+  "not_delegated": [
+    "provider admission",
+    "model admission",
+    "credential admission",
+    "credential value access",
+    "Secret Broker custody",
+    "cross-provider routing authority",
+    "logical route ownership",
+    "protocol/schema security decisions",
+    "tool-schema degradation authorization",
+    "current-host promotion",
+    "GUI execution authority"
+  ],
+  "project_radar_checked": true,
+  "project_radar_review": {
+    "scope": "Antigravity-derived provider execution, protocol compatibility, and the explicit OpenAI API evidence provider against current FA3 Model Router, LLM Gateway, Secret Broker, Agent Native and Decision Fabric boundaries",
+    "result": "ONE_BOUNDED_ADVISORY_RANKING_POINT_ACCEPTED",
+    "note": "Protocol compatibility remains deterministic; only prefiltered provider-execution ranking may use Decision Fabric."
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "global_accelerator_requirement": false
+  },
+  "security_boundary": {
+    "may_grant_permission": false,
+    "may_expand_candidate_set": false,
+    "may_create_agent": false,
+    "may_admit_model": false,
+    "may_admit_provider": false
+  },
+  "shadow_mode_required": true,
+  "capability_delta": 0,
+  "authority_delta": 0
+}

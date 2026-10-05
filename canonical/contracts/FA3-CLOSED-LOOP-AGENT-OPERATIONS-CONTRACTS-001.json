@@ -1,14 +1,14 @@
 {
   "schema": "fa3.contract-family.v1",
   "id": "FA3-CLOSED-LOOP-AGENT-OPERATIONS-CONTRACTS-001",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "status": "CANONICAL",
   "parent_profile": "FA3-CLOSED-LOOP-AGENT-OPERATIONS-001",
   "provider_neutral": true,
   "source_pattern_provider": "FA3-PROVIDER-LOOP-ENGINEERING-001",
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "contracts": [
     "LoopDefinition",
     "LoopTrigger",
@@ -242,24 +242,24 @@
       "cpu_package_count_min": 1,
       "physical_cores_per_package_min": 8,
       "cpu_vendor_or_model_pin_forbidden": true,
-      "gpu_device_count_min": 1,
-      "gpu_minimum_generation": "NVIDIA_RTX_30_SERIES_OR_NEWER",
-      "gpu_rtx_series_floor": 30,
-      "newer_rtx_generations_allowed": true,
-      "specific_gpu_sku_vram_sm_pin_forbidden": true
+      "accelerator_device_count_min": 0,
+      "accelerator_vendor_pin": "FORBIDDEN",
+      "global_runtime_api_pin": "FORBIDDEN",
+      "workload_provider_compatibility_required": true,
+      "specific_accelerator_sku_vram_arch_pin_forbidden": true,
+      "cpu_only_host_conforms": true,
+      "cpu_only_workload_requires_accelerator_lease": false,
+      "accelerator_required_workload_admission": "COMPATIBLE_DISCOVERED_DEVICE_AND_HRB_LEASE"
     },
-    "current_host_exact_hardware": "EVIDENCE_ONLY_NOT_CANONICAL_ADMISSION_DEFAULT",
+    "current_host_exact_hardware": "FRESH_EVIDENCE_ONLY_NOT_CANONICAL_ADMISSION_DEFAULT",
     "live_cpu_numa_gpu_discovery": true,
     "accelerator_requires_hrb_lease": true,
-    "canonical_accelerator_identity": [
-      "GPU_UUID",
-      "PCI_BDF"
-    ],
-    "cuda_ordinal_not_canonical_identity": true,
+    "canonical_accelerator_identity": "DISCOVERED_STABLE_ID_WHEN_AVAILABLE; PCI_BDF_ONLY_WHEN_APPLICABLE",
     "static_cpu_id_placement_forbidden": true,
     "display_aux_role_protection": true,
     "inherited_from_profile": "FA3-HW-001",
-    "inherited_from_contract": "FA3-HW-CONTRACTS-001"
+    "inherited_from_contract": "FA3-HW-CONTRACTS-001",
+    "runtime_ordinal_not_canonical_identity": true
   },
   "forbidden_semantics": [
     "LOOP_PROVIDER_AS_DURABLE_ORCHESTRATION_AUTHORITY",
@@ -275,6 +275,23 @@
     "REFERENCE_CI_AS_CURRENT_HOST_PROMOTION",
     "CONCRETE_CPU_VENDOR_OR_MODEL_AS_CANONICAL_HARDWARE_DEFAULT",
     "CONCRETE_GPU_SKU_VRAM_OR_SM_AS_CANONICAL_HARDWARE_DEFAULT",
-    "RTX_PRE_30_SERIES_AS_FA3_BASELINE_ACCELERATOR"
-  ]
+    "RTX_PRE_30_SERIES_AS_FA3_BASELINE_ACCELERATOR",
+    "TASK_SCOPE_AUTO_EXPANSION",
+    "FOURTH_SAME_BLOCKER_RETRY",
+    "FOLLOWUP_AUTO_START",
+    "CACHED_PLAN_BYPASSES_FROZEN_TASK_CONTROL",
+    "SELF_ASSERTED_VERIFIED_CLOSURE"
+  ],
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "task_scope_closure_semantics": {
+    "policy_id": "FA3-TASK-SCOPE-CLOSURE-POLICY-2026-10-03",
+    "immutable_goal_scope_binding": true,
+    "max_same_blocker_attempts": 3,
+    "third_same_blocker_failure": "FREEZE_AND_REQUIRE_HUMAN_INTERVENTION",
+    "fourth_same_blocker_attempt": "FORBIDDEN",
+    "out_of_scope_work": "PERSISTED_HANDOFF_REQUIRES_NEW_TASK_AND_EXPLICIT_USER_START",
+    "cached_execution_plan_revalidation_at_start_resume": true,
+    "verified_closure_authority": "FA3-AUTH-OBS-EVIDENCE-001",
+    "automatic_followup_execution": false
+  }
 }

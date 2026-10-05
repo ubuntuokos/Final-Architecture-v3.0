@@ -1,0 +1,25 @@
+{
+  "schema": "fa3.decision-fabric-assessment.v1",
+  "project_id": "FA3-PROVIDER-CAPTION-NATIVE-DECISION-ADOPTION-2026-09-25",
+  "covered_ids": [
+    "FA3-PROVIDER-CAPTION-NATIVE-001"
+  ],
+  "assessment": "NOT_APPLICABLE",
+  "rationale": "The FA3-native caption provider is an execution/planning adapter under existing UAF, Model Router, HRB, STT, Voice and security authorities. It must not introduce a separate semantic decision point, select providers/models, grant permissions, expand candidates or promote runtime state.",
+  "decision_points": [],
+  "project_radar_checked": true,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "global_accelerator_requirement": false
+  },
+  "security_boundary": {
+    "may_grant_permission": false,
+    "may_expand_candidate_set": false,
+    "may_create_agent": false,
+    "may_admit_model": false,
+    "may_admit_provider": false
+  },
+  "capability_delta": 0,
+  "authority_delta": 0
+}

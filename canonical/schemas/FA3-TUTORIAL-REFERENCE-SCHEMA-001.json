@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "FA3-TUTORIAL-REFERENCE-SCHEMA-001",
+  "title": "FA3 Tutorial Reference Input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema","reference_class","donor_id","title","provenance","feature_units"],
+  "properties": {
+    "schema": {"const": "fa3.tutorial-reference-input.v1"},
+    "reference_class": {"const": "TUTORIAL_REFERENCE"},
+    "donor_id": {"type": "string","minLength": 1},
+    "title": {"type": "string","minLength": 1},
+    "provenance": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["source","rights_status","reuse_allowance"],
+      "properties": {
+        "source": {"type": "string","minLength": 1},
+        "rights_status": {"enum": ["PERMISSIVE","REFERENCE_ONLY","UNKNOWN_REFERENCE_ONLY","OWNER_AUTHORED"]},
+        "reuse_allowance": {"enum": ["FUNCTIONAL_ANALYSIS_ONLY","CLEAN_FA3_REEXPRESSION","LICENSE_REVIEWED_REUSE"]},
+        "author": {"type": "string"},
+        "publisher": {"type": "string"},
+        "product": {"type": "string"},
+        "version": {"type": "string"},
+        "retrieved_at": {"type": "string"}
+      }
+    },
+    "feature_units": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["feature_id","name","intent"],
+        "properties": {
+          "feature_id": {"type": "string","minLength": 1},
+          "name": {"type": "string","minLength": 1},
+          "intent": {"type": "string","minLength": 1},
+          "capability_hints": {"type": "array","items": {"type": "string"}},
+          "application_hints": {"type": "array","items": {"type": "string"}},
+          "inputs": {"type": "array","items": {"type": "string"}},
+          "outputs": {"type": "array","items": {"type": "string"}},
+          "upstream_ui_steps": {"type": "array","items": {"type": "string"}},
+          "dependency_assumptions": {"type": "array","items": {"type": "string"}},
+          "runtime_assumptions": {"type": "array","items": {"type": "string"}},
+          "requested_placement": {"enum": ["AUTO","APPLICATION_LOCAL","SHARED"]},
+          "requested_top_level_capability": {"type": "boolean","default": false},
+          "manual_claim_available": {"type": "boolean","default": false},
+          "runtime_promotion_claimed": {"type": "boolean","default": false},
+          "structural_runtime_change": {"type": "boolean","default": false}
+        }
+      }
+    }
+  },
+  "fa3_policy": {
+    "authority": false,
+    "executes_tutorial_commands": false,
+    "automatic_donor_intake": false,
+    "automatic_code_import": false,
+    "automatic_runtime_admission": false,
+    "capability_baseline": 175,
+    "capability_delta": 0,
+    "authority_delta": 0
+  }
+}

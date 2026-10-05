@@ -1,0 +1,29 @@
+{
+  "schema": "fa3.gate.record.v1",
+  "id": "FA3-GATE-MCP-GATEWAY-001",
+  "title": "Central MCP Gateway canonical architecture and GUI conformance",
+  "profile": "FA3-MCP-GATEWAY-001",
+  "priority": "P0",
+  "fail_closed": true,
+  "entrypoint": "./bin/fa3-enforce mcp-gateway",
+  "result_contract": "FA3-ENFORCEMENT-RESULT-001",
+  "requirements": [
+    "SINGLE_CANONICAL_GATEWAY_AUTHORITY",
+    "MCP_2026_07_28_STATELESS_CANONICAL",
+    "SERVER_DISCOVER_REQUIRED",
+    "HEADER_BODY_ROUTING_CONSISTENCY",
+    "NO_MCP_SESSION_ID_ON_MODERN_PATH",
+    "LEGACY_ONLY_VIA_COMPATIBILITY_ADAPTER",
+    "PROVIDER_NEUTRAL_REGISTRY_AND_ROUTING",
+    "EXTERNAL_POLICY_IDENTITY_SECRET_HRB_TEMPORAL_EVIDENCE_AUTHORITIES_PRESERVED",
+    "DIRECT_AGENT_PROVIDER_BYPASS_DENIED",
+    "SUPPLY_CHAIN_AND_SANDBOX_GATES",
+    "QT_KDE_CONTROL_CENTER_MCP_GATEWAY_PAGE",
+    "GUI_NO_DIRECT_TOOL_EXECUTION",
+    "NO_FABRICATED_CONNECTED_OR_PASS_STATE",
+    "CURRENT_HOST_REAL_E2E_REQUIRED_FOR_PRODUCTION"
+  ],
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "global_promotion_claim": false
+}

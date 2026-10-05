@@ -1,0 +1,105 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-GOOGLE-AX-PROVIDER-BRIDGE-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-GOOGLE-AX-PROVIDER-BRIDGE-001",
+  "intent_id": "FA3-GOOGLE-AX-PROVIDER-BRIDGE-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-GOOGLE-AX-PROVIDER-BRIDGE-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-PROVIDER-GOOGLE-AX-001",
+    "FA3-AGENT-WORKLOAD-RUNTIME-001",
+    "FA3-GOOGLE-AX-UPSTREAM-REFERENCE-2026-09-24"
+  ],
+  "project_status": "MATERIALIZED_STATIC_PROVIDER_BRIDGE_CLUSTER_E2E_PENDING",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-AGENT-WORKLOAD-RUNTIME-001",
+      "use": "PARENT_PROVIDER_NEUTRAL_WORKLOAD_CONTRACT"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "EXCLUSIVE_RESOURCE_ADMISSION_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "EXCLUSIVE_MODEL_ROUTING_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-MCP-GATEWAY-001",
+      "use": "EXCLUSIVE_TOOL_MEDIATION_AUTHORITY"
+    },
+    {
+      "id": "FA3-SKILL-FABRIC-001",
+      "use": "SKILL_ADMISSION_BOUNDARY"
+    },
+    {
+      "id": "FA3-GOOGLE-AX-UPSTREAM-REFERENCE-2026-09-24",
+      "use": "IMMUTABLY_PINNED_PROVIDER_SCHEMA_REFERENCE"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "AX_MODEL_AS_FA3_MODEL_AUTHORITY",
+      "reason": "MODEL_ROUTER_AUTHORITY_MUST_NOT_BE_BYPASSED"
+    },
+    {
+      "id": "AX_NATIVE_MCP_DISCOVERY_AS_FA3_TOOL_BOUNDARY",
+      "reason": "CENTRAL_MCP_GATEWAY_MUST_NOT_BE_BYPASSED"
+    },
+    {
+      "id": "AX_NATIVE_SKILL_DISCOVERY_AS_FA3_SKILL_ADMISSION",
+      "reason": "SKILL_FABRIC_MUST_NOT_BE_BYPASSED"
+    },
+    {
+      "id": "FLOATING_AX_GIT_BRANCH_FOR_IMMUTABLE_FA3_WORKSPACE",
+      "reason": "PINNED_AX_V1ALPHA1_GIT_SCHEMA_CANNOT_REPRESENT_AN_IMMUTABLE_COMMIT"
+    },
+    {
+      "id": "AX_DEBUG_WITHOUT_EXPLICIT_APPROVAL",
+      "reason": "DEBUG_GUEST_SERVICES_ENABLE_ARBITRARY_IN_SANDBOX_EXECUTION"
+    }
+  ],
+  "pattern_reuse": [
+    "FA3-PATTERN-PROVIDER-NEUTRAL-ADAPTER-001",
+    "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001"
+  ],
+  "existing_authority_bindings": {
+    "parent_runtime": "FA3-AGENT-WORKLOAD-RUNTIME-001",
+    "resource_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "skill_admission": "FA3-SKILL-FABRIC-001"
+  },
+  "gaps": [
+    "GOOGLE_AX_V1ALPHA1_PROVIDER_MANIFEST_BRIDGE",
+    "AX_IMMUTABLE_GIT_COMMIT_SCHEMA_GAP"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false
+  },
+  "implementation_readiness": "READY_FOR_STATIC_PROVIDER_BRIDGE_ONLY",
+  "gap_resolution": [
+    {
+      "gap": "GOOGLE_AX_V1ALPHA1_PROVIDER_MANIFEST_BRIDGE",
+      "status": "MATERIALIZED_FAIL_CLOSED_STATIC_COMPILER",
+      "source_branch": "fa3/google-ax-provider-bridge-20260925"
+    },
+    {
+      "gap": "AX_IMMUTABLE_GIT_COMMIT_SCHEMA_GAP",
+      "status": "EXPLICITLY_BLOCKED_UNREPRESENTABLE_AT_PINNED_UPSTREAM_COMMIT",
+      "source_branch": "fa3/google-ax-provider-bridge-20260925"
+    }
+  ],
+  "current_host_runtime_promotion_claim": false,
+  "google_ax_runtime_promotion_claim": false,
+  "global_promotion_claim": false
+}

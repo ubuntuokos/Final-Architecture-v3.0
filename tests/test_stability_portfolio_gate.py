@@ -1,17 +1,18 @@
 from __future__ import annotations
 import json,shutil,tempfile,unittest
 from pathlib import Path
+from fa3_release_baseline import load_active_release_baseline
 import fa3_stability_portfolio_gate as s
 ROOT=Path(__file__).resolve().parents[1]
 class StabilityPortfolioGateTests(unittest.TestCase):
     def _copy(self):
         td=tempfile.TemporaryDirectory(); root=Path(td.name); shutil.copytree(ROOT/"canonical",root/"canonical"); shutil.copytree(ROOT/"evidence",root/"evidence"); return td,root
     def test_baseline_passes(self):
-        r=s.gate(ROOT); self.assertEqual("PASS",r["result"],r); self.assertEqual(143,r["capability_count"]); self.assertFalse(r["current_host_provider_e2e"])
+        r=s.gate(ROOT); self.assertEqual("PASS",r["result"],r); self.assertEqual(load_active_release_baseline(ROOT).capability_count,r["capability_count"]); self.assertFalse(r["current_host_provider_e2e"]); self.assertEqual("PASS",r["stable_audio_3_child_gate_result"])
     def test_old_cpu_baseline_fails(self):
         td,root=self._copy()
         try:
-            p=root/"canonical/contracts/FA3-STABILITY-PORTFOLIO-CONTRACTS-001.json"; d=json.loads(p.read_text()); d["hardware_reference"]["cpu"]="2x Intel Xeon E5-2697 v4"; p.write_text(json.dumps(d)); self.assertEqual("FAIL",s.gate(root)["result"])
+            p=root/"canonical/contracts/FA3-STABILITY-PORTFOLIO-CONTRACTS-001.json"; d=json.loads(p.read_text()); d["hardware_policy"]["cpu_model_or_topology_pin"]="LEGACY_HOST_PIN"; p.write_text(json.dumps(d)); self.assertEqual("FAIL",s.gate(root)["result"])
         finally: td.cleanup()
     def test_nim_cannot_be_current_host_default(self):
         td,root=self._copy()
@@ -27,5 +28,10 @@ class StabilityPortfolioGateTests(unittest.TestCase):
         td,root=self._copy()
         try:
             p=root/"canonical/providers/FA3-PROVIDER-SPAR3D-001.json"; d=json.loads(p.read_text()); d["architectural_authority"]=True; p.write_text(json.dumps(d)); self.assertEqual("FAIL",s.gate(root)["result"])
+        finally: td.cleanup()
+    def test_stable_audio_child_gate_is_fail_closed(self):
+        td,root=self._copy()
+        try:
+            p=root/"canonical/providers/FA3-PROVIDER-STABLE-AUDIO-3-001.json"; d=json.loads(p.read_text()); d["precision_policy"]["allowed_medium"].append("bf16"); p.write_text(json.dumps(d)); self.assertEqual("FAIL",s.gate(root)["result"])
         finally: td.cleanup()
 if __name__=="__main__": unittest.main()

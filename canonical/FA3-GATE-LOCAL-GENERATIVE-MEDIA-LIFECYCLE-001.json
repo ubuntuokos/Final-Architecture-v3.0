@@ -1,0 +1,11 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-001",
+  "gateset": "FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-GATESET-001",
+  "status": "CANONICAL",
+  "fail_closed": true,
+  "command": "./bin/fa3-enforce local-generative-media-lifecycle",
+  "tests": "PYTHONPATH=src python -m unittest tests.test_local_generative_media_lifecycle_gate -v",
+  "reference_evidence": "evidence/reference/local-generative-media-lifecycle-ci-2026-09-26.json",
+  "current_host_runtime_promotion": false
+}

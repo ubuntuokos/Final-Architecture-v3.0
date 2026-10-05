@@ -1,0 +1,92 @@
+name: FA3 Dev Mode + Update Fabric Gate
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/FA3-DEV-MODE-001.json'
+      - 'canonical/FA3-UPDATE-FABRIC-001.json'
+      - 'canonical/FA3-SECURITY-UPDATE-001.json'
+      - 'canonical/FA3-UPDATE-RESTART-001.json'
+      - 'config/fa3-dev-policy.json'
+      - 'config/fa3-update-policy.json'
+      - 'src/fa3_dev_mode.py'
+      - 'src/fa3_update_fabric.py'
+      - 'src/fa3_dev_update_gate.py'
+      - 'bin/fa3-ci-lock-check.py'
+      - 'tests/test_fa3_dev_update.py'
+      - '.githooks/pre-commit'
+      - '.github/workflows/fa3-dev-update-gate.yml'
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fa3-dev-update-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  static-promotion-boundary:
+    name: dev-update-static / P0
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      FA3_ENV: production
+      FA3_FAIL_CLOSED: '1'
+    steps:
+      - name: Checkout immutable action
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Setup Python immutable action
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.13'
+      - name: Configure isolated development evidence path
+        shell: bash
+        run: echo "FA3_DEV_EVIDENCE_DIR=$RUNNER_TEMP/fa3-dev-evidence" >> "$GITHUB_ENV"
+      - name: Syntax check
+        run: |
+          python -m py_compile \
+            src/fa3_dev_mode.py \
+            src/fa3_update_fabric.py \
+            src/fa3_dev_update_gate.py \
+            bin/fa3-ci-lock-check.py \
+            tests/test_fa3_dev_update.py
+      - name: Rebuild deterministic checked-out-tree snapshot outside release surface
+        run: python src/fa3_dev_mode.py snapshot
+      - name: Fail-closed development boundary lock
+        run: python bin/fa3-ci-lock-check.py
+      - name: Canonical invariant gate
+        run: python src/fa3_dev_update_gate.py
+      - name: Executable regressions
+        run: PYTHONPATH=src python -m unittest -v tests.test_fa3_dev_update
+      - name: Existing FA3 static enforcement
+        run: ./bin/fa3-enforce static
+
+  post-merge-integrity-audit:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: static-promotion-boundary
+    name: dev-update-main-integrity / P0
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.13'
+      - name: Configure isolated development evidence path
+        shell: bash
+        run: echo "FA3_DEV_EVIDENCE_DIR=$RUNNER_TEMP/fa3-dev-evidence" >> "$GITHUB_ENV"
+      - name: Re-prove canonical integrity after merge
+        run: |
+          python src/fa3_dev_mode.py snapshot
+          python bin/fa3-ci-lock-check.py
+          ./bin/fa3-enforce static

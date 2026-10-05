@@ -1,0 +1,92 @@
+{
+  "schema": "fa3.permanent-gate-hardening.v1",
+  "id": "FA3-PERMANENT-GATE-HARDENING-001",
+  "gate_id": "FA3-PERMANENT-GATE-HARDENING-GATESET-001",
+  "status": "P0_MUST",
+  "capability_count": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "current_host_runtime_promotion_claim": false,
+  "purpose": "HARDEN_EXISTING_PERMANENT_CANONICAL_AND_PROMOTION_GATE_WITHOUT_CREATING_A_PARALLEL_AUTHORITY",
+  "carrier_roles": {
+    "AUTHORITY": "EXISTING_FA3_CANONICAL_AND_PROMOTION_PATH",
+    "EVIDENCE": "RECORDED_TYPED_EVIDENCE",
+    "BINDING": "DIGEST_BACKED_ARTIFACT_RELATION",
+    "TRACE": "DECISION_CHAIN_RECONSTRUCTION",
+    "AUDIT": "REVIEW_AND_PRESERVATION",
+    "READER": "HUMAN_READABLE_VIEW",
+    "DIAGNOSTIC": "NON_AUTHORIZING_ANALYSIS",
+    "PUBLICATION": "DERIVED_PUBLIC_VIEW"
+  },
+  "non_authorizing_carriers": [
+    "EVIDENCE",
+    "BINDING",
+    "TRACE",
+    "AUDIT",
+    "READER",
+    "DIAGNOSTIC",
+    "PUBLICATION"
+  ],
+  "manifest_role": "TRACE_NOT_AUTHORITY",
+  "provenance_binding_role": "BINDING_NOT_AUTHORITY",
+  "preservation_role": "AUDIT_COPY_NOT_AUTHORITY",
+  "no_implicit_pass": {
+    "recognized_gate_pass": "PASS",
+    "missing_is_pass": false,
+    "null_is_pass": false,
+    "boolean_true_is_pass_for_gate_result": false,
+    "unknown_is_pass": false,
+    "stale_is_pass": false,
+    "historical_pass_is_current_pass": false
+  },
+  "trusted_candidate_boundary": {
+    "trusted_evaluator": "PUBLISHED_BASE_CONTROL_PLANE",
+    "candidate_is_data_only_in_trusted_job": true,
+    "candidate_python_shell_make_or_action_execution_forbidden": true,
+    "authority_impact_review_required_for_control_plane_changes": true
+  },
+  "protected_control_plane_paths": [
+    ".github/workflows/fa3-permanent-enforcement.yml",
+    ".github/workflows/fa3-permanent-control-plane.yml",
+    ".github/workflows/fa3-donor-serialization.yml",
+    "canonical/FA3-GATE-REGISTRY-001.json",
+    "canonical/enforcement-policy.json",
+    "canonical/FA3-PERMANENT-GATE-HARDENING-001.json",
+    "src/fa3_enforce.py",
+    "src/fa3_gate_registry.py",
+    "src/fa3_release_baseline.py",
+    "src/fa3_permanent_gate_hardening.py",
+    "src/fa3_trusted_control_plane_gate.py"
+  ],
+  "protected_control_plane_prefixes": [
+    "canonical/decisions/"
+  ],
+  "sha_pinned_workflows": [
+    ".github/workflows/fa3-permanent-enforcement.yml",
+    ".github/workflows/fa3-permanent-control-plane.yml",
+    ".github/workflows/fa3-donor-serialization.yml"
+  ],
+  "derived_artifacts": {
+    "authority_manifest": "reports/fa3-permanent-gate-authority-manifest.json",
+    "provenance_binding": "reports/fa3-permanent-gate-provenance-binding.json",
+    "preservation_package": "reports/fa3-permanent-gate-preservation.zip",
+    "canonical_registry_graph": "reports/fa3-canonical-registry-graph.json",
+    "canonical_registry_integrity_report": "reports/canonical-registry-integrity-report.json"
+  },
+  "invariants": [
+    "ONE_EXISTING_FA3_AUTHORITY_PATH_ONLY",
+    "TRACE_BINDING_AUDIT_READER_DIAGNOSTIC_PUBLICATION_CARRIERS_ARE_NON_AUTHORIZING",
+    "AUXILIARY_TOOLS_MUST_NOT_MUTATE_AUTHORITY_INPUTS_OR_PRIMARY_RESULT",
+    "MISSING_UNKNOWN_STALE_OR_MALFORMED_GATE_STATE_CANNOT_IMPLY_PASS",
+    "TRUSTED_CONTROL_PLANE_NEVER_EXECUTES_CANDIDATE_CODE",
+    "PROTECTED_GITHUB_ACTIONS_USE_IMMUTABLE_COMMIT_SHA",
+    "PRESERVATION_ARTIFACT_NEVER_REPLACES_PRIMARY_DECISION",
+    "CANONICAL_REGISTRY_REFERENTIAL_AND_SUPERSEDENCE_INTEGRITY_FAILS_CLOSED"
+  ],
+  "pattern_study": {
+    "source": "https://github.com/HKati/pulse-release-gates-0.1",
+    "classification": "ANALYSIS_ONLY_PATTERN_STUDY_NO_CODE_IMPORT_NO_DONOR_REGISTRY_MUTATION",
+    "adopted_as_external_runtime": false,
+    "copied_code": false
+  }
+}

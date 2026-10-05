@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "fa3://schemas/current-host-delta-receipt.v1",
+  "title": "FA3 Current Host Delta Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "plan_digest",
+    "base_release_digest",
+    "parent_effective_digest",
+    "source_commit",
+    "change_digest",
+    "host_fingerprint_sha256",
+    "physical_current_host_execution",
+    "synthetic_current_host_pass",
+    "historical_evidence_reused",
+    "global_promotion_claim",
+    "proofs",
+    "shared_gates"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.current-host-delta-receipt.v1"
+    },
+    "plan_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "base_release_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "parent_effective_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "change_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "physical_current_host_execution": {
+      "const": true
+    },
+    "synthetic_current_host_pass": {
+      "const": false
+    },
+    "historical_evidence_reused": {
+      "const": false
+    },
+    "global_promotion_claim": {
+      "const": false
+    },
+    "proofs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "capability_id",
+          "test_kind",
+          "status",
+          "artifact_sha256",
+          "qualification_artifact_sha256"
+        ],
+        "properties": {
+          "capability_id": {
+            "type": "string",
+            "pattern": "^CAP-[0-9]{3}$"
+          },
+          "test_kind": {
+            "enum": [
+              "positive",
+              "negative",
+              "rollback"
+            ]
+          },
+          "status": {
+            "const": "PASS"
+          },
+          "artifact_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "qualification_artifact_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      }
+    },
+    "shared_gates": {
+      "type": "object",
+      "additionalProperties": {
+        "enum": [
+          "PASS",
+          "FAIL",
+          "PENDING"
+        ]
+      }
+    },
+    "source_commit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "host_fingerprint_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

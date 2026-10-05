@@ -1,4 +1,232 @@
 #!/usr/bin/env bash
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+if [[ "${1:-}" == "workload-mode" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_workload_mode_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "creative-project-workflow" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_creative_project_workflow_gate.py" --root "$ROOT" "$@"
+fi
+
+
+if [[ "${1:-}" == "quality-anti-slop" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_quality_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "decision-fabric-current-host" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_decision_current_host_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "decision-fabric" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_decision_fabric_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "jev-code-reuse" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_jev_reuse_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "decision-adoption" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_decision_adoption_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "jev-radar" ]]; then
+  shift
+  exec "$ROOT/bin/fa3-jev-radar" "$@"
+fi
+
+if [[ "${1:-}" == "ai-comms" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_ai_comms_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "language-gateway-current-host" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_language_gateway_current_host_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "language-gateway" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_language_gateway_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "model-router-current-host" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_model_router_current_host_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "model-router" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_model_router_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "secret-broker-current-host" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_secret_broker_current_host_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "secret-broker" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_secret_broker_gate.py" "$@"
+fi
+
+if [[ "${1:-}" == "uaf" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_uaf_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "orchestration-workforce" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_orchestration_workforce_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "marketing-agent-native" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_marketing_agent_native_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "caption-subtitle" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_caption_subtitle_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "caption-subtitle-current-host" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_caption_subtitle_current_host_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "neural-rendering-current-host" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_neural_rendering_current_host_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "neural-rendering" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_neural_rendering_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "khronos-open-standards" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_khronos_open_standards_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "marketing-current-host" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_marketing_current_host_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "session-vault-current-host" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_session_vault_current_host_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "session-vault" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_session_vault_gate.py" "$@"
+fi
+
+if [[ "${1:-}" == "step-ca-current-host" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_step_ca_current_host_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "trust-pki" || "${1:-}" == "step-ca" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_step_ca_gate.py" "$@"
+fi
+
+if [[ "${1:-}" == "podman-secret-isolation-current-host" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_podman_secret_negative_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "integration-broker" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_integration_broker_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "runtime-hardening-current-host" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_runtime_hardening_current_host_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "runtime-hardening" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_runtime_hardening_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "knowledge-hybrid-retrieval" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_knowledge_hybrid_retrieval_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "pageindex-mcp-current-host" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_pageindex_mcp_gate.py" --root "$ROOT" --current-host "$@"
+fi
+
+if [[ "${1:-}" == "pageindex-mcp" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_pageindex_mcp_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "mcp-gateway" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_mcp_gateway_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "mcp-current-host" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_mcp_current_host_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "resource-admission-current-host" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_resource_admission_current_host_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "resource-evidence-normalization" ]]; then
+  shift
+  exec python3 "$ROOT/src/fa3_resource_evidence_normalization_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "static" || "${1:-}" == "promote" || "${1:-}" == "all" ]]; then
+  env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_dev_update_gate.py" >/dev/null
+  python3 "$ROOT/src/fa3_model_router_gate.py" --root "$ROOT" >/dev/null
+  env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_language_gateway_gate.py" --root "$ROOT" >/dev/null
+  python3 "$ROOT/src/fa3_resource_evidence_normalization_gate.py" --root "$ROOT" >/dev/null
+  env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_decision_fabric_gate.py" --root "$ROOT" >/dev/null
+  env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_decision_adoption_gate.py" --root "$ROOT" >/dev/null
+  env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_jev_reuse_gate.py" --root "$ROOT" >/dev/null
+fi
+
+if [[ "${1:-}" == "quality-extension-lock" ]]; then
+  shift
+  exec python3 "$ROOT/src/fa3_quality_extension_lock_gate.py" --root "$ROOT" "$@"
+fi
+if [[ "${1:-}" == "mmg-context-ir" ]]; then
+  shift
+  exec python3 "$ROOT/src/fa3_mmg_context_ir_gate.py" --root "$ROOT" "$@"
+fi
+if [[ "${1:-}" == "page-cache-prefetch" ]]; then
+  shift
+  exec python3 "$ROOT/src/fa3_page_cache_prefetch_gate.py" --root "$ROOT" "$@"
+fi
+if [[ "${1:-}" == "human-motion-current-host" ]]; then
+  shift
+  exec python3 "$ROOT/src/fa3_human_motion_current_host_gate.py" --root "$ROOT" "$@"
+fi
+if [[ "${1:-}" == "soma-x" || "${1:-}" == "gem-x" || "${1:-}" == "human-motion" ]]; then
+  command="$1"
+  shift
+  exec python3 "$ROOT/src/fa3_human_motion_gate.py" "$command" --root "$ROOT" "$@"
+fi
 exec python3 "$ROOT/src/fa3_enforce.py" --root "$ROOT" "$@"

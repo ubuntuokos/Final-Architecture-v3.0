@@ -1,0 +1,99 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-TERAX-REUSE-ASSESSMENT-2026-09-28",
+  "project_id": "FA3-PROVIDER-TERAX-001",
+  "intent_id": "FA3-TERAX-APPLICATION-INTENT-2026-09-28",
+  "intent_path": "canonical/intents/FA3-TERAX-APPLICATION-INTENT-2026-09-28.json",
+  "covered_ids": [
+    "FA3-PROVIDER-TERAX-001",
+    "CAP-008",
+    "CAP-028",
+    "CAP-070",
+    "CAP-144",
+    "CAP-146",
+    "CAP-147",
+    "CAP-148",
+    "CAP-152",
+    "CAP-175"
+  ],
+  "project_status": "OPTIONAL_REFERENCE_CANONICAL_RECONCILIATION",
+  "result": "PASS",
+  "donor_registry_id": "FA3-DONOR-CRYNTA-TERAX-AI-001",
+  "selected_reuse": [
+    {
+      "id": "FA3-PROVIDER-TERAX-001",
+      "use": "EXISTING_OPTIONAL_PROVIDER_AND_REFERENCE_PATTERN_RECORD"
+    },
+    {
+      "id": "FA3-AGENT-FEDERATION-001",
+      "use": "EXISTING_DELEGATION_AND_HOP_BUDGET_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-MCP-GATEWAY-001",
+      "use": "EXISTING_TOOL_CAPABILITY_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "EXISTING_WORKLOAD_RESOURCE_ADMISSION_AND_LEASE"
+    },
+    {
+      "id": "FA3-DEC-HARDWARE-SAFETY-2026-09-26",
+      "use": "NON_BYPASSABLE_HARDWARE_SAFETY_ENVELOPE"
+    },
+    {
+      "id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+      "use": "REQUIRED_CROSS_APPLICATION_DONOR_DISCOVERY"
+    },
+    {
+      "id": "FA3-PROVIDER-OPENHANDS-001",
+      "use": "REFERENCE_COMPARISON_ONLY_NO_NEW_ORCHESTRATOR"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "TERAX_AS_CANONICAL_SECURITY_OR_MODEL_AUTHORITY",
+      "reason": "EXISTING_FA3_AUTHORITIES_REMAIN_EXCLUSIVE"
+    },
+    {
+      "id": "MANDATORY_NVIDIA_PROBE_FOR_DISABLED_TERAX",
+      "reason": "CPU_ONLY_AND_NO_UNREQUESTED_ACCELERATOR_DISCOVERY"
+    },
+    {
+      "id": "PROMOTE_GLOBAL_RUNTIME_FROM_TERAX_RECEIPT",
+      "reason": "PROVIDER_RECEIPT_IS_AUXILIARY_NON_SUBSTITUTING"
+    }
+  ],
+  "gaps": [
+    "PHYSICAL_CURRENT_HOST_RECEIPT_PENDING",
+    "PR410_COEXISTENCE_MERGE_PENDING"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hrb_bound": true
+  },
+  "coexistence": {
+    "required": true,
+    "pr": 410,
+    "upstream_uninstall_required": false,
+    "global_environment_mutation": false,
+    "physical_evidence": "PENDING_CURRENT_HOST"
+  },
+  "implementation_readiness": "READY_FOR_REFERENCE_AND_HARDWARE_GATE_IMPLEMENTATION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "authority": false,
+      "automatic_selection": false,
+      "assessment": "Terax reference-only security and interaction contracts do not require direct Khronos SDK import. If FA3 later implements an independent native WebGPU/renderer integration, reassess Khronos SDK reuse under the active fabric."
+    }
+  ]
+}

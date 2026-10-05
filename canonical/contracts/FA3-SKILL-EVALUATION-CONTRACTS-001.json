@@ -1,0 +1,48 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-SKILL-EVALUATION-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-SKILL-FABRIC-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "SkillEvalCase",
+    "SkillRoutingEvalSet",
+    "SkillEvalReceipt"
+  ],
+  "required_case_classes": [
+    "BEHAVIORAL_POSITIVE",
+    "BEHAVIORAL_NEGATIVE",
+    "ADVERSARIAL_INJECTION",
+    "ROUTING_POSITIVE",
+    "ROUTING_NEGATIVE",
+    "NON_SELECTION",
+    "COMPOSITION_MINIMALITY"
+  ],
+  "routing_invariants": {
+    "eligible_set_deterministic_first": true,
+    "selected_subset_of_eligible_required": true,
+    "candidate_expansion_forbidden": true,
+    "unnecessary_skill_selection_is_failure": true,
+    "missing_required_skill_is_failure": true,
+    "no_skill_expected_case_supported": true
+  },
+  "evidence_binding": {
+    "content_digest_required": true,
+    "dependency_digest_required": true,
+    "eval_dataset_digest_required": true,
+    "result_replayable": true,
+    "reference_ci_not_runtime_promotion": true
+  },
+  "upstream_pattern_sources": [
+    {
+      "repository": "addyosmani/agent-skills",
+      "commit": "bcab6a1b8503100e8618c3b4e32cc78de43de769",
+      "observed_license": "MIT",
+      "relationship": "PROCESS_ROUTING_EVAL_PATTERN_REFERENCE"
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import argparse
 import json
@@ -13,7 +14,7 @@ STT_PROFILE_ID = "FA3-STT-001"
 STT_MEDIA_PROFILE_ID = "FA3-STT-MEDIA-001"
 KDENLIVE_EDITORIAL_PROFILE_ID = "FA3-KDENLIVE-EDITORIAL-001"
 GATE_ID = "FA3-BLACKHOLE-KDENLIVE-GATESET-001"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 
 RULES = [
     "BLACKHOLE_MEDIA_STT_PROVIDER_NEUTRAL",
@@ -127,7 +128,7 @@ def reference_check(root: Path) -> dict[str, Any]:
 
     if decision.get("status")!="CANONICAL_CLOSED" or decision.get("decision")!="IMPLEMENT":
         findings.append(finding("BLACKHOLE-REF-042","Blackhole/Kdenlive decision is not closed IMPLEMENT"))
-    if decision.get("new_capabilities")!=0 or decision.get("new_architectural_authorities")!=0 or decision.get("capability_count_after")!=CAPABILITY_COUNT:
+    if decision.get("new_capabilities")!=0 or decision.get("new_architectural_authorities")!=0 or not isinstance(decision.get("capability_count_after"),int) or decision.get("capability_count_after")>CAPABILITY_COUNT:
         findings.append(finding("BLACKHOLE-REF-043","Integration changed capability/authority invariant"))
     if decision.get("mandatory_rules")!=RULES:
         findings.append(finding("BLACKHOLE-REF-044","Blackhole/Kdenlive mandatory rule set drift"))

@@ -1,0 +1,32 @@
+{
+  "schema": "fa3.gimp-comfyui-interop-gate.v1",
+  "id": "FA3-GATE-GIMP-COMFYUI-INTEROP-001",
+  "status": "CANONICAL_CLOSED",
+  "priority": "P0",
+  "blocking": true,
+  "decision_id": "FA3-DEC-GIMP-COMFYUI-INTEROP-2026-09-09",
+  "contract_id": "FA3-CREATIVE-DESKTOP-GENERATIVE-INTEROP-CONTRACTS-001",
+  "provider_id": "FA3-PROVIDER-GIMP-COMFYUI-INTEROP-001",
+  "enforcement_id": "FA3-GIMP-COMFYUI-INTEROP-GATESET-001",
+  "upstream_reference_id": "FA3-GIMP-COMFYUI-UPSTREAM-REFERENCE-2026-09-09",
+  "description": "Fail-closed regression gate for provider-neutral GIMP/creative-desktop generative interoperability projected through the existing FA3 MMG Context IR and existing generative/runtime/security/resource authorities.",
+  "checks": [
+    {"id": "GDG-01", "name": "Canonical interop contract exists", "expected": "FA3-CREATIVE-DESKTOP-GENERATIVE-INTEROP-CONTRACTS-001 is CANONICAL and provider-neutral", "failure": "BLOCK_PROMOTION"},
+    {"id": "GDG-02", "name": "Provider portfolio exists", "expected": "FA3-PROVIDER-GIMP-COMFYUI-INTEROP-001 is optional, replaceable and non-authoritative", "failure": "BLOCK_PROMOTION"},
+    {"id": "GDG-03", "name": "Existing MMG Context IR is reused", "expected": "FA3-MMG-CONTEXT-IR-001 remains the single canonical generation-context IR authority", "failure": "BLOCK_PROMOTION"},
+    {"id": "GDG-04", "name": "Authority boundaries remain intact", "expected": "No plugin or adapter becomes orchestration, workflow, model registry/router, host resource, security/license or evidence authority", "failure": "BLOCK_PROMOTION"},
+    {"id": "GDG-05", "name": "Baseline geometry remains unchanged", "expected": "new_capabilities=0, new_architectural_authorities=0, capability_count=143", "failure": "BLOCK_PROMOTION"},
+    {"id": "GDG-06", "name": "Editor semantics are preserved", "expected": "document, canvas, layer ordering, visibility, selection, mask, alpha and color/profile semantics are represented distinctly", "failure": "BLOCK_PROMOTION"},
+    {"id": "GDG-07", "name": "Provider workflow stays downstream", "expected": "Provider-native prompt/workflow syntax is projection-only, loss is reported and hard-constraint loss fails closed", "failure": "BLOCK_PROMOTION"},
+    {"id": "GDG-08", "name": "Endpoint and hardware are dynamic", "expected": "No canonical hard-coded ComfyUI host/port, GPU model, device count or device identity", "failure": "BLOCK_PROMOTION"},
+    {"id": "GDG-09", "name": "Supply-chain admission is mandatory", "expected": "Plugin, dependency, workflow, custom-node and model-artifact admission/inventory/hash controls apply", "failure": "BLOCK_PROMOTION"},
+    {"id": "GDG-10", "name": "License boundary is enforced", "expected": "GPL reference code is pattern-only for permissive FA3 code intake unless an explicit license-policy change authorizes otherwise", "failure": "BLOCK_PROMOTION"},
+    {"id": "GDG-11", "name": "Document mutations are nondestructive", "expected": "Default result placement is new layer/new document and failures or partial results do not mutate the source document", "failure": "BLOCK_PROMOTION"},
+    {"id": "GDG-12", "name": "Live transport remains optional", "expected": "Live WebSocket/custom-node transport is optional, local-first and non-authoritative; cloud is not required", "failure": "BLOCK_PROMOTION"},
+    {"id": "GDG-13", "name": "Upstream references are immutable", "expected": "Every evaluated upstream reference records repository, 40-character revision, observed date and license", "failure": "BLOCK_PROMOTION"},
+    {"id": "GDG-14", "name": "Runtime evidence is not overclaimed", "expected": "No current-host production claim is made without fresh executable runtime evidence", "failure": "BLOCK_PROMOTION"},
+    {"id": "GDG-15", "name": "Executable regression gate passes", "expected": "tests/test_gimp_comfyui_interop_gate.py passes all assertions", "failure": "BLOCK_PROMOTION"}
+  ],
+  "pass_condition": "All GDG-01 through GDG-15 checks pass and no P0 invariant in canonical/gimp-comfyui-interop-enforcement.json is violated.",
+  "promotion_rule": "Reference/design CI PASS proves canonical conformance only; current-host GIMP/ComfyUI runtime promotion requires separate fresh production runtime evidence."
+}

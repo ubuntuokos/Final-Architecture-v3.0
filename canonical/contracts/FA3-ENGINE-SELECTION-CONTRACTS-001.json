@@ -1,0 +1,115 @@
+{
+  "schema": "fa3.engine-selection-contracts.v1",
+  "id": "FA3-ENGINE-SELECTION-CONTRACTS-001",
+  "status": "CANONICAL",
+  "profile_id": "FA3-ENGINE-SELECTION-FABRIC-001",
+  "capability_count": 175,
+  "provider_neutral": true,
+  "architectural_authority": false,
+  "types": {
+    "EngineDescriptor": {
+      "required": [
+        "engine_id",
+        "name",
+        "implementation_kind",
+        "engine_classes",
+        "capability_projection",
+        "execution_modes",
+        "status",
+        "architectural_authority"
+      ],
+      "authority": false
+    },
+    "EngineSelectionIntent": {
+      "required": [
+        "scope",
+        "scope_target_id",
+        "engine_id",
+        "required_capabilities",
+        "fallback_policy",
+        "execution_requested"
+      ],
+      "constraints": [
+        "execution_requested MUST remain false in selector output",
+        "non-GLOBAL scope MUST carry a non-empty scope_target_id",
+        "AI provider/model execution delegates to Model Router",
+        "resource placement delegates to HRB",
+        "only READY or AVAILABLE_CONDITIONAL engines may produce selectable preference intents"
+      ],
+      "scope_vocabulary": [
+        "GLOBAL",
+        "PRODUCT_FAMILY",
+        "APPLICATION",
+        "WORKSPACE",
+        "PROJECT",
+        "SEQUENCE",
+        "SCENE",
+        "TRACK",
+        "CLIP",
+        "NODE",
+        "TASK"
+      ]
+    },
+    "EnginePolicyProfile": {
+      "fallback_modes": [
+        "OFF",
+        "ASK",
+        "APPROVED_ONLY"
+      ],
+      "automatic_cross_provider_fallback": false,
+      "cloud_fallback_default": "OFF",
+      "user_approved_engine_allowlist_required_for_approved_only": true
+    },
+    "CompatibilityReport": {
+      "grades": [
+        "NATIVE",
+        "LOSSLESS",
+        "ADAPTED",
+        "BAKE_REQUIRED",
+        "PARTIAL",
+        "UNSUPPORTED"
+      ],
+      "silent_loss_forbidden": true,
+      "algorithm": {
+        "NATIVE": "all requested capabilities are declared by the engine",
+        "PARTIAL": "at least one but not all requested capabilities are declared by the engine",
+        "UNSUPPORTED": "none of the requested capabilities are declared by the engine",
+        "LOSSLESS": "reserved for explicit evidence-backed transform metadata",
+        "ADAPTED": "reserved for explicit evidence-backed adapter metadata",
+        "BAKE_REQUIRED": "reserved for explicit evidence-backed bake metadata"
+      },
+      "runtime_eligibility_is_separate": true,
+      "unproven_grade_escalation_forbidden": true
+    },
+    "EngineComparisonPlan": {
+      "same_input_required": true,
+      "benchmark_execution_requires_separate_user_action": true,
+      "paid_or_cloud_execution_requires_explicit_approval": true
+    }
+  },
+  "selection_rules": [
+    "NO_DEFAULT_ENGINE_MANDATE",
+    "NO_SILENT_FALLBACK",
+    "NO_SILENT_SEMANTIC_SUBSTITUTION",
+    "NO_SILENT_FORMAT_LOSS",
+    "NO_DIRECT_MODEL_OR_PROVIDER_ROUTING_AUTHORITY",
+    "NO_DIRECT_HARDWARE_PLACEMENT_AUTHORITY",
+    "NO_RAW_SECRET_STORAGE",
+    "REFERENCE_ONLY_OR_NOT_ADMITTED_ENGINES_MAY_BE_DISPLAYED_BUT_NOT_REPRESENTED_AS_EXECUTION_READY",
+    "PROJECT_REMAINS_FA3_CANONICAL_AND_ENGINE_INDEPENDENT",
+    "LOWER_SCOPE_EXPLICIT_SELECTION_MAY_OVERRIDE_HIGHER_SCOPE_PREFERENCE",
+    "USER_MAY_PRESERVE_UPSTREAM_BASE_ENGINE_ALONGSIDE_FA3_NATIVE_ENGINE",
+    "CUSTOM_ENGINE_REGISTRATION_REQUIRES_NORMAL_ADMISSION",
+    "NON_GLOBAL_SCOPE_REQUIRES_EXPLICIT_TARGET_ID",
+    "UNKNOWN_PROVIDER_ADMISSION_STATE_IS_NOT_SELECTABLE",
+    "PRODUCT_FAMILY_SCOPE_IS_CONTEXT_NOT_AUTHORITY"
+  ],
+  "runtime_gate_requirements": [
+    "Security",
+    "License & Rights",
+    "Software Coexistence",
+    "Hardware Safety",
+    "Current Host evidence",
+    "provider-specific admission when applicable"
+  ]
+}

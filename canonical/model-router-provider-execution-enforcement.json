@@ -1,0 +1,38 @@
+{
+  "schema": "fa3.model-router-provider-execution-enforcement.v1",
+  "gate_id": "FA3-GATE-MODEL-ROUTER-PROVIDER-EXECUTION-001",
+  "gateset_id": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-GATESET-001",
+  "profile_id": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-001",
+  "protocol_profile_id": "FA3-LLM-PROTOCOL-COMPAT-001",
+  "fail_closed": true,
+  "capability_count": 143,
+  "upstream_reference": {
+    "project": "lbjlaq/Antigravity-Manager",
+    "commit": "6af75a4aa3de192a0916385a4a6398124e7e8cc1",
+    "license": "CC-BY-NC-SA-4.0",
+    "usage": "REFERENCE_ONLY_CLEAN_ROOM",
+    "runtime_dependency": false,
+    "source_import": false,
+    "asset_import": false
+  },
+  "credential_policy": {
+    "secret_authority": "FA3-SECRET-BROKER-001",
+    "raw_value_in_config": false,
+    "raw_value_in_log": false,
+    "raw_value_in_evidence": false,
+    "decision_fabric_secret_access": false
+  },
+  "cross_provider_policy": {
+    "automatic_silent_transition": false,
+    "authority": "FA3-AUTH-MODEL-ROUTER-001",
+    "policy_equivalent_domain_required": true
+  },
+  "closure_policy": {
+    "core_closure_record": "canonical/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CORE-CLOSURE-001.json",
+    "core_closure_status": "CLOSED_STATIC_DETERMINISTIC_REGRESSION_PASS",
+    "per_provider_physical_admission_separate": true,
+    "per_provider_physical_failure_reopens_core": false,
+    "current_host_provider_evidence_required_for_core_closure": false,
+    "current_host_provider_evidence_required_for_provider_runtime_promotion": true
+  }
+}

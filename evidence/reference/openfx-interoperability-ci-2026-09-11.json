@@ -1,0 +1,33 @@
+{
+  "schema": "fa3.reference-conformance-evidence.v1",
+  "id": "FA3-OPENFX-INTEROPERABILITY-REFERENCE-PASS-2026-09-11",
+  "date": "2026-09-11",
+  "status": "PASS",
+  "scope": "STATIC_CANONICAL_AND_EXECUTABLE_TYPED_REFERENCE_CONFORMANCE",
+  "decision_id": "FA3-DEC-OPENFX-INTEROPERABILITY-2026-09-11",
+  "profile_id": "FA3-STANDARD-OPENFX-001",
+  "contract_id": "FA3-OPENFX-INTEROPERABILITY-CONTRACTS-001",
+  "reference_provider_id": "FA3-PROVIDER-NATRON-001",
+  "gate_id": "FA3-OPENFX-INTEROPERABILITY-GATESET-001",
+  "gate_record_id": "FA3-GATE-OPENFX-INTEROPERABILITY-001",
+  "test_entrypoint": "PYTHONPATH=src python3 -m unittest tests.test_openfx_interop_gate -v",
+  "executable_entrypoint": "./bin/fa3-enforce openfx-interoperability",
+  "rules_checked": 30,
+  "typed_reference_cases_total": 21,
+  "typed_reference_cases_passed": 21,
+  "validated_invariants": [
+    "OpenFX 1.5.1 standard and BSD-3-Clause identity pinned",
+    "Natron RB-2.6 reference host reused without authority duplication",
+    "Natron OFX 1.4 documented limit preserved",
+    "host/plugin API and suite negotiation fail closed",
+    "native plugin supply-chain admission required",
+    "isolated network-denied worker and staged output required",
+    "HRB lease and stable accelerator identity required for GPU execution",
+    "silent backend and display-GPU fallback denied",
+    "explicit OCIO/color binding and render provenance required",
+    "capability count 143 and architectural authority count unchanged"
+  ],
+  "current_host_runtime_evidence": false,
+  "production_promotion": false,
+  "limitations": "No OpenFX host or plugin was executed on the user's production workstation by this reference evidence."
+}

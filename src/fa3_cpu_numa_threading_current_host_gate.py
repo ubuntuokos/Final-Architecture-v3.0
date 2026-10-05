@@ -7,6 +7,10 @@ import re
 from pathlib import Path
 from typing import Any
 
+from fa3_release_baseline import module_active_capability_count
+
+CAPABILITY_COUNT = module_active_capability_count(__file__)
+
 RECEIPT = "evidence/receipts/cpu-numa-threading-current-host.json"
 GATE_ID = "FA3-GATE-CPU-NUMA-THREADING-CURRENT-HOST-001"
 EVIDENCE_LEVEL = "CURRENT_HOST_CPU_NUMA_THREADING_E2E_PASS"
@@ -39,21 +43,23 @@ def validate_receipt(receipt: dict[str, Any]) -> list[dict[str, Any]]:
         fail("CPU-NUMA-HOST-001", "current-host receipt identity, status or evidence level mismatch")
 
     hardware = receipt.get("hardware", {})
+    cores_per_package = hardware.get("physical_cores_per_package", [])
     if not (
         hardware.get("source") == "LIVE_SYSFS_PROCFS"
-        and hardware.get("machine") == "Dell Precision Tower 7910"
-        and hardware.get("cpu_model_match") is True
-        and hardware.get("packages") == 2
-        and hardware.get("physical_cores") == 44
-        and hardware.get("logical_cpus") == 88
-        and hardware.get("numa_domains") == 2
-        and hardware.get("smt_width") == 2
+        and int(hardware.get("packages", 0) or 0) >= 1
+        and int(hardware.get("physical_cores", 0) or 0) >= 8
+        and isinstance(cores_per_package, list)
+        and bool(cores_per_package)
+        and all(int(value) >= 8 for value in cores_per_package)
+        and int(hardware.get("logical_cpus", 0) or 0) >= int(hardware.get("physical_cores", 0) or 0)
+        and int(hardware.get("numa_domains", 0) or 0) >= 1
+        and int(hardware.get("smt_width", 0) or 0) >= 1
         and _digest(hardware.get("fingerprint_sha256"))
     ):
-        fail("CPU-NUMA-HOST-002", "live T7910 2x E5-2696 v4 / 44C / 88T / two-NUMA evidence mismatch")
+        fail("CPU-NUMA-HOST-002", "live vendor-neutral CPU/NUMA hardware baseline evidence mismatch")
 
-    if receipt.get("hardware_semantics") != "REFERENCE_HOST_ASSERTION_NOT_PORTABLE_DEFAULT":
-        fail("CPU-NUMA-HOST-003", "reference hardware values were promoted to portable defaults")
+    if receipt.get("hardware_semantics") != "FRESH_CURRENT_HOST_TOPOLOGY_NOT_CANONICAL_IDENTITY":
+        fail("CPU-NUMA-HOST-003", "current-host topology was not classified as fresh non-canonical evidence")
 
     placement = receipt.get("placement", {})
     if not (
@@ -77,7 +83,7 @@ def validate_receipt(receipt: dict[str, Any]) -> list[dict[str, Any]]:
     )
     if not (
         plan.get("status") == "ADMITTED"
-        and 1 <= budget <= physical <= 44
+        and 1 <= budget <= physical
         and plan.get("uses_smt_above_physical_budget") is False
         and env.get("OMP_PLACES") == "cores"
         and env.get("OMP_PROC_BIND") == "close"
@@ -134,8 +140,29 @@ def validate_receipt(receipt: dict[str, Any]) -> list[dict[str, Any]]:
     ):
         fail("CPU-NUMA-HOST-011", "rollback/failure-injection evidence is absent or invalid")
 
+    openmp = receipt.get("openmp_evidence", {})
+    observation = openmp.get("observation", {})
+    observed_cpus = {int(value) for value in observation.get("observed_cpus", [])}
+    admitted_cpus = set(placement.get("effective_cpus", []))
     if not (
-        receipt.get("capability_count_after") == 143
+        openmp.get("schema") == "fa3.openmp-current-host-evidence.v1"
+        and openmp.get("status") == "PASS"
+        and openmp.get("evidence_level") == "CURRENT_HOST_OPENMP_RUNTIME_PASS"
+        and openmp.get("runtime", {}).get("status") == "SINGLE_RUNTIME"
+        and openmp.get("validation", {}).get("status") == "PASS"
+        and int(observation.get("worker_count", 0) or 0) >= 1
+        and int(observation.get("max_threads", 0) or 0) <= budget
+        and bool(observed_cpus)
+        and observed_cpus.issubset(admitted_cpus)
+        and openmp.get("capability_count_after") == CAPABILITY_COUNT
+        and openmp.get("new_capabilities") == 0
+        and openmp.get("new_architectural_authorities") == 0
+        and openmp.get("global_promotion_claim") is False
+    ):
+        fail("CPU-NUMA-HOST-013", "OpenMP physical runtime/affinity evidence is absent or invalid")
+
+    if not (
+        receipt.get("capability_count_after") == CAPABILITY_COUNT
         and receipt.get("new_capabilities") == 0
         and receipt.get("new_architectural_authorities") == 0
         and receipt.get("global_promotion_claim") is False

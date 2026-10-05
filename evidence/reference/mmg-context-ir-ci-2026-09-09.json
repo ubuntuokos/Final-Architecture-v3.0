@@ -1,0 +1,38 @@
+{
+  "schema": "fa3.reference-executable-evidence.v1",
+  "id": "FA3-EVIDENCE-MMG-CONTEXT-IR-CI-2026-09-09",
+  "date": "2026-09-09",
+  "subject_id": "FA3-MMG-CONTEXT-IR-REFERENCE-001",
+  "context_ir_id": "FA3-MMG-CONTEXT-IR-001",
+  "gate_id": "FA3-GATE-MMG-CONTEXT-IR-001",
+  "status": "PASS",
+  "evidence_class": "EXECUTABLE_REFERENCE_CONFORMANCE",
+  "implementation_sha256": "bad03495bd66541b1eaecb908f5f340df1dd76b72d9c4994922c49d797cdc3cd",
+  "test_sha256": "5547d30bcbd33f16468bff991f8f16e723a1b7fde9b28d4787c615734543f307",
+  "regression_cases": {
+    "passed": 18,
+    "total": 18,
+    "positive": 9,
+    "negative": 9,
+    "case_ids": [
+      "MMG-REF-001", "MMG-REF-002", "MMG-REF-003", "MMG-REF-004", "MMG-REF-005", "MMG-REF-006",
+      "MMG-REF-007", "MMG-REF-008", "MMG-REF-009", "MMG-REF-010", "MMG-REF-011", "MMG-REF-012",
+      "MMG-REF-013", "MMG-REF-014", "MMG-REF-015", "MMG-REF-016", "MMG-REF-017", "MMG-REF-018"
+    ]
+  },
+  "verified_behaviors": [
+    "multimodal reference content remains data-only unless separately authorized",
+    "rights and provenance absence fail closed",
+    "inference confidence and hard-constraint protection are executable",
+    "conflicting hard constraints block execution",
+    "provider-native canonical leakage fails closed",
+    "hard projection loss makes target fail or ineligible",
+    "soft approximation is represented in explicit loss evidence",
+    "regeneration lineage and round-trip replay are executable"
+  ],
+  "execution_command": "PYTHONPATH=src python -m unittest tests/test_mmg_context_ir_reference.py -v",
+  "ci_replay": "python -m unittest discover -s tests -v",
+  "current_host_runtime_claim": false,
+  "provider_runtime_execution_claim": false,
+  "production_model_execution_claim": false
+}

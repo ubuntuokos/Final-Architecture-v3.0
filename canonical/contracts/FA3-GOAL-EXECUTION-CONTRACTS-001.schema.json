@@ -1,0 +1,256 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.local/contracts/FA3-GOAL-EXECUTION-CONTRACTS-001.schema.json",
+  "title": "FA3 Goal Execution non-authoritative contract family",
+  "x-fa3-contract-id": "FA3-GOAL-EXECUTION-CONTRACTS-001",
+  "description": "FA3-native, typed, user-owned goal contracts. This schema grants no UAF, model, tool, resource, provider or canonical evidence authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "goal_id",
+    "revision",
+    "owner_ref",
+    "objective",
+    "workspace_ref",
+    "scope",
+    "acceptance_criteria",
+    "execution_policy"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.goal-contract.v1"
+    },
+    "goal_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "owner_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "objective": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "in_scope",
+        "out_of_scope"
+      ],
+      "properties": {
+        "in_scope": {
+          "$ref": "#/$defs/uniqueStrings"
+        },
+        "out_of_scope": {
+          "$ref": "#/$defs/uniqueStringsOrEmpty"
+        }
+      }
+    },
+    "acceptance_criteria": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "criterion_id",
+          "expected_observation",
+          "verification"
+        ],
+        "properties": {
+          "criterion_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expected_observation": {
+            "type": "string",
+            "minLength": 1
+          },
+          "verification": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "kind",
+              "verifier_ref",
+              "evidence_kinds"
+            ],
+            "properties": {
+              "kind": {
+                "enum": [
+                  "DETERMINISTIC",
+                  "HUMAN",
+                  "SEMANTIC_ADVISORY_WITH_INDEPENDENT_CHECK"
+                ]
+              },
+              "verifier_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "evidence_kinds": {
+                "$ref": "#/$defs/uniqueStrings"
+              },
+              "independent_verifier_ref": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "execution_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "policy_ref",
+        "approval_policy_ref",
+        "allowed_action_ids",
+        "allowed_effects",
+        "authorized_ai_participants",
+        "limits"
+      ],
+      "properties": {
+        "mode": {
+          "enum": [
+            "AUTO",
+            "APPROVAL",
+            "HYBRID"
+          ]
+        },
+        "policy_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "approval_policy_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "allowed_action_ids": {
+          "$ref": "#/$defs/uniqueStrings"
+        },
+        "allowed_effects": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "READ",
+              "WRITE",
+              "DESTRUCTIVE"
+            ]
+          }
+        },
+        "authorized_ai_participants": {
+          "$ref": "#/$defs/uniqueStringsOrEmpty"
+        },
+        "limits": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "max_children",
+            "max_depth",
+            "max_concurrent_children",
+            "max_runtime_seconds",
+            "max_retries",
+            "max_tool_calls",
+            "max_model_requests"
+          ],
+          "properties": {
+            "max_children": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "max_depth": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "max_concurrent_children": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "max_runtime_seconds": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "max_retries": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "max_tool_calls": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "max_model_requests": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "uniqueStrings": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "uniqueStringsOrEmpty": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "x-fa3-invariants": {
+    "capability_baseline": 175,
+    "new_capability": false,
+    "new_architectural_authority": false,
+    "natural_language_direct_execution": false,
+    "implicit_task_scope_expansion": false,
+    "task_scope_provenance_required": true,
+    "open_ended_followup_task_generation": "DENY",
+    "completed_task_auto_successor": "DENY",
+    "temporal": "SOLE_GLOBAL_DURABLE_LIFECYCLE_OWNER",
+    "model_route_authority": "FA3-AUTH-MODEL-ROUTER-001",
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "uaf": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "cpu_only_viable": true,
+    "vendor_neutral": true,
+    "accelerator_cardinality": "0..N",
+    "task_scope_binding_required_for_goal_bound_workloads": true,
+    "in_scope_out_of_scope_overlap": "DENY",
+    "same_blocker_attempt_limit": 3,
+    "third_same_blocker_failure": "HUMAN_INTERVENTION_REQUIRED_AND_EXECUTION_FROZEN",
+    "fourth_same_blocker_attempt": "DENY",
+    "out_of_scope_followup": "PERSISTED_HANDOFF_NEW_TASK_REQUIRED",
+    "start_resume_fresh_task_scope_admission": true,
+    "cached_execution_plan_scope_revision_bypass": "DENY",
+    "verified_closure_requires_evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001",
+    "closed_task_reexecution": "DENY",
+    "main_task_identity": "IMMUTABLE_FOR_ACTIVE_TASK_SESSION",
+    "main_task_switch_authority": "EXPLICIT_OWNER_ONLY",
+    "new_rule_or_parallel_work_can_replace_main_task": false,
+    "blocker_can_stop_but_not_reassign_main_task": true,
+    "out_of_scope_followup_auto_becomes_main_task": false
+  }
+}

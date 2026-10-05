@@ -1,0 +1,69 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-SHARED-KNOWLEDGE-RETRIEVAL-001",
+  "name": "Shared Knowledge & Retrieval",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST_IF_COMPONENT_USED",
+  "canonical_root": false,
+  "provider_neutral": true,
+  "shared_component": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-010",
+    "CAP-021",
+    "CAP-102",
+    "CAP-153",
+    "CAP-155",
+    "CAP-156"
+  ],
+  "contract_family": "FA3-SHARED-KNOWLEDGE-RETRIEVAL-CONTRACTS-001",
+  "authority_bindings": {
+    "knowledge": "FA3-KNOWLEDGE-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "invariants": [
+    "SOURCE_PROVENANCE_REQUIRED",
+    "ORIGINAL_SOURCE_IDENTITY_PRESERVED",
+    "STRUCTURE_AWARE_SEGMENTATION_SUPPORTED",
+    "FIXED_GLOBAL_CHUNK_SIZE_FORBIDDEN_AS_CANONICAL_POLICY",
+    "FIXED_GLOBAL_TOP_K_FORBIDDEN_AS_CANONICAL_POLICY",
+    "EMBEDDING_EXECUTION_PROVIDER_NEUTRAL",
+    "HYBRID_RETRIEVAL_SUPPORTED",
+    "RERANKING_OPTIONAL_AND_REPLACEABLE",
+    "ACL_AND_CONTEXT_FILTERING_BEFORE_DISCLOSURE",
+    "HISTORY_AWARE_QUERY_REWRITE_MUST_PRESERVE_ORIGINAL_QUERY",
+    "CITATION_AND_CLAIM_SOURCE_LINEAGE_REQUIRED",
+    "RAG_STORE_IMPLEMENTATION_NOT_ARCHITECTURAL_AUTHORITY"
+  ],
+  "gui_projection": [
+    "create.knowledge",
+    "global.search",
+    "create.ai-studio",
+    "governance.security"
+  ],
+  "runtime_materialization": {
+    "new_service": false,
+    "new_daemon": false,
+    "new_port": false,
+    "new_socket": false,
+    "new_package_dependency": false,
+    "provider_activation": false,
+    "model_selection": false,
+    "hardware_mutation": false,
+    "semantics": "COMPOSE_EXISTING_FA3_AUTHORITIES_AND_CAPABILITIES"
+  },
+  "framework_policy": {
+    "upstream_framework_is_authority": false,
+    "hard_runtime_dependency": false,
+    "analysis_patterns_may_be_reexpressed_fa3_native": true
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}

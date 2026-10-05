@@ -1,0 +1,32 @@
+{
+  "schema": "fa3.canonical-decision.v1",
+  "decision_id": "FA3-DEC-CURRENT-HOST-FULL-MATERIALIZATION-2026-09-19",
+  "title": "Complete 429-obligation current-host executor materialization without weakening runtime evidence",
+  "date": "2026-09-19",
+  "status": "CANONICAL",
+  "scope": "CURRENT_HOST_CAPABILITY_CLOSURE",
+  "decision": {
+    "materialize_remaining_capability_obligations": true,
+    "capability_specific_recipe_registry": "canonical/current-host-capability-proof-recipes.json",
+    "shared_real_host_producer": "src/fa3_full_current_host_capability_producer.py",
+    "recipe_registration_is_runtime_pass": false,
+    "dependency_absence_result": "REJECTED",
+    "synthetic_current_host_pass": "DENY",
+    "github_hosted_current_host_pass": "DENY",
+    "provider_receipt_substitution": "DENY",
+    "component_receipt_substitution": "DENY",
+    "generic_host_evidence_substitution": "DENY",
+    "external_side_effect_default": "DENY",
+    "conditional_external_provider_execution_claim_without_real_provider_evidence": "DENY",
+    "global_promotion_from_materialization": "DENY",
+    "architectural_authority_delta": 0,
+    "capability_delta": 0,
+    "canonical_capability_count": 143
+  },
+  "closure_semantics": {
+    "executor_materialization_target": "429/429",
+    "physical_execution_required_after_materialization": true,
+    "capability_pass_requires_real_positive_negative_rollback_results": true,
+    "global_promotion_requires_existing_attestation_handoff_and_promotion_safety_chain": true
+  }
+}

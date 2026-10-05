@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "FA3-AUTHENTICATED-APPROVAL-RECEIPT-001",
+  "title": "FA3 Authenticated Approval Receipt v2",
+  "type": "object",
+  "required": ["schema","status","receipt_id","receipt_type","source_commit","issued_at","expires_at","nonce","single_use","content_sha256","payload","signer","signature","authorization"],
+  "properties": {
+    "schema": {"const": "fa3.authenticated-approval-receipt.v2"},
+    "status": {"const": "PASS"},
+    "receipt_id": {"type":"string","minLength":1},
+    "receipt_type": {"enum":["CURRENT_HOST_EVIDENCE_SIGNING","SOURCE_EXCLUSION_SIGNING","RELEASE_INTEGRITY","INDEPENDENT_REVIEW","HUMAN_PROMOTION"]},
+    "source_commit": {"type":"string","pattern":"^[0-9a-f]{40}$"},
+    "issued_at": {"type":"string"},
+    "expires_at": {"type":"string"},
+    "nonce": {"type":"string","pattern":"^[A-Za-z0-9_-]{16,128}$"},
+    "single_use": {"const": true},
+    "content_sha256": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "payload": {"type":"object"},
+    "signer": {
+      "type":"object",
+      "required":["identity","certificate_sha256","certificate_pem","intermediate_certificates_pem"],
+      "properties":{
+        "identity":{"type":"string","minLength":1},
+        "certificate_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+        "certificate_pem":{"type":"string","minLength":1},
+        "intermediate_certificates_pem":{"type":"array","items":{"type":"string"}}
+      }
+    },
+    "signature": {
+      "type":"object",
+      "required":["algorithm","value_b64"],
+      "properties":{
+        "algorithm":{"enum":["RSA-SHA256","ECDSA-SHA256"]},
+        "value_b64":{"type":"string","minLength":1}
+      }
+    },
+    "authorization": {
+      "type":"object",
+      "required":["authority","trust_profile","algorithm","grant","value_b64"],
+      "properties":{
+        "authority":{"const":"FA3-AUTH-SECURITY-GOV-001"},
+        "trust_profile":{"const":"FA3-TRUST-PKI-001"},
+        "algorithm":{"enum":["RSA-SHA256","ECDSA-SHA256"]},
+        "grant":{"type":"object"},
+        "value_b64":{"type":"string","minLength":1}
+      }
+    }
+  },
+  "additionalProperties": true
+}

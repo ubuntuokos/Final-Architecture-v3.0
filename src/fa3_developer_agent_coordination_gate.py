@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import argparse
 import json
@@ -23,7 +24,7 @@ PROFILE_ID = "FA3-AGENT-EXEC-001"
 CONTRACT_ID = "FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001"
 CONFORMANCE_ID = "FA3-DEVELOPER-AGENT-COORDINATION-RUNTIME-CONFORMANCE-001"
 DECISION_ID = "FA3-DEC-DEVELOPER-AGENT-COORDINATION-2026-08-30"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 
 P0_RULES = [
     "DAC_EXPLICIT_TYPED_TASK_AND_DELEGATION",
@@ -42,6 +43,8 @@ P0_RULES = [
     "DAC_EPHEMERAL_WORKER_CLEANUP_REQUIRED",
     "DAC_REFERENCE_E2E_POSITIVE_AND_NEGATIVE_PASS",
     "DAC_REFERENCE_E2E_NOT_CURRENT_HOST_PROVIDER_PROMOTION",
+    "DAC_HUMAN_AUDITABLE_MODEL_COMMUNICATION",
+    "DAC_PRIVATE_MODEL_LANGUAGE_FORBIDDEN",
 ]
 
 
@@ -83,8 +86,10 @@ def reference_check(root: Path) -> dict[str, Any]:
 
     if not (
         profile.get("id") == PROFILE_ID
-        and profile.get("version") == "1.1.0"
+        and profile.get("version") == "1.2.0"
         and CONTRACT_ID in profile.get("contracts", [])
+        and profile.get("sandbox_profile") == "FA3-AGENT-SANDBOX-001"
+        and "HOST_SUBPROCESS_ARBITRARY_AGENT_EXECUTION_FORBIDDEN" in profile.get("invariants", [])
         and profile.get("capability_count") == CAPABILITY_COUNT
         and profile.get("new_capability") is False
         and profile.get("new_architectural_authority") is False
@@ -101,6 +106,10 @@ def reference_check(root: Path) -> dict[str, Any]:
         and contracts.get("provider_neutral") is True
         and required_contracts.issubset(set(contracts.get("contracts", [])))
         and contracts.get("capability_count") == CAPABILITY_COUNT
+        and contracts.get("communication_policy") == "FA3-AI-COMMS-001"
+        and {"PRIVATE_MODEL_LANGUAGE", "EMERGENT_AGENT_CODEBOOK", "MODEL_ONLY_SLANG"}.issubset(
+            set(contracts.get("forbidden_semantics", []))
+        )
     ):
         findings.append(_finding("DAC-REF-003", "Coordination contract family drift"))
 
@@ -123,7 +132,7 @@ def reference_check(root: Path) -> dict[str, Any]:
         and decision.get("contract_family") == CONTRACT_ID
         and decision.get("new_capabilities") == 0
         and decision.get("new_architectural_authorities") == 0
-        and decision.get("capability_count_after") == CAPABILITY_COUNT
+        and isinstance(decision.get("capability_count_after"), int) and decision.get("capability_count_after") <= CAPABILITY_COUNT
         and decision.get("provider_dependency_created") is False
     ):
         findings.append(_finding("DAC-REF-005", "Canonical coordination decision drift"))
@@ -148,6 +157,7 @@ def reference_check(root: Path) -> dict[str, Any]:
 
 
 def run_regressions() -> dict[str, Any]:
+    e2e = run_reference_e2e()
     cases = {
         "duplicate_mutating_workspace_denied": not workspace_plan_valid(
             {"a": "same", "b": "same"}, ["a", "b"]
@@ -170,6 +180,9 @@ def run_regressions() -> dict[str, Any]:
         "provider_cannot_own_authority": not provider_authority_assignment_allowed(
             provider_id="provider-x", authority_owner="provider-x"
         ),
+        "private_model_language_denied": e2e["negative_cases"].get("private_model_language_denied") is True,
+        "missing_human_readable_semantics_denied": e2e["negative_cases"].get("missing_human_readable_semantics_denied") is True,
+        "unversioned_structured_protocol_denied": e2e["negative_cases"].get("unversioned_structured_protocol_denied") is True,
     }
     passed = sum(cases.values())
     return {

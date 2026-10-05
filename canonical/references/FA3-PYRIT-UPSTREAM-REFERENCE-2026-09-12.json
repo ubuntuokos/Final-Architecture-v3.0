@@ -1,0 +1,57 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-PYRIT-UPSTREAM-REFERENCE-2026-09-12",
+  "provider_id": "FA3-PROVIDER-PYRIT-001",
+  "repository": "microsoft/PyRIT",
+  "observed_at": "2026-09-12",
+  "stable_reference": {
+    "release": "v1.1.0",
+    "tag_object_sha": "db359fb2157283cec6c43941c3b42e53b340425b",
+    "commit_sha": "d0524f0714840519b826eb770687ca1d4f46a761",
+    "published_at": "2026-09-04T22:19:28Z",
+    "tag_signature_verified": false,
+    "tag_signature_reason": "unsigned"
+  },
+  "license": {
+    "spdx": "MIT",
+    "permissive": true
+  },
+  "observed_runtime_surfaces": [
+    "PYRIT_SCAN_CLI",
+    "PYRIT_SHELL_CLI",
+    "PYRIT_BACKEND",
+    "OPENAI_COMPATIBLE_TARGETS",
+    "OLLAMA_TARGET",
+    "LITELLM_OPTIONAL_INTEGRATION",
+    "HUGGINGFACE_OPTIONAL_INTEGRATION",
+    "PLAYWRIGHT_OPTIONAL_INTEGRATION",
+    "ADVERSARIAL_ATTACKS",
+    "SCENARIOS",
+    "SCORERS",
+    "PROVIDER_LOCAL_MEMORY"
+  ],
+  "release_observations": {
+    "best_of_n": true,
+    "split_payload": true,
+    "multilingual": true,
+    "audio_achilles": true,
+    "package_hallucination": true,
+    "system_prompt_extraction": true,
+    "figstep": true,
+    "undetermined_score_supported": true
+  },
+  "fa3_disposition": {
+    "classification": "REQUIRED_REFERENCE_AI_ADVERSARIAL_SECURITY_VALIDATION_PROVIDER",
+    "floating_main_allowed_as_promotion_evidence": false,
+    "provider_output_is_authorization": false,
+    "provider_output_is_canonical_evidence_without_attestation": false,
+    "provider_memory_is_canonical_memory": false,
+    "direct_gpu_placement_allowed": false,
+    "arbitrary_host_shell_allowed": false,
+    "arbitrary_mcp_access_allowed": false,
+    "unrestricted_network_egress_allowed": false,
+    "undetermined_score_may_count_as_security_pass": false,
+    "runtime_provider_required_for_global_promotion_when_disabled": false,
+    "current_host_runtime_promotion_claim": false
+  }
+}

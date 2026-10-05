@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.local/contracts/FA3-UAF-ACTION-RESULT-001.schema.json",
+  "x-fa3-contract-id": "FA3-UAF-ACTION-RESULT-001",
+  "title": "FA3 UAF Action Result",
+  "type": "object",
+  "required": [
+    "schema",
+    "request_id",
+    "trace_id",
+    "action_id",
+    "contract_version",
+    "provider_id",
+    "status",
+    "output",
+    "evidence"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.uaf.action-result.v1"
+    },
+    "request_id": {
+      "type": "string"
+    },
+    "trace_id": {
+      "type": "string"
+    },
+    "action_id": {
+      "type": "string"
+    },
+    "contract_version": {
+      "type": "string"
+    },
+    "provider_id": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "success",
+        "failed",
+        "denied"
+      ]
+    },
+    "output": {
+      "type": "object"
+    },
+    "evidence": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": false
+}

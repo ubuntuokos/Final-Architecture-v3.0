@@ -1,0 +1,57 @@
+{
+  "schema": "fa3.license-rights-descriptor-registry.v1",
+  "id": "FA3-LICENSE-RIGHTS-DESCRIPTOR-REGISTRY-001",
+  "authority": "FA3-AUTH-SECURITY-GOV-001",
+  "status": "CANONICAL_IN_PROGRESS",
+  "entries": [
+    {
+      "subject_id": "FA3-PROVIDER-AGENT-RUNNER-NATIVE-001",
+      "descriptor": "canonical/license-rights/descriptors/FA3-PROVIDER-AGENT-RUNNER-NATIVE-001.json",
+      "disposition": "ALLOW_WITH_OBLIGATIONS",
+      "audit_status": "EVIDENCE_BACKED_NATIVE_SUBJECT_EXTERNAL_SYSTEMD_RUNTIME_SEPARATE"
+    },
+    {
+      "subject_id": "FA3-PROVIDER-AGENT-RUNNER-PODMAN-001",
+      "descriptor": "canonical/license-rights/descriptors/FA3-PROVIDER-AGENT-RUNNER-PODMAN-001.json",
+      "disposition": "ALLOW_WITH_OBLIGATIONS",
+      "audit_status": "EVIDENCE_BACKED_NATIVE_SUBJECT_EXTERNAL_PODMAN_RUNTIME_SEPARATE"
+    },
+    {
+      "subject_id": "FA3-PROVIDER-BROWSER-SESSION-BRIDGE-001",
+      "descriptor": "canonical/license-rights/descriptors/FA3-PROVIDER-BROWSER-SESSION-BRIDGE-001.json",
+      "disposition": "ALLOW_WITH_OBLIGATIONS",
+      "audit_status": "EVIDENCE_BACKED_NATIVE_SUBJECT"
+    },
+    {
+      "subject_id": "FA3-PROVIDER-CAPTION-NATIVE-001",
+      "descriptor": "canonical/license-rights/descriptors/FA3-PROVIDER-CAPTION-NATIVE-001.json",
+      "disposition": "ALLOW_WITH_OBLIGATIONS",
+      "audit_status": "EVIDENCE_BACKED_NATIVE_SUBJECT"
+    },
+    {
+      "subject_id": "FA3-PROVIDER-CFA3-NATIVE-CUDA-COMPAT-001",
+      "descriptor": "canonical/license-rights/descriptors/FA3-PROVIDER-CFA3-NATIVE-CUDA-COMPAT-001.json",
+      "disposition": "ALLOW_WITH_OBLIGATIONS",
+      "audit_status": "EVIDENCE_BACKED_NATIVE_SUBJECT_EXTERNAL_TARGET_TOOLCHAINS_SEPARATE"
+    },
+    {
+      "subject_id": "FA3-PROVIDER-SYSTEM-ONE-DECISION-001",
+      "descriptor": "canonical/license-rights/descriptors/FA3-PROVIDER-SYSTEM-ONE-DECISION-001.json",
+      "disposition": "ALLOW_WITH_OBLIGATIONS",
+      "audit_status": "EVIDENCE_BACKED_NATIVE_SUBJECT"
+    },
+    {
+      "subject_id": "FA3-PROVIDER-SYSTEM-ONE-NATIVE-001",
+      "descriptor": "canonical/license-rights/descriptors/FA3-PROVIDER-SYSTEM-ONE-NATIVE-001.json",
+      "disposition": "ALLOW_WITH_OBLIGATIONS",
+      "audit_status": "EVIDENCE_BACKED_NATIVE_SUBJECT"
+    }
+  ],
+  "invariants": {
+    "third_party_runtime_or_service_terms_separate": true,
+    "native_subject_descriptor_does_not_relicense_external_dependency": true,
+    "release_included_subject_must_have_valid_descriptor": true
+  },
+  "release_included_subjects_rights_status": "PASS",
+  "release_included_subject_blockers": 0
+}

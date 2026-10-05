@@ -1,0 +1,37 @@
+{
+  "schema": "fa3.contract.v1",
+  "id": "FA3-KHRONOS-OPEN-STANDARDS-CONTRACTS-001",
+  "profile": "FA3-KHRONOS-OPEN-STANDARDS-001",
+  "capability_binding": "CAP-083",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "invariants": [
+    "UPSTREAM_SOURCE_MUST_BE_IMMUTABLE_PINNED",
+    "KHRONOS_COMPONENTS_NEVER_BECOME_FA3_ARCHITECTURAL_AUTHORITIES",
+    "HRB_REMAINS_SOLE_HOST_RESOURCE_ADMISSION_PLACEMENT_RESERVATION_LEASE_AUTHORITY",
+    "LIVE_FEATURE_PROFILE_DISCOVERY_PRECEDES_ACCELERATED_EXECUTION",
+    "GPU_MARKETING_NAME_IS_NOT_CAPABILITY_EVIDENCE",
+    "SPIRV_VALIDATION_FAILS_CLOSED_BEFORE_PROMOTED_SHADER_EXECUTION",
+    "GLTF_AND_KTX_ARE_INTERCHANGE_NOT_NATIVE_PROJECT_REPLACEMENTS",
+    "OPENXR_OPENCL_ANARI_OPENVX_NNEF_ADAPTERS_REMAIN_REPLACEABLE",
+    "SILENT_CPU_GPU_PROVIDER_BACKEND_FALLBACK_FORBIDDEN_AFTER_SELECTION",
+    "CPU_ONLY_FA3_CONFORMANCE_REMAINS_VALID_WITH_ZERO_ACCELERATORS",
+    "STATIC_OR_SOURCE_MATERIALIZATION_PASS_IS_NOT_CURRENT_HOST_RUNTIME_PASS",
+    "SYSTEM_KHRONOS_RUNTIME_OR_DRIVER_REPLACEMENT_IS_FORBIDDEN",
+    "FA3_SDK_ROOT_MUST_BE_NAMESPACED_AND_USER_LOCAL"
+  ],
+  "hardware_safety": {
+    "hardware_parameter_mutation": false,
+    "overclock_or_power_limit_mutation": false,
+    "driver_replacement": false,
+    "firmware_mutation": false
+  },
+  "coexistence": {
+    "upstream_uninstall": false,
+    "system_package_shadowing": false,
+    "global_loader_override": false,
+    "global_icd_override": false,
+    "global_env_override": false
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "schema": "fa3.step-ca-current-host-upstream-lock.v1",
+  "id": "FA3-STEP-CA-CURRENT-HOST-UPSTREAM-LOCK-001",
+  "server": {
+    "repository": "smallstep/certificates",
+    "version": "0.30.2",
+    "commit": "6e8ec61405239cf3f37b2bbf260a587b7d2e4e31"
+  },
+  "test_client": {
+    "repository": "smallstep/cli",
+    "version": "0.30.6",
+    "commit": "f662820e1343708130115e52a13a4c0dd03c115b",
+    "authority": false
+  },
+  "note": "The step CLI is a current-host test/enrollment client only and is not a new FA3 provider authority."
+}

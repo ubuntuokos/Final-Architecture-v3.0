@@ -35,8 +35,8 @@ class FFmpegAICurrentHostTests(unittest.TestCase):
         self.assertFalse(hrb_receipt_valid(bad,g))
 
     def test_extended_nvidia_pci_domain_normalizes_to_canonical_bdf(self):
-        self.assertEqual("0000:05:00.0",normalize_bdf("00000000:05:00.0"))
-        self.assertEqual("0000:a5:00.0",normalize_bdf("A5:00.0"))
+        self.assertEqual("0000:3b:00.0",normalize_bdf("00000000:3b:00.0"))
+        self.assertEqual("0000:65:00.0",normalize_bdf("65:00.0"))
 
     def test_quality_gate_is_fail_closed(self):
         r=make_reference_receipt()

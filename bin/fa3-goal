@@ -1,0 +1,57 @@
+#!/usr/bin/env python3
+"""FA3 goal contract CLI. Pure planning; never executes authorized effects."""
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
+from fa3_goal_execution import (
+    GoalContractError, assess_evidence, compile_plan, prepare_goal, propose_repair,
+)
+
+
+def _read(path: str) -> object:
+    raw = sys.stdin.read() if path == "-" else Path(path).read_text(encoding="utf-8")
+    return json.loads(raw)
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description="FA3 design-only goal planning and evidence precheck")
+    parser.add_argument("command", choices=("validate", "plan", "assess", "repair"))
+    parser.add_argument("--goal", required=True, help="GoalContract JSON path, or - for stdin")
+    parser.add_argument("--steps", help="Plan steps JSON; required for plan")
+    parser.add_argument("--preflight", help="Preflight references JSON; required for plan")
+    parser.add_argument("--observations", help="Criterion evidence references JSON; required for assess/repair")
+    parser.add_argument("--plan", dest="plan_path", help="Optional design-only plan JSON bound to goal revision")
+    parser.add_argument("--attempts", type=int, default=0, help="Prior retry count; repair only")
+    args = parser.parse_args()
+    try:
+        goal = _read(args.goal)
+        if args.command == "validate":
+            output = prepare_goal(goal)
+        elif args.command == "plan":
+            if not args.steps or not args.preflight:
+                parser.error("plan requires --steps and --preflight")
+            output = compile_plan(ROOT, goal, _read(args.steps), _read(args.preflight))
+        else:
+            if not args.observations:
+                parser.error("assess/repair require --observations")
+            assessment = assess_evidence(goal, _read(args.observations),
+                                         plan=_read(args.plan_path) if args.plan_path else None)
+            output = (assessment if args.command == "assess" else
+                      propose_repair(goal, assessment, args.attempts))
+    except (GoalContractError, OSError, ValueError, TypeError) as exc:
+        # Do not echo untrusted prompt/data or secrets in an error message.
+        print(json.dumps({"schema": "fa3.goal-cli-error.v1", "status": "REJECTED",
+                          "reason": type(exc).__name__}, ensure_ascii=False), file=sys.stderr)
+        return 2
+    print(json.dumps(output, ensure_ascii=False, indent=2, sort_keys=True))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

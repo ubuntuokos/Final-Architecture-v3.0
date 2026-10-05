@@ -1,0 +1,91 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-EXTERNAL-DISCOVERY-ADMISSION-HANDOFF-APPLICATION-INTENT-2026-10-02",
+  "project_id": "FA3-EXTERNAL-DISCOVERY-ADMISSION-HANDOFF-001",
+  "project_type": "MATERIAL_EXTENSION",
+  "goal": "Extend the existing shared External API Discovery pipeline with an inert candidate-to-admission review handoff that binds a validated discovery candidate to the normal FA3 provenance, license/terms, protocol, security, secrets, egress, capability, policy, sandbox, conformance and registry-admission path without creating a new admission authority.",
+  "required_capabilities": [
+    "CAP-011",
+    "CAP-074",
+    "CAP-075",
+    "CAP-146",
+    "CAP-147",
+    "CAP-175"
+  ],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "external-api-discovery",
+    "candidate-admission-handoff",
+    "provenance-binding",
+    "license-rights-review",
+    "security-review",
+    "software-coexistence"
+  ],
+  "input_modalities": [
+    "DERIVED_CANDIDATE_STORE",
+    "EXPLICIT_OPERATOR_TARGET_KIND"
+  ],
+  "output_modalities": [
+    "DRAFT_ADMISSION_REVIEW_PLAN"
+  ],
+  "execution_classes": [
+    "CPU_LIGHTWEIGHT"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "CANDIDATE_TO_EXISTING_ADMISSION_REVIEW_HANDOFF"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_safety_envelope_required": true
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-external-discovery",
+    "service_prefix": "fa3-external-discovery",
+    "config_root": "$XDG_CONFIG_HOME/fa3/external-discovery",
+    "cache_root": "$XDG_CACHE_HOME/fa3/external-discovery",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/external-discovery",
+    "socket_namespace": "fa3/external-discovery",
+    "data_root": "$XDG_STATE_HOME/fa3/external-discovery",
+    "desktop_prefix": "org.fa3.external-discovery",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "security_requirements": [
+    "DRAFT_REVIEW_PLAN_ONLY",
+    "NO_NETWORK_PROBE_DURING_HANDOFF",
+    "NO_SECRET_RESOLUTION_DURING_HANDOFF",
+    "NO_REGISTRY_MUTATION_DURING_HANDOFF",
+    "EXPLICIT_TARGET_KIND_REQUIRED",
+    "CATALOG_HINTS_CANNOT_SELECT_OR_AUTHORIZE_TARGET",
+    "APIFY_ACTOR_DOES_NOT_INHERIT_ORG_DONOR_STATUS",
+    "NO_AUTOMATIC_ADMISSION_OR_EXECUTION"
+  ],
+  "integration_requirements": [
+    "FA3-EXTERNAL-API-DISCOVERY-001",
+    "FA3-EXTERNAL-DISCOVERY-CANDIDATE-STORE-001",
+    "FA3-LICENSE-RIGHTS-CONTRACTS-001",
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-DISTRIBUTION-COMPLIANCE-001",
+    "FA3-AUTH-SECURITY-GOV-001",
+    "FA3-SECRET-BROKER-001",
+    "FA3-AUTH-MCP-GATEWAY-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-OBS-EVIDENCE-001"
+  ],
+  "task_classes": [
+    "architecture",
+    "developer",
+    "external-discovery",
+    "admission-review"
+  ],
+  "skill_triggers": [],
+  "mandatory_source_families": [
+    "FA3-KHRONOS-OPEN-STANDARDS-001"
+  ]
+}

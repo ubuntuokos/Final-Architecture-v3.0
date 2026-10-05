@@ -1,0 +1,124 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-CAST-CHROMECAST-ORCHESTRATOR-2026-09-29",
+  "created_at": "2026-09-29",
+  "status": "RECONCILED_IN_STACKED_BRANCH",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "maintenance_lineage": "PR #543 stacked on PR #542",
+  "prior_branch_registry_count": 1164,
+  "resulting_branch_registry_count": 1172,
+  "source_count": 9,
+  "unique_source_key_count": 8,
+  "new_candidate_count": 8,
+  "duplicate_topic_url_count": 1,
+  "existing_entry_count": 0,
+  "capability_count": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "flags": {
+    "automatic_dependency": false,
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_code_import": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "automatic_activation": false
+  },
+  "sources": [
+    {
+      "normalized_source_key": "github:topics/chromecast-receiver",
+      "kind": "TOPIC_DISCOVERY",
+      "urls": [
+        "https://github.com/topics/chromecast-receiver"
+      ],
+      "donor_id": "FA3-DONOR-TOPICS-CHROMECAST-RECEIVER-001",
+      "lifecycle_status": "CANDIDATE",
+      "source_code_copy_allowed": false,
+      "license_declared": "UNKNOWN"
+    },
+    {
+      "normalized_source_key": "github:fishwowater/cast",
+      "kind": "REPOSITORY_REFERENCE",
+      "urls": [
+        "https://github.com/FishWoWater/CAST"
+      ],
+      "donor_id": "FA3-DONOR-FISHWOWATER-CAST-001",
+      "lifecycle_status": "CANDIDATE",
+      "source_code_copy_allowed": false,
+      "license_declared": "MIT"
+    },
+    {
+      "normalized_source_key": "github:wanglab-broad/cast",
+      "kind": "REPOSITORY_REFERENCE",
+      "urls": [
+        "https://github.com/wanglab-broad/CAST"
+      ],
+      "donor_id": "FA3-DONOR-WANGLAB-BROAD-CAST-001",
+      "lifecycle_status": "CANDIDATE",
+      "source_code_copy_allowed": false,
+      "license_declared": "MIT"
+    },
+    {
+      "normalized_source_key": "github:topics/chromecast",
+      "kind": "TOPIC_DISCOVERY",
+      "urls": [
+        "https://github.com/topics/chromecast?l=html&o=asc&s=forks"
+      ],
+      "donor_id": "FA3-DONOR-TOPICS-CHROMECAST-001",
+      "lifecycle_status": "CANDIDATE",
+      "source_code_copy_allowed": false,
+      "license_declared": "UNKNOWN"
+    },
+    {
+      "normalized_source_key": "github:hannameyer/cast",
+      "kind": "REPOSITORY_REFERENCE",
+      "urls": [
+        "https://github.com/HannaMeyer/CAST"
+      ],
+      "donor_id": "FA3-DONOR-HANNAMEYER-CAST-001",
+      "lifecycle_status": "CANDIDATE",
+      "source_code_copy_allowed": false,
+      "license_declared": "UNKNOWN"
+    },
+    {
+      "normalized_source_key": "github:topics/mysql-orchestrator",
+      "kind": "TOPIC_DISCOVERY",
+      "urls": [
+        "https://github.com/topics/mysql-orchestrator"
+      ],
+      "donor_id": "FA3-DONOR-TOPICS-MYSQL-ORCHESTRATOR-001",
+      "lifecycle_status": "CANDIDATE",
+      "source_code_copy_allowed": false,
+      "license_declared": "UNKNOWN"
+    },
+    {
+      "normalized_source_key": "github:topics/orchestrator",
+      "kind": "TOPIC_DISCOVERY",
+      "urls": [
+        "https://github.com/topics/orchestrator?l=powershell&o=desc&s=updated",
+        "https://github.com/topics/orchestrator"
+      ],
+      "donor_id": "FA3-DONOR-TOPICS-ORCHESTRATOR-001",
+      "lifecycle_status": "CANDIDATE",
+      "source_code_copy_allowed": false,
+      "license_declared": "UNKNOWN"
+    },
+    {
+      "normalized_source_key": "github:boardkit/orchestrator",
+      "kind": "REPOSITORY_REFERENCE",
+      "urls": [
+        "https://github.com/boardkit/orchestrator"
+      ],
+      "donor_id": "FA3-DONOR-BOARDKIT-ORCHESTRATOR-001",
+      "lifecycle_status": "CANDIDATE",
+      "source_code_copy_allowed": false,
+      "license_declared": "MIT"
+    }
+  ],
+  "remaining_gates": [
+    "upstream license/provenance",
+    "source reuse decision",
+    "CI/exact-head release projection",
+    "existing donor-serialization readiness"
+  ]
+}

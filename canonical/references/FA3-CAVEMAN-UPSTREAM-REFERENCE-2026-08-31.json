@@ -1,0 +1,30 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-CAVEMAN-UPSTREAM-REFERENCE-2026-08-31",
+  "provider_id": "FA3-PROVIDER-CAVEMAN-001",
+  "repository": "JuliusBrussee/caveman",
+  "observed_at": "2026-08-31",
+  "default_branch": "main",
+  "observed_default_branch_head": "df2ccd85c94ec3c8289cb62ac020d241ccfb0c60",
+  "observed_head_committed_at": "2026-08-29T21:45:56Z",
+  "observed_head_signature_verified": true,
+  "latest_release": "v2.4.0",
+  "latest_release_published_at": "2026-08-29T22:15:14Z",
+  "latest_release_tag_object": "ae10845a5e4c958db8a5b52018c9ebc7ce534874",
+  "latest_release_commit": "df2ccd85c94ec3c8289cb62ac020d241ccfb0c60",
+  "latest_release_tag_signature_verified": true,
+  "observed_release_validation": {
+    "upstream_cli_tests_total": 665,
+    "upstream_cli_tests_passed": 647,
+    "upstream_cli_tests_skipped": 18,
+    "upstream_cli_tests_failed": 0,
+    "note": "Upstream release metadata only; not FA3 current-host promotion evidence."
+  },
+  "fa3_disposition": {
+    "promotion_evidence": false,
+    "floating_main_allowed_as_promotion_evidence": false,
+    "release_tag_alone_allowed_as_runtime_identity": false,
+    "runtime_activation_requires_separate_current_host_conformance": true,
+    "reference_use": "ARCHITECTURAL_PATTERN_SOURCE_AND_OPTIONAL_CONTEXT_TRANSFORMATION_REFERENCE_ONLY"
+  }
+}

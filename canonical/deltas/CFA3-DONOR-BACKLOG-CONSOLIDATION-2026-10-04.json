@@ -1,0 +1,938 @@
+{
+  "schema": "cfa3.donor-backlog-consolidation.v1",
+  "id": "CFA3-DONOR-BACKLOG-CONSOLIDATION-2026-10-04",
+  "status": "MATERIALIZED_PENDING_EXACT_HEAD_GATES",
+  "canonical_name": "CFA3",
+  "historical_alias": "FA3",
+  "parent_main": "b5052f6595a3fdad84ed7a06e6276f8af5a8dcd8",
+  "parent_registry_blob_sha": "1362d75186c6da74e5cf947fdf0b8867d462636a",
+  "parent_entry_count": 1427,
+  "resulting_registry_blob_sha": "03bd0b56a1c176efc224cdd1bc6a091562663390",
+  "resulting_entry_count": 1548,
+  "new_source_count": 121,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "usage_edges_created": 0,
+  "source_prs": [
+    {
+      "pr": 651,
+      "head": "cd34d7f7dacd992f41dbc650d239137233e7c781",
+      "contribution": 7,
+      "mode": "EXACT_REGISTRY_DELTA"
+    },
+    {
+      "pr": 657,
+      "head": "8ba0e90e646cd9fff73d5a566950d3b64b2712e4",
+      "contribution": 5,
+      "mode": "EXACT_REGISTRY_DELTA"
+    },
+    {
+      "pr": 663,
+      "head": "a9a89db1c0e29996d1e7b68790b1a5c69fabcbe5",
+      "contribution": 6,
+      "mode": "EXACT_REGISTRY_DELTA"
+    },
+    {
+      "pr": 664,
+      "head": "0ea5b19c1028bcce009d17bf8dd72b6b7b96fd0c",
+      "contribution": 1,
+      "mode": "EXACT_REGISTRY_DELTA"
+    },
+    {
+      "pr": 671,
+      "head": "24a05f6f5e8f760ed05e80b89bccd3ceb699553b",
+      "contribution": 1,
+      "mode": "EXACT_REGISTRY_DELTA"
+    },
+    {
+      "pr": 672,
+      "head": "bdfdc61e6814fd4d32d94f890f28658118dfbe98",
+      "contribution": 1,
+      "mode": "EXACT_REGISTRY_DELTA"
+    },
+    {
+      "pr": 673,
+      "head": "716a154b076095c94c12e2eea973b8208ae01bc2",
+      "contribution": 1,
+      "mode": "EXACT_REGISTRY_DELTA"
+    },
+    {
+      "pr": 675,
+      "head": "4635a980ccf5c8291bb54d608953b6cd5faf128e",
+      "contribution": 1,
+      "mode": "QUEUE_DELTA_MATERIALIZED"
+    },
+    {
+      "pr": 676,
+      "head": "610bd2814300c1ae49ae80783e037e0b615fb674",
+      "contribution": 6,
+      "mode": "QUEUE_DELTA_MATERIALIZED"
+    },
+    {
+      "pr": 682,
+      "head": "9990e57010d6955954d909432b0999e3e6b3186b",
+      "contribution": 16,
+      "mode": "QUEUE_DELTA_MATERIALIZED"
+    },
+    {
+      "pr": 683,
+      "head": "03bdb14a91a8daaf4b8a407e8ea4c0f9ec7b3033",
+      "contribution": 11,
+      "mode": "QUEUE_DELTA_MATERIALIZED"
+    },
+    {
+      "pr": 684,
+      "head": "39763d952daca18e7e62e9ca35ea1623e5d6c492",
+      "contribution": 1,
+      "mode": "QUEUE_DELTA_MATERIALIZED"
+    },
+    {
+      "pr": 686,
+      "head": "4781f925cbef26db43cc6164f2fbabc8c8761f05",
+      "contribution": 2,
+      "mode": "EXACT_REGISTRY_DELTA"
+    },
+    {
+      "pr": 693,
+      "head": "4a76f5188c148531b4d6d9a2c6dcb55b25007c2e",
+      "contribution": 4,
+      "mode": "QUEUE_DELTA_MATERIALIZED"
+    },
+    {
+      "pr": 699,
+      "head": "73567bc6f8f8d50119a24a92366d7d6787c09e18",
+      "contribution": 22,
+      "mode": "EXACT_REGISTRY_DELTA"
+    },
+    {
+      "pr": 704,
+      "head": "aab23277cf7d38d7b55b73bf0cae12491cb49dde",
+      "contribution": 7,
+      "matched_existing_reconciled": 1,
+      "mode": "QUEUE_DELTA_MATERIALIZED_WITH_STALE_SOURCE_KEY_DEDUP"
+    },
+    {
+      "pr": 706,
+      "head": "dd62e05810f1212a8489f4aa7cb2e033a801766d",
+      "contribution": 7,
+      "matched_existing_reconciled": 4,
+      "mode": "QUEUE_DELTA_MATERIALIZED_WITH_IN_PLACE_ENRICHMENT_AND_LIVE_HEAD_REFRESH",
+      "live_head_advanced_from": "82c73af42bc4d8ce6e2f64ed6d911be95444e550"
+    },
+    {
+      "pr": 707,
+      "head": "af8cd23982e27fdda0cc315ffd9e1186459f532f",
+      "contribution": 22,
+      "matched_existing_reconciled": 2,
+      "mode": "QUEUE_DELTA_MATERIALIZED_WITH_IN_PLACE_EXISTING_RECONCILIATION"
+    }
+  ],
+  "stale_branch_policy": {
+    "direct_merge_or_rebase_of_superseded_source_prs": false,
+    "exact_head_history_preserved": true,
+    "donor_delta_only_rehydration": true,
+    "non_donor_payload_admitted": false,
+    "source_identity_network_revalidation_claimed": false,
+    "runtime_or_provider_admission_claimed": false,
+    "source_key_collision_resolution": "PUBLISHED_OR_CURRENT_BATCH_CANONICAL_IDENTITY_WINS_ENRICH_IN_PLACE",
+    "donor_local_replacement_relation_field": "donor_replacement_reference_id",
+    "global_canonical_supersedence_namespace_not_used_for_nested_donor_entries": true
+  },
+  "materialized": [
+    {
+      "donor_id": "FA3-DONOR-AAIF-GOOSE-ORG-001",
+      "normalized_key": "github:aaif-goose",
+      "locator": "https://github.com/aaif-goose",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-AAKASHG-PM-PROMPT-LIBRARY-001",
+      "normalized_key": "github:aakashg/pm-prompt-library",
+      "locator": "https://github.com/aakashg/pm-prompt-library",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-ADAPTIVECPP-ADAPTIVECPP-001",
+      "normalized_key": "github:adaptivecpp/adaptivecpp",
+      "locator": "https://github.com/AdaptiveCpp/AdaptiveCpp",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-AI-FOR-BEGINNERS-TOPIC-001",
+      "normalized_key": "github:topics/ai-for-beginners",
+      "locator": "https://github.com/topics/ai-for-beginners",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-AI-STARTER-KIT-TOPIC-001",
+      "normalized_key": "github:topics/ai-starter-kit",
+      "locator": "https://github.com/topics/ai-starter-kit",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-AI-STARTER-TOPIC-001",
+      "normalized_key": "github:topics/ai-starter",
+      "locator": "https://github.com/topics/ai-starter",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-ANCIENTKINGG-CUDA-RAYTRACER-001",
+      "normalized_key": "github:ancientkingg/cuda-raytracer",
+      "locator": "https://github.com/Ancientkingg/cuda-raytracer",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-ANCIENTKINGG-RUST-RAYTRACER-001",
+      "normalized_key": "github:ancientkingg/rust-raytracer",
+      "locator": "https://github.com/Ancientkingg/rust-raytracer",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-API-EVANGELIST-ORG-001",
+      "normalized_key": "github:api-evangelist",
+      "locator": "https://github.com/api-evangelist",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-ARCOCODES-ORG-001",
+      "normalized_key": "github:arcocodes",
+      "locator": "https://github.com/ArcoCodes",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-ARXIV-RESEARCH-INDEX-001",
+      "normalized_key": "https://arxiv.org/",
+      "locator": "https://arxiv.org/",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-ASCEND-PYTORCH-001",
+      "normalized_key": "github:ascend/pytorch",
+      "locator": "https://github.com/Ascend/pytorch",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-ASCEND-SAMPLES-001",
+      "normalized_key": "github:ascend/samples",
+      "locator": "https://github.com/Ascend/samples",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-ASCEND-TORCHAIR-001",
+      "normalized_key": "github:ascend/torchair",
+      "locator": "https://github.com/Ascend/torchair",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-ASCEND-TRITON-ASCEND-LEGACY-001",
+      "normalized_key": "github:ascend/triton-ascend",
+      "locator": "https://github.com/Ascend/triton-ascend",
+      "status": "SUPERSEDED"
+    },
+    {
+      "donor_id": "FA3-DONOR-AUTO-RIGGING-TOPIC-001",
+      "normalized_key": "github:topics/auto-rigging",
+      "locator": "https://github.com/topics/auto-rigging",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-BICKNYERS-RAYTRACER-CPP-001",
+      "normalized_key": "github:bicknyers/raytracer-cpp",
+      "locator": "https://github.com/bicknyers/raytracer-cpp",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-CANONICAL-KOBUK-GFX-INTEL-COMPUTE-RUNTIME-001",
+      "normalized_key": "github:canonical/kobuk-gfx-intel-compute-runtime",
+      "locator": "https://github.com/canonical/kobuk-gfx-intel-compute-runtime",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-CANONICAL-KOBUK-GFX-PACKAGES-001",
+      "normalized_key": "github:canonical/kobuk-gfx-packages",
+      "locator": "https://github.com/canonical/kobuk-gfx-packages",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-CARSON-KATRI-DREAM-TEXTURES-001",
+      "normalized_key": "github:carson-katri/dream-textures",
+      "locator": "https://github.com/carson-katri/dream-textures",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-CATPPUCCIN-RENOISE-001",
+      "normalized_key": "github:catppuccin/renoise",
+      "locator": "https://github.com/catppuccin/renoise",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-CHIP-SPV-CHIPSTAR-001",
+      "normalized_key": "github:chip-spv/chipstar",
+      "locator": "https://github.com/CHIP-SPV/chipStar",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-CHIP-SPV-H4I-HIPBLAS-001",
+      "normalized_key": "github:chip-spv/h4i-hipblas",
+      "locator": "https://github.com/CHIP-SPV/H4I-HipBLAS",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-CHIP-SPV-H4I-HIPFFT-001",
+      "normalized_key": "github:chip-spv/h4i-hipfft",
+      "locator": "https://github.com/CHIP-SPV/H4I-HipFFT",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-CHIP-SPV-H4I-HIPSOLVER-001",
+      "normalized_key": "github:chip-spv/h4i-hipsolver",
+      "locator": "https://github.com/CHIP-SPV/H4I-HipSOLVER",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-CHIP-SPV-H4I-MKLSHIM-001",
+      "normalized_key": "github:chip-spv/h4i-mklshim",
+      "locator": "https://github.com/CHIP-SPV/H4I-MKLShim",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-CHIP-SPV-HIP-001",
+      "normalized_key": "github:chip-spv/hip",
+      "locator": "https://github.com/CHIP-SPV/HIP",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-CHIP-SPV-HIPCC-001",
+      "normalized_key": "github:chip-spv/hipcc",
+      "locator": "https://github.com/CHIP-SPV/HIPCC",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-CHIP-SPV-HIPCUB-001",
+      "normalized_key": "github:chip-spv/hipcub",
+      "locator": "https://github.com/CHIP-SPV/hipCUB",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-CHIP-SPV-HIPMM-001",
+      "normalized_key": "github:chip-spv/hipmm",
+      "locator": "https://github.com/CHIP-SPV/hipMM",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-CHIP-SPV-HIPRAND-001",
+      "normalized_key": "github:chip-spv/hiprand",
+      "locator": "https://github.com/CHIP-SPV/hipRAND",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-CHIP-SPV-HIPSPARSE-001",
+      "normalized_key": "github:chip-spv/hipsparse",
+      "locator": "https://github.com/CHIP-SPV/hipSPARSE",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-CHIP-SPV-ROCM-DEVICE-LIBS-001",
+      "normalized_key": "github:chip-spv/rocm-device-libs",
+      "locator": "https://github.com/CHIP-SPV/ROCm-Device-Libs",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-CHIP-SPV-ROCPRIM-001",
+      "normalized_key": "github:chip-spv/rocprim",
+      "locator": "https://github.com/CHIP-SPV/rocPRIM",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-CHIP-SPV-ROCRAND-001",
+      "normalized_key": "github:chip-spv/rocrand",
+      "locator": "https://github.com/CHIP-SPV/rocRAND",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-CHIP-SPV-ROCSPARSE-001",
+      "normalized_key": "github:chip-spv/rocsparse",
+      "locator": "https://github.com/CHIP-SPV/rocSPARSE",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-CHIP-SPV-ROCTHRUST-001",
+      "normalized_key": "github:chip-spv/rocthrust",
+      "locator": "https://github.com/CHIP-SPV/rocThrust",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-CLOUDFLARE-CLEF-FLASH-001",
+      "normalized_key": "https://huggingface.co/cloudflare/clef-flash",
+      "locator": "https://huggingface.co/Cloudflare/clef-flash",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-CLOUDFLARE-OS-001",
+      "normalized_key": "github:cloudflare/cloudflare-os",
+      "locator": "https://github.com/cloudflare/cloudflare-os",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-DIGITAL-SALON-PROFILE-001",
+      "normalized_key": "github:digital-salon",
+      "locator": "https://github.com/digital-salon",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-DIGITAL-SALON-PROJECT-001",
+      "normalized_key": "https://digital-salon.github.io/",
+      "locator": "https://digital-salon.github.io/",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-ECOPASTEHUB-ORG-001",
+      "normalized_key": "github:ecopastehub",
+      "locator": "https://github.com/EcoPasteHub",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-EDUAPPS-CDG-OPENDX-001",
+      "normalized_key": "github:eduapps-cdg/opendx",
+      "locator": "https://github.com/EduApps-CDG/OpenDX",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-AI-3D-MODEL-GENERATOR-001",
+      "normalized_key": "github:topics/ai-3d-model-generator",
+      "locator": "https://github.com/topics/ai-3d-model-generator",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-AI-PROMPTS-001",
+      "normalized_key": "github:topics/ai-prompts",
+      "locator": "https://github.com/topics/ai-prompts?o=desc&s=stars",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-CHATGPT-PROMPTS-001",
+      "normalized_key": "github:topics/chatgpt-prompts",
+      "locator": "https://github.com/topics/chatgpt-prompts",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-CPU-RAYTRACING-001",
+      "normalized_key": "github:topics/cpu-raytracing",
+      "locator": "https://github.com/topics/cpu-raytracing",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-LOCAL-AI-001",
+      "normalized_key": "github:topics/local-ai",
+      "locator": "https://github.com/topics/local-ai",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-LOCAL-AI-AGENTS-001",
+      "normalized_key": "github:topics/local-ai-agents",
+      "locator": "https://github.com/topics/local-ai-agents?l=javascript",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-LOCAL-AI-APP-001",
+      "normalized_key": "github:topics/local-ai-app",
+      "locator": "https://github.com/topics/local-ai-app",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-LOCAL-AI-MODELS-001",
+      "normalized_key": "github:topics/local-ai-models",
+      "locator": "https://github.com/topics/local-ai-models",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-LOCALAI-001",
+      "normalized_key": "github:topics/localai",
+      "locator": "https://github.com/topics/localai",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-MESHY-001",
+      "normalized_key": "github:topics/meshy",
+      "locator": "https://github.com/topics/meshy?o=asc&s=updated",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-MY-LOCAL-AI-001",
+      "normalized_key": "github:topics/my-local-ai",
+      "locator": "https://github.com/topics/my-local-ai",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-OFFLINE-AI-001",
+      "normalized_key": "github:topics/offline-ai",
+      "locator": "https://github.com/topics/offline-ai",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-PROMPT-001",
+      "normalized_key": "github:topics/prompt",
+      "locator": "https://github.com/topics/prompt?l=html",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-PROMPT-LIBRARY-001",
+      "normalized_key": "github:topics/prompt-library",
+      "locator": "https://github.com/topics/prompt-library?l=shell&o=desc&s=stars",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-PROMPT-TEMPLATES-001",
+      "normalized_key": "github:topics/prompt-templates",
+      "locator": "https://github.com/topics/prompt-templates",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-PROMPTS-001",
+      "normalized_key": "github:topics/prompts",
+      "locator": "https://github.com/topics/prompts",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-PROMPTS-TEMPLATE-001",
+      "normalized_key": "github:topics/prompts-template",
+      "locator": "https://github.com/topics/prompts-template",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-RAY-TRACER-001",
+      "normalized_key": "github:topics/ray-tracer",
+      "locator": "https://github.com/topics/ray-tracer",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-RAY-TRACING-001",
+      "normalized_key": "github:topics/ray-tracing",
+      "locator": "https://github.com/topics/ray-tracing?l=javascript",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-RAY-TRACING-IN-ONE-WEEKEND-001",
+      "normalized_key": "github:topics/ray-tracing-in-one-weekend",
+      "locator": "https://github.com/topics/ray-tracing-in-one-weekend",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-RAYTRACING-001",
+      "normalized_key": "github:topics/raytracing",
+      "locator": "https://github.com/topics/raytracing",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-RAYTRACING-ENGINE-001",
+      "normalized_key": "github:topics/raytracing-engine",
+      "locator": "https://github.com/topics/raytracing-engine",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-RTX-001",
+      "normalized_key": "github:topics/rtx",
+      "locator": "https://github.com/topics/rtx",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-RUNWARE-001",
+      "normalized_key": "github:topics/runware",
+      "locator": "https://github.com/topics/runware?l=shell",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-SELF-HOSTED-AI-001",
+      "normalized_key": "github:topics/self-hosted-ai",
+      "locator": "https://github.com/topics/self-hosted-ai",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-SYSTEM-PROMPTS-001",
+      "normalized_key": "github:topics/system-prompts",
+      "locator": "https://github.com/topics/system-prompts",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-WEB-BASED-OS-001",
+      "normalized_key": "github:topics/web-based-os",
+      "locator": "https://github.com/topics/web-based-os",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-WEBOS-001",
+      "normalized_key": "github:topics/webos",
+      "locator": "https://github.com/topics/webos",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-WEBOS-APPLICATION-001",
+      "normalized_key": "github:topics/webos-application",
+      "locator": "https://github.com/topics/webos-application?o=asc&s=updated",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GPUOPEN-GPURT-001",
+      "normalized_key": "github:gpuopen-drivers/gpurt",
+      "locator": "https://github.com/GPUOpen-Drivers/gpurt",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GPUOPEN-RRA-001",
+      "normalized_key": "github:gpuopen-tools/radeon_raytracing_analyzer",
+      "locator": "https://github.com/GPUOpen-Tools/radeon_raytracing_analyzer",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-HUAWEI-CANN-DOCS-910-001",
+      "normalized_key": "web:hiascend:cann-community-edition:9.1",
+      "locator": "https://www.hiascend.com/document/detail/en/CANNCommunityEdition/910/index/index.html",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-HUBERTUSGBECKER-PROMPT-LIBRARY-001",
+      "normalized_key": "github:hubertusgbecker/prompt-library",
+      "locator": "https://github.com/hubertusgbecker/prompt-library",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-LEVEL-ZERO-RAYTRACING-SUPPORT-001",
+      "normalized_key": "github:intel/level-zero-raytracing-support",
+      "locator": "https://github.com/intel/level-zero-raytracing-support",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-OPENCL-CLANG-001",
+      "normalized_key": "github:intel/opencl-clang",
+      "locator": "https://github.com/intel/opencl-clang",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-REALTIME-PATH-TRACING-RESEARCH-FRAMEWORK-001",
+      "normalized_key": "github:intel/realtimepathtracingresearchframework",
+      "locator": "https://github.com/intel/RealTimePathTracingResearchFramework",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-VC-INTRINSICS-001",
+      "normalized_key": "github:intel/vc-intrinsics",
+      "locator": "https://github.com/intel/vc-intrinsics",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-JAMEZ-BONDOS-AWESOME-GPT4O-IMAGES-001",
+      "normalized_key": "github:jamez-bondos/awesome-gpt4o-images",
+      "locator": "https://github.com/jamez-bondos/awesome-gpt4o-images",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-JAMEZ-BONDOS-PROFILE-001",
+      "normalized_key": "github:jamez-bondos",
+      "locator": "https://github.com/jamez-bondos",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-JBSOFTWARE-GEN-AI-STARTER-001",
+      "normalized_key": "github:jbsoftware-io/gen-ai-starter",
+      "locator": "https://github.com/jbsoftware-io/gen-ai-starter",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-JHONVE-PROFILE-001",
+      "normalized_key": "github:jhonve",
+      "locator": "https://github.com/Jhonve",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-JULIUSBRUSSEE-THE-PROMPT-LIBRARY-001",
+      "normalized_key": "github:juliusbrussee/the-prompt-library",
+      "locator": "https://github.com/JuliusBrussee/the-prompt-library",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-KEYUWU-CS-PROFILE-001",
+      "normalized_key": "github:keyuwu-cs",
+      "locator": "https://github.com/KeyuWu-CS",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-KHRONOSGROUP-OPENCL-HEADERS-001",
+      "normalized_key": "github:khronosgroup/opencl-headers",
+      "locator": "https://github.com/KhronosGroup/OpenCL-Headers",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-KHRONOSGROUP-OPENCL-ICD-LOADER-001",
+      "normalized_key": "github:khronosgroup/opencl-icd-loader",
+      "locator": "https://github.com/KhronosGroup/OpenCL-ICD-Loader",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-KHRONOSGROUP-SPIRV-LLVM-TRANSLATOR-001",
+      "normalized_key": "github:khronosgroup/spirv-llvm-translator",
+      "locator": "https://github.com/KhronosGroup/SPIRV-LLVM-Translator",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-LLLYASVIEL-PROFILE-001",
+      "normalized_key": "github:lllyasviel",
+      "locator": "https://github.com/lllyasviel",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-LOCALAI-ORG-001",
+      "normalized_key": "github:localai-org",
+      "locator": "https://github.com/localai-org",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-MARK3LABS-ORG-001",
+      "normalized_key": "github:mark3labs",
+      "locator": "https://github.com/mark3labs",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-MESHY-DEV-MESHY-GUIDE-001",
+      "normalized_key": "github:meshy-dev/meshy-guide",
+      "locator": "https://github.com/meshy-dev/Meshy-guide",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-MESHY-DEV-ORG-001",
+      "normalized_key": "github:meshy-dev",
+      "locator": "https://github.com/meshy-dev",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-MICROSOFT-DIRECTML-001",
+      "normalized_key": "github:microsoft/directml",
+      "locator": "https://github.com/microsoft/directml",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-MICROSOFT-DIRECTX-LINUX-WSL-ARTICLE-001",
+      "normalized_key": "web:microsoft:directx-heart-linux",
+      "locator": "https://devblogs.microsoft.com/directx/directx-heart-linux/",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-MICROSOFT-DIRECTXTK-001",
+      "normalized_key": "github:microsoft/directxtk",
+      "locator": "https://github.com/microsoft/DirectXTK",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-MICROSOFT-DIRECTXTK12-001",
+      "normalized_key": "github:microsoft/directxtk12",
+      "locator": "https://github.com/microsoft/directxtk12",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-MUDLER-LOCALAI-001",
+      "normalized_key": "github:mudler/localai",
+      "locator": "https://github.com/mudler/localai",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-NICKCENT-RENOISE-AI-ASSISTANT-001",
+      "normalized_key": "github:nickcent/renoise-ai-assistant",
+      "locator": "https://github.com/nickcent/Renoise-AI-Assistant",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-RTX-ORG-001",
+      "normalized_key": "github:nvidia-rtx",
+      "locator": "https://github.com/NVIDIA-RTX",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-OCP-OPENNETWORKLINUX-001",
+      "normalized_key": "github:opencomputeproject/opennetworklinux",
+      "locator": "https://github.com/opencomputeproject/OpenNetworkLinux",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-OPENRA-ORG-001",
+      "normalized_key": "github:openra",
+      "locator": "https://github.com/OpenRA",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-PHRESHOS-ORG-001",
+      "normalized_key": "github:phreshos",
+      "locator": "https://github.com/PhreshOS",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-PROJECT-10-OPENRT-001",
+      "normalized_key": "github:project-10/openrt",
+      "locator": "https://github.com/Project-10/OpenRT",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-RAYTRACING-ORG-001",
+      "normalized_key": "github:raytracing",
+      "locator": "https://github.com/raytracing",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-RENDERKIT-ORG-001",
+      "normalized_key": "github:renderkit",
+      "locator": "https://github.com/RenderKit",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-RENOISE-AI-ORG-001",
+      "normalized_key": "github:renoise-ai",
+      "locator": "https://github.com/renoise-ai",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-RENOISE-ORG-001",
+      "normalized_key": "github:renoise",
+      "locator": "https://github.com/renoise",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-RUNWARE-ORG-001",
+      "normalized_key": "github:runware",
+      "locator": "https://github.com/runware",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-SEBLAGUE-RAY-TRACING-001",
+      "normalized_key": "github:seblague/ray-tracing",
+      "locator": "https://github.com/SebLague/Ray-Tracing",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-SIMONSOBS-SOOPERCOOL-001",
+      "normalized_key": "github:simonsobs/soopercool",
+      "locator": "https://github.com/simonsobs/SOOPERCOOL",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-SIXARM-AI-STARTER-GUIDE-001",
+      "normalized_key": "github:sixarm/ai-starter-guide",
+      "locator": "https://github.com/SixArm/ai-starter-guide",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-SYGIL-DEV-ORG-001",
+      "normalized_key": "github:sygil-dev",
+      "locator": "https://github.com/Sygil-Dev",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-TIGERWASH-PROFILE-001",
+      "normalized_key": "github:tigerwash",
+      "locator": "https://github.com/tigerwash",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-TRITON-LANG-TRITON-ASCEND-001",
+      "normalized_key": "github:triton-lang/triton-ascend",
+      "locator": "https://github.com/triton-lang/triton-ascend",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-UEBRIDGEMCP-001",
+      "normalized_key": "github:uuuuzz/uebridgemcp",
+      "locator": "https://github.com/uuuuzz/UEBridgeMCP",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-VLLM-ASCEND-001",
+      "normalized_key": "github:vllm-project/vllm-ascend",
+      "locator": "https://github.com/vllm-project/vllm-ascend",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-WEBOSOSE-ORG-001",
+      "normalized_key": "github:webosose",
+      "locator": "https://github.com/webosose",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-WORLDVEIL-RAY-TRACING-001",
+      "normalized_key": "github:worldveil/ray-tracing",
+      "locator": "https://github.com/worldveil/ray-tracing",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-ZHOUSHIWEI-PROFILE-001",
+      "normalized_key": "github:zhoushiwei",
+      "locator": "https://github.com/zhoushiwei",
+      "status": "ACCEPTED_REFERENCE"
+    }
+  ],
+  "invariants": [
+    "SOURCE_KEY_UNION_IS_EXACTLY_99_NEW_IDENTITIES_OVER_PARENT_MAIN_AFTER_LIVE_QUEUE_RECONCILIATION",
+    "DONOR_IDS_AND_SOURCE_KEYS_ARE_UNIQUE",
+    "CAPABILITY_BASELINE_REMAINS_175",
+    "NO_NEW_ARCHITECTURAL_AUTHORITY",
+    "NO_USAGE_EDGE_OR_RUNTIME_PROVIDER_MODEL_ADMISSION",
+    "ORIGINAL_PR_HEADS_REMAIN_HISTORICAL_PROVENANCE"
+  ],
+  "reconciled_existing_identities": [
+    {
+      "pr": 704,
+      "key": "github:microsoft/onnxruntime",
+      "reason": "STALE_DELTA_SOURCE_KEY_ALREADY_CANONICAL",
+      "donor_id": "FA3-DONOR-MICROSOFT-ONNX-RUNTIME-001",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "pr": 706,
+      "key": "github:doitsujin/dxvk",
+      "reason": "PROMOTED_AND_ENRICHED_IN_PLACE",
+      "donor_id": "FA3-DONOR-DOITSUJIN-DXVK-001",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "pr": 706,
+      "key": "github:microsoft/directx-headers",
+      "reason": "PROMOTED_AND_ENRICHED_IN_PLACE",
+      "donor_id": "FA3-DONOR-MICROSOFT-DIRECTX-HEADERS-001",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "pr": 706,
+      "key": "github:microsoft/directxshadercompiler",
+      "reason": "PROMOTED_AND_ENRICHED_IN_PLACE",
+      "donor_id": "FA3-DONOR-MICROSOFT-DIRECTXSHADERCOMPILER-001",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "pr": 706,
+      "key": "github:microsoft/directxtex",
+      "reason": "PROMOTED_AND_ENRICHED_IN_PLACE_WITH_WIKI_PROVENANCE",
+      "donor_id": "FA3-DONOR-MICROSOFT-DIRECTXTEX-001",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "pr": 707,
+      "key": "github:gpuopen-librariesandsdks",
+      "reason": "PROMOTED_OR_PRESERVED_ACCEPTED_REFERENCE_IN_PLACE",
+      "donor_id": "FA3-DONOR-AMD-GPUOPEN-LIBRARIES-SDKS-001",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "pr": 707,
+      "key": "github:intel/intel-graphics-compiler",
+      "reason": "PROMOTED_OR_PRESERVED_ACCEPTED_REFERENCE_IN_PLACE",
+      "donor_id": "FA3-DONOR-INTEL-INTEL-GRAPHICS-COMPILER-001",
+      "status": "ACCEPTED_REFERENCE"
+    }
+  ],
+  "batch_role": "CANONICAL_ROLLING_BATCH_FINALIZER",
+  "batch_finalizer_pr": 705,
+  "decision_ref": "canonical/decisions/CFA3-DEC-DONOR-INTAKE-BATCH-ACCELERATION-2026-10-04.json",
+  "source_union_proof": {
+    "mode": "EXACT_SOURCE_HEADS_PLUS_CANDIDATE_REGISTRY_BLOB_AND_IDENTITY_BINDING",
+    "materialized_identity_count": 121,
+    "reconciled_existing_identity_count": 7,
+    "source_pr_count": 18
+  }
+}

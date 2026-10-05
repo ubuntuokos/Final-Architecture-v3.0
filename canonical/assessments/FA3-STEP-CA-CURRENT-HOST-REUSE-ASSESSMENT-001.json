@@ -1,0 +1,140 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-STEP-CA-CURRENT-HOST-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-PROVIDER-STEP-CA-001",
+  "intent_id": "FA3-STEP-CA-CURRENT-HOST-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-STEP-CA-CURRENT-HOST-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-PROVIDER-STEP-CA-001",
+    "FA3-TRUST-PKI-001",
+    "FA3-STEP-CA-CURRENT-HOST-001"
+  ],
+  "project_status": "STATIC_RECONCILED_FRESH_EXACT_HEAD_PHYSICAL_CURRENT_HOST_REQUALIFICATION_PENDING",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-TRUST-PKI-001",
+      "use": "EXISTING_CANONICAL_TRUST_AND_PKI_POLICY_BOUNDARY"
+    },
+    {
+      "id": "FA3-PROVIDER-STEP-CA-001",
+      "use": "EXISTING_REPLACEABLE_INTERNAL_CA_PROVIDER"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "EXCLUSIVE_HOST_RESOURCE_ADMISSION_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-SECURITY-GOV-001",
+      "use": "EXCLUSIVE_SECURITY_POLICY_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "EXCLUSIVE_EVIDENCE_AUTHORITY"
+    },
+    {
+      "id": "FA3-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001",
+      "use": "CURRENT_HOST_RUNTIME_HARDENING_BOUNDARY"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "STEP_CA_AS_IDENTITY_OR_AUTHORIZATION_AUTHORITY",
+      "reason": "EXISTING_FA3_IDENTITY_AND_AUTHORIZATION_AUTHORITIES_REMAIN_EXCLUSIVE"
+    },
+    {
+      "id": "HISTORICAL_2026_09_20_EVIDENCE_AS_ACTIVE_PROMOTION_PROOF",
+      "reason": "EXACT_HEAD_RUNTIME_SURFACE_CHANGED_AND_HISTORICAL_EVIDENCE_CANNOT_BE_INHERITED"
+    },
+    {
+      "id": "HOSTED_CI_AS_PHYSICAL_CURRENT_HOST_PROOF",
+      "reason": "PHYSICAL_CURRENT_HOST_EVIDENCE_REQUIRES_THE_SELF_HOSTED_CURRENT_HOST_RUNNER"
+    }
+  ],
+  "pattern_reuse": [
+    "FA3-PATTERN-PROVIDER-NEUTRAL-ADAPTER-001",
+    "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001"
+  ],
+  "existing_authority_bindings": {
+    "trust_policy": "FA3-TRUST-PKI-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "identity": "EXISTING_FA3_IDENTITY_AUTHORITY_ONLY",
+    "authorization": "EXISTING_FA3_AUTHORIZATION_AUTHORITY_ONLY",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001"
+  },
+  "gaps": [
+    "FRESH_EXACT_HEAD_PHYSICAL_CURRENT_HOST_REQUALIFICATION"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "unsafe_hardware_parameter_mutation": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_hijack": false
+  },
+  "implementation_readiness": "PENDING_GAPS",
+  "gap_resolution": [
+    {
+      "gap": "FRESH_EXACT_HEAD_PHYSICAL_CURRENT_HOST_REQUALIFICATION",
+      "status": "PENDING_PHYSICAL_EXACT_HEAD_EXECUTION",
+      "required_scope": "ACTIVE_175_CAPABILITIES_525_POSITIVE_NEGATIVE_ROLLBACK_OBLIGATIONS_EXACT_HEAD"
+    }
+  ],
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "available_candidate_ids": [],
+      "matched_candidate_ids": [],
+      "roles": [
+        "DESIGN_PATTERN_INSTRUCTION_SOURCE"
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_activation": false,
+      "disposition": "NO_STEP_CA_RUNTIME_OR_PROTOCOL_DEPENDENCY"
+    }
+  ],
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 175,
+  "donor_planning_snapshot": {
+    "published_main_commit": "df24cb9d1fa2413b08c8d47461bdb2db799585f6",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "1362d75186c6da74e5cf947fdf0b8867d462636a",
+    "donor_registry_sha256": "b8d0eb42ee02885863af375071ffae89033664089ddba3c69682a8d0f7c7cff1",
+    "donor_registry_entry_count": 1427
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "retrospective_consumer_impact_reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "shared_component_ids": [
+      "FA3-TRUST-PKI-001",
+      "FA3-PROVIDER-STEP-CA-001",
+      "FA3-STEP-CA-CURRENT-HOST-001",
+      "FA3-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001"
+    ],
+    "consumer_scope": [
+      "PLANNED_APPLICATIONS",
+      "IN_PROGRESS_APPLICATIONS",
+      "MATERIALIZED_APPLICATIONS"
+    ],
+    "local_duplicate_created": false
+  },
+  "donor_adoption": [],
+  "pending_or_unmerged_donors_consumed": false
+}

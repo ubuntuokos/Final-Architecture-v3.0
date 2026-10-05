@@ -1,0 +1,66 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-METRIC-3D-PROVIDER-FABRIC-2026-09-19",
+  "date": "2026-09-19",
+  "status": "CANONICAL_CLOSED",
+  "subject": "CAP-032 provider-neutral Metric 3D Reconstruction runtime and replaceable provider fabric",
+  "decision": "REMOVE_PYTORCH3D_AS_CAP032_GLOBAL_RUNTIME_HARD_DEPENDENCY_AND_ADOPT_PROVIDER_NEUTRAL_CORE_PROOF_WITH_REPLACEABLE_OPEN3D_KAOLIN_PYTORCH3D_AND_LICENSE_BOUNDED_NVDIFFRAST_PROVIDER_ROLES",
+  "capability_id": "CAP-032",
+  "parent_profile_id": "FA3-3D-GEOM-001",
+  "specialized_profile_id": "FA3-DIFFERENTIABLE-3D-001",
+  "core_primitive": "metric_3d_reconstruction",
+  "core_current_host_proof": {
+    "executor": "Bforartists/Blender geometry kernel",
+    "operation": "point_set_to_convex_hull_mesh",
+    "metric_assertions": [
+      "unit_cube_volume_equals_1",
+      "axis_extents_equal_1",
+      "nonempty_mesh_topology"
+    ],
+    "differentiable_or_neural_claim": false,
+    "provider_hard_dependency": false
+  },
+  "provider_roles": {
+    "FA3-PROVIDER-OPEN3D-001": "PREFERRED_GENERAL_METRIC_RECONSTRUCTION_REGISTRATION_AND_GEOMETRY_PROVIDER",
+    "FA3-PROVIDER-KAOLIN-001": "PREFERRED_DIFFERENTIABLE_NEURAL_3D_PROVIDER",
+    "FA3-PROVIDER-PYTORCH3D-001": "SUPPORTED_COMPATIBILITY_REFERENCE_AND_CONDITIONAL_PROVIDER",
+    "FA3-PROVIDER-NVDIFFRAST-001": "RESEARCH_ONLY_LOW_LEVEL_RASTER_BACKEND_NOT_PRODUCTION_BASELINE"
+  },
+  "rationale": [
+    "CAP-032 is a capability contract and must not be coupled to the availability of one upstream Python/CUDA package",
+    "the post external-RT3D-engine-removal FULL-429 current-host run proved that PyTorch3D availability was the sole global preflight blocker while the rest of the host prerequisites passed",
+    "Open3D v0.20 provides actively maintained reconstruction registration geometry processing and official modern Python/CUDA distribution",
+    "Kaolin v0.18 provides actively maintained differentiable and neural 3D primitives with modern PyTorch/CUDA support and an Apache-2.0 default package surface",
+    "PyTorch3D remains useful and maintained enough to retain as a supported compatibility/reference provider, but its runtime packaging must not gate all CAP-032 execution",
+    "nvdiffrast is technically valuable but its current NVIDIA Source Code License restricts non-NVIDIA use to non-commercial research or evaluation, so it cannot be an unrestricted FA3 production baseline"
+  ],
+  "accepted_constraints": [
+    "CAP032_CORE_PROOF_PROVIDER_NEUTRAL",
+    "NO_SINGLE_EXTERNAL_3D_LIBRARY_IS_GLOBAL_FULL_429_PREFLIGHT_REQUIREMENT",
+    "ADVANCED_DIFFERENTIABLE_OR_NEURAL_JOBS_REQUIRE_EXPLICIT_PROVIDER_ADMISSION",
+    "NO_SILENT_PROVIDER_GPU_CPU_OR_CLOUD_FALLBACK",
+    "HRB_REMAINS_ACCELERATOR_ADMISSION_PLACEMENT_RESERVATION_AND_LEASE_AUTHORITY",
+    "FA3_3D_GEOM_001_REMAINS_SOLE_GEOMETRY_SEMANTIC_AUTHORITY",
+    "BFOREARTISTS_BLENDER_DCC_LAYER_REMAINS_SCENE_AND_FINAL_ASSET_AUTHORITY",
+    "PROVIDER_SPECIFIC_LICENSE_SUPPLY_CHAIN_RUNTIME_AND_QUALITY_EVIDENCE_REQUIRED",
+    "NVDIFFRAST_COMMERCIAL_PRODUCTION_USE_DENIED_UNLESS_SEPARATE_LICENSE_IS_ADMITTED",
+    "PYTORCH3D_REFERENCE_GATE_REMAINS_FAIL_CLOSED_FOR_PYTORCH3D_SPECIFIC_USE",
+    "PYTORCH3D_RUNTIME_PROMOTION_NOT_REQUIRED_FOR_CORE_CAP032_CURRENT_HOST_CLOSURE"
+  ],
+  "rejected": [
+    "PYTORCH3D_AS_CAP032_GLOBAL_HARD_DEPENDENCY",
+    "KAOLIN_AS_NEW_SINGLE_HARD_DEPENDENCY",
+    "OPEN3D_AS_NEW_GEOMETRY_AUTHORITY",
+    "NVDIFFRAST_AS_UNRESTRICTED_PRODUCTION_BASELINE",
+    "NERFSTUDIO_OR_THREESTUDIO_AS_CORE_CAP032_RUNTIME",
+    "SILENT_PROVIDER_SUBSTITUTION",
+    "DOCUMENT_ONLY_PROVIDER_RUNTIME_PROMOTION"
+  ],
+  "baseline_effect": {
+    "capability_count_before": 143,
+    "capability_count_after": 143,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "semantic_change": "PROVIDER_BINDING_CORRECTION_NO_CAPABILITY_RENUMBERING"
+  }
+}

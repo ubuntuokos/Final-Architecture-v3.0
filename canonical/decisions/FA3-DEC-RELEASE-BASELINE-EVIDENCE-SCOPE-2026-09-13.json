@@ -1,0 +1,31 @@
+{
+  "schema": "fa3.decision.v1",
+  "id": "FA3-DEC-RELEASE-BASELINE-EVIDENCE-SCOPE-2026-09-13",
+  "date": "2026-09-13",
+  "status": "CANONICAL_CLOSED",
+  "decision_type": "CRITERIA_REVISION",
+  "title": "Release-scoped capability baseline and host-scoped evidence evaluation",
+  "decision": {
+    "release_capability_baseline": "FA3-RELEASE-CAPABILITY-BASELINE-001",
+    "evidence_scope_policy": "FA3-EVIDENCE-SCOPE-001",
+    "v3_0_11_capability_count": 143,
+    "capability_count_semantics": "RELEASE_SCOPED",
+    "authority_delta": 0,
+    "capability_delta": 0,
+    "optional_disabled_components_may_use_negative_host_assurance": true,
+    "enabled_active_or_promotion_target_components_require_positive_current_host_evidence": true,
+    "production_promotion_remains_fail_closed": true
+  },
+  "rationale": [
+    "The 143 capability count describes the active v3.0.11 release baseline and is not a timeless architectural constant.",
+    "Canonical support, host availability, host enablement, host activity and production promotion are distinct observations.",
+    "Disabled optional components should prove non-activation rather than fabricate positive runtime evidence.",
+    "Mandatory, enabled, active or production-targeted components remain subject to positive current-host evidence and existing Acceptance/Promotion authorities."
+  ],
+  "non_goals": [
+    "Do not add or remove a capability from v3.0.11.",
+    "Do not create a new runtime promotion authority.",
+    "Do not mutate current-host receipts or Evidence Registry records.",
+    "Do not treat negative assurance as positive runtime evidence."
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-KNOWLEDGE-HYBRID-RETRIEVAL-001",
+  "gateset_id": "FA3-KNOWLEDGE-HYBRID-RETRIEVAL-GATESET-001",
+  "profile_id": "FA3-KNOWLEDGE-001",
+  "subprofile_id": "FA3-HIERARCHICAL-HYBRID-RETRIEVAL-001",
+  "priority": "P0",
+  "fail_closed": true,
+  "executable": "PYTHONPATH=src python src/fa3_knowledge_hybrid_retrieval_gate.py --root .",
+  "current_host_runtime_required_for_static_pass": false,
+  "current_host_runtime_required_for_provider_promotion": true,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143
+}

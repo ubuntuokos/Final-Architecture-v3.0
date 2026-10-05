@@ -1,0 +1,18 @@
+{
+  "schema": "fa3.executable-gate-record.v1",
+  "id": "FA3-GATE-REPRODUCIBILITY-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "enforcement_id": "FA3-REPRODUCIBILITY-GATESET-001",
+  "entrypoint": "src/fa3_reproducibility_gate.py",
+  "tests": [
+    "tests/test_reproducibility_gate.py",
+    "tests/test_reproducibility_bootstrap.py"
+  ],
+  "fail_closed": true,
+  "mandatory_checks": 20,
+  "capability_count": 175,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "current_host_runtime_promotion_claim": false
+}

@@ -1,0 +1,72 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-001",
+  "name": "Credential-Aware Provider Execution, Session Affinity & Recovery Projection",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST-IF-MULTI-CREDENTIAL-OR-STATEFUL-PROVIDER-USED",
+  "parent_authority": "FA3-AUTH-MODEL-ROUTER-001",
+  "relationship": "CHILD-PROJECTION-OF",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "responsibilities": [
+    "credential eligibility over SecretReference metadata",
+    "credential health and quota state",
+    "session affinity",
+    "bounded credential lease",
+    "intra-provider failover",
+    "circuit breaker state",
+    "route execution provenance"
+  ],
+  "non_responsibilities": [
+    "secret custody",
+    "provider admission",
+    "model admission",
+    "authorization",
+    "host resource placement",
+    "cross-provider routing authority",
+    "workflow orchestration"
+  ],
+  "authority_bindings": {
+    "routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "gateway": "FA3-LLM-GATEWAY-001",
+    "secrets": "FA3-SECRET-BROKER-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "decision_advisory": "FA3-DECISION-FABRIC-001",
+    "agent_native": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "credential_states": [
+    "UNKNOWN",
+    "HEALTHY",
+    "DEGRADED",
+    "QUOTA_LOW",
+    "COOLDOWN",
+    "RATE_LIMITED",
+    "AUTH_INVALID",
+    "QUOTA_EXHAUSTED",
+    "CIRCUIT_OPEN",
+    "DISABLED"
+  ],
+  "invariants": [
+    "CREDENTIAL_VALUE_NEVER_CANONICAL",
+    "CREDENTIAL_VALUE_NEVER_DECISION_INPUT",
+    "CREDENTIAL_SELECTION_REQUIRES_ADMITTED_PROVIDER",
+    "CREDENTIAL_SELECTION_REQUIRES_VALID_SECRET_REFERENCE",
+    "SESSION_AFFINITY_REBIND_REASON_REQUIRED",
+    "INTRA_PROVIDER_FAILOVER_RECEIPT_REQUIRED",
+    "CROSS_PROVIDER_TRANSITION_MODEL_ROUTER_ONLY",
+    "NO_SILENT_LOCAL_TO_CLOUD_FALLBACK",
+    "CURRENT_HOST_PASS_DOES_NOT_IMPLY_GLOBAL_PROMOTION",
+    "PER_PROVIDER_PHYSICAL_ADMISSION_DOES_NOT_REOPEN_CORE"
+  ],
+  "contract_id": "FA3-MODEL-ROUTER-EXECUTION-CONTRACTS-001",
+  "gate_id": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-GATESET-001",
+  "fail_closed": true,
+  "core_closure_record": "canonical/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CORE-CLOSURE-001.json",
+  "core_closure_status": "CLOSED_STATIC_DETERMINISTIC_REGRESSION_PASS",
+  "provider_physical_admission_reopens_core": false
+}

@@ -1,0 +1,67 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-MODERNIZATION-INTEGRATION-APPLICATION-INTENT-001",
+  "project_id": "FA3-MODERNIZATION-INTEGRATION-001",
+  "project_type": "MATERIAL_EXTENSION",
+  "goal": "Materialize provider-neutral contracts and fail-closed gates for inference portability candidates, runtime enforcement, generalized usage rights, derived knowledge acceleration and FinOps without adding capabilities or architectural authorities.",
+  "required_capabilities": [],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "inference-portability",
+    "provider-runtime-serving",
+    "runtime-enforcement",
+    "usage-rights-governance",
+    "knowledge-acceleration",
+    "finops-projection",
+    "quality-regression",
+    "software-coexistence"
+  ],
+  "input_modalities": [
+    "CANONICAL_METADATA",
+    "REFERENCE_METADATA",
+    "RUNTIME_RECEIPTS_WHEN_LATER_ADMITTED"
+  ],
+  "output_modalities": [
+    "MACHINE_READABLE_CONTRACTS",
+    "REFERENCE_MATRIX",
+    "EXECUTABLE_GATE_REPORT"
+  ],
+  "execution_classes": [
+    "CPU_LIGHTWEIGHT"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "MODERNIZATION_CROSS_CUTTING_CONTRACT",
+    "REFERENCE_ONLY_PROVIDER_CANDIDATE_MATRIX",
+    "EXECUTABLE_AUTHORITY_AND_EVIDENCE_BOUNDARY_GATE"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "provider_specific_accelerator_requirements_may_narrow_selected_provider_scope_only": true
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3",
+    "service_prefix": "fa3",
+    "config_root": "$XDG_CONFIG_HOME/fa3",
+    "cache_root": "$XDG_CACHE_HOME/fa3",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3",
+    "socket_namespace": "fa3",
+    "data_root": "$XDG_DATA_HOME/fa3",
+    "desktop_prefix": "org.fa3",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "task_classes": [
+    "architecture",
+    "developer",
+    "security",
+    "knowledge"
+  ],
+  "skill_triggers": []
+}

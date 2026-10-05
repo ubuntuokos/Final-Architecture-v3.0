@@ -1,0 +1,32 @@
+{
+  "schema": "fa3.krita-ai-image-editing-gate.v1",
+  "id": "FA3-GATE-KRITA-AI-IMAGE-EDITING-001",
+  "status": "CANONICAL_CLOSED",
+  "priority": "P0",
+  "blocking": true,
+  "decision_id": "FA3-DEC-KRITA-AI-IMAGE-EDITING-2026-09-11",
+  "contract_id": "FA3-AI-IMAGE-EDITING-CONTRACTS-001",
+  "provider_ids": ["FA3-PROVIDER-KRITA-001", "FA3-PROVIDER-KRITA-AI-DIFFUSION-001", "FA3-PROVIDER-KRITA-VISION-TOOLS-001", "FA3-PROVIDER-KRITA-MCP-001"],
+  "enforcement_id": "FA3-KRITA-AI-IMAGE-EDITING-GATESET-001",
+  "upstream_reference_id": "FA3-KRITA-AI-IMAGE-EDITING-UPSTREAM-REFERENCE-2026-09-11",
+  "description": "Fail-closed regression gate for Krita as a peer frontend of the existing FA3 AI image-editing profile with replaceable generative, local-vision and MCP adapters under existing FA3 authorities.",
+  "checks": [
+    {"id":"KIE-01","name":"Shared profile is reused","expected":"FA3-AI-IMAGE-EDITING-001 remains a subprofile of FA3-IMGGEN-001 and includes both GIMP and Krita","failure":"BLOCK_PROMOTION"},
+    {"id":"KIE-02","name":"Baseline geometry is unchanged","expected":"new_capabilities=0, new_architectural_authorities=0, capability_count=143","failure":"BLOCK_PROMOTION"},
+    {"id":"KIE-03","name":"Krita base provider stays non-authoritative","expected":"FA3-PROVIDER-KRITA-001 remains optional and architectural_authority=false","failure":"BLOCK_PROMOTION"},
+    {"id":"KIE-04","name":"Krita AI Diffusion provider is bounded","expected":"Krita AI Diffusion is optional, replaceable and cannot acquire workflow/model/resource/policy/provenance authority","failure":"BLOCK_PROMOTION"},
+    {"id":"KIE-05","name":"Vision model admission is mandatory","expected":"Krita Vision Tools may execute only admitted model assets in FA3-governed mode","failure":"BLOCK_PROMOTION"},
+    {"id":"KIE-06","name":"MCP stays beneath central gateway","expected":"Krita MCP control requires FA3-AUTH-MCP-GATEWAY-001 in FA3-governed mode","failure":"BLOCK_PROMOTION"},
+    {"id":"KIE-07","name":"MCP transport is bounded","expected":"Krita MCP bridge is authenticated loopback-only with typed operations and GUI-main-thread mutation dispatch","failure":"BLOCK_PROMOTION"},
+    {"id":"KIE-08","name":"Hardware is dynamic","expected":"No canonical GPU SKU, device index, device count or fixed VRAM binding","failure":"BLOCK_PROMOTION"},
+    {"id":"KIE-09","name":"Backend is replaceable","expected":"Provider replacement does not change canonical edit intent","failure":"BLOCK_PROMOTION"},
+    {"id":"KIE-10","name":"Supply-chain admission applies","expected":"Plugin, dependencies, workflows, custom nodes and model artifacts remain admission/inventory/hash governed","failure":"BLOCK_PROMOTION"},
+    {"id":"KIE-11","name":"License boundary is preserved","expected":"GPL code is not copied into permissive FA3 components without an explicit license-policy change","failure":"BLOCK_PROMOTION"},
+    {"id":"KIE-12","name":"Document mutation is fail-safe","expected":"Default result placement is nondestructive and provider failures do not mutate source documents","failure":"BLOCK_PROMOTION"},
+    {"id":"KIE-13","name":"Upstream references are immutable","expected":"All evaluated upstream sources carry 40-character revisions, observation date and license","failure":"BLOCK_PROMOTION"},
+    {"id":"KIE-14","name":"Runtime evidence is not overclaimed","expected":"Current-host production remains NOT_CLAIMED until fresh executable evidence exists","failure":"BLOCK_PROMOTION"},
+    {"id":"KIE-15","name":"Executable gate passes","expected":"tests/test_krita_ai_image_editing_gate.py passes all assertions","failure":"BLOCK_PROMOTION"}
+  ],
+  "pass_condition": "All KIE-01 through KIE-15 checks pass and no P0 invariant in canonical/krita-ai-image-editing-enforcement.json is violated.",
+  "promotion_rule": "Static/reference CI PASS proves canonical conformance only; current-host Krita/ComfyUI/MCP runtime promotion requires separate fresh production evidence."
+}

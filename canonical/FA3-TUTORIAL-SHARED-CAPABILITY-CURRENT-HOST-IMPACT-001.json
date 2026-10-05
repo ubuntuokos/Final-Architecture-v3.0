@@ -1,0 +1,49 @@
+{
+  "schema": "fa3.tutorial-shared-capability-current-host-impact.v1",
+  "id": "FA3-TUTORIAL-SHARED-CAPABILITY-CURRENT-HOST-IMPACT-001",
+  "date": "2026-09-30",
+  "status": "STATIC_MATERIALIZED",
+  "authority": false,
+  "capability_count": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "runtime_delta": "NONE",
+  "current_host_runtime_promotion_claim": false,
+  "physical_current_host_pass_claim": false,
+  "structural_runtime_change_requires_requalification": true,
+  "future_structural_change_requirements": [
+    "CURRENT_HOST_CONTRACT_ALIGNMENT",
+    "CURRENT_HOST_PROBE_ALIGNMENT",
+    "INSTALL_RUNTIME_EXPECTATION_ALIGNMENT",
+    "PHYSICAL_NON_SIMULATED_EXECUTION_EVIDENCE",
+    "ROLLBACK_AND_COEXISTENCE_REVALIDATION"
+  ],
+  "this_materialization": {
+    "new_runtime_service": false,
+    "new_daemon": false,
+    "new_port": false,
+    "new_socket": false,
+    "new_package_dependency": false,
+    "new_hardware_requirement": false,
+    "hardware_mutation": false,
+    "provider_activation": false,
+    "model_selection": false,
+    "host_requalification_required_now": false,
+    "reason": "TUT-01..TUT-08 materialize a non-executing planner, schema, static impact projection and CI checks only"
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hrb_resource_authority_preserved": true,
+    "hardware_safety_envelope_preserved": true
+  },
+  "software_coexistence": {
+    "host_mutation": false,
+    "global_environment_mutation": false,
+    "fixed_port_claim": false,
+    "upstream_uninstall_required": false,
+    "namespace_collision_introduced": false
+  }
+}

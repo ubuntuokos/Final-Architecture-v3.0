@@ -1,0 +1,57 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-DISTRIBUTION-COMPLIANCE-CONTRACTS-001",
+  "status": "CANONICAL",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "DistributionArtifactDescriptor",
+    "LicenseCompatibilityAttestation",
+    "DistributionClassification",
+    "ReleaseBundleDecision",
+    "ThirdPartyNoticeEntry",
+    "DistributionManifest",
+    "DistributionDecisionReceipt"
+  ],
+  "distribution_classes": [
+    "FA3_NATIVE",
+    "EXTERNAL_REDISTRIBUTABLE",
+    "USER_LOCAL_EXTERNAL",
+    "REFERENCE_ONLY",
+    "BLOCKED"
+  ],
+  "required_external_license_fields": [
+    "spdx_expression",
+    "source",
+    "evidence_digest",
+    "commercial_use",
+    "redistribution",
+    "modification",
+    "source_distribution_required",
+    "attribution_required",
+    "notice_required",
+    "patent_terms",
+    "copyleft_scope"
+  ],
+  "release_rules": {
+    "FA3_NATIVE": "ALLOW",
+    "EXTERNAL_REDISTRIBUTABLE": "CONDITIONAL_ALLOW_WITH_RECEIPT",
+    "USER_LOCAL_EXTERNAL": "DENY",
+    "REFERENCE_ONLY": "DENY",
+    "BLOCKED": "DENY"
+  },
+  "fail_closed": {
+    "unknown_required_license_fact": "DENY_EXTERNAL_REDISTRIBUTABLE",
+    "missing_provenance": "DENY",
+    "missing_hash_attestation": "DENY",
+    "missing_distribution_decision_receipt_for_external_bundle": "DENY"
+  },
+  "generated_compliance_outputs": [
+    "DistributionManifest",
+    "ThirdPartyNoticeEntry",
+    "SBOM_BINDING",
+    "PROVENANCE_BINDING"
+  ]
+}

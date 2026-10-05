@@ -1,0 +1,138 @@
+{
+  "schema": "fa3.tutorial-shared-capability-policy.v1",
+  "id": "FA3-TUTORIAL-SHARED-CAPABILITY-POLICY-001",
+  "date": "2026-09-30",
+  "status": "MATERIALIZED_STATIC_PENDING_FINALIZATION",
+  "authority": false,
+  "implementation_state": "TUT_01_TO_TUT_08_STATIC_MATERIALIZED",
+  "title": "Tutorial-derived knowledge, shared capability placement and retroactive application impact",
+  "owner_directives": [
+    "INTERNET_TUTORIALS_MAY_BE_USED_AS_DONOR_REFERENCE_MATERIAL",
+    "EXISTING_FA3_FUNCTION_REUSES_FUNCTION_AND_ADAPTS_TUTORIAL_TO_FA3_UI_AND_WORKFLOW",
+    "MISSING_FUNCTION_REQUIRES_NECESSITY_ASSESSMENT_BEFORE_IMPLEMENTATION",
+    "APPROVED_MISSING_FUNCTION_MAY_USE_ADMITTED_DONORS_AND_MUST_BE_DOCUMENTED_IN_THE_TARGET_APPLICATION_MANUAL",
+    "MULTI_APPLICATION_FUNCTION_MUST_LIVE_IN_A_SHARED_FA3_LAYER_AND_BE_CONSUMED_BY_AFFECTED_APPLICATIONS",
+    "SHARED_FUNCTION_IMPACT_MUST_INCLUDE_PLANNED_IN_PROGRESS_AND_MATERIALIZED_APPLICATIONS"
+  ],
+  "registry_policy": {
+    "registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "new_parallel_registry_forbidden": true,
+    "tutorial_reference_class": "TUTORIAL_REFERENCE_AFTER_NORMAL_DONOR_INTAKE",
+    "unmarked_remote_link_rule_unchanged": "ANALYSIS_ONLY_UNTIL_OWNER_AUTHORIZES_DONOR_INTAKE",
+    "owner_marked_donornak_link_rule_unchanged": true,
+    "registry_entry_does_not_authorize_copying": true,
+    "registry_entry_does_not_authorize_installation": true,
+    "registry_entry_does_not_authorize_runtime": true,
+    "owner_authorized_tutorial_ingest": "PROCESS_ONLY_AFTER_PUBLISHED_DONOR_REGISTRATION",
+    "tutorial_ingest_scope": [
+      "PUBLISHED_FA3_DONOR_REFERENCE_REGISTRY_ENTRY_ONLY"
+    ],
+    "provenance_url_is_not_standalone_intake_authority": true,
+    "standalone_unmarked_remote_link_rule": "ANALYSIS_ONLY",
+    "tutorial_intake_bypass": false,
+    "tutorial_registry_entry_requires_normal_owner_marked_intake": true
+  },
+  "processing_pipeline": [
+    "PROVENANCE_AND_LICENSE_CLASSIFICATION",
+    "TUTORIAL_FEATURE_EXTRACTION",
+    "EXISTING_CAPABILITY_AND_APPLICATION_MATCH",
+    "SHARED_REUSE_SCOPE_ANALYSIS",
+    "RETROACTIVE_APPLICATION_IMPACT_ANALYSIS",
+    "NECESSITY_ASSESSMENT_FOR_MISSING_FUNCTION",
+    "DONOR_REUSE_DISCOVERY_WHEN_IMPLEMENTATION_IS_JUSTIFIED",
+    "EXPLICIT_APPROVED_PLAN_BEFORE_IMPLEMENTATION",
+    "IMPLEMENTATION_AND_APPLICATION_ADAPTERS",
+    "APPLICATION_MANUAL_ADAPTATION",
+    "STATIC_AND_RUNTIME_GATES_AS_APPLICABLE"
+  ],
+  "placement_policy": {
+    "single_application_existing_function": "KEEP_EXISTING_IMPLEMENTATION_AND_ADAPT_MANUAL_TO_ACTUAL_FA3_UI",
+    "multiple_application_existing_or_new_function": "ONE_SHARED_IMPLEMENTATION_WITH_APPLICATION_SPECIFIC_ADAPTERS_ONLY",
+    "duplicate_functional_cores_forbidden": true,
+    "application_local_allowed": [
+      "UI_INTEGRATION",
+      "WORKFLOW_ADAPTER",
+      "APPLICATION_CONTEXT",
+      "PRESENTATION_AND_DISCLOSURE"
+    ],
+    "shared_core_requires": [
+      "STABLE_CONTRACT",
+      "VERSIONING",
+      "PERMISSION_BOUNDARY",
+      "CAPABILITY_IDENTITY",
+      "TESTABILITY",
+      "DOCUMENTATION",
+      "PROVENANCE"
+    ]
+  },
+  "retroactive_scope": [
+    "PLANNED_APPLICATIONS",
+    "IN_PROGRESS_APPLICATIONS",
+    "MATERIALIZED_APPLICATIONS"
+  ],
+  "documentation_policy": {
+    "shared_technical_documentation_once": true,
+    "application_specific_manual_projection_required": true,
+    "manual_must_match_actual_ui": true,
+    "upstream_ui_copy_as_fa3_instruction_forbidden": true,
+    "document_as_available_only_after_implementation_and_verification": true
+  },
+  "capability_policy": {
+    "canonical_capability_baseline": 175,
+    "silent_capability_count_increase_forbidden": true,
+    "existing_capability_or_subcapability_preferred": true,
+    "genuinely_new_top_level_capability": "BLOCK_PENDING_EXPLICIT_CAPABILITY_MODEL_RECONCILIATION"
+  },
+  "mandatory_existing_boundaries": [
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "FA3-APPLICATION-DONOR-LINKS-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "SOFTWARE_COEXISTENCE_AND_HOST_NON_INTERFERENCE",
+    "HARDWARE_SAFETY_ENVELOPE",
+    "LICENSE_AND_PROVENANCE_REVIEW",
+    "SCOPE_AND_AUTHORITY_BOUNDARIES"
+  ],
+  "current_host_policy": {
+    "structural_runtime_change_requires_current_host_alignment": true,
+    "static_documentation_only_change_claims_runtime_promotion": false,
+    "physical_current_host_pass_may_not_be_simulated": true
+  },
+  "approval_policy": {
+    "data_collection": "OWNER_APPROVAL_GATED",
+    "planning": "OWNER_APPROVAL_GATED",
+    "verification": "OWNER_APPROVAL_GATED",
+    "redesign": "OWNER_APPROVAL_GATED",
+    "implementation": "REQUIRES_EXPLICIT_APPROVED_PLAN",
+    "finalization": "OWNER_EXACT_HEAD_APPROVAL_REQUIRED"
+  },
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 175,
+  "runtime_promotion_claim": false,
+  "current_host_runtime_promotion_claim": false,
+  "materialization_approval": "OWNER_APPROVED_2026-09-30",
+  "materialization": {
+    "runtime_service_created": false,
+    "runtime_promotion_claimed": false,
+    "current_host_runtime_delta": "NONE",
+    "schema_path": "canonical/schemas/FA3-TUTORIAL-REFERENCE-SCHEMA-001.json",
+    "planner_path": "src/fa3_tutorial_reuse_planner.py",
+    "cli_path": "bin/fa3-tutorial-reuse-plan",
+    "application_inventory_path": "src/fa3_application_donor_index.py",
+    "current_host_impact_path": "canonical/FA3-TUTORIAL-SHARED-CAPABILITY-CURRENT-HOST-IMPACT-001.json",
+    "test_path": "tests/test_tutorial_reuse_planner.py",
+    "workflow_path": ".github/workflows/fa3-application-donor-inventory.yml",
+    "work_packages": {
+      "TUT-01": "SCHEMA_AND_RIGHTS_CLASSIFICATION_MATERIALIZED",
+      "TUT-02": "TFU_VALIDATION_AND_NON_EXECUTING_EXTRACTION_INPUT_MATERIALIZED",
+      "TUT-03": "CAPABILITY_APPLICATION_MATCHER_MATERIALIZED",
+      "TUT-04": "SHARED_PLACEMENT_PLANNER_MATERIALIZED",
+      "TUT-05": "RETROACTIVE_IMPACT_ANALYZER_MATERIALIZED",
+      "TUT-06": "APPLICATION_MANUAL_TASK_PROJECTION_MATERIALIZED",
+      "TUT-07": "FAIL_CLOSED_CI_AND_REGRESSIONS_MATERIALIZED",
+      "TUT-08": "CURRENT_HOST_STRUCTURAL_IMPACT_HOOK_MATERIALIZED_RUNTIME_DELTA_NONE"
+    }
+  }
+}

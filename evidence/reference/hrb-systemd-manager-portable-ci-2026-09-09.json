@@ -1,0 +1,26 @@
+{
+  "schema": "fa3.hrb-systemd-manager-portable-reference-evidence.v1",
+  "gate_id": "FA3-GATE-HRB-SYSTEMD-MANAGER-CURRENT-HOST-001",
+  "decision_id": "FA3-DEC-HRB-SYSTEMD-MANAGER-CURRENT-HOST-2026-09-09",
+  "status": "PASS",
+  "scope": "PORTABLE_LOGIC_CI_NOT_CURRENT_HOST",
+  "current_host_runtime_promotion_claim": false,
+  "hardware_identity_claim": false,
+  "capability_count_after": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "tests": {
+    "total": 7,
+    "passed": 7,
+    "covers": [
+      "minimum portable 1-package 8-core host",
+      "larger dynamic multi-package multi-GPU host",
+      "under-floor CPU and missing qualifying GPU denial",
+      "concrete machine identity denial",
+      "unsafe operator-global systemd Manager defaults denial",
+      "vendor baseline non-authority treatment",
+      "expiring HostSurvivalPolicyReceipt requirement for guarded overrides"
+    ]
+  },
+  "conclusion": "REFERENCE_LOGIC_PASS_REAL_CURRENT_HOST_EXECUTION_STILL_REQUIRED"
+}

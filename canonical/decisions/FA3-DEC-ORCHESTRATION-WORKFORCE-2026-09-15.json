@@ -1,0 +1,120 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-ORCHESTRATION-WORKFORCE-2026-09-15",
+  "title": "Competency-Driven Hierarchical Orchestration Workforce",
+  "date": "2026-09-15",
+  "status": "CANONICAL_CLOSED",
+  "decision": "ACCEPT",
+  "canonical_profile": "FA3-ORCHESTRATION-WORKFORCE-001",
+  "workforce_registry": "FA3-ORCHESTRATION-WORKFORCE-REGISTRY-001",
+  "contract_set": "FA3-ORCHESTRATION-WORKFORCE-CONTRACTS-001",
+  "new_capability": false,
+  "capability_delta": 0,
+  "new_architectural_authority": false,
+  "authority_delta": 0,
+  "capability_count": 143,
+  "decision_summary": "FA3 SHALL use a competency-driven hierarchical orchestration workforce. The FA3 Orchestration Director classifies, decomposes and delegates work, but does not acquire security, resource, model, tool, durable-lifecycle or evidence authority.",
+  "supersedes": [
+    "UNIVERSAL_FA3_ORCHESTRATOR_MODEL",
+    "CONDUCTOR_AS_PRIMARY_GLOBAL_EXECUTION_ENGINE",
+    "TEMPORAL_AS_FULL_FA3_WORK_ASSIGNMENT_AUTHORITY"
+  ],
+  "preserves": [
+    "TEMPORAL_AS_GLOBAL_DURABLE_WORKFLOW_LIFECYCLE_AUTHORITY",
+    "FA3_HRB_AS_HOST_RESOURCE_AUTHORITY",
+    "FA3_ACCEL_GUARD_AS_USER_CENTRIC_ACCELERATOR_CONFLICT_GOVERNANCE",
+    "FA3_SECURITY_FABRIC_AS_SECURITY_POLICY_AUTHORITY",
+    "FA3_EVIDENCE_REGISTRY_AS_EVIDENCE_AUTHORITY",
+    "CENTRAL_MCP_CAPABILITY_GATEWAY_AS_TOOL_MEDIATION_AUTHORITY",
+    "FA3_MODEL_ROUTER_AS_MODEL_ROUTING_AUTHORITY",
+    "NATS_JETSTREAM_AS_EVENT_FABRIC",
+    "VALKEY_AS_LOW_LATENCY_SUPPORT_STATE"
+  ],
+  "selected_specialists": [
+    {
+      "role": "DURABLE_LIFECYCLE",
+      "provider": "Temporal",
+      "tier": "P0"
+    },
+    {
+      "role": "ROLE_TEAM_MANAGEMENT",
+      "provider": "CrewAI",
+      "tier": "P0_CAPABILITY_PRIMARY_PROVIDER_PENDING_CONFORMANCE"
+    },
+    {
+      "role": "ADAPTIVE_JOB_GRAPH",
+      "provider": "Conductor",
+      "tier": "P1"
+    },
+    {
+      "role": "GOVERNED_AGENT_TEAM",
+      "provider": "Open Multi-Agent",
+      "tier": "P1_GUARDED"
+    },
+    {
+      "role": "STATEFUL_AGENT_GRAPH",
+      "provider": "LangGraph",
+      "tier": "P1"
+    },
+    {
+      "role": "EVENT_INGEST_PIPELINE",
+      "provider": "Kestra",
+      "tier": "P1"
+    },
+    {
+      "role": "REALTIME_MULTIMODAL",
+      "provider": "Pipecat",
+      "tier": "P0_CAPABILITY_PRIMARY_CANDIDATE"
+    },
+    {
+      "role": "INTEGRATION_BUSINESS_AUTOMATION",
+      "provider": "n8n",
+      "tier": "P0_DOMAIN_PROVIDER"
+    },
+    {
+      "role": "KNOWLEDGE_RAG_CONTEXT",
+      "provider": "Haystack",
+      "tier": "P1"
+    },
+    {
+      "role": "HEAVY_DATA_BATCH",
+      "provider": "Apache Airflow",
+      "tier": "P2_RESERVE"
+    }
+  ],
+  "mandatory_rules": [
+    "DIRECTOR_IS_COORDINATOR_NOT_ARCHITECTURAL_AUTHORITY",
+    "SPECIALIST_SELECTION_IS_COMPETENCY_AND_ANTI_CAPABILITY_DRIVEN",
+    "HARD_POLICY_FILTERS_PRECEDE_AI_RECOMMENDATION",
+    "SPECIALIST_CANNOT_SELF_EXPAND_AUTHORITY",
+    "TEMPORAL_REMAINS_SOLE_GLOBAL_DURABLE_LIFECYCLE_AUTHORITY",
+    "HRB_AND_ACCEL_GUARD_REMAIN_RESOURCE_AND_ACCELERATOR_AUTHORITIES",
+    "SECURITY_AND_EVIDENCE_REMAIN_HORIZONTAL_AUTHORITIES",
+    "PROVIDER_SPECIFIC_OBJECTS_ARE_NOT_CANONICAL_FA3_IR",
+    "CURRENT_HOST_PROMOTION_REQUIRES_EXECUTABLE_EVIDENCE",
+    "AMBIGUOUS_OR_CONSEQUENTIAL_CONFLICT_ESCALATES_TO_HUMAN_UNLESS_EXPLICIT_PRIOR_POLICY_EXISTS",
+    "ALL_AGENT_OR_AUTOMATION_EXECUTION_ENTERS_THROUGH_UAF",
+    "DIRECT_PROVIDER_BYPASS_FORBIDDEN",
+    "DECISION_FABRIC_ADVISORY_ONLY_NO_CANDIDATE_EXPANSION",
+    "AI_COMMUNICATION_HUMAN_AUDITABLE_PRIVATE_MODEL_LANGUAGE_FORBIDDEN",
+    "AUTHORIZED_AI_PARTICIPANT_SET_CANNOT_BE_EXPANDED_BY_SPECIALIST",
+    "MODEL_ROUTER_REMAINS_ONLY_MODEL_PROVIDER_RUNTIME_ROUTING_AUTHORITY",
+    "HRB_IS_HORIZONTAL_RESOURCE_AUTHORITY_NOT_WORKFORCE_SPECIALIST",
+    "HARDWARE_DISCOVERY_PROVIDER_NEUTRAL_ACCELERATOR_ZERO_TO_N_CPU_ONLY_VALID",
+    "STATIC_RUNTIME_STATUS_NOT_ADMISSION_AUTHORITY",
+    "SCOPE_BOUND_CURRENT_HOST_RECEIPT_REQUIRED_FOR_EXTERNAL_RUNTIME"
+  ],
+  "reconciled_at": "2026-09-23",
+  "reconciliation": {
+    "base_architecture_preserved": true,
+    "agent_native_uaf": "MANDATORY_TYPED_ACTION_EXECUTION_BOUNDARY",
+    "decision_fabric": "OPTIONAL_BOUNDED_ADVISORY_AFTER_DETERMINISTIC_ELIGIBILITY",
+    "ai_comms": "MANDATORY_HUMAN_AUDITABLE_SEMANTICS",
+    "ai_participant_topology": "CLOSED_PREAUTHORIZED_SET_NO_PROVIDER_EXPANSION",
+    "hardware_resource": "HARDWARE_DISCOVERY_NON_AUTHORITY_HRB_HORIZONTAL_AUTHORITY_NOT_SPECIALIST",
+    "runtime_admission": "SCOPE_BOUND_CURRENT_HOST_PRODUCTION_E2E_RECEIPT_REQUIRED",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001_ONLY",
+    "capability_delta": 0,
+    "authority_delta": 0
+  }
+}

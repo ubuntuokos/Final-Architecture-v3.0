@@ -2,12 +2,12 @@
   "schema": "fa3.contract-set.v1",
   "id": "FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001",
   "name": "Provider-Neutral Skill Package Admission Contracts",
-  "version": "1.0.0",
+  "version": "1.4.0",
   "status": "CANONICAL",
   "provider_neutral": true,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "first_reference_provider": "FA3-PROVIDER-MARKETINGSKILLS-001",
   "contracts": [
     "SkillPackageDescriptor",
@@ -17,7 +17,20 @@
     "SkillEvaluationSet",
     "SkillAdmissionReceipt",
     "SkillUseReceipt",
-    "SkillToolIntent"
+    "SkillToolIntent",
+    "SkillSelectionReceipt",
+    "SkillMaterializationReceipt",
+    "DistributionClassification",
+    "SkillInterfaceDescriptor",
+    "SkillContextBudget",
+    "SkillActivationPreview",
+    "SkillProvenanceAttestation",
+    "SkillHostProjectionReceipt",
+    "SkillQualityFloorReceipt",
+    "SkillSourceGroundingReceipt",
+    "SkillAdversarialReviewReceipt",
+    "SkillArtifactBindingReceipt",
+    "RejectedSkillChangeRecord"
   ],
   "descriptor_required_fields": [
     "package_id",
@@ -30,19 +43,36 @@
     "license.snapshot_present",
     "entrypoints",
     "dependencies",
-    "evaluation"
+    "evaluation",
+    "license.spdx_expression",
+    "license.evidence_digest",
+    "distribution.class",
+    "compatibility.apps",
+    "compatibility.agents",
+    "compatibility.task_classes",
+    "permissions",
+    "interface",
+    "context_budget",
+    "activation_preview"
   ],
   "admission_lifecycle": [
     "discover_candidate",
     "resolve_immutable_source",
     "snapshot_without_execution",
     "normalize_manifest",
+    "validate_typed_interface_and_context_budget",
+    "generate_side_effect_free_activation_preview",
     "validate_paths_and_symlinks",
     "scan_executable_directives",
     "resolve_explicit_dependency_graph",
     "validate_license_and_provenance",
+    "classify_distribution_under_FA3_DISTRIBUTION_COMPLIANCE_CONTRACTS_001",
     "run_behavioral_positive_negative_adversarial_evals",
     "policy_decision",
+    "validate_positive_non_negated_trigger_semantics",
+    "enforce_quality_floor_and_artifact_bindings",
+    "ground_implementation_affecting_claims",
+    "run_fresh_context_adversarial_review_when_required",
     "emit_digest_bound_admission_receipt",
     "load_on_demand_scoped_context"
   ],
@@ -53,7 +83,11 @@
     "manifest_digest_required": true,
     "auto_pull_into_admitted_context_forbidden": true,
     "new_upstream_commit_requires_new_admission": true,
-    "remote_include_or_fetch_during_admission_forbidden": true
+    "remote_include_or_fetch_during_admission_forbidden": true,
+    "runtime_remote_skill_fetch_forbidden": true,
+    "optional_provenance_attestation_must_bind_source_commit_and_digests": true,
+    "valid_signature_alone_is_not_admission": true,
+    "expected_source_or_builder_policy_required_when_attestation_is_used": true
   },
   "execution_safety": {
     "package_is_data_until_separately_authorized": true,
@@ -62,7 +96,10 @@
     "script_asset_auto_execution_forbidden": true,
     "direct_shell_tool_or_network_authority_from_skill_forbidden": true,
     "symlink_escape_forbidden": true,
-    "absolute_path_and_parent_traversal_forbidden": true
+    "absolute_path_and_parent_traversal_forbidden": true,
+    "activation_preview_required": true,
+    "activation_preview_side_effects_forbidden": true,
+    "activation_preview_authority_expansion_forbidden": true
   },
   "dependency_governance": {
     "explicit_graph_required": true,
@@ -74,7 +111,10 @@
     "on_demand_loading_required": true,
     "task_scope_required": true,
     "global_corpus_auto_injection_forbidden": true,
-    "source_and_version_provenance_preserved": true
+    "source_and_version_provenance_preserved": true,
+    "explicit_budget_required": true,
+    "used_context_must_not_exceed_budget": true,
+    "budget_overflow_fails_closed": true
   },
   "tool_governance": {
     "discovery_is_not_authorization": true,
@@ -90,7 +130,10 @@
     "adversarial_prompt_injection_eval_required": true,
     "eval_result_must_be_pass": true,
     "eval_result_bound_to_content_digest": true,
-    "reference_ci_cannot_claim_runtime_or_mutation_admission": true
+    "reference_ci_cannot_claim_runtime_or_mutation_admission": true,
+    "routing_eval_required": true,
+    "non_selection_eval_required": true,
+    "minimal_composition_eval_required": true
   },
   "commercial_governance": {
     "affiliation_and_sponsorship_recorded_as_provenance": true,
@@ -135,6 +178,104 @@
     "DISABLED_PROVIDER_ZERO_NEAR_ZERO_RUNTIME_COST",
     "REFERENCE_CI_NOT_RUNTIME_OR_MUTATION_ADMISSION",
     "PORTABLE_HARDWARE_NO_STATIC_HOST_SKU_ASSUMPTION",
-    "EXECUTABLE_HELPER_REQUIRES_EXISTING_SANDBOX_POLICY_AND_RESOURCE_BOUNDARY"
-  ]
+    "EXECUTABLE_HELPER_REQUIRES_EXISTING_SANDBOX_POLICY_AND_RESOURCE_BOUNDARY",
+    "SKILL_DISTRIBUTION_CLASS_REQUIRED",
+    "UNKNOWN_REQUIRED_LICENSE_FACT_FAILS_CLOSED",
+    "REFERENCE_ONLY_SKILL_RUNTIME_MATERIALIZATION_FORBIDDEN",
+    "USER_LOCAL_EXTERNAL_RELEASE_BUNDLE_FORBIDDEN",
+    "EXTERNAL_REDISTRIBUTABLE_REQUIRES_LICENSE_COMPATIBILITY_ATTESTATION",
+    "SKIPPED_REVIEW_CANNOT_PASS_ADMISSION",
+    "RUNTIME_REMOTE_SKILL_FETCH_FORBIDDEN",
+    "SKILL_PERMISSION_DECLARATION_DOES_NOT_GRANT_AUTHORITY",
+    "EXTERNAL_SKILL_SECURITY_INSPECTION_REQUIRED",
+    "SKILL_ROUTING_EVAL_AND_NON_SELECTION_REQUIRED",
+    "SKILL_IMPROVEMENT_REQUIRES_NEW_ADMISSION",
+    "SKILL_TYPED_INPUT_OUTPUT_INTERFACE_REQUIRED",
+    "SKILL_CONTEXT_BUDGET_REQUIRED",
+    "SKILL_CONTEXT_BUDGET_OVERFLOW_FAILS_CLOSED",
+    "SKILL_ACTIVATION_PREVIEW_REQUIRED_NO_SIDE_EFFECTS",
+    "SKILL_ACTIVATION_PREVIEW_CANNOT_EXPAND_AUTHORITY",
+    "SKILL_HOST_PROJECTION_COLLISION_FAILS_CLOSED",
+    "SKILL_PROVENANCE_ATTESTATION_SIGNATURE_ALONE_NOT_SUFFICIENT",
+    "NEGATED_TRIGGER_CANNOT_SATISFY_SKILL_ELIGIBILITY",
+    "QUALITY_FLOOR_WEAKENING_BLOCKS_ADMISSION_OR_PROMOTION",
+    "REJECTED_CHANGE_LEDGER_APPEND_ONLY",
+    "SOURCE_GROUNDING_REQUIRED_FOR_IMPLEMENTATION_AFFECTING_CLAIMS",
+    "ADVERSARIAL_REVIEW_CANNOT_SELECT_PROVIDER_OR_EXPAND_AUTHORITY",
+    "ARTIFACT_PRODUCER_CONSUMER_BINDING_DRIFT_FAILS_CLOSED"
+  ],
+  "distribution_governance": {
+    "contract_id": "FA3-DISTRIBUTION-COMPLIANCE-CONTRACTS-001",
+    "distribution_class_required": true,
+    "allowed_classes": [
+      "FA3_NATIVE",
+      "EXTERNAL_REDISTRIBUTABLE",
+      "USER_LOCAL_EXTERNAL",
+      "REFERENCE_ONLY",
+      "BLOCKED"
+    ],
+    "reference_only_runtime_materialization_forbidden": true,
+    "blocked_runtime_materialization_forbidden": true,
+    "user_local_external_release_bundle_forbidden": true,
+    "external_redistributable_requires_license_compatibility_attestation": true,
+    "unknown_required_license_fact_fails_closed": true
+  },
+  "review_governance": {
+    "skipped_review_may_pass": false,
+    "skipped_security_review_fails_closed": true,
+    "skipped_license_review_fails_closed": true,
+    "explicit_pass_required": true
+  },
+  "permission_governance": {
+    "declared_permissions_required": true,
+    "permission_declaration_does_not_grant_authority": true,
+    "network_filesystem_exec_secret_requests_route_through_existing_authorities": true
+  },
+  "extension_contracts": [
+    "FA3-AGENT-SKILLS-COMPAT-CONTRACTS-001",
+    "FA3-SKILL-SECURITY-INSPECTION-CONTRACTS-001",
+    "FA3-SKILL-EVALUATION-CONTRACTS-001",
+    "FA3-SKILL-IMPROVEMENT-CONTRACTS-001",
+    "FA3-SKILL-INTERFACE-CONTEXT-PREVIEW-CONTRACTS-001",
+    "FA3-SKILL-HOST-PROJECTION-CONTRACTS-001",
+    "FA3-SKILL-PROVENANCE-ATTESTATION-CONTRACTS-001",
+    "FA3-SKILL-ENGINEERING-HARDENING-CONTRACTS-001"
+  ],
+  "security_inspection": {
+    "contract_id": "FA3-SKILL-SECURITY-INSPECTION-CONTRACTS-001",
+    "required_for_external_candidates": true,
+    "scanner_provider_result_is_evidence_only": true,
+    "security_authority": "FA3-SCS-001"
+  },
+  "improvement": {
+    "contract_id": "FA3-SKILL-IMPROVEMENT-CONTRACTS-001",
+    "in_place_mutation_forbidden": true,
+    "automatic_promotion_forbidden": true,
+    "new_admission_required": true
+  },
+  "interface_governance": {
+    "typed_inputs_required": true,
+    "typed_outputs_required": true,
+    "preconditions_and_postconditions_required": true,
+    "composition_requires_type_compatible_edges": true,
+    "interface_declaration_does_not_grant_authority": true
+  },
+  "host_projection_governance": {
+    "contract_id": "FA3-SKILL-HOST-PROJECTION-CONTRACTS-001",
+    "only_admitted_skills_projectable": true,
+    "automatic_global_install_forbidden": true,
+    "duplicate_name_collision_fails_closed": true,
+    "host_precedence_may_not_hide_collision": true,
+    "version_digest_provenance_preserved": true
+  },
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "engineering_hardening_governance": {
+    "contract_id": "FA3-SKILL-ENGINEERING-HARDENING-CONTRACTS-001",
+    "quality_floor_required": true,
+    "rejected_change_ledger_append_only": true,
+    "source_grounding_required_for_implementation_affecting_claims": true,
+    "fresh_context_adversarial_review_supported": true,
+    "artifact_binding_drift_fails_closed": true,
+    "engineering_patterns_do_not_grant_execution_or_policy_authority": true
+  }
 }

@@ -1,0 +1,39 @@
+{
+  "schema": "fa3.decision-fabric-assessment.v1",
+  "project_id": "FA3-SYSTEM-ONE-REFLEX-MATERIALIZATION-2026-09-28",
+  "covered_ids": [
+    "FA3-PROVIDER-SYSTEM-ONE-DECISION-001",
+    "FA3-PROVIDER-SYSTEM-ONE-NATIVE-001"
+  ],
+  "assessment": "REQUIRED",
+  "rationale": "The optional provider materializes bounded System One reflex decisions inside the existing Decision Fabric. It selects only caller-authorized actions and finite parameter values, produces confidence evidence and handoff data, and never authorizes or executes the selected action. The native provider bridge is an opt-in, separately admitted protocol adapter behind the central LiteLLM data plane, never an application or execution authority.",
+  "decision_points": [
+    {
+      "id": "bounded-reflex-action",
+      "purpose": "select one caller-authorized action and finite parameter values for subsequent authorization",
+      "contract": "BOUNDED_ACTION",
+      "candidate_source": "calling FA3 authority",
+      "final_policy_owner": "calling MCP/UAF/application authority",
+      "failure_policy": "NO_DECISION"
+    }
+  ],
+  "project_radar_checked": true,
+  "project_radar_sources": [
+    "HarnessRouter/SystemOneHarness@ab8e8f08b4a6268c0633a474423d556599ee06a4"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "global_accelerator_requirement": false
+  },
+  "security_boundary": {
+    "may_grant_permission": false,
+    "may_expand_candidate_set": false,
+    "may_create_agent": false,
+    "may_admit_model": false,
+    "may_admit_provider": false
+  },
+  "shadow_mode_required": true,
+  "capability_delta": 0,
+  "authority_delta": 0
+}

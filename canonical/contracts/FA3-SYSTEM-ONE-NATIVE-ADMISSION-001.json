@@ -1,0 +1,44 @@
+{
+  "schema": "fa3.contract.v1",
+  "id": "FA3-SYSTEM-ONE-NATIVE-ADMISSION-001",
+  "status": "CANONICAL",
+  "provider_id": "FA3-PROVIDER-SYSTEM-ONE-NATIVE-001",
+  "route": "fa3-decision-system-one",
+  "api": "SYSTEM_ONE_DECISIONS_V1",
+  "adapter_files": [
+    "src/fa3_model_router_system_one_native_bridge.py",
+    "src/fa3_model_router_system_one_transport.py",
+    "src/fa3_model_router_system_one_admit.py"
+  ],
+  "data_plane": "LITELLM_AUTHENTICATED_PASS_THROUGH",
+  "runtime": "EXPLICIT_OPT_IN_ONLY",
+  "admission_schema": "fa3.system-one-native-current-host-receipt.v1",
+  "model_designation_schema": "fa3.system-one-model-designation.v1",
+  "model_selection_authority": "FA3-AUTH-MODEL-ROUTER-001",
+  "secret_authority": "FA3-SECRET-BROKER-001",
+  "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+  "requirements": {
+    "live_model_catalog": true,
+    "approved_models_only": true,
+    "physical_model_pins": false,
+    "provider_switch_by_bridge": false,
+    "silent_fallback": false,
+    "invalid_bearer_rejection": true,
+    "lite_llm_pass_through_auth_negative_probe": true,
+    "real_native_decision_response": true,
+    "version_bound_instance": true
+  },
+  "evidence_scopes": {
+    "static_and_recorded_ci": "REFERENCE_ONLY",
+    "native_live_provider": "PER_PROVIDER_CURRENT_HOST",
+    "route_execution": "MODEL_ROUTER_CURRENT_HOST_NATIVE_ADMISSION",
+    "global_promotion": false
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "accelerator_neutral": true,
+    "cpu_only": true,
+    "gpu_npu_cardinality": "0..N",
+    "hrb_only": true
+  }
+}

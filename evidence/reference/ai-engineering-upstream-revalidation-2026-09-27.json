@@ -1,0 +1,69 @@
+{
+  "schema": "fa3.ai-engineering-upstream-revalidation.v1",
+  "id": "FA3-AI-ENGINEERING-UPSTREAM-REVALIDATION-2026-09-27",
+  "source_id": "FA3-SOURCE-AI-ENGINEERING-FROM-SCRATCH-001",
+  "reference_id": "FA3-AI-ENGINEERING-UPSTREAM-REFERENCE-2026-08-30",
+  "repository": "rohitg00/ai-engineering-from-scratch",
+  "revalidated_at": "2026-09-27",
+  "base_reference_commit": "8bc378c2e07777899322ae77cd0dde94cb12fab3",
+  "validated_reference_commit": "968da0791b83917c9d8a5ba197ff190fa0b24093",
+  "upstream_commits_reviewed": 6,
+  "compare_status": "ahead",
+  "changed_file_count": 88,
+  "reviewed_relevant_paths": [
+    "phases/10-llms-from-scratch/11-quantization/docs/en.md",
+    "phases/10-llms-from-scratch/11-quantization/outputs/skill-quantization.md",
+    "phases/10-llms-from-scratch/25-speculative-decoding/docs/en.md",
+    "phases/10-llms-from-scratch/25-speculative-decoding/outputs/skill-speculative-tuning.md",
+    "phases/11-llm-engineering/01-prompt-engineering/docs/en.md",
+    "phases/13-tools-and-protocols/19-a2a-protocol/code/main.ts",
+    "phases/14-agent-engineering/34-repo-memory-and-state/docs/en.md",
+    "phases/14-agent-engineering/38-verification-gates/docs/en.md",
+    "phases/17-infrastructure-and-production/04-vllm-serving-internals/assets/scheduler.svg",
+    "phases/17-infrastructure-and-production/04-vllm-serving-internals/docs/en.md",
+    "phases/17-infrastructure-and-production/04-vllm-serving-internals/outputs/skill-vllm-scheduler-reader.md",
+    "phases/17-infrastructure-and-production/04-vllm-serving-internals/quiz.json",
+    "phases/17-infrastructure-and-production/05-eagle3-speculative-decoding/assets/eagle3-flow.svg",
+    "phases/17-infrastructure-and-production/05-eagle3-speculative-decoding/docs/en.md",
+    "phases/17-infrastructure-and-production/05-eagle3-speculative-decoding/outputs/skill-eagle3-rollout.md",
+    "phases/17-infrastructure-and-production/16-model-routing/docs/en.md"
+  ],
+  "reviewed_change_classes": [
+    "MAINTAINED_QUANTIZATION_TOOLING_GPTQMODEL_AND_LLM_COMPRESSOR",
+    "SPECULATIVE_DECODING_INTERFACE_AND_COMPATIBILITY_CORRECTIONS",
+    "PROMPT_SDK_AND_MODEL_REFERENCE_REFRESH",
+    "MODEL_ROUTING_REFERENCE_LINK_MAINTENANCE",
+    "AGENT_REPO_MEMORY_REFERENCE_MAINTENANCE",
+    "VERIFICATION_GATE_DEAD_REFERENCE_REMOVAL"
+  ],
+  "derived_fa3_effect": {
+    "new_p0_invariants": 0,
+    "retained_source_patterns": 11,
+    "retained_overlay_rules": 3,
+    "authority_model_changed": false,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "new_runtime_providers": 0,
+    "capability_count_after": 175,
+    "disposition": "KEEP_REFERENCE_AND_PATTERN_SOURCE_ONLY"
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "current_host_execution_required": false
+  },
+  "software_coexistence": {
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_hijack": false
+  },
+  "new_p0_invariants": 0,
+  "capability_count_after": 175,
+  "runtime_provider_admitted": false,
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "result": "PASS"
+}

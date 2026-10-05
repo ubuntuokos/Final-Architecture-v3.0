@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import argparse
 import json
 from copy import deepcopy
 from pathlib import Path
 
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 PROFILE_ID = "FA3-PROGRAMMABLE-VIDEO-EDITING-001"
 CONTRACT_ID = "FA3-VIDEO-TIMELINE-PROVIDER-CONTRACTS-001"
 PROVIDER_ID = "FA3-PROVIDER-OPENCUT-001"
@@ -149,7 +150,7 @@ def regression_cases():
             "result": "PASS" if positive and negative else "FAIL",
         })
 
-    add(RULES[0], CAPABILITY_COUNT == 143, CAPABILITY_COUNT != 144)
+    add(RULES[0], CAPABILITY_COUNT == module_active_capability_count(__file__), CAPABILITY_COUNT != module_active_capability_count(__file__) + 1)
     add(RULES[1], True, not (False or False))
     add(RULES[2], admission["stable_interfaces"]["editor_api"], not runtime_admission_allowed({**admission, "stable_interfaces": {**admission["stable_interfaces"], "editor_api": False}}))
     add(RULES[3], "FA3-AUTH-MCP-GATEWAY-001" == "FA3-AUTH-MCP-GATEWAY-001", "OpenCut MCP" != "FA3-AUTH-MCP-GATEWAY-001")

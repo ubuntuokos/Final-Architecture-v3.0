@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.internal/schemas/agent-task-proposal.v1.json",
+  "title": "FA3 Human-Approved Agent Change Proposal",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "proposal_id",
+    "origin_agent",
+    "context",
+    "approval_state",
+    "mutations",
+    "circuit_breaker_limits"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.agent-task-proposal.v1"
+    },
+    "proposal_id": {
+      "type": "string",
+      "pattern": "^prop-[0-9]{8}-[0-9]{3,6}$"
+    },
+    "origin_agent": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 128
+    },
+    "context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "task_scope",
+        "target_capability",
+        "base_commit",
+        "declared_write_set",
+        "test_plan"
+      ],
+      "properties": {
+        "task_scope": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "target_capability": {
+          "type": "string",
+          "pattern": "^CAP-[0-9]{3}$"
+        },
+        "base_commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "declared_write_set": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          }
+        },
+        "test_plan": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          }
+        }
+      }
+    },
+    "approval_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "approved_by",
+        "approved_at",
+        "approved_base_sha",
+        "proposal_digest_sha256"
+      ],
+      "properties": {
+        "status": {
+          "const": "APPROVED_BY_HUMAN"
+        },
+        "approved_by": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "approved_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "approved_base_sha": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "proposal_digest_sha256": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      }
+    },
+    "mutations": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 128,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "file_path",
+          "diff"
+        ],
+        "properties": {
+          "file_path": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "diff": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "circuit_breaker_limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_execution_seconds",
+        "max_file_mutations"
+      ],
+      "properties": {
+        "max_execution_seconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3600
+        },
+        "max_file_mutations": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 128
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-CUDA-PORTABILITY-SHARED-FUNCTION-APPLICATION-INTENT-2026-10-04",
+  "project_id": "FA3-CUDA-PORTABILITY-SHARED-FUNCTION-POLICY-001",
+  "project_type": "PROFILE",
+  "goal": "Require target-hardware portability assessment for strongly CUDA-oriented functionality and place its functional core only in shared FA3/CFA3 layers with explicit reduced-function disclosure.",
+  "required_capabilities": [
+    "HARDWARE_PORTABILITY",
+    "ACCELERATOR_BACKEND_COMPATIBILITY",
+    "SHARED_CAPABILITY_PLACEMENT",
+    "HARDWARE_AWARE_USER_DISCLOSURE"
+  ],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "CUDA_FIRST_UPSTREAM_ASSUMPTION",
+    "CROSS_VENDOR_ACCELERATOR_PORTABILITY",
+    "APPLICATION_LOCAL_BACKEND_DUPLICATION",
+    "HIDDEN_FEATURE_REDUCTION"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "target_vendor_reference_families": [
+      "NVIDIA",
+      "AMD",
+      "INTEL"
+    ],
+    "current_host_runtime_promotion_claim": false
+  },
+  "namespace_claims": {
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "new_global_hardware_authority": false,
+    "application_local_accelerator_authority": false
+  },
+  "security_requirements": [
+    "FAIL_CLOSED_ON_UNAVAILABLE_BACKEND",
+    "NO_SILENT_BACKEND_SUBSTITUTION",
+    "HARDWARE_SAFETY_PRECEDENCE"
+  ],
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-HARDWARE-BASELINE-001",
+    "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-MODEL-ROUTER-001"
+  ],
+  "gui_requirements": [
+    "FUNCTIONALLY_REDUCED_MUST_BE_USER_VISIBLE",
+    "UNAVAILABLE_MUST_BE_DISABLED_OR_MARKED_UNAVAILABLE"
+  ]
+}

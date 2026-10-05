@@ -1,0 +1,58 @@
+{
+  "schema": "fa3.integration-map.v1",
+  "id": "FA3-WORKLOAD-MODE-INTEGRATION-001",
+  "profile": "FA3-WORKLOAD-MODE-FRAMEWORK-001",
+  "contract": "FA3-WORKLOAD-MODE-CONTRACTS-001",
+  "capability_bindings": [
+    "CAP-130",
+    "CAP-175"
+  ],
+  "authority_delta": 0,
+  "capability_count": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "bindings": [
+    {
+      "layer": "WORKLOAD_INTENT",
+      "mode": "AIMODE_AND_RENDERMODE_SHARED_DOMAINS",
+      "authority": "WORKLOAD_MODE_FRAMEWORK"
+    },
+    {
+      "layer": "HOST_RESOURCE_BROKER",
+      "mode": "FA3_PRESENT_DELEGATE_PHYSICAL_RESOURCE_AUTHORITY",
+      "authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+    },
+    {
+      "layer": "SYSTEMD_CGROUPV2",
+      "mode": "PER_WORKLOAD_PROJECTION_ONLY_AFTER_HRB_ADMISSION",
+      "provider": "FA3-PROVIDER-SYSTEMD-CGROUPV2-001"
+    },
+    {
+      "layer": "GAMEMODE",
+      "mode": "OPTIONAL_DBUS_STATE_AND_COEXISTENCE_BRIDGE",
+      "service": "com.feralinteractive.GameMode",
+      "hard_dependency": false
+    },
+    {
+      "layer": "EXTERNAL_WORKLOADS",
+      "mode": "OBSERVED_COORDINATED_MANAGED_TYPED_STATE",
+      "automatic_takeover": false
+    },
+    {
+      "layer": "GUI",
+      "mode": "SHARED_EVENT_DRIVEN_GLOBAL_AND_LOCAL_MODE_INDICATOR",
+      "component": "WorkloadModeIndicator"
+    }
+  ],
+  "compound_workload_policy": {
+    "one_resource_plan_per_pipeline": true,
+    "example_domains": [
+      "RENDER_GPU",
+      "AI_DENOISE",
+      "AI_UPSCALE",
+      "VIDEO_ENCODE"
+    ],
+    "parallel_independent_host_global_tuning": false
+  },
+  "current_host_runtime_promotion": false
+}

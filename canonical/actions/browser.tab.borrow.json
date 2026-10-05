@@ -1,0 +1,136 @@
+{
+  "schema": "fa3.uaf.action-contract.v1",
+  "version": "1.0.0",
+  "exposure": {
+    "cli": false,
+    "mcp": true
+  },
+  "resources": {
+    "hrb_required": true,
+    "accelerator_required": false
+  },
+  "provider": {
+    "selection": "capability-match",
+    "architectural_authority": false,
+    "browser_session_runtime_is_execution_domain_not_authority": true
+  },
+  "evidence": {
+    "required": true,
+    "global_promotion_claim": false
+  },
+  "id": "browser.tab.borrow",
+  "description": "Grant an explicit TTL-bound logical lease over one existing user tab without reparenting it.",
+  "input_schema": {
+    "type": "object",
+    "required": [
+      "session_id",
+      "tab_ref",
+      "origin_scope",
+      "action_scope",
+      "ttl_seconds"
+    ],
+    "properties": {
+      "session_id": {
+        "type": "string",
+        "minLength": 1
+      },
+      "tab_ref": {
+        "type": "string",
+        "minLength": 1
+      },
+      "origin_scope": {
+        "type": "string",
+        "minLength": 1
+      },
+      "action_scope": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "ttl_seconds": {
+        "type": "integer"
+      }
+    },
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "lease_id",
+      "session_id",
+      "tab_ref",
+      "origin_scope",
+      "action_scope",
+      "issued_at_epoch_ms",
+      "expires_at_epoch_ms",
+      "original_window_ref",
+      "original_index",
+      "logical_borrow_without_reparenting",
+      "execution_receipt_ref"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "minLength": 1
+      },
+      "lease_id": {
+        "type": "string",
+        "minLength": 1
+      },
+      "session_id": {
+        "type": "string",
+        "minLength": 1
+      },
+      "tab_ref": {
+        "type": "string",
+        "minLength": 1
+      },
+      "origin_scope": {
+        "type": "string",
+        "minLength": 1
+      },
+      "action_scope": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "issued_at_epoch_ms": {
+        "type": "integer"
+      },
+      "expires_at_epoch_ms": {
+        "type": "integer"
+      },
+      "original_window_ref": {
+        "type": "string",
+        "minLength": 1
+      },
+      "original_index": {
+        "type": "integer"
+      },
+      "logical_borrow_without_reparenting": {
+        "type": "boolean"
+      },
+      "execution_receipt_ref": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "additionalProperties": false
+  },
+  "semantics": {
+    "mutating": true,
+    "idempotent": false,
+    "blind_retry": "DENY"
+  },
+  "security": {
+    "authentication": "required",
+    "authorization": "required",
+    "approval": "explicit",
+    "page_content_trust": "UNTRUSTED_EXTERNAL_CONTENT"
+  }
+}

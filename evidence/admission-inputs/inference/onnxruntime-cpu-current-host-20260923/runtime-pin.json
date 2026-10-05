@@ -1,0 +1,25 @@
+{
+  "schema": "fa3.inference-provider-runtime-pin-receipt.v1",
+  "receipt_id": "FA3-ORT-CPU-RUNTIME-PIN-CURRENT-HOST-2026-09-23",
+  "providers": {
+    "FA3-PROVIDER-ONNXRUNTIME-001": {
+      "result": "PASS",
+      "immutable": true,
+      "provider_version": "1.23",
+      "source_refs": [
+        "FA3-INFERENCE-PROVIDER-CURRENT-HOST-RUN-11",
+        "PR-370-RUNTIME-IDENTITY-HARDENING",
+        "PHYSICAL-CURRENT-HOST-OBSERVATION-2026-09-23"
+      ],
+      "runtime_identity": {
+        "environment_id": "FA3-CURRENT-HOST-SYSTEM-PYTHON314-ORT-1.23",
+        "python_executable": "/usr/bin/python3.14",
+        "python_executable_sha256": "93f35f734d000a629c6bd3fe9c533aa5c56bc37dcdb681a616f8d5c0b096e165",
+        "module_file": "/usr/lib/python3/dist-packages/onnxruntime/__init__.py",
+        "module_file_sha256": "1ca44e862e236031dde5dfb8a4d217e3770fa43201dadcf0b947fd43ed16d20e",
+        "cli_path": null,
+        "cli_sha256": null
+      }
+    }
+  }
+}

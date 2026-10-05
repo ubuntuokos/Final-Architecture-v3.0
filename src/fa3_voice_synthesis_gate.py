@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import argparse
 import json
 from pathlib import Path
 from typing import Any
 
-CAPS = 143
+CAPS = module_active_capability_count(__file__)
 PROFILE_ID = "FA3-VOICE-001"
 CONTRACT_ID = "FA3-VOICE-CONTRACTS-001"
 ADMISSION_ID = "FA3-VOICE-PROVIDER-ADMISSION-001"
@@ -22,6 +23,20 @@ PROVIDER_IDS = (
 )
 CAPABILITY_IDS = ("CAP-115", "CAP-116", "CAP-117")
 CLONING_MODES = {"zero_shot", "cross_lingual", "voice_clone", "controllable_clone", "ultimate_clone", "instruct2"}
+TRANSFORMATION_MODES = {
+    "VOICE_CONVERSION",
+    "REALTIME_VOICE_CONVERSION",
+    "SINGING_VOICE_CONVERSION",
+    "STYLE_TRANSFER",
+    "SPEECH_REPRESENTATION",
+}
+TARGET_VOICE_TRANSFORMATION_MODES = TRANSFORMATION_MODES - {"SPEECH_REPRESENTATION"}
+TRANSFORMATION_CONSENT_SCOPE = {
+    "VOICE_CONVERSION": "VOICE_CONVERSION",
+    "REALTIME_VOICE_CONVERSION": "REALTIME_VOICE_CONVERSION",
+    "SINGING_VOICE_CONVERSION": "SINGING_VOICE_CONVERSION",
+    "STYLE_TRANSFER": "VOICE_CONVERSION",
+}
 
 
 class VoicePolicyDenied(RuntimeError):
@@ -71,6 +86,61 @@ def resolve_route(request: dict[str, Any], admitted: set[str]) -> dict[str, Any]
     }
 
 
+
+def validate_transformation_request(
+    request: dict[str, Any],
+    *,
+    rights_admitted: bool,
+    provider_status: str,
+    provider_reference_only: bool = False,
+    resource_admission_ref: str | None = None,
+) -> dict[str, Any]:
+    """Fail-closed provider-neutral pre-execution validation for voice transformations."""
+    mode = str(request.get("mode", "")).strip()
+    if mode not in TRANSFORMATION_MODES:
+        raise VoicePolicyDenied(f"unsupported transformation mode: {mode or '<missing>'}")
+    for field in ("request_id", "source_audio_ref", "execution_mode", "output_intent", "license_and_rights_ref"):
+        if not request.get(field):
+            raise VoicePolicyDenied(f"{field} is required")
+    if request.get("silent_fallback") not in (None, False):
+        raise VoicePolicyDenied("silent transformation fallback is forbidden")
+    if not rights_admitted:
+        raise VoicePolicyDenied("voice transformation rights are not admitted")
+    if provider_reference_only or provider_status not in {"ADMITTED", "PRODUCTION_ADMITTED"}:
+        raise VoicePolicyDenied("reference-only or non-admitted provider cannot execute transformations")
+
+    if mode in TARGET_VOICE_TRANSFORMATION_MODES:
+        if not request.get("target_voice_identity_ref"):
+            raise VoicePolicyDenied("target_voice_identity_ref is required for target-voice transformation")
+        consent = request.get("consent_proof")
+        if not isinstance(consent, dict) or consent.get("status") != "GRANTED":
+            raise VoicePolicyDenied("GRANTED consent proof is required for human-target transformation")
+        scopes = consent.get("scope", [])
+        if isinstance(scopes, str):
+            scopes = [scopes]
+        required_scope = TRANSFORMATION_CONSENT_SCOPE[mode]
+        if required_scope not in scopes:
+            raise VoicePolicyDenied(f"consent scope {required_scope} is required")
+
+    if mode == "REALTIME_VOICE_CONVERSION":
+        latency = request.get("latency_requirement")
+        if not isinstance(latency, (int, float)) or latency <= 0:
+            raise VoicePolicyDenied("positive latency_requirement is required for realtime conversion")
+
+    if request.get("accelerator_requested") is True and not resource_admission_ref:
+        raise VoicePolicyDenied("accelerator transformation requires Host Resource Broker admission")
+
+    return {
+        "schema": "fa3.voice-transformation-preflight.v1",
+        "request_id": request["request_id"],
+        "mode": mode,
+        "rights_admitted": True,
+        "provider_eligible": True,
+        "resource_admission_ref": resource_admission_ref,
+        "silent_fallback": False,
+    }
+
+
 def _finding(code: str, message: str, **details: Any) -> dict[str, Any]:
     return {"code": code, "severity": "P0", "message": message, **details}
 
@@ -107,15 +177,20 @@ def run_conformance(root: Path) -> dict[str, Any]:
 
     check("VOICE-001", profile.get("id") == PROFILE_ID and contract.get("id") == CONTRACT_ID and contract.get("provider_neutral") is True, "profile/contract identity and provider-neutral boundary")
     check("VOICE-002", all(p.get("architectural_authority") is False and p.get("canonical_root") is False for p in providers.values()), "providers are not authorities or roots")
-    check("VOICE-003", profile.get("capability_count") == CAPS and decision.get("capability_count_after") == CAPS and decision.get("new_capabilities") == 0 and decision.get("new_architectural_authorities") == 0, "143-capability and zero-authority invariant")
+    check("VOICE-003", profile.get("capability_count") == CAPS and isinstance(decision.get("capability_count_after"), int) and decision.get("capability_count_after") <= CAPS and decision.get("new_capabilities") == 0 and decision.get("new_architectural_authorities") == 0, "active release capability baseline and zero-authority invariant")
     pins = reference.get("immutable_snapshots", {})
     check("VOICE-004", pins.get("voxcpm_runtime", {}).get("commit") == "f5a1c6a6b901bc732e20f0d59a369f6829ad717a" and pins.get("xtts_v2_model", {}).get("revision") == "6c2b0d75eae4b7047358e3b6bd9325f857d43f77" and reference.get("floating_main_allowed_for_promotion_evidence") is False, "immutable upstream/model pins")
     check("VOICE-005", admission.get("policy") == "ALLOWLIST_AND_CAPABILITY_EVIDENCE_ONLY_FAIL_CLOSED" and admission.get("arbitrary_local_checkpoint_paths_allowed") is False, "allowlist-only model admission")
     check("VOICE-006", admission.get("runtime_network_fetch_allowed") is False and admission.get("bootstrap_download_requires_explicit_authorization") is True, "no runtime network fetch")
     check("VOICE-007", admission.get("direct_application_or_comfyui_venv_install_allowed") is False and providers["FA3-PROVIDER-XTTS-001"].get("runtime", {}).get("isolated_environment_required") is True, "isolated provider environments")
     check("VOICE-008", "VOICE_CENTRAL_GATEWAY_MEDIATION" in rules, "central gateway mediation")
-    check("VOICE-009", "VOICE_HRB_ACCELERATOR_ADMISSION" in rules, "HRB accelerator admission")
-    check("VOICE-010", "VOICE_NO_SILENT_PROVIDER_MODEL_DEVICE_CLOUD_FALLBACK" in rules and admission.get("routing", {}).get("hu-HU", {}).get("forbidden_silent_fallbacks"), "explicit fail-closed fallback")
+    transformation_rules = contract.get("contracts", {}).get("transformation_request", {}).get("rules", [])
+    transformation_required = set(contract.get("contracts", {}).get("transformation_request", {}).get("required", []))
+    transformation_result_required = set(contract.get("contracts", {}).get("transformation_result", {}).get("required", []))
+    transformation_conditional = contract.get("contracts", {}).get("transformation_request", {}).get("conditional_required", {})
+    transformation_result_conditional = contract.get("contracts", {}).get("transformation_result", {}).get("conditional_required", {})
+    check("VOICE-009", "VOICE_HRB_ACCELERATOR_ADMISSION" in rules and "Host Resource Broker" in str(contract.get("contracts", {}).get("transformation_request", {}).get("fields", {}).get("resource_admission_ref", "")) and contract.get("security", {}).get("cuda_requires_hrb_lease") is True, "HRB accelerator admission for synthesis and transformation")
+    check("VOICE-010", "VOICE_NO_SILENT_PROVIDER_MODEL_DEVICE_CLOUD_FALLBACK" in rules and admission.get("routing", {}).get("hu-HU", {}).get("forbidden_silent_fallbacks") and any("silently" in item for item in transformation_rules), "explicit fail-closed fallback for synthesis and transformation")
     check("VOICE-011", profile.get("hungarian_baseline", {}).get("locale") == "hu-HU", "explicit Hungarian baseline")
     check("VOICE-012", profile.get("hungarian_baseline", {}).get("voice_cloning_primary_candidate") == "FA3-PROVIDER-XTTS-001" and "hu" in providers["FA3-PROVIDER-XTTS-001"].get("model", {}).get("official_languages", []), "XTTS Hungarian cloning candidate")
     check("VOICE-013", profile.get("hungarian_baseline", {}).get("lightweight_cpu_fallback_candidate") == "FA3-PROVIDER-PIPER-001" and str(providers["FA3-PROVIDER-PIPER-001"].get("routing_policy", {}).get("hu_voice_cloning", "")).startswith("UNSUPPORTED"), "Piper CPU fallback and no cloning")
@@ -124,15 +199,16 @@ def run_conformance(root: Path) -> dict[str, Any]:
     check("VOICE-016", admission.get("providers", {}).get("FA3-PROVIDER-COSYVOICE-001", {}).get("hu_plain_tts") == "EXPERIMENTAL", "CosyVoice Hungarian remains experimental")
     check("VOICE-017", providers["FA3-PROVIDER-MMS-TTS-HUN-001"].get("routing_policy", {}).get("production") == "DENY" and providers["FA3-PROVIDER-MMS-TTS-HUN-001"].get("model", {}).get("license") == "CC-BY-NC-4.0", "MMS Hungarian production denied")
     license_required = contract.get("contracts", {}).get("license_and_rights", {}).get("required", [])
-    check("VOICE-018", set(admission.get("license_dimensions", [])) == set(license_required), "separate license dimensions")
+    check("VOICE-018", set(admission.get("license_dimensions", [])) == set(license_required) and "license_and_rights_ref" in transformation_required and any("unknown or incompatible rights fail closed" in item for item in transformation_rules), "separate license dimensions and fail-closed transformation rights")
     check("VOICE-019", providers["FA3-PROVIDER-XTTS-001"].get("model", {}).get("license_acceptance_required") is True and "VOICE_LICENSE_ACCEPTANCE_AUDITABLE" in rules, "auditable model-license acceptance")
     consent_rules = contract.get("contracts", {}).get("consent", {}).get("rules", [])
-    check("VOICE-020", any("VOICE_CLONING" in item for item in consent_rules), "typed cloning consent scope")
-    check("VOICE-021", any("expired or revoked" in item for item in consent_rules), "consent expiry/revocation")
+    consent_required = set(contract.get("contracts", {}).get("consent", {}).get("required", []))
+    check("VOICE-020", any("VOICE_CLONING" in item for item in consent_rules) and any("VOICE_CONVERSION" in item for item in consent_rules) and any("SINGING_VOICE_CONVERSION" in item for item in consent_rules) and any("REALTIME_VOICE_CONVERSION" in item for item in consent_rules) and {"issuer_ref", "jurisdiction", "legal_basis_ref", "signature_ref"}.issubset(consent_required), "typed, issued and signed cloning/transformation consent")
+    check("VOICE-021", any("expired or revoked" in item for item in consent_rules) and any("deletion receipt" in item for item in consent_rules), "consent expiry/revocation and deletion receipt")
     reference_rules = contract.get("contracts", {}).get("reference", {}).get("rules", [])
     check("VOICE-022", any("transcript digest" in item for item in reference_rules) and any("audio_sha256" in item for item in reference_rules), "reference audio/transcript hashes")
-    check("VOICE-023", "retention_policy_ref" in contract.get("contracts", {}).get("reference", {}).get("required", []), "reference retention/deletion policy")
-    check("VOICE-024", contract.get("security", {}).get("voice_design_requires_synthetic_disclosure") is True and contract.get("security", {}).get("impersonation_fraud_and_disinformation_use_forbidden") is True, "synthetic disclosure and misuse policy")
+    check("VOICE-023", "retention_policy_ref" in contract.get("contracts", {}).get("reference", {}).get("required", []) and {"derived_asset_lineage_ref", "retention_policy_ref"}.issubset(consent_required), "reference and derived-asset retention/deletion policy")
+    check("VOICE-024", contract.get("security", {}).get("voice_design_requires_synthetic_disclosure") is True and contract.get("security", {}).get("impersonation_fraud_and_disinformation_use_forbidden") is True and "synthetic_disclosure" in transformation_result_required and "target_voice_identity_ref" not in transformation_required and "target_voice_identity_ref" in transformation_conditional and "target_voice_identity_ref" not in transformation_result_required and "target_voice_identity_ref" in transformation_result_conditional, "synthetic/transformed disclosure, conditional target identity and misuse policy")
     quality = contract.get("contracts", {}).get("quality", {})
     check("VOICE-025", {"numbers", "dates", "abbreviations", "currency", "diacritics", "long-form chunk boundaries"}.issubset(set(quality.get("hungarian_minimum", []))), "Hungarian normalization corpus")
     check("VOICE-026", profile.get("promotion", {}).get("hungarian_golden_corpus_required") is True and "speaker_similarity_if_cloned" in quality.get("required", []), "Hungarian quality gate")
@@ -146,7 +222,8 @@ def run_conformance(root: Path) -> dict[str, Any]:
     for capability_id in CAPABILITY_IDS:
         item = next((entry for entry in registry.get("records", []) if entry.get("subject_id") == capability_id), {})
         bound.append(DECISION_ID in item.get("source_decision_ids", []) and EVIDENCE_PATH in item.get("evidence_artifacts", []) and item.get("status") == "PENDING_CURRENT_HOST")
-    check("VOICE-032", GATE_ID in policy.get("mandatory_reference_gates", []) and all(bound) and admission.get("new_capabilities") == 0, "mandatory gate, evidence bindings and disabled-provider nonblocking invariant")
+    reference_materialization = contract.get("reference_materialization", {})
+    check("VOICE-032", GATE_ID in policy.get("mandatory_reference_gates", []) and all(bound) and admission.get("new_capabilities") == 0 and reference_materialization.get("child_provider_admission") is False and reference_materialization.get("material_adoption") is False and reference_materialization.get("reference_role") == "DISCOVERY_AND_PROVENANCE_ONLY", "mandatory gate, evidence bindings, reference-only child boundary and disabled-provider nonblocking invariant")
 
     passed = sum(item["result"] == "PASS" for item in checks)
     return {"schema": "fa3.voice-synthesis-gate-report.v1", "gate_id": GATE_ID, "profile_id": PROFILE_ID, "result": "PASS" if passed == len(checks) == 32 else "FAIL", "passed": passed, "total": len(checks), "cases": checks, "current_host_status": "PENDING_REAL_HOST_EXECUTION", "current_host_production_claim": False, "hungarian_quality_claim": False}

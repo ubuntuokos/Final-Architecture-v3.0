@@ -1,0 +1,50 @@
+{
+  "schema": "fa3.reference-evidence.v1",
+  "id": "FA3-EVIDENCE-MINIMAX-H3-SERVICE-ACCESS-2026-09-07",
+  "date": "2026-09-07",
+  "status": "PASS",
+  "profile_id": "FA3-VIDEO-001",
+  "provider_id": "FA3-PROVIDER-MINIMAX-H3-001",
+  "decision_id": "FA3-DEC-MINIMAX-H3-SERVICE-ACCESS-2026-09-07",
+  "reference_id": "FA3-MINIMAX-H3-SERVICE-REFERENCE-2026-09-07",
+  "evidence_class": "CANONICAL_POLICY_AND_REFERENCE_CONFORMANCE_ONLY",
+  "assertions": [
+    {
+      "id": "H3-SERVICE-001",
+      "result": "PASS",
+      "assertion": "Local open-weight deployment and hosted Open Platform execution are represented as separate admission domains."
+    },
+    {
+      "id": "H3-SERVICE-002",
+      "result": "PASS",
+      "assertion": "PAYG API Key and Token Plan Subscription Key are separate non-interchangeable credential classes."
+    },
+    {
+      "id": "H3-SERVICE-003",
+      "result": "PASS",
+      "assertion": "Commercial plan availability, quota, model eligibility, concurrency and rate limits are dynamically discovered rather than canonicalized."
+    },
+    {
+      "id": "H3-SERVICE-004",
+      "result": "PASS",
+      "assertion": "Billing or credential-class fallback requires explicit policy and an admitted target credential; automatic substitution is forbidden."
+    },
+    {
+      "id": "H3-SERVICE-005",
+      "result": "PASS",
+      "assertion": "Open-weight licence admission and hosted paid-service terms admission remain separate and fail-closed."
+    },
+    {
+      "id": "H3-SERVICE-006",
+      "result": "PASS",
+      "assertion": "Unverified or stale notices about Team plan availability cannot become canonical service state."
+    }
+  ],
+  "passed": 6,
+  "total": 6,
+  "current_host_runtime_promotion_claim": false,
+  "provider_runtime_execution_claim": false,
+  "capability_count_after": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}

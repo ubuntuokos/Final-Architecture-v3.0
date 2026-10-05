@@ -1,0 +1,41 @@
+{
+  "schema": "fa3.desktop-portability-gate.v1",
+  "id": "FA3-GATE-DESKTOP-PORTABILITY-001",
+  "title": "Generic Linux Desktop Portability Gate",
+  "type": "EXECUTABLE_CANONICAL_GATE",
+  "status": "MATERIALIZED",
+  "priority": "P0",
+  "base_profile": "FA3-DESKTOP-BASE-001",
+  "reference_profile": "FA3-DESKTOP-PLASMA-001",
+  "fail_closed": true,
+  "architectural_authority": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count": 175,
+  "command": "python3 ./bin/fa3-desktop-admission --self-test --json",
+  "runtime_probe_command": "python3 ./bin/fa3-desktop-admission --json",
+  "mandatory_invariants": [
+    "PORTABLE_CORE_HAS_NO_DIRECT_PLASMA_PRIVATE_DEPENDENCY",
+    "REQUIRED_LOGICAL_CAPABILITIES_FAIL_CLOSED_WHEN_LOCAL_GUI_IS_REQUIRED",
+    "WAYLAND_IS_PREFERRED_NOT_REQUIRED",
+    "X11_COMPATIBILITY_DOES_NOT_FAIL_ADMISSION",
+    "OPTIONAL_TRAY_OR_GLOBAL_SHORTCUT_ABSENCE_DOES_NOT_FAIL_CORE_ADMISSION",
+    "COSMIC_AND_OTHER_SUPPORTED_DESKTOPS_USE_GENERIC_XDG_BOUNDARY",
+    "HEADLESS_IS_VALID_WHEN_LOCAL_GUI_IS_NOT_REQUIRED",
+    "PLASMA_ENHANCEMENTS_DO_NOT_GAIN_ARCHITECTURAL_AUTHORITY",
+    "QT6_QML_IS_NATIVE_APPLICATION_CORE",
+    "QT_BASED_DESKTOP_MAY_USE_NATIVE_QT_INTEGRATION_WITHOUT_DOWNLEVELING",
+    "KDE_KF6_ENHANCEMENTS_ALLOWED_BEHIND_FA3_INTERFACES",
+    "XDG_FREEDESKTOP_INTEROP_PRESERVES_NON_QT_DESKTOP_SUPPORT",
+    "NATIVE_DESKTOP_ENHANCEMENTS_DO_NOT_CREATE_AUTHORITY_OR_CORE_DESKTOP_DEPENDENCY"
+  ],
+  "promotion_semantics": {
+    "synthetic_ci_pass_is_architecture_regression_evidence": true,
+    "synthetic_ci_pass_is_current_host_desktop_evidence": false,
+    "runtime_probe_required_for_claimed_host_desktop_support": true,
+    "unsupported_optional_feature_blocks_global_promotion": false,
+    "missing_required_logical_capability_when_gui_required_blocks_admission": true
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}

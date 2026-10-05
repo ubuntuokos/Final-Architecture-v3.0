@@ -1,0 +1,16 @@
+name: FA3 step-ca Session Vault Root Ceremony
+on:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  static:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - name: Ceremony runner tests
+        run: PYTHONPATH=src python -m unittest tests.test_step_ca_session_vault_ceremony -v
+      - name: Existing step-ca current-host tests
+        run: PYTHONPATH=src python -m unittest tests.test_step_ca_current_host -v

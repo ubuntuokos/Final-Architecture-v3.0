@@ -1,15 +1,18 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import argparse
 import json
 from pathlib import Path
 from typing import Any
 
+from fa3_buzz_global_reconciliation import reconciliation_check
+
 PROVIDER_ID = "FA3-PROVIDER-BUZZ-001"
 DECISION_ID = "FA3-DEC-BUZZ-2026-08-30"
 GATE_ID = "FA3-BUZZ-GATESET-001"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 P0_INVARIANT = "BUZZ_AUTHORITY_SEPARATION_FAIL_CLOSED"
 MANDATORY_CONSTRAINT = (
     "Buzz SHALL NOT become an FA3 identity, authorization, MCP, workflow, evidence, "
@@ -485,10 +488,12 @@ def gate(root: Path) -> dict[str, Any]:
     reference = reference_check(root)
     authority_scan = scan_canonical_authority_assignments(root)
     regressions = run_regressions()
+    global_reconciliation = reconciliation_check(root)
     ok = (
         reference["result"] == "PASS"
         and authority_scan["result"] == "PASS"
         and regressions["result"] == "PASS"
+        and global_reconciliation["result"] == "PASS"
     )
     report = {
         "schema": "fa3.buzz-gate-report.v1",
@@ -500,6 +505,7 @@ def gate(root: Path) -> dict[str, Any]:
         "reference": reference,
         "authority_scan": authority_scan,
         "regressions": regressions,
+        "global_reconciliation": global_reconciliation,
         "runtime_provider_required": False,
         "promotion_effect": "MANDATORY_CANONICAL_AUTHORITY_SEPARATION_PROVIDER_RUNTIME_OPTIONAL",
     }

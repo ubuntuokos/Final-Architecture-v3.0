@@ -1,0 +1,46 @@
+{
+  "schema": "fa3.decision-fabric-assessment.v1",
+  "project_id": "FA3-QUALITY-ANTI-SLOP-NATIVE-2026-09-23",
+  "covered_ids": [
+    "FA3-QUALITY-ANTI-SLOP-001"
+  ],
+  "assessment": "RECOMMENDED",
+  "rationale": "The native quality profile has a bounded semantic selection point when several deterministically eligible quality skills match a task. Decision Fabric may rank/select only within that prefiltered set; deterministic rule execution, purpose-gate PASS/FAIL, application design direction, admission and all FA3 authorities remain outside Decision Fabric.",
+  "decision_points": [
+    {
+      "id": "quality-skill-selection",
+      "purpose": "select the minimum relevant subset from deterministically eligible FA3-native quality skills when more than one concern matches",
+      "contract": "MULTI_LABEL",
+      "candidate_source": "FA3-SKILL-FABRIC-001 deterministic task-class eligibility",
+      "final_policy_owner": "FA3-SKILL-FABRIC-001 + FA3-QUALITY-ANTI-SLOP-001",
+      "failure_policy": "DETERMINISTIC_ELIGIBLE_SET_WITHOUT_CANDIDATE_EXPANSION"
+    }
+  ],
+  "not_delegated": [
+    "quality rule PASS/FAIL",
+    "hard-gate waiver",
+    "purpose-gate waiver",
+    "application design direction",
+    "skill admission",
+    "tool or execution authorization",
+    "model or provider admission",
+    "candidate-set construction or expansion",
+    "release or promotion authority"
+  ],
+  "project_radar_checked": true,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "global_accelerator_requirement": false
+  },
+  "security_boundary": {
+    "may_grant_permission": false,
+    "may_expand_candidate_set": false,
+    "may_create_agent": false,
+    "may_admit_model": false,
+    "may_admit_provider": false
+  },
+  "shadow_mode_required": false,
+  "capability_delta": 0,
+  "authority_delta": 0
+}

@@ -1,0 +1,44 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-LICENSE-RIGHTS-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "capability_count": 175,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "contracts": [
+    "LicenseRightsDescriptor",
+    "CodeLicenseAttestation",
+    "ModelLicenseAttestation",
+    "DatasetRightsAttestation",
+    "CreativeAssetRightsAttestation",
+    "ProviderServiceTermsAttestation",
+    "OutputUsageRightsAttestation",
+    "CommercialEntitlementReference",
+    "AttributionObligation",
+    "SourceOfferObligation",
+    "RightsDecisionReceipt",
+    "ReleaseLicenseComplianceReceipt"
+  ],
+  "descriptor_required_fields": [
+    "subject",
+    "source",
+    "license",
+    "rights",
+    "obligations",
+    "disposition",
+    "evidence"
+  ],
+  "disposition_semantics": {
+    "ALLOW": "Rights proven and no unresolved obligations block the requested use.",
+    "ALLOW_WITH_OBLIGATIONS": "Use is admitted only while recorded obligations are satisfied.",
+    "REVIEW_REQUIRED": "No automatic admission; human/legal review required.",
+    "REFERENCE_ONLY": "May be consulted as a reference but not copied, bundled or promoted by implication.",
+    "DENY": "Requested use is not admitted."
+  },
+  "entitlement_semantics": {
+    "raw_secret_material": "FORBIDDEN",
+    "canonical_representation": "OPAQUE_REFERENCE_ONLY",
+    "resolution_authority": "FA3-SECRET-BROKER-001_OR_ADMITTED_SECRET_PROVIDER"
+  }
+}

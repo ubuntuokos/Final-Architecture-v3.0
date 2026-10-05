@@ -1,0 +1,27 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-BUZZ-RUNTIME-UPSTREAM-REFERENCE-2026-09-07",
+  "date": "2026-09-07",
+  "provider_id": "FA3-PROVIDER-BUZZ-001",
+  "repository": "block/buzz",
+  "reference_role": "RUNTIME_ADMISSION_PATTERN_AND_IMMUTABLE_DESKTOP_SOURCE_REFERENCE_NOT_PRODUCTION_PROMOTION",
+  "desktop_release": {
+    "tag": "desktop-v0.5.23",
+    "commit": "b9392d9d78744df365f9276e1ffe8c1baa5ea903",
+    "release_merge_commit": "3c7f288c60d67df78577b237e27c3dfc8831aaa1",
+    "observed_date": "2026-09-07"
+  },
+  "observed_runtime_surfaces": [
+    "buzz-agent -> stdio MCP -> buzz-dev-mcp tool path exists upstream",
+    "remote agents use swappable provider binaries",
+    "upstream release process binds desktop release to immutable reviewed candidate tags"
+  ],
+  "fa3_risk_findings": [
+    "Raw buzz-dev-mcp host tooling is not accepted as an FA3 workspace containment boundary.",
+    "Desktop agent processes may share an OS-user filesystem boundary; FA3 therefore requires an external wrapper/sandbox boundary for production admission.",
+    "Provider or agent output is treated as hostile input.",
+    "Raw provider private-key handoff is not accepted as the default FA3 secret boundary."
+  ],
+  "current_host_runtime_promotion_claim": false,
+  "floating_main_allowed_for_runtime_promotion": false
+}

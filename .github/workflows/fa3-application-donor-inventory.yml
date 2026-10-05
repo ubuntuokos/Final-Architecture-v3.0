@@ -1,0 +1,47 @@
+name: FA3 Application Donor Inventory
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 3 1 * *"
+  workflow_dispatch:
+jobs:
+  application-donor-integrity:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Static application inventory and product-family placement gate
+        run: python3 src/fa3_application_donor_index.py --check --summary
+      - name: Capability consumer map gate
+        run: python3 src/fa3_application_donor_index.py --check --output capability-map.json
+      - name: Tutorial shared-capability materialization self-check
+        run: python3 src/fa3_tutorial_reuse_planner.py --self-check --check
+      - name: Monthly donor capability refresh gate
+        if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
+        run: python3 src/fa3_application_donor_index.py --check --monthly-refresh-check --summary
+      - name: Donor-change impact
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          if [ -n "${BASE_SHA:-}" ] && git cat-file -e "$BASE_SHA:canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json" 2>/dev/null; then
+            git show "$BASE_SHA:canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json" > "$RUNNER_TEMP/fa3-donor-before.json"
+            python3 src/fa3_application_donor_index.py --check --previous-registry "$RUNNER_TEMP/fa3-donor-before.json" --output donor-impact.json
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fa3-application-donor-impact
+          path: |
+            donor-impact.json
+            capability-map.json
+          if-no-files-found: ignore
+      - name: Regression and safety negative tests
+        run: |
+          python3 -m unittest tests.test_application_donor_index -v
+          python3 -m unittest tests.test_engine_selector -v
+          python3 -m unittest tests.test_tutorial_reuse_planner -v
+          python3 -m unittest tests.test_donor_readiness -v

@@ -1,0 +1,54 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-MCP-GATEWAY-CONTRACTS-001",
+  "profile": "FA3-MCP-GATEWAY-001",
+  "authority": "FA3-AUTH-MCP-GATEWAY-001",
+  "provider_neutral": true,
+  "fail_closed": true,
+  "transport": {
+    "canonical_revision": "2026-07-28",
+    "stateless": true,
+    "required_request_headers": ["MCP-Protocol-Version", "Mcp-Method", "Mcp-Name"],
+    "required_request_meta": [
+      "io.modelcontextprotocol/protocolVersion",
+      "io.modelcontextprotocol/clientCapabilities"
+    ],
+    "server_discover": true,
+    "transport_session_state": false,
+    "mcp_session_id": "REJECT",
+    "legacy_initialize": "REJECT_ON_MODERN_ENDPOINT",
+    "header_body_mismatch": "REJECT"
+  },
+  "routing": {
+    "unit": "typed FA3 capability",
+    "provider_activation": "ADMISSION_AND_EVIDENCE_GATED",
+    "unknown_capability": "DENY",
+    "unknown_provider": "DENY",
+    "automatic_cross_authority_fallback": false,
+    "application_state": "EXPLICIT_HANDLE_OR_FA3_CONTEXT_ID_ONLY"
+  },
+  "security": {
+    "identity": "REQUIRED",
+    "policy_decision": "REQUIRED",
+    "approval": "RISK_AND_PROVIDER_POLICY_DEPENDENT",
+    "secret_material": "OPAQUE_REFERENCE_ONLY",
+    "hrb_lease": "REQUIRED_WHEN_GOVERNED_COMPUTE",
+    "sandbox": "REQUIRED_FOR_UNTRUSTED_OR_PRIVILEGED_EXECUTION",
+    "supply_chain": "PIN_HASH_SCAN_SIGN_PROMOTE",
+    "prompt_injection_and_tool_call_firewall": "REQUIRED",
+    "receipt": "REQUIRED"
+  },
+  "gui": {
+    "direct_tool_invocation_from_qml": "FORBIDDEN",
+    "gui_self_approval": "FORBIDDEN",
+    "live_read_only_health_and_registry_projection": "ALLOWED",
+    "inspector_execution": "POLICY_GATED_BACKEND_ONLY",
+    "fabricated_connected_or_pass_state": "FORBIDDEN"
+  },
+  "lifecycle": {
+    "drivers": ["systemd", "native-process", "podman", "docker", "kubernetes", "remote"],
+    "kubernetes_required": false,
+    "azure_required": false,
+    "entra_id_required": false
+  }
+}

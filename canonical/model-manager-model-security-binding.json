@@ -1,0 +1,15 @@
+{
+  "schema": "fa3.model-manager-model-security-binding.v1",
+  "id": "FA3-MODEL-MANAGER-MODEL-SECURITY-BINDING-001",
+  "model_manager_profile": "FA3-MODEL-MANAGER-001",
+  "security_profile": "FA3-MODEL-ARTIFACT-SECURITY-001",
+  "runtime_conformance": "FA3-MODEL-ARTIFACT-SECURITY-RUNTIME-CONFORMANCE-001",
+  "runtime_gate": "FA3-GATE-MODEL-ARTIFACT-SECURITY-CURRENT-HOST-001",
+  "hook_id": "FA3-MODEL-MANAGER-SECURITY-HOOK-001",
+  "hook_implementation": "src/fa3_model_manager_security_hook.py",
+  "promotion_precondition": "SECURITY_ADMITTED",
+  "artifact_hash_binding_required": true,
+  "direct_provider_download_to_promoted_store": "FORBIDDEN",
+  "scanner_output_is_promotion_authority": false,
+  "fail_closed": true
+}

@@ -1,8 +1,8 @@
 {
   "schema": "fa3.profile-record.v1",
   "id": "FA3-VIDEO-001",
-  "name": "Multimodal Generative Video, Reference Conditioning, Cinematic Control & Hybrid Execution Profile",
-  "version": "1.0.0",
+  "name": "Shared Motion & Video Generation, Provider Interchange, Refinement & Hybrid Execution Profile",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -12,12 +12,19 @@
   "capabilities": [
     "CAP-016",
     "CAP-123",
-    "CAP-126"
+    "CAP-126",
+    "CAP-159",
+    "CAP-160"
   ],
   "contracts": [
     "FA3-VIDEO-CONTRACTS-001",
+    "FA3-MMG-CONTEXT-IR-CONTRACTS-001",
     "FA3-GENERATIVE-PIPELINE-MULTIVIEW-CONTRACTS-001",
-    "FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001"
+    "FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001",
+    "FA3-CREATIVE-PROJECT-WORKFLOW-CONTRACTS-001",
+    "FA3-MOTION-VIDEO-EXECUTION-CONTRACTS-001",
+    "FA3-VIDEO-MODEL-ROUTER-PROJECTION-CONTRACTS-001",
+    "FA3-VIDEO-REFINEMENT-CONTRACTS-001"
   ],
   "dependencies": [
     "FA3-CONTRACT-001",
@@ -51,17 +58,45 @@
     "scene_spatial_camera_authority": "FA3-DCC-RT3D-001",
     "editorial_handoff": "OTIO_KDENLIVE"
   },
+  "multimodal_generation_context_ir": {
+    "id": "FA3-MMG-CONTEXT-IR-001",
+    "contract_id": "FA3-MMG-CONTEXT-IR-CONTRACTS-001",
+    "canonical_type": "MultimodalGenerationContextIR",
+    "embedding": "TYPED_CHILD_OF_VideoGenerationIR",
+    "compiler": "video_context_compiler",
+    "provider_neutral": true,
+    "canonical_root": false,
+    "architectural_authority": false,
+    "provider_selection_authority": false,
+    "hosted_provider_context_ir_dependency": false,
+    "gate_id": "FA3-MMG-CONTEXT-IR-GATESET-001",
+    "reference_implementation": {
+      "id": "FA3-MMG-CONTEXT-IR-REFERENCE-001",
+      "gate_id": "FA3-GATE-MMG-CONTEXT-IR-001",
+      "source_path": "src/fa3_mmg_context_ir.py",
+      "status": "EXECUTABLE_REFERENCE_PASS",
+      "provider_neutral": true,
+      "architectural_authority": false,
+      "provider_runtime_promotion_claim": false
+    }
+  },
   "mandatory_execution_chain": [
     "creative_intent",
     "story_shot_voice_dcc_constraints",
     "video_context_compiler",
+    "MultimodalGenerationContextIR",
     "VideoGenerationIR",
     "security_license_gate",
     "provider_capability_matching",
-    "provider_routing",
+    "model_router_provider_model_selection",
+    "workload_mode_binding",
     "local_hrb_or_remote_admission",
     "provider_projection",
-    "generate_edit_extend_regenerate",
+    "ProviderProjectionLossReport",
+    "base_generation",
+    "optional_model_router_refiner_selection",
+    "optional_refiner_hrb_admission",
+    "optional_video_refinement",
     "av_continuity_identity_prompt_qc",
     "provenance_evidence",
     "vfx_dcc",
@@ -73,6 +108,16 @@
     "provider_syntax_must_not_be_canonical",
     "provider_specific_ir_must_not_be_canonical",
     "video_context_compiler_is_not_an_authority",
+    "mmg_context_ir_is_typed_child_of_VideoGenerationIR",
+    "mmg_context_ir_must_be_provider_neutral",
+    "reference_artifact_semantic_entity_and_reference_binding_are_distinct",
+    "reference_content_is_non_instructional_by_default",
+    "compiler_added_semantics_must_declare_origin_and_provenance",
+    "inference_must_not_override_hard_constraints",
+    "provider_projection_must_emit_loss_report",
+    "hard_projection_loss_fails_closed",
+    "mmg_reference_implementation_is_non_authoritative",
+    "mmg_reference_gate_is_executable_and_fail_closed",
     "provider_adapter_must_not_bypass_central_mcp_gateway",
     "provider_selection_remains_model_router_authority",
     "local_accelerator_execution_requires_host_resource_broker_admission",
@@ -80,10 +125,19 @@
     "scene_spatial_camera_state_remains_FA3-DCC-RT3D-001_authority",
     "generative_asset_editing_is_not_editorial_timeline_authority",
     "license_and_policy_admission_fail_closed",
-    "production_outputs_require_qc_and_provenance"
+    "production_outputs_require_qc_and_provenance",
+    "applications_must_consume_shared_motion_video_fabric_not_direct_h3",
+    "h3_remains_conditional_reference_optional_disabled_by_default",
+    "generator_and_refiner_lifecycles_are_separate",
+    "refiner_selection_remains_model_router_authority",
+    "refiner_local_resource_selection_remains_hrb_authority",
+    "cpu_reference_refinement_path_is_mandatory_at_fabric_level",
+    "silent_provider_model_refiner_device_backend_cloud_fallback_forbidden",
+    "refinement_quality_mode_must_be_explicit",
+    "physical_current_host_requalification_required_before_runtime_promotion"
   ],
-  "implementation_status": "CANONICAL_BASELINE_CLOSED_PROVIDER_IMPLEMENTATIONS_OPTIONAL",
-  "capability_count": 143,
+  "implementation_status": "MOTION_VIDEO_V3_SHARED_STATIC_MATERIALIZED_REFINEMENT_STATIC_MATERIALIZED_PHYSICAL_RUNTIME_REQUALIFICATION_PENDING",
+  "capability_count": 175,
   "provider_lifecycle_governance": {
     "contract_id": "FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001",
     "gate_id": "FA3-VIDEO-PROVIDER-LIFECYCLE-GATESET-001",
@@ -92,5 +146,56 @@
     "automatic_provider_promotion": false,
     "derived_cache_is_canonical_state": false,
     "runtime_promotion_requires_real_current_host_e2e": true
+  },
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "creative_project_workflow": {
+    "contract_id": "FA3-CREATIVE-PROJECT-WORKFLOW-CONTRACTS-001",
+    "skill_id": "fa3-creative-project-workflow",
+    "reference_implementation": "src/fa3_creative_project_workflow.py",
+    "gate_id": "FA3-CREATIVE-PROJECT-WORKFLOW-GATESET-001",
+    "project_state_schema": "fa3.creative-project-state.v1",
+    "scoped_revision": "EXPLICIT_DEPENDENCY_INVALIDATION_PLAN_PRESERVE_UNAFFECTED",
+    "project_context": "TASK_SCOPED_PROVENANCED_DOCUMENTS",
+    "editorial_projection": "OTIO_OR_FA3_VIDEO_EDITOR_COMMAND_BUS_ONLY",
+    "external_pattern_source": "FLOVA_PUBLIC_DOCUMENTATION_REFERENCE_ONLY",
+    "runtime_promotion_claim": false
+  },
+  "shared_motion_video_generation": {
+    "id": "FA3-MOTION-VIDEO-GENERATION-FABRIC-001",
+    "capability_ids": [
+      "CAP-159",
+      "CAP-160"
+    ],
+    "execution_contract_id": "FA3-MOTION-VIDEO-EXECUTION-CONTRACTS-001",
+    "routing_contract_id": "FA3-VIDEO-MODEL-ROUTER-PROJECTION-CONTRACTS-001",
+    "provider_adapter": "src/fa3_motion_video_provider_adapter.py",
+    "model_router_projection": "src/fa3_video_model_router.py",
+    "application_direct_provider_binding": false,
+    "h3_policy": "ACCEPTED_CONDITIONAL_REFERENCE_OPTIONAL_DISABLED_BY_DEFAULT",
+    "silent_fallback_allowed": false
+  },
+  "video_refinement": {
+    "contract_id": "FA3-VIDEO-REFINEMENT-CONTRACTS-001",
+    "reference_implementation": "src/fa3_video_refinement.py",
+    "generator_refiner_lifecycle_separated": true,
+    "modes": [
+      "ONE_STEP_DISTILLED",
+      "MULTI_STEP_REFERENCE"
+    ],
+    "quality_modes": [
+      "REFERENCE",
+      "OPTIMIZED",
+      "APPROXIMATE"
+    ],
+    "backend_classes": [
+      "CPU_REFERENCE",
+      "CUDA_OPTIONAL",
+      "ROCM_HIP_OPTIONAL",
+      "INTEL_XPU_OPTIONAL",
+      "REMOTE_OPTIONAL"
+    ],
+    "donor_pattern_source": "FA3-DONOR-NVLABS-SANA-001",
+    "runtime_dependency_on_donor": false,
+    "current_host_runtime_promotion_claim": false
   }
 }

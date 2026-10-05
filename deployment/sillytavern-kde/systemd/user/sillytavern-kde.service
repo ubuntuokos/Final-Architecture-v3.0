@@ -1,0 +1,17 @@
+[Unit]
+Description=FA3 SillyTavern KDE desktop client
+PartOf=graphical-session.target
+After=graphical-session.target
+StartLimitIntervalSec=60
+StartLimitBurst=3
+
+[Service]
+Type=simple
+ExecStart=%h/.local/libexec/fa3/sillytavern-kde-launch
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=15
+KillMode=control-group
+NoNewPrivileges=true
+PrivateTmp=true
+UMask=0077

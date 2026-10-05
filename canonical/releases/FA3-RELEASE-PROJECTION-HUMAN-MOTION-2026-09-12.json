@@ -1,0 +1,34 @@
+{
+  "schema": "fa3.release-projection.v1",
+  "id": "FA3-RELEASE-PROJECTION-HUMAN-MOTION-2026-09-12",
+  "date": "2026-09-12",
+  "profile_id": "FA3-HUMAN-MOTION-001",
+  "provider_ids": [
+    "FA3-PROVIDER-SOMA-X-001",
+    "FA3-PROVIDER-GEM-X-001"
+  ],
+  "capability_bindings": [
+    "CAP-032"
+  ],
+  "capability_count_before": 143,
+  "capability_count_after": 175,
+  "new_architectural_authorities": 0,
+  "reference_gate_status": "MATERIALIZED_EXPECTED_PASS",
+  "current_host_runtime_status": "PENDING_CURRENT_HOST",
+  "current_host_conformance_id": "FA3-HUMAN-MOTION-CURRENT-HOST-CONFORMANCE-001",
+  "current_host_gate_id": "FA3-GATE-HUMAN-MOTION-CURRENT-HOST-001",
+  "current_host_receipt_path": "evidence/receipts/human-motion-current-host.json",
+  "current_host_workflow": ".github/workflows/fa3-human-motion-current-host.yml",
+  "current_host_hardware_decision_id": "FA3-DEC-HUMAN-MOTION-HARDWARE-CONFORMANCE-2026-09-12",
+  "mandatory_hardware_conformance_chain": [
+    "HRB_COMPUTE_ROLE_ADMISSION",
+    "NON_DISPLAY_GPU",
+    "LIVE_UUID_PCI_BDF_IDENTITY",
+    "NUMA_LOCALITY_EVIDENCE",
+    "CUDA_EXECUTION",
+    "NO_CPU_OR_CROSS_ACCELERATOR_FALLBACK"
+  ],
+  "production_promotion_claimed": false,
+  "semantic_change": "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_UPDATE",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}

@@ -33,7 +33,7 @@
   "architectural_authority": false,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "activation_mode": "REQUIRED_SUPPORTED_CONDITIONAL_ON_LIVE_RUNTIME_COMPATIBILITY",
   "runtime_activation_status": "NOT_ADMITTED_PENDING_REAL_CURRENT_HOST_COMPATIBILITY_AND_E2E",
   "current_host_runtime_evidence": false,
@@ -64,5 +64,7 @@
     "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
     "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
   },
-  "normative_constraint": "Provides the portable correctness-first CUDA kernel baseline for FA3-admissible NVIDIA hardware when the live framework/runtime support matrix passes. It is an execution provider, not a hardware baseline or placement authority."
+  "normative_constraint": "Provides the portable correctness-first CUDA kernel baseline for FA3-admissible NVIDIA hardware when the live framework/runtime support matrix passes. It is an execution provider, not a hardware baseline or placement authority.",
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

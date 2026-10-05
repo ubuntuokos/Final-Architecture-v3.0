@@ -1,0 +1,51 @@
+{
+  "schema": "fa3.os-mcp-agent-exposure-admission-evidence.v1",
+  "id": "FA3-EVIDENCE-OS-MCP-AGENT-EXPOSURE-2026-09-18",
+  "conformance_id": "FA3-OS-MCP-AGENT-EXPOSURE-CONFORMANCE-001",
+  "gate_id": "FA3-OS-MCP-AGENT-EXPOSURE-GATESET-001",
+  "capability_id": "fa3.memory.retrieve",
+  "provider_id": "FA3-OS-REFERENCE-RUNTIME-001",
+  "adapter_id": "fa3.adapter.fa3-os.memory.retrieve",
+  "decision": "ADMIT_FOR_FINAL_CURRENT_HOST_VALIDATION",
+  "promotion_scope": "COMPONENT_ONLY",
+  "global_promotion_claim": false,
+  "candidate_evidence": {
+    "result": "PASS",
+    "status": "CANDIDATE_PASS",
+    "captured_at": "2026-09-18T05:43:02.556Z",
+    "workflow_run_id": 35311875088,
+    "workflow_artifact_id": 10533735749,
+    "workflow_artifact_digest": "sha256:3199b009c6466c52a059dfc9b81befa6a823a95cb869d9e6359e64f8ebc65779",
+    "receipt_sha256": "76732181428b1b5813304a12ca2b9ae90c53938ca51f911052c27e261297c1a9",
+    "repository_checkout_head": "4b5c60f6a2f3555d684026b8dbbf0469a159e87e",
+    "canonical_binding_state": "PENDING_CURRENT_HOST",
+    "service_left_enabled": false,
+    "protocol_version": "2026-07-28",
+    "transport_mode": "STATELESS",
+    "connected_adapter_count": 1,
+    "checks": {
+      "persistent_service_active": true,
+      "persistent_service_enabled": true,
+      "service_restart_verified": true,
+      "unix_socket_0600_verified": true,
+      "gateway_authority_verified": true,
+      "gateway_readiness_verified": true,
+      "non_agent_cgroup_denied": true,
+      "wrong_actor_denied": true,
+      "unscoped_retrieval_denied": true,
+      "scoped_agent_retrieval_passed": true,
+      "provider_binding_verified": true,
+      "source_event_retrieved": true,
+      "journal_audit_verified": true,
+      "minimized_projection_verified": true,
+      "global_promotion_not_claimed": true,
+      "canonical_registry_unchanged": true
+    }
+  },
+  "admission_conditions": [
+    "canonical provider binding is CONNECTED only after candidate current-host PASS",
+    "final admitted head must produce fresh CURRENT_HOST_PASS on fa3-current-host",
+    "persistent fa3-mcp-gateway.service must remain enabled and active after final PASS",
+    "global FA3 promotion remains unclaimed"
+  ]
+}

@@ -43,7 +43,7 @@ def reference_check(root:Path)->dict[str,Any]:
         fs.append(finding("COSY-REF-020","Voice profile identity/capability invariant drift"))
     if o["provider"].get("id")!=PROVIDER_ID or any(o["provider"].get(k) is not False for k in ("canonical_root","architectural_authority","new_capability")):
         fs.append(finding("COSY-REF-021","CosyVoice provider authority/root invariant drift"))
-    if o["decision"].get("new_capabilities")!=0 or o["decision"].get("new_architectural_authorities")!=0 or o["decision"].get("capability_count_after")!=CAPS:
+    if o["decision"].get("new_capabilities")!=0 or o["decision"].get("new_architectural_authorities")!=0 or not isinstance(o["decision"].get("capability_count_after"),int) or o["decision"].get("capability_count_after")>CAPS:
         fs.append(finding("COSY-REF-022","CosyVoice decision changed capability/authority invariants"))
     if o["decision"].get("upstream_repository_commit")!=UPSTREAM_COMMIT or o["decision"].get("model_revision")!=MODEL_REVISION:
         fs.append(finding("COSY-REF-023","CosyVoice immutable source/model decision pin drift"))

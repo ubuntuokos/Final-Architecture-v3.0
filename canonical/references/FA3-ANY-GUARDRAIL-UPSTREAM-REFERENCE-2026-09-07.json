@@ -1,0 +1,23 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-ANY-GUARDRAIL-UPSTREAM-REFERENCE-2026-09-07",
+  "date": "2026-09-07",
+  "provider_id": "FA3-PROVIDER-ANY-GUARDRAIL-001",
+  "repository": "mozilla-ai/any-guardrail",
+  "stable_reference": {
+    "release": "0.7.7",
+    "commit_sha": "8cb63bd664a0b7f44deb81a14b575611277fafe8",
+    "release_published_at": "2026-08-24T17:05:44Z"
+  },
+  "fa3_disposition": {
+    "classification": "OPTIONAL_REQUEST_TIME_GUARDRAIL_RUNTIME_AND_PATTERN_SOURCE",
+    "floating_main_allowed_as_promotion_evidence": false,
+    "provider_verdict_is_security_policy_authority": false,
+    "provider_verdict_is_tool_authorization": false,
+    "provider_runtime_required_when_disabled": false,
+    "current_host_runtime_promotion_claim": false,
+    "capability_specific_validation_required": true,
+    "benchmark_calibration_required_before_active_promotion": true
+  },
+  "notable_reference_change": "0.7.7 includes a poly-guard fail-closed fix when response harm verdict parsing fails; FA3 nevertheless keeps fail-mode semantics provider-neutral and evidence-gated."
+}

@@ -1,0 +1,11 @@
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-ra"
+markers = [
+  "physical_current_host: requires execution on the labeled physical FA3 current-host runner",
+  "privileged: requires a separately admitted privileged execution context",
+  "accelerator: requires an HRB-admitted accelerator lease",
+  "network: requires explicitly admitted network access",
+  "slow: long-running regression or integration test",
+]

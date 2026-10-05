@@ -1,0 +1,23 @@
+{
+  "schema": "fa3.provider-runtime-environment.v1",
+  "template_only": true,
+  "provider_id": "REPLACE_WITH_ADMITTED_PROVIDER_ID",
+  "execution_class": "OCI",
+  "hrb_admission_required": true,
+  "secret_delivery": "SECRETREF",
+  "host_global_reconfiguration": false,
+  "upstream_uninstall_required": false,
+  "supply_chain_receipt_status": "PASS",
+  "oci": {
+    "engine": "podman",
+    "rootless": true,
+    "image_ref": "REPLACE_WITH_PRELOADED_IMMUTABLE_IMAGE_REF",
+    "image_digest": "sha256:REPLACE_WITH_64_HEX_SHA256",
+    "build_recipe_sha256": "REPLACE_WITH_64_HEX_SHA256",
+    "mutable_tag_only": false,
+    "network_default": "DENY",
+    "explicit_mounts_only": true,
+    "accelerator_device_projection_from_hrb": true
+  },
+  "supply_chain_receipt_sha256": "REPLACE_WITH_64_HEX_SHA256_OF_SCS_RECEIPT"
+}

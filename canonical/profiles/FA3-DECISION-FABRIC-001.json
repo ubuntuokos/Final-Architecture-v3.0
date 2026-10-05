@@ -1,0 +1,103 @@
+{
+  "schema": "fa3.profile.v1",
+  "id": "FA3-DECISION-FABRIC-001",
+  "title": "Structured Decision, Selection and Judgment Fabric",
+  "priority": "P0",
+  "requirement": "MUST",
+  "status": "CANONICAL",
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "provider_neutral": true,
+  "cpu_only_supported": true,
+  "mandatory_cloud_dependency": false,
+  "mandatory_jev_dependency": false,
+  "contracts": [
+    "SELECT_ONE",
+    "BOOLEAN",
+    "SCORE",
+    "RANK",
+    "MULTI_LABEL",
+    "RELEVANCE",
+    "STOP_CONTINUE",
+    "BOUNDED_ACTION"
+  ],
+  "provider_classes": [
+    "DETERMINISTIC_RULES",
+    "LOCAL_SEMANTIC",
+    "JEV_OPTIONAL",
+    "TEST",
+    "SYSTEM_ONE_OPTIONAL"
+  ],
+  "candidate_set_source": "CALLING_FA3_AUTHORITY_ONLY",
+  "candidate_set_expansion": "DENY",
+  "final_execution_authority": false,
+  "direct_secret_access": "DENY",
+  "direct_hrb_lease": "DENY",
+  "direct_tool_execution": "DENY",
+  "direct_model_provider_routing": "DENY",
+  "default_rollout": "SHADOW",
+  "communication_contract": "FA3-AI-COMMS-CONTRACTS-001",
+  "trace_contract": "FA3-DECISION-TRACE-001",
+  "failure_modes": [
+    "FAIL_CLOSED",
+    "RULE_FALLBACK",
+    "EXISTING_BEHAVIOR",
+    "HUMAN_CONFIRM",
+    "NO_DECISION"
+  ],
+  "skill_selection_binding": {
+    "consumer_profile": "FA3-SKILL-FABRIC-001",
+    "candidate_source": "DETERMINISTIC_ELIGIBILITY_FILTER_ONLY",
+    "allowed_contracts": [
+      "SELECT_ONE",
+      "RANK",
+      "MULTI_LABEL",
+      "RELEVANCE"
+    ],
+    "candidate_expansion": "DENY",
+    "admission_authority": false,
+    "activation_authority": false
+  },
+  "quality_skill_selection_binding": {
+    "consumer_profile": "FA3-QUALITY-ANTI-SLOP-001",
+    "candidate_source": "DETERMINISTIC_QUALITY_CONCERN_PREFILTER_ONLY",
+    "allowed_contracts": [
+      "SELECT_ONE",
+      "MULTI_LABEL",
+      "RELEVANCE"
+    ],
+    "candidate_expansion": "DENY",
+    "admission_authority": false,
+    "activation_authority": false,
+    "design_authority": false
+  },
+  "provider_execution_selection_binding": {
+    "consumer_profile": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-001",
+    "candidate_source": "MODEL_ROUTER_DETERMINISTIC_ELIGIBILITY_FILTER_ONLY",
+    "allowed_contracts": [
+      "SELECT_ONE",
+      "RANK"
+    ],
+    "candidate_expansion": "DENY",
+    "credential_value_access": "DENY",
+    "provider_admission_authority": false,
+    "provider_routing_authority": false,
+    "credential_execution_authority": false
+  },
+  "system_one_reflex_binding": {
+    "contract": "FA3-SYSTEM-ONE-REFLEX-001",
+    "provider": "FA3-PROVIDER-SYSTEM-ONE-DECISION-001",
+    "bounded_action_contract": "BOUNDED_ACTION",
+    "candidate_source": "CALLING_FA3_AUTHORITY_ONLY",
+    "parameter_value_source": "CALLING_FA3_AUTHORITY_ONLY",
+    "confidence_is_authorization": false,
+    "execution_authority": false,
+    "model_routing_authority": "FA3-AUTH-MODEL-ROUTER-001",
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "low_confidence_handoff": "SYSTEM_TWO_OR_HUMAN"
+  }
+}

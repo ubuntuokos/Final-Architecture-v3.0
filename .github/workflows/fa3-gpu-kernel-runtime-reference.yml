@@ -1,0 +1,41 @@
+name: FA3 GPU Kernel Runtime Reference
+
+on:
+  pull_request:
+    paths:
+      - 'canonical/profiles/FA3-GPU-KERNEL-RUNTIME-001.json'
+      - 'canonical/contracts/FA3-GPU-KERNEL-RUNTIME-CONTRACTS-001.json'
+      - 'canonical/decisions/FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03.json'
+      - 'canonical/gpu-kernel-runtime-admission.json'
+      - 'canonical/gpu-kernel-runtime-enforcement.json'
+      - 'canonical/enforcement-policy.json'
+      - 'canonical/FA3-GATE-GPU-KERNEL-RUNTIME-001.json'
+      - 'evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json'
+      - 'src/fa3_gpu_kernel_dispatch_reference.py'
+      - 'src/fa3_gpu_kernel_runtime_gate.py'
+      - 'tests/test_gpu_kernel_runtime_gate.py'
+      - '.github/workflows/fa3-gpu-kernel-runtime-reference.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  backend-neutral-reference-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Python syntax
+        run: |
+          python -m py_compile             src/fa3_gpu_kernel_dispatch_reference.py             src/fa3_gpu_kernel_runtime_gate.py             tests/test_gpu_kernel_runtime_gate.py
+      - name: Kernel runtime regressions
+        env:
+          PYTHONPATH: src
+        run: python -m unittest tests.test_gpu_kernel_runtime_gate
+      - name: Canonical GPU kernel runtime gate
+        env:
+          PYTHONPATH: src
+        run: python src/fa3_gpu_kernel_runtime_gate.py --root "$GITHUB_WORKSPACE"

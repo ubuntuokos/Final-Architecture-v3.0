@@ -1,0 +1,130 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-OPENDLSS-NR-001",
+  "name": "maanHimself/OpenDLSS-NR",
+  "status": "ACCEPTED_CONDITIONAL_REFERENCE_NOT_PRODUCTION_ADMITTED",
+  "provider_role": "OPTIONAL_NEURAL_RENDERING_AND_TEMPORAL_RECONSTRUCTION_EXECUTION_PROVIDER",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "MIT_SOURCE",
+    "IMMUTABLE_UPSTREAM_PIN",
+    "NATIVE_VENDOR_AND_PLATFORM_SCOPED",
+    "BROWSER_WEBGPU_REFERENCE_PATH",
+    "MODEL_DATA_NOT_BUNDLED",
+    "NOT_ARCHITECTURAL_AUTHORITY"
+  ],
+  "profile_ids": [
+    "FA3-NEURAL-RENDERING-001",
+    "FA3-NEURAL-MEDIA-EXECUTION-001",
+    "FA3-WEB-AI-001"
+  ],
+  "contract_ids": [
+    "FA3-NEURAL-RENDERING-CONTRACTS-001"
+  ],
+  "capability_bindings": [
+    "CAP-016",
+    "CAP-056",
+    "CAP-060",
+    "CAP-071",
+    "CAP-083",
+    "CAP-111",
+    "CAP-121",
+    "CAP-126",
+    "CAP-127",
+    "CAP-135",
+    "CAP-136"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "upstream": {
+    "repository": "https://github.com/maanHimself/OpenDLSS-NR",
+    "commit": "9d08f4184bbcb9d858e2fb7a7834ec0837a9d2f1",
+    "license": "MIT",
+    "commit_signature_verified": false,
+    "signature_verification_reason": "unsigned",
+    "verified_metadata_on": "2026-09-23",
+    "weights_in_repository": false,
+    "nvidia_software_headers_or_weights_in_repository": false
+  },
+  "execution_classes": {
+    "HOST_NATIVE_VULKAN_PTX": {
+      "upstream_platform_requirement": "Windows",
+      "upstream_accelerator_requirement": "NVIDIA Ada or newer",
+      "required_extensions": [
+        "VK_KHR_cooperative_matrix",
+        "VK_NV_cooperative_matrix2",
+        "VK_EXT_shader_float8",
+        "VK_NV_cuda_kernel_launch"
+      ],
+      "reference_route": "GLSL",
+      "optimized_route": "PTX",
+      "route_parity_required": true,
+      "barrier_free_chain_is_vulkan_guarantee": false,
+      "watchdog_required_for_chain": true,
+      "barrier_fallback_required": true,
+      "fa3_global_hardware_requirement": false,
+      "hrb_lease_required": true,
+      "current_host_status": "PENDING_COMPATIBLE_PROVIDER_E2E"
+    },
+    "BROWSER_WEBGPU": {
+      "upstream_path": "ports/browser-webgpu",
+      "tensor_core_required": false,
+      "native_fp8_required": false,
+      "inline_ptx_required": false,
+      "fa3_profile": "FA3-WEB-AI-001",
+      "authority": false,
+      "current_status": "REFERENCE_PATH_PENDING_FA3_BROWSER_RUNTIME_EVIDENCE"
+    }
+  },
+  "upstream_reference_claims": {
+    "network": "71-block Swin/ViT neural rendering network compatible with DLSS-NR 310.8.0",
+    "native_numerics": "upstream claims bit-exact reference and optimized-route parity",
+    "browser_numerics": "upstream reports bit-exact/tolerance parity fixtures",
+    "benchmark_semantics": "UPSTREAM_REFERENCE_ONLY_NOT_FA3_CURRENT_HOST_EVIDENCE"
+  },
+  "model_artifact": {
+    "weights_bundled": false,
+    "user_supplied_model_directory": true,
+    "manifest_stage_sha256_supported": true,
+    "model_registry_admission_required": true,
+    "license_and_output_rights_admission_required": true,
+    "weight_provenance_required": true,
+    "runtime_download_forbidden": true
+  },
+  "supply_chain": {
+    "immutable_commit_required": true,
+    "upstream_lock_registry": "FA3-UPSTREAM-LOCK-REGISTRY-001",
+    "unsigned_upstream_commit": true,
+    "production_source_archive_digest_required": true,
+    "production_security_scan_required": true,
+    "production_attestation_or_review_required": true,
+    "source_license_does_not_grant_model_data_rights": true
+  },
+  "authority_boundaries": {
+    "workflow": false,
+    "agent": false,
+    "provider_selection": false,
+    "model_routing": false,
+    "geometry": false,
+    "host_resource": false,
+    "device_placement": false,
+    "secret": false,
+    "security": false,
+    "evidence": false
+  },
+  "activation": {
+    "enabled_by_default": false,
+    "production_admitted": false,
+    "global_current_host_hard_dependency": false,
+    "provider_runtime_required_for_global_promotion_when_disabled": false,
+    "exact_provider_failure": "FAIL_CLOSED_NO_SILENT_SUBSTITUTION"
+  },
+  "adapter": {
+    "module": "src/fa3_opendlss_nr_provider.py",
+    "cli": "bin/fa3-opendlss-nr",
+    "integration_strategy": "PINNED_UPSTREAM_PROVIDER_ADAPTER_NO_VENDOR_COPY_IN_CORE"
+  }
+}

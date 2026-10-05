@@ -1,0 +1,32 @@
+{
+  "schema": "fa3.reusable-pattern.v1",
+  "id": "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001",
+  "name": "Fail-Closed Compatibility",
+  "status": "CANONICAL",
+  "problem_classes": [
+    "compatibility",
+    "runtime-compatibility",
+    "format-compatibility",
+    "semantic-space",
+    "protocol-compatibility"
+  ],
+  "source_records": [
+    "FA3-INFERENCE-PORTABILITY-001"
+  ],
+  "applicability": [
+    "runtime-compatibility",
+    "format-compatibility",
+    "semantic-space",
+    "protocol-compatibility"
+  ],
+  "constraints": [
+    "NO_NEW_ARCHITECTURAL_AUTHORITY",
+    "SOURCE_PROVENANCE_REQUIRED",
+    "FA3_POLICY_BOUNDARIES_RETAINED"
+  ],
+  "authority": false,
+  "code_reuse": "PATTERN_REIMPLEMENTATION",
+  "license_implications": "Pattern metadata is FA3-native; any external source code remains subject to its own license/distribution review.",
+  "known_consumers": [],
+  "supersedes": null
+}

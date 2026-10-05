@@ -22,6 +22,12 @@
       "enforcement": "Any registry, profile, contract, provider, runtime or promotion record assigning Buzz any prohibited FA3 authority role MUST fail closed."
     }
   ],
+  "child_gates": [
+    "FA3-BUZZ-WRAPPER-GATESET-001"
+  ],
+  "runtime_admission_contract_id": "FA3-BUZZ-RUNTIME-ADMISSION-CONTRACTS-001",
+  "runtime_admission_id": "FA3-BUZZ-RUNTIME-ADMISSION-001",
+  "runtime_admission_enforcement": "canonical/buzz-runtime-admission-enforcement.json",
   "pattern_source_scope": [
     "delegated agent identity",
     "signed event provenance",

@@ -1,0 +1,98 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-AGENCY-AGENTS-PROVIDER-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-PROVIDER-AGENCY-AGENTS-001",
+  "intent_id": "FA3-AGENCY-AGENTS-PROVIDER-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-AGENCY-AGENTS-PROVIDER-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-PROVIDER-AGENCY-AGENTS-001"
+  ],
+  "project_status": "MATERIALIZED_GUI_CURRENT_HOST_PASS_MAIN_RECONCILED",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-AGENT-EXEC-001",
+      "use": "PARENT_AGENT_EXECUTION_PROFILE"
+    },
+    {
+      "id": "FA3-AGENT-DEFINITION-001",
+      "use": "CANONICAL_AGENT_DEFINITION"
+    },
+    {
+      "id": "FA3-GUI-SURFACE-REGISTRY-001",
+      "use": "GUI_PROJECTION_REGISTRY"
+    },
+    {
+      "id": "FA3-AUTH-SECURITY-GOV-001",
+      "use": "SECURITY_POLICY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "EVIDENCE_AUTHORITY"
+    },
+    {
+      "id": "FA3-REGISTRY-001",
+      "use": "CANONICAL_IDENTITY_AND_STATUS"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "PARALLEL_ARCHITECTURAL_AUTHORITY",
+      "reason": "EXISTING_FA3_AUTHORITIES_MUST_BE_REUSED"
+    },
+    {
+      "id": "UPSTREAM_REPLACEMENT_OR_HOST_HIJACK",
+      "reason": "SOFTWARE_COEXISTENCE_AND_HOST_NON_INTERFERENCE_REQUIRED"
+    }
+  ],
+  "pattern_reuse": [
+    "FA3-PATTERN-PROVIDER-NEUTRAL-ADAPTER-001",
+    "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001"
+  ],
+  "existing_authority_bindings": {
+    "parent_agent_execution_profile": "FA3-AGENT-EXEC-001",
+    "canonical_agent_definition": "FA3-AGENT-DEFINITION-001",
+    "gui_projection_registry": "FA3-GUI-SURFACE-REGISTRY-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001",
+    "canonical_identity_and_status": "FA3-REGISTRY-001"
+  },
+  "gaps": [
+    "AGENCY_AGENTS_GUI_CURRENT_HOST_PROJECTION_CLOSURE"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false
+  },
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
+  "gap_resolution": [
+    {
+      "gap": "AGENCY_AGENTS_GUI_CURRENT_HOST_PROJECTION_CLOSURE",
+      "status": "MATERIALIZED_GUI_CURRENT_HOST_PASS",
+      "source_branch": "fa3/gui-current-host-closure-20260924",
+      "source_head_before_reconciliation": "f912710a4cde32199c5fc3de83fd891294cfe6e2",
+      "validated_implementation_commit": "5f2e47681b977ca0cf31ce0a5757d7adf5e5e043",
+      "workflow_run_id": 36162187066,
+      "current_host_job_id": 108161294296,
+      "artifact_id": 10876237119
+    }
+  ],
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "gui_current_host_validation": {
+    "status": "PASS",
+    "tested_source_commit": "5f2e47681b977ca0cf31ce0a5757d7adf5e5e043",
+    "runtime_scope": "GUI_CONTROL_CENTER_PROCESS_RUNTIME_ONLY",
+    "provider_runtime_admission": false,
+    "secret_backend_admission": false,
+    "global_promotion_claim": false
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-PYTORCH3D-UPSTREAM-REFERENCE-2026-09-11",
+  "date": "2026-09-11",
+  "repository": "facebookresearch/pytorch3d",
+  "default_branch": "main",
+  "immutable_revision": "0a7d4c1a171e8b768c63f15b17564f9ad495f49b",
+  "revision_timestamp": "2026-09-03T04:53:35-07:00",
+  "revision_subject": "Check CUDA device calls in Pulsar renderer",
+  "release": {
+    "latest_tag": "v0.7.9",
+    "commit": "33824be3cbc87a7dd1db0f6a9a9de9ac81b2d0ba",
+    "commit_timestamp": "2025-11-27T09:52:08-08:00",
+    "main_commits_ahead": 45
+  },
+  "stable_alias": {
+    "exists_as_tag": true,
+    "commit": "75ebeeaea0908c5527e7b1e305fbc7681382db47",
+    "corresponds_to": "V0.7.8",
+    "admissible_as_production_identity": false
+  },
+  "license": {
+    "spdx": "BSD-3-Clause",
+    "license_file_sha256": "6da05663049417a91409fa349bfad5778ed56c9ef68226dde28dffd541481579"
+  },
+  "source_file_sha256": {
+    "INSTALL.md": "9a7e37942f1d4d4e3d5883815487214917eca094b283a458b4b2758aaa556c54",
+    "setup.py": "a174307010ec228c27672792a345360ee029f711b660568767de629ae4b7bed0",
+    ".github/workflows/build.yml": "9ae80b1b7052504095afda5c3039202c7dde249c7650e8e5fb72beb50913347a"
+  },
+  "upstream_documented_compatibility": {
+    "platforms": [
+      "Linux",
+      "macOS",
+      "Windows"
+    ],
+    "highest_documented_pytorch": "2.4.1",
+    "nvidia_ci": {
+      "python": "3.12",
+      "pytorch": "2.4.1",
+      "cuda": "cu121",
+      "build_system": "conda"
+    },
+    "modern_pyproject_toml_present": false,
+    "pep517_660_issue": 2036,
+    "official_current_binary_absence_issue": 2046,
+    "official_current_binary_absence_confirmed_by_maintainer": true
+  },
+  "pulsar_cuda_device_hardening": {
+    "commit": "0a7d4c1a171e8b768c63f15b17564f9ad495f49b",
+    "source": "pytorch3d/csrc/pulsar/pytorch/renderer.cpp",
+    "cuda_get_device_checked": true,
+    "cuda_set_device_checked": true,
+    "active_device_restore_checked": true,
+    "required_fa3_negative_test": "INVALID_DEVICE_MUST_RAISE_FAIL_CLOSED",
+    "required_fa3_positive_test": "SUCCESSFUL_RENDER_MUST_RESTORE_OR_PRESERVE_CALLER_ACTIVE_DEVICE"
+  },
+  "source_build_admission": {
+    "required": true,
+    "reason": "No official binary matches the accepted modern runtime tuple; compatibility beyond the upstream NVIDIA CI tuple is unproven.",
+    "current_host_candidate_is_non_normative": true,
+    "current_host_production_evidence": false
+  }
+}

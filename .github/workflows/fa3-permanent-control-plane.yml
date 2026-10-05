@@ -1,0 +1,73 @@
+name: FA3 Trusted Control Plane
+
+on:
+  pull_request_target:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: fa3-trusted-control-plane-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  trusted-control-plane:
+    name: control-plane-trust / P0
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout trusted published base
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.base.sha || github.sha }}
+          path: trusted
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Checkout candidate as data only
+        if: ${{ github.event_name == 'pull_request_target' }}
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.sha }}
+          path: candidate
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+
+      - name: Trusted-base candidate-data-only gate
+        if: ${{ github.event_name == 'pull_request_target' }}
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          mkdir -p trusted/reports
+          PYTHONPATH=trusted/src python trusted/src/fa3_trusted_control_plane_gate.py \
+            --trusted-root trusted \
+            --candidate-root candidate \
+            --base-sha "$BASE_SHA" \
+            --head-sha "$HEAD_SHA" \
+            --report trusted/reports/trusted-control-plane-report.json
+
+      - name: Trusted control-plane self-check
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        run: |
+          set -euo pipefail
+          PYTHONPATH=trusted/src python trusted/src/fa3_permanent_gate_hardening.py \
+            --root trusted check
+
+      - name: Upload trusted report
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: fa3-trusted-control-plane
+          if-no-files-found: warn
+          path: trusted/reports/trusted-control-plane-report.json

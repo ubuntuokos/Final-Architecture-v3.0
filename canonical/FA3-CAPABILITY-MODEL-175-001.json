@@ -1,0 +1,469 @@
+{
+  "schema": "fa3.capability-model.v1",
+  "id": "FA3-CAPABILITY-MODEL-175-001",
+  "release": "2026-09-26/v3.1.0",
+  "status": "CANONICAL_CANDIDATE",
+  "canonical_capability_count": 175,
+  "previous_capability_count": 143,
+  "capability_delta": 32,
+  "authority_delta": 0,
+  "identity_policy": {
+    "existing_ids_immutable": true,
+    "existing_range": "CAP-001..CAP-143",
+    "added_range": "CAP-144..CAP-175",
+    "semantic_grouping_does_not_renumber_ids": true
+  },
+  "added_capabilities": [
+    {
+      "id": "CAP-144",
+      "name": "Agent Workload Isolation & Execution",
+      "layers": "6",
+      "layer_names": "Agent Orchestration & Harness",
+      "activation": "ALWAYS_ON + JOB/GATE",
+      "reference": "FA3 Agent Workload Runtime; isolated native/OCI/WASM execution adapters",
+      "authority_owners": [
+        "AUTH-DURABLE",
+        "AUTH-POLICY",
+        "AUTH-RESOURCE",
+        "AUTH-REGISTRY"
+      ]
+    },
+    {
+      "id": "CAP-145",
+      "name": "Decision Fabric & Policy-Governed Choice Lifecycle",
+      "layers": "4; 6",
+      "layer_names": "Data, Event & Contract; Agent Orchestration & Harness",
+      "activation": "JOB/GATE",
+      "reference": "FA3 Decision Fabric; Jev-derived advisory providers; auditable decision receipts",
+      "authority_owners": [
+        "AUTH-DURABLE",
+        "AUTH-POLICY",
+        "AUTH-REGISTRY",
+        "AUTH-HUMAN"
+      ]
+    },
+    {
+      "id": "CAP-146",
+      "name": "Application Intent & Reuse Assessment",
+      "layers": "8",
+      "layer_names": "Engineering, Research, Simulation & Learning",
+      "activation": "GATE/JOB",
+      "reference": "ApplicationIntent + ReuseAssessment contract; fail-closed new-implementation admission",
+      "authority_owners": [
+        "AUTH-POLICY",
+        "AUTH-REGISTRY",
+        "AUTH-OBS"
+      ]
+    },
+    {
+      "id": "CAP-147",
+      "name": "Capability Reuse Discovery & Admission",
+      "layers": "7; 8",
+      "layer_names": "Tools, Skills & Automation; Engineering, Research, Simulation & Learning",
+      "activation": "GATE/JOB",
+      "reference": "FA3 Reuse Discovery; repository/profile/provider capability matching",
+      "authority_owners": [
+        "AUTH-POLICY",
+        "AUTH-REGISTRY",
+        "AUTH-OBS"
+      ]
+    },
+    {
+      "id": "CAP-148",
+      "name": "Provider Admission & Runtime Discovery",
+      "layers": "5",
+      "layer_names": "Unified AI Gateway, Model & Memory",
+      "activation": "ALWAYS_ON module/GATE",
+      "reference": "provider-neutral admission descriptors; live runtime discovery; fail-closed availability",
+      "authority_owners": [
+        "AUTH-AI-ROUTING",
+        "AUTH-REGISTRY",
+        "AUTH-RESOURCE",
+        "AUTH-POLICY"
+      ]
+    },
+    {
+      "id": "CAP-149",
+      "name": "Model Provider Execution Admission",
+      "layers": "5",
+      "layer_names": "Unified AI Gateway, Model & Memory",
+      "activation": "JOB/GATE",
+      "reference": "Model Router -> provider/runtime -> model execution receipt; no silent fallback",
+      "authority_owners": [
+        "AUTH-AI-ROUTING",
+        "AUTH-REGISTRY",
+        "AUTH-RESOURCE",
+        "AUTH-MEMORY"
+      ]
+    },
+    {
+      "id": "CAP-150",
+      "name": "Cross-Instance Model Synchronization & Artifact Exchange",
+      "layers": "2; 5",
+      "layer_names": "Resource, Storage & Lifecycle; Unified AI Gateway, Model & Memory",
+      "activation": "PROFILE/JOB",
+      "reference": "FA3 instance-to-instance model/artifact sync; content-addressed transfer",
+      "authority_owners": [
+        "AUTH-REGISTRY",
+        "AUTH-RESOURCE",
+        "AUTH-DURABLE",
+        "AUTH-POLICY"
+      ]
+    },
+    {
+      "id": "CAP-151",
+      "name": "AI Asset Acquisition & Download Logistics",
+      "layers": "2; 5",
+      "layer_names": "Resource, Storage & Lifecycle; Unified AI Gateway, Model & Memory",
+      "activation": "JOB/GATE",
+      "reference": "HF/Civitai/other source adapters; provenance, resumable transfer and admission",
+      "authority_owners": [
+        "AUTH-REGISTRY",
+        "AUTH-RESOURCE",
+        "AUTH-POLICY",
+        "AUTH-OBS"
+      ]
+    },
+    {
+      "id": "CAP-152",
+      "name": "Workspace & Artifact Exchange / Handoff",
+      "layers": "4; 8",
+      "layer_names": "Data, Event & Contract; Engineering, Research, Simulation & Learning",
+      "activation": "JOB",
+      "reference": "typed workspace bundles; resumable cross-instance handoff; provenance-preserving exchange",
+      "authority_owners": [
+        "AUTH-DURABLE",
+        "AUTH-REGISTRY",
+        "AUTH-POLICY",
+        "AUTH-OBS"
+      ]
+    },
+    {
+      "id": "CAP-153",
+      "name": "Embedding & Vectorization Service Fabric",
+      "layers": "5",
+      "layer_names": "Unified AI Gateway, Model & Memory",
+      "activation": "ALWAYS_ON module/JOB",
+      "reference": "provider-neutral embedding contracts; local/remote replaceable execution",
+      "authority_owners": [
+        "AUTH-AI-ROUTING",
+        "AUTH-REGISTRY",
+        "AUTH-MEMORY",
+        "AUTH-RESOURCE"
+      ]
+    },
+    {
+      "id": "CAP-154",
+      "name": "Research Artifact Lifecycle & Reproducibility",
+      "layers": "8",
+      "layer_names": "Engineering, Research, Simulation & Learning",
+      "activation": "JOB/GATE",
+      "reference": "agent-native research artifacts; source snapshots; reproducible derivation manifests",
+      "authority_owners": [
+        "AUTH-DURABLE",
+        "AUTH-REGISTRY",
+        "AUTH-OBS",
+        "AUTH-HUMAN"
+      ]
+    },
+    {
+      "id": "CAP-155",
+      "name": "Knowledge Provenance & Citation Graph",
+      "layers": "5; 8",
+      "layer_names": "Unified AI Gateway, Model & Memory; Engineering, Research, Simulation & Learning",
+      "activation": "ALWAYS_ON module/JOB",
+      "reference": "claim-source lineage; citation graph; retrievable provenance envelopes",
+      "authority_owners": [
+        "AUTH-MEMORY",
+        "AUTH-REGISTRY",
+        "AUTH-DURABLE",
+        "AUTH-OBS"
+      ]
+    },
+    {
+      "id": "CAP-156",
+      "name": "Evidence Reasoning & Claim Verification",
+      "layers": "8; 12",
+      "layer_names": "Engineering, Research, Simulation & Learning; Observability, Quality, Delivery & Feedback",
+      "activation": "JOB/GATE",
+      "reference": "evidence-to-claim verification; contradiction/coverage checks; no document-only promotion",
+      "authority_owners": [
+        "AUTH-OBS",
+        "AUTH-POLICY",
+        "AUTH-REGISTRY",
+        "AUTH-HUMAN"
+      ]
+    },
+    {
+      "id": "CAP-157",
+      "name": "Browser Skill Composition Runtime",
+      "layers": "7",
+      "layer_names": "Tools, Skills & Automation",
+      "activation": "JOB",
+      "reference": "BrowserSkill-derived typed browser skills over central browser action runtime",
+      "authority_owners": [
+        "AUTH-POLICY",
+        "AUTH-DURABLE",
+        "AUTH-REGISTRY"
+      ]
+    },
+    {
+      "id": "CAP-158",
+      "name": "Web Task Planning, Recovery & Deterministic Replay",
+      "layers": "7",
+      "layer_names": "Tools, Skills & Automation",
+      "activation": "JOB/GATE",
+      "reference": "typed web plans; recovery checkpoints; auditable browser action replay",
+      "authority_owners": [
+        "AUTH-POLICY",
+        "AUTH-DURABLE",
+        "AUTH-OBS"
+      ]
+    },
+    {
+      "id": "CAP-159",
+      "name": "Motion & Video Generation Engine",
+      "layers": "9",
+      "layer_names": "Creative Design, Film, DCC & Documents",
+      "activation": "PROFILE/JOB",
+      "reference": "FA3-native multimodal video generation engine; provider-neutral model adapters",
+      "authority_owners": [
+        "AUTH-REGISTRY",
+        "AUTH-HUMAN",
+        "AUTH-OBS",
+        "AUTH-RESOURCE",
+        "AUTH-AI-ROUTING"
+      ]
+    },
+    {
+      "id": "CAP-160",
+      "name": "Video Generation Provider & Model Interchange",
+      "layers": "5; 9",
+      "layer_names": "Unified AI Gateway, Model & Memory; Creative Design, Film, DCC & Documents",
+      "activation": "PROFILE/JOB/GATE",
+      "reference": "Wan/LTX/Frame-family and future adapters behind canonical video-generation contracts",
+      "authority_owners": [
+        "AUTH-AI-ROUTING",
+        "AUTH-REGISTRY",
+        "AUTH-RESOURCE",
+        "AUTH-HUMAN"
+      ]
+    },
+    {
+      "id": "CAP-161",
+      "name": "Render Fabric & Job Dispatch",
+      "layers": "2; 9",
+      "layer_names": "Resource, Storage & Lifecycle; Creative Design, Film, DCC & Documents",
+      "activation": "PROFILE/JOB",
+      "reference": "FA3 render job graph; local/distributed execution; deterministic artifact lineage",
+      "authority_owners": [
+        "AUTH-RESOURCE",
+        "AUTH-DURABLE",
+        "AUTH-REGISTRY",
+        "AUTH-OBS"
+      ]
+    },
+    {
+      "id": "CAP-162",
+      "name": "External Render Service Adapter Fabric",
+      "layers": "2; 9",
+      "layer_names": "Resource, Storage & Lifecycle; Creative Design, Film, DCC & Documents",
+      "activation": "COND/PROFILE/JOB",
+      "reference": "optional external render execution providers; explicit cost/egress/admission boundary",
+      "authority_owners": [
+        "AUTH-RESOURCE",
+        "AUTH-POLICY",
+        "AUTH-REGISTRY",
+        "AUTH-OBS"
+      ]
+    },
+    {
+      "id": "CAP-163",
+      "name": "Neural Rendering & Reconstruction Enhancement",
+      "layers": "5; 9",
+      "layer_names": "Unified AI Gateway, Model & Memory; Creative Design, Film, DCC & Documents",
+      "activation": "PROFILE/JOB",
+      "reference": "OpenDLSS-NR-derived open neural reconstruction/denoise/upscale capability fabric",
+      "authority_owners": [
+        "AUTH-AI-ROUTING",
+        "AUTH-RESOURCE",
+        "AUTH-REGISTRY",
+        "AUTH-HUMAN",
+        "AUTH-OBS"
+      ]
+    },
+    {
+      "id": "CAP-164",
+      "name": "Character Motion Synthesis, Retargeting & Performance Transfer",
+      "layers": "9",
+      "layer_names": "Creative Design, Film, DCC & Documents",
+      "activation": "PROFILE/JOB",
+      "reference": "motion synthesis/retargeting providers; rig/pose/clip compatible output",
+      "authority_owners": [
+        "AUTH-REGISTRY",
+        "AUTH-HUMAN",
+        "AUTH-OBS",
+        "AUTH-RESOURCE"
+      ]
+    },
+    {
+      "id": "CAP-165",
+      "name": "VFX / Gaffer Automation",
+      "layers": "9",
+      "layer_names": "Creative Design, Film, DCC & Documents",
+      "activation": "PROFILE/JOB",
+      "reference": "lighting, compositing, effects and render-setup automation through typed scene operations",
+      "authority_owners": [
+        "AUTH-REGISTRY",
+        "AUTH-HUMAN",
+        "AUTH-OBS"
+      ]
+    },
+    {
+      "id": "CAP-166",
+      "name": "Scene / Shot / Camera / Rig Interchange",
+      "layers": "9",
+      "layer_names": "Creative Design, Film, DCC & Documents",
+      "activation": "PROFILE/JOB",
+      "reference": "3D-ready Scene/Shot/Camera/Rig/Pose/Clip/Constraint/Automation/Graph interchange",
+      "authority_owners": [
+        "AUTH-REGISTRY",
+        "AUTH-HUMAN",
+        "AUTH-OBS"
+      ]
+    },
+    {
+      "id": "CAP-167",
+      "name": "Vision Detection, Tracking & Segmentation Fabric",
+      "layers": "5; 10",
+      "layer_names": "Unified AI Gateway, Model & Memory; Audio, Video, Streaming & Realtime",
+      "activation": "PROFILE/JOB",
+      "reference": "provider-neutral detection/tracking/segmentation; replaceable YOLO-class providers",
+      "authority_owners": [
+        "AUTH-AI-ROUTING",
+        "AUTH-REGISTRY",
+        "AUTH-RESOURCE",
+        "AUTH-OBS"
+      ]
+    },
+    {
+      "id": "CAP-168",
+      "name": "Caption, Subtitle & Narration Composition",
+      "layers": "9; 10",
+      "layer_names": "Creative Design, Film, DCC & Documents; Audio, Video, Streaming & Realtime",
+      "activation": "PROFILE/JOB",
+      "reference": "caption/subtitle timing, narration synthesis and editorial composition contracts",
+      "authority_owners": [
+        "AUTH-REGISTRY",
+        "AUTH-HUMAN",
+        "AUTH-OBS",
+        "AUTH-AI-ROUTING"
+      ]
+    },
+    {
+      "id": "CAP-169",
+      "name": "Credits / Stáblista Generation",
+      "layers": "9",
+      "layer_names": "Creative Design, Film, DCC & Documents",
+      "activation": "PROFILE/JOB",
+      "reference": "structured credit graph; legal/role/order validation; deterministic title-card/render export",
+      "authority_owners": [
+        "AUTH-REGISTRY",
+        "AUTH-HUMAN",
+        "AUTH-OBS"
+      ]
+    },
+    {
+      "id": "CAP-170",
+      "name": "Story / Screenplay Authoring & AI-Notes Provenance",
+      "layers": "9",
+      "layer_names": "Creative Design, Film, DCC & Documents",
+      "activation": "PROFILE/JOB",
+      "reference": "Story/Screenplay documents; separated AI notes; human approval and edit-origin tracking",
+      "authority_owners": [
+        "AUTH-REGISTRY",
+        "AUTH-HUMAN",
+        "AUTH-OBS",
+        "AUTH-MEMORY"
+      ]
+    },
+    {
+      "id": "CAP-171",
+      "name": "Creative Native-Project Preservation & Round-Trip Interchange",
+      "layers": "9",
+      "layer_names": "Creative Design, Film, DCC & Documents",
+      "activation": "PROFILE/JOB/GATE",
+      "reference": "preserve .kra/.kdenlive/Ardour/native project artifacts; reversible interchange and provenance",
+      "authority_owners": [
+        "AUTH-REGISTRY",
+        "AUTH-HUMAN",
+        "AUTH-OBS",
+        "AUTH-DURABLE"
+      ]
+    },
+    {
+      "id": "CAP-172",
+      "name": "Media Review, Approval & Human Sign-Off",
+      "layers": "9; 12",
+      "layer_names": "Creative Design, Film, DCC & Documents; Observability, Quality, Delivery & Feedback",
+      "activation": "PROFILE/JOB/GATE",
+      "reference": "review packets; annotations; approval state; immutable sign-off evidence",
+      "authority_owners": [
+        "AUTH-HUMAN",
+        "AUTH-OBS",
+        "AUTH-REGISTRY",
+        "AUTH-DURABLE"
+      ]
+    },
+    {
+      "id": "CAP-173",
+      "name": "Live / Broadcast Production Control",
+      "layers": "10",
+      "layer_names": "Audio, Video, Streaming & Realtime",
+      "activation": "PROFILE/SESSION",
+      "reference": "live switching, routing, monitoring and broadcast automation behind typed control contracts",
+      "authority_owners": [
+        "AUTH-HUMAN",
+        "AUTH-OBS",
+        "AUTH-RESOURCE",
+        "AUTH-REGISTRY"
+      ]
+    },
+    {
+      "id": "CAP-174",
+      "name": "Logistics / Transfer / Queue Management",
+      "layers": "2; 4",
+      "layer_names": "Resource, Storage & Lifecycle; Data, Event & Contract",
+      "activation": "ALWAYS_ON module/JOB",
+      "reference": "FA3 logistics fabric for downloads, transfers, retries, priorities, queues and delivery receipts",
+      "authority_owners": [
+        "AUTH-DURABLE",
+        "AUTH-RESOURCE",
+        "AUTH-REGISTRY",
+        "AUTH-OBS"
+      ]
+    },
+    {
+      "id": "CAP-175",
+      "name": "Software Coexistence & Host Non-Interference",
+      "layers": "1; 3; 11",
+      "layer_names": "Host & Foundation; Trust, Security & Recovery; Desktop Experience & Operations UX",
+      "activation": "ALWAYS_ON/GATE",
+      "reference": "namespaced services/paths/ports/runtimes; upstream coexistence and non-hijack enforcement",
+      "authority_owners": [
+        "AUTH-HOST-LIFE",
+        "AUTH-POLICY",
+        "AUTH-REGISTRY",
+        "AUTH-OBS"
+      ]
+    }
+  ],
+  "runtime_truth": {
+    "all_new_capabilities": "PENDING_CURRENT_HOST",
+    "promotion_from_design_only": false,
+    "required_test_kinds_per_capability": 3,
+    "required_total_obligations": 525,
+    "previous_verified_obligations": 429,
+    "new_obligations": 96
+  }
+}

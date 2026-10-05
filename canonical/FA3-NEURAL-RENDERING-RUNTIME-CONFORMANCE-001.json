@@ -1,0 +1,27 @@
+{
+  "schema": "fa3.runtime-conformance.v1",
+  "id": "FA3-NEURAL-RENDERING-RUNTIME-CONFORMANCE-001",
+  "profile_id": "FA3-NEURAL-RENDERING-001",
+  "provider_id": "FA3-PROVIDER-OPENDLSS-NR-001",
+  "status": "OPTIONAL_PROVIDER_NEGATIVE_PATH_MATERIALIZED_PROVIDER_E2E_PENDING",
+  "optional_provider": true,
+  "provider_disabled_or_ineligible_host_is_global_conformant": true,
+  "provider_disabled_or_ineligible_host_is_provider_e2e_pass": false,
+  "requested_provider_mismatch_or_incompatibility": "FAIL_CLOSED",
+  "required_provider_e2e_inputs": [
+    "IMMUTABLE_PINNED_SOURCE_ROOT",
+    "FA3_SUPPLY_CHAIN_ADMISSION_RECEIPT",
+    "FA3_MODEL_ARTIFACT_ADMISSION_RECEIPT",
+    "LIVE_HARDWARE_DISCOVERY_AND_HRB_LEASE_RECEIPT",
+    "MODEL_DIRECTORY_WITH_MANIFEST_AND_STAGE_SHA256",
+    "UPSTREAM_PARITY_FIXTURE",
+    "ACTUAL_PROVIDER_PARITY_EXECUTION"
+  ],
+  "browser_webgpu_e2e": "SEPARATE_FA3_WEB_AI_RUNTIME_EVIDENCE_REQUIRED",
+  "current_host_production_provider_admission": false,
+  "static_or_hosted_reference_pass_is_provider_e2e": false,
+  "global_promotion_claim": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count": 143
+}

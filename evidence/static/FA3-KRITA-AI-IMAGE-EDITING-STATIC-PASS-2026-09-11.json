@@ -1,0 +1,30 @@
+{
+  "schema": "fa3.static-conformance-evidence.v1",
+  "id": "FA3-KRITA-AI-IMAGE-EDITING-STATIC-PASS-2026-09-11",
+  "date": "2026-09-11",
+  "status": "PASS",
+  "scope": "ISOLATED_STATIC_REFERENCE_CONFORMANCE",
+  "decision_id": "FA3-DEC-KRITA-AI-IMAGE-EDITING-2026-09-11",
+  "gate_record_id": "FA3-GATE-KRITA-AI-IMAGE-EDITING-001",
+  "enforcement_id": "FA3-KRITA-AI-IMAGE-EDITING-GATESET-001",
+  "test_entrypoint": "python3 -m unittest tests.test_krita_ai_image_editing_gate",
+  "result": {"exit_code": 0, "tests_run": 10, "result": "OK"},
+  "validated_invariants": [
+    "capability_count=143",
+    "new_capabilities=0",
+    "new_architectural_authorities=0",
+    "GIMP and Krita peer-frontends",
+    "Krita AI Diffusion non-authoritative and replaceable",
+    "Krita Vision Tools model admission required",
+    "Krita MCP bounded by Central MCP Gateway and authenticated loopback",
+    "GPU binding remains capability-discovered and provider-independent",
+    "upstream references revision/license pinned",
+    "current-host runtime evidence not overclaimed"
+  ],
+  "limitations": {
+    "full_repository_ci_verified": false,
+    "current_host_runtime_execution_verified": false,
+    "production_readiness_claim": false,
+    "note": "This receipt records isolated static gate execution before GitHub PR CI. Full-repository CI and current-host runtime remain separate evidence classes."
+  }
+}

@@ -1,0 +1,154 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-GOAL-EXECUTION-REUSE-ASSESSMENT-2026-09-28",
+  "project_id": "FA3-GOAL-EXECUTION-CONTRACTS-001",
+  "intent_id": "FA3-GOAL-EXECUTION-APPLICATION-INTENT-2026-09-28",
+  "intent_path": "canonical/intents/FA3-GOAL-EXECUTION-APPLICATION-INTENT-2026-09-28.json",
+  "covered_ids": [
+    "FA3-GOAL-EXECUTION-CONTRACTS-001",
+    "CAP-004",
+    "CAP-007",
+    "CAP-028"
+  ],
+  "project_status": "SOURCE_BOUND_DESIGN_PREFLIGHT_EXTERNAL_RUNTIME_ADMISSION_PENDING",
+  "result": "PASS",
+  "assessment_provenance": {
+    "type": "EXECUTED_EXISTING_REUSE_ASSESSMENT",
+    "workflow": ".github/workflows/fa3-goal-source-preflight.yml",
+    "workflow_run_id": 36463766363,
+    "verified_on": "2026-09-28",
+    "source_committed_snapshot": "dd98984e72f3f3f40dc31f04ae083a314c071137",
+    "result": "PASS",
+    "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
+    "blocking_findings": [],
+    "gaps": []
+  },
+  "selected_reuse": [
+    {
+      "id": "FA3-ORCHESTRATION-WORKFORCE-001",
+      "use": "EXISTING_SPECIALIST_ELIGIBILITY_AND_PLAN_ROUTING_ONLY"
+    },
+    {
+      "id": "FA3-AGENT-DEFINITION-001",
+      "use": "EXISTING_CANONICAL_AGENT_ROLE_IDENTITY_AND_NO_DIRECT_PROVIDER"
+    },
+    {
+      "id": "FA3-AGENT-WORKLOAD-RUNTIME-001",
+      "use": "EXISTING_TASK_CONTRACTS_AND_BOUNDED_FANOUT"
+    },
+    {
+      "id": "FA3-AGENT-RUNTIME-SEMANTICS-001",
+      "use": "EXISTING_BUDGET_AND_REPLAY_CONTRACTS"
+    },
+    {
+      "id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "use": "PORTABILITY_AND_DESIGN_PATTERN_REFERENCE_ONLY"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "SEPARATE_GOAL_SCHEDULER_OR_MODEL_ROUTER",
+      "reason": "EXISTING_TEMPORAL_WORKFORCE_AND_MODEL_ROUTER_AUTHORITIES_ARE_EXCLUSIVE"
+    },
+    {
+      "id": "DIRECT_EXTERNAL_AGENT_SDK_EXECUTION",
+      "reason": "NO_CURRENT_HOST_PROVIDER_ADMISSION_OR_AUTHORIZED_ACTION"
+    },
+    {
+      "id": "AUTO_IMPORT_KHRONOS_SDKS",
+      "reason": "SOURCE_REVIEW_IS_NOT_DEPENDENCY_OR_RUNTIME_ADMISSION"
+    }
+  ],
+  "pattern_reuse": [
+    {
+      "id": "FA3-KHRONOS-BINDING:HOST_RESOURCE_BROKER",
+      "role": "VENDOR_NEUTRAL_RESOURCE_BOUNDARY_REFERENCE_ONLY"
+    },
+    {
+      "id": "fa3.khronos.vulkan-profiles",
+      "role": "DEVICE_COMPATIBILITY_DESIGN_REFERENCE_NO_RUNTIME_DEPENDENCY"
+    },
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "role": "SOURCE_UNIQUE_DONOR_AND_EXISTING_CAPABILITY_REVIEW"
+    }
+  ],
+  "gaps": [],
+  "existing_authority_bindings": {
+    "durable_lifecycle": "EXISTING_TEMPORAL_ONLY",
+    "unified_actions": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hrb_bound": true,
+    "display_gpu_auto_recruitment": false,
+    "actual_current_host_observation": "PENDING"
+  },
+  "coexistence": {
+    "required": true,
+    "upstream_uninstall_required": false,
+    "global_environment_mutation": false,
+    "default_port_hijack": false,
+    "host_hardware_mutation": false
+  },
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 175,
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "MATCHED",
+      "available_candidate_ids": [
+        "FA3-KHRONOS-BINDING:ASSET_GRAPH",
+        "FA3-KHRONOS-BINDING:COMPUTE_PROVIDER",
+        "FA3-KHRONOS-BINDING:HOST_RESOURCE_BROKER",
+        "FA3-KHRONOS-BINDING:MODEL_ARTIFACT_FABRIC",
+        "FA3-KHRONOS-BINDING:RENDER_FABRIC",
+        "FA3-KHRONOS-BINDING:SHADER_FABRIC",
+        "FA3-KHRONOS-BINDING:VISION_FABRIC",
+        "FA3-KHRONOS-BINDING:XR_PROVIDER",
+        "FA3-KHRONOS-OPEN-STANDARDS-001",
+        "fa3.khronos.anari",
+        "fa3.khronos.glslang",
+        "fa3.khronos.gltf-validator",
+        "fa3.khronos.ktx",
+        "fa3.khronos.nnef",
+        "fa3.khronos.opencl",
+        "fa3.khronos.openvx",
+        "fa3.khronos.openxr",
+        "fa3.khronos.spirv-cross",
+        "fa3.khronos.spirv-tools",
+        "fa3.khronos.vulkan-loader",
+        "fa3.khronos.vulkan-profiles",
+        "fa3.khronos.vulkan-validation"
+      ],
+      "matched_candidate_ids": [
+        "FA3-KHRONOS-BINDING:HOST_RESOURCE_BROKER",
+        "FA3-KHRONOS-BINDING:VISION_FABRIC",
+        "FA3-KHRONOS-OPEN-STANDARDS-001",
+        "fa3.khronos.openvx",
+        "fa3.khronos.vulkan-profiles",
+        "fa3.khronos.vulkan-validation"
+      ],
+      "roles": [
+        "RUNTIME_PROVIDER_SOURCE",
+        "INTERCHANGE_STANDARD_SOURCE",
+        "DESIGN_PATTERN_INSTRUCTION_SOURCE"
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_activation": false,
+      "disposition": "PATTERN_ONLY_NO_SDK_DEPENDENCY_NO_RUNTIME_ADMISSION"
+    }
+  ]
+}

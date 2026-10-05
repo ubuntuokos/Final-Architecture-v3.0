@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 import argparse, hashlib, json, os, shutil, subprocess, sys, wave
 from datetime import datetime, timezone
 from pathlib import Path
@@ -15,7 +16,7 @@ UPSTREAM_COMMIT="074ca6dc9e80a2f424f1f74b48bdd7d3fea531cc"
 OFFICIAL_LANGUAGES={"zh","en","fr","es","ja","ko","it","ru","de"}
 EXPERIMENTAL_LANGUAGES={"hu"}
 SAMPLE_RATE=24000
-CAPS=143
+CAPS = module_active_capability_count(__file__)
 
 class PolicyDenied(RuntimeError): pass
 class ModelTrustDenied(RuntimeError): pass
@@ -57,10 +58,16 @@ def validate_consent(req:dict[str,Any])->None:
         raise PolicyDenied("voice consent is not GRANTED/authorized")
     scope=proof.get("scope")
     scopes={scope} if isinstance(scope,str) else set(scope or [])
-    if "VOICE_SYNTHESIS" not in scopes:
-        raise PolicyDenied("consent scope must include VOICE_SYNTHESIS")
-    if not str(proof.get("provenance_ref","")).strip():
-        raise PolicyDenied("consent provenance_ref is required")
+    if not {"VOICE_SYNTHESIS", "VOICE_CLONING"}.issubset(scopes):
+        raise PolicyDenied("consent scope must include VOICE_SYNTHESIS and VOICE_CLONING")
+    required_refs = (
+        "purpose", "provenance_ref", "issuer_ref", "jurisdiction", "legal_basis_ref",
+        "signature_ref", "derived_asset_lineage_ref", "retention_policy_ref",
+        "issued_at", "expires_at", "revocation_ref",
+    )
+    missing = [key for key in required_refs if not str(proof.get(key, "")).strip()]
+    if missing:
+        raise PolicyDenied("consent proof fields missing: " + ", ".join(missing))
 
 def validate_reference_audio(req:dict[str,Any])->Path:
     p=Path(str(req.get("reference_audio_path",""))).expanduser()

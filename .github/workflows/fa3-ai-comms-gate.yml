@@ -1,0 +1,59 @@
+name: FA3 AI Communication Gate
+
+on:
+  push:
+    paths:
+      - "canonical/profiles/FA3-AI-COMMS-001.json"
+      - "canonical/contracts/FA3-AI-COMMS-CONTRACTS-001.json"
+      - "canonical/decisions/FA3-DEC-AI-COMMS-2026-09-22.json"
+      - "canonical/ai-comms-enforcement.json"
+      - "canonical/contracts/FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001.json"
+      - "canonical/developer-agent-coordination-enforcement.json"
+      - "canonical/enforcement-policy.json"
+      - "src/fa3_ai_comms.py"
+      - "src/fa3_ai_comms_gate.py"
+      - "src/fa3_developer_agent_coordination.py"
+      - "src/fa3_developer_agent_coordination_gate.py"
+      - "src/fa3_enforce.py"
+      - "bin/fa3-enforce"
+      - "tests/test_ai_comms.py"
+      - "tests/test_developer_agent_coordination.py"
+      - ".github/workflows/fa3-ai-comms-gate.yml"
+  pull_request:
+    paths:
+      - "canonical/profiles/FA3-AI-COMMS-001.json"
+      - "canonical/contracts/FA3-AI-COMMS-CONTRACTS-001.json"
+      - "canonical/decisions/FA3-DEC-AI-COMMS-2026-09-22.json"
+      - "canonical/ai-comms-enforcement.json"
+      - "canonical/contracts/FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001.json"
+      - "canonical/developer-agent-coordination-enforcement.json"
+      - "canonical/enforcement-policy.json"
+      - "src/fa3_ai_comms.py"
+      - "src/fa3_ai_comms_gate.py"
+      - "src/fa3_developer_agent_coordination.py"
+      - "src/fa3_developer_agent_coordination_gate.py"
+      - "src/fa3_enforce.py"
+      - "bin/fa3-enforce"
+      - "tests/test_ai_comms.py"
+      - "tests/test_developer_agent_coordination.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Compile and test AI communication policy
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile             src/fa3_ai_comms.py             src/fa3_ai_comms_gate.py             src/fa3_developer_agent_coordination.py             src/fa3_developer_agent_coordination_gate.py
+          PYTHONPATH=src python3 -m unittest             tests.test_ai_comms             tests.test_developer_agent_coordination -v
+          PYTHONPATH=src python3 src/fa3_ai_comms_gate.py --root .
+          PYTHONPATH=src python3 src/fa3_developer_agent_coordination_gate.py --root .

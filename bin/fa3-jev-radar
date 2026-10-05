@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+SNAPSHOT="${1:-$ROOT/research/external-project-radar/jev/upstream/a27922ad457389775f4fe4eadcf688afc9d36d83}"
+shift || true
+exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_external_project_radar.py" --snapshot-dir "$SNAPSHOT" "$@"

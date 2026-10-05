@@ -1,0 +1,146 @@
+{
+  "schema": "fa3.current-host-143-audit-reference.v2",
+  "id": "FA3-EVID-CURRENT-HOST-143-AUDIT-2026-09-23-FULL-429",
+  "date": "2026-09-23",
+  "source_main_commit": "4277829255fea114e3b082199e9736012445537e",
+  "scope": "143-capability / 429-obligation physical Current-Host Runtime Closure with release-promotion separation",
+  "truth_status": "VERIFIED_FULL_429_PHYSICAL_CURRENT_HOST_RUNTIME_CLOSURE_PASS",
+  "canonical_invariants": {
+    "capability_count": 143,
+    "required_test_kinds_per_capability": 3,
+    "required_test_obligation_count": 429,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "document_only_promotion_forbidden": true,
+    "runtime_closure_does_not_imply_global_release_promotion": true
+  },
+  "physical_current_host_execution": {
+    "workflow_name": "FA3 Global Current-Host Evidence Closure",
+    "workflow_run_id": 35822104006,
+    "workflow_run_number": 443,
+    "workflow_event": "push",
+    "workflow_conclusion": "success",
+    "real_execution_job_id": 107056099702,
+    "real_execution_job_conclusion": "success",
+    "runner_class": "SELF_HOSTED_LINUX_X64_FA3_CURRENT_HOST",
+    "head_sha": "4277829255fea114e3b082199e9736012445537e",
+    "artifact": {
+      "name": "fa3-global-current-host-closure",
+      "artifact_id": 10733817979,
+      "sha256": "ba8f9700c03f74e54fc7b3b1d7de8f5c4133152b4f6067d5b2cbcd10184723f5",
+      "file_count": 2664,
+      "interpretation": "HASH_BOUND_WORKFLOW_ARTIFACT_CONTAINING_REAL_CURRENT_HOST_CLOSURE_EVIDENCE"
+    }
+  },
+  "runtime_materialization": {
+    "qualification_constituents": {
+      "required": 429,
+      "materialized": 429,
+      "status": "PASS"
+    },
+    "capability_test_results": {
+      "required": 429,
+      "materialized": 429,
+      "positive": 143,
+      "negative": 143,
+      "rollback": 143,
+      "execution_scope": "CURRENT_HOST",
+      "synthetic_results": 0,
+      "ci_reference_only_results": 0,
+      "global_promotion_claim": false,
+      "status": "PASS"
+    },
+    "capability_test_bundles": {
+      "required": 143,
+      "materialized": 143,
+      "pending": 0,
+      "status": "PASS"
+    },
+    "capability_attestations": {
+      "required": 143,
+      "materialized": 143,
+      "status": "PASS"
+    },
+    "capability_receipts": {
+      "required": 143,
+      "materialized": 143,
+      "qualified_current_host_receipts": 143,
+      "status": "PASS"
+    }
+  },
+  "evidence_registry_reconciliation": {
+    "audit_integrity": "PASS",
+    "runtime_closure": "PASS",
+    "registry_pass_count": 143,
+    "registry_pending_count": 0,
+    "qualified_current_host_receipt_count": 143,
+    "blocking_findings": []
+  },
+  "runtime_gate": {
+    "result": "PASS",
+    "evidence_records": 143,
+    "pass_count": 143,
+    "pending_count": 0,
+    "blocking_findings": 0
+  },
+  "terax_gate": {
+    "result": "PASS",
+    "mode": "CURRENT_HOST",
+    "regression_cases_passed": 17,
+    "regression_cases_total": 17,
+    "disabled_provider_zero_runtime_cost_proven": true,
+    "global_143_capability_promotion_claim": false
+  },
+  "acceptance_gate": {
+    "status": "DENIED",
+    "decision": "DENY",
+    "fail_closed": true,
+    "static_gate": "FAIL",
+    "runtime_gate": "PASS",
+    "terax_gate": "PASS",
+    "criteria_passed": 0,
+    "criteria_total": 19,
+    "interpretation": "PHYSICAL_RUNTIME_CLOSURE_IS_COMPLETE; INDEPENDENT_RELEASE_ACCEPTANCE_ARTIFACTS_REMAIN_SEPARATE"
+  },
+  "promotion": {
+    "target_state": "PROMOTED",
+    "actual_state": "PROMOTION_BLOCKED",
+    "promotion_allowed": false,
+    "reason": "Global promotion remains fail-closed until runtime, static/release acceptance, all 19 criteria, and mandatory gates are PASS.",
+    "global_promotion_claim": false
+  },
+  "boundary_closure": {
+    "cap013_computer_use_secret_authority_separation": {
+      "corrective_pr": 357,
+      "status": "MERGED_AND_PROVEN_BY_PHYSICAL_FULL_429_RUN",
+      "semantics": "CAP-013 KDE/Wayland Computer Use does not inherit AUTH-SECRETS admission; secrets authority remains outside CAP-013."
+    },
+    "runtime_vs_release_promotion_separation": {
+      "corrective_pr": 358,
+      "status": "MERGED_AND_PROVEN_BY_WORKFLOW_RUN_443_SUCCESS",
+      "semantics": "FULL-429 physical runtime closure may PASS while independent global release promotion remains fail-closed."
+    }
+  },
+  "truth_constraints": {
+    "ci_reference_pass_is_runtime_pass": false,
+    "synthetic_receipt_can_promote": false,
+    "component_scope_pass_is_global_pass": false,
+    "provider_receipt_can_substitute_for_capability_receipt": false,
+    "runtime_closure_can_fabricate_static_acceptance": false,
+    "runtime_closure_can_fabricate_global_promotion": false,
+    "global_promotion_claim": false
+  },
+  "closure_implementation": {
+    "workflow": ".github/workflows/fa3-global-current-host-closure.yml",
+    "producer_orchestrator": "src/fa3_current_host_capability_qualification_constituent_orchestrator.py",
+    "capability_test_orchestrator": "src/fa3_current_host_capability_test_orchestrator.py",
+    "bundle_assembler": "src/fa3_current_host_capability_test_bundle.py",
+    "attestation_producer": "src/fa3_current_host_capability_attest.py",
+    "handoff": "src/fa3_current_host_capability_handoff.py",
+    "evidence_auditor": "src/fa3_current_host_evidence_audit.py",
+    "final_assertion": "src/fa3_current_host_closure_assertion.py",
+    "qualified_receipt_path_pattern": "evidence/receipts/capabilities/CAP-NNN.json",
+    "reconciliation_rule": "ONLY_HASH_BOUND_NON_SYNTHETIC_CURRENT_HOST_RECEIPTS_WITH_POSITIVE_NEGATIVE_ROLLBACK_TESTS_MAY_CLOSE_A_CAPABILITY"
+  },
+  "supersedes_reference_for_runtime_state": "evidence/reference/current-host-143-audit-2026-09-12.json"
+}

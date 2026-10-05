@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-AGENT-EXEC-001",
   "name": "Agent Execution, Delegation, Tool Mediation & Evolvable Policy Profile",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -10,7 +10,7 @@
   "decision_origin": "DR-FA3-AGENT-EXEC-001 derived from DR-FA3-CODEGRAFF-001",
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "contracts": [
     "FA3-AGENT-EXEC-CONTRACTS-001",
     "FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001"
@@ -34,7 +34,28 @@
     "ATOMIC_IDEMPOTENT_AGENT_MESSAGING",
     "BOUNDED_AGENT_MESSAGE_HOPS",
     "PROGRESSIVE_AGENT_CIRCUIT_BREAKER",
-    "COORDINATION_REFERENCE_E2E_REQUIRED"
+    "COORDINATION_REFERENCE_E2E_REQUIRED",
+    "HOST_SUBPROCESS_ARBITRARY_AGENT_EXECUTION_FORBIDDEN",
+    "SANDBOX_NETWORK_DENY_DEFAULT",
+    "EPHEMERAL_AGENT_WORKSPACE_PER_TASK",
+    "SANDBOX_BACKEND_COMPATIBILITY_EVIDENCE_REQUIRED"
   ],
-  "implementation_status": "CANONICAL_BASELINE_PLUS_REFERENCE_COORDINATION_RUNTIME_V0_1"
+  "implementation_status": "CANONICAL_BASELINE_PLUS_MANDATORY_SANDBOX_AND_REFERENCE_COORDINATION_RUNTIME_V0_2",
+  "sandbox_profile": "FA3-AGENT-SANDBOX-001",
+  "current_host_capability_qualification": {
+    "subject_id": "CAP-028",
+    "qualification_ids": [
+      "FA3-QUAL-CAP-028-POS-001",
+      "FA3-QUAL-CAP-028-NEG-001",
+      "FA3-QUAL-CAP-028-ROLLBACK-001"
+    ],
+    "producer_adapter": "src/fa3_cap028_agent_execution_current_host.py",
+    "execution_backend": "WASMTIME_WASI",
+    "execution_status": "REGISTERED_REAL_CURRENT_HOST_EXECUTION_PENDING",
+    "hosted_ci_substitution_allowed": false,
+    "optional_provider_runtime_required": false,
+    "global_promotion_claim": false
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

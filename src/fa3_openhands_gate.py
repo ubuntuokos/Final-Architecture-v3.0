@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import argparse
 import json
@@ -13,7 +14,7 @@ CONTRACT_ID = "FA3-OPENHANDS-DEVELOPER-EXECUTION-CONTRACTS-001"
 DECISION_ID = "FA3-DEC-OPENHANDS-2026-09-01"
 REFERENCE_ID = "FA3-OPENHANDS-UPSTREAM-REFERENCE-2026-09-01"
 EVIDENCE_ID = "FA3-EVIDENCE-OPENHANDS-CI-2026-09-01"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 PINNED_COMMIT = "a9e0a8a1aab2164b46bae00a18157a343aaa94c9"
 PINNED_COMPONENT_VERSION = "1.44.1"
 RUNTIME_STATUS = "NOT_PROMOTED_REFERENCE_ONLY"

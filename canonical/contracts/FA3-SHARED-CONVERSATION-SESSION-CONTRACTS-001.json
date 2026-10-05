@@ -1,0 +1,48 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-SHARED-CONVERSATION-SESSION-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-SHARED-CONVERSATION-SESSION-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-004",
+    "CAP-021",
+    "CAP-102",
+    "CAP-106",
+    "CAP-110",
+    "CAP-116"
+  ],
+  "contracts": [
+    "ConversationSession",
+    "ConversationTurn",
+    "ConversationEvent",
+    "StreamDelta",
+    "ContextAttachment",
+    "MemoryReference",
+    "KnowledgeReference",
+    "SessionCheckpoint",
+    "SessionExport",
+    "SessionImport",
+    "SessionCloseReceipt"
+  ],
+  "required_semantics": {
+    "event_model": "VERSIONED_APPEND_OR_RECONCILED_EVENTS",
+    "persistence": "FA3_NATIVE_CONTRACT",
+    "conversation_memory_boundary": "EXPLICIT_REFERENCE_ONLY",
+    "knowledge_boundary": "EXPLICIT_REFERENCE_ONLY",
+    "streaming": "TRANSPORT_INDEPENDENT",
+    "import_export": "VERSIONED_SCHEMA_ROUND_TRIP",
+    "ai_off": "BACKGROUND_MODEL_INVOCATION_FORBIDDEN"
+  },
+  "invariants": [
+    "NO_FRAMEWORK_OBJECT_PERSISTENCE_AS_CANONICAL",
+    "NO_CONVERSATION_MEMORY_RAG_COLLAPSE",
+    "NO_HIDDEN_BACKGROUND_AI"
+  ],
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}

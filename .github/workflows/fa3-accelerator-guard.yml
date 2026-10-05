@@ -1,0 +1,54 @@
+name: FA3 Accelerator Guard Canonical Gate
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/profiles/FA3-ACCEL-GUARD-001.json'
+      - 'canonical/contracts/FA3-ACCEL-GUARD-CONTRACTS-001.json'
+      - 'canonical/FA3-ACCEL-GUARD-RUNTIME-CONFORMANCE-001.json'
+      - 'src/fa3_accelerator_guard.py'
+      - 'src/fa3_accelerator_guard_gate.py'
+      - 'tests/test_accelerator_guard.py'
+      - '.github/workflows/fa3-accelerator-guard.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'canonical/profiles/FA3-ACCEL-GUARD-001.json'
+      - 'canonical/contracts/FA3-ACCEL-GUARD-CONTRACTS-001.json'
+      - 'canonical/FA3-ACCEL-GUARD-RUNTIME-CONFORMANCE-001.json'
+      - 'src/fa3_accelerator_guard.py'
+      - 'src/fa3_accelerator_guard_gate.py'
+      - 'tests/test_accelerator_guard.py'
+      - '.github/workflows/fa3-accelerator-guard.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  accelerator-guard-canonical:
+    name: accelerator-guard-canonical / P0
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax check
+        run: python -m py_compile src/fa3_accelerator_guard.py src/fa3_accelerator_guard_gate.py tests/test_accelerator_guard.py
+      - name: Canonical fail-closed gate
+        run: |
+          mkdir -p reports
+          PYTHONPATH=src python src/fa3_accelerator_guard_gate.py | tee reports/accelerator-guard-gate-output.txt
+      - name: Regression tests
+        run: python -m pip install --disable-pip-version-check pytest && PYTHONPATH=src python -m pytest -q tests/test_accelerator_guard.py
+      - name: Upload gate output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-accelerator-guard-gate-output
+          path: reports/accelerator-guard-gate-output.txt

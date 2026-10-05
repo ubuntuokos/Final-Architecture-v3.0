@@ -1,0 +1,30 @@
+{
+  "schema": "fa3.reference-evidence.v1",
+  "id": "FA3-AGENT-SKILLS-ECOSYSTEM-REFERENCE-2026-09-24",
+  "date": "2026-09-24",
+  "status": "STATIC_REFERENCE_SNAPSHOT_RECORDED",
+  "runtime_promotion_claim": false,
+  "current_host_claim": false,
+  "imported_upstream_payload": false,
+  "decision_id": "FA3-DEC-AGENT-SKILLS-ECOSYSTEM-2026-09-24",
+  "radar_id": "FA3-EXTERNAL-SKILL-RADAR-001",
+  "observations": {
+    "agentskills_spec_commit": "69ef37e9424c0a7ea9dd2293b559e43ec8176379",
+    "agentskills_spec_requires_skill_md": true,
+    "agentskills_spec_requires_name_and_description": true,
+    "agentskills_spec_allows_scripts_references_assets": true,
+    "agentskills_allowed_tools_is_experimental": true,
+    "fa3_preserves_stricter_admission_contract": true
+  },
+  "limitations": [
+    "No external skill is admitted by this evidence.",
+    "No external scanner or optimizer is installed or executed by this evidence.",
+    "Repository-level license observations do not replace per-skill license review.",
+    "Static/reference evidence cannot promote runtime execution."
+  ],
+  "hardware_audit": {
+    "cpu_only_viable": true,
+    "vendor_neutral": true,
+    "accelerator_requirement": false
+  }
+}

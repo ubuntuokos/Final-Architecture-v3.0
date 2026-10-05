@@ -1,0 +1,70 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-HOST-ADAPTATION-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "parent_profile": "FA3-HOST-ADAPTATION-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "contracts": [
+    "InstallationHostProfile",
+    "AcceptedHostProfile",
+    "LiveHostSnapshot",
+    "HostDriftReport",
+    "HostReconciliationPlan",
+    "SelectiveMaterializationPlan",
+    "DesktopIntegrationSelection",
+    "AcceleratorBindingObservation"
+  ],
+  "profile_semantics": {
+    "installation_profile_mutability": "IMMUTABLE_AFTER_INITIALIZATION",
+    "accepted_profile_ownership": "EXTERNAL_EXISTING_ADMISSION_AND_EVIDENCE_AUTHORITIES",
+    "live_snapshot": "EPHEMERAL_NON_AUTHORITY_FACTS",
+    "accepted_profile_fallback": "INSTALLATION_BASELINE_WHEN_NO_LATER_ACCEPTED_PROFILE_EXISTS"
+  },
+  "drift_semantics": {
+    "NO_DRIFT": "START",
+    "OBSERVATIONAL_DRIFT": "LOG_AND_START",
+    "RUNTIME_REBIND": "REBIND_WITH_EXISTING_AUTHORITIES",
+    "CONFIG_RECONCILE": "RECONCILE_VALIDATE_THEN_START",
+    "COMPONENT_ADMISSION": "PLAN_MATERIALIZATION_AND_USE_NORMAL_ADMISSION",
+    "SAFETY_BLOCK": "FAIL_CLOSED_FOR_AFFECTED_SCOPE"
+  },
+  "materialization_semantics": {
+    "output_is_plan_not_install_authority": true,
+    "package_manager_is_discovered_fact_not_authority": true,
+    "only_host_relevant_provider_families_selected": true,
+    "disappearance_marks_provider_inactive_before_any_removal": true,
+    "automatic_uninstall": false,
+    "automatic_global_host_reconfiguration": false
+  },
+  "desktop_semantics": {
+    "qt6_qml_native_core": true,
+    "qt_based_desktop_native_path": true,
+    "plasma_kf6_enhancement": true,
+    "xdg_freedesktop_interop": true,
+    "wayland_preferred": true,
+    "x11_supported": true,
+    "native_enhancement_must_remain_behind_fa3_interface": true
+  },
+  "evidence_semantics": {
+    "synthetic_or_static_result_is_current_host_pass": false,
+    "discovery_snapshot_is_current_host_fact_not_promotion": true,
+    "assigned_accelerator_requires_separate_actual_use_evidence": true,
+    "registration_or_materialization_is_runtime_pass": false
+  },
+  "forbidden": [
+    "DISCOVERY_SELF_ADMISSION",
+    "HARD_CODED_GPU_ORDINAL_AS_IDENTITY",
+    "GLOBAL_VENDOR_RUNTIME_PIN",
+    "FIXED_HOST_PORT_AS_PORTABLE_REQUIREMENT",
+    "KDE_ONLY_CORE",
+    "WAYLAND_ONLY_CORE",
+    "AUTOMATIC_PROVIDER_UNINSTALL_ON_TRANSIENT_DEVICE_ABSENCE",
+    "DRIFT_ANALYZER_ISSUES_CURRENT_HOST_PROMOTION"
+  ]
+}

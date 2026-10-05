@@ -1,0 +1,85 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-LITELLM-H2O-LOCAL-LLM-SOURCES-2026-10-02",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "STAGED_PENDING_EXACT_HEAD_GATES",
+  "mode": "APPEND_ONLY_OWNER_EXPLICIT_REFERENCE_INTAKE",
+  "parent_commit": "30eca4c7bcaaf523a260dbccd0d5a9018c902527",
+  "parent_registry_blob_sha": "3df76decf77f62235de0026bd5c12ed3b9f42561",
+  "parent_entry_count": 1333,
+  "source_count": 6,
+  "unique_source_key_count": 6,
+  "matched_existing_count": 0,
+  "proposed_entry_count": 1339,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "provider_count_policy": "DYNAMIC_UNCHANGED",
+  "approval_ref": "docs/donor-litellm-h2o-local-llm-sources-2026-10-02.md",
+  "requirements": [
+    "Preserve all six exact owner-marked URLs as distinct reference identities.",
+    "BerriAI, H2O.ai and LiteLLM-Labs organization pages are discovery indexes only; do not recursively register child repositories.",
+    "LiteLLM, Go-filtered LiteLLM AI gateway and local-LLM topic URLs are discovery indexes only; preserve the explicit Go-filtered view as a distinct discovery viewpoint.",
+    "Per-repository license/provenance, dependency, security, Software Coexistence, Hardware Safety, shared-capability/layer placement and usage-edge review remains mandatory before material reuse.",
+    "Metadata-only ACCEPTED_REFERENCE registration; fixed capability baseline 175 and no new architectural authority.",
+    "No automatic code copy, dependency adoption, installation, fetch, provider/model selection, runtime activation, hosted-service activation or current-host claim."
+  ],
+  "sources": [
+    {
+      "url": "https://github.com/BerriAI",
+      "normalized_key": "github:berriai",
+      "donor_id": "FA3-DONOR-BERRIAI-ORG-001",
+      "kind": "GITHUB_ORGANIZATION",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "url": "https://github.com/topics/litellm",
+      "normalized_key": "github:topics/litellm",
+      "donor_id": "FA3-DONOR-LITELLM-TOPIC-001",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "url": "https://github.com/topics/litellm-ai-gateway?l=go",
+      "normalized_key": "github:topics/litellm-ai-gateway?l=go",
+      "donor_id": "FA3-DONOR-LITELLM-AI-GATEWAY-GO-TOPIC-001",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "url": "https://github.com/h2oai",
+      "normalized_key": "github:h2oai",
+      "donor_id": "FA3-DONOR-H2OAI-ORG-001",
+      "kind": "GITHUB_ORGANIZATION",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "url": "https://github.com/LiteLLM-Labs",
+      "normalized_key": "github:litellm-labs",
+      "donor_id": "FA3-DONOR-LITELLM-LABS-ORG-001",
+      "kind": "GITHUB_ORGANIZATION",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "url": "https://github.com/topics/local-llm",
+      "normalized_key": "github:topics/local-llm",
+      "donor_id": "FA3-DONOR-LOCAL-LLM-TOPIC-001",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE"
+    }
+  ],
+  "boundaries": {
+    "child_repository_auto_registration": false,
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "automatic_code_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "hosted_service_activation": false,
+    "usage_edge_created": false,
+    "capability_count_change": false,
+    "authority_change": false
+  }
+}

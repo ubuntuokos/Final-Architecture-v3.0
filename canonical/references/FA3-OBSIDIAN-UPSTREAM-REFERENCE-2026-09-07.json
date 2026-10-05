@@ -1,0 +1,62 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-OBSIDIAN-UPSTREAM-REFERENCE-2026-09-07",
+  "observed_at": "2026-09-07T00:00:00Z",
+  "obsidian_desktop": {
+    "distribution_repository": "obsidianmd/obsidian-releases",
+    "repository_url": "https://github.com/obsidianmd/obsidian-releases",
+    "release": "v1.13.7",
+    "release_url": "https://github.com/obsidianmd/obsidian-releases/releases/tag/v1.13.7",
+    "published_at": "2026-08-12T13:57:51Z",
+    "release_channel": "STABLE_DESKTOP",
+    "linux_package": {
+      "filename": "obsidian_1.13.7_amd64.deb",
+      "size_bytes": 107021628,
+      "sha256": "17dc33b49cb3e785ecc27edd2ea0c79e40207798b554fd2886e36ebee7af9ae0",
+      "digest_source": "GitHub release asset digest"
+    },
+    "license_class": "PROPRIETARY_FREE_USE_SUBJECT_TO_OBSIDIAN_TERMS",
+    "license_observation": "Obsidian states that use is free for personal, commercial, non-profit, educational and government purposes; the software remains licensed, not sold, and subject to its terms.",
+    "license_url": "https://obsidian.md/license"
+  },
+  "local_rest_api_plugin": {
+    "repository": "coddingtonbear/obsidian-local-rest-api",
+    "repository_url": "https://github.com/coddingtonbear/obsidian-local-rest-api",
+    "release": "5.1.0",
+    "release_url": "https://github.com/coddingtonbear/obsidian-local-rest-api/releases/tag/5.1.0",
+    "published_at": "2026-08-01T00:00:43Z",
+    "commit": "2e255200a4d8f68e49a4f7f8fd46b4abf736c4eb",
+    "commit_url": "https://github.com/coddingtonbear/obsidian-local-rest-api/commit/2e255200a4d8f68e49a4f7f8fd46b4abf736c4eb",
+    "license": "MIT",
+    "minimum_obsidian": "1.13.1",
+    "mcp_sdk": "1.30.0",
+    "release_assets": {
+      "main.js": "c3bf3ef644c5ade946c4ab64821a5969a92124e00afb4dc9bac4034d482ce131",
+      "manifest.json": "6c0d8390e6aa3f3515c834e2b4174545cf0cd20c5dbb116216e5d36b72af8437",
+      "styles.css": "a8b5c52e4974bd356225a17d64e6ea25502206ad860641da260fdc14430426f8"
+    },
+    "observed_interfaces": {
+      "https_loopback_default": "https://127.0.0.1:27124",
+      "streamable_http_mcp": "https://127.0.0.1:27124/mcp/",
+      "bearer_authentication": true,
+      "plugin_generated_local_ca": true,
+      "plaintext_http_optional_upstream": "http://127.0.0.1:27123",
+      "broad_vault_and_command_surface": true
+    }
+  },
+  "official_product_observations": {
+    "vault_is_local_filesystem_folder": true,
+    "notes_are_markdown_plain_text": true,
+    "metadata_cache_rebuildable": true,
+    "properties_are_yaml_structured_data": true,
+    "bases_data_remains_in_markdown_properties": true,
+    "community_plugins_inherit_obsidian_access": true,
+    "community_plugins_lack_reliable_fine_grained_permission_restriction": true,
+    "cli_requires_running_desktop_and_installer_1_12_7_or_newer": true,
+    "headless_is_open_beta_and_service_focused": true
+  },
+  "assessment": "ARCHITECTURAL_FIT_AS_OPTIONAL_HUMAN_KNOWLEDGE_WORKSPACE_WITH_STRICT_AGENT_AND_PLUGIN_BOUNDARIES",
+  "promotion_use": "REFERENCE_AND_STATIC_CONFORMANCE_ONLY",
+  "current_host_runtime_evidence": "NOT_CLAIMED",
+  "floating_latest_forbidden_as_promotion_evidence": true
+}

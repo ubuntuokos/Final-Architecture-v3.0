@@ -1,0 +1,30 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-STABLE-AUDIO-3-HARDENING-2026-09-08",
+  "date": "2026-09-08",
+  "status": "CANONICAL_CLOSED",
+  "title": "Stable Audio 3 provider runtime, provenance, supply-chain and current-host admission hardening",
+  "decision": "KEEP_REQUIRED_SUPPORTED_PROVIDER_AND_HARDEN_EXISTING_MUSIC_PROJECTION",
+  "provider_id": "FA3-PROVIDER-STABLE-AUDIO-3-001",
+  "profile_id": "FA3-MUSIC-001",
+  "portfolio_profile_id": "FA3-STABILITY-PORTFOLIO-001",
+  "upstream_repo": "Stability-AI/stable-audio-3",
+  "immutable_reference": "779434a908193105335fd8d833418603625b2859",
+  "projection_semantics": "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_UPDATE",
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_before": 143,
+  "capability_count_after": 143,
+  "mandatory_outcomes": [
+    "FA3-MUSIC-001 explicitly lists Stable Audio 3 alongside ACE-Step",
+    "Stable Audio 3 remains a replaceable provider and never an FA3 authority",
+    "audio-affecting runtime identity is immutable and provenance-bearing",
+    "Medium bf16 is retired and cannot be silently selected",
+    "TensorRT engine compute capability and chunking identity are recorded",
+    "Flash Attention production artifacts are immutable, hashed and provenanced",
+    "code, model and output-rights admission remain separate",
+    "current-host production promotion requires real execution evidence"
+  ],
+  "current_host_disposition": "EXECUTABLE_ADMISSION_SCAFFOLD_MATERIALIZED_REAL_HOST_EXECUTION_PENDING",
+  "production_promotion_claim": false
+}

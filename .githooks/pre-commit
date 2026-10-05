@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT="$(git rev-parse --show-toplevel)"
+cd "$ROOT"
+
+MODE="$(python3 src/fa3_dev_mode.py status --field environment 2>/dev/null || printf '%s' "${FA3_ENV:-production}")"
+
+if [[ "$MODE" == "development" ]]; then
+  echo "[FA3-HOOK] Development session: generating full Git-index snapshot."
+  python3 src/fa3_dev_mode.py snapshot
+  git add evidence/development/current/artifact-manifest.json \
+          evidence/development/current/hashes.sha256 \
+          evidence/development/current/receipt.json
+  python3 src/fa3_dev_mode.py verify-snapshot --source index
+  echo "[FA3-HOOK] Development snapshot staged."
+else
+  echo "[FA3-HOOK] Production/default mode: running fail-closed canonical gate."
+  python3 src/fa3_dev_update_gate.py
+fi

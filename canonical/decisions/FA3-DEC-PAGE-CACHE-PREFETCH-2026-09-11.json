@@ -1,0 +1,46 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-PAGE-CACHE-PREFETCH-2026-09-11",
+  "date": "2026-09-11",
+  "status": "ACCEPTED_MATERIALIZED",
+  "title": "Filesystem page-cache speculative prefetch and adaptive readahead governance",
+  "change_type": "NO_NEW_CAPABILITY_NO_NEW_AUTHORITY_HRB_POLICY_HARDENING",
+  "parent_profile_id": "FA3-HOST-RESOURCE-BROKER-001",
+  "parent_contract_id": "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001",
+  "parent_gate_id": "FA3-HRB-DETERMINISTIC-LOCALITY-GATESET-001",
+  "subgate_id": "FA3-PAGE-CACHE-PREFETCH-GATESET-001",
+  "provider_id": "FA3-PROVIDER-PRELOAD-001",
+  "capability_count_before": 143,
+  "capability_count_after": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "decision": "EXTEND_EXISTING_HRB_CACHE_GOVERNANCE_WITH_PROVIDER_NEUTRAL_PAGE_CACHE_PREFETCH_POLICY",
+  "accepted": [
+    "Linux filesystem page cache remains the primary page-cache mechanism; speculative prefetch is only a policy/projection over it.",
+    "Page-cache prefetch and adaptive readahead are governed under the existing Host Resource Broker authority and do not create a new authority.",
+    "Provider activation is optional, benchmark-admitted, rollbackable and current-host-evidenced.",
+    "Cold-start and warm/steady-state behavior must be measured separately.",
+    "I/O pressure, major faults, cache residency/hit behavior and memory-pressure/host-survival effects must be observable.",
+    "Large AI model files are not blindly whole-file-prefetched; model/runtime residency remains separately governed.",
+    "Storage ordering or readahead strategy is topology/workload benchmark-derived rather than fixed by storage marketing class.",
+    "Explicit path allowlists with catch-all deny are preferred for userspace preload providers.",
+    "Provider disablement must return near-zero runtime cost and preserve normal kernel page-cache behavior."
+  ],
+  "rejected": [
+    "new preload or cache architectural authority",
+    "fixed global cycle memory percentage process count sort strategy or readahead magic constants",
+    "broad /home tree as a portable default preload allowlist",
+    "prefetch of /dev /proc /sys /run or equivalent kernel virtual filesystems",
+    "periodic drop_caches as a performance optimization",
+    "periodic cat/read loops over large model artifacts to force cache residency",
+    "using vm.overcommit_memory or page cache as a generic VRAM extension mechanism",
+    "provider-selected NUMA CPU GPU or storage placement outside an HRB receipt"
+  ],
+  "provider_disposition": {
+    "FA3-PROVIDER-PRELOAD-001": "OPTIONAL_REFERENCE_PROVIDER_DISABLED_OR_EXPLICIT_HOST_POLICY_CONTROLLED",
+    "provider_hard_dependency": false
+  },
+  "reference_evidence": "evidence/reference/page-cache-prefetch-ci-2026-09-11.json",
+  "current_host_runtime_promotion": "PENDING_REAL_CURRENT_HOST_BENCHMARK_AND_NON_REGRESSION_EVIDENCE",
+  "global_release_effect": "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_UPDATE"
+}

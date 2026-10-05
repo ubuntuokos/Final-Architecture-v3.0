@@ -1,0 +1,123 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+REPO="ubuntuokos/Final-Architecture-v3.0"
+RUNNER_VERSION="2.337.0"
+RUNNER_ROOT="${FA3_RUNNER_ROOT:-$HOME/.local/share/fa3/actions-runner}"
+UNIT_NAME="fa3-github-runner.service"
+DROPIN_PATH="$HOME/.config/systemd/user/$UNIT_NAME.d/20-fa3-hrb-acquire.conf"
+OUT="${FA3_RUNNER_DOCTOR_RECEIPT:-.fa3-current-host/runner/doctor.json}"
+REQUIRED_LABELS='["self-hosted","linux","x64","fa3-current-host"]'
+VALIDATOR_CLIENT="/usr/local/bin/fa3-host-resource-broker-validator"
+VALIDATOR_HELPER="/usr/local/libexec/fa3-host-resource-broker-validate-root"
+ACQUIRE_CLIENT="/usr/local/bin/fa3-host-resource-broker-acquire"
+ACQUIRE_HELPER="/usr/local/libexec/fa3-host-resource-broker-acquire-root"
+ADMISSION_CLIENT="/usr/local/bin/fa3-host-resource-broker-admission"
+ADMISSION_HELPER="/usr/local/libexec/fa3-host-resource-broker-admission-root"
+ACQUIRE_ENV='Environment="FA3_HRB_ACQUIRE_COMMAND=/usr/local/bin/fa3-host-resource-broker-acquire --workload {workload} --lease-output {lease} --accelerator-uuid {gpu_uuid}"'
+
+if [[ ${EUID:-$(id -u)} -eq 0 ]]; then
+  echo "FAIL: runner doctor must not run as root" >&2
+  exit 30
+fi
+
+for cmd in python3 systemctl loginctl gh sudo grep; do
+  command -v "$cmd" >/dev/null 2>&1 || { echo "FAIL: missing prerequisite: $cmd" >&2; exit 31; }
+done
+
+[[ -x "$RUNNER_ROOT/bin/Runner.Listener" ]] || { echo "FAIL: Runner.Listener missing" >&2; exit 32; }
+[[ -s "$RUNNER_ROOT/.runner" ]] || { echo "FAIL: runner registration file missing" >&2; exit 33; }
+[[ -x "$VALIDATOR_CLIENT" ]] || { echo "FAIL: HRB validator client missing" >&2; exit 36; }
+[[ -x "$VALIDATOR_HELPER" ]] || { echo "FAIL: HRB validator privileged helper missing" >&2; exit 37; }
+sudo -n -l "$VALIDATOR_HELPER" /dev/null >/dev/null 2>&1 \
+  || { echo "FAIL: HRB validator bridge is not available non-interactively" >&2; exit 38; }
+[[ -x "$ACQUIRE_CLIENT" ]] || { echo "FAIL: HRB acquire client missing" >&2; exit 39; }
+[[ -x "$ACQUIRE_HELPER" ]] || { echo "FAIL: HRB acquire privileged helper missing" >&2; exit 40; }
+sudo -n -l "$ACQUIRE_HELPER" /dev/null >/dev/null 2>&1 \
+  || { echo "FAIL: HRB acquire bridge is not available non-interactively" >&2; exit 41; }
+"$ACQUIRE_CLIENT" --doctor >/dev/null \
+  || { echo "FAIL: HRB acquire client doctor failed" >&2; exit 42; }
+ADMISSION_READY=false
+if [[ -x "$ADMISSION_CLIENT" ]] && [[ -x "$ADMISSION_HELPER" ]] \
+  && "$ADMISSION_CLIENT" --doctor >/dev/null 2>&1; then
+  ADMISSION_READY=true
+fi
+[[ -s "$DROPIN_PATH" ]] || { echo "FAIL: runner acquire adapter drop-in missing" >&2; exit 43; }
+grep -Fqx "$ACQUIRE_ENV" "$DROPIN_PATH" \
+  || { echo "FAIL: runner acquire adapter drop-in drift" >&2; exit 44; }
+
+INSTALLED_VERSION="$($RUNNER_ROOT/bin/Runner.Listener --version | tail -n1 | tr -d '\r')"
+[[ "$INSTALLED_VERSION" == "$RUNNER_VERSION" ]] || { echo "FAIL: runner version drift: $INSTALLED_VERSION" >&2; exit 34; }
+
+systemctl --user is-active --quiet "$UNIT_NAME" || { echo "FAIL: $UNIT_NAME is not active" >&2; exit 35; }
+LINGER="$(loginctl show-user "$USER" -p Linger --value 2>/dev/null || true)"
+[[ "$LINGER" == "yes" ]] || { echo "FAIL: systemd user linger is not enabled for $USER" >&2; exit 45; }
+
+TMP="$(mktemp)"
+trap 'rm -f "$TMP"' EXIT
+gh api "repos/${REPO}/actions/runners?per_page=100" >"$TMP"
+
+mkdir -p "$(dirname "$OUT")"
+chmod 700 "$(dirname "$OUT")"
+
+python3 - "$RUNNER_ROOT/.runner" "$TMP" "$OUT" "$REPO" "$RUNNER_VERSION" "$REQUIRED_LABELS" "$ADMISSION_READY" <<'PY'
+from __future__ import annotations
+import datetime as dt
+import json
+import os
+import socket
+import sys
+from pathlib import Path
+
+runner_file, api_file, out_file, repo, expected_version, labels_json, admission_ready_text = sys.argv[1:]
+required = set(json.loads(labels_json))
+local = json.loads(Path(runner_file).read_text(encoding="utf-8-sig"))
+api = json.loads(Path(api_file).read_text(encoding="utf-8-sig"))
+name = local.get("agentName") or local.get("name")
+if not name:
+    raise SystemExit("FAIL: local .runner has no agentName")
+server_url = local.get("gitHubUrl") or local.get("serverUrl") or ""
+if repo.lower() not in server_url.lower() and "github.com" not in server_url.lower():
+    raise SystemExit(f"FAIL: unexpected runner server binding: {server_url}")
+remote = next((r for r in api.get("runners", []) if r.get("name") == name), None)
+if remote is None:
+    raise SystemExit(f"FAIL: runner {name!r} not found in repository runner inventory")
+raw_labels = {str(x.get("name", "")) for x in remote.get("labels", []) if isinstance(x, dict)}
+labels = {label.lower() for label in raw_labels}
+missing = sorted(required - labels)
+if missing:
+    raise SystemExit("FAIL: missing runner labels: " + ", ".join(missing))
+if remote.get("status") != "online":
+    raise SystemExit(f"FAIL: runner is not online: {remote.get('status')}")
+receipt = {
+    "schema": "fa3.current-host-runner-doctor-receipt.v1",
+    "conformance_id": "FA3-CURRENT-HOST-RUNNER-CONFORMANCE-001",
+    "gate_id": "FA3-CURRENT-HOST-RUNNER-GATESET-001",
+    "result": "PASS",
+    "observed_at": dt.datetime.now(dt.timezone.utc).isoformat(),
+    "repository": repo,
+    "host": socket.gethostname(),
+    "user": os.environ.get("USER", ""),
+    "runner_name": name,
+    "runner_version": expected_version,
+    "runner_status": remote.get("status"),
+    "runner_busy": bool(remote.get("busy")),
+    "labels": sorted(raw_labels),
+    "required_labels_present": True,
+    "systemd_user_service_active": True,
+    "systemd_user_linger_enabled": True,
+    "hrb_validator_bridge_ready": True,
+    "hrb_acquire_bridge_ready": True,
+    "hrb_admission_authorization_bridge_ready": admission_ready_text == "true",
+    "hrb_admission_authorization_bridge_required_for_runner_doctor_pass": False,
+    "hrb_acquire_adapter_dropin_ready": True,
+    "hrb_hmac_key_exposed_to_runner": False,
+    "normal_runtime_root_required": False,
+    "registration_secret_recorded": False,
+    "global_promotion_claim": False,
+    "provider_e2e_receipt_required_separately": True
+}
+Path(out_file).write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+os.chmod(out_file, 0o600)
+print(json.dumps(receipt, indent=2, sort_keys=True))
+PY

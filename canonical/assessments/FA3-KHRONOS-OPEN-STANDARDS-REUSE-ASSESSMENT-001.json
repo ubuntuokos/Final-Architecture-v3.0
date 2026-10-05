@@ -1,0 +1,91 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-KHRONOS-OPEN-STANDARDS-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+  "intent_id": "FA3-KHRONOS-OPEN-STANDARDS-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-KHRONOS-OPEN-STANDARDS-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-KHRONOS-OPEN-STANDARDS-001",
+    "CAP-083",
+    "CAP-146",
+    "CAP-147",
+    "CAP-175"
+  ],
+  "project_status": "CANONICAL_SDK_FABRIC_MATERIALIZED_PHYSICAL_CURRENT_HOST_PENDING",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "CAP-083",
+      "use": "EXISTING_OPEN_STANDARDS_GRAPHICS_COMPUTE_XR_3D_CAPABILITY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "EXISTING_SOLE_RESOURCE_AUTHORITY"
+    },
+    {
+      "id": "FA3-HARDWARE-BASELINE-001",
+      "use": "EXISTING_VENDOR_NEUTRAL_DISCOVERY_AND_SAFETY_BOUNDARY"
+    },
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "MANDATORY_PRE_IMPLEMENTATION_REUSE_AND_GAP_ASSESSMENT"
+    },
+    {
+      "id": "CAP-175",
+      "use": "MANDATORY_SOFTWARE_COEXISTENCE_AND_HOST_NON_INTERFERENCE"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "NEW_KHRONOS_RESOURCE_AUTHORITY",
+      "reason": "HRB_REMAINS_SOLE_RESOURCE_AUTHORITY"
+    },
+    {
+      "id": "SYSTEM_VULKAN_LOADER_REPLACEMENT",
+      "reason": "CAP_175_FORBIDS_HOST_RUNTIME_HIJACK"
+    },
+    {
+      "id": "GLOBAL_VK_LAYER_PATH_OR_ICD_OVERRIDE",
+      "reason": "CHILD_PROCESS_SCOPED_PROJECTION_ONLY"
+    },
+    {
+      "id": "GPU_VENDOR_OR_SKU_DEFAULT",
+      "reason": "HARDWARE_AUDIT_REQUIRES_LIVE_CAPABILITY_DISCOVERY"
+    },
+    {
+      "id": "SILENT_ACCELERATOR_TO_CPU_FALLBACK",
+      "reason": "SELECTED_EXECUTION_PATH_MUST_FAIL_CLOSED"
+    }
+  ],
+  "existing_authority_bindings": {
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001",
+    "security_authority": "FA3-AUTH-SECURITY-GOV-001",
+    "khronos_role": "SDK_PROVIDER_INTERCHANGE_IMPLEMENTATION_NOT_AUTHORITY"
+  },
+  "gaps": [
+    "PHYSICAL_CURRENT_HOST_SOURCE_MATERIALIZATION_PENDING",
+    "COMPILED_SDK_RUNTIME_EVIDENCE_PENDING"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hrb_bound": true
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "child_process_environment_only": true,
+    "system_runtime_replacement_required": false
+  },
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}

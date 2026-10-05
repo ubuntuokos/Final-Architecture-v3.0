@@ -1,0 +1,73 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-WORKLOAD-MODE-APPLICATION-INTENT-001",
+  "project_id": "FA3-WORKLOAD-MODE-FRAMEWORK-001",
+  "project_type": "SHARED_SYSTEM_COMPONENT",
+  "goal": "Materialize a standalone-first Workload Mode Framework with AIMode and RenderMode domains, GameMode coexistence, external workload discovery, mandatory FA3 integration and a shared visible effective-mode state without creating a parallel FA3 resource authority.",
+  "required_capabilities": [
+    "CAP-130",
+    "CAP-175"
+  ],
+  "optional_capabilities": [
+    "CAP-083"
+  ],
+  "problem_classes": [
+    "workload-intent",
+    "ai-workload-mode",
+    "render-workload-mode",
+    "game-coexistence",
+    "external-workload-observation",
+    "resource-coordination",
+    "global-mode-visibility"
+  ],
+  "input_modalities": [
+    "WORKLOAD_INTENT",
+    "PROCESS_LIFECYCLE",
+    "RESOURCE_TELEMETRY",
+    "PEER_STATE"
+  ],
+  "output_modalities": [
+    "EFFECTIVE_MODE_STATE",
+    "RESOURCE_INTENT",
+    "COEXISTENCE_STATE",
+    "UI_STATE_PROJECTION"
+  ],
+  "execution_classes": [
+    "CPU_ONLY",
+    "OPTIONAL_ACCELERATOR"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "STANDALONE_WORKLOAD_MODE_RUNTIME",
+    "AIMODE_AND_RENDERMODE_DOMAIN_STATE",
+    "GAMEMODE_COEXISTENCE_BRIDGE",
+    "FA3_BIDIRECTIONAL_HANDSHAKE",
+    "EXTERNAL_WORKLOAD_OBSERVED_COORDINATED_MANAGED_STATE",
+    "GLOBAL_WORKLOAD_MODE_INDICATOR"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_resource_authority_in_fa3": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "hardware_parameter_mutation_by_initial_materialization": false
+  },
+  "namespace_claims": {
+    "package_prefix": "workload-mode",
+    "service_prefix": "workmoded",
+    "config_root": "$XDG_CONFIG_HOME/workload-mode",
+    "cache_root": "$XDG_CACHE_HOME/workload-mode",
+    "runtime_root": "$XDG_RUNTIME_DIR/workload-mode",
+    "socket_namespace": "org.workloadmode",
+    "data_root": "$XDG_DATA_HOME/workload-mode",
+    "desktop_prefix": "org.workloadmode",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001"
+  ]
+}

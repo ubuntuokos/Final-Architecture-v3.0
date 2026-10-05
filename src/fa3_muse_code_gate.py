@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import argparse
 import hashlib
@@ -14,7 +15,7 @@ CONTRACT_ID = "FA3-DURABLE-REPLAYABLE-MULTI-AGENT-EXECUTION-CONTRACTS-001"
 DECISION_ID = "FA3-DEC-MUSE-CODE-2026-09-01"
 REFERENCE_ID = "FA3-MUSE-CODE-UPSTREAM-REFERENCE-2026-09-01"
 EVIDENCE_ID = "FA3-EVIDENCE-MUSE-CODE-CI-2026-09-01"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 
 MANDATORY_CONSTRAINT = (
     "Muse Code SHALL remain an optional provider/pattern source and SHALL NOT become an FA3 "

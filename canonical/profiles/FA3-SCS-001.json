@@ -2,14 +2,14 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-SCS-001",
   "name": "Software & Model Supply-Chain Security, Provenance and Trust Overlay",
-  "version": "1.0.0",
+  "version": "1.3.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
   "canonical_root": false,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "contracts": [
     "FA3-SCS-CONTRACTS-001"
   ],
@@ -24,7 +24,37 @@
     "PACKAGE_OR_MODEL_AVAILABILITY_IS_NOT_EXECUTION_AUTHORIZATION",
     "DEPENDENCY_LOCK_AND_BUILD_RECIPE_IDENTITY_REQUIRED_WHEN_BUILDING",
     "TRUST_DECISIONS_FAIL_CLOSED",
-    "PROVENANCE_CONTINUES_ACROSS_DERIVED_AND_QUANTIZED_ARTIFACTS"
+    "PROVENANCE_CONTINUES_ACROSS_DERIVED_AND_QUANTIZED_ARTIFACTS",
+    "SECRET_VALUES_FORBIDDEN_IN_CANONICAL_CONFIG_AND_EVIDENCE",
+    "RUNTIME_SECRET_DELIVERY_REQUIRES_SECRETREF_OR_CREDENTIAL_LEASE",
+    "COMMERCIAL_AND_REDISTRIBUTION_COMPATIBILITY_ARE_EXPLICIT_ATTESTATIONS",
+    "UNKNOWN_REQUIRED_DISTRIBUTION_FACT_FAILS_CLOSED",
+    "RELEASE_BUNDLE_INCLUSION_REQUIRES_DISTRIBUTION_DECISION_RECEIPT",
+    "AUTOMATED_SBOM_LICENSE_VULNERABILITY_ATTESTATION_REQUIRED_FOR_DISTRIBUTED_RUNTIME_ARTIFACTS",
+    "UNMANAGED_UPSTREAM_PATCHSET_FORBIDDEN",
+    "CODE_MODEL_DATASET_ASSET_SERVICE_AND_OUTPUT_RIGHTS_ARE_DISTINCT",
+    "THIRD_PARTY_RELICENSE_BY_FA3_POLICY_FORBIDDEN",
+    "RELEASE_REQUIRES_LICENSE_RIGHTS_COMPLIANCE_RECEIPT"
   ],
-  "implementation_status": "CANONICAL_BASELINE_MATERIALIZED"
+  "implementation_status": "CANONICAL_BASELINE_MATERIALIZED",
+  "cross_cutting_bindings": {
+    "secret_broker": "FA3-SECRET-BROKER-001",
+    "human_credential_vault": "FA3-HUMAN-CREDENTIAL-VAULT-CONTRACTS-001",
+    "distribution_compliance": "FA3-DISTRIBUTION-COMPLIANCE-001",
+    "license_rights": "FA3-LICENSE-RIGHTS-001"
+  },
+  "automated_admission": {
+    "gate_id": "FA3-GATE-SUPPLY-RUNTIME-HARDENING-001",
+    "sbom_formats": [
+      "SPDX",
+      "CycloneDX"
+    ],
+    "local_first": true,
+    "cloud_scanner_required": false,
+    "license_policy_id": "FA3-SCS-LICENSE-POLICY-001",
+    "operator_supplied_commercial_compatibility": false,
+    "rights_policy_id": "FA3-LICENSE-RIGHTS-POLICY-001",
+    "rights_descriptor_required_for_release_bundle": true
+  },
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

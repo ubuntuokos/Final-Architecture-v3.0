@@ -1,0 +1,42 @@
+{
+  "schema": "fa3.host-attestation-policy.v1",
+  "id": "FA3-HOST-ATTESTATION-001",
+  "title": "Host Attestation Evidence Contract",
+  "status": "CANONICAL_POLICY",
+  "capability_count_source": "canonical/FA3-RELEASE-CAPABILITY-BASELINE-001.json",
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "fail_closed": true,
+  "purpose": "PROVE_WHAT_EXACT_HOST_EXECUTED_A_RUNTIME_OR_QUALIFICATION",
+  "admission_role": "EVIDENCE_PROVENANCE_NOT_HARDWARE_MODEL_ALLOWLIST",
+  "required_identity": [
+    "host_attestation_id",
+    "captured_at",
+    "kernel",
+    "os_release",
+    "cpu_model",
+    "cpu_microcode",
+    "cpu_topology",
+    "numa_topology",
+    "memory_total_bytes",
+    "accelerators",
+    "driver_versions",
+    "runtime_versions",
+    "pcie_topology",
+    "storage_identity",
+    "thermal_power_state",
+    "collector_version"
+  ],
+  "accelerator_identity": {
+    "stable_identity_preference": ["DEVICE_UUID", "PCI_BDF"],
+    "runtime_ordinal_is_identity": false
+  },
+  "digest": {
+    "canonical_serialization_required": true,
+    "sha256_required": true
+  },
+  "invariants": [
+    "CURRENT_HOST_EVIDENCE_MUST_BIND_EXACT_ATTESTATION_DIGEST",
+    "HOST_ATTESTATION_DOES_NOT_DEFINE_PORTABLE_HARDWARE_MINIMUM"
+  ]
+}

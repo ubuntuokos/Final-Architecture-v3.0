@@ -1,0 +1,78 @@
+{
+  "schema": "fa3.license-rights-provenance-attestation.v1",
+  "id": "FA3-LICENSE-RIGHTS-PROVENANCE-AGENT-RUNNERS-001",
+  "authority": "FA3-AUTH-SECURITY-GOV-001",
+  "status": "EVIDENCE_BACKED",
+  "fa3_revision": "7c320638f021fd2783975d13e42af993dfae40e0",
+  "covered_subjects": [
+    "FA3-PROVIDER-AGENT-RUNNER-NATIVE-001",
+    "FA3-PROVIDER-AGENT-RUNNER-PODMAN-001"
+  ],
+  "upstream_pattern_source": {
+    "reference_id": "FA3-GOOGLE-AX-UPSTREAM-REFERENCE-2026-09-24",
+    "repository": "google/ax",
+    "revision": "e6211f84a9e30dd309304167b8f1d51cbdaf8dab",
+    "license": "Apache-2.0",
+    "role": "ARCHITECTURAL_PATTERN_SOURCE_AND_OPTIONAL_EXTERNAL_EXECUTION_PROVIDER",
+    "distribution_class": "REFERENCE_ONLY",
+    "release_bundle_status": "EXCLUDED",
+    "upstream_source_snapshot_bundled": false,
+    "adopted_scope": "TASK_WORKSPACE_RUNNER_NETWORK_AND_LIFECYCLE_PATTERNS_AS_FA3_NATIVE_CONTRACTS"
+  },
+  "fa3_native_implementation": {
+    "source_files": [
+      "src/fa3_agent_workload.py",
+      "src/fa3_agent_workload_current_host_gate.py",
+      "evidence/collect-agent-workload-runtime-current-host.py",
+      "src/fa3_provider_runtime.py",
+      "evidence/collect-provider-runtime-current-host.py"
+    ],
+    "provider_records": [
+      "canonical/providers/FA3-PROVIDER-AGENT-RUNNER-NATIVE-001.json",
+      "canonical/providers/FA3-PROVIDER-AGENT-RUNNER-PODMAN-001.json"
+    ],
+    "provenance_conclusion": "FA3_NATIVE_REIMPLEMENTATION_FROM_REFERENCE_PATTERNS",
+    "upstream_source_snapshot_in_release_bundle": false,
+    "upstream_runtime_code_vendored": false,
+    "code_copy_clearance_basis": "No upstream AX or Podman source snapshot is included by this materialization; FA3 implements provider-neutral contracts and host-runtime adapters in repository-native source. This attestation does not claim authorship of external runtimes."
+  },
+  "external_host_runtimes": [
+    {
+      "id": "SYSTEMD_HOST_RUNTIME",
+      "repository": "systemd/systemd",
+      "revision": "7455546a891d752f40790f20b685bdc2a5a65528",
+      "effective_license_for_compiled_programs": "LGPL-2.1-or-later",
+      "evidence": "systemd/systemd LICENSES/README.md",
+      "use": "HOST_PROVIDED_SYSTEMD_USER_TRANSIENT_SCOPE_AND_CGROUP_V2_CONTROL",
+      "bundled_by_agent_runner": false,
+      "source_copied_into_fa3": false,
+      "rights_boundary": "SEPARATE_EXTERNAL_HOST_RUNTIME"
+    },
+    {
+      "id": "PODMAN_HOST_RUNTIME",
+      "repository": "podman-container-tools/podman",
+      "revision": "a91da8a40219588bce9320ba1e56af6382465a85",
+      "license": "Apache-2.0",
+      "license_blob_sha": "9b259bdfcf9022e7f4999a318ab7261300644e11",
+      "use": "HOST_PROVIDED_ROOTLESS_OCI_ENGINE_EXECUTABLE",
+      "bundled_by_agent_runner": false,
+      "source_copied_into_fa3": false,
+      "invocation_evidence": [
+        "evidence/collect-runtime-isolation-sandbox-current-host.py",
+        "evidence/collect-provider-runtime-current-host.py"
+      ],
+      "rights_boundary": "SEPARATE_EXTERNAL_HOST_RUNTIME"
+    }
+  ],
+  "trademark_boundary": {
+    "podman_name_usage": "NOMINATIVE_RUNTIME_IDENTIFIER_ONLY",
+    "trademark_rights_granted_by_fa3_license": false
+  },
+  "non_claims": [
+    "SYSTEMD_OR_PODMAN_CODE_IS_FA3_OWNED",
+    "EXTERNAL_RUNTIME_LICENSES_ARE_RELICENSED_BY_FA3",
+    "PODMAN_RUNTIME_IS_BUNDLED",
+    "GOOGLE_AX_SOURCE_IS_BUNDLED",
+    "RUNTIME_PROMOTION_IS_PROVEN_BY_LICENSE_CLEARANCE"
+  ]
+}

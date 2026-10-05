@@ -1,0 +1,45 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-AGENT-NATIVE-RECONCILIATION-2026-10-01",
+  "date": "2026-10-01",
+  "status": "CANONICAL",
+  "title": "Agent Native discovery-source donor intake reconciliation",
+  "decision": "REGISTER_EXACT_OWNER_APPROVED_AGENT_NATIVE_DISCOVERY_URLS_AS_REFERENCE_ONLY",
+  "explicit_user_approval": true,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "authority": false,
+  "scoped_donor_registration": {
+    "scope": "EXACT_THREE_OWNER_APPROVED_AGENT_NATIVE_DISCOVERY_URLS_ONLY",
+    "donor_ids": [
+      "FA3-DONOR-TOPICS-AGENT-NATIVE-L-C-O-DESC-S-UPDATED-001",
+      "FA3-DONOR-TOPICS-AGENT-NATIVE-L-PYTHON-O-ASC-S-STARS-001",
+      "FA3-DONOR-TOPICS-AGENT-NATIVE-WEB-001"
+    ],
+    "global_literal_donornak_rule_changed": false,
+    "adoption_authorized": false,
+    "child_repository_auto_registration": false
+  },
+  "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+  "reuse_discovery_profile_id": "FA3-REUSE-DISCOVERY-001",
+  "registration_scope": "REFERENCE_METADATA_ONLY",
+  "discoverable_for_planning": true,
+  "automatic_dependency": false,
+  "automatic_code_import": false,
+  "automatic_fetch": false,
+  "automatic_install": false,
+  "automatic_provider_admission": false,
+  "automatic_model_selection": false,
+  "automatic_activation": false,
+  "runtime_promotion_claim": false,
+  "current_host_runtime_promotion_claim": false,
+  "invariants": [
+    "EXACT_OWNER_APPROVED_URLS_ONLY",
+    "REFERENCE_REGISTRATION_DOES_NOT_AUTHORIZE_ADOPTION",
+    "CHILD_REPOSITORIES_REQUIRE_SEPARATE_DONOR_REUSE_ASSESSMENT",
+    "GLOBAL_DONORNAK_CAPTURE_RULE_UNCHANGED",
+    "CAPABILITY_BASELINE_REMAINS_175",
+    "NO_NEW_ARCHITECTURAL_AUTHORITY"
+  ]
+}

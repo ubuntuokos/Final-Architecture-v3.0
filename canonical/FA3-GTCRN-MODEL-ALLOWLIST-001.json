@@ -1,0 +1,15 @@
+{
+  "schema": "fa3.model-allowlist.v1",
+  "id": "FA3-GTCRN-MODEL-ALLOWLIST-001",
+  "provider_id": "FA3-PROVIDER-GTCRN-001",
+  "status": "REFERENCE_ALLOWLIST_RUNTIME_PROMOTION_REQUIRES_QUARANTINE_SHA256",
+  "format_policy": "ONNX_ONLY_FOR_DIRECT_RUNTIME",
+  "models": [
+    {"artifact_id": "GTCRN-ONNX-UPSTREAM-001", "filename": "gtcrn.onnx", "upstream_revision": "502ebfab64da7c4a9af78dcb9c6ceef1ebb01c73", "git_blob_sha1": "613bd97557556a296f578af0a0993da191bbf8d4", "size_bytes": 352084, "sha256": "REQUIRED_AT_QUARANTINE_ADMISSION", "runtime_status": "NOT_PROMOTED"},
+    {"artifact_id": "GTCRN-ONNX-SIMPLE-UPSTREAM-001", "filename": "gtcrn_simple.onnx", "upstream_revision": "502ebfab64da7c4a9af78dcb9c6ceef1ebb01c73", "git_blob_sha1": "015454eef64bd4328e6ff4946c231d4a4a632e93", "size_bytes": 535190, "sha256": "REQUIRED_AT_QUARANTINE_ADMISSION", "runtime_status": "NOT_PROMOTED"}
+  ],
+  "denied_direct_runtime_extensions": [".tar", ".pt", ".pth", ".pkl", ".pickle", ".ckpt", ".bin"],
+  "dangerous_checkpoint_conversion": "QUARANTINE_ISOLATED_ONLY",
+  "runtime_network_fetch": false,
+  "model_artifact_security_profile": "FA3-MODEL-ARTIFACT-SECURITY-001"
+}
