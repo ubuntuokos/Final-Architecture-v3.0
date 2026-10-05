@@ -1,0 +1,40 @@
+{
+  "schema": "fa3.decision-fabric-assessment.v1",
+  "project_id": "FA3-DIFFUSION-STUDIO-DECISION-ASSESSMENT-2026-10-06",
+  "covered_ids": [
+    "FA3-PROVIDER-DIFFUSION-STUDIO-001"
+  ],
+  "assessment": "NOT_APPLICABLE",
+  "rationale": "Diffusion Studio provider admission, hardware/resource eligibility, provider routing, mutation policy, runtime promotion and Current Host evidence are governed by deterministic FA3/CFA3 authorities and must not be delegated to Decision Fabric.",
+  "decision_points": [],
+  "not_delegated": [
+    "provider admission",
+    "Model Router provider selection authority",
+    "hardware and resource eligibility",
+    "HRB lease and placement",
+    "source mutation policy",
+    "runtime promotion",
+    "Current Host evidence"
+  ],
+  "project_radar_checked": true,
+  "project_radar_review": {
+    "scope": "Diffusion Studio provider integration against Decision Fabric authority boundaries",
+    "result": "NO_DECISION_FABRIC_DECISION_POINT",
+    "note": "Existing deterministic provider, routing, hardware/resource and evidence authorities remain authoritative."
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "global_accelerator_requirement": false
+  },
+  "security_boundary": {
+    "may_grant_permission": false,
+    "may_expand_candidate_set": false,
+    "may_create_agent": false,
+    "may_admit_model": false,
+    "may_admit_provider": false
+  },
+  "shadow_mode_required": false,
+  "capability_delta": 0,
+  "authority_delta": 0
+}
