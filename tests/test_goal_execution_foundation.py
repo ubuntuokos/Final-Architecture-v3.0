@@ -176,6 +176,7 @@ class GoalFoundationTests(unittest.TestCase):
                          "PENDING_EXISTING_AUTHORITIES")
         self.assertEqual(plan["steps"][0]["workload_candidate"]["scope_origin"], "REQUIRED_FOR_APPROVED_GOAL")
         self.assertEqual(plan["steps"][0]["workload_candidate"]["scope_refs"], ["synthetic test fixture"])
+        self.assertEqual(plan["steps"][0]["workload_candidate"]["goal_scope_binding"]["goal_id"], "goal-fixture")
 
     def test_preflight_missing_authority_fails(self):
         p = preflight()
@@ -237,7 +238,8 @@ class GoalFoundationTests(unittest.TestCase):
         g = fixture()
         g["revision"] = 2
         plan = compile_plan(ROOT, g, [t], preflight())
-        self.assertEqual(plan["steps"][0]["scope_origin"], "EXPLICIT_USER_SCOPE_EXTENSION")
+        self.assertEqual(plan["steps"][0]["scope_origin"], "REQUIRED_FOR_APPROVED_GOAL")
+        self.assertEqual(plan["steps"][0]["source_scope_origin"], "EXPLICIT_USER_SCOPE_EXTENSION")
 
     def test_open_ended_followup_task_class_is_denied(self):
         for origin in ("WHAT_NEXT", "OPTIONAL_IMPROVEMENT", "ASSISTANT_SUGGESTED",
