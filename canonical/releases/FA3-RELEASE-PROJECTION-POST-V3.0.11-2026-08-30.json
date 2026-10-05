@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "4229919a9202b7e85ae6179acc995c390d948982",
-    "pre_projection_root_tree_sha": "36fd08dd87bde7501dcb77f0e242b264975dc293",
-    "pre_projection_canonical_tree_sha": "746feeb808a2656b8d027321e7e20a6b6786c157",
-    "commits_ahead_of_v3_0_11_conformance_commit": 3277,
-    "total_post_baseline_commits": 3277,
-    "delta_file_count": 3041,
-    "delta_added_files": 3035,
+    "pre_projection_head_sha": "2315d609a70d5fd669e4ffdfcf75928446c9cdec",
+    "pre_projection_root_tree_sha": "79b22cd559f9b6202d2f1fdedb90096a84ec1a8f",
+    "pre_projection_canonical_tree_sha": "4fd57d384e873d9fabac2cfd7744dbca2a7e7250",
+    "commits_ahead_of_v3_0_11_conformance_commit": 3340,
+    "total_post_baseline_commits": 3340,
+    "delta_file_count": 3046,
+    "delta_added_files": 3040,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,10 +46,10 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1429,
+    "canonical_files_in_post_baseline_delta": 1432,
     "evidence_files_in_post_baseline_delta": 172,
     "source_files_in_post_baseline_delta": 388,
-    "test_files_in_post_baseline_delta": 361,
+    "test_files_in_post_baseline_delta": 362,
     "workflow_files_in_post_baseline_delta": 144,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -1083,7 +1083,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 3031,
+  "manifest_entry_count": 3036,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1317,7 +1317,7 @@
     },
     {
       "path": ".github/workflows/fa3-donor-serialization.yml",
-      "git_blob_sha": "46790c919dec851b30e89aac141e41133de76518",
+      "git_blob_sha": "88c6642fa739f9f3b070567909416351141d160d",
       "baseline_delta_status": "added"
     },
     {
@@ -1632,7 +1632,7 @@
     },
     {
       "path": ".github/workflows/fa3-permanent-enforcement.yml",
-      "git_blob_sha": "4cfd2ea9b7d53cba8163ac23b21a40eff4d9798d",
+      "git_blob_sha": "46f1eda75451582621f740a228f75ef905a576d8",
       "baseline_delta_status": "added"
     },
     {
@@ -3276,6 +3276,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/CFA3-DONOR-INTAKE-BATCH-ACCELERATION-REUSE-ASSESSMENT-2026-10-04.json",
+      "git_blob_sha": "0c33cbf0ae530e498c28984b2ca0de975f563b0a",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/assessments/FA3-AGENCY-AGENTS-AGENT-DEFINITION-ASSESSMENT-2026-09-24.json",
       "git_blob_sha": "a67ac9f1c69d5d1aa40244f231b11dd762531a5f",
       "baseline_delta_status": "added"
@@ -4092,7 +4097,7 @@
     },
     {
       "path": "canonical/contracts/FA3-DONOR-CHAT-INGEST-001.json",
-      "git_blob_sha": "9e49d38bb2748a0451fafad3d345db844ede3d11",
+      "git_blob_sha": "8850371c2574eafdf4f59591f0ce53f1322094ea",
       "baseline_delta_status": "added"
     },
     {
@@ -4748,6 +4753,11 @@
     {
       "path": "canonical/current-host-impact/CFA3-DONOR-BATCH-FINALIZER-BOOTSTRAP-CURRENT-HOST-IMPACT-2026-10-05.json",
       "git_blob_sha": "ae8dc2f49052a69d30ad3cc17a33c8bc4cc09677",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/current-host-impact/CFA3-DONOR-INTAKE-BATCH-ACCELERATION-CURRENT-HOST-IMPACT-2026-10-04.json",
+      "git_blob_sha": "9ec41a96ced42154ff7980aab76ab3599b51ff84",
       "baseline_delta_status": "added"
     },
     {
@@ -5751,6 +5761,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/deltas/CFA3-DONOR-BACKLOG-CONSOLIDATION-2026-10-04.json",
+      "git_blob_sha": "9c028d6bf0a7f9b4c1d08e75cafe4b3a45bc1947",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/deltas/FA3-DONOR-ACTIONS-RUNNER-TEMPORAL-ORGS-2026-09-30.json",
       "git_blob_sha": "7ad8b1d1898b02649d61cd2b84659a03548e745c",
       "baseline_delta_status": "added"
@@ -5947,7 +5962,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "686aa2c410b6c1b29f91b5e4233b359aaf74b7ad",
+      "git_blob_sha": "1e383e872f8ea090de3adcc78f852da155120fd7",
       "baseline_delta_status": "modified"
     },
     {
@@ -6192,7 +6207,7 @@
     },
     {
       "path": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
-      "git_blob_sha": "1362d75186c6da74e5cf947fdf0b8867d462636a",
+      "git_blob_sha": "03bd0b56a1c176efc224cdd1bc6a091562663390",
       "baseline_delta_status": "added"
     },
     {
@@ -10671,8 +10686,13 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/donor-repair/CFA3-DONOR-INTAKE-BATCH-ACCELERATION-2026-10-04.md",
+      "git_blob_sha": "d5a2d4ea57ee610718244609c3233398593c5bf9",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/donor-repair/DONOR_READINESS.md",
-      "git_blob_sha": "5b2aa947fa17dacb0fc9f0e16088b04dcb5cdf74",
+      "git_blob_sha": "cc565df9e6a0d4595367f142f0e562c81b81948c",
       "baseline_delta_status": "added"
     },
     {
@@ -14862,7 +14882,7 @@
     },
     {
       "path": "tests/test_donor_amd_rocm_registry.py",
-      "git_blob_sha": "9a41e870e0a0c1241f7925bd63f4576540379b37",
+      "git_blob_sha": "bfc05e93dc11dc10ba8ce138717d299e748a98f0",
       "baseline_delta_status": "added"
     },
     {
@@ -14873,6 +14893,11 @@
     {
       "path": "tests/test_donor_apify_org_20261002.py",
       "git_blob_sha": "dd0b4267232f70a07abac659207ff40a4ff93f6f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_donor_batch_acceleration_20261004.py",
+      "git_blob_sha": "e320d0097fbb31ca19e36aa6085b94b5360ed3e7",
       "baseline_delta_status": "added"
     },
     {
@@ -14932,7 +14957,7 @@
     },
     {
       "path": "tests/test_donor_directx_linux.py",
-      "git_blob_sha": "9f44442ffa1c9d34b84e3e744ac7aa080cabd2f4",
+      "git_blob_sha": "ccc7fc8e850b11a17e9ef7b6e552ef05d76581cb",
       "baseline_delta_status": "added"
     },
     {
@@ -14977,7 +15002,7 @@
     },
     {
       "path": "tests/test_donor_intel_ecosystem.py",
-      "git_blob_sha": "cf27adcbed13c192fdd547115d6304be0a174a17",
+      "git_blob_sha": "d65936f0706324f1f226ab4b507b64ab5ac8a513",
       "baseline_delta_status": "added"
     },
     {
@@ -15052,7 +15077,7 @@
     },
     {
       "path": "tests/test_donor_readiness.py",
-      "git_blob_sha": "39aa1da47b18027213bb2d638c457b144a7c8ab8",
+      "git_blob_sha": "da4f579da96876183380c5e1b6582447b3b25513",
       "baseline_delta_status": "added"
     },
     {
@@ -17970,7 +17995,7 @@
     "reconciliation_status": "CANONICAL_REUSE_DISCOVERY_STATIC_MATERIALIZED_RUNTIME_PROMOTION_NOT_APPLICABLE",
     "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
     "donor_registry_decision_id": "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28",
-    "donor_registry_entry_count": 1427,
+    "donor_registry_entry_count": 1548,
     "donor_rejection_audit_id": "FA3-DONOR-REJECTION-AUDIT-001",
     "donor_rejection_audit_count": 1,
     "donor_lifecycle_decision_id": "FA3-DEC-DONOR-LIFECYCLE-APPLICATION-SYNC-2026-09-30",
