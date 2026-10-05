@@ -2024,6 +2024,166 @@
         "code_imported": false,
         "runtime_dependency": false
       }
+    },
+    {
+      "id": "FA3-USAGE-COVERT-CODER-MODEL-ROUTER-001",
+      "donor_id": "FA3-DONOR-ANONYMOUSNOMAD-COVERT-CODER-001",
+      "donor_capability_key": "configured-selected-observed-model-provider-runtime-identity-separation",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "status": "ACTIVE",
+      "primary_consumer": {
+        "kind": "AUTHORITY",
+        "id": "FA3-AUTH-MODEL-ROUTER-001",
+        "relationship": "PATTERN_HARDENING"
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-001"
+        ],
+        "contract_ids": [
+          "FA3-MODEL-ROUTER-EXECUTION-CONTRACTS-001"
+        ],
+        "authority_ids": [
+          "FA3-AUTH-MODEL-ROUTER-001"
+        ],
+        "shared_module_ids": []
+      },
+      "consumers": [
+        {
+          "kind": "GUI_SURFACE",
+          "id": "models.provider-execution",
+          "relationship": "READ_ONLY_TRUTHFUL_STATE_PROJECTION"
+        }
+      ],
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT",
+        "reason": "Static authority/receipt semantics only; no runtime/provider/model activation."
+      },
+      "provenance": {
+        "evidence_classification": "EXPLICIT_CANONICAL_DONOR_PATTERN_USE_NO_CODE_COPY",
+        "source_commit": "81aff88b924db05c689dc734aa3e67605f4b18ce",
+        "code_imported": false,
+        "runtime_dependency": false
+      }
+    },
+    {
+      "id": "FA3-USAGE-COVERT-CODER-MCP-TYPED-EXECUTION-001",
+      "donor_id": "FA3-DONOR-ANONYMOUSNOMAD-COVERT-CODER-001",
+      "donor_capability_key": "typed-proposal-schema-capability-policy-approval-execution-verification-chain",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "status": "ACTIVE",
+      "primary_consumer": {
+        "kind": "AUTHORITY",
+        "id": "FA3-AUTH-MCP-GATEWAY-001",
+        "relationship": "PATTERN_HARDENING"
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-MCP-GATEWAY-001"
+        ],
+        "contract_ids": [
+          "FA3-MCP-GATEWAY-CONTRACTS-001"
+        ],
+        "authority_ids": [
+          "FA3-AUTH-MCP-GATEWAY-001"
+        ],
+        "shared_module_ids": []
+      },
+      "consumers": [
+        {
+          "kind": "GUI_SURFACE",
+          "id": "models.mcp-gateway",
+          "relationship": "READ_ONLY_HEALTH_AND_RECEIPT_PROJECTION"
+        }
+      ],
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT",
+        "reason": "Typed static execution-boundary hardening only; no tool/provider activation."
+      },
+      "provenance": {
+        "evidence_classification": "EXPLICIT_CANONICAL_DONOR_PATTERN_USE_NO_CODE_COPY",
+        "source_commit": "81aff88b924db05c689dc734aa3e67605f4b18ce",
+        "code_imported": false,
+        "runtime_dependency": false
+      }
+    },
+    {
+      "id": "FA3-USAGE-COVERT-CODER-EXTENSION-TRUST-001",
+      "donor_id": "FA3-DONOR-ANONYMOUSNOMAD-COVERT-CODER-001",
+      "donor_capability_key": "plugins-dependencies-imported-artifacts-and-model-output-remain-untrusted-until-admission",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "status": "ACTIVE",
+      "primary_consumer": {
+        "kind": "SHARED_MODULE",
+        "id": "FA3-EXTENSION-BOUNDARY-001",
+        "relationship": "PATTERN_HARDENING"
+      },
+      "fa3_bindings": {
+        "profile_ids": [],
+        "contract_ids": [],
+        "authority_ids": [],
+        "shared_module_ids": [
+          "FA3-EXTENSION-BOUNDARY-001"
+        ]
+      },
+      "consumers": [
+        {
+          "kind": "AUTHORITY",
+          "id": "FA3-AUTH-MCP-GATEWAY-001",
+          "relationship": "EXECUTION_MEDIATION"
+        }
+      ],
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT",
+        "reason": "Static trust/admission semantics only; no plugin installation or activation."
+      },
+      "provenance": {
+        "evidence_classification": "EXPLICIT_CANONICAL_DONOR_PATTERN_USE_NO_CODE_COPY",
+        "source_commit": "81aff88b924db05c689dc734aa3e67605f4b18ce",
+        "code_imported": false,
+        "runtime_dependency": false
+      }
+    },
+    {
+      "id": "FA3-USAGE-COVERT-CODER-EVIDENCE-STATE-001",
+      "donor_id": "FA3-DONOR-ANONYMOUSNOMAD-COVERT-CODER-001",
+      "donor_capability_key": "implementation-availability-qualification-authorization-execution-verification-readiness-state-separation-and-failure-preservation",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "status": "ACTIVE",
+      "primary_consumer": {
+        "kind": "AUTHORITY",
+        "id": "FA3-AUTH-OBS-EVIDENCE-001",
+        "relationship": "PATTERN_REINFORCEMENT"
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-ORCHESTRATION-WORKFORCE-001"
+        ],
+        "contract_ids": [
+          "FA3-ORCHESTRATION-GOVERNANCE-CONTRACTS-001"
+        ],
+        "authority_ids": [
+          "FA3-AUTH-OBS-EVIDENCE-001"
+        ],
+        "shared_module_ids": []
+      },
+      "consumers": [
+        {
+          "kind": "PROFILE",
+          "id": "FA3-ORCHESTRATION-WORKFORCE-001",
+          "relationship": "STATE_SEPARATION_CONSUMER"
+        }
+      ],
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT",
+        "reason": "Evidence/state semantics reinforcement only; no runtime promotion or evidence rewriting."
+      },
+      "provenance": {
+        "evidence_classification": "EXPLICIT_CANONICAL_DONOR_PATTERN_USE_NO_CODE_COPY",
+        "source_commit": "81aff88b924db05c689dc734aa3e67605f4b18ce",
+        "code_imported": false,
+        "runtime_dependency": false
+      }
     }
   ],
   "donor_usage_contract": {
