@@ -969,7 +969,7 @@ def gate(root,phase="status",token="",assessment=None,plan=None,approval=None,
             return result
         result["result"]="READY_FOR_SEPARATE_FA3_ADMISSION_GATES"
         result["planning_allowed"]=phase in ("entry","execute","finalize")
-        result["execution_allowed"]=phase in ("entry","execute","finalize")
+        result["execution_allowed"]=phase in ("execute","finalize")
         result["finalization_allowed"]=phase=="finalize"
         return result
     except (OSError,ValueError,RuntimeError,KeyError,TypeError,subprocess.CalledProcessError) as e:
