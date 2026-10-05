@@ -1,0 +1,44 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "CFA3-CHARACTER-PLATFORM-DONOR-ASSESSMENT-2026-10-05",
+  "date": "2026-10-05",
+  "status": "OWNER_APPROVED_PLAN_REGISTRATION_PREP",
+  "published_main_commit": "7f246f2f140a8a0a650a4d53b402642e895fab60",
+  "published_registry_blob_sha": "eb15f93415d599400a5c99e6f5651c8805d052e4",
+  "published_registry_entry_count": 1551,
+  "capability_baseline": 175,
+  "planning_donor_analysis_exception": {
+    "scope": "ORIGINATING_CONVERSATION_AND_DIRECT_CONTINUATIONS_ONLY",
+    "planning_only": true,
+    "cross_conversation_reuse": false,
+    "lineage_ref": "conversation:cfa3-character-platform-human-studio-20261005"
+  },
+  "planning_processed_donors": [
+    {"normalized_key": "github:makehumancommunity/makehuman"},
+    {"normalized_key": "github:makehumancommunity/makehuman2"},
+    {"normalized_key": "github:makehumancommunity/mpfb2"},
+    {"normalized_key": "github:upliner/charmorph"},
+    {"normalized_key": "github:animate1978/mb-lab"},
+    {"normalized_key": "github:vchoutas/smplx"},
+    {"normalized_key": "github:yfeng95/deca"},
+    {"normalized_key": "https://dev.epicgames.com/documentation/metahuman/metahuman-documentation"},
+    {"normalized_key": "https://www.posersoftware.com/documentation/13/html/poser_reference_manual/otherapps/poserpython/how_python_integrates_with_poser.htm"}
+  ],
+  "shared_capability_placement": {
+    "decision": "SHARED_FIRST",
+    "targets": [
+      "CFA3 Character Platform",
+      "Human Studio workspace",
+      "Shared Character/Creature Fabric",
+      "Shared Anatomy Data & Ontology Fabric",
+      "Character Motion & Animation Fabric",
+      "Shared External Character Bridge",
+      "CFA3 Plugin & Extension Fabric"
+    ]
+  },
+  "registration_scope": "REFERENCE_METADATA_ONLY",
+  "automatic_code_import": false,
+  "automatic_dependency": false,
+  "runtime_activation": false,
+  "current_host_claim": false
+}
