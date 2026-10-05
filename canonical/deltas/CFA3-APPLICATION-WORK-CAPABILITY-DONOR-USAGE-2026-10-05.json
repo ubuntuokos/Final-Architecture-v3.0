@@ -18,7 +18,10 @@
       "source": "https://github.com/PhreshOS",
       "usage_edge_id": "FA3-USAGE-PHRESHOS-APPLICATION-WORK-CAPABILITY-001",
       "pattern": "canonical application operation/context and authority separation",
-      "primary_target": "FA3-APPLICATION-WORK-CAPABILITY-OWNER-MAP-001"
+      "primary_target": "FA3-APPLICATION-WORK-CAPABILITY-OWNER-MAP-001",
+      "additional_targets": [
+        "FA3-APPLICATION-OPERATION-HANDOFF-CONTRACTS-001"
+      ]
     },
     {
       "donor_id": "FA3-DONOR-CLOUDFLARE-OS-001",
@@ -39,7 +42,10 @@
       "source": "https://github.com/webosose",
       "usage_edge_id": "FA3-USAGE-WEBOSOSE-APPLICATION-LIFECYCLE-V2-001",
       "pattern": "application/service lifecycle and system service separation",
-      "primary_target": "FA3-APPLICATION-RUNTIME-LIFECYCLE-CONTRACTS-001"
+      "primary_target": "FA3-APPLICATION-RUNTIME-LIFECYCLE-CONTRACTS-001",
+      "additional_targets": [
+        "FA3-APPLICATION-OPERATION-HANDOFF-CONTRACTS-001"
+      ]
     }
   ],
   "closure_invariants": {
