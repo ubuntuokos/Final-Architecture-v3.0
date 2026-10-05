@@ -436,7 +436,7 @@ class Tests(unittest.TestCase):
         self.assertIn("datetime.now(timezone.utc)-created.astimezone(timezone.utc)",workflow)
         self.assertIn("timedelta(days=30)",workflow)
         self.assertIn("rerun_count >= 50",workflow)
-        self.assertIn("refreshed=gate(Path(\".\").resolve(),\"intake\",get=getter)",workflow)
+        self.assertIn("refreshed=gate(Path(\".\").resolve(),\"intake\",token=token)",workflow)
         self.assertIn("Synchronize or reopen the PR",workflow)
         self.assertIn("/compare/{main_sha}...{head_sha}",workflow)
         self.assertIn("event=pull_request&head_sha={head_sha}",workflow)
