@@ -52,13 +52,13 @@ def goal():
     }
 
 
-def behavior_context():
+def behavior_context(scope_origin="REQUIRED_FOR_APPROVED_GOAL"):
     return {
         "action": "READ",
         "current_owner_restriction_allows": True,
         "scope_bound": True,
         "scope_allows_action": True,
-        "scope_origin": "REQUIRED_FOR_APPROVED_GOAL",
+        "scope_origin": scope_origin,
         "scope_refs": ["implement task-scope policy"],
         "uncertain_state": False,
         "blocker_kind": None,
@@ -67,12 +67,12 @@ def behavior_context():
     }
 
 
-def execution_fixture(binding):
+def execution_fixture(binding, scope_origin="REQUIRED_FOR_APPROVED_GOAL"):
     task = {
         "schema": "fa3.agent-workload-task.v1",
         "task_id": "task-1",
         "root_task_id": "goal-scope-1",
-        "scope_origin": "REQUIRED_FOR_APPROVED_GOAL",
+        "scope_origin": scope_origin,
         "scope_refs": ["implement task-scope policy"],
         "goal_scope_binding": binding,
         "action_ref": "orchestration.execute",
@@ -278,6 +278,30 @@ class TaskScopeClosureTests(unittest.TestCase):
         newer = record_blocker_failure(control, fp, "failed once")
         with self.assertRaises(WorkloadContractError):
             validate_execution_admission(plan, task_control=newer)
+
+    def test_explicit_user_scope_also_requires_active_control(self):
+        binding, control = self.control()
+        task, graph, model = execution_fixture(binding, "EXPLICIT_USER_SCOPE")
+        with self.assertRaises(WorkloadContractError):
+            compile_execution_plan(
+                task, graph, model,
+                task_spec_digest="sha256:task",
+                max_transfer_hops=1,
+                behavior_context=behavior_context("EXPLICIT_USER_SCOPE"),
+            )
+        plan = compile_execution_plan(
+            task, graph, model,
+            task_spec_digest="sha256:task",
+            max_transfer_hops=1,
+            behavior_context=behavior_context("EXPLICIT_USER_SCOPE"),
+            task_control=control,
+        )
+        self.assertTrue(plan["task_scope_control_required"])
+        self.assertEqual(plan["scope_origin"], "EXPLICIT_USER_SCOPE")
+        self.assertEqual(
+            validate_execution_admission(plan, task_control=control)["decision"],
+            "ALLOW",
+        )
 
     def test_frozen_control_cannot_compile_or_resume_cached_plan(self):
         binding, control = self.control()
