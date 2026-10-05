@@ -3,7 +3,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DELTA = ROOT / "canonical" / "deltas" / "CFA3-DONOR-TILE-AI-CORE-2026-10-05.json"
+DELTA = ROOT / "canonical" / "deltas" / "FA3-DONOR-TILE-AI-CORE-2026-10-05.json"
 
 
 def load_delta():
