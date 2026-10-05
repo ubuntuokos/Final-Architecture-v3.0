@@ -24,9 +24,9 @@ SIDE_EFFECT_ORDER = (
 
 RULE_IDS = {
     "DEV-01", "DEV-02", "DEV-03", "DEV-04", "DEV-05",
-    "DEV-06", "DEV-07", "DEV-08", "DEV-09", "DEV-10",
+    "DEV-06", "DEV-07", "DEV-08", "DEV-09", "DEV-10", "DEV-11",
     "AI-01", "AI-02", "AI-03", "AI-04", "AI-05",
-    "AI-06", "AI-07", "AI-08", "AI-09", "AI-10",
+    "AI-06", "AI-07", "AI-08", "AI-09", "AI-10", "AI-11",
 }
 
 
@@ -80,6 +80,74 @@ def _allow(action: str, override: OwnerOverride) -> dict:
     }
 
 
+def _self_correction_check(context: Mapping[str, Any]) -> dict | None:
+    correction = context.get("self_correction")
+    if not correction:
+        return None
+    if correction.get("requested") is not True:
+        return _stop({"DEV-11", "AI-11"}, "SELF_CORRECTION_REQUEST_NOT_EXPLICIT_IN_CONTEXT")
+
+    required_true = (
+        "error_caused_by_ai",
+        "mechanical_or_technical",
+        "correction_deterministic",
+        "user_intent_preserved",
+        "scope_preserved",
+        "architecture_authority_policy_plan_preserved",
+        "no_new_component_workaround",
+        "notification_sent",
+        "existing_authorization_covers_corrected_action",
+    )
+    missing = [name for name in required_true if correction.get(name) is not True]
+    if missing:
+        return _stop(
+            {"DEV-11", "AI-11"},
+            "SELF_CORRECTION_MANDATORY_CONDITION_FAILED:" + ",".join(sorted(missing)),
+        )
+
+    forbidden_true = (
+        "blocker_gate_or_security_bypass",
+        "unnecessary_workflow_gate_or_side_effect",
+        "redesign_required",
+        "alternative_technical_solution",
+        "new_pr_or_branch_required",
+        "other_component_modification_required",
+        "user_restriction_weakened",
+        "review_discovered_real_design_or_implementation_defect",
+        "new_permission_or_side_effect_required",
+        "correction_uncertain",
+    )
+    violated = [name for name in forbidden_true if correction.get(name) is True]
+    if violated:
+        return _stop(
+            {"DEV-11", "AI-11"},
+            "SELF_CORRECTION_FORBIDDEN_CONDITION:" + ",".join(sorted(violated)),
+        )
+
+    if correction.get("partial_mutation_possible") is True and correction.get("exact_state_verified") is not True:
+        return _stop(
+            {"DEV-11", "AI-11", "AI-08"},
+            "SELF_CORRECTION_EXACT_STATE_REQUIRED_AFTER_POSSIBLE_PARTIAL_MUTATION",
+        )
+
+    return {
+        "decision": "ALLOW",
+        "blocker": False,
+        "reason": "SELF_CORRECTION_EXCEPTION_CONDITIONS_PASS",
+        "rule_ids": ["AI-11", "DEV-11"],
+        "side_effect_authorized": False,
+        "self_correction_authorized": True,
+        "post_correction_report_required": True,
+        "post_correction_report_fields": [
+            "OWN_ERROR",
+            "CORRECTION",
+            "STATE_CHANGE",
+            "CURRENT_HEAD_SHA_OR_RELEVANT_STATE",
+            "REMAINING_BLOCKER",
+        ],
+    }
+
+
 def authorize_action(context: Mapping[str, Any]) -> dict:
     """Evaluate one planned action against the shared CFA3 discipline.
 
@@ -110,6 +178,10 @@ def authorize_action(context: Mapping[str, Any]) -> dict:
         specific_rule = "DEV-05" if blocker_kind == "OVERLAP" else "DEV-01"
         if not (override.permits(specific_rule) and override.permits("AI-01")):
             return _stop({specific_rule, "AI-01"}, f"BLOCKER:{blocker_kind}")
+
+    self_correction = _self_correction_check(context)
+    if self_correction is not None and self_correction.get("decision") != "ALLOW":
+        return self_correction
 
     if bool(context.get("autonomous_workaround")):
         if not (override.permits("DEV-02") and override.permits("AI-02")):
@@ -145,4 +217,10 @@ def authorize_action(context: Mapping[str, Any]) -> dict:
         if not override.permits("DEV-09"):
             return _stop({"DEV-09"}, "SILENT_REDESIGN_OR_REPAIR_FORBIDDEN")
 
-    return _allow(action, override)
+    result = _allow(action, override)
+    if self_correction is not None:
+        result["self_correction_authorized"] = True
+        result["post_correction_report_required"] = True
+        result["post_correction_report_fields"] = self_correction["post_correction_report_fields"]
+        result["reason"] = "POLICY_PREFLIGHT_PASS_WITH_SELF_CORRECTION_EXCEPTION"
+    return result
