@@ -1,0 +1,131 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "CFA3-DEVELOPMENT-AI-BEHAVIOR-REUSE-ASSESSMENT-2026-10-05",
+  "project_id": "CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001",
+  "intent_id": "CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001",
+  "intent_path": "canonical/CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001.json",
+  "covered_ids": [
+    "CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001",
+    "CFA3-DEVELOPMENT-AI-BEHAVIOR-GATESET-001",
+    "FA3-AGENT-WORKLOAD-RUNTIME-001",
+    "FA3-AGENT-EXECUTION-PLAN-001"
+  ],
+  "project_status": "OWNER_APPROVED_GOVERNANCE_AND_RUNTIME_PREFLIGHT_HARDENING",
+  "result": "PASS",
+  "reuse_disposition": "REUSE_EXISTING_CFA3_EXECUTION_AND_AUTHORITY_LAYERS_NO_EXTERNAL_DONOR_REQUIRED",
+  "assessment_provenance": {
+    "type": "OWNER_APPROVED_REUSE_REASSESSMENT",
+    "reviewed_on": "2026-10-05",
+    "planning_basis": "PUBLISHED_MAIN_DONOR_REGISTRY_ONLY",
+    "published_main_commit": "6f3cadb792ca8bd1b49bac62dfe9c92325090e5c",
+    "owner_approved_plan": true,
+    "owner_approved_materialization": true
+  },
+  "selected_reuse": [
+    {
+      "id": "FA3-AGENT-WORKLOAD-RUNTIME-001",
+      "use": "EXISTING_SHARED_TASK_LOCAL_RUNTIME_AND_EXECUTION_PLAN_COMPILER"
+    },
+    {
+      "id": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "use": "EXISTING_ACTION_EFFECT_BOUNDARY_REMAINS_UNCHANGED"
+    },
+    {
+      "id": "FA3-AUTH-SECURITY-GOV-001",
+      "use": "EXISTING_EFFECT_AUTHORIZATION_AUTHORITY_REMAINS_UNCHANGED"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "EXISTING_RESOURCE_AUTHORITY_REMAINS_UNCHANGED"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "EXISTING_MODEL_ROUTING_AUTHORITY_REMAINS_UNCHANGED"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "EXISTING_EVIDENCE_AUTHORITY_REMAINS_UNCHANGED"
+    },
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "EXISTING_PUBLISHED_MAIN_REUSE_AND_DONOR_PLANNING_GATE"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "NEW_EXECUTION_OR_SECURITY_AUTHORITY",
+      "reason": "WOULD_DUPLICATE_EXISTING_UAF_SECURITY_HRB_MODEL_ROUTER_AND_EVIDENCE_AUTHORITIES"
+    },
+    {
+      "id": "APPLICATION_LOCAL_BEHAVIOR_GUARDS",
+      "reason": "CROSS_APPLICATION_POLICY_MUST_REMAIN_SHARED_AND_NON_DUPLICATED"
+    },
+    {
+      "id": "EXTERNAL_DONOR_RUNTIME_DEPENDENCY",
+      "reason": "PUBLISHED_MAIN_REUSE REVIEW FOUND NO REQUIRED_EXTERNAL_DONOR_FOR_THIS_GOVERNANCE_PREFLIGHT"
+    }
+  ],
+  "existing_authority_bindings": {
+    "durable_workflow": "EXISTING_TEMPORAL_ONLY",
+    "action_execution": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "runtime_hardware_change": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_hijack": false,
+    "second_execution_authority_created": false
+  },
+  "mandatory_source_reviews": [],
+  "donor_planning_snapshot": {
+    "published_main_commit": "6f3cadb792ca8bd1b49bac62dfe9c92325090e5c",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "1362d75186c6da74e5cf947fdf0b8867d462636a",
+    "donor_registry_sha256": "b8d0eb42ee02885863af375071ffae89033664089ddba3c69682a8d0f7c7cff1",
+    "donor_registry_entry_count": 1427
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "retrospective_consumer_impact_reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "rationale": "Development and AI execution discipline is cross-application governance. The shared guard is consumed through the existing Agent Workload execution-plan compiler rather than duplicated in applications or providers.",
+    "shared_component_ids": [
+      "CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001",
+      "src/cfa3_development_ai_behavior_guard.py",
+      "FA3-AGENT-WORKLOAD-RUNTIME-001",
+      "FA3-AGENT-EXECUTION-PLAN-001"
+    ],
+    "consumer_scope": [
+      "CFA3 development process",
+      "CFA3 AI models",
+      "CFA3 agents",
+      "CFA3 orchestrators",
+      "Agent Workload Runtime",
+      "current and future CFA3 applications"
+    ],
+    "local_duplicate_created": false
+  },
+  "pending_or_unmerged_donors_consumed": false,
+  "donor_usage_edges_created": 0,
+  "donor_adoption_authorized": false,
+  "adoption_authorized": false,
+  "implementation_readiness": "READY_FOR_GOVERNANCE_FINALIZATION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}

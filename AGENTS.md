@@ -115,3 +115,22 @@ FA3 development has no autonomous task class equivalent to **“Mit lehetne még
 A task may enter planning or execution only when its scope provenance is one of: `EXPLICIT_USER_SCOPE`, `REQUIRED_FOR_APPROVED_GOAL`, or an owner-requested `EXPLICIT_USER_SCOPE_EXTENSION` bound to a revised goal. Missing or unknown provenance fails closed. Every executable `fa3.agent-workload-task.v1` must carry the same `scope_origin` and non-empty `scope_refs`; planning layers may not strip this provenance before Agent Workload admission.
 
 Repair work is bounded to the original approved scope and original acceptance-criterion IDs. It may not invent a new criterion, expand scope, or silently create a successor task. When the explicit task is complete, completion is terminal unless the owner explicitly creates or extends the next task. Canonical authority: `FA3-RULE-NO-OPEN-ENDED-TASK-EXPANSION-001`.
+
+
+## CFA3 development and AI execution discipline (2026-10-05)
+
+Canonical source: `canonical/CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001.json`. This section is a non-canonical operational projection and cannot create authority.
+
+- These rules apply both to the CFA3 development process and to CFA3 AI/model/agent execution.
+- A blocker means immediate STOP and report. Do not silently rebase, reroute, retry, open a replacement PR, start a workflow, or modify another component as a workaround.
+- Keep the conversation/task scope locked. Before every GitHub mutation, refresh `main`, target head and relevant open PR state.
+- Concurrent overlap on the same canonical file, gate, workflow or exclusive resource is a blocker unless the owner explicitly overrides that rule for the current conversation/direct continuation.
+- Do not start workflows or gates merely to obtain a PASS. They must be necessary for task closure and no equivalent run may already be active.
+- After every mutation, report the changed object, current SHA, next step and blocker state before the next mutation.
+- Merge requires exact checked head/base state. Any drift blocks merge.
+- Unexpected redesign or repair is reported before strategy changes.
+- Current explicit owner restrictions outrank prior autonomy or broader approvals.
+- DEV-11 / AI-11 self-correction is a narrow exception: after notifying the owner, an AI may correct only its own unambiguous deterministic mechanical/technical mistake inside the already approved scope. It may not use self-correction to redesign, choose another technical solution, create a new PR/branch, touch another component as a workaround, weaken a user restriction, bypass a blocker/gate/security boundary, or introduce a new permission/side effect. If the failed action may have partially mutated state, verify exact state before correction. After correction report the original AI error, the correction, whether state changed, the current head/SHA or relevant state, and any remaining blocker.
+- An exception is valid only when explicit, rule/scope-specific and conversation-bounded. Generic approval is not an automatic policy override.
+- The L0-L5 layer model keeps human scope/override, development discipline, task/orchestration, security/effect authorization, model policy and UX/projection distinct. A pending PR is never canonical authority.
+- Use `src/cfa3_development_ai_behavior_guard.py` as the shared fail-closed preflight; it does not replace Security Governance, HRB, Model Router, Evidence or Temporal authorities.
