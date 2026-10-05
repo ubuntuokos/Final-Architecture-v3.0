@@ -2,7 +2,7 @@
   "schema": "fa3.contract-set.v1",
   "id": "FA3-AGENT-WORKLOAD-RUNTIME-CONTRACTS-001",
   "name": "Agent Workload Task, Workspace, Runner, Network and Checkpoint Contracts",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "status": "CANONICAL",
   "profile_id": "FA3-AGENT-WORKLOAD-RUNTIME-001",
   "provider_neutral": true,
@@ -50,7 +50,9 @@
     "closed_task_reexecution": "DENY",
     "out_of_scope_followup_requires_new_task_id": true,
     "automatic_followup_execution": false,
-    "verified_closure_requires_evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001"
+    "verified_closure_requires_evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001",
+    "executable_scope_binding_required": true,
+    "all_allowed_scope_origins_require_task_control": true
   },
   "runner_spi": [
     "probe",
@@ -135,7 +137,8 @@
     "START_AND_RESUME_REQUIRE_FRESH_TASK_SCOPE_ADMISSION",
     "CACHED_EXECUTION_PLAN_CANNOT_BYPASS_SCOPE_CONTROL_REVISION",
     "VERIFIED_CLOSURE_REQUIRES_EVIDENCE_AUTHORITY_RECEIPT",
-    "CLOSED_TASK_REEXECUTION_FORBIDDEN"
+    "CLOSED_TASK_REEXECUTION_FORBIDDEN",
+    "ALL_EXECUTABLE_SCOPE_ORIGINS_REQUIRE_IMMUTABLE_BINDING_AND_TASK_CONTROL"
   ],
   "failure_policy": {
     "malformed_task": "FAIL_CLOSED",
