@@ -62,6 +62,7 @@ There is no direct transition from a blocker to execution, merge, release or an 
 - DEV-08: merge requires exact head/base verification.
 - DEV-09: no silent redesign or repair.
 - DEV-10: the current explicit owner restriction outranks earlier autonomy grants.
+- DEV-11: after notifying the owner, the development AI may correct only its own unambiguous deterministic mechanical/technical error without separate approval when the correction stays inside the approved scope, intent, architecture, authority, policy and plan. Possible partial mutation requires exact-state verification first; redesign, workaround, new PR/branch, cross-component change, new permission/side effect, review-discovered substantive defect or uncertainty remains BLOCKER -> STOP -> REPORT.
 
 ## AI/model rules
 
@@ -75,6 +76,15 @@ There is no direct transition from a blocker to execution, merge, release or an 
 - AI-08: authorization is bound to the exact state used to make the decision.
 - AI-09: uncertainty fails closed.
 - AI-10: the latest explicit owner constraint outranks prior model autonomy.
+- AI-11: CFA3 AI/models/agents receive the same narrow self-correction exception as DEV-11. A valid correction must be the AI's own error, deterministic, scope-preserving and authority-preserving, must not bypass a blocker/gate/security rule, and requires a post-correction report containing the AI error, correction, state-change result, current head/SHA or relevant state, and any remaining blocker.
+
+## Self-correction boundary
+
+DEV-11 / AI-11 is not a general repair or autonomy grant. It exists only to avoid stopping for a correction whose technically correct form is already determined by the approved operation.
+
+Examples include a typo, wrong variable/file name, syntax or formatting error, malformed tool/API argument, an unambiguous command parameter error, a consistency error in an AI-generated file, a retry proven to have caused no state change, or the technically correct resubmission of the same approved operation.
+
+It cannot authorize redesign, another technical solution, a new PR/branch, another component, weaker owner restrictions, a substantive design/implementation defect found by review, a new permission or side effect, or any correction whose correct form is uncertain. Current explicit owner prohibitions, scope-lock, safety/authority boundaries, exact-state requirements and real blockers always take precedence.
 
 ## Owner overrides
 
