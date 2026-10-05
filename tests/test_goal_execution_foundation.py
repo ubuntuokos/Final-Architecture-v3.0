@@ -252,8 +252,21 @@ class GoalFoundationTests(unittest.TestCase):
         g = fixture()
         g["revision"] = 2
         plan = compile_plan(ROOT, g, [t], preflight())
-        self.assertEqual(plan["steps"][0]["scope_origin"], "REQUIRED_FOR_APPROVED_GOAL")
-        self.assertEqual(plan["steps"][0]["source_scope_origin"], "EXPLICIT_USER_SCOPE_EXTENSION")
+        self.assertEqual(plan["steps"][0]["scope_origin"], "EXPLICIT_USER_SCOPE_EXTENSION")
+        self.assertEqual(
+            plan["steps"][0]["workload_candidate"]["scope_origin"],
+            "EXPLICIT_USER_SCOPE_EXTENSION",
+        )
+
+    def test_explicit_user_scope_provenance_is_preserved(self):
+        t = task()
+        t["scope_origin"] = "EXPLICIT_USER_SCOPE"
+        plan = compile_plan(ROOT, fixture(), [t], preflight())
+        self.assertEqual(plan["steps"][0]["scope_origin"], "EXPLICIT_USER_SCOPE")
+        self.assertEqual(
+            plan["steps"][0]["workload_candidate"]["scope_origin"],
+            "EXPLICIT_USER_SCOPE",
+        )
 
     def test_open_ended_followup_task_class_is_denied(self):
         for origin in ("WHAT_NEXT", "OPTIONAL_IMPROVEMENT", "ASSISTANT_SUGGESTED",
