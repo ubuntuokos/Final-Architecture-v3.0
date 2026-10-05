@@ -1,0 +1,64 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "CFA3-DONOR-BATCH-FINALIZER-BOOTSTRAP-REUSE-ASSESSMENT-2026-10-05",
+  "project_id": "FA3-REGISTRY-001",
+  "subject_id": "FA3-DONOR-BATCH-FINALIZER-BOOTSTRAP-001",
+  "result": "PASS",
+  "donor_review": "REVIEWED_MATCH",
+  "adopted_donors": [],
+  "selected_reuse": [
+    {
+      "id": "FA3-REGISTRY-001",
+      "use": "REUSE_EXISTING_CANONICAL_DONOR_REGISTRY_WITHOUT_MUTATION"
+    },
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "REUSE_PUBLISHED_MAIN_PLANNING_SNAPSHOT"
+    },
+    {
+      "id": "FA3-PERMANENT-GATE-HARDENING-001",
+      "use": "REUSE_EXISTING_PROTECTED_MAIN_ADMISSION"
+    },
+    {
+      "id": "CFA3-DEC-DONOR-INTAKE-BATCH-ACCELERATION-2026-10-04",
+      "use": "BOOTSTRAP_ONLY_ALREADY_APPROVED_PR_705_BATCH_FINALIZER_RECOGNITION"
+    }
+  ],
+  "donor_planning_snapshot": {
+    "published_main_commit": "ab9ef901d032943e32b68d397c141d62a652d609",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "1362d75186c6da74e5cf947fdf0b8867d462636a",
+    "donor_registry_sha256": "b8d0eb42ee02885863af375071ffae89033664089ddba3c69682a8d0f7c7cff1",
+    "donor_registry_entry_count": 1427
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "retrospective_consumer_impact_reviewed": true,
+    "rationale": "Donor intake coordination is shared governance; bootstrap only makes protected-main cross-PR revalidation understand the approved rolling single-writer batch finalizer.",
+    "shared_component_ids": [
+      "FA3-REGISTRY-001",
+      "FA3-REUSE-DISCOVERY-001"
+    ]
+  },
+  "gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_claim": false
+  },
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false
+}

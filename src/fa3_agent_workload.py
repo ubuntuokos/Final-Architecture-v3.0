@@ -3,8 +3,10 @@ from __future__ import annotations
 
 import copy
 import re
+from collections.abc import Mapping
 from typing import Any
 
+from cfa3_development_ai_behavior_guard import MUTATING_ACTIONS, authorize_action
 from fa3_agent_runtime_semantics import capabilities_satisfy, make_execution_ledger, validate_graph, validate_model_capability_descriptor
 
 TASK_SCHEMA = "fa3.agent-workload-task.v1"
@@ -261,6 +263,49 @@ def compile_orchestration_workload(
     return validate_task(task)
 
 
+
+def _compile_behavior_preflight(
+    task: dict[str, Any],
+    workflow_graph: dict[str, Any],
+    behavior_context: Mapping[str, Any] | None,
+) -> dict[str, Any]:
+    if not isinstance(behavior_context, Mapping):
+        raise WorkloadContractError("CFA3 behavior preflight context required")
+    if behavior_context.get("scope_origin") != task.get("scope_origin"):
+        raise WorkloadContractError("behavior preflight scope_origin must match workload task")
+    if behavior_context.get("scope_refs") != task.get("scope_refs"):
+        raise WorkloadContractError("behavior preflight scope_refs must exactly match workload task")
+    result = authorize_action(behavior_context)
+    if result.get("decision") != "ALLOW" or result.get("policy_preflight_passed") is not True:
+        raise WorkloadContractError(
+            "CFA3 behavior preflight blocked execution plan: " + str(result.get("reason", "UNKNOWN"))
+        )
+    side_effecting = any(
+        isinstance(node, dict) and node.get("side_effecting") is True
+        for node in workflow_graph.get("nodes", [])
+    )
+    if side_effecting and result.get("action") not in MUTATING_ACTIONS:
+        raise WorkloadContractError(
+            "side-effecting workflow requires mutating CFA3 behavior action classification"
+        )
+    receipt = {
+        "schema": "cfa3.behavior-preflight-receipt.v1",
+        "policy_id": "CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001",
+        "decision": "ALLOW",
+        "action": result["action"],
+        "policy_preflight_passed": True,
+        "side_effect_authorized": False,
+        "effect_authority_required": bool(result.get("effect_authority_required", False)),
+        "scope_origin": task["scope_origin"],
+        "scope_refs": copy.deepcopy(task["scope_refs"]),
+        "applied_owner_overrides": list(result.get("applied_owner_overrides", [])),
+        "self_correction_authorized": bool(result.get("self_correction_authorized", False)),
+        "post_correction_report_required": bool(result.get("post_correction_report_required", False)),
+    }
+    if result.get("post_correction_report_fields"):
+        receipt["post_correction_report_fields"] = list(result["post_correction_report_fields"])
+    return receipt
+
 def compile_execution_plan(
     task: dict[str, Any],
     workflow_graph: dict[str, Any],
@@ -268,11 +313,13 @@ def compile_execution_plan(
     *,
     task_spec_digest: str,
     max_transfer_hops: int,
+    behavior_context: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     checked_task = validate_task(task)
     if not _nonempty(task_spec_digest):
         raise WorkloadContractError("task_spec_digest required for execution plan")
     checked_graph = validate_graph(workflow_graph)
+    behavior_preflight = _compile_behavior_preflight(checked_task, checked_graph, behavior_context)
     checked_model = validate_model_capability_descriptor(model_capability_descriptor)
     required_caps = checked_task.get("model_intent", {}).get("required_capabilities", [])
     if not isinstance(required_caps, list) or any(not _nonempty(x) for x in required_caps):
@@ -292,6 +339,7 @@ def compile_execution_plan(
         "workflow_graph": checked_graph,
         "model_capability_descriptor": checked_model,
         "required_model_capabilities": sorted(set(required_caps)),
+        "behavior_preflight": behavior_preflight,
         "ledger": ledger,
         "authorities": {
             "durable_workflow": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY",

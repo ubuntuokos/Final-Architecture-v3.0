@@ -48,8 +48,10 @@ EXEMPT_HISTORICAL_HEADS = {
     434: "4062b5ed7cd59bb17bf09fabc4e3238a79a4290f",
     438: "da51f27ca8f0c967e7c1e6d791da4fb12b4f768c",
 }
-DONOR_DELTA_PREFIXES = ("canonical/deltas/FA3-DONOR-",
-                        "canonical/deltas/CFA3-DONOR-")
+# The legacy FA3 donor-delta prefix remains the standalone intake-slot marker.
+# CFA3 batch manifests are governed metadata attached to a registry-mutating
+# finalizer; they are discovered explicitly by _candidate_manifest_paths.
+DONOR_DELTA_PREFIXES = ("canonical/deltas/FA3-DONOR-",)
 BATCH_ROLE = "CANONICAL_ROLLING_BATCH_FINALIZER"
 BATCH_DECISION = "canonical/decisions/CFA3-DEC-DONOR-INTAKE-BATCH-ACCELERATION-2026-10-04.json"
 DONOR_PREFIXES = ("docs/donor-repair/", "docs/donor-", "docs/donors-",
@@ -564,6 +566,18 @@ def _candidate_json(root,candidate,rel,get=None):
     obj=get(f"/repos/{repo}/contents/{rel}?ref={head}")
     return _decode_contents_json(obj)
 
+def _published_batch_decision(root):
+    """Load batch authority only from the checked-out published canonical tree."""
+    path=Path(root)/BATCH_DECISION
+    try:
+        row=json.loads(path.read_text(encoding="utf-8"))
+    except (OSError,json.JSONDecodeError):
+        return None
+    if (not isinstance(row,dict) or
+            row.get("id")!="CFA3-DEC-DONOR-INTAKE-BATCH-ACCELERATION-2026-10-04"):
+        return None
+    return row
+
 def batch_manifest_coverage(root,pending,pr_number):
     """Return declared exact-head coverage; admission uses validate_batch_finalizer."""
     covered={}
@@ -604,7 +618,7 @@ def validate_batch_finalizer(root,pending,candidate,inspect,get=None,require_com
     findings=[]
     if row.get("decision_ref")!=BATCH_DECISION:
         findings.append("BATCH_DECISION_REF_INVALID")
-    decision=_candidate_json(root,candidate,BATCH_DECISION,get)
+    decision=_published_batch_decision(root)
     rules=decision.get("rules") if isinstance(decision,dict) else None
     if (not isinstance(decision,dict) or decision.get("status")!="APPROVED"
             or decision.get("explicit_user_approval") is not True
@@ -654,9 +668,11 @@ def validate_batch_finalizer(root,pending,candidate,inspect,get=None,require_com
             findings.append("BATCH_UNDECLARED_REGISTRY_MUTATORS:"+",".join(map(str,extras)))
     local_registry=Path(root)/REGISTRY
     local_blob=git_blob_sha(local_registry.read_bytes()) if local_registry.is_file() else None
-    candidate_blob=candidate.get("registry_blob_sha") or local_blob
+    candidate_blob=candidate.get("registry_blob_sha")
     expected_blob=row.get("resulting_registry_blob_sha")
-    if (not isinstance(expected_blob,str) or len(expected_blob)!=40
+    if not isinstance(candidate_blob,str) or len(candidate_blob)!=40:
+        findings.append("PROOF_UNAVAILABLE:BATCH_CANDIDATE_REGISTRY_BLOB:"+str(candidate.get("number")))
+    elif (not isinstance(expected_blob,str) or len(expected_blob)!=40
             or candidate_blob!=expected_blob):
         findings.append("BATCH_RESULTING_REGISTRY_BLOB_MISMATCH")
     local_is_candidate=(local_blob==candidate_blob==expected_blob)
@@ -775,7 +791,8 @@ def gate(root,phase="status",token="",assessment=None,plan=None,approval=None,
                     result["next_finalizable_donor_pr"]=batch_candidate["number"]
                     return result
                 if len(active) >= MAX_ACTIVE_DONOR_INTAKES:
-                    result["findings"].append("DONOR_INTAKE_ACTIVE_WINDOW_FULL_WAIT_FOR_SLOT")
+                    result["result"]="DONOR_INTAKE_FINALIZER_SELECTED"
+                    result["next_finalizable_donor_pr"]=finalization[0]["number"] if finalization else None
                     return result
                 result["result"]="DONOR_INTAKE_SLOT_AVAILABLE"
                 return result
@@ -859,6 +876,7 @@ def main():
     return 0 if x["result"] in ("MAINTENANCE_INTEGRITY_PASS",
                                  "DONOR_BATCH_APPEND_PREFLIGHT_PASS",
                                  "DONOR_BATCH_FINALIZER_SELECTED",
+                                 "DONOR_INTAKE_FINALIZER_SELECTED",
                                  "DONOR_INTAKE_SLOT_AVAILABLE",
                                  "DONOR_INTAKE_READY_TO_FINALIZE",
                                  "READY_FOR_SEPARATE_FA3_ADMISSION_GATES") else 2

@@ -1,0 +1,43 @@
+{
+  "schema": "cfa3.decision.v1",
+  "id": "CFA3-DEC-DEVELOPMENT-AI-BEHAVIOR-LAYERING-2026-10-05",
+  "date": "2026-10-05",
+  "status": "CANONICAL_CLOSED",
+  "decision": "KEEP_DEVELOPMENT_DISCIPLINE_TASK_ORCHESTRATION_SECURITY_MODEL_POLICY_AND_UX_PROJECTION_AS_DISTINCT_LAYERS_COMPOSED_BY_ONE_FAIL_CLOSED_PRECEDENCE_POLICY",
+  "policy_id": "CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001",
+  "owner_approval": "EXPLICITLY_APPROVED_IN_CONVERSATION",
+  "rationale": [
+    "The affected open PRs represent different states and responsibility layers and must not be flattened into one replacement implementation.",
+    "Development execution discipline is cross-cutting and must apply both to CFA3 development and CFA3 AI/agent behavior.",
+    "Task/orchestration, security/effect authorization, model policy, and projection/UX layers retain their existing authorities.",
+    "Cross-layer contradiction, unknown authority, stale state, or unresolved overlap fails closed.",
+    "Owner overrides are explicit, scoped, conversation-bounded exceptions and never become global defaults."
+  ],
+  "layer_mapping": {
+    "L0_HUMAN_SCOPE_AND_OVERRIDE": ["CURRENT_EXPLICIT_OWNER_DIRECTIVE"],
+    "L1_DEVELOPMENT_EXECUTION_DISCIPLINE": ["CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001"],
+    "L2_TASK_AND_ORCHESTRATION": ["PR-661", "PR-623"],
+    "L3_SECURITY_AND_EFFECT_AUTHORIZATION": ["PR-631"],
+    "L4_MODEL_POLICY": ["PR-681"],
+    "L5_PROJECTION_UX_AND_COMPATIBILITY": ["PR-702", "PR-703"]
+  },
+  "pending_pr_semantics": {
+    "listed_prs_are_coordination_targets_only": true,
+    "listed_prs_are_canonical_authority": false,
+    "pending_pr_content_must_not_be_consumed_as_published_main_authority": true,
+    "merging_or_closing_a_listed_pr_does_not_change_this_policy_without_a_separate_canonical_change": true
+  },
+  "non_duplication": {
+    "new_scheduler": false,
+    "new_security_authority": false,
+    "new_model_router": false,
+    "new_resource_authority": false,
+    "new_evidence_authority": false,
+    "new_capability": false,
+    "new_architectural_authority": false
+  },
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "current_host_runtime_promotion_claim": false
+}

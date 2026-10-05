@@ -17,6 +17,35 @@ def expect_error(fn)->bool:
     try: fn()
     except (RuntimeSemanticsError, WorkloadContractError): return True
     return False
+
+def _behavior_context(scope_ref: str, *, action: str = "EXTERNAL_ACTION"):
+    ctx = {
+        "action": action,
+        "current_owner_restriction_allows": True,
+        "scope_bound": True,
+        "scope_allows_action": True,
+        "scope_origin": "REQUIRED_FOR_APPROVED_GOAL",
+        "scope_refs": [scope_ref],
+        "uncertain_state": False,
+        "blocker_kind": None,
+        "autonomous_workaround": False,
+        "silent_redesign_or_repair": False,
+    }
+    if action in {"WRITE", "COMMIT", "PUSH", "PR", "WORKFLOW", "GATE", "MERGE", "RELEASE", "EXTERNAL_ACTION"}:
+        ctx.update({
+            "fresh_state_verified": True,
+            "mutation_report_pending": False,
+            "side_effect_permission": action,
+        })
+    if action in {"WORKFLOW", "GATE"}:
+        ctx.update({
+            "workflow_or_gate_required_for_closure": True,
+            "equivalent_run_active": False,
+        })
+    if action == "MERGE":
+        ctx.update({"exact_head_match": True, "exact_base_match": True})
+    return ctx
+
 def fixtures():
     graph={"schema":"fa3.agent-workflow-graph.v1","graph_id":"g1","entry_node":"n1","yaml_is_canonical":False,"nodes":[{"node_id":"n1","kind":"AGENT","side_effecting":False,"retry":{"max_attempts":2},"resume_policy":"RERUN_FAILED"},{"node_id":"n2","kind":"FUNCTION","side_effecting":True,"retry":{"max_attempts":2},"resume_policy":"RERUN_FAILED","idempotency_key_strategy":"task-node-digest"}],"edges":[{"from":"n1","to":"n2"}]}
     model={"schema":"fa3.model-capability-descriptor.v1","logical_model_id":"coding.default","source":"PROVIDER_DECLARED_AND_PROBED","router_authority":"FA3-AUTH-MODEL-ROUTER-001","model_id_heuristic":False,"capabilities":{"tools":True,"structured_output":True,"media_input":False,"media_output":False,"streaming":True}}
@@ -52,8 +81,8 @@ def regression_cases():
       ("SESSION_EVENT_DEDUP_REJECTED",expect_error(lambda:validate_session_append(session,event,{"evt-1"}))),
       ("ARTIFACT_PATH_ESCAPE_REJECTED",expect_error(lambda:validate_artifact_write("../escape.bin",1,10))),
       ("ARTIFACT_SIZE_AND_ATOMIC_VERSION_ENFORCED",validate_artifact_write("artifacts/a.bin",9,10,previous_version=2,requested_version=3)["version"]==3 and expect_error(lambda:validate_artifact_write("artifacts/a.bin",11,10))),
-      ("EXECUTION_PLAN_COMPILES",compile_execution_plan(task,graph,model,task_spec_digest="sha256:task",max_transfer_hops=2)["ledger"]["limits"]["transfer_hops"]==2),
-      ("EXECUTION_PLAN_REJECTS_MISSING_MODEL_CAPABILITY",expect_error(lambda:compile_execution_plan({**task,"model_intent":{"capability":"coding","required_capabilities":["media_output"]}},graph,model,task_spec_digest="sha256:task",max_transfer_hops=2))),
+      ("EXECUTION_PLAN_COMPILES",compile_execution_plan(task,graph,model,task_spec_digest="sha256:task",max_transfer_hops=2,behavior_context=_behavior_context("approved:t-plan"))["ledger"]["limits"]["transfer_hops"]==2),
+      ("EXECUTION_PLAN_REJECTS_MISSING_MODEL_CAPABILITY",expect_error(lambda:compile_execution_plan({**task,"model_intent":{"capability":"coding","required_capabilities":["media_output"]}},graph,model,task_spec_digest="sha256:task",max_transfer_hops=2,behavior_context=_behavior_context("approved:t-plan")))),
     ]
     return {"result":"PASS" if all(ok for _,ok in cases) else "FAIL","cases":[{"id":cid,"pass":bool(ok)} for cid,ok in cases]}
 def gate(root:Path):

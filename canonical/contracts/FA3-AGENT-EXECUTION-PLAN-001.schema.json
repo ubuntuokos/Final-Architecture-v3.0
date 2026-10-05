@@ -13,6 +13,7 @@
     "workflow_graph",
     "model_capability_descriptor",
     "required_model_capabilities",
+    "behavior_preflight",
     "ledger",
     "authorities"
   ],
@@ -85,6 +86,98 @@
         "type": "string",
         "minLength": 1
       }
+    },
+    "behavior_preflight": {
+      "type": "object",
+      "required": [
+        "schema",
+        "policy_id",
+        "decision",
+        "action",
+        "policy_preflight_passed",
+        "side_effect_authorized",
+        "effect_authority_required",
+        "scope_origin",
+        "scope_refs",
+        "applied_owner_overrides",
+        "self_correction_authorized",
+        "post_correction_report_required"
+      ],
+      "properties": {
+        "schema": {
+          "const": "cfa3.behavior-preflight-receipt.v1"
+        },
+        "policy_id": {
+          "const": "CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001"
+        },
+        "decision": {
+          "const": "ALLOW"
+        },
+        "action": {
+          "enum": [
+            "READ",
+            "ANALYZE",
+            "PLAN",
+            "WRITE",
+            "COMMIT",
+            "PUSH",
+            "PR",
+            "WORKFLOW",
+            "GATE",
+            "MERGE",
+            "RELEASE",
+            "EXTERNAL_ACTION"
+          ]
+        },
+        "policy_preflight_passed": {
+          "const": true
+        },
+        "side_effect_authorized": {
+          "const": false
+        },
+        "effect_authority_required": {
+          "type": "boolean"
+        },
+        "scope_origin": {
+          "enum": [
+            "EXPLICIT_USER_SCOPE",
+            "REQUIRED_FOR_APPROVED_GOAL",
+            "EXPLICIT_USER_SCOPE_EXTENSION"
+          ]
+        },
+        "scope_refs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "applied_owner_overrides": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^(DEV|AI)-[0-9]{2}$"
+          }
+        },
+        "self_correction_authorized": {
+          "type": "boolean"
+        },
+        "post_correction_report_required": {
+          "type": "boolean"
+        },
+        "post_correction_report_fields": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "additionalProperties": false
     }
   },
   "additionalProperties": false
