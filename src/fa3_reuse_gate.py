@@ -963,7 +963,7 @@ def gate(root: Path) -> dict[str, Any]:
     capture_source = (root / DONOR_CAPTURE).read_text(encoding="utf-8")
     capture_bin = (root / DONOR_CAPTURE_BIN).read_text(encoding="utf-8")
     if not (
-        "## FA3 donor capture rule" in agent_instructions
+        "## CFA3 donor capture rule" in agent_instructions
         and "./bin/fa3-donor-capture" in agent_instructions
         and "capture_candidate(" in capture_source
         and "default=\"conversation\"" in capture_source
