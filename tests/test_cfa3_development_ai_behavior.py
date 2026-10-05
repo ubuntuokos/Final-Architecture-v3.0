@@ -41,8 +41,9 @@ class Cfa3DevelopmentAiBehaviorTests(unittest.TestCase):
         self.assertEqual(175, policy["capability_baseline"])
         self.assertEqual(0, policy["capability_delta"])
         self.assertEqual(0, policy["architectural_authority_delta"])
-        self.assertEqual(10, len(policy["development_rules"]))
-        self.assertEqual(10, len(policy["ai_behavior_rules"]))
+        self.assertEqual(11, len(policy["development_rules"]))
+        self.assertEqual(11, len(policy["ai_behavior_rules"]))
+        self.assertEqual(["DEV-11", "AI-11"], policy["self_correction_exception"]["ids"])
         self.assertEqual({"L0", "L1", "L2", "L3", "L4", "L5"},
                          {layer["level"] for layer in policy["layers"]})
         observed = {r["id"] for r in policy["development_rules"] + policy["ai_behavior_rules"]}
@@ -136,6 +137,100 @@ class Cfa3DevelopmentAiBehaviorTests(unittest.TestCase):
         result = authorize_action(ctx)
         self.assertEqual("STOP", result["decision"])
         self.assertIn("AI-09", result["rule_ids"])
+
+
+    def test_self_correction_allows_own_deterministic_mechanical_error(self):
+        ctx = base_context("WRITE")
+        ctx["self_correction"] = {
+            "requested": True,
+            "error_caused_by_ai": True,
+            "mechanical_or_technical": True,
+            "correction_deterministic": True,
+            "user_intent_preserved": True,
+            "scope_preserved": True,
+            "architecture_authority_policy_plan_preserved": True,
+            "no_new_component_workaround": True,
+            "notification_sent": True,
+            "existing_authorization_covers_corrected_action": True,
+            "blocker_gate_or_security_bypass": False,
+            "unnecessary_workflow_gate_or_side_effect": False,
+            "redesign_required": False,
+            "alternative_technical_solution": False,
+            "new_pr_or_branch_required": False,
+            "other_component_modification_required": False,
+            "user_restriction_weakened": False,
+            "review_discovered_real_design_or_implementation_defect": False,
+            "new_permission_or_side_effect_required": False,
+            "correction_uncertain": False,
+            "partial_mutation_possible": False,
+            "exact_state_verified": False,
+        }
+        result = authorize_action(ctx)
+        self.assertEqual("ALLOW", result["decision"])
+        self.assertTrue(result["self_correction_authorized"])
+        self.assertTrue(result["post_correction_report_required"])
+
+    def test_self_correction_requires_exact_state_after_possible_partial_mutation(self):
+        ctx = base_context("WRITE")
+        ctx["self_correction"] = {
+            "requested": True,
+            "error_caused_by_ai": True,
+            "mechanical_or_technical": True,
+            "correction_deterministic": True,
+            "user_intent_preserved": True,
+            "scope_preserved": True,
+            "architecture_authority_policy_plan_preserved": True,
+            "no_new_component_workaround": True,
+            "notification_sent": True,
+            "existing_authorization_covers_corrected_action": True,
+            "partial_mutation_possible": True,
+            "exact_state_verified": False,
+        }
+        result = authorize_action(ctx)
+        self.assertEqual("STOP", result["decision"])
+        self.assertIn("DEV-11", result["rule_ids"])
+        self.assertIn("AI-11", result["rule_ids"])
+        self.assertIn("AI-08", result["rule_ids"])
+
+    def test_self_correction_cannot_hide_redesign_or_new_side_effect(self):
+        ctx = base_context("WRITE")
+        ctx["self_correction"] = {
+            "requested": True,
+            "error_caused_by_ai": True,
+            "mechanical_or_technical": True,
+            "correction_deterministic": True,
+            "user_intent_preserved": True,
+            "scope_preserved": True,
+            "architecture_authority_policy_plan_preserved": True,
+            "no_new_component_workaround": True,
+            "notification_sent": True,
+            "existing_authorization_covers_corrected_action": True,
+            "redesign_required": True,
+            "new_permission_or_side_effect_required": True,
+        }
+        result = authorize_action(ctx)
+        self.assertEqual("STOP", result["decision"])
+        self.assertIn("DEV-11", result["rule_ids"])
+        self.assertIn("AI-11", result["rule_ids"])
+
+    def test_self_correction_requires_notification(self):
+        ctx = base_context("WRITE")
+        ctx["self_correction"] = {
+            "requested": True,
+            "error_caused_by_ai": True,
+            "mechanical_or_technical": True,
+            "correction_deterministic": True,
+            "user_intent_preserved": True,
+            "scope_preserved": True,
+            "architecture_authority_policy_plan_preserved": True,
+            "no_new_component_workaround": True,
+            "notification_sent": False,
+            "existing_authorization_covers_corrected_action": True,
+        }
+        result = authorize_action(ctx)
+        self.assertEqual("STOP", result["decision"])
+        self.assertIn("DEV-11", result["rule_ids"])
+        self.assertIn("AI-11", result["rule_ids"])
 
     def test_silent_redesign_blocks(self):
         ctx = base_context("PLAN")
