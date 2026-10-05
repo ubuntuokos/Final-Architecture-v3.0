@@ -1,0 +1,122 @@
+{
+  "schema": "fa3.shared-compatibility-propagation-policy.v1",
+  "id": "FA3-SHARED-COMPATIBILITY-PROPAGATION-001",
+  "title": "CFA3 Shared Capability Compatibility Propagation Policy",
+  "status": "CANONICAL_DEVELOPMENT_POLICY_STAGED_ENFORCEMENT",
+  "date": "2026-10-05",
+  "authority": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_baseline": 175,
+  "purpose": "Ensure that every current and future CFA3 application remains compatible with shared platform capabilities and that any shared capability increase propagates to every affected consumer without creating parallel fabrics or hidden compatibility islands.",
+  "parent_process": {
+    "id": "CFA3_PR_RECONCILIATION_AND_APPLICATION_COMPATIBILITY",
+    "priority": "PRIMARY_UNTIL_RECONCILIATION_CLOSED",
+    "rule": "This policy must support the active unfinished-PR reconciliation and completed-application compatibility repair process. It must not create a parallel implementation path or force conflicting edits into active reconciliation branches."
+  },
+  "canonical_sources": {
+    "application_inventory": "FA3-APPLICATION-DONOR-LINKS-001",
+    "derived_application_index": "fa3.application-donor-index.v1",
+    "shared_capability_consumer_map": "fa3.shared-capability-consumer-map.v1",
+    "current_host_delta_authority": "FA3-CURRENT-HOST-CHANGE-DELTA-AUTHORITY-001",
+    "reuse_assessment_policy": "FA3_REUSE_DISCOVERY_EXISTING_POLICY",
+    "source_of_truth_rule": "NO_SECOND_APPLICATION_OR_CAPABILITY_REGISTRY"
+  },
+  "application_scope": [
+    "PLANNED",
+    "IN_PROGRESS",
+    "MATERIALIZED",
+    "FUTURE"
+  ],
+  "change_scope": [
+    "SHARED_CAPABILITY_CHANGE",
+    "SHARED_CONTRACT_CHANGE",
+    "SHARED_PROFILE_CHANGE",
+    "APPLICATION_LIFECYCLE_CHANGE",
+    "PLUGIN_EXTENSION_CHANGE",
+    "WORK_CONTEXT_CHANGE",
+    "COLLABORATION_CHANGE",
+    "UAF_ACTION_CONTRACT_CHANGE",
+    "GUI_COMPONENT_CHANGE",
+    "SHARED_DATA_OR_INTERCHANGE_CHANGE"
+  ],
+  "required_impact_dispositions": [
+    "NO_CHANGE",
+    "GUI_PROJECTION",
+    "CONTRACT_ADAPTER",
+    "SHARED_CAPABILITY_BINDING",
+    "LOCAL_TO_SHARED_MIGRATION",
+    "RUNTIME_REQUALIFICATION"
+  ],
+  "mandatory_rules": [
+    "EVERY_NEW_APPLICATION_MUST_ASSESS_COMPATIBILITY_WITH_ALL_APPLICABLE_EXISTING_SHARED_CAPABILITIES_BEFORE_ADMISSION",
+    "EVERY_MATERIALLY_MODIFIED_APPLICATION_MUST_REASSESS_APPLICABLE_SHARED_CAPABILITY_COMPATIBILITY",
+    "EVERY_SHARED_CAPABILITY_CHANGE_MUST_DERIVE_ALL_AFFECTED_CONSUMERS_FROM_CANONICAL_BINDINGS_AND_CONSUMER_MAPS",
+    "SHARED_CAPABILITY_GROWTH_MUST_PROPAGATE_TO_ALL_AFFECTED_CURRENT_APPLICATIONS",
+    "SHARED_CAPABILITY_GROWTH_MUST_DEFINE_FORWARD_COMPATIBILITY_REQUIREMENTS_FOR_FUTURE_APPLICATIONS",
+    "PLANNED_IN_PROGRESS_MATERIALIZED_AND_FUTURE_APPLICATIONS_ARE_IN_SCOPE",
+    "DECLARED_AND_IMPLICIT_DEPENDENCIES_MUST_BE_RECONCILED",
+    "LOCAL_DUPLICATION_OF_SHARED_FUNCTIONAL_CORE_IS_FORBIDDEN_WITHOUT_EXPLICIT_REVIEWED_EXCEPTION",
+    "EXISTING_VERIFIED_APPLICATION_CAPABILITY_MUST_NOT_BE_LOST_DURING_PROPAGATION",
+    "NATIVE_PROJECT_AND_DATA_COMPATIBILITY_MUST_BE_PRESERVED_OR_A_BOUNDED_COMPATIBILITY_ADAPTER_MUST_REMAIN",
+    "AFFECTED_APPLICATION_GUI_AND_WORKFLOW_PROJECTIONS_MUST_BE_UPDATED_WHEN_REQUIRED",
+    "AFFECTED_APPLICATION_TESTS_GATES_EVIDENCE_AND_RELEASE_PROJECTIONS_MUST_BE_RECONCILED",
+    "RUNTIME_OR_STRUCTURAL_SHARED_CHANGE_MUST_USE_EXISTING_CURRENT_HOST_DELTA_AUTHORITY",
+    "PHYSICAL_CURRENT_HOST_PASS_MUST_NOT_BE_INFERRED_FROM_STATIC_COMPATIBILITY",
+    "NO_NEW_PARALLEL_WORKFLOW_PERMISSION_RESOURCE_MODEL_MCP_EVIDENCE_OR_LIFECYCLE_AUTHORITY",
+    "NO_NEW_CROSS_LAYER_FABRIC_MAY_BE_CREATED_WHEN_AN_EXISTING_CANONICAL_OWNER_CAN_BE_EXTENDED",
+    "UNKNOWN_SHARED_COMPONENT_OR_UNRESOLVED_CONSUMER_SCOPE_FAILS_CLOSED"
+  ],
+  "future_application_admission": {
+    "required": true,
+    "compatibility_assessment_schema": "fa3.application-compatibility-assessment.v1",
+    "minimum_checks": [
+      "APPLICABLE_SHARED_CAPABILITIES",
+      "CANONICAL_AUTHORITY_BOUNDARIES",
+      "CONTRACT_VERSION_COMPATIBILITY",
+      "GUI_PROJECTION_COMPATIBILITY",
+      "PLUGIN_EXTENSION_COMPATIBILITY",
+      "WORK_CONTEXT_COMPATIBILITY",
+      "LIFECYCLE_COMPATIBILITY",
+      "EVIDENCE_AND_PROVENANCE_COMPATIBILITY",
+      "SOFTWARE_COEXISTENCE",
+      "LICENSE_RIGHTS",
+      "CPU_ONLY_BASELINE_WHERE_APPLICABLE",
+      "NO_SILENT_FALLBACK"
+    ],
+    "unknown_result": "DENY_OR_KEEP_PENDING",
+    "automatic_compatibility_assumption": false
+  },
+  "shared_change_propagation": {
+    "consumer_scope_source": "fa3.shared-capability-consumer-map.v1",
+    "manual_smaller_scope_may_override": false,
+    "implicit_consumers_must_be_reviewed": true,
+    "affected_application_classification_required": true,
+    "compatibility_adapter_allowed": true,
+    "compatibility_adapter_is_temporary_unless_explicitly_canonicalized": true,
+    "capability_regression_forbidden_without_verified_cfa3_safety_reason": true
+  },
+  "pr_reconciliation": {
+    "active_unfinished_prs_are_parent_scope": true,
+    "new_overlapping_fabric_pr_forbidden": true,
+    "existing_pr_semantic_salvage_before_superseded_close": true,
+    "consumer_application_compatibility_check_after_pr_repair": true,
+    "shared_change_scope_recomputed_after_each_reconciled_merge": true,
+    "current_host_deferred_until_final_stable_exact_head": true
+  },
+  "enforcement_activation": {
+    "current_mode": "STAGED_DURING_ACTIVE_PR_RECONCILIATION",
+    "static_gate_available_now": true,
+    "global_mandatory_binding_deferred": true,
+    "defer_reason": "Avoid introducing a new blocker into the active unfinished-PR reconciliation and application compatibility repair sequence.",
+    "activation_condition": "PARENT_PR_RECONCILIATION_STABLE_AND_EXACT_MAIN_RECHECKED",
+    "target_mode": "P0_FAIL_CLOSED"
+  },
+  "closure_invariants": {
+    "affected_application_without_compatibility_disposition": 0,
+    "future_application_without_shared_compatibility_assessment": 0,
+    "shared_change_with_unknown_consumer_scope": 0,
+    "parallel_authority_created": 0,
+    "capability_baseline": 175
+  }
+}

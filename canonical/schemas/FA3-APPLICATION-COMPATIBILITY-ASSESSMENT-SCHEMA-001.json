@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "fa3://schemas/application-compatibility-assessment.v1",
+  "title": "CFA3 Application Compatibility Assessment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "assessment_id",
+    "application_id",
+    "application_state",
+    "source_commit",
+    "applicable_shared_components",
+    "compatibility_results",
+    "overall_result",
+    "capability_regression",
+    "new_architectural_authority",
+    "current_host_impact"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.application-compatibility-assessment.v1"
+    },
+    "assessment_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "application_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "application_state": {
+      "enum": [
+        "PLANNED",
+        "IN_PROGRESS",
+        "MATERIALIZED",
+        "FUTURE"
+      ]
+    },
+    "source_commit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "applicable_shared_components": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "compatibility_results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "shared_component_id",
+          "disposition"
+        ],
+        "properties": {
+          "shared_component_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "disposition": {
+            "enum": [
+              "NO_CHANGE",
+              "GUI_PROJECTION",
+              "CONTRACT_ADAPTER",
+              "SHARED_CAPABILITY_BINDING",
+              "LOCAL_TO_SHARED_MIGRATION",
+              "RUNTIME_REQUALIFICATION"
+            ]
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "overall_result": {
+      "enum": [
+        "PASS",
+        "PENDING_ADAPTATION",
+        "BLOCKED"
+      ]
+    },
+    "capability_regression": {
+      "const": false
+    },
+    "new_architectural_authority": {
+      "const": false
+    },
+    "current_host_impact": {
+      "enum": [
+        "NO_RUNTIME_IMPACT",
+        "STRUCTURAL_REASSESSMENT_REQUIRED",
+        "RUNTIME_REQUALIFICATION_REQUIRED"
+      ]
+    }
+  }
+}

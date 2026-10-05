@@ -1,0 +1,41 @@
+name: CFA3 Shared Compatibility Propagation
+
+on:
+  pull_request:
+    paths:
+      - 'canonical/FA3-SHARED-COMPATIBILITY-PROPAGATION-001.json'
+      - 'canonical/schemas/FA3-APPLICATION-COMPATIBILITY-ASSESSMENT-SCHEMA-001.json'
+      - 'src/fa3_shared_compatibility_propagation_gate.py'
+      - 'tests/test_shared_compatibility_propagation.py'
+      - 'docs/FA3-SHARED-COMPATIBILITY-PROPAGATION-001.md'
+      - '.github/workflows/fa3-shared-compatibility-propagation.yml'
+  workflow_dispatch:
+    inputs:
+      enforce:
+        description: 'Run assessment enforcement mode'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+jobs:
+  compatibility-propagation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+      - name: Compile gate
+        run: python -m py_compile src/fa3_shared_compatibility_propagation_gate.py
+      - name: Run unit tests
+        run: python -m unittest tests.test_shared_compatibility_propagation -v
+      - name: Run staged static gate
+        run: python src/fa3_shared_compatibility_propagation_gate.py --root . --output reports/shared-compatibility-propagation-gate-report.json
+      - name: Run explicit enforcement mode
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.enforce }}
+        run: python src/fa3_shared_compatibility_propagation_gate.py --root . --enforce
