@@ -28,6 +28,16 @@ REGISTRY_ID="FA3-AGENT-RUNTIME-PROVIDER-REGISTRY-001"
 GATE_ID="FA3-GATE-AGENT-WORKLOAD-RUNTIME-001"
 GATESET_ID="FA3-AGENT-WORKLOAD-RUNTIME-GATESET-001"
 AX_COMMIT="e6211f84a9e30dd309304167b8f1d51cbdaf8dab"
+TASK_SCOPE_RULES=[
+ "GOAL_BOUND_WORKLOAD_REQUIRES_IMMUTABLE_SCOPE_BINDING",
+ "SAME_BLOCKER_THIRD_FAILURE_FREEZES_EXECUTION",
+ "FOURTH_SAME_BLOCKER_ATTEMPT_FORBIDDEN",
+ "OUT_OF_SCOPE_FOLLOWUP_REQUIRES_NEW_TASK_AND_EXPLICIT_USER_START",
+ "START_AND_RESUME_REQUIRE_FRESH_TASK_SCOPE_ADMISSION",
+ "CACHED_EXECUTION_PLAN_CANNOT_BYPASS_SCOPE_CONTROL_REVISION",
+ "VERIFIED_CLOSURE_REQUIRES_EVIDENCE_AUTHORITY_RECEIPT",
+ "CLOSED_TASK_REEXECUTION_FORBIDDEN",
+]
 ACTIONS={
  "agent.workload.declare","agent.workload.start","agent.workload.pause","agent.workload.suspend",
  "agent.workload.resume","agent.workload.terminate","agent.workload.inspect","agent.workload.debug.exec",
@@ -183,7 +193,7 @@ def gate(root: Path) -> dict[str, Any]:
       (ax.get("activation_mode")=="OPTIONAL_DISABLED_BY_DEFAULT" and ax.get("translation",{}).get("canonical_ax_schema") is False and ax.get("translation",{}).get("ax_model_to_fa3_model_resource") is False and ax.get("translation",{}).get("fa3_agent_workspace_to_ax_workspace")=="PARTIAL_FAIL_CLOSED" and ax.get("runner_bridge",{}).get("manifest_compiler_materialized") is True and ax.get("runner_bridge",{}).get("custom_runner_source_materialized") is True and ax.get("runner_bridge",{}).get("custom_runner_materialized") is False and ax.get("runner_bridge",{}).get("runner_image_build_evidence") is False,"AWR-019","Google AX boundary drift"),
       (enf.get("gateset_id")==GATESET_ID and enf.get("fail_closed") is True and "STATIC_REFERENCE_PASS_NOT_CURRENT_HOST_PROMOTION" in enf.get("mandatory_rules",[]),"AWR-020","enforcement rules incomplete"),
       (g.get("id")==GATE_ID and g.get("gateset_id")==GATESET_ID and g.get("regression_case_count")==21 and g.get("current_host_runtime_evidence") is False,"AWR-021","executable gate record drift"),
-      (GATESET_ID in set(pol.get("mandatory_reference_gates",[])) and pol.get("agent_workload_runtime_profile_id")==PROFILE_ID and pol.get("agent_workload_runtime_reference_id")==REFERENCE_ID,"AWR-022","global enforcement policy binding missing"),
+      (GATESET_ID in set(pol.get("mandatory_reference_gates",[])) and pol.get("agent_workload_runtime_profile_id")==PROFILE_ID and pol.get("agent_workload_runtime_reference_id")==REFERENCE_ID and pol.get("task_scope_closure_policy_id")=="FA3-TASK-SCOPE-CLOSURE-POLICY-2026-10-03" and pol.get("task_scope_closure_mandatory_p0_rules")==TASK_SCOPE_RULES and pol.get("task_scope_closure_capability_count")==175 and pol.get("task_scope_closure_new_architectural_authority") is False,"AWR-022","global enforcement policy binding or complete task-scope rule set missing"),
       (ev.get("status")=="PASS" and ev.get("evidence_class")=="REFERENCE_STATIC_CONFORMANCE" and ev.get("current_host_runtime_promotion_claim") is False,"AWR-023","reference evidence semantics drift"),
       ("FA3-AGENT-WORKLOAD-RUNTIME-CONTRACTS-001" in orch.get("contracts",[]) and orch.get("authority_boundaries",{}).get("workload_execution")=="FA3-AGENT-WORKLOAD-RUNTIME-001_NON_AUTHORITY_TASK_LOCAL_EXECUTION_PROJECTION" and "AGENT_WORKLOAD_RUNTIME_IS_TASK_LOCAL_EXECUTION_PROJECTION_NOT_DURABLE_WORKFLOW_AUTHORITY" in orch.get("invariants",[]),"AWR-032","Orchestration Workforce workload-runtime binding drift"),
       (wm.get("agent_workload_projection",{}).get("profile_id")==PROFILE_ID and wm.get("agent_workload_projection",{}).get("work_item_identity_distinct") is True and wm.get("agent_workload_projection",{}).get("mutation_semantics")=="DRAFT_UAF_INTENT_ONLY" and wm.get("agent_workload_projection",{}).get("direct_runner_execution_from_gui") is False,"AWR-033","Work Management workload projection boundary drift"),
