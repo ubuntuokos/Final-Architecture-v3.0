@@ -105,8 +105,12 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
     donor_lifecycle_decision = loadj(root / "canonical/decisions/FA3-DEC-DONOR-LIFECYCLE-APPLICATION-SYNC-2026-09-30.json")
     application_donor_links = loadj(root / "canonical/FA3-APPLICATION-DONOR-LINKS-001.json")
     donor_decision = loadj(root / "canonical/decisions/FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28.json")
-    if donor_decision.get("capture_rule") != "ONLY_LINKS_EXPLICITLY_PRECEDED_BY_OWNER_DONORNAK_MARKER_MAY_ENTER_REGISTRY":
-        raise ValueError("owner-marked donor capture decision is not canonical")
+    if donor_decision.get("capture_rule") != "ONLY_AUTHENTICATED_OWNER_APPROVED_DONOR_COMMANDS_OR_COMMITTED_APPROVED_PLAN_PROCESSED_SET_MAY_ENTER_REGISTRY":
+        raise ValueError("donor registration authority decision is not canonical")
+    if donor_decision.get("approved_owner_donor_commands") != ["donornak", "vedd fel donornak", "add a donorlistához"]:
+        raise ValueError("approved owner donor command set is not canonical")
+    if donor_decision.get("implementation_planning_donor_analysis_exception_ref") != "canonical/decisions/FA3-DEC-IMPLEMENTATION-PLAN-DONOR-EXCEPTION-2026-10-04.json":
+        raise ValueError("implementation-plan donor exception binding is not canonical")
     if donor_rejection_audit.get("id") != "FA3-DONOR-REJECTION-AUDIT-001":
         raise ValueError("donor rejection audit is not canonical")
     if donor_lifecycle_decision.get("id") != "FA3-DEC-DONOR-LIFECYCLE-APPLICATION-SYNC-2026-09-30":
