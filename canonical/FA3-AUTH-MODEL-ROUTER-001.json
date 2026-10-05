@@ -23,7 +23,9 @@
     "runtime model selection",
     "policy-equivalent provider fallback",
     "route-to-provider-to-model provenance",
-    "router current-host evidence"
+    "router current-host evidence",
+    "configured-selected-observed model/provider/runtime identity separation",
+    "execution-truth state separation from configuration and availability"
   ],
   "non_responsibilities": [
     "model inventory ownership",
@@ -50,7 +52,11 @@
     "runtime_selection_receipt_required": true,
     "silent_local_to_cloud_fallback": "FORBIDDEN",
     "default_external_egress": "DENY",
-    "pageindex_owned_model_router": "FORBIDDEN"
+    "pageindex_owned_model_router": "FORBIDDEN",
+    "configured_identity_is_not_execution_proof": true,
+    "selected_identity_is_not_observed_execution_identity": true,
+    "observed_provider_model_runtime_identity_receipt_required": true,
+    "fallback_transition_must_be_explicit_and_receipted": true
   },
   "current_host": {
     "route_registry": "deployment/model-router/routes.json",
@@ -71,5 +77,21 @@
     "credential_values_owned_by": "FA3-SECRET-BROKER-001",
     "cross_provider_authority_remains_here": true,
     "decision_fabric_role": "BOUNDED_ADVISORY_ONLY"
+  },
+  "truth_state_semantics": {
+    "states": [
+      "DISCOVERED",
+      "SELECTED",
+      "CONFIGURED",
+      "AUTHENTICATED",
+      "QUALIFIED",
+      "AUTHORIZED",
+      "EXECUTED",
+      "VERIFIED",
+      "READY"
+    ],
+    "states_are_not_synonyms": true,
+    "later_state_may_not_be_inferred_from_earlier_state": true,
+    "observed_execution_identity_required_for_executed_or_later_claim": true
   }
 }
