@@ -396,7 +396,9 @@ def parse_donor_mention(text: str, *, name: str | None = None, source: str | Non
     normalized_source = source.removesuffix(".git") if isinstance(source, str) else None
     if len(found) > 1 and not normalized_source:
         raise ValueError("multiple commanded source URLs: capture each separately")
-    if normalized_source and found and normalized_source not in found:
+    if normalized_source and not found:
+        raise ValueError("link-free follow-up targeting requires conversation importer context")
+    if normalized_source and normalized_source not in found:
         raise ValueError("supplied source contradicts the owner-commanded URL")
     locator = normalized_source or (found[0] if found else None)
     if not locator or not locator.lower().startswith(("https://", "http://")):
