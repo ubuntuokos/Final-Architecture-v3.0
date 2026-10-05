@@ -256,6 +256,37 @@ class DonorChatImportTests(unittest.TestCase):
         self.assertEqual(result["created"],0)
         self.assertEqual(self.path.read_bytes(),before)
 
+    def test_command_only_followup_cannot_cross_conversation_boundary(self):
+        export = self.root / "conversations.json"
+        export.write_text(json.dumps([
+            {
+                "mapping": {
+                    "a": {
+                        "message": {
+                            "author": {"role": "user"},
+                            "content": {"parts": ["https://github.com/example/from-conversation-a"]},
+                        }
+                    }
+                }
+            },
+            {
+                "mapping": {
+                    "b": {
+                        "message": {
+                            "author": {"role": "user"},
+                            "content": {"parts": ["donornak"]},
+                        }
+                    }
+                }
+            },
+        ]), encoding="utf-8")
+        records = list(_conversations(export, {"user"}, include_roles=True))
+        self.assertTrue(any(row.get("conversation_boundary") is True for row in records))
+        before = self.path.read_bytes()
+        result = ingest(self.root, records, origin="chatgpt-export")
+        self.assertEqual(result["created"], 0)
+        self.assertEqual(self.path.read_bytes(), before)
+
     def test_supplied_source_must_match_commanded_url(self):
         self.assertEqual(
             parse_donor_mention(
