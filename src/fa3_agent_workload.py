@@ -422,7 +422,17 @@ def validate_execution_admission(
             "task_scope_control_digest",
         )):
             raise WorkloadContractError("uncontrolled execution plan carries scope-control state")
-        return copy.deepcopy(execution_plan)
+        return {
+            "schema": "fa3.task-scope-admission.v1",
+            "task_id": execution_plan.get("task_id"),
+            "decision": "ALLOW",
+            "fresh_revalidation": True,
+            "task_scope_control_required": False,
+            "task_scope_policy_id": None,
+            "validated_control_revision": None,
+            "validated_control_digest": None,
+            "authority": False,
+        }
     if execution_plan.get("task_scope_policy_id") != TASK_SCOPE_POLICY_ID:
         raise WorkloadContractError("execution plan task scope policy mismatch")
     if task_control is None:
@@ -436,6 +446,17 @@ def validate_execution_admission(
         raise WorkloadContractError(str(exc)) from exc
     if checked["control_revision"] != execution_plan.get("task_scope_control_revision"):
         raise WorkloadContractError("cached execution plan task-control revision is stale")
-    if task_control_digest(checked) != execution_plan.get("task_scope_control_digest"):
+    digest = task_control_digest(checked)
+    if digest != execution_plan.get("task_scope_control_digest"):
         raise WorkloadContractError("cached execution plan task-control digest is stale")
-    return copy.deepcopy(execution_plan)
+    return {
+        "schema": "fa3.task-scope-admission.v1",
+        "task_id": checked["task_id"],
+        "decision": "ALLOW",
+        "fresh_revalidation": True,
+        "task_scope_control_required": True,
+        "task_scope_policy_id": TASK_SCOPE_POLICY_ID,
+        "validated_control_revision": checked["control_revision"],
+        "validated_control_digest": digest,
+        "authority": False,
+    }
