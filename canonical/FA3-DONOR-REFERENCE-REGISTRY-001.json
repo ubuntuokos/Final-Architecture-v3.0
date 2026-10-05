@@ -114185,6 +114185,108 @@
       "automatic_code_import": false,
       "automatic_provider_admission": false,
       "automatic_model_selection": false
+    },
+    {
+      "donor_id": "FA3-DONOR-ANONYMOUSNOMAD-COVERT-CODER-001",
+      "name": "AnonymousNomad/covert-coder",
+      "source": {
+        "kind": "GITHUB",
+        "locator": "https://github.com/AnonymousNomad/covert-coder",
+        "normalized_key": "github:anonymousnomad/covert-coder",
+        "default_branch": "covert-production",
+        "observed_commit": "81aff88b924db05c689dc734aa3e67605f4b18ce"
+      },
+      "status": "ACCEPTED_REFERENCE",
+      "submission_review": {
+        "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
+        "scope": "REFERENCE_REGISTRATION_AND_EXPLICIT_ARCHITECTURE_PATTERN_ADOPTION",
+        "owner_donor_command": "donornak",
+        "second_registry_approval_required": false
+      },
+      "discovered_from": [
+        "owner-explicit-donornak-2026-10-05-covert-coder"
+      ],
+      "first_seen": "2026-10-05",
+      "last_seen": "2026-10-05",
+      "donor_modes": [
+        "ARCHITECTURE_PATTERN",
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "capability_hints": [
+        "governed-typed-tool-execution",
+        "operator-authority-separation",
+        "model-provider-runtime-identity-chain",
+        "no-silent-fallback",
+        "explicit-egress-control",
+        "verification-evidence-state-separation",
+        "failure-evidence-preservation",
+        "untrusted-plugin-artifact-boundary",
+        "canonical-facade-migration-pattern"
+      ],
+      "domain_hints": [
+        "agent-execution",
+        "model-routing",
+        "mcp-tools",
+        "plugins-extensions",
+        "evidence-provenance",
+        "developer-workbench"
+      ],
+      "problem_hints": [
+        "model-generated-actions-must-not-self-authorize",
+        "configured-selected-and-observed-runtime-identity-must-not-be-conflated",
+        "later-green-rerun-must-not-delete-earlier-failure-evidence",
+        "external-artifacts-remain-untrusted-until-admission"
+      ],
+      "target_hints": [
+        "Central MCP Gateway / Unified Action Fabric",
+        "Central Model Router",
+        "Shared Plugin & Extension Fabric / Extension Boundary",
+        "Evidence / Provenance / Verification",
+        "Orchestration Governance",
+        "Control Center read-only status projections"
+      ],
+      "tags": [
+        "explicit-owner-donornak",
+        "covert-coder",
+        "apache-2.0-observed",
+        "architecture-pattern",
+        "no-code-copy",
+        "local-first",
+        "operator-authority",
+        "evidence-first"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UPSTREAM_ROOT_LICENSE_OBSERVED",
+        "observed_file": "LICENSE",
+        "observed_blob_sha": "d645695673349e3947e8e5ae42332d0ac3164cd7"
+      },
+      "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_FILE_LEVEL_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+      "discoverable_for_planning": true,
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_fetch": false,
+      "automatic_install": false,
+      "automatic_activation": false,
+      "automatic_dependency": false,
+      "automatic_code_import": false,
+      "automatic_provider_admission": false,
+      "automatic_model_selection": false,
+      "adoption_boundary": {
+        "mode": "CFA3_NATIVE_ARCHITECTURE_PATTERN_ONLY",
+        "source_code_copied": false,
+        "runtime_dependency": false,
+        "provider_or_model_admission": false,
+        "current_host_promotion_claim": false,
+        "upstream_engineering_preview_not_treated_as_production_certification": true
+      },
+      "notes": [
+        "Owner explicitly approved both donor registration and application of the analyzed architecture patterns on 2026-10-05.",
+        "Only FA3-native architecture-pattern deltas are adopted; no Covert Coder source code, package/runtime, model/provider, installer or service is imported.",
+        "Existing CFA3 authorities remain authoritative; the donor cannot become a second execution, routing, evidence, plugin, workflow or resource authority.",
+        "The upstream repository is an Engineering Preview; its profile-specific runtime qualification is not generalized into CFA3 hardware or Current Host claims."
+      ]
     }
   ],
   "historical_partial_reuse_review": {
