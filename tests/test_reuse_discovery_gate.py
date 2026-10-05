@@ -153,12 +153,33 @@ class ReuseDiscoveryTests(unittest.TestCase):
         profile = json.loads((ROOT / "canonical/profiles/FA3-REUSE-DISCOVERY-001.json").read_text(encoding="utf-8"))
         contract = json.loads((ROOT / "canonical/contracts/FA3-REUSE-DISCOVERY-CONTRACTS-001.json").read_text(encoding="utf-8"))
         enforcement = json.loads((ROOT / "canonical/enforcement-policy.json").read_text(encoding="utf-8"))
-        self.assertEqual(decision["capture_rule"], "ONLY_LINKS_EXPLICITLY_PRECEDED_BY_OWNER_DONORNAK_MARKER_MAY_ENTER_REGISTRY")
+        self.assertEqual(
+            decision["capture_rule"],
+            "ONLY_AUTHENTICATED_OWNER_APPROVED_DONOR_COMMANDS_OR_COMMITTED_APPROVED_PLAN_PROCESSED_SET_MAY_ENTER_REGISTRY",
+        )
+        self.assertEqual(
+            decision["approved_owner_donor_commands"],
+            ["donornak", "vedd fel donornak", "add a donorlistához"],
+        )
         self.assertFalse(profile["donor_reference_binding"]["potential_donor_signal_requires_capture"])
         self.assertTrue(profile["donor_reference_binding"]["published_main_registry_only"])
         self.assertEqual(profile["donor_reference_binding"]["owner_marker_required"], "donornak")
+        self.assertEqual(
+            profile["donor_reference_binding"]["approved_owner_commands"],
+            ["donornak", "vedd fel donornak", "add a donorlistához"],
+        )
+        self.assertTrue(
+            profile["donor_reference_binding"]["approved_plan_exact_processed_set_registration_allowed"]
+        )
         self.assertFalse(contract["contracts"]["DonorReferenceProjection"]["potential_signal_capture_required"])
         self.assertTrue(contract["contracts"]["DonorReferenceProjection"]["unmarked_links_analysis_only"])
+        self.assertEqual(
+            contract["contracts"]["DonorReferenceProjection"]["command_equivalence_decision_ref"],
+            "FA3-DEC-DONOR-INTAKE-COMMAND-EQUIVALENCE-2026-10-04",
+        )
+        self.assertTrue(
+            contract["contracts"]["DonorReferenceProjection"]["approved_plan_processed_set_registration_allowed"]
+        )
         self.assertFalse(enforcement["donor_registry_serialization"]["deny_when_maintenance_or_open_donor_pr"])
         self.assertEqual(enforcement["donor_registry_serialization"]["planning_registry_source"],
                          "LATEST_VERIFIED_COMMITTED_MAIN_ONLY")
