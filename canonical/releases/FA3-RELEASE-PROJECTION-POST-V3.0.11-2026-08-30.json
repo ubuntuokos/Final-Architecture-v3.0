@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "40306d4269f09d4833d5c7e94d391d5bf39f926e",
-    "pre_projection_root_tree_sha": "58b99c1b3d8b614df91976762cc2196865c947c8",
-    "pre_projection_canonical_tree_sha": "630662c82254f501fdb95a8f864d0e235dc15206",
-    "commits_ahead_of_v3_0_11_conformance_commit": 3256,
-    "total_post_baseline_commits": 3256,
-    "delta_file_count": 3035,
-    "delta_added_files": 3029,
+    "pre_projection_head_sha": "73ae98a8db785aa3781a8569b8d827dc8eb55586",
+    "pre_projection_root_tree_sha": "0e0ef008840a49b967b1b21dd1236651be2ad03d",
+    "pre_projection_canonical_tree_sha": "aa1aa54b4ba5b422e7ce6399ccc90aa43d48359e",
+    "commits_ahead_of_v3_0_11_conformance_commit": 3103,
+    "total_post_baseline_commits": 3103,
+    "delta_file_count": 2998,
+    "delta_added_files": 2992,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,11 +46,11 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1424,
+    "canonical_files_in_post_baseline_delta": 1406,
     "evidence_files_in_post_baseline_delta": 172,
-    "source_files_in_post_baseline_delta": 388,
-    "test_files_in_post_baseline_delta": 360,
-    "workflow_files_in_post_baseline_delta": 144,
+    "source_files_in_post_baseline_delta": 378,
+    "test_files_in_post_baseline_delta": 355,
+    "workflow_files_in_post_baseline_delta": 143,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENCY-AGENTS-001.json",
@@ -70,7 +70,6 @@
       "canonical/providers/FA3-PROVIDER-BUZZ-001.json",
       "canonical/providers/FA3-PROVIDER-CAPTION-NATIVE-001.json",
       "canonical/providers/FA3-PROVIDER-CAVEMAN-001.json",
-      "canonical/providers/FA3-PROVIDER-CFA3-NATIVE-CUDA-COMPAT-001.json",
       "canonical/providers/FA3-PROVIDER-COACH-LOCAL-001.json",
       "canonical/providers/FA3-PROVIDER-CODEGRAFF-001.json",
       "canonical/providers/FA3-PROVIDER-CODEX-001.json",
@@ -352,7 +351,6 @@
       "canonical/contracts/FA3-CREATIVE-DESKTOP-GENERATIVE-INTEROP-CONTRACTS-001.json",
       "canonical/contracts/FA3-CREATIVE-OPERATIONS-DASHBOARD-CONTRACTS-001.json",
       "canonical/contracts/FA3-CREATIVE-PROJECT-WORKFLOW-CONTRACTS-001.json",
-      "canonical/contracts/FA3-CUDA-COMPAT-NATIVE-CONTRACTS-001.json",
       "canonical/contracts/FA3-DECISION-CONSUMER-BINDINGS-001.json",
       "canonical/contracts/FA3-DECISION-FABRIC-ASSESSMENT-001.schema.json",
       "canonical/contracts/FA3-DECISION-FABRIC-CONTRACTS-001.json",
@@ -484,7 +482,6 @@
       "canonical/contracts/FA3-WORKSPACE-SCOPED-AGENT-CONTEXT-CONTRACTS-001.json"
     ],
     "decision_records": [
-      "canonical/decisions/CFA3-DEC-DEVELOPMENT-AI-BEHAVIOR-LAYERING-2026-10-05.json",
       "canonical/decisions/FA3-DEC-ACE-STEP-2026-08-30.json",
       "canonical/decisions/FA3-DEC-ACE-STEP-HARDENING-2026-09-10.json",
       "canonical/decisions/FA3-DEC-ADK2-DERIVED-AGENT-RUNTIME-SEMANTICS-2026-09-24.json",
@@ -521,9 +518,6 @@
       "canonical/decisions/FA3-DEC-CPU-NUMA-THREADING-2026-09-02.json",
       "canonical/decisions/FA3-DEC-CREATIVE-OPERATIONS-DASHBOARD-NATIVE-2026-09-26.json",
       "canonical/decisions/FA3-DEC-CREATIVE-PROJECT-WORKFLOW-FLOVA-PATTERNS-2026-09-26.json",
-      "canonical/decisions/FA3-DEC-CUDA-COMPAT-NATIVE-PLAN-APPROVAL-2026-10-04.json",
-      "canonical/decisions/FA3-DEC-CUDA-COMPAT-OROCHI-DONOR-USE-2026-10-04.json",
-      "canonical/decisions/FA3-DEC-CUDA-COMPAT-ROCM-EXAMPLES-DONOR-USE-2026-10-04.json",
       "canonical/decisions/FA3-DEC-CUDA-PORTABILITY-SHARED-FUNCTION-2026-10-04.json",
       "canonical/decisions/FA3-DEC-CURRENT-HOST-FULL-MATERIALIZATION-2026-09-19.json",
       "canonical/decisions/FA3-DEC-CURRENT-HOST-RUNNER-2026-09-11.json",
@@ -17208,7 +17202,11 @@
     "development_ai_behavior_self_correction_delta": "DEV-11_AI-11",
     "development_ai_behavior_blocker_repair_parent_head": "b30c308287c24d59c022c33227425bd61b769dc8",
     "development_ai_behavior_runtime_preflight_wired": true,
-    "development_ai_behavior_reuse_assessment": "canonical/assessments/CFA3-DEVELOPMENT-AI-BEHAVIOR-REUSE-ASSESSMENT-2026-10-05.json"
+    "development_ai_behavior_reuse_assessment": "canonical/assessments/CFA3-DEVELOPMENT-AI-BEHAVIOR-REUSE-ASSESSMENT-2026-10-05.json",
+    "development_ai_behavior_snapshot_anchor_reconciled": true,
+    "development_ai_behavior_snapshot_anchor_source": "CANONICAL_MAIN_RELEASE_PROJECTION",
+    "development_ai_behavior_snapshot_anchor_main_sha": "6f3cadb792ca8bd1b49bac62dfe9c92325090e5c",
+    "development_ai_behavior_snapshot_anchor_sha": "73ae98a8db785aa3781a8569b8d827dc8eb55586"
   },
   "inference_cache_hardening_reconciliation": {
     "parent_gate_id": "FA3-INFERENCE-PORTABILITY-GATESET-001",
