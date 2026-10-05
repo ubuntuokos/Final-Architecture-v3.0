@@ -148,10 +148,15 @@ def _candidate_sources_from_uncommanded_text(text: str) -> tuple[list[tuple[str,
     return sources, False
 
 def _conversations(path: Path, roles: set[str], *, include_roles: bool = False) -> Iterable[str | dict[str, Any]]:
+    first_conversation = True
     for conversation in read_export(path):
         mapping = conversation.get("mapping")
         if not isinstance(mapping, dict):
             continue
+        if include_roles:
+            if not first_conversation:
+                yield {"conversation_boundary": True}
+            first_conversation = False
         for node in mapping.values():
             if not isinstance(node, dict):
                 continue
@@ -218,6 +223,9 @@ def ingest(
             continue
         if not isinstance(record, dict):
             raise ValueError("conversation event must be text or an object")
+        if record.get("conversation_boundary") is True:
+            pending_owner_sources = None
+            continue
         marked = False
         owner_command = None
         if isinstance(record.get("text"), str):
