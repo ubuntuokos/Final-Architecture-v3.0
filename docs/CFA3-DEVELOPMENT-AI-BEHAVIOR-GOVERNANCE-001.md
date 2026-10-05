@@ -6,7 +6,7 @@ Canonical policy: `CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001`
 
 This layer makes the same fail-closed execution discipline mandatory in two places:
 
-1. the CFA3 development process; and
+1. the FA3/CFA3 development process; and
 2. CFA3 AI/model/agent execution.
 
 It does not replace orchestration, security, model-routing, resource or evidence authorities.
@@ -63,6 +63,20 @@ There is no direct transition from a blocker to execution, merge, release or an 
 - DEV-09: no silent redesign or repair.
 - DEV-10: the current explicit owner restriction outranks earlier autonomy grants.
 - DEV-11: after notifying the owner, the development AI may correct only its own unambiguous deterministic mechanical/technical error without separate approval when the correction stays inside the approved scope, intent, architecture, authority, policy and plan. Possible partial mutation requires exact-state verification first; redesign, workaround, new PR/branch, cross-component change, new permission/side effect, review-discovered substantive defect or uncertainty remains BLOCKER -> STOP -> REPORT.
+- DEV-12: the active FA3/CFA3 main development task remains primary. A newly introduced rule is a constraint on that task; a parallel task/PR that must be watched is an observation, dependency or blocker condition. Neither silently becomes the new main task. Only an explicit current owner directive may switch the main task. A blocker may stop execution, but does not reassign main-task identity; after authorized resolution, work resumes on the same main task unless the owner explicitly switches it.
+
+
+## Main-task continuity
+
+DEV-12 is development-process governance. It does not create a second scheduler, task authority or product-runtime AI rule.
+
+- A rule created while the main task is in progress is applied as a constraint on that task.
+- A parallel task or PR may be observed for compatibility, dependency or collision purposes without becoming the main task.
+- If the parallel work creates a real overlap or other blocker, DEV-01/DEV-05 still stop mutation immediately. The stop preserves the identity of the main task.
+- When the blocker is explicitly resolved and execution is reauthorized, work returns to the same main task.
+- Changing the main task requires an explicit current owner directive and a new/rebound task-scope binding before execution under that new main task.
+
+The shared helper `authorize_development_task_continuity` in `src/cfa3_development_ai_behavior_guard.py` provides a fail-closed preflight for this rule. It never grants repository or runtime effect authority.
 
 ## AI/model rules
 

@@ -24,7 +24,7 @@ SIDE_EFFECT_ORDER = (
 
 RULE_IDS = {
     "DEV-01", "DEV-02", "DEV-03", "DEV-04", "DEV-05",
-    "DEV-06", "DEV-07", "DEV-08", "DEV-09", "DEV-10", "DEV-11",
+    "DEV-06", "DEV-07", "DEV-08", "DEV-09", "DEV-10", "DEV-11", "DEV-12",
     "AI-01", "AI-02", "AI-03", "AI-04", "AI-05",
     "AI-06", "AI-07", "AI-08", "AI-09", "AI-10", "AI-11",
 }
@@ -214,6 +214,80 @@ def _self_correction_check(context: Mapping[str, Any]) -> dict | None:
             "CURRENT_HEAD_SHA_OR_RELEVANT_STATE",
             "REMAINING_BLOCKER",
         ],
+    }
+
+
+_DEVELOPMENT_DIVERSION_TRIGGERS = frozenset({
+    "NEW_RULE",
+    "PARALLEL_TASK",
+    "PARALLEL_PR",
+    "MONITORING_OBLIGATION",
+    "OTHER",
+})
+_DEVELOPMENT_TASK_BOOL_FACTS = (
+    "action_serves_main_task",
+    "task_switch_requested",
+    "explicit_owner_task_switch",
+)
+
+
+def authorize_development_task_continuity(context: Mapping[str, Any]) -> dict:
+    """Enforce DEV-12 for FA3/CFA3 development task continuity.
+
+    New rules and parallel work may constrain or block the active main task,
+    but they cannot silently become the main task. This preflight does not
+    authorize repository side effects.
+    """
+    if not isinstance(context, Mapping):
+        return _stop({"DEV-12", "AI-09"}, "DEVELOPMENT_TASK_CONTINUITY_CONTEXT_MUST_BE_MAPPING")
+    for key in ("main_task_id", "current_task_id"):
+        value = context.get(key)
+        if not isinstance(value, str) or not value.strip():
+            return _stop({"DEV-12", "AI-09"}, f"MISSING_OR_INVALID_DEVELOPMENT_TASK_ID:{key}")
+    problem = _validate_bool_facts(context, _DEVELOPMENT_TASK_BOOL_FACTS)
+    if problem:
+        return _stop({"DEV-12", "AI-09"}, "DEVELOPMENT_TASK_CONTINUITY_" + problem)
+    trigger = context.get("diversion_trigger")
+    if trigger is not None and trigger not in _DEVELOPMENT_DIVERSION_TRIGGERS:
+        return _stop({"DEV-12", "AI-09"}, "INVALID_DEVELOPMENT_DIVERSION_TRIGGER")
+
+    if context["task_switch_requested"] is True:
+        if context["explicit_owner_task_switch"] is not True:
+            return _stop({"DEV-12"}, "MAIN_TASK_SWITCH_REQUIRES_EXPLICIT_CURRENT_OWNER_DIRECTIVE")
+        return {
+            "decision": "ALLOW",
+            "blocker": False,
+            "reason": "EXPLICIT_CURRENT_OWNER_MAIN_TASK_SWITCH_AUTHORIZED",
+            "rule_ids": ["DEV-12"],
+            "policy_preflight_passed": True,
+            "side_effect_authorized": False,
+            "main_task_switch_authorized": True,
+            "requires_main_task_rebind_before_execution": True,
+        }
+
+    if context["current_task_id"] != context["main_task_id"]:
+        return _stop({"DEV-12"}, "CURRENT_TASK_DIFFERS_FROM_BOUND_MAIN_TASK")
+    if context["action_serves_main_task"] is not True:
+        return _stop({"DEV-12"}, "ACTION_WOULD_DIVERT_FROM_BOUND_MAIN_TASK")
+
+    disposition = (
+        "ACTIVE_MAIN_TASK_CONSTRAINT"
+        if trigger == "NEW_RULE"
+        else "ACTIVE_MAIN_TASK_OBSERVATION_OR_DEPENDENCY"
+        if trigger in {"PARALLEL_TASK", "PARALLEL_PR", "MONITORING_OBLIGATION"}
+        else "ACTIVE_MAIN_TASK_STEP"
+    )
+    return {
+        "decision": "ALLOW",
+        "blocker": False,
+        "reason": "MAIN_TASK_CONTINUITY_PASS",
+        "rule_ids": ["DEV-12"],
+        "policy_preflight_passed": True,
+        "side_effect_authorized": False,
+        "main_task_preserved": True,
+        "main_task_id": context["main_task_id"],
+        "diversion_trigger": trigger,
+        "disposition": disposition,
     }
 
 

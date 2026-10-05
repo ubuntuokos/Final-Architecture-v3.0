@@ -8,7 +8,7 @@ SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
-from cfa3_development_ai_behavior_guard import RULE_IDS, authorize_action
+from cfa3_development_ai_behavior_guard import RULE_IDS, authorize_action, authorize_development_task_continuity
 
 POLICY = ROOT / "canonical/CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001.json"
 
@@ -41,7 +41,7 @@ class Cfa3DevelopmentAiBehaviorTests(unittest.TestCase):
         self.assertEqual(175, policy["capability_baseline"])
         self.assertEqual(0, policy["capability_delta"])
         self.assertEqual(0, policy["architectural_authority_delta"])
-        self.assertEqual(11, len(policy["development_rules"]))
+        self.assertEqual(12, len(policy["development_rules"]))
         self.assertEqual(11, len(policy["ai_behavior_rules"]))
         self.assertEqual(["DEV-11", "AI-11"], policy["self_correction_exception"]["ids"])
         self.assertEqual({"L0", "L1", "L2", "L3", "L4", "L5"},
@@ -50,6 +50,66 @@ class Cfa3DevelopmentAiBehaviorTests(unittest.TestCase):
         self.assertEqual(RULE_IDS, observed)
         self.assertTrue(policy["composition"]["layers_are_distinct"])
         self.assertEqual("BLOCKER", policy["composition"]["contradiction_result"])
+        self.assertTrue(policy["scope"]["fa3_development_process"])
+        self.assertTrue(policy["scope"]["cfa3_development_process"])
+        self.assertTrue(policy["task_continuity"]["main_task_remains_primary"])
+        self.assertTrue(policy["task_continuity"]["task_switch_requires_explicit_current_owner_directive"])
+
+
+    def test_new_rule_remains_constraint_on_active_main_task(self):
+        result = authorize_development_task_continuity({
+            "main_task_id": "main-task",
+            "current_task_id": "main-task",
+            "action_serves_main_task": True,
+            "task_switch_requested": False,
+            "explicit_owner_task_switch": False,
+            "diversion_trigger": "NEW_RULE",
+        })
+        self.assertEqual("ALLOW", result["decision"])
+        self.assertTrue(result["main_task_preserved"])
+        self.assertEqual("ACTIVE_MAIN_TASK_CONSTRAINT", result["disposition"])
+
+    def test_parallel_pr_monitoring_cannot_become_main_task(self):
+        result = authorize_development_task_continuity({
+            "main_task_id": "main-task",
+            "current_task_id": "parallel-pr-task",
+            "action_serves_main_task": False,
+            "task_switch_requested": True,
+            "explicit_owner_task_switch": False,
+            "diversion_trigger": "PARALLEL_PR",
+        })
+        self.assertEqual("STOP", result["decision"])
+        self.assertIn("DEV-12", result["rule_ids"])
+
+    def test_explicit_owner_can_authorize_main_task_switch_but_rebind_is_required(self):
+        result = authorize_development_task_continuity({
+            "main_task_id": "main-task",
+            "current_task_id": "new-main-task",
+            "action_serves_main_task": False,
+            "task_switch_requested": True,
+            "explicit_owner_task_switch": True,
+            "diversion_trigger": "OTHER",
+        })
+        self.assertEqual("ALLOW", result["decision"])
+        self.assertTrue(result["main_task_switch_authorized"])
+        self.assertTrue(result["requires_main_task_rebind_before_execution"])
+
+    def test_parallel_blocker_does_not_require_main_task_reassignment(self):
+        continuity = authorize_development_task_continuity({
+            "main_task_id": "main-task",
+            "current_task_id": "main-task",
+            "action_serves_main_task": True,
+            "task_switch_requested": False,
+            "explicit_owner_task_switch": False,
+            "diversion_trigger": "PARALLEL_PR",
+        })
+        self.assertEqual("ALLOW", continuity["decision"])
+        self.assertTrue(continuity["main_task_preserved"])
+        ctx = base_context("WRITE")
+        ctx["blocker_kind"] = "OVERLAP"
+        blocked = authorize_action(ctx)
+        self.assertEqual("STOP", blocked["decision"])
+        self.assertIn("DEV-05", blocked["rule_ids"])
 
     def test_basic_read_allowed(self):
         result = authorize_action(base_context("READ"))

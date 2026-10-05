@@ -11,15 +11,30 @@
     "Development execution discipline is cross-cutting and must apply both to CFA3 development and CFA3 AI/agent behavior.",
     "Task/orchestration, security/effect authorization, model policy, and projection/UX layers retain their existing authorities.",
     "Cross-layer contradiction, unknown authority, stale state, or unresolved overlap fails closed.",
-    "Owner overrides are explicit, scoped, conversation-bounded exceptions and never become global defaults."
+    "Owner overrides are explicit, scoped, conversation-bounded exceptions and never become global defaults.",
+    "A rule introduced during execution, or a parallel task/PR that must be observed, constrains the active FA3/CFA3 main task but does not replace its identity; only an explicit current owner directive may switch the main task."
   ],
   "layer_mapping": {
-    "L0_HUMAN_SCOPE_AND_OVERRIDE": ["CURRENT_EXPLICIT_OWNER_DIRECTIVE"],
-    "L1_DEVELOPMENT_EXECUTION_DISCIPLINE": ["CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001"],
-    "L2_TASK_AND_ORCHESTRATION": ["PR-661", "PR-623"],
-    "L3_SECURITY_AND_EFFECT_AUTHORIZATION": ["PR-631"],
-    "L4_MODEL_POLICY": ["PR-681"],
-    "L5_PROJECTION_UX_AND_COMPATIBILITY": ["PR-702", "PR-703"]
+    "L0_HUMAN_SCOPE_AND_OVERRIDE": [
+      "CURRENT_EXPLICIT_OWNER_DIRECTIVE"
+    ],
+    "L1_DEVELOPMENT_EXECUTION_DISCIPLINE": [
+      "CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001"
+    ],
+    "L2_TASK_AND_ORCHESTRATION": [
+      "PR-661",
+      "PR-623"
+    ],
+    "L3_SECURITY_AND_EFFECT_AUTHORIZATION": [
+      "PR-631"
+    ],
+    "L4_MODEL_POLICY": [
+      "PR-681"
+    ],
+    "L5_PROJECTION_UX_AND_COMPATIBILITY": [
+      "PR-702",
+      "PR-703"
+    ]
   },
   "pending_pr_semantics": {
     "listed_prs_are_coordination_targets_only": true,
@@ -39,5 +54,16 @@
   "capability_count_after": 175,
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
-  "current_host_runtime_promotion_claim": false
+  "current_host_runtime_promotion_claim": false,
+  "main_task_continuity": {
+    "applies_to": [
+      "FA3_DEVELOPMENT",
+      "CFA3_DEVELOPMENT"
+    ],
+    "new_rule_is_constraint_not_task_switch": true,
+    "parallel_task_or_pr_is_monitoring_dependency_or_blocker_not_task_switch": true,
+    "explicit_owner_directive_required_for_main_task_switch": true,
+    "blocker_stop_preserves_main_task_identity": true,
+    "resume_same_main_task_after_resolution": true
+  }
 }

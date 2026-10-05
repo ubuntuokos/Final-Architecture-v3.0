@@ -23,5 +23,5 @@
   "historical_evidence_reused": false,
   "current_host_runtime_promotion_claim": false,
   "global_promotion_claim": false,
-  "rationale": "The DEV-01..11 / AI-01..11 policy is now wired into the existing Agent Workload execution-plan compiler as a fail-closed preflight. This changes task-local admission semantics but does not create or promote a provider, runner, daemon, scheduler, hardware path, host lease, driver, service, credential flow, or physical Current Host PASS. Agent Workload Current Host status remains PENDING_CURRENT_HOST, so there is no previously admitted physical PASS to inherit or requalify. UAF, Security Governance, HRB, Model Router and Evidence retain their existing authorities."
+  "rationale": "The DEV-01..12 / AI-01..11 policy reuses the existing task-scope and behavior-governance path. DEV-12 adds FA3/CFA3 development main-task continuity: newly introduced rules and parallel task/PR monitoring remain constraints or dependencies of the active main task and cannot silently reassign it. This creates no provider, runner, daemon, scheduler, hardware path, host lease, driver, service, credential flow, product runtime capability, or physical Current Host PASS. Agent Workload Current Host status remains governed separately; historical physical evidence is not reused."
 }

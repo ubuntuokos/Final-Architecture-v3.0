@@ -119,11 +119,11 @@ A task may enter planning or execution only when its scope provenance is one of:
 Repair work is bounded to the original approved scope and original acceptance-criterion IDs. It may not invent a new criterion, expand scope, or silently create a successor task. When the explicit task is complete, completion is terminal unless the owner explicitly creates or extends the next task. Canonical authority: `FA3-RULE-NO-OPEN-ENDED-TASK-EXPANSION-001`.
 
 
-## CFA3 development and AI execution discipline (2026-10-05)
+## FA3/CFA3 development and AI execution discipline (2026-10-05)
 
 Canonical source: `canonical/CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001.json`. This section is a non-canonical operational projection and cannot create authority.
 
-- These rules apply both to the CFA3 development process and to CFA3 AI/model/agent execution.
+- These rules apply to the FA3/CFA3 development process; the applicable AI-* rules also govern CFA3 AI/model/agent execution.
 - A blocker means immediate STOP and report. Do not silently rebase, reroute, retry, open a replacement PR, start a workflow, or modify another component as a workaround.
 - Keep the conversation/task scope locked. Before every GitHub mutation, refresh `main`, target head and relevant open PR state.
 - Concurrent overlap on the same canonical file, gate, workflow or exclusive resource is a blocker unless the owner explicitly overrides that rule for the current conversation/direct continuation.
@@ -132,6 +132,7 @@ Canonical source: `canonical/CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001.
 - Merge requires exact checked head/base state. Any drift blocks merge.
 - Unexpected redesign or repair is reported before strategy changes.
 - Current explicit owner restrictions outrank prior autonomy or broader approvals.
+- The active FA3/CFA3 main development task cannot be displaced merely because a new rule is created or a parallel task/PR must be monitored. Treat those as constraints, dependencies, observations or blocker inputs to the active main task. Only an explicit current owner directive may switch the main task. A blocker may stop work but does not reassign it; after authorized resolution, resume the same main task unless the owner explicitly switches it. Use `authorize_development_task_continuity` for this DEV-12 preflight.
 - DEV-11 / AI-11 self-correction is a narrow exception: after notifying the owner, an AI may correct only its own unambiguous deterministic mechanical/technical mistake inside the already approved scope. It may not use self-correction to redesign, choose another technical solution, create a new PR/branch, touch another component as a workaround, weaken a user restriction, bypass a blocker/gate/security boundary, or introduce a new permission/side effect. If the failed action may have partially mutated state, verify exact state before correction. After correction report the original AI error, the correction, whether state changed, the current head/SHA or relevant state, and any remaining blocker.
 - An exception is valid only when explicit, rule/scope-specific and conversation-bounded. Generic approval is not an automatic policy override.
 - The L0-L5 layer model keeps human scope/override, development discipline, task/orchestration, security/effect authorization, model policy and UX/projection distinct. A pending PR is never canonical authority.
