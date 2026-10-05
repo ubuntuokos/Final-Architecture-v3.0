@@ -4,7 +4,7 @@ Decision: `FA3-DEC-TASK-SCOPE-CLOSURE-POLICY-2026-10-03`
 
 One explicitly requested task is one bounded task session. Required work may continue inside the bound goal revision, but newly discovered work cannot silently enlarge scope.
 
-The immutable `fa3.goal-scope-binding.v1` binds the exact goal ID, revision, goal digest and scope digest. `in_scope` and `out_of_scope` may not overlap. Goal-bound workload tasks must carry this binding.
+The immutable `fa3.goal-scope-binding.v1` binds the exact goal ID, revision, goal digest and scope digest. `in_scope` and `out_of_scope` may not overlap. Every executable workload origin (`EXPLICIT_USER_SCOPE`, `REQUIRED_FOR_APPROVED_GOAL`, and `EXPLICIT_USER_SCOPE_EXTENSION`) must preserve its original `scope_origin`, carry this immutable binding, and enter the same task-control admission path.
 
 Each active task uses a `fa3.task-scope-control.v1` envelope. The blocker ledger is append-only and reconstructed against its counters. The same blocker may fail at most three times; the third failure moves the task to `HUMAN_INTERVENTION_REQUIRED`, freezes execution, and disables automatic retry, replan and alternative routing. A fourth attempt is mechanically rejected.
 
