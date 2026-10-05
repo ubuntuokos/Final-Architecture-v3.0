@@ -14,7 +14,11 @@
     "src/cfa3_development_ai_behavior_gate.py",
     "src/fa3_adk2_runtime_gate.py",
     "src/fa3_agent_workload.py",
-    "src/fa3_enforce.py"
+    "src/fa3_enforce.py",
+    "src/cfa3_development_ai_behavior_guard.py",
+    "tests/test_cfa3_development_ai_behavior.py",
+    "docs/CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-001.md",
+    "canonical/assessments/CFA3-DEVELOPMENT-AI-BEHAVIOR-REUSE-ASSESSMENT-2026-10-05.json"
   ],
   "current_host_changes": [
     "canonical/current-host-impact/FA3-CH-IMPACT-CFA3-DEVELOPMENT-AI-BEHAVIOR-20261005.json"
@@ -23,5 +27,5 @@
   "historical_evidence_reused": false,
   "current_host_runtime_promotion_claim": false,
   "global_promotion_claim": false,
-  "rationale": "The DEV-01..11 / AI-01..11 policy is now wired into the existing Agent Workload execution-plan compiler as a fail-closed preflight. This changes task-local admission semantics but does not create or promote a provider, runner, daemon, scheduler, hardware path, host lease, driver, service, credential flow, or physical Current Host PASS. Agent Workload Current Host status remains PENDING_CURRENT_HOST, so there is no previously admitted physical PASS to inherit or requalify. UAF, Security Governance, HRB, Model Router and Evidence retain their existing authorities."
+  "rationale": "DEV-12..DEV-15 extend the existing fail-closed CFA3 development governance with a mandatory FA3/CFA3 work-session prenotice and status protocol. Long or multi-operation tasks require notice before the first substantive operation, each newly starting long phase requires fresh prenotice, blockers/unexpected GitHub state/security-sensitive operations require a separate prior notice, and long GitHub sequences require concise phase-boundary status updates. The protocol is a development-discipline preflight only: it creates no provider, runner, daemon, scheduler, hardware path, host lease, driver, service, credential flow, execution authority, or physical Current Host PASS. Existing UAF, Security Governance, HRB, Model Router and Evidence authorities remain unchanged."
 }

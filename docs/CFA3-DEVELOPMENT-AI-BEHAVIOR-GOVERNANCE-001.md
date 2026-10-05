@@ -121,3 +121,14 @@ The gateset is registered in the canonical gate registry and mirrored into the c
 ## Current Host
 
 This change does not create a new provider, model, daemon, scheduler, driver, hardware path, lease or Current Host evidence class. Static or policy PASS cannot be interpreted as a physical Current Host PASS.
+
+## Mandatory FA3/CFA3 work-session prenotice and status protocol
+
+The canonical development policy also applies the following mandatory discipline to both FA3 and CFA3 development sessions:
+
+- **DEV-12 — long/multi-operation task prenotice:** when a task is expected to be long-running or involve many operations, notify the owner before the first substantive operation. Post-hoc notice is not compliance.
+- **DEV-13 — new long phase prenotice:** when another long or multi-operation phase begins during the task, notify the owner again before that phase starts.
+- **DEV-14 — blocker/GitHub/security prenotice:** before acting on a blocker, unexpected GitHub state, exact-state drift, conflict, failed gate, or security-sensitive operation, send a separate prior notice. Notice never authorizes bypassing the blocker.
+- **DEV-15 — no silent long GitHub sequence:** long GitHub operation sequences require concise status updates at meaningful phase boundaries; they may not run silently.
+
+The development preflight entrypoint is `src/cfa3_development_ai_behavior_guard.py::authorize_development_action`. It composes with, but does not weaken or replace, the existing blocker, scope, exact-state, side-effect authorization, security, Current Host, evidence, or owner-approval rules.

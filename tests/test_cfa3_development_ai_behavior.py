@@ -8,7 +8,7 @@ SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
-from cfa3_development_ai_behavior_guard import RULE_IDS, authorize_action
+from cfa3_development_ai_behavior_guard import RULE_IDS, authorize_action, authorize_development_action
 
 POLICY = ROOT / "canonical/CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001.json"
 
@@ -34,6 +34,24 @@ def base_context(action="READ"):
     return ctx
 
 
+def development_context(action="WRITE"):
+    ctx = base_context(action)
+    ctx["development_work_status"] = {
+        "long_or_multi_operation_task": False,
+        "initial_notice_sent_before_first_substantive_action": False,
+        "entering_new_long_phase": False,
+        "phase_notice_sent_before_start": False,
+        "blocker_detected": False,
+        "unexpected_github_state": False,
+        "security_sensitive_operation": False,
+        "special_notice_sent_before_operation": False,
+        "long_github_sequence": False,
+        "status_update_due": False,
+        "status_update_sent": False,
+    }
+    return ctx
+
+
 class Cfa3DevelopmentAiBehaviorTests(unittest.TestCase):
     def test_policy_has_exact_rule_sets_and_layering(self):
         policy = json.loads(POLICY.read_text(encoding="utf-8"))
@@ -41,8 +59,11 @@ class Cfa3DevelopmentAiBehaviorTests(unittest.TestCase):
         self.assertEqual(175, policy["capability_baseline"])
         self.assertEqual(0, policy["capability_delta"])
         self.assertEqual(0, policy["architectural_authority_delta"])
-        self.assertEqual(11, len(policy["development_rules"]))
+        self.assertEqual(15, len(policy["development_rules"]))
         self.assertEqual(11, len(policy["ai_behavior_rules"]))
+        self.assertTrue(policy["scope"]["fa3_development_process"])
+        self.assertTrue(policy["scope"]["cfa3_development_process"])
+        self.assertEqual(["DEV-12", "DEV-13", "DEV-14", "DEV-15"], policy["development_work_status_protocol"]["rule_ids"])
         self.assertEqual(["DEV-11", "AI-11"], policy["self_correction_exception"]["ids"])
         self.assertEqual({"L0", "L1", "L2", "L3", "L4", "L5"},
                          {layer["level"] for layer in policy["layers"]})
@@ -302,6 +323,66 @@ class Cfa3DevelopmentAiBehaviorTests(unittest.TestCase):
         result = authorize_action(ctx)
         self.assertEqual("STOP", result["decision"])
         self.assertIn("DEV-09", result["rule_ids"])
+
+
+    def test_long_task_requires_notice_before_first_substantive_operation(self):
+        ctx = development_context()
+        ctx["development_work_status"]["long_or_multi_operation_task"] = True
+        result = authorize_development_action(ctx)
+        self.assertEqual("STOP", result["decision"])
+        self.assertIn("DEV-12", result["rule_ids"])
+        ctx["development_work_status"]["initial_notice_sent_before_first_substantive_action"] = True
+        self.assertEqual("ALLOW", authorize_development_action(ctx)["decision"])
+
+    def test_new_long_phase_requires_fresh_prenotice(self):
+        ctx = development_context()
+        status = ctx["development_work_status"]
+        status["entering_new_long_phase"] = True
+        result = authorize_development_action(ctx)
+        self.assertEqual("STOP", result["decision"])
+        self.assertIn("DEV-13", result["rule_ids"])
+        status["phase_notice_sent_before_start"] = True
+        self.assertEqual("ALLOW", authorize_development_action(ctx)["decision"])
+
+    def test_security_sensitive_operation_requires_separate_prenotice(self):
+        ctx = development_context()
+        status = ctx["development_work_status"]
+        status["security_sensitive_operation"] = True
+        result = authorize_development_action(ctx)
+        self.assertEqual("STOP", result["decision"])
+        self.assertIn("DEV-14", result["rule_ids"])
+        status["special_notice_sent_before_operation"] = True
+        self.assertEqual("ALLOW", authorize_development_action(ctx)["decision"])
+
+    def test_blocker_notice_does_not_override_blocker_stop(self):
+        ctx = development_context()
+        ctx["blocker_kind"] = "UNEXPECTED_GITHUB_STATE"
+        status = ctx["development_work_status"]
+        status["blocker_detected"] = True
+        status["unexpected_github_state"] = True
+        status["special_notice_sent_before_operation"] = True
+        result = authorize_development_action(ctx)
+        self.assertEqual("STOP", result["decision"])
+        self.assertIn("DEV-01", result["rule_ids"])
+
+    def test_long_github_sequence_cannot_run_silently(self):
+        ctx = development_context()
+        status = ctx["development_work_status"]
+        status["long_github_sequence"] = True
+        status["status_update_due"] = True
+        result = authorize_development_action(ctx)
+        self.assertEqual("STOP", result["decision"])
+        self.assertIn("DEV-15", result["rule_ids"])
+        status["status_update_sent"] = True
+        allowed = authorize_development_action(ctx)
+        self.assertEqual("ALLOW", allowed["decision"])
+        self.assertTrue(allowed["development_work_status_protocol_passed"])
+
+    def test_development_preflight_fails_closed_without_work_status(self):
+        result = authorize_development_action(base_context("WRITE"))
+        self.assertEqual("STOP", result["decision"])
+        self.assertIn("DEV-12", result["rule_ids"])
+        self.assertIn("AI-09", result["rule_ids"])
 
 
 if __name__ == "__main__":

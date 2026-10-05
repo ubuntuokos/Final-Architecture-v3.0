@@ -25,6 +25,7 @@ SIDE_EFFECT_ORDER = (
 RULE_IDS = {
     "DEV-01", "DEV-02", "DEV-03", "DEV-04", "DEV-05",
     "DEV-06", "DEV-07", "DEV-08", "DEV-09", "DEV-10", "DEV-11",
+    "DEV-12", "DEV-13", "DEV-14", "DEV-15",
     "AI-01", "AI-02", "AI-03", "AI-04", "AI-05",
     "AI-06", "AI-07", "AI-08", "AI-09", "AI-10", "AI-11",
 }
@@ -215,6 +216,68 @@ def _self_correction_check(context: Mapping[str, Any]) -> dict | None:
             "REMAINING_BLOCKER",
         ],
     }
+
+
+
+_DEVELOPMENT_WORK_STATUS_BOOL_FACTS = (
+    "long_or_multi_operation_task",
+    "initial_notice_sent_before_first_substantive_action",
+    "entering_new_long_phase",
+    "phase_notice_sent_before_start",
+    "blocker_detected",
+    "unexpected_github_state",
+    "security_sensitive_operation",
+    "special_notice_sent_before_operation",
+    "long_github_sequence",
+    "status_update_due",
+    "status_update_sent",
+)
+
+
+def _development_work_status_check(context: Mapping[str, Any]) -> dict | None:
+    status = context.get("development_work_status")
+    if not isinstance(status, Mapping):
+        return _stop(
+            {"DEV-12", "DEV-13", "DEV-14", "DEV-15", "AI-09"},
+            "DEVELOPMENT_WORK_STATUS_CONTEXT_REQUIRED",
+        )
+    problem = _validate_bool_facts(status, _DEVELOPMENT_WORK_STATUS_BOOL_FACTS)
+    if problem:
+        return _stop(
+            {"DEV-12", "DEV-13", "DEV-14", "DEV-15", "AI-09"},
+            "DEVELOPMENT_WORK_STATUS_" + problem,
+        )
+    if status["long_or_multi_operation_task"] is True and status["initial_notice_sent_before_first_substantive_action"] is not True:
+        return _stop({"DEV-12"}, "LONG_OR_MULTI_OPERATION_TASK_PRENOTICE_REQUIRED")
+    if status["entering_new_long_phase"] is True and status["phase_notice_sent_before_start"] is not True:
+        return _stop({"DEV-13"}, "NEW_LONG_PHASE_PRENOTICE_REQUIRED")
+    if (
+        status["blocker_detected"] is True
+        or status["unexpected_github_state"] is True
+        or status["security_sensitive_operation"] is True
+    ) and status["special_notice_sent_before_operation"] is not True:
+        return _stop({"DEV-14"}, "BLOCKER_GITHUB_OR_SECURITY_PRENOTICE_REQUIRED")
+    if (
+        status["long_github_sequence"] is True
+        and status["status_update_due"] is True
+        and status["status_update_sent"] is not True
+    ):
+        return _stop({"DEV-15"}, "LONG_GITHUB_SEQUENCE_STATUS_UPDATE_REQUIRED")
+    return None
+
+
+def authorize_development_action(context: Mapping[str, Any]) -> dict:
+    """Apply mandatory FA3/CFA3 development work-status protocol, then base policy."""
+    if not isinstance(context, Mapping):
+        return _stop({"DEV-12", "DEV-13", "DEV-14", "DEV-15", "AI-09"}, "CONTEXT_MUST_BE_MAPPING")
+    status_result = _development_work_status_check(context)
+    if status_result is not None:
+        return status_result
+    result = authorize_action(context)
+    if result.get("decision") == "ALLOW":
+        result["development_work_status_protocol_passed"] = True
+        result["development_work_status_protocol_id"] = "FA3-CFA3-DEVELOPMENT-WORK-STATUS-PROTOCOL-001"
+    return result
 
 
 def _override_allows(override: OwnerOverride, rule_ids: Iterable[str]) -> bool:
