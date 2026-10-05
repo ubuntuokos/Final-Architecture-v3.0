@@ -20,7 +20,11 @@
     "task_scope_policy_id",
     "task_scope_control_revision",
     "task_scope_control_digest",
-    "goal_scope_binding_digest"
+    "goal_scope_binding_digest",
+    "main_task_continuity_id",
+    "main_task_id",
+    "main_task_binding_revision",
+    "main_task_binding_digest"
   ],
   "properties": {
     "schema": {
@@ -213,6 +217,33 @@
         "null"
       ],
       "pattern": "^[0-9a-f]{64}$"
+    },
+    "main_task_continuity_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "main_task_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "main_task_binding_revision": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 1
+    },
+    "main_task_binding_digest": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[0-9a-f]{64}$"
     }
   },
   "additionalProperties": false,
@@ -244,6 +275,20 @@
           "goal_scope_binding_digest": {
             "type": "string",
             "pattern": "^[0-9a-f]{64}$"
+          },
+          "main_task_continuity_id": {
+            "const": "CFA3-MAIN-TASK-CONTINUITY-001"
+          },
+          "main_task_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "main_task_binding_revision": {
+            "const": 1
+          },
+          "main_task_binding_digest": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
           }
         }
       },
@@ -256,6 +301,18 @@
             "type": "null"
           },
           "task_scope_control_digest": {
+            "type": "null"
+          },
+          "main_task_continuity_id": {
+            "type": "null"
+          },
+          "main_task_id": {
+            "type": "null"
+          },
+          "main_task_binding_revision": {
+            "type": "null"
+          },
+          "main_task_binding_digest": {
             "type": "null"
           }
         }
