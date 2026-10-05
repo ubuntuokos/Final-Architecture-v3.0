@@ -705,6 +705,47 @@
         "FA3-SHARED-MEDIA-REVIEW-ANNOTATION-PATTERN-001"
       ],
       "gui_surface_ids": []
+    },
+    {
+      "id": "FA3-SHARED-RAY-PATH-TRACING-001",
+      "owner_layer": "Creative Design, Film, DCC & Documents",
+      "consumer_applications": [
+        "studio.bforartists",
+        "studio.gaffer",
+        "fa3.character-studio",
+        "fa3.video-editor"
+      ],
+      "status": "MATERIALIZED_STATIC",
+      "authority": false,
+      "retrospective_review_required": true,
+      "manual_update_required": true,
+      "capability_loss_allowed": false,
+      "current_host_alignment_required_for_structural_change": true,
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT"
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-SHARED-RAY-PATH-TRACING-001"
+        ],
+        "contract_ids": [
+          "FA3-SHARED-RAY-PATH-TRACING-CONTRACTS-001"
+        ],
+        "authority_ids": [
+          "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+          "FA3-AUTH-MODEL-ROUTER-001",
+          "FA3-AUTH-DURABLE-ORCHESTRATION-001",
+          "FA3-LICENSE-RIGHTS-001",
+          "FA3-AUTH-SECURITY-GOV-001",
+          "FA3-AUTH-OBS-EVIDENCE-001"
+        ],
+        "shared_module_ids": []
+      },
+      "gui_surface_ids": [
+        "models.engines"
+      ],
+      "local_ui_adapter_only": true,
+      "pattern_catalogue_refs": []
     }
   ],
   "governance_decisions": [
@@ -1497,6 +1538,321 @@
         "approval_ref": "FA3-DEC-CUDA-COMPAT-ROCM-EXAMPLES-DONOR-USE-2026-10-04"
       },
       "approval_ref": "FA3-DEC-CUDA-COMPAT-ROCM-EXAMPLES-DONOR-USE-2026-10-04"
+    },
+    {
+      "id": "FA3-USAGE-PROJECT10-OPENRT-RAY-PATH-TRACING-001",
+      "donor_id": "FA3-DONOR-PROJECT-10-OPENRT-001",
+      "donor_capability_key": "PROVIDER_NEUTRAL_API_PATTERN",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "PROVIDER_NEUTRAL_RT_API_AND_EXPLICIT_BACKEND_BOUNDARY",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-SHARED-RAY-PATH-TRACING-001",
+        "relationship": "PATTERN_SOURCE"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-05",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "reference_only": false,
+      "material_adoption": true,
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-SHARED-RAY-PATH-TRACING-001"
+        ],
+        "contract_ids": [
+          "FA3-SHARED-RAY-PATH-TRACING-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      },
+      "consumers": [],
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT",
+        "reason": "Architecture/reference pattern only; no donor code, runtime, provider, model, hardware execution or Current Host PASS is admitted."
+      },
+      "provenance": {
+        "evidence_classification": "EXPLICIT_CANONICAL_DONOR_PATTERN_USE_NO_CODE_COPY",
+        "evidence_paths": [
+          "docs/CFA3-SHARED-RAY-PATH-TRACING-001.md",
+          "canonical/assessments/FA3-SHARED-RAY-PATH-TRACING-REUSE-ASSESSMENT-2026-10-05.json",
+          "canonical/decisions/FA3-DEC-PROJECT10-OPENRT-RAY-PATH-TRACING-001-2026-10-05.json"
+        ]
+      }
+    },
+    {
+      "id": "FA3-USAGE-GPUOPEN-GPURT-RAY-PATH-TRACING-001",
+      "donor_id": "FA3-DONOR-GPUOPEN-GPURT-001",
+      "donor_capability_key": "HARDWARE_TRAVERSAL_PATTERN",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "ACCELERATION_STRUCTURE_AND_HARDWARE_TRAVERSAL_BOUNDARY",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-SHARED-RAY-PATH-TRACING-001",
+        "relationship": "PATTERN_SOURCE"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-05",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "reference_only": false,
+      "material_adoption": true,
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-SHARED-RAY-PATH-TRACING-001"
+        ],
+        "contract_ids": [
+          "FA3-SHARED-RAY-PATH-TRACING-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      },
+      "consumers": [],
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT",
+        "reason": "Architecture/reference pattern only; no donor code, runtime, provider, model, hardware execution or Current Host PASS is admitted."
+      },
+      "provenance": {
+        "evidence_classification": "EXPLICIT_CANONICAL_DONOR_PATTERN_USE_NO_CODE_COPY",
+        "evidence_paths": [
+          "docs/CFA3-SHARED-RAY-PATH-TRACING-001.md",
+          "canonical/assessments/FA3-SHARED-RAY-PATH-TRACING-REUSE-ASSESSMENT-2026-10-05.json",
+          "canonical/decisions/FA3-DEC-GPUOPEN-GPURT-RAY-PATH-TRACING-001-2026-10-05.json"
+        ]
+      }
+    },
+    {
+      "id": "FA3-USAGE-GPUOPEN-RRA-RAY-PATH-TRACING-001",
+      "donor_id": "FA3-DONOR-GPUOPEN-RRA-001",
+      "donor_capability_key": "DIAGNOSTIC_EVIDENCE_PATTERN",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "ACCELERATION_STRUCTURE_DIAGNOSTICS_AND_EVIDENCE_PROJECTION",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-SHARED-RAY-PATH-TRACING-001",
+        "relationship": "PATTERN_SOURCE"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-05",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "reference_only": false,
+      "material_adoption": true,
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-SHARED-RAY-PATH-TRACING-001"
+        ],
+        "contract_ids": [
+          "FA3-SHARED-RAY-PATH-TRACING-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      },
+      "consumers": [],
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT",
+        "reason": "Architecture/reference pattern only; no donor code, runtime, provider, model, hardware execution or Current Host PASS is admitted."
+      },
+      "provenance": {
+        "evidence_classification": "EXPLICIT_CANONICAL_DONOR_PATTERN_USE_NO_CODE_COPY",
+        "evidence_paths": [
+          "docs/CFA3-SHARED-RAY-PATH-TRACING-001.md",
+          "canonical/assessments/FA3-SHARED-RAY-PATH-TRACING-REUSE-ASSESSMENT-2026-10-05.json",
+          "canonical/decisions/FA3-DEC-GPUOPEN-RRA-RAY-PATH-TRACING-001-2026-10-05.json"
+        ]
+      }
+    },
+    {
+      "id": "FA3-USAGE-INTEL-L0RT-RAY-PATH-TRACING-001",
+      "donor_id": "FA3-DONOR-INTEL-LEVEL-ZERO-RAYTRACING-SUPPORT-001",
+      "donor_capability_key": "INTEL_BACKEND_BINDING_PATTERN",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "INTEL_RT_CAPABILITY_DISCOVERY_AND_EXACT_BACKEND_BINDING",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-SHARED-RAY-PATH-TRACING-001",
+        "relationship": "PATTERN_SOURCE"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-05",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "reference_only": false,
+      "material_adoption": true,
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-SHARED-RAY-PATH-TRACING-001"
+        ],
+        "contract_ids": [
+          "FA3-SHARED-RAY-PATH-TRACING-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      },
+      "consumers": [],
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT",
+        "reason": "Architecture/reference pattern only; no donor code, runtime, provider, model, hardware execution or Current Host PASS is admitted."
+      },
+      "provenance": {
+        "evidence_classification": "EXPLICIT_CANONICAL_DONOR_PATTERN_USE_NO_CODE_COPY",
+        "evidence_paths": [
+          "docs/CFA3-SHARED-RAY-PATH-TRACING-001.md",
+          "canonical/assessments/FA3-SHARED-RAY-PATH-TRACING-REUSE-ASSESSMENT-2026-10-05.json",
+          "canonical/decisions/FA3-DEC-INTEL-L0RT-RAY-PATH-TRACING-001-2026-10-05.json"
+        ]
+      }
+    },
+    {
+      "id": "FA3-USAGE-INTEL-RTPTRF-RAY-PATH-TRACING-001",
+      "donor_id": "FA3-DONOR-INTEL-REALTIME-PATH-TRACING-RESEARCH-FRAMEWORK-001",
+      "donor_capability_key": "PATH_TRACING_PIPELINE_PATTERN",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "PROGRESSIVE_PATH_TRACING_ACCUMULATION_AND_QUALITY_POLICY",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-SHARED-RAY-PATH-TRACING-001",
+        "relationship": "PATTERN_SOURCE"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-05",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "reference_only": false,
+      "material_adoption": true,
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-SHARED-RAY-PATH-TRACING-001"
+        ],
+        "contract_ids": [
+          "FA3-SHARED-RAY-PATH-TRACING-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      },
+      "consumers": [],
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT",
+        "reason": "Architecture/reference pattern only; no donor code, runtime, provider, model, hardware execution or Current Host PASS is admitted."
+      },
+      "provenance": {
+        "evidence_classification": "EXPLICIT_CANONICAL_DONOR_PATTERN_USE_NO_CODE_COPY",
+        "evidence_paths": [
+          "docs/CFA3-SHARED-RAY-PATH-TRACING-001.md",
+          "canonical/assessments/FA3-SHARED-RAY-PATH-TRACING-REUSE-ASSESSMENT-2026-10-05.json",
+          "canonical/decisions/FA3-DEC-INTEL-RTPTRF-RAY-PATH-TRACING-001-2026-10-05.json"
+        ]
+      }
+    },
+    {
+      "id": "FA3-USAGE-RUST-RAYTRACER-CPU-PATH-001",
+      "donor_id": "FA3-DONOR-ANCIENTKINGG-RUST-RAYTRACER-001",
+      "donor_capability_key": "CPU_SOFTWARE_PATH_PATTERN",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "CPU_SOFTWARE_RAY_TRACING_REFERENCE_PATH",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-SHARED-RAY-PATH-TRACING-001",
+        "relationship": "PATTERN_SOURCE"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-05",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "reference_only": false,
+      "material_adoption": true,
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-SHARED-RAY-PATH-TRACING-001"
+        ],
+        "contract_ids": [
+          "FA3-SHARED-RAY-PATH-TRACING-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      },
+      "consumers": [],
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT",
+        "reason": "Architecture/reference pattern only; no donor code, runtime, provider, model, hardware execution or Current Host PASS is admitted."
+      },
+      "provenance": {
+        "evidence_classification": "EXPLICIT_CANONICAL_DONOR_PATTERN_USE_NO_CODE_COPY",
+        "evidence_paths": [
+          "docs/CFA3-SHARED-RAY-PATH-TRACING-001.md",
+          "canonical/assessments/FA3-SHARED-RAY-PATH-TRACING-REUSE-ASSESSMENT-2026-10-05.json",
+          "canonical/decisions/FA3-DEC-RUST-RAYTRACER-CPU-PATH-001-2026-10-05.json"
+        ]
+      }
+    },
+    {
+      "id": "FA3-USAGE-NVIDIA-RTX-RAY-PATH-TRACING-001",
+      "donor_id": "FA3-DONOR-NVIDIA-RTX-ORG-001",
+      "donor_capability_key": "NVIDIA_REFERENCE_BINDING",
+      "usage_kind": "REFERENCE_BINDING",
+      "pattern": "NVIDIA_RTX_NATIVE_VENDOR_PATH_REFERENCE",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-SHARED-RAY-PATH-TRACING-001",
+        "relationship": "REFERENCE_SOURCE"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-05",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "reference_only": true,
+      "material_adoption": false,
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-SHARED-RAY-PATH-TRACING-001"
+        ],
+        "contract_ids": [
+          "FA3-SHARED-RAY-PATH-TRACING-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      },
+      "consumers": [],
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT",
+        "reason": "Architecture/reference pattern only; no donor code, runtime, provider, model, hardware execution or Current Host PASS is admitted."
+      },
+      "provenance": {
+        "evidence_classification": "EXPLICIT_CANONICAL_DONOR_REFERENCE_BINDING_NO_CODE_COPY",
+        "evidence_paths": [
+          "docs/CFA3-SHARED-RAY-PATH-TRACING-001.md",
+          "canonical/assessments/FA3-SHARED-RAY-PATH-TRACING-REUSE-ASSESSMENT-2026-10-05.json",
+          "canonical/decisions/FA3-DEC-NVIDIA-RTX-RAY-PATH-TRACING-001-2026-10-05.json"
+        ]
+      }
     }
   ],
   "donor_usage_contract": {

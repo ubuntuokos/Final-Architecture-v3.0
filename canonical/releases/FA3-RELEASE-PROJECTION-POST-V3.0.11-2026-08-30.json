@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "aba0539ee5fb782725886dabccd678ee628bcd9d",
-    "pre_projection_root_tree_sha": "04b5a21fe97806b8d6eb2a22127a66a84dc6c513",
-    "pre_projection_canonical_tree_sha": "dac64f392bf11b82a67437f594e9aa8e5044822d",
-    "commits_ahead_of_v3_0_11_conformance_commit": 3342,
-    "total_post_baseline_commits": 3342,
-    "delta_file_count": 3046,
-    "delta_added_files": 3040,
+    "pre_projection_head_sha": "3504392753bf308f6474368d164d4737e8fadd0e",
+    "pre_projection_root_tree_sha": "aa78d21b06e1f9f6c3aea671de268d3aec8befbe",
+    "pre_projection_canonical_tree_sha": "ab4ffbe57cc4967cb2c02fb2d54b83d3014b19ad",
+    "commits_ahead_of_v3_0_11_conformance_commit": 3350,
+    "total_post_baseline_commits": 3350,
+    "delta_file_count": 3068,
+    "delta_added_files": 3062,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,11 +46,11 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1432,
+    "canonical_files_in_post_baseline_delta": 1448,
     "evidence_files_in_post_baseline_delta": 172,
-    "source_files_in_post_baseline_delta": 388,
-    "test_files_in_post_baseline_delta": 362,
-    "workflow_files_in_post_baseline_delta": 144,
+    "source_files_in_post_baseline_delta": 390,
+    "test_files_in_post_baseline_delta": 364,
+    "workflow_files_in_post_baseline_delta": 145,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENCY-AGENTS-001.json",
@@ -286,6 +286,7 @@
       "canonical/profiles/FA3-SHARED-HAIR-GROOM-001.json",
       "canonical/profiles/FA3-SHARED-KNOWLEDGE-RETRIEVAL-001.json",
       "canonical/profiles/FA3-SHARED-MULTIMODAL-SOURCE-001.json",
+      "canonical/profiles/FA3-SHARED-RAY-PATH-TRACING-001.json",
       "canonical/profiles/FA3-SHARED-TOOL-ACTION-MEDIATION-001.json",
       "canonical/profiles/FA3-SILLYTAVERN-KDE-DESKTOP-001.json",
       "canonical/profiles/FA3-SKILL-FABRIC-001.json",
@@ -442,6 +443,7 @@
       "canonical/contracts/FA3-SHARED-HAIR-GROOM-CONTRACTS-001.json",
       "canonical/contracts/FA3-SHARED-KNOWLEDGE-RETRIEVAL-CONTRACTS-001.json",
       "canonical/contracts/FA3-SHARED-MULTIMODAL-SOURCE-CONTRACTS-001.json",
+      "canonical/contracts/FA3-SHARED-RAY-PATH-TRACING-CONTRACTS-001.json",
       "canonical/contracts/FA3-SHARED-TOOL-ACTION-MEDIATION-CONTRACTS-001.json",
       "canonical/contracts/FA3-SKILL-DISCOVERY-CONTRACTS-001.json",
       "canonical/contracts/FA3-SKILL-ENGINEERING-HARDENING-CONTRACTS-001.json",
@@ -487,6 +489,7 @@
       "canonical/decisions/CFA3-DEC-DEVELOPMENT-AI-BEHAVIOR-LAYERING-2026-10-05.json",
       "canonical/decisions/CFA3-DEC-DONOR-BATCH-FINALIZER-BOOTSTRAP-2026-10-05.json",
       "canonical/decisions/CFA3-DEC-DONOR-INTAKE-BATCH-ACCELERATION-2026-10-04.json",
+      "canonical/decisions/CFA3-DEC-KHRONOS-REVIEW-DERIVATION-2026-10-05.json",
       "canonical/decisions/FA3-DEC-ACE-STEP-2026-08-30.json",
       "canonical/decisions/FA3-DEC-ACE-STEP-HARDENING-2026-09-10.json",
       "canonical/decisions/FA3-DEC-ADK2-DERIVED-AGENT-RUNTIME-SEMANTICS-2026-09-24.json",
@@ -546,6 +549,8 @@
       "canonical/decisions/FA3-DEC-GIMP-COMFYUI-INTEROP-2026-09-09.json",
       "canonical/decisions/FA3-DEC-GIMP-LOCAL-AI-2026-09-08.json",
       "canonical/decisions/FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03.json",
+      "canonical/decisions/FA3-DEC-GPUOPEN-GPURT-RAY-PATH-TRACING-001-2026-10-05.json",
+      "canonical/decisions/FA3-DEC-GPUOPEN-RRA-RAY-PATH-TRACING-001-2026-10-05.json",
       "canonical/decisions/FA3-DEC-GTCRN-SPEECH-ENHANCEMENT-2026-09-09.json",
       "canonical/decisions/FA3-DEC-GUI-2026-09-12.json",
       "canonical/decisions/FA3-DEC-GUI-RECONCILIATION-JEV-AGENT-NATIVE-2026-09-23.json",
@@ -566,6 +571,8 @@
       "canonical/decisions/FA3-DEC-INFERENCE-PROVIDER-CURRENT-HOST-2026-09-23.json",
       "canonical/decisions/FA3-DEC-INSPECTOR-2026-09-12.json",
       "canonical/decisions/FA3-DEC-INTEGRATION-BROKER-2026-09-19.json",
+      "canonical/decisions/FA3-DEC-INTEL-L0RT-RAY-PATH-TRACING-001-2026-10-05.json",
+      "canonical/decisions/FA3-DEC-INTEL-RTPTRF-RAY-PATH-TRACING-001-2026-10-05.json",
       "canonical/decisions/FA3-DEC-JEV-ADOPTION-RULE-2026-09-23.json",
       "canonical/decisions/FA3-DEC-JEV-CONSOLIDATION-2026-09-23.json",
       "canonical/decisions/FA3-DEC-JOURNAL-ARCHIVE-2026-09-13.json",
@@ -612,6 +619,7 @@
       "canonical/decisions/FA3-DEC-NEMOTRON-2026-08-27.json",
       "canonical/decisions/FA3-DEC-NEURAL-RENDERING-OPENDLSS-NR-2026-09-23.json",
       "canonical/decisions/FA3-DEC-NO-OPEN-ENDED-TASK-EXPANSION-2026-10-04.json",
+      "canonical/decisions/FA3-DEC-NVIDIA-RTX-RAY-PATH-TRACING-001-2026-10-05.json",
       "canonical/decisions/FA3-DEC-OBSIDIAN-KNOWLEDGE-WORKSPACE-2026-09-07.json",
       "canonical/decisions/FA3-DEC-OPENBMB-2026-09-02.json",
       "canonical/decisions/FA3-DEC-OPENCLAW-API-LIST-RECONCILIATION-2026-10-02.json",
@@ -628,6 +636,7 @@
       "canonical/decisions/FA3-DEC-PAPERCLIP-ORCHESTRATION-GOVERNANCE-DONOR-USE-2026-10-03.json",
       "canonical/decisions/FA3-DEC-PKU-YUAN-VIDEO-PROVIDER-LIFECYCLE-2026-09-03.json",
       "canonical/decisions/FA3-DEC-PRESENTON-2026-08-30.json",
+      "canonical/decisions/FA3-DEC-PROJECT10-OPENRT-RAY-PATH-TRACING-001-2026-10-05.json",
       "canonical/decisions/FA3-DEC-PYRIT-2026-09-12.json",
       "canonical/decisions/FA3-DEC-PYTORCH3D-2026-09-11.json",
       "canonical/decisions/FA3-DEC-QUALITY-ANTI-SLOP-NATIVE-2026-09-23.json",
@@ -639,11 +648,13 @@
       "canonical/decisions/FA3-DEC-REUSE-DISCOVERY-2026-09-24.json",
       "canonical/decisions/FA3-DEC-RUNTIME-HARDENING-CURRENT-HOST-2026-09-19.json",
       "canonical/decisions/FA3-DEC-RUNTIME-HARDENING-SHADOW-2026-09-19.json",
+      "canonical/decisions/FA3-DEC-RUST-RAYTRACER-CPU-PATH-001-2026-10-05.json",
       "canonical/decisions/FA3-DEC-SECRET-BROKER-ENCRYPTED-VAULT-2026-09-20.json",
       "canonical/decisions/FA3-DEC-SECRET-BROKER-REQUALIFICATION-2026-09-24.json",
       "canonical/decisions/FA3-DEC-SESSION-VAULT-2026-09-20.json",
       "canonical/decisions/FA3-DEC-SHARED-HAIR-GROOM-2026-10-03.json",
       "canonical/decisions/FA3-DEC-SHARED-MODULE-PATTERN-DONOR-CATALOGUE-2026-10-01.json",
+      "canonical/decisions/FA3-DEC-SHARED-RAY-PATH-TRACING-2026-10-05.json",
       "canonical/decisions/FA3-DEC-SILLYTAVERN-KDE-DESKTOP-2026-09-07.json",
       "canonical/decisions/FA3-DEC-SKILL-DISCOVERY-DISTRIBUTION-FABRIC-2026-09-23.json",
       "canonical/decisions/FA3-DEC-SKILL-FABRIC-MENGTO-CLOSURE-2026-09-17.json",
@@ -957,7 +968,8 @@
     "FA3-CANONICAL-REGISTRY-INTEGRITY-GATESET-001",
     "FA3-SHARED-HAIR-GROOM-GATESET-001",
     "FA3-CUDA-COMPAT-NATIVE-GATESET-001",
-    "CFA3-DEVELOPMENT-AI-BEHAVIOR-GATESET-001"
+    "CFA3-DEVELOPMENT-AI-BEHAVIOR-GATESET-001",
+    "FA3-RAY-PATH-TRACING-GATESET-001"
   ],
   "evidence_registry": {
     "path": "evidence/evidence-registry.json",
@@ -1083,7 +1095,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 3036,
+  "manifest_entry_count": 3058,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1653,6 +1665,11 @@
     {
       "path": ".github/workflows/fa3-quality-anti-slop.yml",
       "git_blob_sha": "d4a1dc601928a91df124f8d909f64be9107e6017",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-ray-path-tracing-fabric.yml",
+      "git_blob_sha": "b234878930dab8318753cdcaa67c9628e60058f1",
       "baseline_delta_status": "added"
     },
     {
@@ -3661,6 +3678,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/FA3-SHARED-RAY-PATH-TRACING-DECISION-ASSESSMENT-2026-10-05.json",
+      "git_blob_sha": "7b21bbb90c61a3343130a44d32923954b30001fc",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/assessments/FA3-SHARED-RAY-PATH-TRACING-REUSE-ASSESSMENT-2026-10-05.json",
+      "git_blob_sha": "82834114c6a89ede2e6610f8416f7528e4d9808d",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/assessments/FA3-SKILL-DISTRIBUTION-DECISION-ASSESSMENT-2026-09-23.json",
       "git_blob_sha": "cbd732a4cfd9c5c87871faa1ed42b60537ed903a",
       "baseline_delta_status": "added"
@@ -4501,6 +4528,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/contracts/FA3-SHARED-RAY-PATH-TRACING-CONTRACTS-001.json",
+      "git_blob_sha": "8f1307a1a44bdda4d95acaa7ebdf00a0cacc3978",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-SHARED-TOOL-ACTION-MEDIATION-CONTRACTS-001.json",
       "git_blob_sha": "c5598dd8f4eebcb8c24f9a5f35246ce998ef043f",
       "baseline_delta_status": "added"
@@ -4801,6 +4833,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/current-host-impact/FA3-CH-IMPACT-SHARED-RAY-PATH-TRACING-20261005.json",
+      "git_blob_sha": "aa0a920aa544acae49ddb4b84306f8750685a43e",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/current-host-runner-enforcement.json",
       "git_blob_sha": "2571ad312d67c77736f822b1c247f48b4dfe3cb6",
       "baseline_delta_status": "added"
@@ -4828,6 +4865,11 @@
     {
       "path": "canonical/decisions/CFA3-DEC-DONOR-INTAKE-BATCH-ACCELERATION-2026-10-04.json",
       "git_blob_sha": "c96283f8f05cc1f298cedc94cfcfb8607769f9cb",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/CFA3-DEC-KHRONOS-REVIEW-DERIVATION-2026-10-05.json",
+      "git_blob_sha": "2263a0d8ddea2b8cb7ed3924a6a17c12d20a80ce",
       "baseline_delta_status": "added"
     },
     {
@@ -5126,6 +5168,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-GPUOPEN-GPURT-RAY-PATH-TRACING-001-2026-10-05.json",
+      "git_blob_sha": "05071e3da8e7ff7410446a479f5691d2df721044",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-GPUOPEN-RRA-RAY-PATH-TRACING-001-2026-10-05.json",
+      "git_blob_sha": "ffb4b3b3267d22392ed19a5c63fac1050832048c",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-GTCRN-SPEECH-ENHANCEMENT-2026-09-09.json",
       "git_blob_sha": "0406f630c371568d5a174b89eab2d9348876e4ea",
       "baseline_delta_status": "added"
@@ -5223,6 +5275,16 @@
     {
       "path": "canonical/decisions/FA3-DEC-INTEGRATION-BROKER-2026-09-19.json",
       "git_blob_sha": "3f18e4b94b453afdb438549705119bb384db5abc",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-INTEL-L0RT-RAY-PATH-TRACING-001-2026-10-05.json",
+      "git_blob_sha": "f684a00c44c07e6ee52780bec25fd6f5fb6c42e7",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-INTEL-RTPTRF-RAY-PATH-TRACING-001-2026-10-05.json",
+      "git_blob_sha": "c093520f9f142cf5079c335701a5310ffa8544d8",
       "baseline_delta_status": "added"
     },
     {
@@ -5456,6 +5518,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-NVIDIA-RTX-RAY-PATH-TRACING-001-2026-10-05.json",
+      "git_blob_sha": "2e7c5e0a193186e41ef3a4991182fd623ac8f18e",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-OBSIDIAN-KNOWLEDGE-WORKSPACE-2026-09-07.json",
       "git_blob_sha": "e33cff615258313dc4ca5d499bb13fbd45d5c9f3",
       "baseline_delta_status": "added"
@@ -5536,6 +5603,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-PROJECT10-OPENRT-RAY-PATH-TRACING-001-2026-10-05.json",
+      "git_blob_sha": "fea08033def00b134f60cb8d9b9e7b40f943343b",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-PYRIT-2026-09-12.json",
       "git_blob_sha": "a738df84a7106a1407bdce9dc39e8c05e4f4dc3e",
       "baseline_delta_status": "added"
@@ -5591,6 +5663,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-RUST-RAYTRACER-CPU-PATH-001-2026-10-05.json",
+      "git_blob_sha": "971716724201a86f864e5b001aa450ff618f1308",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-SECRET-BROKER-ENCRYPTED-VAULT-2026-09-20.json",
       "git_blob_sha": "c2f3d1b5e06d591ab6fec152f8508d179379c09f",
       "baseline_delta_status": "added"
@@ -5613,6 +5690,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-SHARED-MODULE-PATTERN-DONOR-CATALOGUE-2026-10-01.json",
       "git_blob_sha": "bdca92d3f4a71e7abbdcb6237c28ab83adef2e1b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-SHARED-RAY-PATH-TRACING-2026-10-05.json",
+      "git_blob_sha": "3bf7b3d6f37270de6992e6e4900f281f2466783c",
       "baseline_delta_status": "added"
     },
     {
@@ -5962,7 +6044,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "1e383e872f8ea090de3adcc78f852da155120fd7",
+      "git_blob_sha": "f2e62fdbe5333ed3ffa7edf1fb153d6708385f41",
       "baseline_delta_status": "modified"
     },
     {
@@ -6077,7 +6159,7 @@
     },
     {
       "path": "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
-      "git_blob_sha": "fb273a9c4e00f654cf0be09f63703939d9647703",
+      "git_blob_sha": "30ccbebcd10658cc84ccaa3b81716ab83bcc8e58",
       "baseline_delta_status": "added"
     },
     {
@@ -6222,7 +6304,7 @@
     },
     {
       "path": "canonical/FA3-ENGINE-REGISTRY-001.json",
-      "git_blob_sha": "c0f90d4de6b5377374ee55e8562be7d35a1339ff",
+      "git_blob_sha": "b95cef8a45266dc6a022f5a054a82ed6b5468dce",
       "baseline_delta_status": "added"
     },
     {
@@ -6661,8 +6743,13 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-GATE-RAY-PATH-TRACING-001.json",
+      "git_blob_sha": "ee5b7858e2818d431150391b9383bb41691685ec",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-GATE-REGISTRY-001.json",
-      "git_blob_sha": "25290cecc5a1661a7b661e532dedd107daed087e",
+      "git_blob_sha": "c0bcbc8212ae2e71c4f65fd9ee337d63fd405550",
       "baseline_delta_status": "added"
     },
     {
@@ -7586,6 +7673,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/intents/FA3-SHARED-RAY-PATH-TRACING-APPLICATION-INTENT-2026-10-05.json",
+      "git_blob_sha": "d5bfc2b5471a004411b787c39e88499d9d54ac4e",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/intents/FA3-SKILL-FABRIC-APPLICATION-INTENT-001.json",
       "git_blob_sha": "daadca1a2e6a6230ce3d4f6b193e533e152ff7af",
       "baseline_delta_status": "added"
@@ -8448,6 +8540,11 @@
     {
       "path": "canonical/profiles/FA3-SHARED-MULTIMODAL-SOURCE-001.json",
       "git_blob_sha": "613d85eebe7ee59fb903b6a00d7511df6471a24d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-SHARED-RAY-PATH-TRACING-001.json",
+      "git_blob_sha": "320129100df6a24ce47c0561e20292c626c0c7c2",
       "baseline_delta_status": "added"
     },
     {
@@ -10348,6 +10445,11 @@
     {
       "path": "docs/cfa3-native-cuda-compat-final-plan-2026-10-04.md",
       "git_blob_sha": "a5a218f173efc07977b9731482d129267784cd72",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/CFA3-SHARED-RAY-PATH-TRACING-001.md",
+      "git_blob_sha": "ae0777c39375c99acf4bd9a2a7e5f982eb3a8761",
       "baseline_delta_status": "added"
     },
     {
@@ -13097,7 +13199,7 @@
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "3d47d65c9c4d7b94422e3abce71a0587989cab3e",
+      "git_blob_sha": "9cbd61609acdd39e3d3613a1b52f23083f5384b7",
       "baseline_delta_status": "modified"
     },
     {
@@ -14001,6 +14103,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_ray_path_tracing_fabric.py",
+      "git_blob_sha": "75368fd377c1813db77527888e017f072d01058c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_ray_path_tracing_gate.py",
+      "git_blob_sha": "7ab45e3ff69f41c0ea4d30dc31180dcb0b53769e",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_release_baseline.py",
       "git_blob_sha": "47c8a50fb9d4320e49bfd77c1a74cd0d862aee5d",
       "baseline_delta_status": "added"
@@ -14067,7 +14179,7 @@
     },
     {
       "path": "src/fa3_reuse_gate.py",
-      "git_blob_sha": "7cdba3c088ed4bad45fd973de25b03bcebb2453e",
+      "git_blob_sha": "324053ceed0426b0b9bf41f5c807ad123aee8629",
       "baseline_delta_status": "added"
     },
     {
@@ -14477,7 +14589,7 @@
     },
     {
       "path": "tests/test_application_donor_index.py",
-      "git_blob_sha": "bb7f5aab230831596f566b05985765cf4c236af7",
+      "git_blob_sha": "36d435494f8e4136116126febb1c70147d6bb14b",
       "baseline_delta_status": "added"
     },
     {
@@ -15861,6 +15973,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_ray_path_tracing_fabric.py",
+      "git_blob_sha": "4d6a09e30c820fa40201c442f25805c20e6bd7ed",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_ray_path_tracing_gate.py",
+      "git_blob_sha": "1015ff705256b55218f0e533913aada175349013",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_release_evidence_scope_gate.py",
       "git_blob_sha": "c0021991ad980cf7093cd942825f136d27dd3618",
       "baseline_delta_status": "added"
@@ -15912,7 +16034,7 @@
     },
     {
       "path": "tests/test_reuse_discovery_gate.py",
-      "git_blob_sha": "c479267819274a41ed78baf17492d27d7a20d3a8",
+      "git_blob_sha": "ea7bd068e031772d4ddc64a1fe8f16597dd378ea",
       "baseline_delta_status": "added"
     },
     {
@@ -18358,5 +18480,37 @@
     ],
     "ci_repair_parent_head": "72ce206cbe39f880ae738949653277e6cb4c0252",
     "ci_repair_trigger_run": 37235622547
+  },
+  "ray_path_tracing_reconciliation": {
+    "profile_id": "FA3-SHARED-RAY-PATH-TRACING-001",
+    "contract_id": "FA3-SHARED-RAY-PATH-TRACING-CONTRACTS-001",
+    "decision_id": "FA3-DEC-SHARED-RAY-PATH-TRACING-2026-10-05",
+    "gate_id": "FA3-RAY-PATH-TRACING-GATESET-001",
+    "executable_gate_id": "FA3-GATE-SHARED-RAY-PATH-TRACING-001",
+    "engine_id": "FA3-ENGINE-FA3-RAY-PATH-TRACING-001",
+    "capability_bindings": [
+      "CAP-025",
+      "CAP-083",
+      "CAP-127",
+      "CAP-161",
+      "CAP-163"
+    ],
+    "donor_usage_edge_count": 7,
+    "cpu_software_path_required": true,
+    "gpu_vendor_paths": [
+      "NVIDIA",
+      "AMD",
+      "INTEL"
+    ],
+    "automatic_backend_selection": false,
+    "silent_fallback": false,
+    "current_host_impact": "NO_RUNTIME_IMPACT",
+    "current_host_status": "STABILIZATION_FREEZE_NO_RUNTIME_PROMOTION",
+    "physical_current_host_pass_claimed": false,
+    "runtime_promotion_claim": false,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 175,
+    "reconciliation_status": "CANONICAL_SHARED_FABRIC_STATIC_MATERIALIZED_RUNTIME_BACKEND_ADMISSION_SEPARATE"
   }
 }

@@ -1,0 +1,107 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-SHARED-RAY-PATH-TRACING-001",
+  "name": "Shared Ray/Path Tracing Fabric",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST_IF_TRACING_USED",
+  "canonical_root": false,
+  "provider_neutral": true,
+  "shared_component": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-025",
+    "CAP-083",
+    "CAP-127",
+    "CAP-161",
+    "CAP-163"
+  ],
+  "contract_family": "FA3-SHARED-RAY-PATH-TRACING-CONTRACTS-001",
+  "authority_bindings": {
+    "engine_selection": "FA3-ENGINE-SELECTION-FABRIC-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "workflow": "FA3-AUTH-DURABLE-ORCHESTRATION-001",
+    "model_provider_routing_when_neural_denoise": "FA3-AUTH-MODEL-ROUTER-001",
+    "license_rights": "FA3-LICENSE-RIGHTS-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "capability_surface": [
+    "tracing.backend.describe",
+    "tracing.compatibility.resolve",
+    "tracing.acceleration-structure.describe",
+    "tracing.ray.plan",
+    "tracing.path.plan",
+    "tracing.progressive-accumulation.plan",
+    "tracing.denoise.handoff",
+    "tracing.render.handoff",
+    "tracing.diagnostics.project"
+  ],
+  "backend_policy": {
+    "vendor_neutral": true,
+    "cpu_software_path_required": true,
+    "gpu_vendors": [
+      "NVIDIA",
+      "AMD",
+      "INTEL"
+    ],
+    "explicit_backend_request_supported": true,
+    "automatic_backend_selection": false,
+    "silent_fallback": false,
+    "hardware_traversal_policies": [
+      "REQUIRED",
+      "PREFERRED",
+      "DISABLED"
+    ],
+    "compatibility_classes": [
+      "NATIVE",
+      "PORTABLE",
+      "SOFTWARE_CPU",
+      "FUNCTIONALLY_REDUCED",
+      "UNAVAILABLE"
+    ]
+  },
+  "consumer_scope": {
+    "multi_application": true,
+    "cross_product_family": true,
+    "shared_first": true,
+    "capability_based_access_all_applications": true,
+    "application_local_core_forbidden": true,
+    "primary_consumers": [
+      "studio.bforartists",
+      "studio.gaffer",
+      "fa3.character-studio",
+      "fa3.video-editor"
+    ]
+  },
+  "runtime_materialization": {
+    "new_service": false,
+    "new_daemon": false,
+    "new_port": false,
+    "new_socket": false,
+    "new_package_dependency": false,
+    "provider_activation": false,
+    "model_activation": false,
+    "hardware_mutation": false,
+    "physical_application_binding": false,
+    "execution_authorized": false,
+    "semantics": "STATIC_SHARED_RESOLVER_CONTRACT_AND_ENGINE_PROJECTION_ONLY"
+  },
+  "invariants": [
+    "CAPABILITY_BASELINE_175_UNCHANGED",
+    "NO_NEW_EXECUTION_AUTHORITY",
+    "ENGINE_SELECTION_REMAINS_EXTERNAL",
+    "HRB_REMAINS_SOLE_DEVICE_PLACEMENT_AND_LEASE_AUTHORITY",
+    "MODEL_ROUTER_REQUIRED_FOR_NEURAL_DENOISE_ONLY",
+    "CPU_SOFTWARE_PATH_IS_MANDATORY",
+    "NO_SILENT_VENDOR_OR_BACKEND_FALLBACK",
+    "DISPLAY_GPU_IMPLICIT_ENLISTMENT_FORBIDDEN",
+    "DONOR_CODE_NOT_IMPORTED",
+    "DONOR_RUNTIME_DEPENDENCY_NOT_CREATED",
+    "STATIC_MATERIALIZATION_IS_NOT_CURRENT_HOST_RUNTIME_PASS"
+  ],
+  "current_host_runtime_promotion_claim": false
+}

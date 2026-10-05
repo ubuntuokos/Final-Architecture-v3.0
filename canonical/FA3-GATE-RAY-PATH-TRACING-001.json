@@ -1,0 +1,40 @@
+{
+  "schema": "fa3.gate.v1",
+  "id": "FA3-GATE-SHARED-RAY-PATH-TRACING-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "enforcement_id": "FA3-RAY-PATH-TRACING-GATESET-001",
+  "entrypoint": "src/fa3_ray_path_tracing_gate.py::gate",
+  "capability_bindings": [
+    "CAP-025",
+    "CAP-083",
+    "CAP-127",
+    "CAP-161",
+    "CAP-163"
+  ],
+  "fail_closed": true,
+  "static_pass_promotes_runtime": false,
+  "tests": [
+    "tests/test_ray_path_tracing_fabric.py",
+    "tests/test_ray_path_tracing_gate.py"
+  ],
+  "required_boundaries": [
+    "FA3-SHARED-RAY-PATH-TRACING-001",
+    "FA3-SHARED-RAY-PATH-TRACING-CONTRACTS-001",
+    "FA3-ENGINE-SELECTION-FABRIC-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "CAP-127",
+    "FA3-DEC-SHARED-RAY-PATH-TRACING-2026-10-05"
+  ],
+  "current_host_runtime_promotion_claim": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only": true,
+    "accelerator_cardinality": "0..N",
+    "hardware_mutation": false,
+    "physical_runtime_pass_required_before_future_backend_promotion": true
+  }
+}

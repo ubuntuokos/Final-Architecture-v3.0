@@ -516,6 +516,81 @@ def post_adoption_new_project_check(root: Path) -> dict[str, Any]:
     return {"result": "PASS" if not findings else "FAIL", "state": "ENFORCED", "marker_commit": marker, "checked": checked, "findings": findings}
 
 
+def _khronos_review_findings(
+    root: Path,
+    intent: dict[str, Any],
+    assessment: dict[str, Any],
+) -> list[dict[str, Any]]:
+    """Validate the mandatory Khronos review from canonical resolver output.
+
+    Reuse Discovery is a global P0 cross-cutting requirement, so every
+    ApplicationIntent is reviewed whether or not it repeats the profile id in
+    integration_requirements.  The canonical resolver is the single source of
+    truth for the source-family review.  A committed review row is an optional
+    historical mirror; dynamic candidate/status drift is non-authoritative, while
+    its non-authoritative safety invariants remain fail-closed.
+    """
+    findings: list[dict[str, Any]] = []
+    generated = assess_intent(root, intent)
+    review = next((
+        row for row in generated.get("mandatory_source_reviews", [])
+        if isinstance(row, dict)
+        and row.get("source_family_id") == "FA3-KHRONOS-OPEN-STANDARDS-001"
+    ), None)
+    if not isinstance(review, dict) or not (
+        review.get("review_status") in {"MATCHED", "REVIEWED_NO_MATCH"}
+        and review.get("authority") is False
+        and review.get("automatic_selection") is False
+        and review.get("automatic_activation") is False
+    ):
+        findings.append(finding(
+            "REUSE-KHRONOS-ADOPT-003",
+            "canonical Reuse Resolver failed to produce a valid mandatory Khronos source-family review",
+            intent_id=intent.get("id"),
+        ))
+        return findings
+
+    if assessment.get("result") != "PASS":
+        findings.append(finding(
+            "REUSE-KHRONOS-ADOPT-004",
+            "matching committed Reuse Assessment is not PASS",
+            intent_id=intent.get("id"),
+            assessment_id=assessment.get("id"),
+        ))
+        return findings
+
+    committed_reviews = [
+        row for row in assessment.get("mandatory_source_reviews", [])
+        if isinstance(row, dict)
+        and row.get("source_family_id") == "FA3-KHRONOS-OPEN-STANDARDS-001"
+    ]
+    if not committed_reviews:
+        return findings
+
+    if len(committed_reviews) != 1:
+        findings.append(finding(
+            "REUSE-KHRONOS-ADOPT-005",
+            "committed Reuse Assessment contains duplicate Khronos review mirrors",
+            intent_id=intent.get("id"),
+            assessment_id=assessment.get("id"),
+        ))
+        return findings
+
+    committed = committed_reviews[0]
+    if not (
+        committed.get("review_status") in {"MATCHED", "REVIEWED_NO_MATCH"}
+        and committed.get("authority") is False
+        and committed.get("automatic_selection") is False
+    ):
+        findings.append(finding(
+            "REUSE-KHRONOS-ADOPT-006",
+            "committed Khronos review mirror violates non-authoritative safety invariants",
+            intent_id=intent.get("id"),
+            assessment_id=assessment.get("id"),
+        ))
+    return findings
+
+
 def post_khronos_source_adoption_check(root: Path) -> dict[str, Any]:
     history = _git(root, "log", "--format=%H", "--reverse", "--", KHRONOS_REUSE_DECISION)
     if not history:
@@ -527,6 +602,7 @@ def post_khronos_source_adoption_check(root: Path) -> dict[str, Any]:
     assessments = _assessment_by_intent_index(root)
     findings = []
     checked = []
+    derived_reviews = []
     for rel in [x for x in changed.splitlines() if x.endswith(".json")]:
         try:
             intent = load(root, rel)
@@ -540,35 +616,51 @@ def post_khronos_source_adoption_check(root: Path) -> dict[str, Any]:
             findings.append(finding("REUSE-KHRONOS-ADOPT-002", "ApplicationIntent missing id", path=rel))
             continue
         checked.append(intent_id)
-        discovery_declared = (
-            intent.get("project_id") == "FA3-REUSE-DISCOVERY-001"
-            or "FA3-REUSE-DISCOVERY-001" in intent.get("integration_requirements", [])
-        )
-        valid_assessment = False
-        for match in assessments.get(intent_id, []):
-            assessment = match["row"]
-            review = next((
-                row for row in assessment.get("mandatory_source_reviews", [])
-                if isinstance(row, dict) and row.get("source_family_id") == "FA3-KHRONOS-OPEN-STANDARDS-001"
-            ), {})
-            if (
-                assessment.get("result") == "PASS"
-                and review.get("review_status") in {"MATCHED", "REVIEWED_NO_MATCH"}
-                and review.get("authority") is False
-                and review.get("automatic_selection") is False
-            ):
-                valid_assessment = True
-                break
-        if not discovery_declared or not valid_assessment:
+
+        matches = [
+            match["row"] for match in assessments.get(intent_id, [])
+            if match["row"].get("result") == "PASS"
+        ]
+        if not matches:
             findings.append(finding(
-                "REUSE-KHRONOS-ADOPT-003",
-                "post-adoption ApplicationIntent lacks mandatory Khronos source-family review",
+                "REUSE-KHRONOS-ADOPT-004",
+                "post-adoption ApplicationIntent lacks matching PASS Reuse Assessment",
                 intent_id=intent_id,
                 path=rel,
-                reuse_discovery_declared=discovery_declared,
-                matching_assessment=valid_assessment,
             ))
-    return {"result": "PASS" if not findings else "FAIL", "state": "ENFORCED", "marker_commit": marker, "checked": checked, "findings": findings}
+            continue
+
+        review_findings = _khronos_review_findings(root, intent, matches[0])
+        findings.extend(review_findings)
+        if not review_findings:
+            generated = assess_intent(root, intent)
+            review = next(
+                row for row in generated.get("mandatory_source_reviews", [])
+                if isinstance(row, dict)
+                and row.get("source_family_id") == "FA3-KHRONOS-OPEN-STANDARDS-001"
+            )
+            derived_reviews.append({
+                "intent_id": intent_id,
+                "assessment_id": matches[0].get("id"),
+                "review_status": review.get("review_status"),
+                "evidence_mode": "CANONICAL_REUSE_RESOLVER_DERIVED",
+                "committed_mirror_present": any(
+                    isinstance(row, dict)
+                    and row.get("source_family_id") == "FA3-KHRONOS-OPEN-STANDARDS-001"
+                    for row in matches[0].get("mandatory_source_reviews", [])
+                ),
+            })
+
+    return {
+        "result": "PASS" if not findings else "FAIL",
+        "state": "ENFORCED",
+        "marker_commit": marker,
+        "checked": checked,
+        "review_scope": "GLOBAL_MANDATORY_REUSE_DISCOVERY",
+        "review_evidence_mode": "CANONICAL_REUSE_RESOLVER_DERIVED",
+        "derived_reviews": derived_reviews,
+        "findings": findings,
+    }
 
 
 def gate(root: Path) -> dict[str, Any]:
