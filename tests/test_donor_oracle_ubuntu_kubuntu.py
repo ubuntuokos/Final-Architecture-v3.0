@@ -43,7 +43,15 @@ class OracleUbuntuKubuntuDonorTests(unittest.TestCase):
             with self.subTest(source=key):
                 self.assertIn(key, self.by_key)
                 entry = self.by_key[key]
-                self.assertEqual(entry["status"], "CANDIDATE")
+                reconciliation = entry.get("baseline_reconciliation", {})
+                if reconciliation.get("id") == "CFA3-DONOR-BASELINE-USER-SOURCE-UNION-2026-10-05":
+                    self.assertEqual(entry["status"], "ACCEPTED_REFERENCE")
+                    self.assertEqual(
+                        entry["submission_review"]["basis"],
+                        "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+                    )
+                else:
+                    self.assertEqual(entry["status"], "CANDIDATE")
                 self.assertEqual(entry["code_reuse_policy"], "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW")
                 for flag in FALSE_FLAGS:
                     self.assertIs(entry[flag], False, (key, flag))
