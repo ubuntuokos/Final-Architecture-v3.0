@@ -183,6 +183,16 @@ class Cfa3DevelopmentAiBehaviorTests(unittest.TestCase):
             "no_new_component_workaround": True,
             "notification_sent": True,
             "existing_authorization_covers_corrected_action": True,
+            "blocker_gate_or_security_bypass": False,
+            "unnecessary_workflow_gate_or_side_effect": False,
+            "redesign_required": False,
+            "alternative_technical_solution": False,
+            "new_pr_or_branch_required": False,
+            "other_component_modification_required": False,
+            "user_restriction_weakened": False,
+            "review_discovered_real_design_or_implementation_defect": False,
+            "new_permission_or_side_effect_required": False,
+            "correction_uncertain": False,
             "partial_mutation_possible": True,
             "exact_state_verified": False,
         }
@@ -231,6 +241,60 @@ class Cfa3DevelopmentAiBehaviorTests(unittest.TestCase):
         self.assertEqual("STOP", result["decision"])
         self.assertIn("DEV-11", result["rule_ids"])
         self.assertIn("AI-11", result["rule_ids"])
+
+
+    def test_missing_blocker_fact_fails_closed(self):
+        ctx = base_context("WRITE")
+        ctx.pop("blocker_kind")
+        result = authorize_action(ctx)
+        self.assertEqual("STOP", result["decision"])
+        self.assertIn("AI-09", result["rule_ids"])
+
+    def test_owner_override_booleans_are_type_strict(self):
+        ctx = base_context("WRITE")
+        ctx["fresh_state_verified"] = False
+        ctx["owner_override"] = {
+            "rule_ids": ["DEV-04", "AI-04"],
+            "explicit": "false",
+            "conversation_bound": "false",
+            "scope_matches": "false",
+        }
+        result = authorize_action(ctx)
+        self.assertEqual("STOP", result["decision"])
+        self.assertIn("AI-09", result["rule_ids"])
+
+    def test_current_owner_restriction_cannot_be_overridden(self):
+        ctx = base_context("WRITE")
+        ctx["current_owner_restriction_allows"] = False
+        ctx["owner_override"] = {
+            "rule_ids": ["DEV-10", "AI-10"],
+            "explicit": True,
+            "conversation_bound": True,
+            "scope_matches": True,
+        }
+        result = authorize_action(ctx)
+        self.assertEqual("STOP", result["decision"])
+        self.assertIn("DEV-10", result["rule_ids"])
+        self.assertIn("AI-10", result["rule_ids"])
+
+    def test_dormant_override_is_not_reported_as_applied(self):
+        ctx = base_context("READ")
+        ctx["owner_override"] = {
+            "rule_ids": ["DEV-05", "AI-01"],
+            "explicit": True,
+            "conversation_bound": True,
+            "scope_matches": True,
+        }
+        result = authorize_action(ctx)
+        self.assertEqual("ALLOW", result["decision"])
+        self.assertEqual([], result["applied_owner_overrides"])
+
+    def test_behavior_preflight_never_claims_effect_authority(self):
+        result = authorize_action(base_context("WRITE"))
+        self.assertEqual("ALLOW", result["decision"])
+        self.assertTrue(result["policy_preflight_passed"])
+        self.assertFalse(result["side_effect_authorized"])
+        self.assertTrue(result["effect_authority_required"])
 
     def test_silent_redesign_blocks(self):
         ctx = base_context("PLAN")

@@ -1081,7 +1081,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 3025,
+  "manifest_entry_count": 3026,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -3264,6 +3264,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/CFA3-DEVELOPMENT-AI-BEHAVIOR-REUSE-ASSESSMENT-2026-10-05.json",
+      "git_blob_sha": "70002f2072abb31b2aa20465aec650010d78c1be",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/assessments/FA3-AGENCY-AGENTS-AGENT-DEFINITION-ASSESSMENT-2026-09-24.json",
       "git_blob_sha": "a67ac9f1c69d5d1aa40244f231b11dd762531a5f",
       "baseline_delta_status": "added"
@@ -3765,7 +3770,7 @@
     },
     {
       "path": "canonical/CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001.json",
-      "git_blob_sha": "9640ec9452990cbd335bb87792e4253bc17f991b",
+      "git_blob_sha": "09c7a2a731708d10f2df902c71faac8b635ac3d4",
       "baseline_delta_status": "added"
     },
     {
@@ -3835,7 +3840,7 @@
     },
     {
       "path": "canonical/contracts/FA3-AGENT-EXECUTION-PLAN-001.schema.json",
-      "git_blob_sha": "12581bd5b54d658921c8c9e7684c773f5db101ea",
+      "git_blob_sha": "627cf3af0e4a85b3d9a07c66876ea004875fa4ce",
       "baseline_delta_status": "added"
     },
     {
@@ -4745,7 +4750,7 @@
     },
     {
       "path": "canonical/current-host-impact/FA3-CH-IMPACT-CFA3-DEVELOPMENT-AI-BEHAVIOR-20261005.json",
-      "git_blob_sha": "8ac75c8113ef77505ba14c148c8dabd79f6a3cc6",
+      "git_blob_sha": "31b6e4f12dc9d29341fa2c248198c00ff5f577e4",
       "baseline_delta_status": "added"
     },
     {
@@ -10295,7 +10300,7 @@
     },
     {
       "path": "docs/CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-001.md",
-      "git_blob_sha": "e867c45df914e8107d7c9763d7179d93a06d25e5",
+      "git_blob_sha": "6519bf1858c2163f6db122298740da7d60d8405d",
       "baseline_delta_status": "added"
     },
     {
@@ -12375,12 +12380,12 @@
     },
     {
       "path": "src/cfa3_development_ai_behavior_gate.py",
-      "git_blob_sha": "1b90f86984819ad0b55930dae7e52c0f51161579",
+      "git_blob_sha": "032d89f603d7d6d2fb0e0986ba60368094cef3c1",
       "baseline_delta_status": "added"
     },
     {
       "path": "src/cfa3_development_ai_behavior_guard.py",
-      "git_blob_sha": "ead75915ce84614c56e81004bef11d3fefe8b257",
+      "git_blob_sha": "7bf8ffa6ea4644c0c9410882bbc59dc582258910",
       "baseline_delta_status": "added"
     },
     {
@@ -12415,7 +12420,7 @@
     },
     {
       "path": "src/fa3_adk2_runtime_gate.py",
-      "git_blob_sha": "d1f9329761c26b05cc707f4a57dc4424749f46bc",
+      "git_blob_sha": "74b43bec339b98ee85490fbf47a8bbfcf06561ed",
       "baseline_delta_status": "added"
     },
     {
@@ -12470,7 +12475,7 @@
     },
     {
       "path": "src/fa3_agent_workload.py",
-      "git_blob_sha": "9a910842e4d1f0e3115be6a21b92ea5deb3da43a",
+      "git_blob_sha": "88194db91879f30b7c844a1aab87ceae16d18550",
       "baseline_delta_status": "added"
     },
     {
@@ -14350,7 +14355,7 @@
     },
     {
       "path": "tests/test_adk2_runtime_semantics.py",
-      "git_blob_sha": "448af82954de09bb91e4e16ba5699bbfa9d2cc2d",
+      "git_blob_sha": "d084afc047f663f738c242ebb023e69145c5360e",
       "baseline_delta_status": "added"
     },
     {
@@ -14580,7 +14585,7 @@
     },
     {
       "path": "tests/test_cfa3_development_ai_behavior.py",
-      "git_blob_sha": "5b39138d6511be80c3eb574ecd976767865d62e9",
+      "git_blob_sha": "c2a45d8ae4fa4ba43e51d1e82a997add81022299",
       "baseline_delta_status": "added"
     },
     {
@@ -17200,7 +17205,10 @@
     "cuda_compat_native_deterministic_regeneration_pass": true,
     "cuda_compat_native_snapshot_head": "72ce206cbe39f880ae738949653277e6cb4c0252",
     "development_ai_behavior_self_correction_snapshot_head": "16e3242548a7f7abdaf5eb1ceffaae2eda713c2f",
-    "development_ai_behavior_self_correction_delta": "DEV-11_AI-11"
+    "development_ai_behavior_self_correction_delta": "DEV-11_AI-11",
+    "development_ai_behavior_blocker_repair_parent_head": "b30c308287c24d59c022c33227425bd61b769dc8",
+    "development_ai_behavior_runtime_preflight_wired": true,
+    "development_ai_behavior_reuse_assessment": "canonical/assessments/CFA3-DEVELOPMENT-AI-BEHAVIOR-REUSE-ASSESSMENT-2026-10-05.json"
   },
   "inference_cache_hardening_reconciliation": {
     "parent_gate_id": "FA3-INFERENCE-PORTABILITY-GATESET-001",

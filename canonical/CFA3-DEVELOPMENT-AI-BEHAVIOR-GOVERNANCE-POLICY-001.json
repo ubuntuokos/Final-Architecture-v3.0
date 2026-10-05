@@ -309,5 +309,16 @@
       "REAL_BLOCKER_RULE"
     ],
     "may_override_precedence": false
+  },
+  "runtime_enforcement_binding": {
+    "agent_workload_runtime": "FA3-AGENT-WORKLOAD-RUNTIME-001",
+    "execution_plan_compiler": "src/fa3_agent_workload.py::compile_execution_plan",
+    "execution_plan_behavior_preflight_required": true,
+    "start_resume_require_execution_plan": true,
+    "unified_action_fabric_remains_effect_boundary": true,
+    "security_governance_remains_authorization_authority": true,
+    "host_resource_broker_remains_resource_authority": true,
+    "model_router_remains_model_routing_authority": true,
+    "behavior_preflight_is_effect_authority": false
   }
 }

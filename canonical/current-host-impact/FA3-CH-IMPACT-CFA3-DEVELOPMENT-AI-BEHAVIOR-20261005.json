@@ -2,22 +2,26 @@
   "schema": "fa3.current-host-structural-impact.v1",
   "id": "FA3-CH-IMPACT-CFA3-DEVELOPMENT-AI-BEHAVIOR-20261005",
   "date": "2026-10-05",
-  "status": "NO_RUNTIME_IMPACT",
+  "status": "RECONCILED",
   "capability_count": 175,
   "structural_changes": [
     "canonical/CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001.json",
     "canonical/FA3-GATE-CFA3-DEVELOPMENT-AI-BEHAVIOR-001.json",
     "canonical/FA3-GATE-REGISTRY-001.json",
+    "canonical/contracts/FA3-AGENT-EXECUTION-PLAN-001.schema.json",
     "canonical/decisions/CFA3-DEC-DEVELOPMENT-AI-BEHAVIOR-LAYERING-2026-10-05.json",
     "canonical/enforcement-policy.json",
-    "src/cfa3_development_ai_behavior_guard.py",
     "src/cfa3_development_ai_behavior_gate.py",
+    "src/fa3_adk2_runtime_gate.py",
+    "src/fa3_agent_workload.py",
     "src/fa3_enforce.py"
   ],
-  "current_host_changes": [],
+  "current_host_changes": [
+    "canonical/current-host-impact/FA3-CH-IMPACT-CFA3-DEVELOPMENT-AI-BEHAVIOR-20261005.json"
+  ],
   "physical_requalification_required": false,
   "historical_evidence_reused": false,
   "current_host_runtime_promotion_claim": false,
   "global_promotion_claim": false,
-  "rationale": "This materialization defines and enforces a cross-cutting development and AI/agent behavior policy, including the DEV-11 / AI-11 deterministic self-correction exception in the shared fail-closed guard, updates the canonical mandatory gate membership, global enforcement wiring, repository agent projection, tests, documentation and unified release projection. It does not activate a new provider, model, daemon, scheduler, hardware path, resource lease, service, port, credential flow, driver, package, Current Host collector, or runtime promotion. Existing orchestration, Security Governance, Model Router, HRB and Evidence authorities remain unchanged. Runtime consumers may call the shared fail-closed preflight, but host topology and physical execution eligibility are unchanged."
+  "rationale": "The DEV-01..11 / AI-01..11 policy is now wired into the existing Agent Workload execution-plan compiler as a fail-closed preflight. This changes task-local admission semantics but does not create or promote a provider, runner, daemon, scheduler, hardware path, host lease, driver, service, credential flow, or physical Current Host PASS. Agent Workload Current Host status remains PENDING_CURRENT_HOST, so there is no previously admitted physical PASS to inherit or requalify. UAF, Security Governance, HRB, Model Router and Evidence retain their existing authorities."
 }

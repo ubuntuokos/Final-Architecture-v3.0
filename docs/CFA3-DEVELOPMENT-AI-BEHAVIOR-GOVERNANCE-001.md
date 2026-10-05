@@ -97,6 +97,12 @@ A policy exception is valid only when it is:
 
 Generic approval is not automatically a policy override. Overrides do not propagate to unrelated tasks or later conversations.
 
+## Runtime enforcement wiring
+
+The product-side rule is enforced at the existing shared Agent Workload execution-plan boundary. `src/fa3_agent_workload.py::compile_execution_plan` requires an explicit, scope-bound behavior context and calls the shared CFA3 behavior guard before it can emit `fa3.agent-execution-plan.v1`. The resulting plan contains a `cfa3.behavior-preflight-receipt.v1`. Because both `agent.workload.start` and `agent.workload.resume` already require an execution-plan reference, the normal Agent Workload start/resume path cannot bypass this preflight.
+
+The behavior preflight is **not** effect authorization. UAF remains the action/effect boundary; Security Governance remains authorization authority; HRB remains resource authority; Model Router remains model/provider routing authority; Evidence remains promotion authority.
+
 ## Shared guard
 
 `src/cfa3_development_ai_behavior_guard.py` provides a shared, authority-neutral preflight. It does not schedule work or authorize models, security-sensitive effects, hardware resources or evidence. Existing authorities remain responsible for those decisions.
