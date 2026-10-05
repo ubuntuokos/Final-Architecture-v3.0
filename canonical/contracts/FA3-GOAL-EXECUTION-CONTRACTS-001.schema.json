@@ -246,6 +246,11 @@
     "start_resume_fresh_task_scope_admission": true,
     "cached_execution_plan_scope_revision_bypass": "DENY",
     "verified_closure_requires_evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001",
-    "closed_task_reexecution": "DENY"
+    "closed_task_reexecution": "DENY",
+    "main_task_identity": "IMMUTABLE_FOR_ACTIVE_TASK_SESSION",
+    "main_task_switch_authority": "EXPLICIT_OWNER_ONLY",
+    "new_rule_or_parallel_work_can_replace_main_task": false,
+    "blocker_can_stop_but_not_reassign_main_task": true,
+    "out_of_scope_followup_auto_becomes_main_task": false
   }
 }
