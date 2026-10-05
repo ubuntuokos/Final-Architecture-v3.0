@@ -269,6 +269,11 @@ class DonorChatImportTests(unittest.TestCase):
                 "vedd fel donornak https://github.com/example/approved",
                 source="https://github.com/example/other",
             )
+        with self.assertRaisesRegex(ValueError,"conversation importer context"):
+            parse_donor_mention(
+                "add a donorlistához",
+                source="https://github.com/example/context-free",
+            )
 
 if __name__ == "__main__":
     unittest.main()
