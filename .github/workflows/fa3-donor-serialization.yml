@@ -1,10 +1,15 @@
 name: FA3 Donor Serialization
 on:
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
   push:
     branches: [main]
   workflow_dispatch:
   workflow_call:
+    outputs:
+      full_gate_required:
+        description: Whether the caller must run the full protected canonical gate set
+        value: ${{ jobs.donor-readiness.outputs.full_gate_required }}
 concurrency:
   group: fa3-donor-intake-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: false
@@ -15,6 +20,8 @@ jobs:
   donor-readiness:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    outputs:
+      full_gate_required: ${{ steps.readiness.outputs.full_gate_required }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -101,6 +108,7 @@ jobs:
                     '.github/workflows/fa3-application-donor-inventory.yml',
                     '.github/workflows/fa3-reuse-discovery.yml',
                     '.github/workflows/fa3-donor-serialization.yml',
+                    '.github/workflows/fa3-donor-intake-revalidation.yml',
                     '.github/workflows/fa3-permanent-enforcement.yml')
           curated_docs = ["docs/donors-office-3d-animation-2026-09-29.md","docs/donor-oracle-ubuntu-kubuntu-2026-09-29.md","docs/donor-opensuse-novel-writing-2026-09-29.md","docs/donor-hpc-mcp-microsoft-2026-09-29.md","docs/donor-multimedia-video-render-mcp-2026-09-29.md","docs/donor-openal-openmax-heif-2026-09-29.md","docs/donor-nnstreamer-onnx-aom-a11y-2026-09-29.md","docs/FA3-ORCHESTRATOR-FUNCTIONAL-DONOR-EXPANSION-2026-09-29.md","docs/donor-ai-orchestrator-topic-2026-09-29.md","docs/godotengine-github-donor-curation-2026-09-29.md","docs/beadboard-agent-coordination-donor-review-2026-09-28.md","docs/beat-tracking-donor-curation-2026-09-28.md","docs/storygen-atelier-donor-review-2026-09-28.md","docs/three-storyboard-donor-curation-2026-09-28.md","docs/creative-writing-donor-curation-2026-09-28.md","docs/storyboard-donor-curation-2026-09-28.md","docs/daw-music-generation-donor-curation-2026-09-28.md","docs/github-video-editor-and-clip-donor-curation-2026-09-28.md","docs/ai-video-editor-video-generation-donor-curation-2026-09-28.md","docs/video-generator-donor-curation-2026-09-28.md","docs/3dcoat-donor-curation-2026-09-28.md","docs/vision-complementary-donor-curation-2026-09-28.md","docs/github-actions-runner-images-donor-curation-2026-09-28.md","docs/chip-huyen-ml-systems-donor-curation-2026-09-28.md","docs/adaptive-representation-donor-curation-2026-09-28.md"]
           curated_docs += ["docs/script-breakdown-github-donor-curation-2026-09-28.md","docs/scriptwriting-github-donor-curation-2026-09-28.md","docs/production-import-additional-github-donors-2026-09-29.md","docs/production-import-selective-donor-research-2026-09-29.md"]
@@ -112,6 +120,10 @@ jobs:
                       or p.startswith('docs/donor-repair/')
                       or p.startswith('docs/donor-') or p.startswith('docs/donors-')
                       or p.startswith('canonical/deltas/FA3-DONOR-')
+                      or p.startswith('canonical/deltas/CFA3-DONOR-')
+                      or p == 'canonical/decisions/CFA3-DEC-DONOR-INTAKE-BATCH-ACCELERATION-2026-10-04.json'
+            or p == 'canonical/assessments/CFA3-DONOR-INTAKE-BATCH-ACCELERATION-REUSE-ASSESSMENT-2026-10-04.json'
+                      or p.startswith('canonical/current-host-impact/CFA3-DONOR-INTAKE-BATCH-ACCELERATION-')
                       or (p.startswith('canonical/references/') and 'DONOR' in p.upper())
                       or p.startswith('tests/test_donor_') or p.startswith('tests/test_donors_'))
           actual_intake=is_donor_intake_pr({'title':os.environ.get('PR_TITLE','')},
@@ -122,22 +134,29 @@ jobs:
           print('Donor mode:',phase,'changed files:',len(names))
           PY
       - name: Mandatory fail-closed donor readiness
+        id: readiness
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DONOR_PHASE: ${{ steps.classify.outputs.phase }}
           DONOR_PR: ${{ github.event.pull_request.number }}
+          PR_DRAFT: ${{ github.event.pull_request.draft }}
         run: |
           mkdir -p reports
           set -o pipefail
+          full_gate_required=true
           if [ "$DONOR_PHASE" = mixed ]; then
             echo "::error::MIXED_DONOR_INTAKE_NOT_ALLOWED: split donor changes into a bounded donor-intake maintenance PR"
             exit 2
           fi
-          if [ "$DONOR_PHASE" = intake ]; then
+          if [ "$DONOR_PHASE" = intake ] && [ "$PR_DRAFT" = true ]; then
+            PYTHONPATH=src python3 src/fa3_donor_readiness.py --phase append --pr "$DONOR_PR" | tee reports/donor-readiness-gate-report.json
+            full_gate_required=false
+          elif [ "$DONOR_PHASE" = intake ]; then
             PYTHONPATH=src python3 src/fa3_donor_readiness.py --phase intake --pr "$DONOR_PR" | tee reports/donor-readiness-gate-report.json
           else
             PYTHONPATH=src python3 src/fa3_donor_readiness.py --phase status | tee reports/donor-readiness-gate-report.json
           fi
+          echo "full_gate_required=$full_gate_required" >> "$GITHUB_OUTPUT"
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         if: always()
         with:

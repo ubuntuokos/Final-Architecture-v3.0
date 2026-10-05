@@ -3,6 +3,7 @@ name: FA3 Permanent Canonical + Promotion Gate
 on:
   pull_request:
     branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
   push:
     branches: [main]
   workflow_dispatch:
@@ -26,7 +27,7 @@ jobs:
   canonical-regression:
     name: canonical-regression / P0
     needs: donor-serialization
-    if: ${{ always() }}
+    if: ${{ always() && (needs.donor-serialization.result != 'success' || needs.donor-serialization.outputs.full_gate_required != 'false') }}
     runs-on: ubuntu-latest
     env:
       FA3_CHANGE_BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before || github.sha }}

@@ -59,11 +59,29 @@
   ],
   "local_intake_exclusion": "NONBLOCKING_FLOCK_PER_CHECKOUT_SINGLE_WRITER",
   "max_active_donor_intakes": 5,
-  "github_intake_coordination": "ROLLING_MAX_5_ACTIVE_CANONICAL_INTAKES_FIFO_SLOT_ADMISSION_SIZE_ORDER_FINALIZATION",
+  "github_intake_coordination": "ROLLING_BATCH_MAX_5_COLLECTION_ITEMS_SINGLE_CANONICAL_MUTATION_PR",
   "slot_refill": "NEXT_WAITING_FIFO_WHEN_ANY_ACTIVE_INTAKE_FINALIZES",
   "finalization_order": "ASCENDING_CANONICAL_DONOR_MUTATION_WORKLOAD_THEN_FIFO",
   "single_canonical_finalizer": true,
   "published_registry_scope": "COMMITTED_MAIN_ONLY",
   "potential_research_reference_auto_capture": false,
-  "unmarked_auto_candidate_registration": false
+  "unmarked_auto_candidate_registration": false,
+  "max_active_canonical_registry_mutation_prs": 1,
+  "canonical_registry_mutation_mode": "ROLLING_BATCH_SINGLE_WRITER",
+  "append_to_existing_open_batch_when_available": true,
+  "individual_registry_mutation_pr_per_submission": false,
+  "queue_only_delta_is_planning_input": false,
+  "stale_branch_direct_merge_or_rebase_forbidden": true,
+  "stale_branch_exact_head_delta_rehydration_required": true,
+  "full_protected_gate_scope": "FINAL_BATCH_HEAD_ONLY",
+  "fast_append_preflight": [
+    "SCHEMA",
+    "SOURCE_KEY_AND_DONOR_ID_UNIQUENESS",
+    "PROVENANCE",
+    "LICENSE_RIGHTS_METADATA_PRESENCE",
+    "CAPABILITY_DELTA_ZERO",
+    "AUTHORITY_DELTA_ZERO",
+    "DONOR_COUNT_DERIVATION"
+  ],
+  "batch_acceleration_decision": "CFA3-DEC-DONOR-INTAKE-BATCH-ACCELERATION-2026-10-04"
 }
