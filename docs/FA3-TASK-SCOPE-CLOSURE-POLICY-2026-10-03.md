@@ -30,3 +30,14 @@ A blocker may freeze execution, but the blocked object remains the same main tas
 The shared runtime rule applies to Assistant, Coach, Mentor, Manager, Agent Workload, Orchestration Workforce, Temporal-backed workflows and all current/future CFA3 applications that execute through the shared task path. It creates no scheduler or authority. Temporal remains durable lifecycle authority; Security/UAF, HRB, Model Router and Evidence retain their existing boundaries.
 
 The task-control read model exposes `main_task_id` plus `main_task_events` so CFA3 GUI surfaces can render the main task separately from blockers, monitored PRs, parallel tasks, constraints and follow-ups without changing focus automatically.
+
+
+## CFA3/FA3 Requested-Result-Only Scope Guard — 2026-10-06
+
+Canonical decision: `CFA3-DEC-REQUESTED-RESULT-ONLY-SCOPE-GUARD-2026-10-06`. Runtime invariant: `CFA3-REQUESTED-RESULT-ONLY-SCOPE-GUARD-001`.
+
+For CFA3/FA3 development and any shared task path that consumes the task-scope binding, the explicitly requested result is the exclusive execution target. An action is admissible only when it is directly required for that result or is the minimum necessary action to remove a real blocker that prevents that same result.
+
+The runtime forbids self-generated subtasks, optional/opportunistic work, automatic scope expansion, and automatic post-completion work. A new rule, parallel PR, dependency, monitoring obligation, or discovered improvement remains a constraint, dependency, observation, or follow-up; it does not become executable work merely because it is related.
+
+Blocker handling may stop execution, but it may not enlarge scope, create a successor task, or authorize unrelated repair. After the requested result is verified, execution stops unless the owner explicitly extends or creates scope.
