@@ -21,6 +21,7 @@ MANIFEST = ROOT / "canonical/deltas/CFA3-DONOR-BACKLOG-CONSOLIDATION-2026-10-04.
 DECISION = ROOT / "canonical/decisions/CFA3-DEC-DONOR-INTAKE-BATCH-ACCELERATION-2026-10-04.json"
 CONTRACT = ROOT / "canonical/contracts/FA3-DONOR-CHAT-INGEST-001.json"
 POLICY = ROOT / "canonical/enforcement-policy.json"
+LATEST_BATCH = ROOT / "canonical/deltas/CFA3-DONOR-TILE-AI-BATCH-FINALIZER-2026-10-05.json"
 
 
 class DonorBatchAccelerationTests(unittest.TestCase):
@@ -31,11 +32,13 @@ class DonorBatchAccelerationTests(unittest.TestCase):
         cls.decision = json.loads(DECISION.read_text(encoding="utf-8"))
         cls.contract = json.loads(CONTRACT.read_text(encoding="utf-8"))
         cls.policy = json.loads(POLICY.read_text(encoding="utf-8"))
+        cls.latest_batch = json.loads(LATEST_BATCH.read_text(encoding="utf-8"))
 
     def test_exact_backlog_union_and_baseline(self):
         self.assertEqual(self.registry["capability_count"], 175)
-        self.assertEqual(len(self.registry["entries"]), 1548)
-        self.assertEqual(self.registry["backfill"]["entry_count"], 1548)
+        self.assertEqual(len(self.registry["entries"]), self.registry["backfill"]["entry_count"])
+        self.assertEqual(len(self.registry["entries"]), self.latest_batch["resulting_entry_count"])
+        self.assertEqual(len(self.registry["entries"]), 1551)
         self.assertEqual(self.manifest["parent_entry_count"], 1427)
         self.assertEqual(self.manifest["new_source_count"], 121)
         self.assertEqual(self.manifest["resulting_entry_count"], 1548)
@@ -66,7 +69,9 @@ class DonorBatchAccelerationTests(unittest.TestCase):
         pending.append({"number": 999999, "head_sha": "f" * 40, "intake": True})
         covered, missing = batch_manifest_coverage(ROOT, pending, 999999)
         self.assertEqual(missing, [])
-        self.assertEqual(set(covered), {x["pr"] for x in self.manifest["source_prs"]})
+        historical = {x["pr"] for x in self.manifest["source_prs"]}
+        self.assertTrue(historical.issubset(set(covered)))
+        self.assertEqual(covered[711], self.latest_batch["source_prs"][0]["head"])
         pending[0]["head_sha"] = "0" * 40
         _, mismatch = batch_manifest_coverage(ROOT, pending, 999999)
         self.assertEqual(mismatch, [self.manifest["source_prs"][0]["pr"]])
@@ -102,7 +107,7 @@ class DonorBatchAccelerationTests(unittest.TestCase):
                 "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
                 "canonical/deltas/CFA3-DONOR-BACKLOG-CONSOLIDATION-2026-10-04.json",
             ],
-            "registry_blob_sha": git_blob_sha(REGISTRY.read_bytes()),
+            "registry_blob_sha": self.manifest["resulting_registry_blob_sha"],
             "registry_mutation": True,
             "intake": True,
         }
@@ -125,6 +130,69 @@ class DonorBatchAccelerationTests(unittest.TestCase):
             ROOT, pending[:-1] + [bad], bad, inspect_registry(ROOT), require_complete=True
         )
         self.assertIn("BATCH_RESULTING_REGISTRY_BLOB_MISMATCH", broken["findings"])
+
+    def test_latest_rolling_batch_is_exactly_bound_to_current_registry(self):
+        self.assertEqual(self.latest_batch["batch_finalizer_pr"], 713)
+        self.assertEqual(self.latest_batch["resulting_entry_count"], 1551)
+        self.assertEqual(self.latest_batch["capability_baseline"], 175)
+        self.assertEqual(self.latest_batch["capability_delta"], 0)
+        self.assertEqual(self.latest_batch["authority_delta"], 0)
+        self.assertEqual(self.latest_batch["usage_edges_created"], 0)
+        self.assertEqual(
+            self.latest_batch["resulting_registry_blob_sha"],
+            git_blob_sha(REGISTRY.read_bytes()),
+        )
+        self.assertEqual(
+            self.latest_batch["source_prs"],
+            [{
+                "pr": 711,
+                "head": "e4fe02e71aa8fe2530beccd7f31a7150869d2e90",
+                "contribution": 3,
+                "mode": "QUEUE_DELTA_MATERIALIZED",
+                "live_head_advanced_from": "4e7dc96ec5f0eaef465b9f30244c98cfbae903e3",
+                "head_refresh_reason": "DEV_11_DELTA_PATH_PREFIX_CORRECTION",
+            }],
+        )
+        self.assertEqual(self.latest_batch["parent_main"], "1b59f383b027c73c207bda1187c4cf71ad9ce33c")
+        self.assertEqual(
+            self.latest_batch["head_refreshes"],
+            [{
+                "pr": 711,
+                "from": "4e7dc96ec5f0eaef465b9f30244c98cfbae903e3",
+                "to": "e4fe02e71aa8fe2530beccd7f31a7150869d2e90",
+                "reason": "DEV_11_DELTA_PATH_PREFIX_CORRECTION",
+            }],
+        )
+        rehydration = self.latest_batch["rehydration_provenance"]
+        self.assertEqual(rehydration["prior_finalizer_head"], "2a5804ca4ffd0858a0854c09c4f0ba7f284ddeda")
+        self.assertEqual(rehydration["target_main"], "1b59f383b027c73c207bda1187c4cf71ad9ce33c")
+        self.assertEqual(rehydration["target_main_registry_blob_sha"], "03bd0b56a1c176efc224cdd1bc6a091562663390")
+        self.assertEqual(rehydration["method"], "EXACT_HEAD_DONOR_DELTA_REHYDRATION")
+        self.assertFalse(rehydration["direct_merge_or_rebase_used"])
+        self.assertFalse(rehydration["source_pr_non_donor_payload_admitted"])
+        by_id = {x["donor_id"]: x for x in self.registry["entries"]}
+        for donor_id in (
+            "FA3-DONOR-TILE-AI-TILELANG-001",
+            "FA3-DONOR-TILE-AI-TILERT-001",
+            "FA3-DONOR-TILE-AI-TILEOPS-001",
+        ):
+            provenance = by_id[donor_id]["intake_provenance"]
+            self.assertEqual(
+                provenance["source_pr_head"],
+                "e4fe02e71aa8fe2530beccd7f31a7150869d2e90",
+            )
+            self.assertEqual(
+                provenance["source_pr_original_head"],
+                "4e7dc96ec5f0eaef465b9f30244c98cfbae903e3",
+            )
+            self.assertEqual(
+                provenance["source_pr_head_refresh_lineage"],
+                [{
+                    "from": "4e7dc96ec5f0eaef465b9f30244c98cfbae903e3",
+                    "to": "e4fe02e71aa8fe2530beccd7f31a7150869d2e90",
+                    "reason": "DEV_11_DELTA_PATH_PREFIX_CORRECTION",
+                }],
+            )
 
     def test_known_non_batch_candidate_never_falls_back_to_local_batch_manifest(self):
         candidate = {
