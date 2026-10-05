@@ -112,6 +112,12 @@ class DonorBatchFinalizerBootstrapTests(unittest.TestCase):
         self.assertIn('report.get("result")=="BLOCKED"', text)
         self.assertIn('refreshed.get("result")=="BLOCKED"', text)
 
+    def test_revalidation_does_not_fail_batch_covered_source_prs(self):
+        text = (ROOT / ".github/workflows/fa3-donor-intake-revalidation.yml").read_text()
+        self.assertIn('covered=set(report.get("batch_covered_prs") or [])', text)
+        self.assertIn('number == finalizer or number in covered', text)
+        self.assertIn('leaving its existing checks untouched', text)
+
     def test_bootstrap_has_no_registry_materialization(self):
         decision = json.loads((ROOT / "canonical/decisions/CFA3-DEC-DONOR-BATCH-FINALIZER-BOOTSTRAP-2026-10-05.json").read_text())
         self.assertFalse(decision["scope"]["donor_registry_mutation"])

@@ -71,6 +71,7 @@ jobs:
 
           finalizer=order[0]
           waiting=set(report.get("waiting_donor_prs") or [])
+          covered=set(report.get("batch_covered_prs") or [])
           main_sha=getter(f"/repos/{REPO}/branches/main")["commit"]["sha"]
 
           def api(method,path,payload):
@@ -103,7 +104,10 @@ jobs:
 
           for row in rows:
               number=row["number"]
-              if number == finalizer:
+              if number == finalizer or number in covered:
+                  if number in covered:
+                      print(f"PR #{number} is exact-head covered by batch finalizer #{finalizer}; "
+                            "leaving its existing checks untouched.")
                   continue
               reason=("DONOR_INTAKE_ACTIVE_WINDOW_FULL_WAIT_FOR_SLOT"
                       if number in waiting else
