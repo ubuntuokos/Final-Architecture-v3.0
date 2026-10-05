@@ -23,10 +23,9 @@
   "physical_requalification_required": false,
   "historical_evidence_reused": false,
   "current_host_changes": [],
-  "rationale": "Static-only shared ray/path tracing materialization plus governance integration repair. Capability count is read from the active release baseline; donor usage/shared-capability records conform to the existing canonical index schema; Decision Fabric remains non-authoritative; mandatory Khronos review is recomputed centrally and historical mirrors cannot grant authority. No tracing workload, provider/model activation, device binding, package/driver install, hardware mutation or physical Current Host PASS is introduced. Repository-wide Current Host stabilization freeze remains in force.",
+  "rationale": "Static-only shared ray/path tracing materialization plus governance integration repair. The Current Host structural declaration now contains only paths classified as structural by the canonical structural-impact policy; non-structural implementation/test/index files remain part of the PR but are not falsely declared structural. No tracing workload, provider/model activation, device binding, package/driver install, hardware mutation or physical Current Host PASS is introduced. Repository-wide Current Host stabilization freeze remains in force.",
   "structural_changes": [
     ".github/workflows/fa3-ray-path-tracing-fabric.yml",
-    "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
     "canonical/FA3-GATE-RAY-PATH-TRACING-001.json",
     "canonical/FA3-GATE-REGISTRY-001.json",
     "canonical/assessments/FA3-SHARED-RAY-PATH-TRACING-DECISION-ASSESSMENT-2026-10-05.json",
@@ -42,10 +41,8 @@
     "canonical/decisions/FA3-DEC-SHARED-RAY-PATH-TRACING-2026-10-05.json",
     "canonical/enforcement-policy.json",
     "src/fa3_enforce.py",
-    "src/fa3_ray_path_tracing_fabric.py",
     "src/fa3_ray_path_tracing_gate.py",
-    "src/fa3_reuse_gate.py",
-    "tests/test_reuse_discovery_gate.py"
+    "src/fa3_reuse_gate.py"
   ],
   "current_host_status": "STABILIZATION_FREEZE_NO_RUNTIME_PROMOTION",
   "runtime_promotion_claim": false,
