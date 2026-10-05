@@ -1,0 +1,199 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-SHARED-RAY-PATH-TRACING-REUSE-ASSESSMENT-2026-10-05",
+  "project_id": "FA3-SHARED-RAY-PATH-TRACING-001",
+  "intent_id": "FA3-SHARED-RAY-PATH-TRACING-APPLICATION-INTENT-2026-10-05",
+  "intent_path": "canonical/intents/FA3-SHARED-RAY-PATH-TRACING-APPLICATION-INTENT-2026-10-05.json",
+  "covered_ids": [
+    "FA3-SHARED-RAY-PATH-TRACING-001",
+    "FA3-SHARED-RAY-PATH-TRACING-CONTRACTS-001",
+    "FA3-ENGINE-REGISTRY-001",
+    "FA3-APPLICATION-DONOR-LINKS-001"
+  ],
+  "project_status": "OWNER_APPROVED_STATIC_MATERIALIZATION",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "MANDATORY_EXISTING_REUSE_DISCOVERY"
+    },
+    {
+      "id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+      "use": "PUBLISHED_CANONICAL_DONOR_INPUT"
+    },
+    {
+      "id": "FA3-ENGINE-SELECTION-FABRIC-001",
+      "use": "ENGINE_SELECTION_INTENT_AND_COMPATIBILITY_PROJECTION"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "DEVICE_PLACEMENT_RESERVATION_AND_LEASE_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "NEURAL_DENOISE_MODEL_PROVIDER_ROUTING_ONLY"
+    },
+    {
+      "id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "use": "VULKAN_SPIRV_OPEN_GRAPHICS_INTEROP_BOUNDARY"
+    },
+    {
+      "id": "FA3-GPU-KERNEL-RUNTIME-001",
+      "use": "EXISTING_PROVIDER_NEUTRAL_GPU_EXECUTION_BOUNDARY"
+    },
+    {
+      "id": "CAP-161",
+      "use": "EXISTING_RENDER_JOB_DISPATCH_CAPABILITY"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "APPLICATION_LOCAL_RAY_TRACING_CORE",
+      "reason": "MULTI_APPLICATION_FUNCTION_MUST_BE_SHARED"
+    },
+    {
+      "id": "NEW_HARDWARE_ROUTER",
+      "reason": "HRB_REMAINS_SOLE_DEVICE_RESOURCE_AUTHORITY"
+    },
+    {
+      "id": "NEW_MODEL_ROUTER",
+      "reason": "MODEL_ROUTER_REMAINS_SOLE_AI_MODEL_PROVIDER_ROUTING_AUTHORITY"
+    },
+    {
+      "id": "AUTOMATIC_VENDOR_FALLBACK",
+      "reason": "SILENT_BACKEND_SUBSTITUTION_FORBIDDEN"
+    },
+    {
+      "id": "NEW_CAPABILITY",
+      "reason": "CAP_127_ALREADY_CANONICALLY_COVERS_GPU_RAY_TRACING_AND_ACCELERATION"
+    }
+  ],
+  "donor_planning_snapshot": {
+    "published_main_commit": "f0dec00e71ee04849afb16b974cd7cefdaa4c39d",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "03bd0b56a1c176efc224cdd1bc6a091562663390",
+    "donor_registry_entry_count": 1548
+  },
+  "pending_or_unmerged_donors_consumed": false,
+  "donor_usage_edges_created": 7,
+  "donor_review": "REVIEWED_MATCH",
+  "donor_adoption_authorized": true,
+  "adopted_donors": [
+    {
+      "donor_id": "FA3-DONOR-PROJECT-10-OPENRT-001",
+      "decision": "EXPLICITLY_APPROVED",
+      "mode": "APPROVED_CAPABILITY_PATTERN",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "usage_edge_id": "FA3-USAGE-PROJECT10-OPENRT-RAY-PATH-TRACING-001",
+      "approval_ref": "canonical/decisions/FA3-DEC-PROJECT10-OPENRT-RAY-PATH-TRACING-001-2026-10-05.json",
+      "adoption_scope": "PROVIDER_NEUTRAL_RT_API_AND_EXPLICIT_BACKEND_BOUNDARY",
+      "code_copy": false,
+      "runtime_dependency": false,
+      "architectural_authority": false
+    },
+    {
+      "donor_id": "FA3-DONOR-GPUOPEN-GPURT-001",
+      "decision": "EXPLICITLY_APPROVED",
+      "mode": "APPROVED_CAPABILITY_PATTERN",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "usage_edge_id": "FA3-USAGE-GPUOPEN-GPURT-RAY-PATH-TRACING-001",
+      "approval_ref": "canonical/decisions/FA3-DEC-GPUOPEN-GPURT-RAY-PATH-TRACING-001-2026-10-05.json",
+      "adoption_scope": "ACCELERATION_STRUCTURE_AND_HARDWARE_TRAVERSAL_BOUNDARY",
+      "code_copy": false,
+      "runtime_dependency": false,
+      "architectural_authority": false
+    },
+    {
+      "donor_id": "FA3-DONOR-GPUOPEN-RRA-001",
+      "decision": "EXPLICITLY_APPROVED",
+      "mode": "APPROVED_CAPABILITY_PATTERN",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "usage_edge_id": "FA3-USAGE-GPUOPEN-RRA-RAY-PATH-TRACING-001",
+      "approval_ref": "canonical/decisions/FA3-DEC-GPUOPEN-RRA-RAY-PATH-TRACING-001-2026-10-05.json",
+      "adoption_scope": "ACCELERATION_STRUCTURE_DIAGNOSTICS_AND_EVIDENCE_PROJECTION",
+      "code_copy": false,
+      "runtime_dependency": false,
+      "architectural_authority": false
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-LEVEL-ZERO-RAYTRACING-SUPPORT-001",
+      "decision": "EXPLICITLY_APPROVED",
+      "mode": "APPROVED_CAPABILITY_PATTERN",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "usage_edge_id": "FA3-USAGE-INTEL-L0RT-RAY-PATH-TRACING-001",
+      "approval_ref": "canonical/decisions/FA3-DEC-INTEL-L0RT-RAY-PATH-TRACING-001-2026-10-05.json",
+      "adoption_scope": "INTEL_RT_CAPABILITY_DISCOVERY_AND_EXACT_BACKEND_BINDING",
+      "code_copy": false,
+      "runtime_dependency": false,
+      "architectural_authority": false
+    },
+    {
+      "donor_id": "FA3-DONOR-INTEL-REALTIME-PATH-TRACING-RESEARCH-FRAMEWORK-001",
+      "decision": "EXPLICITLY_APPROVED",
+      "mode": "APPROVED_CAPABILITY_PATTERN",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "usage_edge_id": "FA3-USAGE-INTEL-RTPTRF-RAY-PATH-TRACING-001",
+      "approval_ref": "canonical/decisions/FA3-DEC-INTEL-RTPTRF-RAY-PATH-TRACING-001-2026-10-05.json",
+      "adoption_scope": "PROGRESSIVE_PATH_TRACING_ACCUMULATION_AND_QUALITY_POLICY",
+      "code_copy": false,
+      "runtime_dependency": false,
+      "architectural_authority": false
+    },
+    {
+      "donor_id": "FA3-DONOR-ANCIENTKINGG-RUST-RAYTRACER-001",
+      "decision": "EXPLICITLY_APPROVED",
+      "mode": "APPROVED_CAPABILITY_PATTERN",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "usage_edge_id": "FA3-USAGE-RUST-RAYTRACER-CPU-PATH-001",
+      "approval_ref": "canonical/decisions/FA3-DEC-RUST-RAYTRACER-CPU-PATH-001-2026-10-05.json",
+      "adoption_scope": "CPU_SOFTWARE_RAY_TRACING_REFERENCE_PATH",
+      "code_copy": false,
+      "runtime_dependency": false,
+      "architectural_authority": false
+    }
+  ],
+  "reference_bindings": [
+    {
+      "donor_id": "FA3-DONOR-NVIDIA-RTX-ORG-001",
+      "usage_edge_id": "FA3-USAGE-NVIDIA-RTX-RAY-PATH-TRACING-001",
+      "mode": "REFERENCE_ONLY",
+      "material_adoption": false,
+      "code_copy": false,
+      "runtime_dependency": false
+    }
+  ],
+  "shared_capability_placement": {
+    "reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "shared_component_ids": [
+      "FA3-SHARED-RAY-PATH-TRACING-001"
+    ],
+    "retrospective_consumer_impact_reviewed": true,
+    "local_duplicate_created": false,
+    "consumer_scope": [
+      "CURRENT_RELEVANT_APPLICATIONS",
+      "FUTURE_CAPABILITY_COMPATIBLE_APPLICATIONS"
+    ]
+  },
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "implementation_readiness": "STATIC_SHARED_FABRIC_IMPLEMENTED_RUNTIME_BACKEND_PROMOTION_SEPARATE",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "hardware_audit": {
+    "result": "PASS",
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "no_global_cuda_floor": true,
+    "physical_current_host_pass_claimed": false,
+    "target_paths": [
+      "CPU",
+      "NVIDIA",
+      "AMD",
+      "INTEL"
+    ]
+  }
+}

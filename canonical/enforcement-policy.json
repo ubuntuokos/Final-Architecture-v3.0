@@ -116,7 +116,8 @@
     "FA3-CANONICAL-REGISTRY-INTEGRITY-GATESET-001",
     "FA3-SHARED-HAIR-GROOM-GATESET-001",
     "FA3-CUDA-COMPAT-NATIVE-GATESET-001",
-    "CFA3-DEVELOPMENT-AI-BEHAVIOR-GATESET-001"
+    "CFA3-DEVELOPMENT-AI-BEHAVIOR-GATESET-001",
+    "FA3-RAY-PATH-TRACING-GATESET-001"
   ],
   "openbmb_family_id": "FA3-PROVIDER-FAMILY-OPENBMB-001",
   "openbmb_provider_ids": [
@@ -2175,5 +2176,11 @@
     "protected_action_refs_require_commit_sha": true,
     "capability_delta": 0,
     "authority_delta": 0
-  }
+  },
+  "ray_path_tracing_profile_id": "FA3-SHARED-RAY-PATH-TRACING-001",
+  "ray_path_tracing_contract_id": "FA3-SHARED-RAY-PATH-TRACING-CONTRACTS-001",
+  "ray_path_tracing_gate_id": "FA3-RAY-PATH-TRACING-GATESET-001",
+  "ray_path_tracing_enforcement_class": "P0_CROSS_CUTTING_STATIC_GATE",
+  "ray_path_tracing_global_static_required": true,
+  "ray_path_tracing_current_host_runtime_promotion_claim": false
 }

@@ -71,7 +71,9 @@
     "RENDER",
     "NEURAL_RENDER",
     "STREAMING",
-    "CUSTOM"
+    "CUSTOM",
+    "RAY_TRACING",
+    "PATH_TRACING"
   ],
   "provider_projection_rules": [
     {
@@ -286,6 +288,44 @@
       "model_router_bound": true,
       "permanent_parallel_option": true,
       "external_provider_alternatives_allowed": true,
+      "current_host_runtime_promotion_claim": false
+    },
+    {
+      "engine_id": "FA3-ENGINE-FA3-RAY-PATH-TRACING-001",
+      "name": "CFA3 Shared Ray/Path Tracing Fabric",
+      "implementation_kind": "FA3_NATIVE_SHARED_FABRIC",
+      "engine_classes": [
+        "RAY_TRACING",
+        "PATH_TRACING",
+        "RENDER"
+      ],
+      "capability_projection": [
+        "CAP-025",
+        "CAP-083",
+        "CAP-127",
+        "CAP-161",
+        "CAP-163"
+      ],
+      "execution_modes": [
+        "LOCAL",
+        "LAN"
+      ],
+      "status": "STATIC_SHARED_FABRIC_MATERIALIZED_RUNTIME_BACKEND_ADMISSION_SEPARATE",
+      "health_state": "AVAILABLE_CONDITIONAL",
+      "architectural_authority": false,
+      "provider_record": null,
+      "permanent_parallel_option": true,
+      "hrb_bound": true,
+      "engine_selection_bound": true,
+      "model_router_bound_when_neural_denoise": true,
+      "cpu_software_path_required": true,
+      "gpu_vendor_paths": [
+        "NVIDIA",
+        "AMD",
+        "INTEL"
+      ],
+      "automatic_backend_selection": false,
+      "silent_fallback": false,
       "current_host_runtime_promotion_claim": false
     }
   ],

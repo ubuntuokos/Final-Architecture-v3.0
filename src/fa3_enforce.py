@@ -88,6 +88,7 @@ from fa3_browser_cdp_gate import gate as browser_cdp_provider_gate
 from fa3_neural_rendering_gate import gate as neural_rendering_gate
 from fa3_hair_groom_gate import gate as hair_groom_gate
 from fa3_cuda_compat_gate import gate as cuda_compat_native_gate
+from fa3_ray_path_tracing_gate import gate as ray_path_tracing_gate
 from cfa3_development_ai_behavior_gate import gate as cfa3_development_ai_behavior_gate
 from fa3_khronos_open_standards_gate import gate as khronos_open_standards_gate
 from fa3_audacity_mcp_gate import gate as audacity_mcp_gate
@@ -235,6 +236,10 @@ def static_check(root:Path):
     if cuda_compat_native_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-151","CFA3 native CUDA compatibility mandatory static gate failed",cuda_compat_native_gate=cuda_compat_native_ref))
 
+    ray_path_tracing_ref=ray_path_tracing_gate(root)
+    if ray_path_tracing_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-155","CFA3 Shared Ray/Path Tracing mandatory static gate failed",ray_path_tracing_gate=ray_path_tracing_ref))
+
     cfa3_development_ai_behavior_ref=cfa3_development_ai_behavior_gate(root)
     if cfa3_development_ai_behavior_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-153","CFA3 development and AI behavior mandatory governance gate failed",cfa3_development_ai_behavior_gate=cfa3_development_ai_behavior_ref))
@@ -323,6 +328,17 @@ def static_check(root:Path):
         fs.append(finding("FA3-STATIC-150","Shared Hair/Groom gate is not bound into global enforcement policy"))
     if "FA3-CUDA-COMPAT-NATIVE-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-152","CFA3 native CUDA compatibility gate is not bound into global enforcement policy"))
+    if "FA3-RAY-PATH-TRACING-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-156","CFA3 Shared Ray/Path Tracing gate is not bound into global enforcement policy"))
+    if not (
+        pol.get("ray_path_tracing_profile_id") == "FA3-SHARED-RAY-PATH-TRACING-001"
+        and pol.get("ray_path_tracing_contract_id") == "FA3-SHARED-RAY-PATH-TRACING-CONTRACTS-001"
+        and pol.get("ray_path_tracing_gate_id") == "FA3-RAY-PATH-TRACING-GATESET-001"
+        and pol.get("ray_path_tracing_enforcement_class") == "P0_CROSS_CUTTING_STATIC_GATE"
+        and pol.get("ray_path_tracing_global_static_required") is True
+        and pol.get("ray_path_tracing_current_host_runtime_promotion_claim") is False
+    ):
+        fs.append(finding("FA3-STATIC-157","CFA3 Shared Ray/Path Tracing cross-cutting binding is invalid"))
     if "CFA3-DEVELOPMENT-AI-BEHAVIOR-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-154","CFA3 development and AI behavior gate is not bound into global enforcement policy"))
     if "FA3-OPENBMB-GATESET-001" not in pol.get("mandatory_reference_gates",[]):

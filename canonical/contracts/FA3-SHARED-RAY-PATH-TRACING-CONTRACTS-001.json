@@ -1,0 +1,105 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-SHARED-RAY-PATH-TRACING-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL_STATIC_NOT_RUNTIME_PROMOTED",
+  "parent_profile": "FA3-SHARED-RAY-PATH-TRACING-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-025",
+    "CAP-083",
+    "CAP-127",
+    "CAP-161",
+    "CAP-163"
+  ],
+  "contracts": [
+    "RayPathTracingRequest",
+    "RayTracingBackendDescriptor",
+    "AccelerationStructureDescriptor",
+    "RayPathTracingCandidate",
+    "RayPathTracingPlan",
+    "PathAccumulationPolicy",
+    "DenoiseHandoff",
+    "TracingDiagnosticsProjection",
+    "RayPathTracingDenial"
+  ],
+  "request_contract": {
+    "required": [
+      "application_id",
+      "workload_id",
+      "trace_mode"
+    ],
+    "trace_modes": [
+      "RAY_TRACING",
+      "PATH_TRACING"
+    ],
+    "hardware_traversal": [
+      "REQUIRED",
+      "PREFERRED",
+      "DISABLED"
+    ],
+    "explicit_backend_id_optional": true,
+    "quality_policy_optional": true,
+    "direct_device_or_provider_authorization": false
+  },
+  "backend_descriptor": {
+    "required": [
+      "backend_id",
+      "vendor",
+      "api",
+      "available",
+      "device_bound",
+      "supported_modes",
+      "hardware_traversal",
+      "compatibility_class",
+      "provider_admitted",
+      "runtime_admitted"
+    ],
+    "vendors": [
+      "CPU",
+      "NVIDIA",
+      "AMD",
+      "INTEL",
+      "OTHER"
+    ],
+    "cpu_software_supported": true,
+    "compatibility_classes": [
+      "NATIVE",
+      "PORTABLE",
+      "SOFTWARE_CPU",
+      "FUNCTIONALLY_REDUCED",
+      "UNAVAILABLE"
+    ],
+    "exact_device_binding_required_for_accelerators": true
+  },
+  "execution_policy": {
+    "resolver_authorizes_execution": false,
+    "engine_selection_authority": "FA3-ENGINE-SELECTION-FABRIC-001",
+    "resource_lease_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "neural_denoise_router": "FA3-AUTH-MODEL-ROUTER-001",
+    "provider_admission_required": true,
+    "runtime_admission_required": true,
+    "hardware_safety_required": true,
+    "silent_fallback": false,
+    "automatic_backend_selection": false
+  },
+  "cpu_policy": {
+    "cpu_only_control_path_valid": true,
+    "cpu_software_path_required": true,
+    "cpu_path_may_not_be_silently_selected": true,
+    "cpu_executor_requires_normal_runtime_admission": true
+  },
+  "render_handoff": {
+    "render_dispatch_capability": "CAP-161",
+    "external_render_service_capability": "CAP-162",
+    "fabric_does_not_own_job_dispatch": true,
+    "lan_or_external_execution_requires_existing_render_dispatch_authority": true
+  },
+  "promotion": {
+    "physical_current_host_pass_claimed": false,
+    "runtime_promotion_claimed": false
+  }
+}
