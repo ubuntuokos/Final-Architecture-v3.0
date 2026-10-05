@@ -50,13 +50,15 @@ Projection authority: none.
 If this file conflicts with a canonical record, contract, decision, executable gate, or verified evidence, stop and resolve the conflict at the higher-authority layer. Do not silently choose this file.
 
 
-## FA3 donor capture rule
+## CFA3 donor capture rule
 
-Only a source LINK that the **owner** explicitly introduced with the explicit `donornak` label (optionally followed by `:`) **before that link** is eligible for donor registration. A link without that preceding marker—including a research suggestion, assistant proposal, reference candidate or a link introduced with `donor:`—is **analysis only**. Do not insert, queue, sync, promote, remove or otherwise mutate donor metadata for that link before the owner gives a different explicit instruction. Do not infer donor consent from old research, generic keywords or assistant utterances. No retrospective PR extraction is mandatory.
+Normal donor intake recognizes exactly three authenticated owner commands as equivalent: `donornak`, `vedd fel donornak`, and `add a donorlistához`. Near-matches, commands inside URLs, negated commands, assistant text, research suggestions and uncommanded links are analysis-only. A command may appear before or after links in the same owner message. A command-only follow-up may target only links in the immediately preceding owner message with no intervening owner message; unreadable/skipped owner messages clear that target.
 
-Use `./bin/fa3-donor-capture --owner-submitted-link --owner-donor-marker donornak --name NAME --source URL` only when there is verified explicit owner marking. Direct owner-marked links are pre-reviewed for reference registration and become `ACCEPTED_REFERENCE` on successful canonical publication without an additional catalog approval. Existing rejection/supersession requires explicit resolution. Adoption, code reuse, installation and runtime admission still require normal explicit owner approvals and independent security, license, hardware and Software Coexistence checks.
+Direct operator intake must attest the exact owner command and source. The normalized legacy marker remains `donornak`, but literal-`donornak`-only interpretation is superseded by `FA3-DEC-DONOR-INTAKE-COMMAND-EQUIVALENCE-2026-10-04`. Registration creates `ACCEPTED_REFERENCE` only; adoption, code reuse, installation, provider/model admission and runtime use remain separately gated.
 
-Before design or material modification, consult Reuse Discovery against the **last verified, committed main donor registry only**. Never consume pending PR records or an unstaged import as canonical planning input; never publish a separate registry. Re-run prior analysis after a new donor batch only if the owner requests it.
+Implementation-plan preparation has one bounded exception: external sources may be substantively analyzed before registration only in the originating conversation lineage and direct continuations. After owner approval of that exact plan, every processed donor must be canonically registered before execution; the committed approval must bind the exact plan hash, assessment hash, processed normalized-key set and conversation lineage. This narrow approved-plan registration path does not require a second donor command and does not authorize adoption or runtime use.
+
+Before design or material modification, consult Reuse Discovery against the **last verified, committed main donor registry only**. Pending/unmerged donor records are never planning inputs. No retrospective PR extraction is mandatory.
 
 ## FA3 automatic application inventory and reciprocal reuse
 
