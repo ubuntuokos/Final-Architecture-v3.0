@@ -202,6 +202,89 @@ def _atomic_write(path: Path, value: dict[str, Any]) -> None:
         if os.path.exists(tmp):
             os.unlink(tmp)
 
+
+def resolve_donor_reference(registry: dict[str, Any], reference: str) -> dict[str, Any]:
+    """Resolve a donor ID, normalized key or URL through explicit supersedence.
+
+    Historical SUPERSEDED records remain immutable provenance.  Only the
+    declared donor_replacement_reference_id may redirect them, and a redirected
+    chain must terminate at ACCEPTED_REFERENCE. Missing targets, cycles and
+    ambiguous identities fail closed.
+    """
+    entries = registry.get("entries")
+    if not isinstance(entries, list):
+        raise ValueError("INVALID_DONOR_REGISTRY")
+
+    by_id: dict[str, dict[str, Any]] = {}
+    by_key: dict[str, dict[str, Any]] = {}
+    aliases: dict[str, dict[str, Any]] = {}
+    for row in entries:
+        if not isinstance(row, dict) or not isinstance(row.get("source"), dict):
+            continue
+        donor_id = row.get("donor_id")
+        key = row["source"].get("normalized_key")
+        if isinstance(donor_id, str) and donor_id:
+            if donor_id in by_id:
+                raise ValueError("AMBIGUOUS_DONOR_ID:" + donor_id)
+            by_id[donor_id] = row
+        if isinstance(key, str) and key:
+            if key in by_key:
+                raise ValueError("AMBIGUOUS_DONOR_KEY:" + key)
+            by_key[key] = row
+        for alias in row.get("legacy_source_keys", []):
+            if not isinstance(alias, str) or not alias:
+                continue
+            if alias in aliases and aliases[alias] is not row:
+                raise ValueError("AMBIGUOUS_DONOR_ALIAS:" + alias)
+            aliases[alias] = row
+
+    candidates = [reference]
+    if isinstance(reference, str) and reference.lower().startswith(("https://", "http://")):
+        candidates.append(_normalized_key("WEBSITE", reference))
+    current = next(
+        (by_id.get(value) or by_key.get(value) or aliases.get(value)
+         for value in candidates
+         if isinstance(value, str) and (value in by_id or value in by_key or value in aliases)),
+        None,
+    )
+    if current is None:
+        raise ValueError("DONOR_REFERENCE_NOT_FOUND:" + str(reference))
+
+    requested_id = current.get("donor_id")
+    chain: list[str] = []
+    visited: set[str] = set()
+    while current.get("status") == "SUPERSEDED":
+        donor_id = current.get("donor_id")
+        if not isinstance(donor_id, str) or not donor_id:
+            raise ValueError("SUPERSEDED_DONOR_ID_INVALID")
+        if donor_id in visited:
+            raise ValueError("DONOR_REPLACEMENT_CYCLE:" + donor_id)
+        visited.add(donor_id)
+        chain.append(donor_id)
+        replacement = current.get("donor_replacement_reference_id")
+        if not isinstance(replacement, str) or not replacement:
+            raise ValueError("SUPERSEDED_DONOR_REPLACEMENT_MISSING:" + donor_id)
+        target = by_id.get(replacement)
+        if target is None:
+            raise ValueError("SUPERSEDED_DONOR_REPLACEMENT_NOT_FOUND:" + donor_id)
+        current = target
+
+    resolved_id = current.get("donor_id")
+    if chain and current.get("status") != "ACCEPTED_REFERENCE":
+        raise ValueError("DONOR_REPLACEMENT_NOT_ACCEPTED:" + str(resolved_id))
+    if not isinstance(resolved_id, str) or not resolved_id:
+        raise ValueError("RESOLVED_DONOR_ID_INVALID")
+    chain.append(resolved_id)
+    return {
+        "requested_reference": reference,
+        "requested_donor_id": requested_id,
+        "resolved_donor_id": resolved_id,
+        "resolved_normalized_key": current.get("source", {}).get("normalized_key"),
+        "redirected": len(chain) > 1,
+        "replacement_chain": chain,
+        "record": current,
+    }
+
 def capture_candidate(
     root: Path,
     *,
@@ -262,6 +345,11 @@ def capture_candidate(
     }
     if key in audited and (match is None or not _security_reentry_verified(match)):
         raise ValueError("REJECTED_DONOR_REENTRY_REQUIRES_VERIFIED_SAFE_MAINTENANCE")
+    redirected_from: str | None = None
+    if match is not None and match.get("status") == "SUPERSEDED":
+        redirected_from = str(match.get("donor_id"))
+        resolution = resolve_donor_reference(registry, redirected_from)
+        match = resolution["record"]
     created = match is None
     if match is None and not (
         (direct_authorized and source_locator.lower().startswith(("https://", "http://")))
@@ -307,8 +395,6 @@ def capture_candidate(
     # Both intake paths authorize reference registration only. They never approve
     # source copying, dependency adoption, provider/model admission or runtime use.
     if direct_authorized or approved_plan is not None:
-        if match.get("status") == "SUPERSEDED":
-            raise ValueError("superseded source needs explicit conflict reconciliation")
         match["status"] = "ACCEPTED_REFERENCE"
         if approved_plan is not None:
             match["submission_review"] = {
@@ -328,6 +414,10 @@ def capture_candidate(
             }
     match["last_seen"] = today
     match["discovered_from"] = _merge_strings(match.get("discovered_from"), [discovered_from])
+    if redirected_from:
+        match["discovered_from"] = _merge_strings(
+            match.get("discovered_from"), ["superseded-redirect:" + redirected_from]
+        )
     match["tags"] = _merge_strings(match.get("tags"), tags or [])
     match["capability_hints"] = _merge_strings(match.get("capability_hints"), capabilities or [])
     match["domain_hints"] = _merge_strings(match.get("domain_hints"), domains or [])
