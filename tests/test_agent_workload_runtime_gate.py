@@ -4,6 +4,7 @@ from pathlib import Path
 
 from fa3_agent_workload import WorkloadContractError, project_to_ax, resume_requirements, validate_task
 from fa3_agent_workload_gate import gate, regression_cases
+from fa3_task_scope_closure import goal_scope_binding
 
 ROOT=Path(__file__).resolve().parents[1]
 
@@ -16,7 +17,8 @@ class AgentWorkloadRuntimeTests(unittest.TestCase):
         self.assertEqual("PASS",regression_cases()["result"])
 
     def test_direct_physical_model_pin_is_rejected(self):
-        task={"schema":"fa3.agent-workload-task.v1","task_id":"t","root_task_id":"t","scope_origin":"REQUIRED_FOR_APPROVED_GOAL","scope_refs":["approved:t"],"action_ref":"orchestration.execute",
+        binding=goal_scope_binding({"goal_id":"t","revision":1,"scope":{"in_scope":["approved:t"],"out_of_scope":[]}})
+        task={"schema":"fa3.agent-workload-task.v1","task_id":"t","root_task_id":"t","scope_origin":"REQUIRED_FOR_APPROVED_GOAL","scope_refs":["approved:t"],"goal_scope_binding":binding,"action_ref":"orchestration.execute",
               "agent_definition_ref":"a","resource_requirements":{},"network_envelope_ref":"n",
               "model_intent":{"provider_id":"direct"},"authorized_ai_participants":["a"],
               "fanout_limits":{"max_children":1,"max_depth":1,"max_concurrent_children":1,"max_runtime_seconds":60,"max_retries":0,"max_tool_calls":1,"max_model_requests":1}}
@@ -24,7 +26,8 @@ class AgentWorkloadRuntimeTests(unittest.TestCase):
             validate_task(task)
 
     def test_scope_provenance_missing_or_open_ended_is_rejected(self):
-        task={"schema":"fa3.agent-workload-task.v1","task_id":"t","root_task_id":"t","scope_origin":"REQUIRED_FOR_APPROVED_GOAL","scope_refs":["approved:t"],"action_ref":"orchestration.execute",
+        binding=goal_scope_binding({"goal_id":"t","revision":1,"scope":{"in_scope":["approved:t"],"out_of_scope":[]}})
+        task={"schema":"fa3.agent-workload-task.v1","task_id":"t","root_task_id":"t","scope_origin":"REQUIRED_FOR_APPROVED_GOAL","scope_refs":["approved:t"],"goal_scope_binding":binding,"action_ref":"orchestration.execute",
               "agent_definition_ref":"a","workspace_refs":[],"resource_requirements":{},"network_envelope_ref":"n",
               "model_intent":{},"authorized_ai_participants":["a"],
               "fanout_limits":{"max_children":1,"max_depth":1,"max_concurrent_children":1,"max_runtime_seconds":60,"max_retries":0,"max_tool_calls":1,"max_model_requests":1}}
