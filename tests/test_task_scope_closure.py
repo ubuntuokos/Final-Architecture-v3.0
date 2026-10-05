@@ -18,6 +18,7 @@ from fa3_task_scope_closure import (
     CLOSED,
     DONE,
     HUMAN_INTERVENTION_REQUIRED,
+    MAIN_TASK_CONTINUITY_ID,
     MAX_SAME_BLOCKER_ATTEMPTS,
     NEW_TASK_DISCOVERED,
     POLICY_ID,
@@ -28,6 +29,7 @@ from fa3_task_scope_closure import (
     close_task_control,
     goal_scope_binding,
     record_blocker_failure,
+    record_main_task_event,
     register_followup_handoff,
     start_task_control,
     validate_goal_scope_binding,
@@ -145,6 +147,37 @@ class TaskScopeClosureTests(unittest.TestCase):
         self.assertNotEqual(goal_scope_binding(changed)["goal_digest"], binding["goal_digest"])
         with self.assertRaises(TaskScopeClosureError):
             validate_goal_scope_binding(binding, expected_root_task_id="other-goal")
+
+    def test_main_task_binding_is_immutable_and_owner_only(self):
+        binding, control = self.control()
+        self.assertEqual(binding["main_task_continuity_id"], MAIN_TASK_CONTINUITY_ID)
+        self.assertEqual(binding["main_task_id"], "goal-scope-1")
+        self.assertEqual(binding["main_task_switch_authority"], "EXPLICIT_OWNER_ONLY")
+        self.assertFalse(binding["main_task_automatic_reassignment"])
+        self.assertEqual(control["main_task_id"], "goal-scope-1")
+        tampered = copy.deepcopy(control)
+        tampered["main_task_id"] = "parallel-pr-718"
+        with self.assertRaises(TaskScopeClosureError):
+            validate_task_control(tampered)
+
+    def test_rules_parallel_work_and_blockers_do_not_replace_main_task(self):
+        binding, control = self.control()
+        original = control["main_task_id"]
+        for kind, summary in (
+            ("CONSTRAINT_UPDATE", "A new runtime rule was introduced."),
+            ("PARALLEL_OBSERVATION", "Parallel PR status changed."),
+            ("MONITORING_OBLIGATION", "A related PR must be watched."),
+            ("PARALLEL_TASK_REFERENCE", "Another task is running in parallel."),
+        ):
+            control = record_main_task_event(control, kind, summary, refs=["ref:test"])
+            self.assertEqual(control["main_task_id"], original)
+            self.assertFalse(control["main_task_events"][-1]["replaces_main_task"])
+        fp = blocker_fingerprint("TEST_BLOCKER", ["run:1"])
+        control = record_main_task_event(control, "BLOCKER", "Execution is blocked.", refs=["run:1"])
+        control = record_blocker_failure(control, fp, "blocked once")
+        self.assertEqual(control["main_task_id"], original)
+        self.assertEqual(control["goal_id"], original)
+        validate_task_control(control, expected_binding=binding)
 
     def test_scope_overlap_is_rejected(self):
         g = goal()
@@ -273,6 +306,11 @@ class TaskScopeClosureTests(unittest.TestCase):
         admission = validate_execution_admission(plan, task_control=control)
         self.assertTrue(admission["fresh_revalidation"])
         self.assertEqual(admission["decision"], "ALLOW")
+        self.assertEqual(plan["main_task_continuity_id"], MAIN_TASK_CONTINUITY_ID)
+        self.assertEqual(plan["main_task_id"], "goal-scope-1")
+        self.assertEqual(plan["main_task_binding_revision"], 1)
+        self.assertEqual(plan["main_task_binding_digest"], plan["goal_scope_binding_digest"])
+        self.assertEqual(admission["main_task_id"], "goal-scope-1")
 
         fp = blocker_fingerprint("TRANSIENT_BLOCKER", ["run:1"])
         newer = record_blocker_failure(control, fp, "failed once")
