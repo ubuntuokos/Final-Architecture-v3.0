@@ -8,7 +8,7 @@ SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
-from cfa3_development_ai_behavior_guard import RULE_IDS, authorize_action, authorize_development_action
+from cfa3_development_ai_behavior_guard import RULE_IDS, authorize_action, authorize_development_action, evaluate_external_state_claim
 
 POLICY = ROOT / "canonical/CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001.json"
 
@@ -60,7 +60,7 @@ class Cfa3DevelopmentAiBehaviorTests(unittest.TestCase):
         self.assertEqual(0, policy["capability_delta"])
         self.assertEqual(0, policy["architectural_authority_delta"])
         self.assertEqual(15, len(policy["development_rules"]))
-        self.assertEqual(11, len(policy["ai_behavior_rules"]))
+        self.assertEqual(12, len(policy["ai_behavior_rules"]))
         self.assertTrue(policy["scope"]["fa3_development_process"])
         self.assertTrue(policy["scope"]["cfa3_development_process"])
         self.assertEqual(["DEV-12", "DEV-13", "DEV-14", "DEV-15"], policy["development_work_status_protocol"]["rule_ids"])
@@ -384,6 +384,81 @@ class Cfa3DevelopmentAiBehaviorTests(unittest.TestCase):
         self.assertIn("DEV-12", result["rule_ids"])
         self.assertIn("AI-09", result["rule_ids"])
 
+
+    def test_ai_only_external_state_cannot_be_promoted_to_fact(self):
+        result = evaluate_external_state_claim({
+            "requested_classification": "FACT",
+            "verification_available": False,
+            "verification_performed": False,
+            "ai_self_statement_only": True,
+        })
+        self.assertEqual("STOP", result["decision"])
+        self.assertIn("AI-12", result["rule_ids"])
+
+    def test_available_external_verification_is_mandatory(self):
+        result = evaluate_external_state_claim({
+            "requested_classification": "HYPOTHESIS",
+            "verification_available": True,
+            "verification_performed": False,
+            "ai_self_statement_only": True,
+        })
+        self.assertEqual("STOP", result["decision"])
+        self.assertIn("AI-12", result["rule_ids"])
+
+    def test_authoritative_verification_allows_fact_promotion(self):
+        result = evaluate_external_state_claim({
+            "requested_classification": "FACT",
+            "verification_available": True,
+            "verification_performed": True,
+            "verification_source_kind": "AUTHORITATIVE",
+            "verification_source_ref": "github:repos/example/project/branches/main",
+            "claim_matches_verified_state": True,
+            "ai_self_statement_only": False,
+        })
+        self.assertEqual("ALLOW", result["decision"])
+        self.assertTrue(result["fact_promotion_allowed"])
+        self.assertEqual("FACT", result["effective_classification"])
+
+    def test_verified_external_state_overrides_ai_claim(self):
+        result = evaluate_external_state_claim({
+            "requested_classification": "FACT",
+            "verification_available": True,
+            "verification_performed": True,
+            "verification_source_kind": "DETERMINISTIC",
+            "verification_source_ref": "gate:exact-state",
+            "claim_matches_verified_state": False,
+            "ai_self_statement_only": False,
+        })
+        self.assertEqual("STOP", result["decision"])
+        self.assertEqual("VERIFIED_EXTERNAL_STATE_OVERRIDES_AI_CLAIM", result["reason"])
+
+    def test_unverified_external_state_may_remain_hypothesis_when_no_check_exists(self):
+        result = evaluate_external_state_claim({
+            "requested_classification": "HYPOTHESIS",
+            "verification_available": False,
+            "verification_performed": False,
+            "ai_self_statement_only": True,
+        })
+        self.assertEqual("ALLOW", result["decision"])
+        self.assertFalse(result["fact_promotion_allowed"])
+        self.assertEqual("HYPOTHESIS", result["effective_classification"])
+
+    def test_action_preflight_carries_external_state_fact_verification(self):
+        ctx = base_context("READ")
+        ctx["external_state_claim"] = {
+            "requested_classification": "FACT",
+            "verification_available": True,
+            "verification_performed": True,
+            "verification_source_kind": "AUTHORITATIVE",
+            "verification_source_ref": "canonical:registry",
+            "claim_matches_verified_state": True,
+            "ai_self_statement_only": False,
+        }
+        result = authorize_action(ctx)
+        self.assertEqual("ALLOW", result["decision"])
+        receipt = result["external_state_fact_verification"]
+        self.assertTrue(receipt["fact_promotion_allowed"])
+        self.assertTrue(receipt["authoritative_result_precedence"])
 
 if __name__ == "__main__":
     unittest.main()

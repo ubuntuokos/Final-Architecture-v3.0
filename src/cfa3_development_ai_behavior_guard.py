@@ -27,7 +27,7 @@ RULE_IDS = {
     "DEV-06", "DEV-07", "DEV-08", "DEV-09", "DEV-10", "DEV-11",
     "DEV-12", "DEV-13", "DEV-14", "DEV-15",
     "AI-01", "AI-02", "AI-03", "AI-04", "AI-05",
-    "AI-06", "AI-07", "AI-08", "AI-09", "AI-10", "AI-11",
+    "AI-06", "AI-07", "AI-08", "AI-09", "AI-10", "AI-11", "AI-12",
 }
 
 _BASE_BOOL_FACTS = (
@@ -126,6 +126,78 @@ def _allow(action: str, applied_overrides: set[str]) -> dict:
         "policy_preflight_passed": True,
         "side_effect_authorized": False,
         "effect_authority_required": action in MUTATING_ACTIONS,
+    }
+
+
+def evaluate_external_state_claim(claim: Mapping[str, Any]) -> dict:
+    """Classify an AI-origin external-state claim without granting evidence authority.
+
+    FACT promotion requires qualifying authoritative/deterministic verification.
+    AI self-assertion, memory, cache, inference, or prior AI statements are never
+    sufficient authority for FACT status.
+    """
+    if not isinstance(claim, Mapping):
+        return _stop({"AI-12", "AI-09"}, "EXTERNAL_STATE_CLAIM_MUST_BE_MAPPING")
+    classification = claim.get("requested_classification")
+    if classification not in {"FACT", "HYPOTHESIS", "UNVERIFIED"}:
+        return _stop({"AI-12", "AI-09"}, "INVALID_EXTERNAL_STATE_CLASSIFICATION")
+    for key in ("verification_available", "verification_performed", "ai_self_statement_only"):
+        if claim.get(key) is not True and claim.get(key) is not False:
+            return _stop({"AI-12", "AI-09"}, f"INVALID_EXTERNAL_STATE_BOOLEAN:{key}")
+
+    available = claim["verification_available"]
+    performed = claim["verification_performed"]
+    ai_only = claim["ai_self_statement_only"]
+
+    if available is True and performed is not True:
+        return _stop({"AI-12"}, "AVAILABLE_AUTHORITATIVE_OR_DETERMINISTIC_VERIFICATION_REQUIRED")
+    if available is False and performed is True:
+        return _stop({"AI-12", "AI-09"}, "EXTERNAL_STATE_VERIFICATION_AVAILABILITY_CONTRADICTION")
+
+    if performed is True:
+        source_kind = claim.get("verification_source_kind")
+        source_ref = claim.get("verification_source_ref")
+        matches = claim.get("claim_matches_verified_state")
+        if source_kind not in {"AUTHORITATIVE", "DETERMINISTIC"}:
+            return _stop({"AI-12"}, "QUALIFYING_EXTERNAL_VERIFICATION_SOURCE_REQUIRED")
+        if not isinstance(source_ref, str) or not source_ref.strip():
+            return _stop({"AI-12"}, "EXTERNAL_VERIFICATION_PROVENANCE_REQUIRED")
+        if matches is not True and matches is not False:
+            return _stop({"AI-12", "AI-09"}, "VERIFIED_EXTERNAL_STATE_MATCH_RESULT_REQUIRED")
+        if ai_only is True:
+            return _stop({"AI-12", "AI-09"}, "VERIFIED_EXTERNAL_STATE_CANNOT_REMAIN_AI_ONLY")
+        if matches is not True:
+            return _stop({"AI-12"}, "VERIFIED_EXTERNAL_STATE_OVERRIDES_AI_CLAIM")
+        return {
+            "decision": "ALLOW",
+            "blocker": False,
+            "reason": "EXTERNAL_STATE_VERIFIED",
+            "rule_ids": ["AI-12"],
+            "fact_promotion_allowed": classification == "FACT",
+            "effective_classification": classification,
+            "verification_required": True,
+            "verification_used": True,
+            "verification_source_kind": source_kind,
+            "verification_source_ref": source_ref.strip(),
+            "authoritative_result_precedence": True,
+            "side_effect_authorized": False,
+        }
+
+    if classification == "FACT":
+        return _stop({"AI-12"}, "AI_ONLY_EXTERNAL_STATE_CANNOT_BECOME_CFA3_FACT")
+    return {
+        "decision": "ALLOW",
+        "blocker": False,
+        "reason": "EXTERNAL_STATE_NOT_PROMOTED_TO_FACT",
+        "rule_ids": ["AI-12"],
+        "fact_promotion_allowed": False,
+        "effective_classification": classification,
+        "verification_required": False,
+        "verification_used": False,
+        "verification_source_kind": None,
+        "verification_source_ref": None,
+        "authoritative_result_precedence": True,
+        "side_effect_authorized": False,
     }
 
 
@@ -303,6 +375,11 @@ def authorize_action(context: Mapping[str, Any]) -> dict:
     except ValueError as exc:
         return _stop({"AI-09"}, f"INVALID_OWNER_OVERRIDE:{exc}")
     applied_overrides: set[str] = set()
+    external_state_check = None
+    if "external_state_claim" in context:
+        external_state_check = evaluate_external_state_claim(context["external_state_claim"])
+        if external_state_check.get("decision") != "ALLOW":
+            return external_state_check
 
     if context["current_owner_restriction_allows"] is not True:
         return _stop({"DEV-10", "AI-10"}, "CURRENT_OWNER_RESTRICTION_DENIES_ACTION")
@@ -379,6 +456,16 @@ def authorize_action(context: Mapping[str, Any]) -> dict:
         applied_overrides.update(needed)
 
     result = _allow(action, applied_overrides)
+    if external_state_check is not None:
+        result["external_state_fact_verification"] = {
+            "rule_id": "AI-12",
+            "effective_classification": external_state_check["effective_classification"],
+            "fact_promotion_allowed": external_state_check["fact_promotion_allowed"],
+            "verification_used": external_state_check["verification_used"],
+            "verification_source_kind": external_state_check["verification_source_kind"],
+            "verification_source_ref": external_state_check["verification_source_ref"],
+            "authoritative_result_precedence": True,
+        }
     if self_correction is not None:
         result["self_correction_authorized"] = True
         result["post_correction_report_required"] = True

@@ -235,6 +235,11 @@
       "id": "AI-11",
       "name": "SELF_CORRECTION_EXCEPTION",
       "requirement": "A CFA3 AI/model/agent may autonomously correct only its own clearly mechanical or technical mistake under the same deterministic, scope-preserving, authority-preserving and fail-closed conditions as DEV-11. It must notify before correction, verify exact state first when partial mutation is possible, and report the correction and resulting state. Redesign, alternative technical solutions, new PR/branch, cross-component changes, restriction weakening, review-discovered design or implementation defects, new permissions/side effects, or uncertain corrections remain BLOCKER -> STOP -> REPORT."
+    },
+    {
+      "id": "AI-12",
+      "name": "AUTHORITATIVE_EXTERNAL_STATE_FACT_PROMOTION",
+      "requirement": "An AI statement about external state cannot become a CFA3 fact merely because an AI asserted it or repeated an earlier AI statement. When deterministic or authoritative verification is available it must be used and takes precedence over AI self-check, memory, inference, cache, or prior AI claims. Without qualifying external verification, the claim may be retained only as HYPOTHESIS or UNVERIFIED; a contradictory verified result overrides the AI claim."
     }
   ],
   "state_machine": {
@@ -341,7 +346,9 @@
     "security_governance_remains_authorization_authority": true,
     "host_resource_broker_remains_resource_authority": true,
     "model_router_remains_model_routing_authority": true,
-    "behavior_preflight_is_effect_authority": false
+    "behavior_preflight_is_effect_authority": false,
+    "external_state_fact_promotion_entrypoint": "src/cfa3_development_ai_behavior_guard.py::evaluate_external_state_claim",
+    "external_state_fact_promotion_is_effect_authority": false
   },
   "development_work_status_protocol": {
     "id": "FA3-CFA3-DEVELOPMENT-WORK-STATUS-PROTOCOL-001",
@@ -365,5 +372,34 @@
     "post_hoc_notice_satisfies_requirement": false,
     "notice_is_not_authorization": true,
     "owner_override_remains_explicit_rule_scope_and_conversation_bounded": true
+  },
+  "external_state_fact_promotion": {
+    "id": "CFA3-EXTERNAL-STATE-FACT-VERIFICATION-001",
+    "rule_id": "AI-12",
+    "mandatory": true,
+    "applies_to": [
+      "CFA3_AI_MODELS",
+      "CFA3_AGENTS",
+      "CFA3_ORCHESTRATORS",
+      "MODEL_ROUTER_INVOKED_MODELS",
+      "LOCAL_AND_EXTERNAL_MODELS",
+      "CURRENT_AND_FUTURE_CFA3_APPLICATIONS"
+    ],
+    "ai_statement_alone_can_be_fact": false,
+    "prior_ai_statement_is_authority": false,
+    "ai_self_check_is_authority": false,
+    "authoritative_or_deterministic_verification_preferred_when_available": true,
+    "verification_mandatory_when_available": true,
+    "authoritative_result_overrides_ai_claim": true,
+    "fact_requires_qualifying_external_verification": true,
+    "unverified_external_state_classification": [
+      "HYPOTHESIS",
+      "UNVERIFIED"
+    ],
+    "verified_external_state_classification": "FACT",
+    "contradiction_result": "VERIFIED_EXTERNAL_STATE_OVERRIDES_AI_CLAIM",
+    "fact_promotion_entrypoint": "src/cfa3_development_ai_behavior_guard.py::evaluate_external_state_claim",
+    "creates_new_evidence_authority": false,
+    "evidence_authority_remains": "FA3-AUTH-OBS-EVIDENCE-001"
   }
 }

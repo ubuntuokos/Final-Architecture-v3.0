@@ -77,6 +77,7 @@ There is no direct transition from a blocker to execution, merge, release or an 
 - AI-09: uncertainty fails closed.
 - AI-10: the latest explicit owner constraint outranks prior model autonomy.
 - AI-11: CFA3 AI/models/agents receive the same narrow self-correction exception as DEV-11. A valid correction must be the AI's own error, deterministic, scope-preserving and authority-preserving, must not bypass a blocker/gate/security rule, and requires a post-correction report containing the AI error, correction, state-change result, current head/SHA or relevant state, and any remaining blocker.
+- AI-12: an AI assertion about external state is never a CFA3 fact merely because the AI asserted it or repeated an earlier AI statement. Available authoritative/deterministic verification is mandatory and takes precedence; without qualifying verification the claim remains HYPOTHESIS/UNVERIFIED, and a contradictory verified result overrides the AI claim.
 
 ## Self-correction boundary
 
@@ -132,3 +133,12 @@ The canonical development policy also applies the following mandatory discipline
 - **DEV-15 — no silent long GitHub sequence:** long GitHub operation sequences require concise status updates at meaningful phase boundaries; they may not run silently.
 
 The development preflight entrypoint is `src/cfa3_development_ai_behavior_guard.py::authorize_development_action`. It composes with, but does not weaken or replace, the existing blocker, scope, exact-state, side-effect authorization, security, Current Host, evidence, or owner-approval rules.
+
+
+## External-state fact verification
+
+CFA3 applies `CFA3-EXTERNAL-STATE-FACT-VERIFICATION-001` to AI/model/agent external-state claims. The shared entrypoint is `src/cfa3_development_ai_behavior_guard.py::evaluate_external_state_claim`.
+
+An AI statement, self-check, memory/cache entry, inference, or earlier AI statement is not authoritative evidence. A claim may be promoted to `FACT` only after qualifying `AUTHORITATIVE` or `DETERMINISTIC` verification with provenance. When such verification is available, using it is mandatory. When it is unavailable, an AI-origin external-state claim may remain only `HYPOTHESIS` or `UNVERIFIED`.
+
+If the external result contradicts the AI claim, the external result wins and the AI claim cannot be promoted. This rule creates no new Evidence authority: `FA3-AUTH-OBS-EVIDENCE-001` remains the evidence/promotion authority.

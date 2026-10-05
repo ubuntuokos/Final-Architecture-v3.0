@@ -8,9 +8,10 @@
     "CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001",
     "CFA3-DEVELOPMENT-AI-BEHAVIOR-GATESET-001",
     "FA3-AGENT-WORKLOAD-RUNTIME-001",
-    "FA3-AGENT-EXECUTION-PLAN-001"
+    "FA3-AGENT-EXECUTION-PLAN-001",
+    "CFA3-EXTERNAL-STATE-FACT-VERIFICATION-001"
   ],
-  "project_status": "OWNER_APPROVED_GOVERNANCE_AND_DEVELOPMENT_WORK_STATUS_PREFLIGHT_HARDENING",
+  "project_status": "OWNER_APPROVED_GOVERNANCE_WORK_STATUS_AND_EXTERNAL_STATE_FACT_VERIFICATION_HARDENING",
   "result": "PASS",
   "reuse_disposition": "REUSE_EXISTING_CFA3_EXECUTION_AND_AUTHORITY_LAYERS_NO_EXTERNAL_DONOR_REQUIRED",
   "assessment_provenance": {
@@ -101,7 +102,7 @@
     "retrospective_consumer_impact_reviewed": true,
     "multi_application_reuse_detected": true,
     "disposition": "SHARED",
-    "rationale": "Development and AI execution discipline is cross-application governance. The shared guard is consumed through the existing Agent Workload execution-plan compiler rather than duplicated in applications or providers.",
+    "rationale": "Development and AI execution discipline, including external-state fact verification, is cross-application governance. The shared guard is consumed through the existing CFA3 behavior/runtime path rather than duplicated in applications or providers.",
     "shared_component_ids": [
       "CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001",
       "src/cfa3_development_ai_behavior_guard.py",

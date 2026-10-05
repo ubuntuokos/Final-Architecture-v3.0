@@ -40,5 +40,15 @@
     "DEV-13",
     "DEV-14",
     "DEV-15"
-  ]
+  ],
+  "external_state_fact_verification": {
+    "policy_id": "CFA3-EXTERNAL-STATE-FACT-VERIFICATION-001",
+    "rule_id": "AI-12",
+    "entrypoint": "src/cfa3_development_ai_behavior_guard.py::evaluate_external_state_claim",
+    "ai_statement_alone_can_be_fact": false,
+    "verification_mandatory_when_available": true,
+    "authoritative_result_overrides_ai_claim": true,
+    "fail_closed_fact_promotion": true,
+    "creates_new_authority": false
+  }
 }
