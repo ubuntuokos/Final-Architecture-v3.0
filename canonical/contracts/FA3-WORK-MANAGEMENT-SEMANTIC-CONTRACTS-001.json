@@ -1,0 +1,146 @@
+{
+  "schema": "fa3.work-management-semantic-contracts.v1",
+  "id": "FA3-WORK-MANAGEMENT-SEMANTIC-CONTRACTS-001",
+  "title": "CFA3 Work Management Goal, Project, Milestone, Task and Check-in Semantics",
+  "status": "P0_MUST",
+  "parent_projection": "FA3-WORK-MANAGEMENT-PROJECTION-001",
+  "parent_work_item_contract": "FA3-WORK-ITEM-PROJECTION-CONTRACTS-001",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "authority": false,
+  "capability_bindings": [
+    "CAP-004",
+    "CAP-049",
+    "CAP-132",
+    "CAP-174"
+  ],
+  "entity_kinds": [
+    "GOAL",
+    "PROGRAM",
+    "PRODUCTION",
+    "PROJECT",
+    "WORKSTREAM",
+    "MILESTONE",
+    "TASK",
+    "CHECK_IN",
+    "RISK",
+    "BLOCKER",
+    "DECISION_REQUEST",
+    "ACTIVITY"
+  ],
+  "hierarchy": {
+    "allowed_parent_relations": {
+      "PROGRAM": ["GOAL"],
+      "PRODUCTION": ["GOAL", "PROGRAM"],
+      "PROJECT": ["GOAL", "PROGRAM", "PRODUCTION"],
+      "WORKSTREAM": ["PROJECT", "PRODUCTION"],
+      "MILESTONE": ["PROJECT", "WORKSTREAM"],
+      "TASK": ["PROJECT", "WORKSTREAM", "MILESTONE"],
+      "CHECK_IN": ["GOAL", "PROGRAM", "PRODUCTION", "PROJECT", "WORKSTREAM", "MILESTONE", "TASK"],
+      "RISK": ["GOAL", "PROGRAM", "PRODUCTION", "PROJECT", "WORKSTREAM", "MILESTONE", "TASK"],
+      "BLOCKER": ["PROJECT", "WORKSTREAM", "MILESTONE", "TASK"],
+      "DECISION_REQUEST": ["GOAL", "PROGRAM", "PRODUCTION", "PROJECT", "WORKSTREAM", "MILESTONE", "TASK"],
+      "ACTIVITY": ["GOAL", "PROGRAM", "PRODUCTION", "PROJECT", "WORKSTREAM", "MILESTONE", "TASK"]
+    },
+    "provider_object_may_be_canonical_parent": false,
+    "canonical_relationships_survive_provider_disconnect": true
+  },
+  "canonical_entity_contract": {
+    "required_fields": [
+      "canonical_id",
+      "kind",
+      "title",
+      "state",
+      "project_workspace_scope",
+      "provenance_refs"
+    ],
+    "optional_fields": [
+      "parent_ref",
+      "owner_ref",
+      "team_refs",
+      "deadline",
+      "priority",
+      "budget_ref",
+      "provider_projection_refs",
+      "artifact_refs",
+      "discussion_refs",
+      "workflow_refs"
+    ],
+    "provider_identity_is_projection_metadata": true,
+    "provider_may_not_own_canonical_identity": true
+  },
+  "check_in_contract": {
+    "required_fields": [
+      "canonical_check_in_id",
+      "subject_ref",
+      "status",
+      "completed_since_last",
+      "next_actions",
+      "blockers",
+      "risks",
+      "decisions_needed",
+      "actor_identity",
+      "timestamp",
+      "provenance_refs"
+    ],
+    "status_values": [
+      "ON_TRACK",
+      "AT_RISK",
+      "BLOCKED",
+      "WAITING_APPROVAL",
+      "OVERDUE",
+      "COMPLETE"
+    ],
+    "ai_summary_is_derived_only": true,
+    "ai_summary_may_not_replace_source_check_in": true
+  },
+  "mutation_contract": {
+    "typed_uaf_action_required": true,
+    "authorization_authority": "FA3-AUTH-SECURITY-GOV-001",
+    "durable_workflow_authority": "Temporal",
+    "direct_provider_mutation_from_gui": false,
+    "provider_event_is_not_authorization": true,
+    "agent_delegation_requires_capability_grant": true
+  },
+  "agent_projection": {
+    "agent_workload_profile": "FA3-AGENT-WORKLOAD-RUNTIME-001",
+    "work_item_and_agent_task_identity_are_distinct": true,
+    "task_capsule_binding": "FA3-TASK-CAPSULE-CONTRACTS-001",
+    "agent_may_not_expand_project_scope": true
+  },
+  "gui_projection": {
+    "route_id": "home.work-management",
+    "single_existing_surface": true,
+    "required_sections": [
+      "OVERVIEW",
+      "GOALS_PROJECTS_MILESTONES",
+      "TASKS",
+      "CHECK_INS_RISKS",
+      "AUTOMATIONS",
+      "AGENT_WORKLOADS",
+      "ACTIVITY",
+      "PROVIDERS"
+    ],
+    "new_top_level_work_management_surface": false
+  },
+  "compatibility": {
+    "existing_provider_work_items_remain_valid": true,
+    "existing_kaneo_kanboard_github_issue_adapters_remain_projection_adapters": true,
+    "existing_canonical_work_item_ids_preserved": true,
+    "native_project_data_loss_forbidden": true,
+    "bounded_adapter_allowed_for_legacy_local_work_models": true
+  },
+  "reference_patterns": [
+    {
+      "source": "https://github.com/operately",
+      "use": "GOALS_PROJECTS_MILESTONES_CHECKINS_ACTIVITY_PATTERN",
+      "registration_status": "PROJECT_CLOSE_REGISTRATION_REQUIRED"
+    },
+    {
+      "source": "https://github.com/PhreshOS",
+      "use": "CANONICAL_OPERATION_CONTEXT_PATTERN",
+      "registration_status": "ACCEPTED_REFERENCE"
+    }
+  ]
+}

@@ -1095,7 +1095,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 3075,
+  "manifest_entry_count": 3104,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1156,6 +1156,11 @@
     {
       "path": ".github/workflows/fa3-application-donor-inventory.yml",
       "git_blob_sha": "25280468db323ed7a23bc653ab54844238f082dd"
+    },
+    {
+      "path": ".github/workflows/fa3-application-work-capability.yml",
+      "git_blob_sha": "356bf543efe6202769235e8a9c1108b50efa41dc",
+      "baseline_delta_status": "added"
     },
     {
       "path": ".github/workflows/fa3-audacity-mcp.yml",
@@ -1735,11 +1740,11 @@
     },
     {
       "path": "apps/fa3-control-center/qml/AgentActionCenterPage.qml",
-      "git_blob_sha": "2e6779a5397d2c438d103b89f1ed50ad79b1048c"
+      "git_blob_sha": "da59ebb720cc170d964bd3086f824a8a86d6018d"
     },
     {
       "path": "apps/fa3-control-center/qml/AiStudioPage.qml",
-      "git_blob_sha": "d259a7a01cbccb6237db558983c174e5c8d3badb"
+      "git_blob_sha": "4496efc0585da0aaad48a46f214893d4938c639b"
     },
     {
       "path": "apps/fa3-control-center/qml/ChatWorkspace.qml",
@@ -1775,7 +1780,7 @@
     },
     {
       "path": "apps/fa3-control-center/qml/Fa3OsPage.qml",
-      "git_blob_sha": "972aa3a78359f4e23d9becdf519e58178f3f635e"
+      "git_blob_sha": "b41f2cd8df779fa3727c89ce2ae0cc1f5af27aa0"
     },
     {
       "path": "apps/fa3-control-center/qml/HelpBubble.qml",
@@ -1879,7 +1884,7 @@
     },
     {
       "path": "apps/fa3-control-center/qml/WorkManagementPage.qml",
-      "git_blob_sha": "ed77f446988d67b8ff2df41f9e97576546df628c"
+      "git_blob_sha": "3950102c47759a81d979125a8e3206a2b1093e81"
     },
     {
       "path": "apps/fa3-control-center/README.md",
@@ -2846,6 +2851,11 @@
       "git_blob_sha": "122f8ee3457c0c48cbcb53dfa2d59da7009e7230"
     },
     {
+      "path": "canonical/assessments/CFA3-APPLICATION-WORK-CAPABILITY-REUSE-ASSESSMENT-2026-10-05.json",
+      "git_blob_sha": "89a91b9edc62e7c119f6466b84774f1c694b5d7d",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/assessments/CFA3-BLOCKER-PREREQUISITE-REMATERIALIZATION-REUSE-ASSESSMENT-2026-10-05.json",
       "git_blob_sha": "4e6001775e90df47a82251de7b3f1a487459de12"
     },
@@ -3314,6 +3324,11 @@
       "git_blob_sha": "c5144ae5e51c6b089d6c86d61db583851bca0741"
     },
     {
+      "path": "canonical/contracts/FA3-AGENT-APPLICATION-BLUEPRINT-EXTENSION-CONTRACTS-001.json",
+      "git_blob_sha": "c12c6bf8ec3254f19b565bf8f6868cf973b4f7ce",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-AGENT-CHECKPOINT-MANIFEST-001.schema.json",
       "git_blob_sha": "bf2db13ba9979b2a5c26daf2b84b245633f2ef06"
     },
@@ -3402,6 +3417,16 @@
       "git_blob_sha": "4fe311eb03a0c5610f88c193fa4f1b090a3b7a94"
     },
     {
+      "path": "canonical/contracts/FA3-APPLICATION-OPERATION-HANDOFF-CONTRACTS-001.json",
+      "git_blob_sha": "1a6cb5165d58428e1108947d00afb9b97e62c6a1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-APPLICATION-RUNTIME-LIFECYCLE-CONTRACTS-001.json",
+      "git_blob_sha": "5b61810335ce78749371acaa714a19029fb8a447",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-AUDACITY-MCP-CONTRACTS-001.json",
       "git_blob_sha": "e3f215e7d00b43b81489eb8cf1f437f0be40fb85"
     },
@@ -3444,6 +3469,11 @@
     {
       "path": "canonical/contracts/FA3-BUZZ-RUNTIME-ADMISSION-CONTRACTS-001.json",
       "git_blob_sha": "cefade8083183248c3ba7df5f7c9b0a3cd3f8d86"
+    },
+    {
+      "path": "canonical/contracts/FA3-CAPABILITY-GRANT-SCOPE-CONTRACTS-001.json",
+      "git_blob_sha": "b0fbb616f2aabef8484ce0517892ed4de88351f6",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-CAPTION-SUBTITLE-CONTRACTS-001.json",
@@ -3930,6 +3960,11 @@
       "git_blob_sha": "21a466992360f661d07ff9e0bd4ed13611ef95c4"
     },
     {
+      "path": "canonical/contracts/FA3-TASK-CAPSULE-CONTRACTS-001.json",
+      "git_blob_sha": "e7c7d06187260aea3d75e23560cb92e2870f48e1",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-TOOL-CONFIRMATION-001.schema.json",
       "git_blob_sha": "7aca327355acc79c35185e66a2475ccbfaa72813"
     },
@@ -4002,8 +4037,18 @@
       "git_blob_sha": "7d98ecf7fd60ea3015e6f6cdf0da939378db3182"
     },
     {
+      "path": "canonical/contracts/FA3-WORK-CONTEXT-CONTRACTS-001.json",
+      "git_blob_sha": "5999f7cac44f2f12e66940a184d598153100e124",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-WORK-ITEM-PROJECTION-CONTRACTS-001.json",
       "git_blob_sha": "ee54e1fd2fe9353581d392ed1de2633b15df475d"
+    },
+    {
+      "path": "canonical/contracts/FA3-WORK-MANAGEMENT-SEMANTIC-CONTRACTS-001.json",
+      "git_blob_sha": "fa5c08697d70c91dc0b60c9bef1c25b9f2927e02",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-WORKLOAD-MODE-CONTRACTS-001.json",
@@ -4072,6 +4117,11 @@
     {
       "path": "canonical/current-host-impact/FA3-CH-IMPACT-ACTION-PIN-REGRESSION-GATE-20261004.json",
       "git_blob_sha": "56d0913ba64628db37307d10c2f8c04fa260a353"
+    },
+    {
+      "path": "canonical/current-host-impact/FA3-CH-IMPACT-APPLICATION-WORK-CAPABILITY-20261005.json",
+      "git_blob_sha": "742865403ba930f9220c398db428164fb8a19ef5",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/current-host-impact/FA3-CH-IMPACT-CFA3-DEVELOPMENT-AI-BEHAVIOR-20261005.json",
@@ -5202,6 +5252,16 @@
       "git_blob_sha": "0de579c513fd65f12ba34501dd4364f52b20f79c"
     },
     {
+      "path": "canonical/FA3-APPLICATION-WORK-CAPABILITY-CONSUMER-RECONCILIATION-001.json",
+      "git_blob_sha": "43dfb8d8f35306afac8778bf348208d6440fcbba",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-APPLICATION-WORK-CAPABILITY-OWNER-MAP-001.json",
+      "git_blob_sha": "4404e3382b8f8128d775abf9f06e27aecc8e675f",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-AUTH-MODEL-ROUTER-001.json",
       "git_blob_sha": "d13c9218c46d7822e0c7936a4ce6e79488205f7f"
     },
@@ -5970,6 +6030,11 @@
       "git_blob_sha": "2e55d885ade1e17cf54e8230710e9e427295a660"
     },
     {
+      "path": "canonical/FA3-PLATFORM-BINDING-RECONCILIATION-001.json",
+      "git_blob_sha": "3ca62d41ede327ab4eda60ea90d33902d8b8a00c",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-PODMAN-SECRET-ISOLATION-CURRENT-HOST-CONFORMANCE-001.json",
       "git_blob_sha": "4df8362dc4e2b25957672aacaab668eb88702500"
     },
@@ -6220,6 +6285,11 @@
     {
       "path": "canonical/integrations/FA3-WORKLOAD-MODE-INTEGRATION-001.json",
       "git_blob_sha": "9909d3f9848618f9219a47147b501c2d0c27b0f7"
+    },
+    {
+      "path": "canonical/intents/CFA3-APPLICATION-WORK-CAPABILITY-APPLICATION-INTENT-2026-10-05.json",
+      "git_blob_sha": "4a57d1f35c05475a699ff9282b95ed505178fa8b",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/intents/FA3-AGENCY-AGENTS-PROVIDER-APPLICATION-INTENT-001.json",
@@ -8614,6 +8684,11 @@
       "git_blob_sha": "a0af049555eefacfcf340cee6bd603e6bc970c84"
     },
     {
+      "path": "docs/CFA3-APPLICATION-WORK-CAPABILITY-001.md",
+      "git_blob_sha": "b2c9943d1ce4c6b3cb27c37bd3d7f80b55bdd586",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-001.md",
       "git_blob_sha": "6519bf1858c2163f6db122298740da7d60d8405d"
     },
@@ -10406,8 +10481,23 @@
       "git_blob_sha": "fc4c278796b1050b323f16eea49af02296c8d81f"
     },
     {
+      "path": "src/fa3_application_handoff.py",
+      "git_blob_sha": "b4f8fb34d6307304b21eb272947e3b4532801e0f",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_application_installation_resolver.py",
       "git_blob_sha": "fa68878457fc7359f4ee00bbaca9d8a342853c8f"
+    },
+    {
+      "path": "src/fa3_application_runtime_lifecycle.py",
+      "git_blob_sha": "d87d98ed445e0d5e70dfe55281d47b22e9faebdc",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_application_work_capability_gate.py",
+      "git_blob_sha": "9f45facf31133bd8a6f5c42791cce6cb1a421173",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_audacity_mcp_gate.py",
@@ -10532,6 +10622,11 @@
     {
       "path": "src/fa3_capability_count_dehardcode_gate.py",
       "git_blob_sha": "3189565037a7a8c78586164d77aeb99a2f22280f"
+    },
+    {
+      "path": "src/fa3_capability_grant_scope.py",
+      "git_blob_sha": "99e508e02dc9d1370058ede5a26921e028483de4",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_capability_model_175_gate.py",
@@ -11758,6 +11853,11 @@
       "git_blob_sha": "b816857315f6ee4eea940e3297f3099ede91a890"
     },
     {
+      "path": "src/fa3_task_capsule.py",
+      "git_blob_sha": "a0ea5c1c24768265f403eacc4a1f5c4c54fbb6f2",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_task_scope_closure.py",
       "git_blob_sha": "ae51618413c6a012eb68fc30126f73090ac5dca1"
     },
@@ -11838,8 +11938,18 @@
       "git_blob_sha": "f391561eaa0137f0abad0f903be236140d02bf45"
     },
     {
+      "path": "src/fa3_work_context.py",
+      "git_blob_sha": "21c58f19b7eebaf00c995ddd104a08b114f7586a",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_work_management_gate.py",
       "git_blob_sha": "d7bc21d1ca93716400f33f23004298c194cae5a5"
+    },
+    {
+      "path": "src/fa3_work_management_semantics.py",
+      "git_blob_sha": "9b7dd202f795a1844efc7bfbb835957311d9ad65",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_workload_mode_current_host_gate.py",
@@ -11954,8 +12064,23 @@
       "git_blob_sha": "36d435494f8e4136116126febb1c70147d6bb14b"
     },
     {
+      "path": "tests/test_application_handoff.py",
+      "git_blob_sha": "2ddcc7f8826eac284177c5b62cbc65f8f802e98d",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_application_installation_resolver.py",
       "git_blob_sha": "353af071706a12dd9ee63e7693ae1de46a37f5b8"
+    },
+    {
+      "path": "tests/test_application_runtime_lifecycle.py",
+      "git_blob_sha": "b680c8933333c2ddb2f47f83419a68304c248944",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_application_work_capability_gate.py",
+      "git_blob_sha": "45bace6c06f071dce1837c186e44f4c0d5ee703f",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_audacity_mcp_gate.py",
@@ -12052,6 +12177,11 @@
     {
       "path": "tests/test_capability_count_dehardcode.py",
       "git_blob_sha": "6f6675c8de6d6e8798a349d9c49b15a2a3e84cfc"
+    },
+    {
+      "path": "tests/test_capability_grant_scope.py",
+      "git_blob_sha": "47fa8beaf88e86e2a0ed40cdc6e39a6a12e9c26b",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_capability_model_175.py",
@@ -13226,6 +13356,11 @@
       "git_blob_sha": "2a4745baf621e7989c6a470e29c904bc92e590a1"
     },
     {
+      "path": "tests/test_task_capsule.py",
+      "git_blob_sha": "5cf5a9984e5a87a13f27cc0a75d59a10e9e56789",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_task_scope_closure.py",
       "git_blob_sha": "2e2f56bb6461032fd3b8c6e46e0bc15a5825729b"
     },
@@ -13302,8 +13437,18 @@
       "git_blob_sha": "8136b20ef0ae08ff659d0523f0c45683f9edd702"
     },
     {
+      "path": "tests/test_work_context.py",
+      "git_blob_sha": "5c3bfcae353ddbb05cca4f71cfeff1d23df6728f",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_work_management_gate.py",
       "git_blob_sha": "bf1924d2713c27ef80fbcc7de034f88f8d33ed1a"
+    },
+    {
+      "path": "tests/test_work_management_semantics.py",
+      "git_blob_sha": "7e9fb6b2c5553b6c9a8bfac2dd453a2bc9b22221",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_workload_mode_current_host_gate.py",

@@ -1,0 +1,85 @@
+{
+  "schema": "fa3.capability-grant-scope-contracts.v1",
+  "id": "FA3-CAPABILITY-GRANT-SCOPE-CONTRACTS-001",
+  "title": "CFA3 Resource-Scoped CapabilityGrant Contracts",
+  "status": "P0_MUST",
+  "extends_contract_family": "FA3-AGENT-EXEC-CONTRACTS-001",
+  "contract_name": "CapabilityGrant",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "authority": false,
+  "security_authority": "FA3-AUTH-SECURITY-GOV-001",
+  "required_fields": [
+    "grant_id",
+    "actor_identity",
+    "operations",
+    "resource_scope",
+    "project_workspace_scope",
+    "delegator_identity",
+    "valid_from",
+    "expires_at",
+    "approval_binding",
+    "budget_envelope",
+    "provenance_refs"
+  ],
+  "scope_semantics": {
+    "operations_are_allowlist": true,
+    "resource_scope_is_allowlist": true,
+    "project_workspace_scope_is_allowlist": true,
+    "wildcard_requires_explicit_security_policy": true,
+    "empty_scope_grants_nothing": true,
+    "agent_does_not_inherit_full_user_authority": true,
+    "delegated_subagent_scope_must_be_subset": true,
+    "grant_may_not_admit_provider_model_tool_or_resource": true,
+    "grant_may_not_allocate_hardware": true,
+    "grant_may_not_expose_secret_values": true
+  },
+  "time_semantics": {
+    "valid_from_inclusive": true,
+    "expires_at_exclusive": true,
+    "expired_grant_fails_closed": true,
+    "missing_expiry_for_task_scoped_grant": "DENY"
+  },
+  "approval_semantics": {
+    "values": [
+      "NOT_REQUIRED_BY_POLICY",
+      "REQUIRED",
+      "SATISFIED"
+    ],
+    "required_without_satisfied_approval": "DENY",
+    "approval_is_bound_to_operation_resource_and_revision": true
+  },
+  "budget_envelope": {
+    "supported_limits": [
+      "max_runtime_seconds",
+      "max_tool_calls",
+      "max_model_requests",
+      "max_children",
+      "max_depth",
+      "max_cost_units"
+    ],
+    "actor_may_raise_own_budget": false
+  },
+  "enforcement_boundary": {
+    "uaf_consumes_decision": true,
+    "uaf_is_permission_authority": false,
+    "mcp_gateway_consumes_decision": true,
+    "temporal_consumes_task_scope": true,
+    "hrb_remains_resource_authority": true,
+    "model_router_remains_model_provider_authority": true,
+    "secret_broker_remains_secret_authority": true
+  },
+  "reference_patterns": [
+    {
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "use": "CAPABILITY_SCOPED_GATEKEEPER_AND_APPROVAL_PATTERN",
+      "registration_status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "source": "https://github.com/PhreshOS",
+      "use": "SYSTEM_AUTHORITY_AND_ADAPTER_SEPARATION_PATTERN",
+      "registration_status": "ACCEPTED_REFERENCE"
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "schema": "fa3.agent-application-blueprint-extension-contracts.v1",
+  "id": "FA3-AGENT-APPLICATION-BLUEPRINT-EXTENSION-CONTRACTS-001",
+  "title": "CFA3 Application/Task Blueprint Extension Contracts",
+  "status": "P0_MUST",
+  "extends": "FA3-AGENT-APPLICATION-BLUEPRINT-CONTRACTS-001",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "authority": false,
+  "extension_fields": [
+    "ui_surfaces",
+    "shared_module_refs",
+    "requested_capability_refs",
+    "workspace_requirements",
+    "application_lifecycle_profile",
+    "plugin_extension_requirements",
+    "work_context_requirements",
+    "promotion_target"
+  ],
+  "rules": [
+    "BLUEPRINT_EXTENSION_MUST_NOT_SELECT_PHYSICAL_MODEL_PROVIDER",
+    "BLUEPRINT_EXTENSION_MUST_NOT_ALLOCATE_HARDWARE",
+    "BLUEPRINT_EXTENSION_MUST_NOT_GRANT_PERMISSION",
+    "BLUEPRINT_EXTENSION_MUST_NOT_EMBED_SECRET_VALUES",
+    "REQUESTED_CAPABILITIES_ARE_REQUIREMENTS_NOT_GRANTS",
+    "UI_SURFACES_ARE_PROJECTIONS_NOT_AUTHORITIES",
+    "SHARED_MODULE_REQUIREMENTS_MUST_REUSE_EXISTING_SHARED_LAYER_WHERE_AVAILABLE",
+    "APPLICATION_LIFECYCLE_PROFILE_MUST_BIND_EXISTING_LIFECYCLE_CONTRACT",
+    "PROMOTION_TARGET_REQUIRES_SEPARATE_REVIEW_AND_ADMISSION"
+  ],
+  "promotion_targets": [
+    "NONE",
+    "TASK_CAPSULE",
+    "PLUGIN",
+    "EXTENSION",
+    "APPLICATION"
+  ],
+  "reference_patterns": [
+    {
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "use": "BLUEPRINT_AND_GADGET_TEMPLATE_PATTERN",
+      "registration_status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "source": "https://github.com/PhreshOS",
+      "use": "PROGRAM_CONTRACT_AND_SHARED_APPEARANCE_PATTERN",
+      "registration_status": "ACCEPTED_REFERENCE"
+    }
+  ]
+}

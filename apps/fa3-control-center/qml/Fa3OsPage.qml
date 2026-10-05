@@ -36,6 +36,25 @@ Item {
         return out
     }
 
+    function derivedWorkContexts() {
+        var rows = osEvents()
+        var out = []
+        for (var i = 0; i < rows.length; ++i) {
+            var evt = rows[i].event
+            var ctx = rows[i].ctx
+            out.push({
+                application_id: ctx.application_id || evt.source || "",
+                project_ref: evt.project_id || "",
+                workstream_ref: ctx.workstream_id || "",
+                workflow_ref: ctx.workflow_reference || "",
+                session_ref: ctx.session_id || "",
+                provenance_ref: ctx.provenance ? (ctx.provenance.source_reference || "") : "",
+                timestamp: evt.timestamp || ""
+            })
+        }
+        return out
+    }
+
     function derivedWorkstreams() {
         var rows = osEvents()
         var byId = ({})
@@ -117,6 +136,7 @@ Item {
             Layout.fillWidth: true
             TabButton { text: "Timeline" }
             TabButton { text: "Workstreams" }
+            TabButton { text: "Work Context" }
             TabButton { text: "Privacy" }
             TabButton { text: "Provenance" }
         }
@@ -195,6 +215,47 @@ Item {
                                 }
                                 Label { text: modelData.count + " event"; color: root.textMuted; font.pixelSize: 9 }
                                 Label { text: modelData.last; color: root.textMuted; font.pixelSize: 9; Layout.preferredWidth: 190; elide: Text.ElideRight }
+                            }
+                        }
+                    }
+                }
+            }
+
+            Panel {
+                ColumnLayout {
+                    anchors.fill: parent
+                    anchors.margins: 12
+                    spacing: 8
+                    Label { text: "Shared Work Context"; color: root.textPrimary; font.pixelSize: 15; font.bold: true }
+                    Label {
+                        Layout.fillWidth: true
+                        wrapMode: Text.WordWrap
+                        text: "Reference-only context projection. Project/task truth remains in Work Management; historical truth remains in Journal. Goal/milestone/task references appear only when an admitted adapter provides them."
+                        color: root.textMuted
+                        font.pixelSize: 10
+                    }
+                    ListView {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        clip: true
+                        model: root.derivedWorkContexts()
+                        spacing: 4
+                        delegate: Rectangle {
+                            width: ListView.view.width
+                            height: 78
+                            radius: 6
+                            color: root.panelRaised
+                            border.color: root.border
+                            RowLayout {
+                                anchors.fill: parent
+                                anchors.margins: 10
+                                ColumnLayout {
+                                    Layout.fillWidth: true
+                                    Label { text: modelData.project_ref || modelData.workstream_ref || modelData.session_ref || "context"; color: root.textPrimary; font.bold: true; Layout.fillWidth: true; elide: Text.ElideRight }
+                                    Label { text: (modelData.application_id || "no app") + " · " + (modelData.workstream_ref || "no workstream"); color: root.textMuted; font.pixelSize: 9; Layout.fillWidth: true; elide: Text.ElideRight }
+                                    Label { text: modelData.workflow_ref || modelData.provenance_ref || "no workflow/provenance ref"; color: root.textMuted; font.pixelSize: 9; Layout.fillWidth: true; elide: Text.ElideRight }
+                                }
+                                Label { text: modelData.timestamp; color: root.textMuted; font.pixelSize: 9; Layout.preferredWidth: 170; elide: Text.ElideRight }
                             }
                         }
                     }
