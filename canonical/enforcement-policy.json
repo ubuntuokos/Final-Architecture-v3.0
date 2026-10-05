@@ -2189,5 +2189,18 @@
     "add a donorlistához"
   ],
   "donor_reference_command_decision_id": "FA3-DEC-DONOR-INTAKE-COMMAND-EQUIVALENCE-2026-10-04",
-  "donor_reference_implementation_plan_exception_id": "FA3-DEC-IMPLEMENTATION-PLAN-DONOR-EXCEPTION-2026-10-04"
+  "donor_reference_implementation_plan_exception_id": "FA3-DEC-IMPLEMENTATION-PLAN-DONOR-EXCEPTION-2026-10-04",
+  "task_scope_closure_policy_id": "FA3-TASK-SCOPE-CLOSURE-POLICY-2026-10-03",
+  "task_scope_closure_mandatory_p0_rules": [
+    "GOAL_BOUND_WORKLOAD_REQUIRES_IMMUTABLE_SCOPE_BINDING",
+    "SAME_BLOCKER_THIRD_FAILURE_FREEZES_EXECUTION",
+    "FOURTH_SAME_BLOCKER_ATTEMPT_FORBIDDEN",
+    "OUT_OF_SCOPE_FOLLOWUP_REQUIRES_NEW_TASK_AND_EXPLICIT_USER_START",
+    "START_AND_RESUME_REQUIRE_FRESH_TASK_SCOPE_ADMISSION",
+    "CACHED_EXECUTION_PLAN_CANNOT_BYPASS_SCOPE_CONTROL_REVISION",
+    "VERIFIED_CLOSURE_REQUIRES_EVIDENCE_AUTHORITY_RECEIPT",
+    "CLOSED_TASK_REEXECUTION_FORBIDDEN"
+  ],
+  "task_scope_closure_capability_count": 175,
+  "task_scope_closure_new_architectural_authority": false
 }
