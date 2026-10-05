@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "2cc6648fa078a7e66a7b588736660f5637041453",
-    "pre_projection_root_tree_sha": "ddd0387ed21296610984852db5a2068204cab0ed",
-    "pre_projection_canonical_tree_sha": "f61322361e07c616fef550180102195ee3d5b64c",
-    "commits_ahead_of_v3_0_11_conformance_commit": 3269,
-    "total_post_baseline_commits": 3269,
-    "delta_file_count": 3002,
-    "delta_added_files": 2996,
+    "pre_projection_head_sha": "89a9411ff214ae07378dee986512418b97ab62d9",
+    "pre_projection_root_tree_sha": "274f62a4730bc5ca4e3400362bf2a0e7e46c1292",
+    "pre_projection_canonical_tree_sha": "4c3d687f51edd23b929bd0ab493be8295427ed68",
+    "commits_ahead_of_v3_0_11_conformance_commit": 3271,
+    "total_post_baseline_commits": 3271,
+    "delta_file_count": 3040,
+    "delta_added_files": 3034,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,11 +46,11 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1406,
+    "canonical_files_in_post_baseline_delta": 1428,
     "evidence_files_in_post_baseline_delta": 172,
-    "source_files_in_post_baseline_delta": 378,
-    "test_files_in_post_baseline_delta": 355,
-    "workflow_files_in_post_baseline_delta": 143,
+    "source_files_in_post_baseline_delta": 388,
+    "test_files_in_post_baseline_delta": 361,
+    "workflow_files_in_post_baseline_delta": 144,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENCY-AGENTS-001.json",
@@ -70,6 +70,7 @@
       "canonical/providers/FA3-PROVIDER-BUZZ-001.json",
       "canonical/providers/FA3-PROVIDER-CAPTION-NATIVE-001.json",
       "canonical/providers/FA3-PROVIDER-CAVEMAN-001.json",
+      "canonical/providers/FA3-PROVIDER-CFA3-NATIVE-CUDA-COMPAT-001.json",
       "canonical/providers/FA3-PROVIDER-COACH-LOCAL-001.json",
       "canonical/providers/FA3-PROVIDER-CODEGRAFF-001.json",
       "canonical/providers/FA3-PROVIDER-CODEX-001.json",
@@ -351,6 +352,7 @@
       "canonical/contracts/FA3-CREATIVE-DESKTOP-GENERATIVE-INTEROP-CONTRACTS-001.json",
       "canonical/contracts/FA3-CREATIVE-OPERATIONS-DASHBOARD-CONTRACTS-001.json",
       "canonical/contracts/FA3-CREATIVE-PROJECT-WORKFLOW-CONTRACTS-001.json",
+      "canonical/contracts/FA3-CUDA-COMPAT-NATIVE-CONTRACTS-001.json",
       "canonical/contracts/FA3-DECISION-CONSUMER-BINDINGS-001.json",
       "canonical/contracts/FA3-DECISION-FABRIC-ASSESSMENT-001.schema.json",
       "canonical/contracts/FA3-DECISION-FABRIC-CONTRACTS-001.json",
@@ -482,6 +484,8 @@
       "canonical/contracts/FA3-WORKSPACE-SCOPED-AGENT-CONTEXT-CONTRACTS-001.json"
     ],
     "decision_records": [
+      "canonical/decisions/CFA3-DEC-DEVELOPMENT-AI-BEHAVIOR-LAYERING-2026-10-05.json",
+      "canonical/decisions/CFA3-DEC-DONOR-BATCH-FINALIZER-BOOTSTRAP-2026-10-05.json",
       "canonical/decisions/FA3-DEC-ACE-STEP-2026-08-30.json",
       "canonical/decisions/FA3-DEC-ACE-STEP-HARDENING-2026-09-10.json",
       "canonical/decisions/FA3-DEC-ADK2-DERIVED-AGENT-RUNTIME-SEMANTICS-2026-09-24.json",
@@ -518,6 +522,9 @@
       "canonical/decisions/FA3-DEC-CPU-NUMA-THREADING-2026-09-02.json",
       "canonical/decisions/FA3-DEC-CREATIVE-OPERATIONS-DASHBOARD-NATIVE-2026-09-26.json",
       "canonical/decisions/FA3-DEC-CREATIVE-PROJECT-WORKFLOW-FLOVA-PATTERNS-2026-09-26.json",
+      "canonical/decisions/FA3-DEC-CUDA-COMPAT-NATIVE-PLAN-APPROVAL-2026-10-04.json",
+      "canonical/decisions/FA3-DEC-CUDA-COMPAT-OROCHI-DONOR-USE-2026-10-04.json",
+      "canonical/decisions/FA3-DEC-CUDA-COMPAT-ROCM-EXAMPLES-DONOR-USE-2026-10-04.json",
       "canonical/decisions/FA3-DEC-CUDA-PORTABILITY-SHARED-FUNCTION-2026-10-04.json",
       "canonical/decisions/FA3-DEC-CURRENT-HOST-FULL-MATERIALIZATION-2026-09-19.json",
       "canonical/decisions/FA3-DEC-CURRENT-HOST-RUNNER-2026-09-11.json",
@@ -15039,7 +15046,7 @@
     },
     {
       "path": "tests/test_donor_readiness.py",
-      "git_blob_sha": "874af65998da6a58f50ff7cd788ee7eb51637849",
+      "git_blob_sha": "39aa1da47b18027213bb2d638c457b144a7c8ab8",
       "baseline_delta_status": "added"
     },
     {
