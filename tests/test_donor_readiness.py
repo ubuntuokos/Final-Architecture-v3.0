@@ -415,7 +415,8 @@ class Tests(unittest.TestCase):
         self.assertEqual(row["head_repo_full_name"],"ubuntuokos/Final-Architecture-v3.0")
 
     def test_cli_ready_results_return_success(self):
-        for result in ("DONOR_INTAKE_SLOT_AVAILABLE","DONOR_INTAKE_READY_TO_FINALIZE"):
+        for result in ("DONOR_BATCH_APPEND_PREFLIGHT_PASS","DONOR_BATCH_FINALIZER_SELECTED",
+                       "DONOR_INTAKE_SLOT_AVAILABLE","DONOR_INTAKE_READY_TO_FINALIZE"):
             with self.subTest(result=result), \
                  patch.object(readiness,"gate",return_value={"result":result}), \
                  patch.object(sys,"argv",["fa3_donor_readiness.py"]):
@@ -425,6 +426,7 @@ class Tests(unittest.TestCase):
         root=Path(__file__).resolve().parents[1]
         workflow=(root/".github/workflows/fa3-donor-intake-revalidation.yml").read_text()
         serialization=(root/".github/workflows/fa3-donor-serialization.yml").read_text()
+        permanent=(root/".github/workflows/fa3-permanent-enforcement.yml").read_text()
         guide=(root/"docs/donor-repair/DONOR_READINESS.md").read_text()
         self.assertIn("pull_request_target:",workflow)
         self.assertIn("actions: write",workflow)
@@ -436,7 +438,7 @@ class Tests(unittest.TestCase):
         self.assertIn("datetime.now(timezone.utc)-created.astimezone(timezone.utc)",workflow)
         self.assertIn("timedelta(days=30)",workflow)
         self.assertIn("rerun_count >= 50",workflow)
-        self.assertIn("refreshed=gate(Path(\".\").resolve(),\"intake\",get=getter)",workflow)
+        self.assertIn("refreshed=gate(Path(\".\").resolve(),\"intake\",token=token)",workflow)
         self.assertIn("Synchronize or reopen the PR",workflow)
         self.assertIn("/compare/{main_sha}...{head_sha}",workflow)
         self.assertIn("event=pull_request&head_sha={head_sha}",workflow)
@@ -444,6 +446,11 @@ class Tests(unittest.TestCase):
         self.assertNotIn("actions: write",serialization)
         self.assertNotIn("checks: write",serialization)
         self.assertIn("${{ github.workflow }}",serialization)
+        self.assertIn("--phase append",serialization)
+        self.assertIn("full_gate_required=false",serialization)
+        self.assertIn("ready_for_review",serialization)
+        self.assertIn("needs.donor-serialization.outputs.full_gate_required",permanent)
+        self.assertIn("ready_for_review",permanent)
         self.assertNotIn("A second intake remains BLOCKED",guide)
 
     def test_intake_without_live_inventory_is_fail_closed(self):

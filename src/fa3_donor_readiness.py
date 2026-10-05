@@ -2,10 +2,12 @@
 """Read-only FA3 donor integrity and GitHub pending-maintenance preflight."""
 from __future__ import annotations
 import argparse
+import base64
 import hashlib
 import json
 import os
 import subprocess
+import urllib.error
 import urllib.request
 from pathlib import Path
 
@@ -48,6 +50,8 @@ EXEMPT_HISTORICAL_HEADS = {
 }
 DONOR_DELTA_PREFIXES = ("canonical/deltas/FA3-DONOR-",
                         "canonical/deltas/CFA3-DONOR-")
+BATCH_ROLE = "CANONICAL_ROLLING_BATCH_FINALIZER"
+BATCH_DECISION = "canonical/decisions/CFA3-DEC-DONOR-INTAKE-BATCH-ACCELERATION-2026-10-04.json"
 DONOR_PREFIXES = ("docs/donor-repair/", "docs/donor-", "docs/donors-",
                   "bin/fa3-donor-", "tests/test_donor_", "tests/test_donors_",
                   *DONOR_DELTA_PREFIXES)
@@ -138,7 +142,13 @@ def github_get(url,token):
     req=urllib.request.Request("https://api.github.com"+url,
         headers={"Authorization":"Bearer "+token,"Accept":"application/vnd.github+json",
                  "X-GitHub-Api-Version":"2022-11-28","User-Agent":"fa3-donor-readiness"})
-    with urllib.request.urlopen(req,timeout=20) as r: return json.load(r)
+    try:
+        with urllib.request.urlopen(req,timeout=20) as r:
+            return json.load(r)
+    except urllib.error.HTTPError as e:
+        endpoint=("MAIN_HEAD" if url.endswith("/branches/main") else
+                  "CONTENTS" if "/contents/" in url else "REST")
+        raise RuntimeError(f"GITHUB_HTTP_{e.code}:{endpoint}") from None
 
 _OPEN_PRS_QUERY = """query($owner:String!,$name:String!,$after:String){
   repository(owner:$owner,name:$name){
@@ -175,8 +185,11 @@ def github_graphql(query,variables,token):
     req=urllib.request.Request("https://api.github.com/graphql",data=payload,method="POST",
         headers={"Authorization":"Bearer "+token,"Accept":"application/vnd.github+json",
                  "Content-Type":"application/json","User-Agent":"fa3-donor-readiness"})
-    with urllib.request.urlopen(req,timeout=30) as r:
-        body=json.load(r)
+    try:
+        with urllib.request.urlopen(req,timeout=30) as r:
+            body=json.load(r)
+    except urllib.error.HTTPError as e:
+        raise RuntimeError(f"GITHUB_HTTP_{e.code}:GRAPHQL") from None
     if not isinstance(body,dict) or body.get("errors"):
         raise RuntimeError("GITHUB_GRAPHQL_PROOF_FAILED")
     data=body.get("data")
@@ -288,6 +301,9 @@ def pending_prs_graphql(token,repo=REPO,graphql=None,get=None):
                           "head_sha":head_sha,
                           "head_ref":node.get("headRefName"),
                           "head_repo_full_name":head_repo_full_name,
+                          "file_paths":[f.get("filename") for f in files],
+                          "registry_blob_sha":next((f.get("sha") for f in files
+                                                    if f.get("filename")==REGISTRY),None),
                           "intake":intake,
                           "registry_mutation":any(f.get("filename")==REGISTRY for f in live_intake_files),
                           "workload_units":donor_intake_workload(live_intake_files) if intake else None})
@@ -419,6 +435,9 @@ def pending_prs(get,repo=REPO):
                               "head_sha":head.get("sha"),
                               "head_ref":head.get("ref"),
                               "head_repo_full_name":head_repo.get("full_name"),
+                              "file_paths":[f.get("filename") for f in files],
+                              "registry_blob_sha":next((f.get("sha") for f in files
+                                                        if f.get("filename")==REGISTRY),None),
                               "intake":intake,
                               "registry_mutation":any(f.get("filename")==REGISTRY for f in live_intake_files),
                               "workload_units":donor_intake_workload(live_intake_files) if intake else None})
@@ -502,8 +521,51 @@ def plan_findings(root,plan,approval,pr_number,repo,get):
         return ["EXPLICIT_OWNER_APPROVAL_ON_EXACT_HEAD_REQUIRED"]
     return []
 
+def _decode_contents_json(obj):
+    if not isinstance(obj,dict) or obj.get("encoding")!="base64" or not isinstance(obj.get("content"),str):
+        raise ValueError("BATCH_MANIFEST_CONTENT_UNAVAILABLE")
+    try:
+        raw=base64.b64decode(obj["content"])
+        row=json.loads(raw.decode("utf-8"))
+    except (ValueError,UnicodeDecodeError,json.JSONDecodeError) as e:
+        raise ValueError("BATCH_MANIFEST_CONTENT_INVALID") from e
+    if not isinstance(row,dict):
+        raise ValueError("BATCH_MANIFEST_NOT_OBJECT")
+    return row
+
+def _candidate_manifest_paths(root,candidate):
+    paths=candidate.get("file_paths")
+    if isinstance(paths,list):
+        rows=[p for p in paths if isinstance(p,str)
+              and p.startswith("canonical/deltas/CFA3-DONOR-") and p.endswith(".json")]
+        if rows:
+            return sorted(set(rows))
+    delta_root=Path(root)/"canonical"/"deltas"
+    return [str(p.relative_to(root)).replace("\\","/")
+            for p in sorted(delta_root.glob("CFA3-DONOR-*.json"))] if delta_root.is_dir() else []
+
+def _candidate_json(root,candidate,rel,get=None):
+    local=Path(root)/rel
+    if local.is_file():
+        try:
+            row=json.loads(local.read_text(encoding="utf-8"))
+            if isinstance(row,dict) and (
+                    rel!=BATCH_DECISION or row.get("id")=="CFA3-DEC-DONOR-INTAKE-BATCH-ACCELERATION-2026-10-04"):
+                if rel==BATCH_DECISION or row.get("batch_finalizer_pr")==candidate.get("number"):
+                    return row
+        except (OSError,json.JSONDecodeError):
+            pass
+    if get is None:
+        return None
+    head=candidate.get("head_sha")
+    repo=candidate.get("head_repo_full_name") or REPO
+    if not isinstance(head,str) or len(head)!=40:
+        raise ValueError("BATCH_FINALIZER_HEAD_INVALID")
+    obj=get(f"/repos/{repo}/contents/{rel}?ref={head}")
+    return _decode_contents_json(obj)
+
 def batch_manifest_coverage(root,pending,pr_number):
-    """Return exact-head donor PR coverage declared by a committed CFA3 batch manifest."""
+    """Return declared exact-head coverage; admission uses validate_batch_finalizer."""
     covered={}
     delta_root=Path(root)/"canonical"/"deltas"
     if delta_root.is_dir():
@@ -526,6 +588,116 @@ def batch_manifest_coverage(root,pending,pr_number):
     missing=[number for number,head in required.items() if covered.get(number)!=head]
     return covered,sorted(missing)
 
+def validate_batch_finalizer(root,pending,candidate,inspect,get=None,require_complete=True):
+    """Validate a declared rolling single-writer batch against live exact heads and bytes."""
+    manifests=[]
+    for rel in _candidate_manifest_paths(root,candidate):
+        row=_candidate_json(root,candidate,rel,get)
+        if (isinstance(row,dict) and row.get("batch_role")==BATCH_ROLE
+                and row.get("batch_finalizer_pr")==candidate.get("number")):
+            manifests.append((rel,row))
+    if not manifests:
+        return None
+    if len(manifests)!=1:
+        return {"findings":["MULTIPLE_CANONICAL_BATCH_MANIFESTS"],"covered":{}}
+    rel,row=manifests[0]
+    findings=[]
+    if row.get("decision_ref")!=BATCH_DECISION:
+        findings.append("BATCH_DECISION_REF_INVALID")
+    decision=_candidate_json(root,candidate,BATCH_DECISION,get)
+    rules=decision.get("rules") if isinstance(decision,dict) else None
+    if (not isinstance(decision,dict) or decision.get("status")!="APPROVED"
+            or decision.get("explicit_user_approval") is not True
+            or not isinstance(rules,dict)
+            or rules.get("canonical_mutation_mode")!="ROLLING_BATCH_SINGLE_WRITER"
+            or rules.get("max_active_canonical_registry_mutation_prs")!=1):
+        findings.append("BATCH_APPROVED_DECISION_INVALID")
+    if row.get("status") not in ("MATERIALIZED_PENDING_EXACT_HEAD_GATES","MATERIALIZED_FINAL_HEAD"):
+        findings.append("BATCH_MANIFEST_STATUS_INVALID")
+    if (row.get("capability_baseline")!=175 or row.get("capability_delta")!=0
+            or row.get("authority_delta")!=0):
+        findings.append("BATCH_CAPABILITY_OR_AUTHORITY_DELTA_INVALID")
+    source_prs=row.get("source_prs")
+    if not isinstance(source_prs,list) or not source_prs:
+        findings.append("BATCH_SOURCE_PRS_INVALID")
+        source_prs=[]
+    covered={}
+    contribution=0
+    for item in source_prs:
+        if not isinstance(item,dict):
+            findings.append("BATCH_SOURCE_PR_INVALID")
+            continue
+        number,head=item.get("pr"),item.get("head")
+        units=item.get("contribution")
+        if (not isinstance(number,int) or number in covered or
+                not isinstance(head,str) or len(head)!=40 or
+                not isinstance(units,int) or units<0):
+            findings.append("BATCH_SOURCE_PR_INVALID")
+            continue
+        covered[number]=head
+        contribution+=units
+    if contribution!=row.get("new_source_count"):
+        findings.append("BATCH_SOURCE_CONTRIBUTION_MISMATCH")
+    live={p.get("number"):p for p in pending if isinstance(p,dict)}
+    for number,head in covered.items():
+        current=live.get(number)
+        if current is None:
+            findings.append("BATCH_SOURCE_PR_NOT_OPEN:"+str(number))
+        elif current.get("head_sha")!=head:
+            findings.append("BATCH_SOURCE_HEAD_MISMATCH:"+str(number))
+    if require_complete:
+        extras=sorted(p["number"] for p in pending
+                      if p.get("registry_mutation")
+                      and p.get("number") not in covered
+                      and p.get("number")!=candidate.get("number"))
+        if extras:
+            findings.append("BATCH_UNDECLARED_REGISTRY_MUTATORS:"+",".join(map(str,extras)))
+    local_registry=Path(root)/REGISTRY
+    local_blob=git_blob_sha(local_registry.read_bytes()) if local_registry.is_file() else None
+    candidate_blob=candidate.get("registry_blob_sha") or local_blob
+    expected_blob=row.get("resulting_registry_blob_sha")
+    if (not isinstance(expected_blob,str) or len(expected_blob)!=40
+            or candidate_blob!=expected_blob):
+        findings.append("BATCH_RESULTING_REGISTRY_BLOB_MISMATCH")
+    local_is_candidate=(local_blob==candidate_blob==expected_blob)
+    if local_is_candidate:
+        if row.get("resulting_entry_count")!=inspect.get("count"):
+            findings.append("BATCH_RESULTING_ENTRY_COUNT_MISMATCH")
+        if row.get("parent_entry_count")+row.get("new_source_count")!=row.get("resulting_entry_count"):
+            findings.append("BATCH_COUNT_DERIVATION_MISMATCH")
+        entries=inspect.get("registry",{}).get("entries",[])
+        by_id={x.get("donor_id"):x for x in entries if isinstance(x,dict)}
+        by_key={x.get("source",{}).get("normalized_key"):x for x in entries
+                if isinstance(x,dict) and isinstance(x.get("source"),dict)}
+        materialized=row.get("materialized")
+        if not isinstance(materialized,list) or len(materialized)!=row.get("new_source_count"):
+            findings.append("BATCH_MATERIALIZED_SET_INVALID")
+            materialized=[]
+        seen_ids,seen_keys=set(),set()
+        for item in materialized:
+            did=item.get("donor_id") if isinstance(item,dict) else None
+            key=item.get("normalized_key") if isinstance(item,dict) else None
+            status=item.get("status") if isinstance(item,dict) else None
+            if (not isinstance(did,str) or did in seen_ids or
+                    not isinstance(key,str) or key in seen_keys):
+                findings.append("BATCH_MATERIALIZED_IDENTITY_DUPLICATE_OR_INVALID")
+                continue
+            seen_ids.add(did);seen_keys.add(key)
+            if by_id.get(did) is not by_key.get(key) or by_id.get(did,{}).get("status")!=status:
+                findings.append("BATCH_MATERIALIZED_IDENTITY_NOT_BOUND:"+did)
+        reconciled=row.get("reconciled_existing_identities")
+        if not isinstance(reconciled,list):
+            findings.append("BATCH_RECONCILED_SET_INVALID")
+            reconciled=[]
+        for item in reconciled:
+            did=item.get("donor_id") if isinstance(item,dict) else None
+            key=item.get("key") if isinstance(item,dict) else None
+            status=item.get("status") if isinstance(item,dict) else None
+            if by_id.get(did) is not by_key.get(key) or by_id.get(did,{}).get("status")!=status:
+                findings.append("BATCH_RECONCILED_IDENTITY_NOT_BOUND:"+str(did))
+    return {"manifest_path":rel,"manifest":row,"covered":covered,
+            "findings":sorted(set(findings))}
+
 def gate(root,phase="status",token="",assessment=None,plan=None,approval=None,
          pr_number=None,get=None):
     result={"schema":"fa3.donor-readiness.v1","phase":phase,
@@ -544,28 +716,43 @@ def gate(root,phase="status",token="",assessment=None,plan=None,approval=None,
             result["findings"].append("MAINTENANCE_ONLY_NOT_PLANNING_READY")
             return result
         if not token and get is None:raise RuntimeError("LIVE_GITHUB_TOKEN_REQUIRED")
-        getter=get if get is not None else lambda p:github_get(p,token)
-        before=getter(f"/repos/{REPO}/branches/main")["commit"]["sha"]
-        result["pending_prs"]=(pending_prs_graphql(token) if get is None
+        raw_getter=get if get is not None else lambda p:github_get(p,token)
+        cache={}
+        def getter(path):
+            if path.endswith("/branches/main"):
+                return raw_getter(path)
+            if path not in cache:
+                cache[path]=raw_getter(path)
+            return cache[path]
+        before=raw_getter(f"/repos/{REPO}/branches/main")["commit"]["sha"]
+        result["pending_prs"]=(pending_prs_graphql(token,get=getter) if get is None
                                else pending_prs(getter))
         result["pending_intake_prs"]=[p for p in result["pending_prs"] if p["intake"]]
-        after=getter(f"/repos/{REPO}/branches/main")["commit"]["sha"]
+        after=raw_getter(f"/repos/{REPO}/branches/main")["commit"]["sha"]
         if before!=after:result["findings"].append("MAIN_MOVED_DURING_SCAN")
         if result["findings"]:return result
-        if phase=="intake":
-            # Owner-approved rolling donor-intake window:
-            # - at most five genuine canonical intake PRs are active;
-            # - FIFO controls admission into a newly freed slot;
-            # - within the active window, the smallest canonical donor-mutation
-            #   workload finalizes first, with FIFO as the tie-breaker.
-            # Registry publication itself therefore remains single-finalizer
-            # even though up to five intake requests may be active.
+        if phase in ("intake","append"):
             pending=result["pending_intake_prs"]
-            active=pending[:MAX_ACTIVE_DONOR_INTAKES]
-            waiting=pending[MAX_ACTIVE_DONOR_INTAKES:]
+            registry_mutators=[p for p in pending if p.get("registry_mutation")]
+            batch_candidates=[]
+            for candidate in registry_mutators:
+                check=validate_batch_finalizer(
+                    root,pending,candidate,inspect,getter,require_complete=(phase=="intake"))
+                if check is not None:
+                    batch_candidates.append((candidate,check))
+            if len(batch_candidates)>1:
+                result["findings"].append("MULTIPLE_CANONICAL_BATCH_FINALIZERS")
+                return result
+            batch_candidate,batch_check=(batch_candidates[0] if batch_candidates else (None,None))
+            covered=set(batch_check.get("covered",{})) if batch_check else set()
+            operational=[p for p in pending if p["number"] not in covered]
+            active=operational[:MAX_ACTIVE_DONOR_INTAKES]
+            waiting=operational[MAX_ACTIVE_DONOR_INTAKES:]
             finalization=sorted(
                 active,key=lambda p:(p.get("workload_units",1),p["number"]))
-            registry_mutators=[p for p in pending if p.get("registry_mutation")]
+            if batch_candidate is not None:
+                finalization=[batch_candidate]+[
+                    p for p in finalization if p["number"]!=batch_candidate["number"]]
             result["max_active_donor_intakes"]=MAX_ACTIVE_DONOR_INTAKES
             result["max_active_canonical_registry_mutation_prs"]=MAX_ACTIVE_CANONICAL_REGISTRY_MUTATION_PRS
             result["active_donor_prs"]=[p["number"] for p in active]
@@ -574,30 +761,19 @@ def gate(root,phase="status",token="",assessment=None,plan=None,approval=None,
             result["finalization_order"]=[p["number"] for p in finalization]
             result["available_intake_slots"]=MAX_ACTIVE_DONOR_INTAKES-len(active)
             result["active_donor_pr"]=finalization[0]["number"] if finalization else None
-
-            if pr_number is not None:
-                candidate=next((p for p in pending if p["number"]==pr_number),None)
-                if candidate is not None and candidate.get("registry_mutation"):
-                    covered,missing=batch_manifest_coverage(root,pending,pr_number)
-                    if len(pending)>1 and not missing:
-                        result["batch_covered_prs"]=sorted(n for n in covered if n!=pr_number)
-                        result["batch_coverage_missing"]=[]
-                        result["active_donor_pr"]=pr_number
-                        result["finalization_order"]=[pr_number]
-                        result["result"]="DONOR_INTAKE_READY_TO_FINALIZE"
-                        result["intake_workload_units"]=candidate.get("workload_units")
-                        result["next_finalizable_donor_pr"]=pr_number
-                        return result
-                    batch_policy_enabled = (
-                        root / "canonical/decisions/CFA3-DEC-DONOR-INTAKE-BATCH-ACCELERATION-2026-10-04.json"
-                    ).is_file()
-                    if (batch_policy_enabled
-                            and len(registry_mutators)>MAX_ACTIVE_CANONICAL_REGISTRY_MUTATION_PRS):
-                        result["batch_coverage_missing"]=missing
-                        result["findings"].append("MULTIPLE_CANONICAL_REGISTRY_MUTATION_PRS_REQUIRE_EXACT_BATCH_COVERAGE")
-                        return result
+            if batch_candidate is not None:
+                result["batch_finalizer_pr"]=batch_candidate["number"]
+                result["batch_manifest"]=batch_check.get("manifest_path")
+                result["batch_covered_prs"]=sorted(covered)
+                if batch_check.get("findings"):
+                    result["findings"].extend(batch_check["findings"])
+                    return result
 
             if pr_number is None:
+                if batch_candidate is not None:
+                    result["result"]="DONOR_BATCH_FINALIZER_SELECTED"
+                    result["next_finalizable_donor_pr"]=batch_candidate["number"]
+                    return result
                 if len(active) >= MAX_ACTIVE_DONOR_INTAKES:
                     result["findings"].append("DONOR_INTAKE_ACTIVE_WINDOW_FULL_WAIT_FOR_SLOT")
                     return result
@@ -607,6 +783,19 @@ def gate(root,phase="status",token="",assessment=None,plan=None,approval=None,
             row=next((p for p in pending if p["number"]==pr_number),None)
             if row is None:
                 result["findings"].append("INTAKE_PR_NOT_OPEN_OR_NOT_DONOR")
+                return result
+            if batch_candidate is not None and pr_number in covered:
+                result["findings"].append("DONOR_INTAKE_COVERED_BY_BATCH_FINALIZER")
+                result["next_finalizable_donor_pr"]=batch_candidate["number"]
+                return result
+            if batch_candidate is not None and pr_number==batch_candidate["number"]:
+                result["intake_workload_units"]=row.get("workload_units")
+                result["next_finalizable_donor_pr"]=pr_number
+                result["result"]=("DONOR_BATCH_APPEND_PREFLIGHT_PASS"
+                                  if phase=="append" else "DONOR_INTAKE_READY_TO_FINALIZE")
+                return result
+            if phase=="append":
+                result["findings"].append("BATCH_APPEND_REQUIRES_CANONICAL_BATCH_FINALIZER")
                 return result
             if pr_number not in result["active_donor_prs"]:
                 result["findings"].append("DONOR_INTAKE_ACTIVE_WINDOW_FULL_WAIT_FOR_SLOT")
@@ -649,13 +838,16 @@ def gate(root,phase="status",token="",assessment=None,plan=None,approval=None,
         result["finalization_allowed"]=phase=="finalize"
         return result
     except (OSError,ValueError,RuntimeError,KeyError,TypeError,subprocess.CalledProcessError) as e:
-        result["findings"].append("PROOF_UNAVAILABLE:"+type(e).__name__)
+        detail=str(e)
+        safe=(detail if isinstance(e,RuntimeError) and detail.startswith("GITHUB_")
+              else type(e).__name__)
+        result["findings"].append("PROOF_UNAVAILABLE:"+safe)
         return result
 
 def main():
     p=argparse.ArgumentParser()
     p.add_argument("--root",default=str(Path(__file__).resolve().parents[1]))
-    p.add_argument("--phase",choices=("maintenance","intake","status","entry","finalize"),default="status")
+    p.add_argument("--phase",choices=("maintenance","append","intake","status","entry","finalize"),default="status")
     p.add_argument("--assessment")
     p.add_argument("--plan")
     p.add_argument("--approval")
@@ -665,6 +857,8 @@ def main():
            a.assessment,a.plan,a.approval,a.pr)
     print(json.dumps(x,ensure_ascii=False,indent=2))
     return 0 if x["result"] in ("MAINTENANCE_INTEGRITY_PASS",
+                                 "DONOR_BATCH_APPEND_PREFLIGHT_PASS",
+                                 "DONOR_BATCH_FINALIZER_SELECTED",
                                  "DONOR_INTAKE_SLOT_AVAILABLE",
                                  "DONOR_INTAKE_READY_TO_FINALIZE",
                                  "READY_FOR_SEPARATE_FA3_ADMISSION_GATES") else 2

@@ -10,6 +10,9 @@ from fa3_donor_readiness import (
     MAX_ACTIVE_CANONICAL_REGISTRY_MUTATION_PRS,
     MAX_ACTIVE_DONOR_INTAKES,
     batch_manifest_coverage,
+    git_blob_sha,
+    inspect_registry,
+    validate_batch_finalizer,
 )
 
 REGISTRY = ROOT / "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"
@@ -82,6 +85,45 @@ class DonorBatchAccelerationTests(unittest.TestCase):
         self.assertEqual(next(x for x in self.manifest["source_prs"] if x["pr"] == 707)["head"], "af8cd23982e27fdda0cc315ffd9e1186459f532f")
         self.assertEqual(by_key["github:gpuopen-librariesandsdks"]["status"], "ACCEPTED_REFERENCE")
         self.assertEqual(by_key["github:intel/intel-graphics-compiler"]["status"], "ACCEPTED_REFERENCE")
+
+    def test_batch_finalizer_manifest_is_exactly_bound(self):
+        self.assertEqual(self.manifest["batch_role"], "CANONICAL_ROLLING_BATCH_FINALIZER")
+        self.assertEqual(self.manifest["batch_finalizer_pr"], 705)
+        self.assertEqual(
+            self.manifest["decision_ref"],
+            "canonical/decisions/CFA3-DEC-DONOR-INTAKE-BATCH-ACCELERATION-2026-10-04.json",
+        )
+        candidate = {
+            "number": 705,
+            "head_sha": "b" * 40,
+            "head_repo_full_name": "ubuntuokos/Final-Architecture-v3.0",
+            "file_paths": [
+                "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+                "canonical/deltas/CFA3-DONOR-BACKLOG-CONSOLIDATION-2026-10-04.json",
+            ],
+            "registry_blob_sha": git_blob_sha(REGISTRY.read_bytes()),
+            "registry_mutation": True,
+            "intake": True,
+        }
+        pending = [
+            {
+                "number": row["pr"],
+                "head_sha": row["head"],
+                "registry_mutation": True,
+                "intake": True,
+            }
+            for row in self.manifest["source_prs"]
+        ] + [candidate]
+        check = validate_batch_finalizer(
+            ROOT, pending, candidate, inspect_registry(ROOT), require_complete=True
+        )
+        self.assertEqual(check["findings"], [])
+        bad = dict(candidate)
+        bad["registry_blob_sha"] = "f" * 40
+        broken = validate_batch_finalizer(
+            ROOT, pending[:-1] + [bad], bad, inspect_registry(ROOT), require_complete=True
+        )
+        self.assertIn("BATCH_RESULTING_REGISTRY_BLOB_MISMATCH", broken["findings"])
 
     def test_single_writer_batch_policy_is_canonical(self):
         self.assertEqual(MAX_ACTIVE_DONOR_INTAKES, 5)
