@@ -5,14 +5,21 @@
   "status": "RECONCILED",
   "capability_count": 175,
   "structural_changes": [
-    "src/fa3_task_scope_closure.py",
-    "src/fa3_agent_workload.py",
-    "src/fa3_goal_execution.py",
-    "canonical/actions/agent.workload.start.json",
-    "canonical/actions/agent.workload.resume.json",
+    ".github/workflows/fa3-agent-workload-runtime.yml",
+    ".github/workflows/fa3-goal-execution-foundation.yml",
+    ".github/workflows/fa3-permanent-enforcement.yml",
+    "canonical/FA3-GATE-AGENT-WORKLOAD-RUNTIME-001.json",
+    "canonical/agent-workload-runtime-enforcement.json",
+    "canonical/contracts/FA3-CLOSED-LOOP-AGENT-OPERATIONS-CONTRACTS-001.json",
+    "canonical/contracts/FA3-GOAL-EXECUTION-CONTRACTS-001.schema.json",
     "canonical/contracts/FA3-AGENT-WORKLOAD-TASK-001.schema.json",
     "canonical/contracts/FA3-AGENT-EXECUTION-PLAN-001.schema.json",
-    "canonical/contracts/FA3-AGENT-WORKLOAD-RUNTIME-CONTRACTS-001.json"
+    "canonical/contracts/FA3-AGENT-WORKLOAD-RUNTIME-CONTRACTS-001.json",
+    "canonical/decisions/FA3-DEC-TASK-SCOPE-CLOSURE-POLICY-2026-10-03.json",
+    "src/cfa3_development_ai_behavior_gate.py",
+    "src/fa3_adk2_runtime_gate.py",
+    "src/fa3_agent_workload.py",
+    "src/fa3_agent_workload_gate.py"
   ],
   "current_host_changes": [
     "canonical/FA3-AGENT-WORKLOAD-RUNTIME-CURRENT-HOST-CONFORMANCE-001.json",
