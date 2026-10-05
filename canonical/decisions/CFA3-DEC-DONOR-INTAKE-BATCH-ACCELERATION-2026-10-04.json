@@ -1,0 +1,102 @@
+{
+  "id": "CFA3-DEC-DONOR-INTAKE-BATCH-ACCELERATION-2026-10-04",
+  "status": "APPROVED",
+  "decision_date": "2026-10-04",
+  "explicit_user_approval": true,
+  "scope": "DONOR_INTAKE_BATCH_ACCELERATION_STALE_RECONCILIATION_AND_GATE_COST_REDUCTION",
+  "canonical_name": "CFA3",
+  "historical_alias": "FA3",
+  "rules": {
+    "max_active_donor_intakes": 5,
+    "max_active_canonical_registry_mutation_prs": 1,
+    "canonical_mutation_mode": "ROLLING_BATCH_SINGLE_WRITER",
+    "append_to_existing_open_batch_when_available": true,
+    "individual_registry_mutation_pr_per_submission": false,
+    "stale_branch_direct_merge_or_rebase_forbidden": true,
+    "stale_branch_exact_head_delta_rehydration_required": true,
+    "exact_source_key_union_and_dedup_required": true,
+    "original_head_provenance_required": true,
+    "queue_only_delta_may_not_be_planning_input": true,
+    "published_main_registry_remains_only_planning_source": true,
+    "full_protected_gate_run_scope": "FINAL_BATCH_HEAD_ONLY",
+    "per_append_fast_preflight": [
+      "SCHEMA",
+      "SOURCE_KEY_AND_DONOR_ID_UNIQUENESS",
+      "PROVENANCE",
+      "LICENSE_RIGHTS_METADATA_PRESENCE",
+      "CAPABILITY_DELTA_ZERO",
+      "AUTHORITY_DELTA_ZERO",
+      "DONOR_COUNT_DERIVATION"
+    ],
+    "batch_finalization_requires": [
+      "EXACT_HEAD_UNION_PROOF",
+      "FULL_DONOR_SERIALIZATION",
+      "REUSE_DISCOVERY",
+      "PERMANENT_CANONICAL_AND_PROMOTION",
+      "RELEASE_PROJECTION_RECONCILIATION",
+      "ALL_EXISTING_REQUIRED_PROTECTED_CHECKS"
+    ]
+  },
+  "stale_source_policy": {
+    "source_branch_staleness_does_not_invalidate_valid_donor_identity": true,
+    "stale_pr_feature_payload_must_not_be_carried_forward": true,
+    "source_deleted_moved_archived_or_security_license_regressed_requires_explicit_reclassification": true,
+    "source_network_revalidation_is_required_when_material_staleness_is_observed_or_before_adoption": true,
+    "historical_provenance_never_deleted": true
+  },
+  "safety_and_authority": {
+    "capability_baseline": 175,
+    "donor_registry_authority": false,
+    "automatic_code_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_admission": false,
+    "automatic_runtime_activation": false,
+    "usage_edge_required_for_actual_adoption": true,
+    "license_rights_security_software_coexistence_hardware_safety_preserved": true
+  },
+  "backlog_closure": {
+    "consolidation_manifest": "canonical/deltas/CFA3-DONOR-BACKLOG-CONSOLIDATION-2026-10-04.json",
+    "source_pr_count": 18,
+    "expected_new_source_count": 121,
+    "parent_entry_count": 1427,
+    "resulting_entry_count": 1548,
+    "live_queue_reconciliation": {
+      "added_source_prs": [
+        704,
+        706,
+        707
+      ],
+      "stale_source_key_deduplications": 1,
+      "existing_identity_enrichments": 7,
+      "rule": "NORMALIZED_SOURCE_KEY_CANONICAL_IDENTITY_WINS_NO_DUPLICATE_RECORD",
+      "head_refreshes": [
+        {
+          "pr": 706,
+          "from": "82c73af42bc4d8ce6e2f64ed6d911be95444e550",
+          "to": "dd62e05810f1212a8489f4aa7cb2e033a801766d",
+          "new_source_delta": 1
+        }
+      ],
+      "latest_append": {
+        "pr": 707,
+        "head": "af8cd23982e27fdda0cc315ffd9e1186459f532f",
+        "submitted_urls": 29,
+        "normalized_identities": 24,
+        "new_identities": 22,
+        "reconciled_existing_identities": 2,
+        "scope": "RAY_PATH_TRACING_CROSS_VENDOR_REFERENCE_INTAKE"
+      }
+    }
+  },
+  "supersedes_clauses": [
+    "FA3-DEC-DONOR-INTAKE-CONCURRENCY-2026-10-03:CANONICAL_MUTATION_PR_PER_INTAKE_AS_OPERATING_PATTERN",
+    "FA3-DEC-DONOR-INTAKE-CONCURRENCY-2026-10-03:FULL_GATE_WORK_REPEATED_FOR_EACH_INDIVIDUAL_DONOR_FINALIZER"
+  ],
+  "preserves": [
+    "FA3-DEC-DONOR-INTAKE-CONCURRENCY-2026-10-03:MAX_5_ACTIVE_INTAKE_REQUESTS",
+    "FA3-DEC-DONOR-INTAKE-CONCURRENCY-2026-10-03:SINGLE_CANONICAL_FINALIZER",
+    "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28:EXPLICIT_DONORNAK_MARKER",
+    "FA3-DONOR-REFERENCE-REGISTRY-001:CANONICAL_SINGLE_REGISTRY"
+  ]
+}

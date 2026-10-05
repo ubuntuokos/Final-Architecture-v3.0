@@ -6,6 +6,7 @@ on:
     paths:
       - 'canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json'
       - 'canonical/deltas/FA3-DONOR-*'
+      - 'canonical/deltas/CFA3-DONOR-*'
       - 'src/fa3_donor_readiness.py'
       - '.github/workflows/fa3-donor-serialization.yml'
       - '.github/workflows/fa3-donor-intake-revalidation.yml'
@@ -54,13 +55,13 @@ jobs:
 
           token=os.environ["GITHUB_TOKEN"]
           getter=lambda path: github_get(path,token)
-          report=gate(Path(".").resolve(),"intake",get=getter)
+          report=gate(Path(".").resolve(),"intake",token=token)
           rows=report.get("pending_intake_prs")
           order=report.get("finalization_order") or []
           findings=report.get("findings") or []
           proof_failures=[f for f in findings
                           if f=="MAIN_MOVED_DURING_SCAN" or f.startswith("PROOF_UNAVAILABLE:")]
-          if rows is None or proof_failures:
+          if rows is None or report.get("result")=="BLOCKED" or proof_failures:
               raise SystemExit("live donor inventory proof unavailable; refusing cross-PR revalidation")
           if not rows:
               print("No live donor-intake PRs require cross-PR revalidation.")
@@ -70,6 +71,7 @@ jobs:
 
           finalizer=order[0]
           waiting=set(report.get("waiting_donor_prs") or [])
+          covered=set(report.get("batch_covered_prs") or [])
           main_sha=getter(f"/repos/{REPO}/branches/main")["commit"]["sha"]
 
           def api(method,path,payload):
@@ -102,7 +104,10 @@ jobs:
 
           for row in rows:
               number=row["number"]
-              if number == finalizer:
+              if number == finalizer or number in covered:
+                  if number in covered:
+                      print(f"PR #{number} is exact-head covered by batch finalizer #{finalizer}; "
+                            "leaving its existing checks untouched.")
                   continue
               reason=("DONOR_INTAKE_ACTIVE_WINDOW_FULL_WAIT_FOR_SLOT"
                       if number in waiting else
@@ -203,7 +208,7 @@ jobs:
                   raise SystemExit(0)
 
           # The donor inventory may have changed while an older run was finishing.
-          refreshed=gate(Path(".").resolve(),"intake",get=getter)
+          refreshed=gate(Path(".").resolve(),"intake",token=token)
           refreshed_rows=refreshed.get("pending_intake_prs")
           refreshed_order=refreshed.get("finalization_order") or []
           refreshed_findings=refreshed.get("findings") or []
@@ -211,7 +216,7 @@ jobs:
               f for f in refreshed_findings
               if f=="MAIN_MOVED_DURING_SCAN" or f.startswith("PROOF_UNAVAILABLE:")
           ]
-          if refreshed_rows is None or refreshed_proof_failures:
+          if refreshed_rows is None or refreshed.get("result")=="BLOCKED" or refreshed_proof_failures:
               fail_required_check(
                   final,
                   "Donor finalizer live inventory proof became unavailable",
