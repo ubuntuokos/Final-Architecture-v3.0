@@ -176,9 +176,22 @@ class DonorBatchAccelerationTests(unittest.TestCase):
             "FA3-DONOR-TILE-AI-TILERT-001",
             "FA3-DONOR-TILE-AI-TILEOPS-001",
         ):
+            provenance = by_id[donor_id]["intake_provenance"]
             self.assertEqual(
-                by_id[donor_id]["intake_provenance"]["source_pr_head"],
+                provenance["source_pr_head"],
                 "e4fe02e71aa8fe2530beccd7f31a7150869d2e90",
+            )
+            self.assertEqual(
+                provenance["source_pr_original_head"],
+                "4e7dc96ec5f0eaef465b9f30244c98cfbae903e3",
+            )
+            self.assertEqual(
+                provenance["source_pr_head_refresh_lineage"],
+                [{
+                    "from": "4e7dc96ec5f0eaef465b9f30244c98cfbae903e3",
+                    "to": "e4fe02e71aa8fe2530beccd7f31a7150869d2e90",
+                    "reason": "DEV_11_DELTA_PATH_PREFIX_CORRECTION",
+                }],
             )
 
     def test_known_non_batch_candidate_never_falls_back_to_local_batch_manifest(self):
