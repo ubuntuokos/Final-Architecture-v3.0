@@ -8,7 +8,11 @@
   "transport": {
     "canonical_revision": "2026-07-28",
     "stateless": true,
-    "required_request_headers": ["MCP-Protocol-Version", "Mcp-Method", "Mcp-Name"],
+    "required_request_headers": [
+      "MCP-Protocol-Version",
+      "Mcp-Method",
+      "Mcp-Name"
+    ],
     "required_request_meta": [
       "io.modelcontextprotocol/protocolVersion",
       "io.modelcontextprotocol/clientCapabilities"
@@ -36,7 +40,12 @@
     "sandbox": "REQUIRED_FOR_UNTRUSTED_OR_PRIVILEGED_EXECUTION",
     "supply_chain": "PIN_HASH_SCAN_SIGN_PROMOTE",
     "prompt_injection_and_tool_call_firewall": "REQUIRED",
-    "receipt": "REQUIRED"
+    "receipt": "REQUIRED",
+    "model_generated_tool_request": "UNTRUSTED_INPUT",
+    "plugin_or_extension_generated_tool_request": "UNTRUSTED_INPUT",
+    "imported_artifact_generated_action": "UNTRUSTED_INPUT",
+    "authorization_and_verification_must_remain_distinct": true,
+    "receipt_separates_proposal_authorization_execution_and_verification": true
   },
   "gui": {
     "direct_tool_invocation_from_qml": "FORBIDDEN",
@@ -46,9 +55,33 @@
     "fabricated_connected_or_pass_state": "FORBIDDEN"
   },
   "lifecycle": {
-    "drivers": ["systemd", "native-process", "podman", "docker", "kubernetes", "remote"],
+    "drivers": [
+      "systemd",
+      "native-process",
+      "podman",
+      "docker",
+      "kubernetes",
+      "remote"
+    ],
     "kubernetes_required": false,
     "azure_required": false,
     "entra_id_required": false
+  },
+  "execution_chain": {
+    "model_or_agent_output_is": "UNTRUSTED_PROPOSAL",
+    "ordered_stages": [
+      "PARSE",
+      "SCHEMA_VALIDATE",
+      "CAPABILITY_VALIDATE",
+      "POLICY_AUTHORIZE",
+      "APPROVAL_WHEN_REQUIRED",
+      "EXECUTE_THROUGH_EXISTING_AUTHORITY",
+      "RETURN_RESULT",
+      "INDEPENDENT_VERIFY",
+      "EMIT_EVIDENCE_RECEIPT"
+    ],
+    "stage_skipping": "FORBIDDEN",
+    "verification_may_grant_execution_authority": false,
+    "proposal_may_grant_execution_authority": false
   }
 }
