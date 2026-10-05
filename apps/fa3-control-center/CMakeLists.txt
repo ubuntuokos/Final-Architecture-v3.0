@@ -66,6 +66,8 @@ set_source_files_properties(qml/VoiceActivityOverlay.qml PROPERTIES QT_RESOURCE_
 set_source_files_properties(qml/SystemSettingsPage.qml PROPERTIES QT_RESOURCE_ALIAS SystemSettingsPage.qml)
 set_source_files_properties(qml/RtdProvidersPage.qml PROPERTIES QT_RESOURCE_ALIAS RtdProvidersPage.qml)
 set_source_files_properties(qml/ChatWorkspace.qml PROPERTIES QT_RESOURCE_ALIAS ChatWorkspace.qml)
+set(FA3_ONE_CLICK_HANDOFF_QML "${CMAKE_CURRENT_SOURCE_DIR}/../shared/conversation-handoff/qml/OneClickHandoffBox.qml")
+set_source_files_properties(${FA3_ONE_CLICK_HANDOFF_QML} PROPERTIES QT_RESOURCE_ALIAS OneClickHandoffBox.qml)
 set_source_files_properties(qml/HelpBubble.qml PROPERTIES QT_RESOURCE_ALIAS HelpBubble.qml)
 set_source_files_properties(qml/CheckpointManagerPage.qml PROPERTIES QT_RESOURCE_ALIAS CheckpointManagerPage.qml)
 set_source_files_properties(qml/ExternalProvidersSetupPage.qml PROPERTIES QT_RESOURCE_ALIAS ExternalProvidersSetupPage.qml)
@@ -113,6 +115,7 @@ qt_add_qml_module(fa3-control-center
         qml/SystemSettingsPage.qml
         qml/RtdProvidersPage.qml
         qml/ChatWorkspace.qml
+        ${FA3_ONE_CLICK_HANDOFF_QML}
         qml/HelpBubble.qml
         qml/CheckpointManagerPage.qml
         qml/ExternalProvidersSetupPage.qml

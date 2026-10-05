@@ -1,5 +1,7 @@
 #include "ChatFileService.h"
 
+#include <QClipboard>
+#include <QGuiApplication>
 #include <QFile>
 #include <QFileInfo>
 #include <QMimeDatabase>
@@ -165,6 +167,29 @@ QVariantMap ChatFileService::copyLocalFile(const QUrl &source, const QUrl &desti
 
     result.insert(QStringLiteral("ok"), true);
     result.insert(QStringLiteral("path"), destination.toLocalFile());
+    result.insert(QStringLiteral("error"), QString());
+    return result;
+}
+
+
+QVariantMap ChatFileService::copyTextToClipboard(const QString &text) const
+{
+    QVariantMap result;
+    result.insert(QStringLiteral("ok"), false);
+
+    if (text.isEmpty()) {
+        result.insert(QStringLiteral("error"), QStringLiteral("The handoff text is empty."));
+        return result;
+    }
+
+    QClipboard *clipboard = QGuiApplication::clipboard();
+    if (clipboard == nullptr) {
+        result.insert(QStringLiteral("error"), QStringLiteral("Clipboard service is unavailable."));
+        return result;
+    }
+
+    clipboard->setText(text, QClipboard::Clipboard);
+    result.insert(QStringLiteral("ok"), true);
     result.insert(QStringLiteral("error"), QString());
     return result;
 }

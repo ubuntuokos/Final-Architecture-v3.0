@@ -14,6 +14,7 @@ public:
     Q_INVOKABLE QVariantMap inspectLocalFile(const QUrl &url) const;
     Q_INVOKABLE QVariantMap saveTextFile(const QUrl &destination, const QString &text) const;
     Q_INVOKABLE QVariantMap copyLocalFile(const QUrl &source, const QUrl &destination) const;
+    Q_INVOKABLE QVariantMap copyTextToClipboard(const QString &text) const;
 
 private:
     static QString analysisClassFor(const QString &mimeName, const QString &suffix);
