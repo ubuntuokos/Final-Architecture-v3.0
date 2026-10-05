@@ -1095,7 +1095,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 3104,
+  "manifest_entry_count": 3109,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1692,7 +1692,7 @@
     },
     {
       "path": "AGENTS.md",
-      "git_blob_sha": "099dcbafbd9b341a9aca4d26a171fd64148e89a1"
+      "git_blob_sha": "acc7de0b102e9cf618e37eecbbe4eaff6f051750"
     },
     {
       "path": "apps/fa3-ai-module-factory/CMakeLists.txt",
@@ -1728,7 +1728,7 @@
     },
     {
       "path": "apps/fa3-control-center/CMakeLists.txt",
-      "git_blob_sha": "5f9dda9d76cf1fd45e91163471e0903fbcbefb02"
+      "git_blob_sha": "19fd0d0a9c383af23458bef8925cd852aea529c0"
     },
     {
       "path": "apps/fa3-control-center/packaging/org.fa3.ControlCenter.desktop",
@@ -1748,7 +1748,7 @@
     },
     {
       "path": "apps/fa3-control-center/qml/ChatWorkspace.qml",
-      "git_blob_sha": "c4bda84789cbcff044355cd439710654b22c7316"
+      "git_blob_sha": "65ad6312877f07286512a8f87de51936980b7ec2"
     },
     {
       "path": "apps/fa3-control-center/qml/CheckpointManagerPage.qml",
@@ -1900,11 +1900,11 @@
     },
     {
       "path": "apps/fa3-control-center/src/ChatFileService.cpp",
-      "git_blob_sha": "abf88ab2e81d6996a1e90aa32bef73cc31085fa8"
+      "git_blob_sha": "d2560ef817b78b88b79522543edea3bc8197d8db"
     },
     {
       "path": "apps/fa3-control-center/src/ChatFileService.h",
-      "git_blob_sha": "6b12f86e69091df5aafe25dc213b83623c9a32a7"
+      "git_blob_sha": "ed51fe7da649dd877c7ac4066b10cea9dde369d6"
     },
     {
       "path": "apps/fa3-control-center/src/DecisionFabricService.cpp",
@@ -2013,6 +2013,10 @@
     {
       "path": "apps/fa3-control-center/src/WorkloadModeStateService.h",
       "git_blob_sha": "0b175c27e89fa5317dd30ba8d90a209005f137b8"
+    },
+    {
+      "path": "apps/shared/conversation-handoff/qml/OneClickHandoffBox.qml",
+      "git_blob_sha": "7be88a5b3c011816612161221fe1b558fccf99a0"
     },
     {
       "path": "apps/shared/engine-selector/qml/EngineSelectorPanel.qml",
@@ -3288,6 +3292,10 @@
       "git_blob_sha": "09c7a2a731708d10f2df902c71faac8b635ac3d4"
     },
     {
+      "path": "canonical/CFA3-ONE-CLICK-CONVERSATION-HANDOFF-POLICY-001.json",
+      "git_blob_sha": "ae8f9370eba66b3f1dabfcacb6e942e5cdda0856"
+    },
+    {
       "path": "canonical/coach-enforcement.json",
       "git_blob_sha": "0a5449fa92e63041006d8f5ce2e966bc4d8d7db4"
     },
@@ -4154,6 +4162,10 @@
     {
       "path": "canonical/current-host-impact/FA3-CH-IMPACT-NO-OPEN-ENDED-TASK-EXPANSION-20261004.json",
       "git_blob_sha": "24bed144d4c0cf599ac9062882260dbf55c29fd7"
+    },
+    {
+      "path": "canonical/current-host-impact/FA3-CH-IMPACT-ONE-CLICK-CONVERSATION-HANDOFF-20261004.json",
+      "git_blob_sha": "6e839f7902c9b63e00af7774f36e7b8ef9019417"
     },
     {
       "path": "canonical/current-host-impact/FA3-CH-IMPACT-SHARED-RAY-PATH-TRACING-20261005.json",
@@ -8701,6 +8713,10 @@
       "git_blob_sha": "a5a218f173efc07977b9731482d129267784cd72"
     },
     {
+      "path": "docs/CFA3-ONE-CLICK-CONVERSATION-HANDOFF-001.md",
+      "git_blob_sha": "f218162a152a496befcf310cc634f138c1a0e45e"
+    },
+    {
       "path": "docs/CFA3-SHARED-RAY-PATH-TRACING-001.md",
       "git_blob_sha": "ae0777c39375c99acf4bd9a2a7e5f982eb3a8761"
     },
@@ -13088,6 +13104,10 @@
       "git_blob_sha": "6a68084839e5323cf53ff80ed54caf8889c7c19f"
     },
     {
+      "path": "tests/test_one_click_conversation_handoff.py",
+      "git_blob_sha": "453c3bc3308190038a2b086f2d489a047b3f4eaa"
+    },
+    {
       "path": "tests/test_openbmb_gate.py",
       "git_blob_sha": "66fcee9cbe629ae1a263d46e86239d5484c115c6"
     },
@@ -13748,7 +13768,7 @@
     "new_architectural_authorities": 0,
     "capability_count_after": 175
   },
-  "last_reconciled_at": "2026-10-05",
+  "last_reconciled_at": "2026-10-06",
   "inference_portability_reconciliation": {
     "profile_id": "FA3-INFERENCE-PORTABILITY-001",
     "contract_id": "FA3-INFERENCE-PORTABILITY-CONTRACTS-001",
