@@ -251,7 +251,7 @@ def compile_plan(root: Path | str, goal_value: dict[str, Any], steps: list[dict[
             "schema": "fa3.agent-workload-task.v1",
             "task_id": tid,
             "root_task_id": goal["goal_id"],
-            "scope_origin": "REQUIRED_FOR_APPROVED_GOAL",
+            "scope_origin": scope_origin,
             "scope_refs": list(scope_refs),
             "goal_scope_binding": copy.deepcopy(immutable_scope_binding),
             "action_ref": action,
@@ -265,7 +265,7 @@ def compile_plan(root: Path | str, goal_value: dict[str, Any], steps: list[dict[
         checked = validate_workload_task(workload)
         planned.append({
             "task_id": tid, "criterion_ids": cids, "effect": effect,
-            "scope_origin": "REQUIRED_FOR_APPROVED_GOAL", "source_scope_origin": scope_origin,
+            "scope_origin": scope_origin,
             "scope_refs": scope_refs, "goal_scope_binding": copy.deepcopy(immutable_scope_binding),
             "uaf_action_ref": action, "workload_candidate": checked,
             "design_route": routing,
