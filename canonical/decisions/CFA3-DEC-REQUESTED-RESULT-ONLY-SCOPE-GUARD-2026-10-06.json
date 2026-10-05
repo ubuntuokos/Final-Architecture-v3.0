@@ -1,0 +1,53 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "CFA3-DEC-REQUESTED-RESULT-ONLY-SCOPE-GUARD-2026-10-06",
+  "status": "CANONICAL",
+  "decision_date": "2026-10-06",
+  "explicit_user_approval": true,
+  "scope": "GLOBAL_CFA3_FA3_DEVELOPMENT_REQUESTED_RESULT_SCOPE_GUARD",
+  "target": "CFA3_FA3_DEVELOPMENT_PROCESS",
+  "rule_id": "CFA3-REQUESTED-RESULT-ONLY-SCOPE-GUARD-001",
+  "parent_policies": [
+    "CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001",
+    "FA3-DEC-NO-OPEN-ENDED-TASK-EXPANSION-2026-10-04",
+    "FA3-DEC-TASK-SCOPE-CLOSURE-POLICY-2026-10-03"
+  ],
+  "rules": {
+    "requested_result_is_exclusive_execution_target": true,
+    "action_admission": "DIRECTLY_REQUIRED_FOR_REQUESTED_RESULT_OR_MINIMUM_NECESSARY_BLOCKER_RESOLUTION",
+    "self_generated_subtask": "FORBIDDEN",
+    "optional_or_opportunistic_work": "FORBIDDEN",
+    "parallel_pr_rule_or_dependency": "CONSTRAINT_OR_DEPENDENCY_ONLY_NOT_SCOPE_EXPANSION",
+    "blocker_must_be_real": true,
+    "blocker_reporting_required": true,
+    "blocker_resolution_scope": "MINIMUM_NECESSARY_FOR_REQUESTED_RESULT_ONLY",
+    "blocker_resolution_may_expand_scope": false,
+    "blocker_resolution_may_create_successor_task": false,
+    "completion_after_requested_result": "STOP",
+    "automatic_post_completion_work": false,
+    "explicit_owner_scope_extension_required_for_additional_work": true
+  },
+  "enforcement": {
+    "development_preflight": "src/cfa3_development_ai_behavior_guard.py",
+    "task_scope_runtime": "src/fa3_task_scope_closure.py",
+    "development_policy": "canonical/CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001.json",
+    "task_scope_decision": "canonical/decisions/FA3-DEC-TASK-SCOPE-CLOSURE-POLICY-2026-10-03.json",
+    "no_open_ended_decision": "canonical/decisions/FA3-DEC-NO-OPEN-ENDED-TASK-EXPANSION-2026-10-04.json"
+  },
+  "authority_and_baseline": {
+    "new_capability": false,
+    "new_architectural_authority": false,
+    "capability_baseline": 175,
+    "durable_workflow_authority": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY",
+    "action_execution_authority": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "authorization_authority": "FA3-AUTH-SECURITY-GOV-001",
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_routing_authority": "FA3-AUTH-MODEL-ROUTER-001",
+    "evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "current_host": {
+    "runtime_promotion_claim": false,
+    "physical_current_host_pass_claimed": false,
+    "historical_evidence_reused": false
+  }
+}
