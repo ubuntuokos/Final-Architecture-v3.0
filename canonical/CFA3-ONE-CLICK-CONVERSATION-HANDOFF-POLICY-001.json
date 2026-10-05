@@ -1,0 +1,68 @@
+{
+  "schema": "cfa3.one-click-conversation-handoff-policy.v1",
+  "id": "CFA3-ONE-CLICK-CONVERSATION-HANDOFF-POLICY-001",
+  "date": "2026-10-04",
+  "status": "CANONICAL_POLICY_STAGED",
+  "priority": "P0",
+  "requirement": "MUST",
+  "authority": false,
+  "scope": {
+    "development_line": "FA3_CFA3_DEVELOPMENT",
+    "product_families": ["CFA3", "FA3"],
+    "trigger_phrases_semantic": [
+      "FOLYTASD_UJ_BESZELGETESBEN",
+      "CONTINUE_IN_NEW_CONVERSATION",
+      "EQUIVALENT_HANDOFF_TO_NEW_CONTEXT"
+    ],
+    "applies_to": [
+      "ASSISTANT_HANDOFFS",
+      "AGENT_HANDOFFS",
+      "WORKFLOW_HANDOFFS",
+      "APPLICATION_HANDOFFS",
+      "NEW_CONTEXT_TRANSFER_SURFACES"
+    ]
+  },
+  "development_policy": {
+    "single_copyable_container_required": true,
+    "entire_handoff_must_be_inside_container": true,
+    "one_copy_action_required": true,
+    "minimum_content_length": 1,
+    "single_word_is_not_exempt": true,
+    "normal_prose_may_not_contain_handoff_payload": true,
+    "multiple_copy_blocks_for_one_handoff": "FORBIDDEN",
+    "manual_selection_required": false,
+    "scrolling_required_for_copy": false
+  },
+  "product_ux_policy": {
+    "handoff_is_single_logical_unit": true,
+    "primary_action": "COPY_ALL",
+    "copy_action_count": 1,
+    "copy_button_required": true,
+    "copy_must_capture_full_payload": true,
+    "visual_scrolling_allowed": true,
+    "copy_may_depend_on_scrolling": false,
+    "copy_may_depend_on_manual_selection": false,
+    "split_payload_across_copy_surfaces": "FORBIDDEN",
+    "empty_payload_behavior": "DO_NOT_PRESENT_HANDOFF",
+    "copy_failure_behavior": "VISIBLE_FAILURE_NO_FALSE_SUCCESS"
+  },
+  "conformance": {
+    "pass_condition": "ONE_PLATFORM_EQUIVALENT_USER_ACTION_COPIES_THE_COMPLETE_HANDOFF_PAYLOAD",
+    "fail_conditions": [
+      "MORE_THAN_ONE_COPY_ACTION_REQUIRED",
+      "PARTIAL_PAYLOAD_OUTSIDE_COPYABLE_CONTAINER",
+      "MANUAL_TEXT_SELECTION_REQUIRED",
+      "SCROLL_POSITION_CHANGES_COPY_COMPLETENESS",
+      "SINGLE_WORD_HANDOFF_RENDERED_WITHOUT_COPY_ACTION"
+    ]
+  },
+  "compatibility": {
+    "canonical_product_name": "CFA3",
+    "historical_alias": "FA3",
+    "capability_baseline": 175,
+    "capability_delta": 0,
+    "new_capability": false,
+    "new_architectural_authority": false,
+    "current_host_runtime_promotion_claim": false
+  }
+}

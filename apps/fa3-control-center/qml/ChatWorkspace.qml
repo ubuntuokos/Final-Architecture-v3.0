@@ -30,6 +30,7 @@ Item {
     property string exportText: ""
     property url pendingCopySource: ""
     property string operationStatus: ""
+    property string newConversationHandoffText: ""
     property bool operationFailed: false
     property string workspaceMode: "ASSISTANT"
     property string requestedMcpTarget: "AUTO"
@@ -83,6 +84,17 @@ Item {
             if (String(mcpTargets[i].id) === id) return i
         }
         return 0
+    }
+
+    function presentNewConversationHandoff(text) {
+        var payload = String(text || "")
+        newConversationHandoffText = payload
+        if (payload.length === 0)
+            showOperationStatus("Az átadó szöveg üres; handoff nem jeleníthető meg.", true)
+    }
+
+    function clearNewConversationHandoff() {
+        newConversationHandoffText = ""
     }
 
     function showOperationStatus(text, failed) {
@@ -771,6 +783,21 @@ Item {
                                 }
                             }
                         }
+                    }
+                }
+
+                OneClickHandoffBox {
+                    Layout.fillWidth: true
+                    handoffText: root.newConversationHandoffText
+                    clipboardService: fa3ChatFiles
+                    panelColor: root.panelRaised
+                    borderColor: root.border
+                    textColor: root.textPrimary
+                    mutedColor: root.textMuted
+                    accentColor: root.accent
+                    onCopySucceeded: root.showOperationStatus("A teljes átadó szöveg a vágólapra került.", false)
+                    onCopyFailed: function(reason) {
+                        root.showOperationStatus("Az átadó szöveg másolása sikertelen: " + reason, true)
                     }
                 }
 

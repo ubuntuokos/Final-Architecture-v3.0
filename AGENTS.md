@@ -36,6 +36,16 @@ This file is a scoped operational projection for coding agents. It is not a cano
 - HRB remains the resource placement/lease authority, Model Router remains model/provider routing authority, Hardware Safety retains precedence, and the existing display-GPU rule remains unchanged.
 - Material runtime admission requires a target/backend test matrix and evidence. A policy or static test PASS does not create physical Current Host PASS.
 
+## One-click new-conversation handoff rule
+
+- This rule applies to the **FA3/CFA3 development process** and to the resulting **CFA3/FA3 product behavior**.
+- When the owner asks to continue in a new conversation, the complete continuation payload is one logical handoff artifact and MUST be rendered in **exactly one one-click-copyable** surface.
+- The full payload must be copied by one platform-equivalent user action. Do not split it across prose and copy blocks, multiple copy blocks, or require manual selection.
+- Visual scrolling is allowed for long payloads, but scrolling must never affect copy completeness.
+- A **single word** or otherwise very short handoff is not exempt.
+- Product surfaces that generate a new-conversation/context handoff must consume the shared handoff behavior governed by `CFA3-ONE-CLICK-CONVERSATION-HANDOFF-POLICY-001`.
+- Empty handoffs are not presented. Copy failures must be visible and must never be reported as success.
+
 ## Change discipline
 
 - Add or update tests for governed behavior changes.
