@@ -24,6 +24,11 @@ REQUIRED_RULES = {
     "CURRENT_HOST_SERVING_ENDPOINT_MUST_MATCH_ADMISSION_RUNTIME_INSTANCE",
     "NO_SILENT_LOCAL_TO_CLOUD_FALLBACK",
     "CURRENT_HOST_ROUTER_RECEIPT_REQUIRED_FOR_CONSUMER_ADMISSION",
+    "CONFIGURED_IDENTITY_IS_NOT_EXECUTION_PROOF",
+    "SELECTED_IDENTITY_IS_NOT_OBSERVED_EXECUTION_IDENTITY",
+    "OBSERVED_PROVIDER_MODEL_RUNTIME_IDENTITY_RECEIPT_REQUIRED",
+    "FALLBACK_TRANSITION_MUST_BE_EXPLICIT_AND_RECEIPTED",
+    "ROUTING_TRUTH_STATES_MUST_NOT_BE_CONFLATED",
 }
 
 
@@ -105,6 +110,19 @@ def gate(root: Path) -> dict[str, Any]:
             findings.append(finding("MR-008", "canonical logical route contains physical routing state", route=row.get("route")))
     if not REQUIRED_RULES.issubset(set(enforcement.get("rules", []))):
         findings.append(finding("MR-009", "Model Router enforcement rules incomplete"))
+    routing_invariants = authority.get("routing_invariants", {})
+    truth = authority.get("truth_state_semantics", {})
+    if not (
+        routing_invariants.get("configured_identity_is_not_execution_proof") is True
+        and routing_invariants.get("selected_identity_is_not_observed_execution_identity") is True
+        and routing_invariants.get("observed_provider_model_runtime_identity_receipt_required") is True
+        and routing_invariants.get("fallback_transition_must_be_explicit_and_receipted") is True
+        and truth.get("states_are_not_synonyms") is True
+        and truth.get("later_state_may_not_be_inferred_from_earlier_state") is True
+        and truth.get("observed_execution_identity_required_for_executed_or_later_claim") is True
+        and truth.get("states") == ["DISCOVERED","SELECTED","CONFIGURED","AUTHENTICATED","QUALIFIED","AUTHORIZED","EXECUTED","VERIFIED","READY"]
+    ):
+        findings.append(finding("MR-022", "Model Router execution identity/truth-state semantics drift"))
     bindings = gateway.get("authority_bindings", {})
     if bindings.get("provider_model_routing") != AUTHORITY:
         findings.append(finding("MR-010", "LLM Gateway is not bound to central Model Router authority"))
