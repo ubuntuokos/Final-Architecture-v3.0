@@ -5,7 +5,7 @@
   "provider_neutral": true,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "contracts": [
     "SkillSelectionReceipt",
     "SkillMaterializationReceipt",
@@ -40,5 +40,17 @@
     "held_out_validation_required": true,
     "security_reinspection_required": true,
     "new_skill_package_admission_required": true
+  },
+  "runtime_snapshot_verification": {
+    "helper": "src/fa3_skill_materialization.py",
+    "digest_scheme": "fa3.skill-snapshot-manifest.v1",
+    "exact_byte_sha256_required": true,
+    "whole_manifest_sha256_required": true,
+    "no_symlink_reads": true,
+    "task_bound_activation_lease_supported": true,
+    "rehash_at_use_required": true,
+    "remote_fetch_during_materialization": false,
+    "grants_execution_authority": false,
+    "current_host_production_claim": false
   }
 }
