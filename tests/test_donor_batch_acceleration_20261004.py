@@ -22,6 +22,7 @@ DECISION = ROOT / "canonical/decisions/CFA3-DEC-DONOR-INTAKE-BATCH-ACCELERATION-
 CONTRACT = ROOT / "canonical/contracts/FA3-DONOR-CHAT-INGEST-001.json"
 POLICY = ROOT / "canonical/enforcement-policy.json"
 LATEST_BATCH = ROOT / "canonical/deltas/CFA3-DONOR-TILE-AI-BATCH-FINALIZER-2026-10-05.json"
+CURRENT_BASELINE = ROOT / "canonical/deltas/CFA3-DONOR-BASELINE-USER-SOURCE-UNION-2026-10-05.json"
 
 
 class DonorBatchAccelerationTests(unittest.TestCase):
@@ -33,12 +34,21 @@ class DonorBatchAccelerationTests(unittest.TestCase):
         cls.contract = json.loads(CONTRACT.read_text(encoding="utf-8"))
         cls.policy = json.loads(POLICY.read_text(encoding="utf-8"))
         cls.latest_batch = json.loads(LATEST_BATCH.read_text(encoding="utf-8"))
+        cls.current_baseline = json.loads(CURRENT_BASELINE.read_text(encoding="utf-8"))
 
     def test_exact_backlog_union_and_baseline(self):
         self.assertEqual(self.registry["capability_count"], 175)
         self.assertEqual(len(self.registry["entries"]), self.registry["backfill"]["entry_count"])
-        self.assertEqual(len(self.registry["entries"]), self.latest_batch["resulting_entry_count"])
-        self.assertEqual(len(self.registry["entries"]), 1551)
+        self.assertEqual(self.latest_batch["resulting_entry_count"], 1551)
+        self.assertEqual(
+            self.current_baseline["parent_entry_count"],
+            self.latest_batch["resulting_entry_count"],
+        )
+        self.assertEqual(
+            len(self.registry["entries"]),
+            self.current_baseline["resulting_entry_count"],
+        )
+        self.assertGreaterEqual(len(self.registry["entries"]), 1551)
         self.assertEqual(self.manifest["parent_entry_count"], 1427)
         self.assertEqual(self.manifest["new_source_count"], 121)
         self.assertEqual(self.manifest["resulting_entry_count"], 1548)
@@ -131,7 +141,7 @@ class DonorBatchAccelerationTests(unittest.TestCase):
         )
         self.assertIn("BATCH_RESULTING_REGISTRY_BLOB_MISMATCH", broken["findings"])
 
-    def test_latest_rolling_batch_is_exactly_bound_to_current_registry(self):
+    def test_tile_batch_remains_historical_and_current_baseline_is_exactly_bound(self):
         self.assertEqual(self.latest_batch["batch_finalizer_pr"], 713)
         self.assertEqual(self.latest_batch["resulting_entry_count"], 1551)
         self.assertEqual(self.latest_batch["capability_baseline"], 175)
@@ -140,6 +150,10 @@ class DonorBatchAccelerationTests(unittest.TestCase):
         self.assertEqual(self.latest_batch["usage_edges_created"], 0)
         self.assertEqual(
             self.latest_batch["resulting_registry_blob_sha"],
+            self.current_baseline["parent_registry_blob_sha"],
+        )
+        self.assertEqual(
+            self.current_baseline["resulting_registry_blob_sha"],
             git_blob_sha(REGISTRY.read_bytes()),
         )
         self.assertEqual(
