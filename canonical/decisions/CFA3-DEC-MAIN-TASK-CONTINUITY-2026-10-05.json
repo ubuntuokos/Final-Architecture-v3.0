@@ -1,0 +1,62 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "CFA3-DEC-MAIN-TASK-CONTINUITY-2026-10-05",
+  "status": "CANONICAL",
+  "decision_date": "2026-10-05",
+  "explicit_user_approval": true,
+  "scope": "CFA3_APPLICATION_RUNTIME_MAIN_TASK_CONTINUITY",
+  "target": "CFA3_APPLICATION_RUNTIME",
+  "excludes": [
+    "CFA3_DEVELOPMENT_PROCESS_AS_PRIMARY_TARGET"
+  ],
+  "runtime_invariant_id": "CFA3-MAIN-TASK-CONTINUITY-001",
+  "parent_policy": "FA3-DEC-TASK-SCOPE-CLOSURE-POLICY-2026-10-03",
+  "rules": {
+    "active_main_task_identity_immutable_until_owner_switch": true,
+    "owner_switch_authority": "EXPLICIT_OWNER_ONLY",
+    "newly_introduced_rule": "CONSTRAINT_UPDATE_NOT_MAIN_TASK_REPLACEMENT",
+    "parallel_pr": "OBSERVATION_OR_DEPENDENCY_NOT_MAIN_TASK_REPLACEMENT",
+    "parallel_task": "REFERENCE_OR_DEPENDENCY_NOT_MAIN_TASK_REPLACEMENT",
+    "monitoring_obligation": "SIDE_OBLIGATION_NOT_MAIN_TASK_REPLACEMENT",
+    "blocker": "MAY_STOP_EXECUTION_BUT_CANNOT_REASSIGN_MAIN_TASK",
+    "out_of_scope_work": "FOLLOWUP_HANDOFF_REQUIRES_EXPLICIT_NEW_TASK_START",
+    "automatic_main_task_reassignment": false,
+    "automatic_focus_switch_from_parallel_event": false
+  },
+  "implementation": {
+    "shared_runtime_module": "src/fa3_task_scope_closure.py",
+    "goal_contract": "canonical/contracts/FA3-GOAL-EXECUTION-CONTRACTS-001.schema.json",
+    "execution_plan_contract": "canonical/contracts/FA3-AGENT-EXECUTION-PLAN-001.schema.json",
+    "agent_workload_runtime": "src/fa3_agent_workload.py",
+    "regression_tests": "tests/test_task_scope_closure.py",
+    "main_task_event_schema": "cfa3.main-task-event.v1",
+    "consumer_scope": [
+      "CFA3",
+      "Assistant",
+      "Coach",
+      "Mentor",
+      "Manager",
+      "Agent Workload",
+      "Orchestration Workforce",
+      "Temporal-backed workflows",
+      "all current and future CFA3 applications using the shared task runtime"
+    ],
+    "local_application_duplicates": false
+  },
+  "authority_and_baseline": {
+    "durable_workflow_authority": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY",
+    "action_execution_authority": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "authorization_authority": "FA3-AUTH-SECURITY-GOV-001",
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_routing_authority": "FA3-AUTH-MODEL-ROUTER-001",
+    "evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001",
+    "new_capability": false,
+    "new_architectural_authority": false,
+    "capability_baseline": 175
+  },
+  "current_host": {
+    "runtime_promotion_claim": false,
+    "physical_current_host_pass_claimed": false,
+    "historical_evidence_reused": false
+  }
+}
