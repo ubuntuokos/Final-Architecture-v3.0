@@ -6,6 +6,7 @@ import datetime as dt
 import json
 import os
 import re
+import subprocess
 import tempfile
 from pathlib import Path
 from typing import Any
@@ -13,6 +14,7 @@ from typing import Any
 REGISTRY_REL = "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"
 REJECTION_AUDIT_REL = "canonical/FA3-DONOR-REJECTION-AUDIT-001.json"
 ALLOWED_STATES = {"CANDIDATE", "ANALYZED", "ACCEPTED_REFERENCE", "SUPERSEDED"}
+APPROVED_OWNER_DONOR_COMMANDS = ("donornak", "vedd fel donornak", "add a donorlistához")
 
 def _load(path: Path) -> dict[str, Any]:
     value = json.loads(path.read_text(encoding="utf-8"))
@@ -31,6 +33,97 @@ def _normalized_key(kind: str, locator: str) -> str:
         body = text[len("https://github.com/"):].strip("/").removesuffix(".git").lower()
         return "github:" + body
     return kind.lower() + ":" + low if ":" not in low else low
+
+def _committed_bytes(root: Path, rel_value: str, *, allowed_roots: tuple[str, ...]) -> bytes:
+    rel = Path(rel_value)
+    if (
+        rel.is_absolute()
+        or ".." in rel.parts
+        or rel.as_posix() != rel_value
+        or not rel.parts
+        or rel.parts[0] not in allowed_roots
+    ):
+        raise ValueError("INVALID_COMMITTED_PATH")
+    path = root.resolve() / rel
+    if path.is_symlink() or not path.is_file():
+        raise ValueError("COMMITTED_SOURCE_UNAVAILABLE")
+    raw = path.read_bytes()
+    result = subprocess.run(
+        ["git", "-C", str(root.resolve()), "show", "HEAD:" + rel_value],
+        capture_output=True,
+        check=False,
+    )
+    if result.returncode or result.stdout != raw:
+        raise ValueError("DIRTY_OR_NONCOMMITTED_SOURCE")
+    return raw
+
+
+def _approved_plan_registration(root: Path, approval_ref: str | None, normalized_key: str) -> dict[str, Any] | None:
+    """Bound donor registration to committed owner-approved plan evidence."""
+    if not approval_ref:
+        return None
+    raw = _committed_bytes(root, approval_ref, allowed_roots=("canonical",))
+    decision = json.loads(raw)
+    approved_keys = decision.get("approved_processed_donor_keys")
+    approved_plan_path = decision.get("approved_plan_path")
+    approved_plan_sha256 = decision.get("approved_plan_sha256")
+    assessment_path = decision.get("approved_donor_assessment_path")
+    assessment_sha256 = decision.get("approved_donor_assessment_sha256")
+    lineage_ref = decision.get("conversation_lineage_ref")
+    if (
+        not approval_ref.startswith("canonical/decisions/")
+        or decision.get("status") != "APPROVED"
+        or decision.get("explicit_user_approval") is not True
+        or decision.get("donor_registration_authorization") != "APPROVED_PLAN_PROCESSED_DONORS_ONLY"
+        or not isinstance(approved_keys, list)
+        or not approved_keys
+        or any(not isinstance(key, str) or not key for key in approved_keys)
+        or len(set(approved_keys)) != len(approved_keys)
+        or not isinstance(approved_plan_path, str)
+        or not isinstance(approved_plan_sha256, str)
+        or not re.fullmatch(r"[0-9a-f]{64}", approved_plan_sha256)
+        or not isinstance(assessment_path, str)
+        or not isinstance(assessment_sha256, str)
+        or not re.fullmatch(r"[0-9a-f]{64}", assessment_sha256)
+        or not isinstance(lineage_ref, str)
+        or not lineage_ref
+        or not isinstance(decision.get("user_request_ref"), str)
+        or not decision.get("user_request_ref")
+    ):
+        raise ValueError("INVALID_PLAN_APPROVAL_FOR_DONOR_REGISTRATION")
+    plan_raw = _committed_bytes(root, approved_plan_path, allowed_roots=("canonical", "docs"))
+    if hashlib.sha256(plan_raw).hexdigest() != approved_plan_sha256:
+        raise ValueError("APPROVED_PLAN_HASH_MISMATCH")
+    assessment_raw = _committed_bytes(root, assessment_path, allowed_roots=("canonical",))
+    if hashlib.sha256(assessment_raw).hexdigest() != assessment_sha256:
+        raise ValueError("APPROVED_DONOR_ASSESSMENT_HASH_MISMATCH")
+    assessment = json.loads(assessment_raw)
+    exception = assessment.get("planning_donor_analysis_exception")
+    if (
+        not isinstance(exception, dict)
+        or exception.get("scope") != "ORIGINATING_CONVERSATION_AND_DIRECT_CONTINUATIONS_ONLY"
+        or exception.get("planning_only") is not True
+        or exception.get("cross_conversation_reuse") is not False
+        or exception.get("lineage_ref") != lineage_ref
+    ):
+        raise ValueError("APPROVED_PLAN_CONVERSATION_LINEAGE_MISMATCH")
+    processed = assessment.get("planning_processed_donors")
+    if not isinstance(processed, list):
+        raise ValueError("APPROVED_DONOR_ASSESSMENT_PROCESSED_SET_MISSING")
+    assessment_keys = [
+        item.get("normalized_key") for item in processed if isinstance(item, dict)
+    ]
+    if (
+        len(assessment_keys) != len(processed)
+        or any(not isinstance(key, str) or not key for key in assessment_keys)
+        or len(set(assessment_keys)) != len(assessment_keys)
+        or set(assessment_keys) != set(approved_keys)
+    ):
+        raise ValueError("APPROVED_PROCESSED_DONOR_SET_MISMATCH")
+    if normalized_key not in approved_keys:
+        raise ValueError("DONOR_NOT_IN_APPROVED_PLAN_PROCESSED_SET")
+    return decision
+
 
 def _merge_strings(existing: Any, incoming: list[str]) -> list[str]:
     base = [str(x) for x in existing] if isinstance(existing, list) else []
@@ -125,9 +218,16 @@ def capture_candidate(
     dry_run: bool = False,
     owner_submitted_link: bool = False,
     explicit_donor_marker: bool = False,
+    owner_donor_command: str | None = None,
+    plan_approval_ref: str | None = None,
 ) -> dict[str, Any]:
-    if not explicit_donor_marker:
-        raise ValueError("DONORNAK_MARKER_REQUIRED: analysis only until explicit owner instruction")
+    key = _normalized_key(source_kind, source_locator)
+    approved_plan = _approved_plan_registration(root, plan_approval_ref, key) if plan_approval_ref else None
+    if owner_donor_command is not None and owner_donor_command not in APPROVED_OWNER_DONOR_COMMANDS:
+        raise ValueError("UNAPPROVED_OWNER_DONOR_COMMAND")
+    direct_authorized = explicit_donor_marker and owner_submitted_link
+    if not direct_authorized and approved_plan is None:
+        raise ValueError("DONOR_INTAKE_AUTHORIZATION_REQUIRED: explicit owner donor command or approved-plan registration")
     if owner_submitted_link and not source_locator.strip().lower().startswith(("https://", "http://")):
         raise ValueError("owner donor registration requires a link")
     path = root.resolve() / REGISTRY_REL
@@ -136,7 +236,6 @@ def capture_candidate(
         raise ValueError("unexpected donor registry id")
     if owner_submitted_link and not source_locator.strip().lower().startswith(("https://", "http://")):
         raise ValueError("owner pre-reviewed registration requires a submitted source link")
-    key = _normalized_key(source_kind, source_locator)
     today = seen_date or dt.date.today().isoformat()
     entries = registry.get("entries")
     backfill = registry.get("backfill")
@@ -163,8 +262,11 @@ def capture_candidate(
     if key in audited and (match is None or not _security_reentry_verified(match)):
         raise ValueError("REJECTED_DONOR_REENTRY_REQUIRES_VERIFIED_SAFE_MAINTENANCE")
     created = match is None
-    if match is None and not (owner_submitted_link and source_locator.lower().startswith(("https://", "http://"))):
-        raise ValueError("NEW_DONOR_REQUIRES_EXPLICIT_OWNER_MARKED_LINK")
+    if match is None and not (
+        (direct_authorized and source_locator.lower().startswith(("https://", "http://")))
+        or approved_plan is not None
+    ):
+        raise ValueError("NEW_DONOR_REQUIRES_EXPLICIT_OWNER_COMMAND_OR_APPROVED_PLAN")
     if match is None:
         base_id = f"FA3-DONOR-{_slug(name)}-001"
         used = {str(row.get("donor_id")) for row in entries if isinstance(row, dict)}
@@ -177,7 +279,7 @@ def capture_candidate(
             "donor_id": donor_id,
             "name": name,
             "source": {"kind": source_kind.upper(), "locator": source_locator, "normalized_key": key},
-            "status": "ACCEPTED_REFERENCE" if owner_submitted_link else "CANDIDATE",
+            "status": "ACCEPTED_REFERENCE" if (direct_authorized or approved_plan is not None) else "CANDIDATE",
             "discovered_from": [discovered_from],
             "first_seen": today,
             "last_seen": today,
@@ -201,17 +303,28 @@ def capture_candidate(
             "automatic_model_selection": False,
         }
         entries.append(match)
-    # Direct owner-submitted donor links are pre-reviewed for registry inclusion.
-    # A historical rejection/supersession cannot be silently overwritten.
-    if owner_submitted_link:
+    # Both intake paths authorize reference registration only. They never approve
+    # source copying, dependency adoption, provider/model admission or runtime use.
+    if direct_authorized or approved_plan is not None:
         if match.get("status") == "SUPERSEDED":
             raise ValueError("superseded source needs explicit conflict reconciliation")
         match["status"] = "ACCEPTED_REFERENCE"
-        match["submission_review"] = {
-            "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
-            "scope": "REFERENCE_REGISTRATION_ONLY",
-            "second_registry_approval_required": False,
-        }
+        if approved_plan is not None:
+            match["submission_review"] = {
+                "basis": "OWNER_APPROVED_IMPLEMENTATION_PLAN_PROCESSED_DONOR_SET",
+                "scope": "REFERENCE_REGISTRATION_ONLY",
+                "approval_ref": plan_approval_ref,
+                "conversation_lineage_ref": approved_plan["conversation_lineage_ref"],
+                "second_donornak_marker_required": False,
+                "second_registry_approval_required": False,
+            }
+        else:
+            match["submission_review"] = {
+                "basis": "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+                "scope": "REFERENCE_REGISTRATION_ONLY",
+                "owner_donor_command": owner_donor_command or "donornak",
+                "second_registry_approval_required": False,
+            }
     match["last_seen"] = today
     match["discovered_from"] = _merge_strings(match.get("discovered_from"), [discovered_from])
     match["tags"] = _merge_strings(match.get("tags"), tags or [])
@@ -229,34 +342,68 @@ def capture_candidate(
         _atomic_write(path, registry)
     return {"created": created, "donor_id": match["donor_id"], "status": match["status"], "normalized_key": match["source"]["normalized_key"], "dry_run": dry_run}
 
-_DONOR_SIGNAL = re.compile(r"(?i)\bdonornak\b(?:\s*:\s*|\s+(?=https?://|\[https?://|<https?://))")
-_GITHUB_URL = re.compile(r"https://github\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+(?:\.git)?", re.I)
+_DONOR_COMMAND_PATTERNS = (
+    ("vedd fel donornak", re.compile(r"(?i)(?<![\w])vedd[ \t]+fel[ \t]+donornak\b")),
+    ("add a donorlistához", re.compile(r"(?i)(?<![\w])add[ \t]+a[ \t]+donorlistához\b")),
+    ("donornak", re.compile(r"(?i)(?<![\w])donornak\b")),
+)
+_LINK_URL = re.compile(r'https?://[^\s<>\[\]()"]+', re.I)
+_NEGATION = re.compile(r"(?i)\b(?:nem|ne|not|don['’]t|do\s+not)\b")
+
+
+def _owner_command_matches(text: str) -> list[tuple[str, re.Match[str]]]:
+    url_spans = [(m.start(), m.end()) for m in _LINK_URL.finditer(text)]
+    found: list[tuple[str, re.Match[str]]] = []
+    for command, pattern in _DONOR_COMMAND_PATTERNS:
+        for match in pattern.finditer(text):
+            if any(start <= match.start() < end for start, end in url_spans):
+                continue
+            clause_start = max(
+                text.rfind("\n", 0, match.start()),
+                text.rfind(".", 0, match.start()),
+                text.rfind("!", 0, match.start()),
+                text.rfind("?", 0, match.start()),
+                text.rfind(";", 0, match.start()),
+            ) + 1
+            if _NEGATION.search(text[clause_start:match.start()]):
+                continue
+            if any(not (match.end() <= existing.start() or match.start() >= existing.end())
+                   for _, existing in found):
+                continue
+            found.append((command, match))
+    return sorted(found, key=lambda item: item[1].start())
+
 
 def _explicit_owner_marker(text: str):
-    for match in _DONOR_SIGNAL.finditer(text):
-        prefix = text[max(0, match.start() - 40):match.start()]
-        if not re.search(r"(?i)\b(?:nem|not)\s+$", prefix):
-            return match
-    return None
+    matches = _owner_command_matches(text)
+    return matches[0][1] if matches else None
+
+
+def _explicit_owner_command(text: str) -> str | None:
+    matches = _owner_command_matches(text)
+    return matches[0][0] if matches else None
 
 
 def parse_donor_mention(text: str, *, name: str | None = None, source: str | None = None) -> tuple[str, str, str]:
-    """Require explicit DONORNAK before a single link; never mine unrelated links."""
-    marker = _explicit_owner_marker(text)
-    if marker is None:
-        raise ValueError("DONORNAK_MARKER_REQUIRED")
-    after = text[marker.end():]
-    found = sorted(set(url.removesuffix(".git") for url in _GITHUB_URL.findall(after)))
-    if len(found) > 1 and not source:
-        raise ValueError("multiple marked source URLs: capture each separately")
-    if source and source not in after:
-        raise ValueError("supplied source must occur AFTER the explicit donornak marker")
-    locator = source or (found[0] if found else None)
+    """Accept only the three approved explicit commands and bind them to the supplied URL."""
+    command = _explicit_owner_command(text)
+    if command is None:
+        raise ValueError("EXPLICIT_OWNER_DONOR_COMMAND_REQUIRED")
+    found = sorted(set(
+        match.group(0).rstrip(".,;:!?}\\").removesuffix(".git")
+        for match in _LINK_URL.finditer(text)
+    ))
+    normalized_source = source.removesuffix(".git") if isinstance(source, str) else None
+    if len(found) > 1 and not normalized_source:
+        raise ValueError("multiple commanded source URLs: capture each separately")
+    if normalized_source and found and normalized_source not in found:
+        raise ValueError("supplied source contradicts the owner-commanded URL")
+    locator = normalized_source or (found[0] if found else None)
     if not locator or not locator.lower().startswith(("https://", "http://")):
-        raise ValueError("an explicitly marked donor link is required")
+        raise ValueError("an explicitly commanded donor link is required")
     if not name:
-        name = "/".join(locator.split("/")[3:5]) if locator.startswith("https://github.com/") else locator
-    kind = "GITHUB" if locator.startswith("https://github.com/") else "REFERENCE"
+        name = "/".join(locator.split("/")[3:5]) if locator.lower().startswith("https://github.com/") else locator
+    kind = "GITHUB" if locator.lower().startswith("https://github.com/") else "REFERENCE"
     return name.strip(), kind, locator
 
 def main() -> int:
@@ -278,9 +425,15 @@ def main() -> int:
     p.add_argument("--refresh-count", action="store_true",
                    help="Explicit maintenance-only reconciliation after reviewed external JSON edits")
     p.add_argument("--owner-submitted-link", action="store_true",
-                   help="Owner explicitly marked this link as donornak before submission")
+                   help="Owner explicitly issued an approved donor-intake command for this link")
     p.add_argument("--owner-donor-marker", choices=["donornak"],
-                   help="Operator attests the owner wrote donornak before this link")
+                   help="Backward-compatible attestation for the canonical donornak command")
+    p.add_argument("--owner-donor-command", choices=list(APPROVED_OWNER_DONOR_COMMANDS),
+                   help="Operator attests the exact approved owner donor-intake command")
+    p.add_argument("--approved-plan-registration", action="store_true",
+                   help="Register one exact processed donor from an owner-approved implementation plan")
+    p.add_argument("--plan-approval-record",
+                   help="Committed canonical approval record binding plan, assessment, lineage and processed donor set")
     args = p.parse_args()
     if args.refresh_count:
         path = Path(args.root).resolve() / REGISTRY_REL
@@ -294,25 +447,36 @@ def main() -> int:
                           "changed": updated != previous and not args.dry_run,
                           "dry_run": args.dry_run}, ensure_ascii=False))
         return 0
-    # A dry run on an unmarked link is permitted analysis, never candidate
-    # registration. Production writes still require owner marker attestation.
-    if args.dry_run and (not args.owner_submitted_link or args.owner_donor_marker != "donornak"):
+    owner_command = args.owner_donor_command or args.owner_donor_marker
+    direct_mode = args.owner_submitted_link and owner_command in APPROVED_OWNER_DONOR_COMMANDS
+    approved_plan_mode = args.approved_plan_registration and bool(args.plan_approval_record)
+    if args.plan_approval_record and not args.approved_plan_registration:
+        p.error("--plan-approval-record requires --approved-plan-registration")
+    # A dry run on an unauthorized link is analysis only and never mutates the registry.
+    if args.dry_run and not direct_mode and not approved_plan_mode:
         print(json.dumps({"result": "ANALYSIS_ONLY_UNMARKED_LINK",
                           "created": False, "registry_mutated": False,
                           "dry_run": True}, ensure_ascii=False))
         return 0
-    if args.mention:
-        if not args.owner_submitted_link or args.owner_donor_marker != "donornak":
-            p.error("mention intake requires trusted owner role and explicit donornak attestation")
+    if args.approved_plan_registration:
+        if not args.plan_approval_record:
+            p.error("--plan-approval-record is required for approved-plan registration")
+        if not args.name or not args.source_locator:
+            p.error("--name and --source are required for approved-plan registration")
+        name, kind, locator = args.name, args.source_kind, args.source_locator
+    elif args.mention:
+        if not direct_mode:
+            p.error("mention intake requires trusted owner role and an approved donor command attestation")
+        parsed_command = _explicit_owner_command(args.mention)
+        if parsed_command is None or parsed_command != owner_command:
+            p.error("owner command attestation must exactly match the mention")
         name, kind, locator = parse_donor_mention(args.mention, name=args.name, source=args.source_locator)
     else:
-        if args.owner_donor_marker != "donornak":
-            p.error("only an explicitly owner-marked donornak link may be registered")
-        if not args.owner_submitted_link:
-            p.error("--owner-submitted-link required for new direct donor intake")
-        if not args.name:
-            p.error("--name is required unless --mention identifies a GitHub project")
-        name, kind, locator = args.name, args.source_kind, args.source_locator or ("project:" + args.name)
+        if not direct_mode:
+            p.error("an approved explicit owner donor-intake command is required")
+        if not args.name or not args.source_locator:
+            p.error("--name and --source are required for direct donor intake")
+        name, kind, locator = args.name, args.source_kind, args.source_locator
     result = capture_candidate(
         Path(args.root), name=name, source_kind=kind,
         source_locator=locator, tags=args.tag, capabilities=args.capability,
@@ -320,7 +484,9 @@ def main() -> int:
         note=args.note, discovered_from=args.discovered_from,
         seen_date=args.seen_date, dry_run=args.dry_run,
         owner_submitted_link=args.owner_submitted_link,
-        explicit_donor_marker=bool(args.mention or args.owner_donor_marker == "donornak"),
+        explicit_donor_marker=direct_mode,
+        owner_donor_command=owner_command if direct_mode else None,
+        plan_approval_ref=args.plan_approval_record if approved_plan_mode else None,
     )
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0
