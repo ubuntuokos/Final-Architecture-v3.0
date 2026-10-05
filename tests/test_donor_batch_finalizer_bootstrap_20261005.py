@@ -35,7 +35,8 @@ class DonorBatchFinalizerBootstrapTests(unittest.TestCase):
         text = (ROOT / ".github/workflows/fa3-donor-intake-revalidation.yml").read_text()
         self.assertIn("'canonical/deltas/CFA3-DONOR-*'", text)
         self.assertIn('gate(Path(".").resolve(),"intake",token=token)', text)
-        self.assertIn("batch finalizer", text.lower())
+        self.assertIn("finalizer=order[0]", text)
+        self.assertIn("refreshed_finalizer=refreshed_order[0] if refreshed_order else None", text)
 
     def test_bootstrap_has_no_registry_materialization(self):
         decision = json.loads((ROOT / "canonical/decisions/CFA3-DEC-DONOR-BATCH-FINALIZER-BOOTSTRAP-2026-10-05.json").read_text())
