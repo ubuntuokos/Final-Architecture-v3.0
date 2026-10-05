@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Any
 
 from fa3_platform_placement import apply_product_family_placement, validate_product_family_registry
+from fa3_donor_registry import resolve_donor_reference
 from fa3_release_baseline import load_active_release_baseline
 
 APP = "canonical/FA3-AI-STUDIO-APP-CATALOG-001.json"
@@ -286,6 +287,7 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
         usage_records = []
     usage_by_donor: dict[str, list[dict[str, Any]]] = {}
     usage_by_app: dict[str, list[dict[str, Any]]] = {}
+    resolved_usage_donor: dict[str, str] = {}
     seen_usage: set[str] = set()
     allowed_usage = {"CAPABILITY_PATTERN", "ALGORITHM_PATTERN", "WORKFLOW_PATTERN",
                      "ARCHITECTURE_PATTERN", "UI_UX_PATTERN", "CODE_REUSE",
@@ -315,13 +317,20 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
                 and (kind != "APPLICATION" or consumer_id in applications)
                 and (kind != "GUI_SURFACE" or consumer_id in seen_surfaces)
             )
-        if (not uid or uid in seen_usage or not primary_valid or did not in donor_ids
+        resolved_did = did
+        if isinstance(did, str):
+            try:
+                resolved_did = resolve_donor_reference(registry, did)["resolved_donor_id"]
+            except ValueError:
+                resolved_did = None
+        if (not uid or uid in seen_usage or not primary_valid or resolved_did not in donor_ids
                 or usage.get("usage_kind") not in allowed_usage
                 or usage.get("status") not in allowed_usage_status):
             errors.append({"code": "INVALID_DONOR_USAGE_RECORD", "detail": str(uid)})
             continue
         seen_usage.add(uid)
-        usage_by_donor.setdefault(did, []).append(usage)
+        resolved_usage_donor[uid] = str(resolved_did)
+        usage_by_donor.setdefault(str(resolved_did), []).append(usage)
         if has_application:
             usage_by_app.setdefault(aid, []).append(usage)
 
@@ -342,7 +351,7 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
             continue
         aid = usage.get("application_id")
         primary_consumer = usage.get("primary_consumer")
-        did = usage["donor_id"]
+        did = resolved_usage_donor.get(uid, usage["donor_id"])
         fa3_bindings = usage.get("fa3_bindings") or {}
         if not isinstance(fa3_bindings, dict):
             errors.append({"code": "INVALID_FA3_BINDINGS", "detail": uid})
