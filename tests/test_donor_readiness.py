@@ -1,5 +1,7 @@
 """FA3 donor readiness negative and source-identity regressions."""
+import hashlib
 import json
+import subprocess
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -9,7 +11,9 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"src"))
 import fa3_donor_readiness as readiness
 from fa3_donor_readiness import (inspect_registry,pending_prs,pending_prs_graphql,gate,is_donor_pr,
     is_donor_intake_pr,effective_donor_intake_pr,donor_intake_workload,
-    MAX_ACTIVE_DONOR_INTAKES,REGISTRY,REJECTION_AUDIT,git_blob_sha,planning_snapshot_findings)
+    MAX_ACTIVE_DONOR_INTAKES,REGISTRY,REJECTION_AUDIT,git_blob_sha,planning_snapshot_findings,
+    planning_processed_donor_findings)
+from fa3_donor_registry import capture_candidate
 
 def source():
     v={"donor_id":"FA3-DONOR-X-001","source":{"normalized_key":"github:x/y"},
@@ -104,6 +108,15 @@ class Tests(unittest.TestCase):
             {"title": "Generic media feature"},
             [{"filename": "canonical/assessments/FA3-MEDIA-REUSE-ASSESSMENT-001.json"}]))
         self.assertTrue(is_donor_pr({"title": "Donor source review"}, []))
+        for path in (
+            "canonical/decisions/FA3-DEC-DONOR-INTAKE-COMMAND-EQUIVALENCE-2026-10-04.json",
+            "canonical/decisions/FA3-DEC-IMPLEMENTATION-PLAN-DONOR-EXCEPTION-2026-10-04.json",
+            "canonical/current-host-impact/FA3-CH-IMPACT-DONOR-COMMAND-EQUIVALENCE-20261004.json",
+            "canonical/current-host-impact/FA3-CH-IMPACT-IMPLEMENTATION-PLAN-DONOR-EXCEPTION-20261004.json",
+            "docs/implementation-plan-donor-exception-2026-10-04.md",
+        ):
+            with self.subTest(governance_path=path):
+                self.assertTrue(is_donor_pr({"title":"Generic policy update"},[{"filename":path}]))
 
     def test_governance_and_reference_only_prs_do_not_claim_intake(self):
         governance = [{"filename":"src/fa3_donor_readiness.py"},
@@ -511,5 +524,121 @@ class Tests(unittest.TestCase):
         self.assertEqual(planning_snapshot_findings(row,"c"*64,reg,"a"*40,"b"*40),[])
         stale=planning_snapshot_findings(row,"c"*64,reg,"d"*40,"b"*40)
         self.assertIn("DONOR_PLANNING_SNAPSHOT_MISMATCH:published_main_commit",stale)
+
+
+    def test_planning_exception_is_bound_to_active_conversation_lineage(self):
+        reg={"id":"FA3-DONOR-REFERENCE-REGISTRY-001","entries":[source()]}
+        row={
+            "planning_processed_donors":[
+                {"normalized_key":"github:new/planning-donor"},
+                {"normalized_key":"github:x/y"},
+            ],
+            "planning_donor_analysis_exception":{
+                "scope":"ORIGINATING_CONVERSATION_AND_DIRECT_CONTINUATIONS_ONLY",
+                "planning_only":True,
+                "cross_conversation_reuse":False,
+                "lineage_ref":"conversation:alpha",
+            },
+        }
+        allowed=planning_processed_donor_findings(
+            row,reg,allow_unregistered=True,expected_lineage_ref="conversation:alpha"
+        )
+        self.assertEqual(allowed["findings"],[])
+        self.assertEqual(allowed["unregistered_keys"],["github:new/planning-donor"])
+        wrong=planning_processed_donor_findings(
+            row,reg,allow_unregistered=True,expected_lineage_ref="conversation:beta"
+        )
+        self.assertIn("PLANNING_DONOR_EXCEPTION_SCOPE_OR_LINEAGE_INVALID",wrong["findings"])
+        execute=planning_processed_donor_findings(
+            row,reg,allow_unregistered=False,expected_lineage_ref="conversation:alpha"
+        )
+        self.assertIn(
+            "PROCESSED_PLANNING_DONOR_NOT_REGISTERED:github:new/planning-donor",
+            execute["findings"],
+        )
+
+    def test_approved_plan_registration_is_exact_hash_set_and_lineage_bound(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td)
+            (root/"canonical/decisions").mkdir(parents=True)
+            (root/"canonical/assessments").mkdir(parents=True)
+            (root/"docs").mkdir(parents=True)
+            registry=root/REGISTRY
+            registry.parent.mkdir(parents=True,exist_ok=True)
+            registry.write_text(json.dumps({
+                "id":"FA3-DONOR-REFERENCE-REGISTRY-001",
+                "capability_count":175,
+                "entries":[],
+                "backfill":{"entry_count":0},
+            }),encoding="utf-8")
+            audit=root/REJECTION_AUDIT
+            audit.write_text(json.dumps({
+                "id":"FA3-DONOR-REJECTION-AUDIT-001","entries":[]
+            }),encoding="utf-8")
+            plan_rel="docs/approved-plan.md"
+            plan_raw=b"approved implementation plan\n"
+            (root/plan_rel).write_bytes(plan_raw)
+            assessment_rel="canonical/assessments/approved-plan-donors.json"
+            assessment={
+                "planning_donor_analysis_exception":{
+                    "scope":"ORIGINATING_CONVERSATION_AND_DIRECT_CONTINUATIONS_ONLY",
+                    "planning_only":True,
+                    "cross_conversation_reuse":False,
+                    "lineage_ref":"conversation:alpha",
+                },
+                "planning_processed_donors":[
+                    {"normalized_key":"github:example/approved"}
+                ],
+            }
+            assessment_raw=(json.dumps(assessment,sort_keys=True)+"\n").encode()
+            (root/assessment_rel).write_bytes(assessment_raw)
+            approval_rel="canonical/decisions/approved-plan-registration.json"
+            approval={
+                "status":"APPROVED",
+                "explicit_user_approval":True,
+                "user_request_ref":"conversation:alpha#approval",
+                "donor_registration_authorization":"APPROVED_PLAN_PROCESSED_DONORS_ONLY",
+                "approved_processed_donor_keys":["github:example/approved"],
+                "approved_plan_path":plan_rel,
+                "approved_plan_sha256":hashlib.sha256(plan_raw).hexdigest(),
+                "approved_donor_assessment_path":assessment_rel,
+                "approved_donor_assessment_sha256":hashlib.sha256(assessment_raw).hexdigest(),
+                "conversation_lineage_ref":"conversation:alpha",
+            }
+            (root/approval_rel).write_text(json.dumps(approval)+"\n",encoding="utf-8")
+            subprocess.run(["git","init","-q"],cwd=root,check=True)
+            subprocess.run(["git","config","user.email","test@example.invalid"],cwd=root,check=True)
+            subprocess.run(["git","config","user.name","CFA3 Test"],cwd=root,check=True)
+            subprocess.run(["git","add","."],cwd=root,check=True)
+            subprocess.run(["git","commit","-q","-m","fixture"],cwd=root,check=True)
+
+            result=capture_candidate(
+                root,
+                name="approved",
+                source_kind="GITHUB",
+                source_locator="https://github.com/example/approved",
+                plan_approval_ref=approval_rel,
+            )
+            self.assertTrue(result["created"])
+            saved=json.loads(registry.read_text(encoding="utf-8"))
+            self.assertEqual(saved["entries"][0]["status"],"ACCEPTED_REFERENCE")
+            self.assertEqual(
+                saved["entries"][0]["submission_review"]["basis"],
+                "OWNER_APPROVED_IMPLEMENTATION_PLAN_PROCESSED_DONOR_SET",
+            )
+            with self.assertRaisesRegex(ValueError,"DONOR_NOT_IN_APPROVED_PLAN_PROCESSED_SET"):
+                capture_candidate(
+                    root,
+                    name="other",
+                    source_kind="GITHUB",
+                    source_locator="https://github.com/example/other",
+                    plan_approval_ref=approval_rel,
+                )
+
+    def test_entry_phase_remains_non_executing(self):
+        self.assertIn(
+            'result["execution_allowed"]=phase in ("execute","finalize")',
+            (Path(__file__).resolve().parents[1]/"src/fa3_donor_readiness.py").read_text(),
+        )
 
 if __name__=="__main__":unittest.main()
