@@ -536,10 +536,10 @@ def _decode_contents_json(obj):
 def _candidate_manifest_paths(root,candidate):
     paths=candidate.get("file_paths")
     if isinstance(paths,list):
-        rows=[p for p in paths if isinstance(p,str)
-              and p.startswith("canonical/deltas/CFA3-DONOR-") and p.endswith(".json")]
-        if rows:
-            return sorted(set(rows))
+        return sorted(set(
+            p for p in paths if isinstance(p,str)
+            and p.startswith("canonical/deltas/CFA3-DONOR-") and p.endswith(".json")
+        ))
     delta_root=Path(root)/"canonical"/"deltas"
     return [str(p.relative_to(root)).replace("\\","/")
             for p in sorted(delta_root.glob("CFA3-DONOR-*.json"))] if delta_root.is_dir() else []

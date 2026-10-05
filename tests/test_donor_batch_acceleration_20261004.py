@@ -9,6 +9,7 @@ sys.path.insert(0, str(ROOT / "src"))
 from fa3_donor_readiness import (
     MAX_ACTIVE_CANONICAL_REGISTRY_MUTATION_PRS,
     MAX_ACTIVE_DONOR_INTAKES,
+    _candidate_manifest_paths,
     batch_manifest_coverage,
     git_blob_sha,
     inspect_registry,
@@ -124,6 +125,21 @@ class DonorBatchAccelerationTests(unittest.TestCase):
             ROOT, pending[:-1] + [bad], bad, inspect_registry(ROOT), require_complete=True
         )
         self.assertIn("BATCH_RESULTING_REGISTRY_BLOB_MISMATCH", broken["findings"])
+
+    def test_known_non_batch_candidate_never_falls_back_to_local_batch_manifest(self):
+        candidate = {
+            "number": 651,
+            "file_paths": [
+                "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+                "canonical/deltas/FA3-DONOR-EXAMPLE-2026-10-04.json",
+            ],
+        }
+        self.assertEqual(_candidate_manifest_paths(ROOT, candidate), [])
+        local_only = _candidate_manifest_paths(ROOT, {"number": 705})
+        self.assertIn(
+            "canonical/deltas/CFA3-DONOR-BACKLOG-CONSOLIDATION-2026-10-04.json",
+            local_only,
+        )
 
     def test_single_writer_batch_policy_is_canonical(self):
         self.assertEqual(MAX_ACTIVE_DONOR_INTAKES, 5)
