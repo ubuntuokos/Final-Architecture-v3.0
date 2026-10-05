@@ -1,0 +1,17 @@
+{
+  "schema": "fa3.current-host-structural-impact.v1",
+  "id": "CFA3-CH-IMPACT-REQUESTED-RESULT-SCOPE-GUARD-2026-10-06",
+  "status": "NO_RUNTIME_IMPACT",
+  "structural_changes": [
+    "canonical/decisions/CFA3-DEC-REQUESTED-RESULT-ONLY-SCOPE-GUARD-2026-10-06.json",
+    "canonical/decisions/FA3-DEC-TASK-SCOPE-CLOSURE-POLICY-2026-10-03.json",
+    "canonical/CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001.json",
+    "src/fa3_task_scope_closure.py",
+    "src/cfa3_development_ai_behavior_gate.py"
+  ],
+  "current_host_changes": [],
+  "physical_requalification_required": false,
+  "historical_evidence_reused": false,
+  "current_host_runtime_promotion_claim": false,
+  "rationale": "This change narrows existing CFA3/FA3 development and shared task-scope admission so execution remains bound to the explicitly requested result, forbids self-generated subtasks and automatic post-completion work, and limits blocker resolution to the minimum necessary work inside the requested-result scope. It does not add or change a runner, provider, model, device/resource path, host service, hardware behavior, execution authority, Current Host proof recipe, or promotion path. The existing runtime mechanism is unchanged; only scope admission semantics are tightened. Therefore no fresh physical Current Host requalification is required."
+}
