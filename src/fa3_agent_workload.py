@@ -11,6 +11,7 @@ from typing import Any
 from cfa3_development_ai_behavior_guard import MUTATING_ACTIONS, authorize_action
 from fa3_agent_runtime_semantics import capabilities_satisfy, make_execution_ledger, validate_graph, validate_model_capability_descriptor
 from fa3_task_scope_closure import (
+    MAIN_TASK_CONTINUITY_ID,
     POLICY_ID as TASK_SCOPE_POLICY_ID,
     TaskScopeClosureError,
     assert_execution_allowed,
@@ -362,6 +363,12 @@ def compile_execution_plan(
             )
         except TaskScopeClosureError as exc:
             raise WorkloadContractError(str(exc)) from exc
+    binding_digest = (
+        hashlib.sha256(
+            json.dumps(binding, sort_keys=True, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+        ).hexdigest()
+        if binding is not None else None
+    )
     checked_model = validate_model_capability_descriptor(model_capability_descriptor)
     required_caps = checked_task.get("model_intent", {}).get("required_capabilities", [])
     if not isinstance(required_caps, list) or any(not _nonempty(x) for x in required_caps):
@@ -386,12 +393,11 @@ def compile_execution_plan(
         "task_scope_policy_id": TASK_SCOPE_POLICY_ID if scope_control_required else None,
         "task_scope_control_revision": checked_control["control_revision"] if checked_control else None,
         "task_scope_control_digest": task_control_digest(checked_control) if checked_control else None,
-        "goal_scope_binding_digest": (
-            hashlib.sha256(
-                json.dumps(binding, sort_keys=True, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
-            ).hexdigest()
-            if binding is not None else None
-        ),
+        "goal_scope_binding_digest": binding_digest,
+        "main_task_continuity_id": MAIN_TASK_CONTINUITY_ID if scope_control_required else None,
+        "main_task_id": checked_control["main_task_id"] if checked_control else None,
+        "main_task_binding_revision": checked_control["main_task_binding_revision"] if checked_control else None,
+        "main_task_binding_digest": binding_digest,
         "ledger": ledger,
         "authorities": {
             "durable_workflow": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY",
@@ -418,6 +424,10 @@ def validate_execution_admission(
             "task_scope_policy_id",
             "task_scope_control_revision",
             "task_scope_control_digest",
+            "main_task_continuity_id",
+            "main_task_id",
+            "main_task_binding_revision",
+            "main_task_binding_digest",
         )):
             raise WorkloadContractError("uncontrolled execution plan carries scope-control state")
         return {
@@ -433,6 +443,10 @@ def validate_execution_admission(
         }
     if execution_plan.get("task_scope_policy_id") != TASK_SCOPE_POLICY_ID:
         raise WorkloadContractError("execution plan task scope policy mismatch")
+    if execution_plan.get("main_task_continuity_id") != MAIN_TASK_CONTINUITY_ID:
+        raise WorkloadContractError("execution plan main-task continuity policy mismatch")
+    if execution_plan.get("main_task_binding_digest") != execution_plan.get("goal_scope_binding_digest"):
+        raise WorkloadContractError("execution plan main-task binding digest drift")
     if task_control is None:
         raise WorkloadContractError("fresh task scope control required at start/resume")
     try:
@@ -442,6 +456,10 @@ def validate_execution_admission(
         )
     except TaskScopeClosureError as exc:
         raise WorkloadContractError(str(exc)) from exc
+    if checked["main_task_id"] != execution_plan.get("main_task_id"):
+        raise WorkloadContractError("cached execution plan main-task identity is stale")
+    if checked["main_task_binding_revision"] != execution_plan.get("main_task_binding_revision"):
+        raise WorkloadContractError("cached execution plan main-task binding revision is stale")
     if checked["control_revision"] != execution_plan.get("task_scope_control_revision"):
         raise WorkloadContractError("cached execution plan task-control revision is stale")
     digest = task_control_digest(checked)
@@ -456,5 +474,8 @@ def validate_execution_admission(
         "task_scope_policy_id": TASK_SCOPE_POLICY_ID,
         "validated_control_revision": checked["control_revision"],
         "validated_control_digest": digest,
+        "main_task_continuity_id": MAIN_TASK_CONTINUITY_ID,
+        "main_task_id": checked["main_task_id"],
+        "main_task_binding_revision": checked["main_task_binding_revision"],
         "authority": False,
     }

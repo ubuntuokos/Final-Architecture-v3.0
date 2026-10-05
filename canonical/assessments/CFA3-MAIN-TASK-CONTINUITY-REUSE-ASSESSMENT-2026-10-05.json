@@ -1,0 +1,110 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "CFA3-MAIN-TASK-CONTINUITY-REUSE-ASSESSMENT-2026-10-05",
+  "project_id": "CFA3-MAIN-TASK-CONTINUITY-001",
+  "intent_id": "CFA3-DEC-MAIN-TASK-CONTINUITY-2026-10-05",
+  "intent_path": "canonical/decisions/CFA3-DEC-MAIN-TASK-CONTINUITY-2026-10-05.json",
+  "covered_ids": [
+    "CFA3-MAIN-TASK-CONTINUITY-001",
+    "FA3-TASK-SCOPE-CLOSURE-POLICY-2026-10-03",
+    "FA3-GOAL-EXECUTION-CONTRACTS-001",
+    "FA3-AGENT-WORKLOAD-RUNTIME-001",
+    "FA3-AGENT-EXECUTION-PLAN-001"
+  ],
+  "project_status": "OWNER_APPROVED_APPLICATION_RUNTIME_MATERIALIZATION",
+  "result": "PASS",
+  "reuse_disposition": "REUSE_EXISTING_CFA3_TASK_SCOPE_GOAL_AND_AGENT_RUNTIME_NO_EXTERNAL_DONOR_REQUIRED",
+  "assessment_provenance": {
+    "type": "OWNER_APPROVED_REUSE_REASSESSMENT",
+    "reviewed_on": "2026-10-05",
+    "planning_basis": "PUBLISHED_MAIN_DONOR_REGISTRY_ONLY",
+    "published_main_commit": "7f246f2f140a8a0a650a4d53b402642e895fab60",
+    "owner_approved_plan": true,
+    "owner_approved_materialization": true
+  },
+  "selected_reuse": [
+    {
+      "id": "FA3-TASK-SCOPE-CLOSURE-POLICY-2026-10-03",
+      "use": "EXISTING_SHARED_TASK_IDENTITY_SCOPE_RETRY_HANDOFF_AND_CLOSURE_BOUNDARY"
+    },
+    {
+      "id": "FA3-GOAL-EXECUTION-CONTRACTS-001",
+      "use": "EXISTING_USER_OWNED_GOAL_AND_ROOT_TASK_IDENTITY"
+    },
+    {
+      "id": "FA3-AGENT-WORKLOAD-RUNTIME-001",
+      "use": "EXISTING_SHARED_TASK_LOCAL_START_RESUME_ADMISSION"
+    },
+    {
+      "id": "EXISTING_TEMPORAL_ONLY",
+      "use": "SOLE_GLOBAL_DURABLE_LIFECYCLE_OWNER"
+    },
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "PUBLISHED_MAIN_REUSE_AND_DONOR_PLANNING_GATE"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "SECOND_TASK_OR_WORKFLOW_AUTHORITY",
+      "reason": "MAIN_TASK_CONTINUITY_BELONGS_INSIDE_EXISTING_TASK_SCOPE_AND_TEMPORAL_BOUNDARIES"
+    },
+    {
+      "id": "APPLICATION_LOCAL_MAIN_TASK_GUARD",
+      "reason": "CROSS_APPLICATION_RUNTIME_SEMANTIC_MUST_BE_SHARED"
+    },
+    {
+      "id": "EXTERNAL_DONOR_RUNTIME_DEPENDENCY",
+      "reason": "EXISTING_CANONICAL_RUNTIME_CONTRACTS_FULLY_COVER_THE_REQUIREMENT"
+    }
+  ],
+  "pattern_reuse": [
+    "IMMUTABLE_GOAL_SCOPE_BINDING",
+    "FAIL_CLOSED_START_RESUME_REVALIDATION",
+    "OUT_OF_SCOPE_PERSISTED_HANDOFF",
+    "TEMPORAL_DURABLE_LIFECYCLE"
+  ],
+  "gaps": [],
+  "donor_planning_snapshot": {
+    "published_main_commit": "7f246f2f140a8a0a650a4d53b402642e895fab60",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "eb15f93415d599400a5c99e6f5651c8805d052e4",
+    "donor_registry_sha256": "14a1e25453e6afe96d759da3365416e57aa96cec0182aace71a1694cbe6a9ff3",
+    "donor_registry_entry_count": 1551
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "retrospective_consumer_impact_reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "rationale": "Main-task continuity is a cross-application runtime invariant and is enforced in the existing shared Goal/Task Scope/Agent Workload path rather than duplicated per application.",
+    "shared_component_ids": [
+      "FA3-TASK-SCOPE-CLOSURE-POLICY-2026-10-03",
+      "FA3-GOAL-EXECUTION-CONTRACTS-001",
+      "FA3-AGENT-WORKLOAD-RUNTIME-001",
+      "FA3-AGENT-EXECUTION-PLAN-001"
+    ],
+    "consumer_scope": [
+      "CFA3",
+      "Assistant",
+      "Coach",
+      "Mentor",
+      "Manager",
+      "Agent Workload",
+      "Orchestration Workforce",
+      "Temporal workflows",
+      "all current and future CFA3 applications"
+    ],
+    "local_duplicate_created": false
+  },
+  "pending_or_unmerged_donors_consumed": false,
+  "donor_usage_edges_created": 0,
+  "donor_adoption_authorized": false,
+  "adoption_authorized": false,
+  "implementation_readiness": "READY_FOR_RUNTIME_FINALIZATION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}

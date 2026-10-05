@@ -19,8 +19,19 @@ GOAL_CONTRACT_ID = "FA3-GOAL-EXECUTION-CONTRACTS-001"
 GOAL_SCOPE_BINDING_SCHEMA = "fa3.goal-scope-binding.v1"
 TASK_CONTROL_SCHEMA = "fa3.task-scope-control.v1"
 FOLLOWUP_SCHEMA = "fa3.task-followup-handoff.v1"
+MAIN_TASK_EVENT_SCHEMA = "cfa3.main-task-event.v1"
+MAIN_TASK_CONTINUITY_ID = "CFA3-MAIN-TASK-CONTINUITY-001"
 EVIDENCE_AUTHORITY = "FA3-AUTH-OBS-EVIDENCE-001"
 MAX_SAME_BLOCKER_ATTEMPTS = 3
+MAIN_TASK_EVENT_KINDS = frozenset({
+    "CONSTRAINT_UPDATE",
+    "PARALLEL_OBSERVATION",
+    "PARALLEL_TASK_REFERENCE",
+    "MONITORING_OBLIGATION",
+    "BLOCKER",
+    "REQUIRED_SUBTASK",
+    "FOLLOWUP_HANDOFF",
+})
 
 ACTIVE = "ACTIVE"
 HUMAN_INTERVENTION_REQUIRED = "HUMAN_INTERVENTION_REQUIRED"
@@ -90,6 +101,12 @@ def goal_scope_binding(goal: dict[str, Any]) -> dict[str, Any]:
         "goal_revision": revision,
         "goal_digest": _digest(goal),
         "scope_digest": scope_digest(goal.get("scope")),
+        "main_task_continuity_id": MAIN_TASK_CONTINUITY_ID,
+        "main_task_id": goal_id,
+        "main_task_binding_revision": 1,
+        "main_task_switch_authority": "EXPLICIT_OWNER_ONLY",
+        "main_task_automatic_reassignment": False,
+        "parallel_event_can_replace_main_task": False,
         "max_same_blocker_attempts": MAX_SAME_BLOCKER_ATTEMPTS,
         "automatic_scope_expansion": False,
         "out_of_scope_followup": "NEW_TASK_REQUIRED",
@@ -118,6 +135,18 @@ def validate_goal_scope_binding(
     for key in ("goal_digest", "scope_digest"):
         if not _HEX64.fullmatch(str(binding.get(key, ""))):
             raise TaskScopeClosureError(f"{key} must be sha256")
+    if binding.get("main_task_continuity_id") != MAIN_TASK_CONTINUITY_ID:
+        raise TaskScopeClosureError("main-task continuity policy identity drift")
+    if binding.get("main_task_id") != goal_id:
+        raise TaskScopeClosureError("main-task identity must remain bound to the goal/root task")
+    if binding.get("main_task_binding_revision") != 1:
+        raise TaskScopeClosureError("main-task binding revision is immutable inside one task session")
+    if binding.get("main_task_switch_authority") != "EXPLICIT_OWNER_ONLY":
+        raise TaskScopeClosureError("main-task switch authority must remain explicit-owner-only")
+    if binding.get("main_task_automatic_reassignment") is not False:
+        raise TaskScopeClosureError("automatic main-task reassignment forbidden")
+    if binding.get("parallel_event_can_replace_main_task") is not False:
+        raise TaskScopeClosureError("parallel events cannot replace the main task")
     if binding.get("max_same_blocker_attempts") != MAX_SAME_BLOCKER_ATTEMPTS:
         raise TaskScopeClosureError("same blocker attempt limit must be exactly three")
     if binding.get("automatic_scope_expansion") is not False:
@@ -153,6 +182,13 @@ def start_task_control(
         "goal_revision": checked["goal_revision"],
         "goal_digest": checked["goal_digest"],
         "scope_digest": checked["scope_digest"],
+        "main_task_continuity_id": checked["main_task_continuity_id"],
+        "main_task_id": checked["main_task_id"],
+        "main_task_binding_revision": checked["main_task_binding_revision"],
+        "main_task_switch_authority": checked["main_task_switch_authority"],
+        "main_task_automatic_reassignment": False,
+        "parallel_event_can_replace_main_task": False,
+        "main_task_events": [],
         "control_revision": 1,
         "state": ACTIVE,
         "execution_frozen": False,
@@ -260,6 +296,43 @@ def validate_task_control(
         raise TaskScopeClosureError("task control root_task_id mismatch")
     if control.get("goal_id") != root_task_id:
         raise TaskScopeClosureError("task control goal/root identity mismatch")
+    if control.get("main_task_continuity_id") != MAIN_TASK_CONTINUITY_ID:
+        raise TaskScopeClosureError("task control main-task continuity identity drift")
+    if control.get("main_task_id") != root_task_id:
+        raise TaskScopeClosureError("active main task cannot be reassigned inside a task session")
+    if control.get("main_task_binding_revision") != 1:
+        raise TaskScopeClosureError("task control main-task binding revision drift")
+    if control.get("main_task_switch_authority") != "EXPLICIT_OWNER_ONLY":
+        raise TaskScopeClosureError("task control main-task switch authority drift")
+    if control.get("main_task_automatic_reassignment") is not False:
+        raise TaskScopeClosureError("task control cannot enable automatic main-task reassignment")
+    if control.get("parallel_event_can_replace_main_task") is not False:
+        raise TaskScopeClosureError("parallel event cannot replace active main task")
+    events = control.get("main_task_events")
+    if not isinstance(events, list):
+        raise TaskScopeClosureError("main_task_events must be a list")
+    event_ids: set[str] = set()
+    for event in events:
+        if not isinstance(event, dict) or event.get("schema") != MAIN_TASK_EVENT_SCHEMA:
+            raise TaskScopeClosureError("main-task event schema mismatch")
+        if event.get("main_task_continuity_id") != MAIN_TASK_CONTINUITY_ID:
+            raise TaskScopeClosureError("main-task event policy identity drift")
+        if event.get("task_id") != task_id or event.get("main_task_id") != root_task_id:
+            raise TaskScopeClosureError("main-task event identity mismatch")
+        if event.get("event_kind") not in MAIN_TASK_EVENT_KINDS:
+            raise TaskScopeClosureError("unsupported main-task event kind")
+        _required(event.get("summary"), "main-task event summary")
+        _string_list(event.get("refs", []), "main-task event refs")
+        if event.get("replaces_main_task") is not False or event.get("authority") is not False:
+            raise TaskScopeClosureError("main-task event cannot replace or authorize the main task")
+        event_id = _required(event.get("event_id"), "main-task event id")
+        payload = copy.deepcopy(event)
+        payload.pop("event_id", None)
+        if event_id != "main-task-event:" + _digest(payload)[:24]:
+            raise TaskScopeClosureError("main-task event id/content mismatch")
+        if event_id in event_ids:
+            raise TaskScopeClosureError("duplicate main-task event")
+        event_ids.add(event_id)
     if type(control.get("goal_revision")) is not int or control["goal_revision"] < 1:
         raise TaskScopeClosureError("task control goal revision invalid")
     revision = control.get("control_revision")
@@ -270,7 +343,12 @@ def validate_task_control(
             raise TaskScopeClosureError(f"task control {key} invalid")
     if expected_binding is not None:
         binding = validate_goal_scope_binding(expected_binding, expected_root_task_id=root_task_id)
-        for key in ("goal_id", "goal_revision", "goal_digest", "scope_digest"):
+        for key in (
+            "goal_id", "goal_revision", "goal_digest", "scope_digest",
+            "main_task_continuity_id", "main_task_id", "main_task_binding_revision",
+            "main_task_switch_authority", "main_task_automatic_reassignment",
+            "parallel_event_can_replace_main_task",
+        ):
             if control.get(key) != binding.get(key):
                 raise TaskScopeClosureError(f"task control binding mismatch: {key}")
     state = control.get("state")
@@ -397,6 +475,37 @@ def classify_scope_item(scope: dict[str, Any], scope_item: str) -> dict[str, Any
         "requires_new_task": True,
         "reason": "EXPLICIT_OUT_OF_SCOPE_MATCH" if item in out_of_scope else "UNDECLARED_SCOPE_NOT_AUTO_EXPANDED",
     }
+
+
+def record_main_task_event(
+    control: dict[str, Any],
+    event_kind: str,
+    summary: str,
+    *,
+    refs: list[str] | None = None,
+) -> dict[str, Any]:
+    """Record a rule/parallel/dependency/blocker observation without changing the active main task."""
+    checked = assert_execution_allowed(control)
+    if event_kind not in MAIN_TASK_EVENT_KINDS:
+        raise TaskScopeClosureError("unsupported main-task event kind")
+    event = {
+        "schema": MAIN_TASK_EVENT_SCHEMA,
+        "main_task_continuity_id": MAIN_TASK_CONTINUITY_ID,
+        "task_id": checked["task_id"],
+        "main_task_id": checked["main_task_id"],
+        "event_kind": event_kind,
+        "summary": _required(summary, "main-task event summary"),
+        "refs": _string_list(refs or [], "main-task event refs"),
+        "replaces_main_task": False,
+        "authority": False,
+    }
+    event["event_id"] = "main-task-event:" + _digest(event)[:24]
+    result = copy.deepcopy(checked)
+    if any(x.get("event_id") == event["event_id"] for x in result["main_task_events"] if isinstance(x, dict)):
+        raise TaskScopeClosureError("duplicate main-task event")
+    result["main_task_events"].append(event)
+    _bump_revision(result)
+    return validate_task_control(result)
 
 
 def blocker_fingerprint(blocker_code: str, context_refs: list[str]) -> str:

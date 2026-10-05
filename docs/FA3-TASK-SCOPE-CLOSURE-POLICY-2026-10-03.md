@@ -17,3 +17,16 @@ Out-of-scope work becomes a persisted `fa3.task-followup-handoff.v1` inside the 
 This policy creates no new scheduler, orchestration authority, resource authority, model-routing authority, action authority or Evidence authority. Temporal, UAF/Security, HRB, Model Router and Evidence retain their existing roles. Capability baseline remains **175**.
 
 This materialization changes shared runtime-admission validation but claims no Current Host PASS and does not reuse historical physical evidence. Current Host qualification remains governed separately and stays pending where required by the existing stabilization policy.
+
+
+## CFA3 Main Task Continuity — 2026-10-05
+
+Canonical extension: `CFA3-DEC-MAIN-TASK-CONTINUITY-2026-10-05`. Runtime invariant: `CFA3-MAIN-TASK-CONTINUITY-001`.
+
+This is a **CFA3 application-runtime rule**, not a CFA3 development-process rule. Every active task control binds one immutable `main_task_id` to the goal/root task for the life of that task session. New rules, parallel tasks, PRs, monitoring obligations, dependencies, blockers and discovered follow-up work are recorded as constraints/events/handoffs under that task; they cannot silently replace the active main task.
+
+A blocker may freeze execution, but the blocked object remains the same main task. Start/resume revalidates the exact main-task identity and binding revision through the shared Agent Workload execution plan. An explicit owner decision to switch main tasks requires a new or explicitly rebound task-control session; automatic reassignment is forbidden.
+
+The shared runtime rule applies to Assistant, Coach, Mentor, Manager, Agent Workload, Orchestration Workforce, Temporal-backed workflows and all current/future CFA3 applications that execute through the shared task path. It creates no scheduler or authority. Temporal remains durable lifecycle authority; Security/UAF, HRB, Model Router and Evidence retain their existing boundaries.
+
+The task-control read model exposes `main_task_id` plus `main_task_events` so CFA3 GUI surfaces can render the main task separately from blockers, monitored PRs, parallel tasks, constraints and follow-ups without changing focus automatically.

@@ -1,0 +1,16 @@
+{
+  "schema": "fa3.current-host-structural-impact.v1",
+  "id": "CFA3-CH-IMPACT-MAIN-TASK-CONTINUITY-2026-10-05",
+  "status": "NO_RUNTIME_IMPACT",
+  "structural_changes": [
+    "canonical/contracts/FA3-AGENT-EXECUTION-PLAN-001.schema.json",
+    "canonical/contracts/FA3-GOAL-EXECUTION-CONTRACTS-001.schema.json",
+    "canonical/decisions/CFA3-DEC-MAIN-TASK-CONTINUITY-2026-10-05.json",
+    "canonical/decisions/FA3-DEC-TASK-SCOPE-CLOSURE-POLICY-2026-10-03.json",
+    "src/fa3_agent_workload.py"
+  ],
+  "current_host_changes": [],
+  "physical_requalification_required": false,
+  "historical_evidence_reused": false,
+  "rationale": "This change strengthens host-independent CFA3 task-control and execution-plan identity semantics only. It does not change hardware discovery, provider admission, runtime binaries, drivers, HRB resource placement, model routing, deployment topology, physical capability qualification, or Current Host evidence requirements; therefore no physical Current Host requalification is required."
+}

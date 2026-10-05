@@ -30,7 +30,13 @@
     ],
     "all_executable_scope_origins_require_immutable_binding": true,
     "all_executable_scope_origins_require_task_control": true,
-    "scope_origin_provenance_preserved_end_to_end": true
+    "scope_origin_provenance_preserved_end_to_end": true,
+    "active_main_task_identity_immutable": true,
+    "main_task_switch_authority": "EXPLICIT_OWNER_ONLY",
+    "new_runtime_rule_is_constraint_not_automatic_main_task": true,
+    "parallel_task_or_pr_is_observation_dependency_or_followup_not_automatic_main_task": true,
+    "blocker_may_stop_but_not_reassign_main_task": true,
+    "owner_main_task_switch_requires_new_or_explicitly_rebound_task_control": true
   },
   "authority_and_baseline": {
     "durable_workflow_authority": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY",
@@ -52,7 +58,9 @@
     "agent_workload_runtime": "src/fa3_agent_workload.py",
     "start_action": "canonical/actions/agent.workload.start.json",
     "resume_action": "canonical/actions/agent.workload.resume.json",
-    "parent_gate": "FA3-AGENT-WORKLOAD-RUNTIME-GATESET-001"
+    "parent_gate": "FA3-AGENT-WORKLOAD-RUNTIME-GATESET-001",
+    "main_task_continuity_id": "CFA3-MAIN-TASK-CONTINUITY-001",
+    "main_task_continuity_runtime": "src/fa3_task_scope_closure.py"
   },
   "current_host": {
     "runtime_promotion_claim": false,
@@ -60,5 +68,6 @@
     "structural_runtime_admission_delta": true,
     "current_host_status": "PENDING_EXISTING_CURRENT_HOST_GOVERNANCE",
     "historical_evidence_reused": false
-  }
+  },
+  "extension_decision_ref": "canonical/decisions/CFA3-DEC-MAIN-TASK-CONTINUITY-2026-10-05.json"
 }
