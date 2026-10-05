@@ -1,0 +1,13 @@
+{
+  "schema": "fa3.current-host-structural-impact.v1",
+  "id": "CFA3-CH-IMPACT-SHARED-COMPATIBILITY-PROPAGATION-2026-10-05",
+  "status": "NO_RUNTIME_IMPACT",
+  "structural_changes": [
+    ".github/workflows/fa3-shared-compatibility-propagation.yml",
+    "src/fa3_shared_compatibility_propagation_gate.py"
+  ],
+  "current_host_changes": [],
+  "physical_requalification_required": false,
+  "historical_evidence_reused": false,
+  "rationale": "The change adds repository-side shared compatibility propagation assessment and CI enforcement only. It does not alter Current Host runtime binaries, hardware discovery, provider admission, HRB resource placement, model routing, driver behavior, deployment topology, or physical capability evidence, so no physical Current Host requalification is required."
+}

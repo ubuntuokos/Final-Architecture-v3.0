@@ -1,0 +1,62 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "CFA3-SHARED-COMPATIBILITY-PROPAGATION-APPLICATION-INTENT-2026-10-05",
+  "project_id": "CFA3-SHARED-COMPATIBILITY-PROPAGATION-001",
+  "project_type": "MATERIAL_EXTENSION",
+  "goal": "Propagate shared capability and compatibility requirements across all current and future CFA3 applications without creating a new execution or admission authority.",
+  "required_capabilities": [],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "shared-capability-propagation",
+    "application-compatibility",
+    "consumer-impact-review",
+    "non-regression"
+  ],
+  "input_modalities": [
+    "CANONICAL_METADATA",
+    "APPLICATION_INVENTORY"
+  ],
+  "output_modalities": [
+    "COMPATIBILITY_ASSESSMENT",
+    "CI_GATE_REPORT"
+  ],
+  "execution_classes": [
+    "CPU_LIGHTWEIGHT"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-shared-compatibility",
+    "service_prefix": "fa3-shared-compatibility",
+    "config_root": "$XDG_CONFIG_HOME/fa3/shared-compatibility",
+    "cache_root": "$XDG_CACHE_HOME/fa3/shared-compatibility",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/shared-compatibility",
+    "data_root": "$XDG_DATA_HOME/fa3/shared-compatibility",
+    "desktop_prefix": "org.fa3.shared-compatibility",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-APPLICATION-DONOR-LINKS-001",
+    "FA3-AUTH-OBS-EVIDENCE-001"
+  ],
+  "task_classes": [
+    "architecture",
+    "compatibility",
+    "shared-capability"
+  ],
+  "skill_triggers": [],
+  "mandatory_source_families": [
+    "FA3-KHRONOS-OPEN-STANDARDS-001"
+  ]
+}
