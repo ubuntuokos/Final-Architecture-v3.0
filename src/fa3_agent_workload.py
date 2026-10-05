@@ -108,7 +108,7 @@ def validate_task(task: dict[str, Any]) -> dict[str, Any]:
     if not isinstance(participants,list) or not all(_nonempty(x) for x in participants):
         raise WorkloadContractError("authorized_ai_participants invalid")
     binding = task.get("goal_scope_binding")
-    scope_control_required = task.get("scope_origin") in {"REQUIRED_FOR_APPROVED_GOAL", "EXPLICIT_USER_SCOPE_EXTENSION"}
+    scope_control_required = task.get("scope_origin") in TASK_SCOPE_ORIGINS
     if scope_control_required:
         if not isinstance(binding, dict):
             raise WorkloadContractError("goal-bound workload requires immutable goal_scope_binding")
@@ -347,9 +347,7 @@ def compile_execution_plan(
         raise WorkloadContractError("task_spec_digest required for execution plan")
     checked_graph = validate_graph(workflow_graph)
     behavior_preflight = _compile_behavior_preflight(checked_task, checked_graph, behavior_context)
-    scope_control_required = checked_task.get("scope_origin") in {
-        "REQUIRED_FOR_APPROVED_GOAL", "EXPLICIT_USER_SCOPE_EXTENSION"
-    }
+    scope_control_required = checked_task.get("scope_origin") in TASK_SCOPE_ORIGINS
     checked_control = None
     binding = checked_task.get("goal_scope_binding")
     if scope_control_required:
