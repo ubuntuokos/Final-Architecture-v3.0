@@ -16,8 +16,8 @@ ENFORCEMENT_POLICY = Path("canonical/enforcement-policy.json")
 CURRENT_HOST_IMPACT = Path("canonical/current-host-impact/FA3-CH-IMPACT-CFA3-DEVELOPMENT-AI-BEHAVIOR-20261005.json")
 GATE_ID = "CFA3-DEVELOPMENT-AI-BEHAVIOR-GATESET-001"
 
-EXPECTED_DEV = {f"DEV-{i:02d}" for i in range(1, 11)}
-EXPECTED_AI = {f"AI-{i:02d}" for i in range(1, 11)}
+EXPECTED_DEV = {f"DEV-{i:02d}" for i in range(1, 12)}
+EXPECTED_AI = {f"AI-{i:02d}" for i in range(1, 12)}
 EXPECTED_LAYERS = {"L0", "L1", "L2", "L3", "L4", "L5"}
 
 
@@ -71,6 +71,47 @@ def evaluate(root: Path) -> dict[str, Any]:
     }
     overlap_override = authorize_action(overlap_ctx)
 
+    self_correction_ctx = {
+        "action": "WRITE",
+        "current_owner_restriction_allows": True,
+        "scope_bound": True,
+        "scope_allows_action": True,
+        "uncertain_state": False,
+        "blocker_kind": None,
+        "autonomous_workaround": False,
+        "fresh_state_verified": True,
+        "mutation_report_pending": False,
+        "side_effect_permission": "WRITE",
+        "silent_redesign_or_repair": False,
+        "self_correction": {
+            "requested": True,
+            "error_caused_by_ai": True,
+            "mechanical_or_technical": True,
+            "correction_deterministic": True,
+            "user_intent_preserved": True,
+            "scope_preserved": True,
+            "architecture_authority_policy_plan_preserved": True,
+            "no_new_component_workaround": True,
+            "notification_sent": True,
+            "existing_authorization_covers_corrected_action": True,
+            "blocker_gate_or_security_bypass": False,
+            "unnecessary_workflow_gate_or_side_effect": False,
+            "redesign_required": False,
+            "alternative_technical_solution": False,
+            "new_pr_or_branch_required": False,
+            "other_component_modification_required": False,
+            "user_restriction_weakened": False,
+            "review_discovered_real_design_or_implementation_defect": False,
+            "new_permission_or_side_effect_required": False,
+            "correction_uncertain": False,
+            "partial_mutation_possible": False,
+            "exact_state_verified": False,
+        },
+    }
+    self_correction_allow = authorize_action(self_correction_ctx)
+    self_correction_ctx["self_correction"]["partial_mutation_possible"] = True
+    self_correction_exact_state_stop = authorize_action(self_correction_ctx)
+
     checks = {
         "canonical-policy": policy.get("id") == "CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001"
             and policy.get("status") == "CANONICAL"
@@ -81,6 +122,14 @@ def evaluate(root: Path) -> dict[str, Any]:
         "exact-development-rules": dev_ids == EXPECTED_DEV,
         "exact-ai-rules": ai_ids == EXPECTED_AI,
         "guard-rule-set": RULE_IDS == EXPECTED_DEV | EXPECTED_AI,
+        "self-correction-policy": policy.get("self_correction_exception", {}).get("ids") == ["DEV-11", "AI-11"]
+            and policy.get("self_correction_exception", {}).get("non_self_correctable_result") == "BLOCKER_STOP_REPORT"
+            and policy.get("self_correction_exception", {}).get("may_override_precedence") is False,
+        "self-correction-valid-path": self_correction_allow.get("decision") == "ALLOW"
+            and self_correction_allow.get("self_correction_authorized") is True
+            and self_correction_allow.get("post_correction_report_required") is True,
+        "self-correction-partial-mutation-exact-state": self_correction_exact_state_stop.get("decision") == "STOP"
+            and "AI-08" in self_correction_exact_state_stop.get("rule_ids", []),
         "layer-model": layer_ids == EXPECTED_LAYERS
             and policy.get("composition", {}).get("layers_are_distinct") is True
             and policy.get("composition", {}).get("contradiction_result") == "BLOCKER",
