@@ -1,6 +1,6 @@
 # Implementation-plan donor analysis exception
 
-**Date:** 2026-10-04  
+**Date:** 2026-10-04
 **Scope:** CFA3 development workflow and donor-governance enforcement only.
 
 During implementation-plan preparation, an external source may receive substantive technical analysis before registry admission only in the originating conversation lineage and its direct continuations. The readiness gate must receive that active lineage explicitly; a copied or self-declared assessment cannot authorize planning in another conversation.
