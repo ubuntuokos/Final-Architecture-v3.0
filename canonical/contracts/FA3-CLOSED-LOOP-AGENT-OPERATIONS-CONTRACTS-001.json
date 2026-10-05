@@ -1,7 +1,7 @@
 {
   "schema": "fa3.contract-family.v1",
   "id": "FA3-CLOSED-LOOP-AGENT-OPERATIONS-CONTRACTS-001",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "status": "CANONICAL",
   "parent_profile": "FA3-CLOSED-LOOP-AGENT-OPERATIONS-001",
   "provider_neutral": true,
@@ -275,7 +275,23 @@
     "REFERENCE_CI_AS_CURRENT_HOST_PROMOTION",
     "CONCRETE_CPU_VENDOR_OR_MODEL_AS_CANONICAL_HARDWARE_DEFAULT",
     "CONCRETE_GPU_SKU_VRAM_OR_SM_AS_CANONICAL_HARDWARE_DEFAULT",
-    "RTX_PRE_30_SERIES_AS_FA3_BASELINE_ACCELERATOR"
+    "RTX_PRE_30_SERIES_AS_FA3_BASELINE_ACCELERATOR",
+    "TASK_SCOPE_AUTO_EXPANSION",
+    "FOURTH_SAME_BLOCKER_RETRY",
+    "FOLLOWUP_AUTO_START",
+    "CACHED_PLAN_BYPASSES_FROZEN_TASK_CONTROL",
+    "SELF_ASSERTED_VERIFIED_CLOSURE"
   ],
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "task_scope_closure_semantics": {
+    "policy_id": "FA3-TASK-SCOPE-CLOSURE-POLICY-2026-10-03",
+    "immutable_goal_scope_binding": true,
+    "max_same_blocker_attempts": 3,
+    "third_same_blocker_failure": "FREEZE_AND_REQUIRE_HUMAN_INTERVENTION",
+    "fourth_same_blocker_attempt": "FORBIDDEN",
+    "out_of_scope_work": "PERSISTED_HANDOFF_REQUIRES_NEW_TASK_AND_EXPLICIT_USER_START",
+    "cached_execution_plan_revalidation_at_start_resume": true,
+    "verified_closure_authority": "FA3-AUTH-OBS-EVIDENCE-001",
+    "automatic_followup_execution": false
+  }
 }

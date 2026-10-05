@@ -2,8 +2,8 @@
   "schema": "fa3.contract.v1",
   "id": "FA3-DONOR-CHAT-INGEST-001",
   "status": "NON_AUTHORITATIVE_IMPORT_ADAPTER",
-  "version": "1.0.0",
-  "purpose": "PRIVACY_BOUNDED_EXPLICIT_OWNER_DONORNAK_MARKED_LINK_INGEST_ONLY",
+  "version": "1.1.0",
+  "purpose": "PRIVACY_BOUNDED_EXACT_OWNER_COMMAND_OR_APPROVED_PLAN_REFERENCE_REGISTRATION",
   "registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
   "reuse_discovery_profile": "FA3-REUSE-DISCOVERY-001",
   "accepted_inputs": [
@@ -16,8 +16,8 @@
   "automatic_export_request": false,
   "automatic_chatgpt_subscription": false,
   "incremental_input_replay": "IDEMPOTENT_BY_SOURCE_NORMALIZED_KEY",
-  "capture_state": "ACCEPTED_REFERENCE_ONLY_FOR_AUTHENTICATED_MARKED_OWNER_LINK",
-  "unknown_source_policy": "ANALYSIS_ONLY_UNLESS_OWNER_MARKED_LINK",
+  "capture_state": "ACCEPTED_REFERENCE_ONLY_FOR_AUTHENTICATED_APPROVED_OWNER_COMMAND_OR_BOUND_APPROVED_PLAN",
+  "unknown_source_policy": "ANALYSIS_ONLY_UNLESS_EXPLICIT_OWNER_COMMAND_OR_BOUND_APPROVED_PLAN",
   "raw_conversation_persistence_forbidden": true,
   "conversation_titles_persistence_forbidden": true,
   "conversation_ids_persistence_forbidden": true,
@@ -45,17 +45,18 @@
   "direct_submission_requires_owner_role_or_explicit_trusted_event": true,
   "tentative_research_capture_state": "ANALYSIS_ONLY_NO_REGISTRY_MUTATION",
   "owner_reference_registration_is_not_source_code_or_runtime_approval": true,
-  "explicit_owner_donornak_before_link_required": true,
+  "explicit_owner_donornak_before_link_required": false,
   "unmarked_link_disposition": "ANALYSIS_ONLY_NO_REGISTRY_MUTATION",
-  "no_link_capture_without_donornak": true,
+  "no_link_capture_without_donornak": false,
   "metadata_event_evidence": [
     "owner_submitted_link=true",
     "speaker_role=user",
-    "owner_donor_marker=donornak"
+    "owner_donor_command=EXACT_APPROVED_COMMAND"
   ],
   "verified_conversation_evidence": [
     "speaker_role=user",
-    "literal_donornak_precedes_link"
+    "exact_approved_owner_command_present_outside_url",
+    "command_clause_not_negated"
   ],
   "local_intake_exclusion": "NONBLOCKING_FLOCK_PER_CHECKOUT_SINGLE_WRITER",
   "max_active_donor_intakes": 5,
@@ -83,5 +84,28 @@
     "AUTHORITY_DELTA_ZERO",
     "DONOR_COUNT_DERIVATION"
   ],
-  "batch_acceleration_decision": "CFA3-DEC-DONOR-INTAKE-BATCH-ACCELERATION-2026-10-04"
+  "batch_acceleration_decision": "CFA3-DEC-DONOR-INTAKE-BATCH-ACCELERATION-2026-10-04",
+  "approved_owner_donor_commands": [
+    "donornak",
+    "vedd fel donornak",
+    "add a donorlistához"
+  ],
+  "exact_command_set_only": true,
+  "normalized_owner_marker": "donornak",
+  "command_inside_url_authorizes_intake": false,
+  "negated_command_authorizes_intake": false,
+  "command_before_or_after_link_allowed": true,
+  "command_only_followup_target": "IMMEDIATELY_PREVIOUS_OWNER_MESSAGE_ONLY_NO_INTERVENING_OWNER_MESSAGE",
+  "skipped_owner_message_clears_followup_target": true,
+  "supplied_source_must_match_command_message_url": true,
+  "approved_plan_registration": {
+    "decision_ref": "canonical/decisions/FA3-DEC-IMPLEMENTATION-PLAN-DONOR-EXCEPTION-2026-10-04.json",
+    "committed_approval_required": true,
+    "exact_plan_hash_required": true,
+    "exact_assessment_hash_required": true,
+    "exact_processed_set_required": true,
+    "conversation_lineage_binding_required": true,
+    "second_owner_donor_command_required": false,
+    "registration_scope": "REFERENCE_REGISTRATION_ONLY"
+  }
 }

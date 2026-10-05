@@ -19,15 +19,22 @@ import zipfile
 from pathlib import Path, PurePosixPath
 from typing import Any, Iterable
 
-from fa3_donor_registry import (REGISTRY_REL, REJECTION_AUDIT_REL, _atomic_write,
-                                _load, _normalized_key, capture_candidate)
+from fa3_donor_registry import (
+    APPROVED_OWNER_DONOR_COMMANDS,
+    REGISTRY_REL,
+    REJECTION_AUDIT_REL,
+    _atomic_write,
+    _explicit_owner_command,
+    _load,
+    _normalized_key,
+    capture_candidate,
+)
 
 MAX_JSON_BYTES = 256 * 1024 * 1024
 MAX_EXPORT_BYTES = 512 * 1024 * 1024
 MAX_MESSAGE_CHARS = 20000
 MAX_URLS_PER_MESSAGE = 128
-# Only a user-authored DONORNAK label preceding the URL authorizes intake.
-_OWNER_DIRECT = re.compile(r"(?i)\bdonornak\b(?:\s*:\s*|\s+(?=https?://|\[https?://|<https?://))")
+# Only an authenticated user-authored command from the approved exact set authorizes intake.
 _LINK = re.compile(r'https?://[^\s<>\[\]()"]+', re.I)
 
 _EXPORT_NAME = re.compile(r"conversations(?:[_-]?\d+)?\.json", re.I)
@@ -90,24 +97,16 @@ def _message_text(node: dict[str, Any], roles: set[str]) -> str | None:
 
 
 def _explicit_owner_marker(text: str):
-    """Exclude negative 'nem/not donornak' references from intake."""
-    for match in _OWNER_DIRECT.finditer(text):
-        prefix = text[max(0, match.start() - 40):match.start()]
-        if not re.search(r"(?i)\b(?:nem|not)\s+$", prefix):
-            return match
-    return None
+    """Compatibility wrapper: approved commands normalize to one donor-intake marker."""
+    return _explicit_owner_command(text)
 
 
 def _candidate_sources(text: str, *, owner_direct: bool = False) -> tuple[list[tuple[str, str, str]], bool]:
-    """Only links AFTER an authenticated owner's literal 'donornak:' qualify."""
-    if not owner_direct:
+    """Extract URLs from one owner message after an exact approved command is proven."""
+    if not owner_direct or _explicit_owner_command(text) is None:
         return [], False
-    marker = _explicit_owner_marker(text)
-    if marker is None:
-        return [], False
-    after = text[marker.end():]
     urls = set()
-    for found in _LINK.findall(after):
+    for found in _LINK.findall(text):
         locator = found.rstrip(".,;:!?}\\\\")
         if not locator:
             continue
@@ -126,18 +125,51 @@ def _candidate_sources(text: str, *, owner_direct: bool = False) -> tuple[list[t
         sources.append((name, kind, url))
     return sources, False
 
-def _conversations(path: Path, roles: set[str], *, include_roles: bool = False) -> Iterable[str | dict[str, str]]:
+
+def _candidate_sources_from_uncommanded_text(text: str) -> tuple[list[tuple[str, str, str]], bool]:
+    """Keep the immediately previous owner URLs only for a command-only follow-up."""
+    urls = set()
+    for found in _LINK.findall(text):
+        locator = found.rstrip(".,;:!?}\\\\")
+        if locator:
+            urls.add(locator)
+    if len(urls) > MAX_URLS_PER_MESSAGE:
+        return [], True
+    sources = []
+    for url in sorted(urls, key=str.lower):
+        if re.match(r"https?://(?:www\.)?github\.com/", url, re.I):
+            path = re.sub(r"^https?://(?:www\.)?github\.com/", "", url, flags=re.I)
+            kind, name = "GITHUB", path.rstrip("/")
+            if path.lower().split("?")[0].strip("/") == "ubuntuokos/Final-Architecture-v3.0".lower():
+                continue
+        else:
+            kind, name = "REFERENCE", url
+        sources.append((name, kind, url))
+    return sources, False
+
+def _conversations(path: Path, roles: set[str], *, include_roles: bool = False) -> Iterable[str | dict[str, Any]]:
+    first_conversation = True
     for conversation in read_export(path):
         mapping = conversation.get("mapping")
         if not isinstance(mapping, dict):
             continue
+        if include_roles:
+            if not first_conversation:
+                yield {"conversation_boundary": True}
+            first_conversation = False
         for node in mapping.values():
             if not isinstance(node, dict):
                 continue
+            role = node.get("message", {}).get("author", {}).get("role")
+            if role not in roles:
+                continue
             text = _message_text(node, roles)
-            if text:
-                role = node.get("message", {}).get("author", {}).get("role")
-                yield {"text": text, "speaker_role": role} if include_roles else text
+            if text is not None and text:
+                yield {"text": text, "speaker_role": role, "message_boundary": True} if include_roles else text
+            elif include_roles and role == "user":
+                # Preserve the owner-message boundary even when content is too
+                # large/unreadable so a later command cannot target stale links.
+                yield {"text": "", "speaker_role": role, "message_boundary": True, "skipped": True}
 
 
 def _events(path: str) -> Iterable[str | dict[str, Any]]:
@@ -181,7 +213,8 @@ def ingest(
         "unlinked_skipped": 0, "ambiguous_skipped": 0, "excluded_self": 0,
         "analysis_only": 0, "dry_run": dry_run, "origin": origin,
     }
-    approved = []
+    approved: list[tuple[str, str, str, str]] = []
+    pending_owner_sources: list[tuple[str, str, str]] | None = None
     for record in records:
         stats["records_scanned"] += 1
         if isinstance(record, str):
@@ -190,7 +223,11 @@ def ingest(
             continue
         if not isinstance(record, dict):
             raise ValueError("conversation event must be text or an object")
+        if record.get("conversation_boundary") is True:
+            pending_owner_sources = None
+            continue
         marked = False
+        owner_command = None
         if isinstance(record.get("text"), str):
             source_is_owner = (
                 (origin == "chatgpt-export" and record.get("speaker_role") == "user")
@@ -198,15 +235,46 @@ def ingest(
                     and record.get("speaker_role") == "user"
                     and record.get("owner_submitted_link") is True)
             )
-            marked = source_is_owner and bool(_explicit_owner_marker(record["text"]))
-            sources, ambiguous = _candidate_sources(record["text"], owner_direct=marked)
+            if source_is_owner:
+                if record.get("skipped") is True:
+                    pending_owner_sources = None
+                    stats["analysis_only"] += 1
+                    continue
+                text = record["text"]
+                owner_command = _explicit_owner_command(text)
+                message_sources, ambiguous = _candidate_sources(
+                    text, owner_direct=owner_command is not None
+                )
+                if owner_command is not None:
+                    marked = True
+                    if message_sources:
+                        sources = message_sources
+                    elif pending_owner_sources:
+                        # Command-only follow-up applies only to the immediately
+                        # previous owner message; every owner message boundary
+                        # clears/replaces this pending state.
+                        sources = pending_owner_sources
+                        ambiguous = False
+                    else:
+                        sources, ambiguous = [], False
+                    pending_owner_sources = None
+                else:
+                    raw_sources, raw_ambiguous = _candidate_sources_from_uncommanded_text(text)
+                    pending_owner_sources = None if raw_ambiguous else raw_sources
+                    stats["analysis_only"] += 1
+                    continue
+            else:
+                sources, ambiguous = [], False
         elif record.get("potential_donor") is True:
-            # Structured events must attest BOTH the owner identity and the
-            # explicit preceding marker. A generic candidate flag cannot enroll.
-            marked = (origin == "approved-chat-event"
-                      and record.get("speaker_role") == "user"
-                      and record.get("owner_submitted_link") is True
-                      and record.get("owner_donor_marker") == "donornak")
+            attested = record.get("owner_donor_command") or record.get("owner_donor_marker")
+            marked = (
+                origin == "approved-chat-event"
+                and record.get("speaker_role") == "user"
+                and record.get("owner_submitted_link") is True
+                and attested in APPROVED_OWNER_DONOR_COMMANDS
+            )
+            owner_command = attested if marked else None
+            pending_owner_sources = None
             if marked and isinstance(record.get("source"), str) and re.match(
                     r"^https?://", record["source"].strip(), re.I):
                 locator = record["source"].strip()
@@ -225,7 +293,7 @@ def ingest(
             continue
         if sources:
             stats["signal_records"] += 1
-            approved.extend(sources)
+            approved.extend((name, kind, locator, owner_command or "donornak") for name, kind, locator in sources)
         else:
             stats["analysis_only"] += 1
     if not approved:
@@ -256,7 +324,7 @@ def ingest(
             audit_stage.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(audit_source, audit_stage)
             seen = set()
-            for name, kind, locator in approved:
+            for name, kind, locator, command in approved:
                 key = _normalized_key(kind, locator)
                 if key == _SELF_REPO:
                     stats["excluded_self"] += 1
@@ -266,8 +334,9 @@ def ingest(
                 seen.add(key)
                 result = capture_candidate(
                     stage_root, name=name, source_kind=kind, source_locator=locator,
-                    tags=["explicit-owner-donornak"], discovered_from=origin,
+                    tags=["explicit-owner-donor-command"], discovered_from=origin,
                     owner_submitted_link=True, explicit_donor_marker=True,
+                    owner_donor_command=command,
                 )
                 stats["created" if result["created"] else "merged"] += 1
             if (stats["created"] or stats["merged"]) and not dry_run:

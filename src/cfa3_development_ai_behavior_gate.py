@@ -8,6 +8,7 @@ from typing import Any
 from cfa3_development_ai_behavior_guard import RULE_IDS, authorize_action
 from fa3_agent_workload import WorkloadContractError, compile_execution_plan
 from fa3_release_baseline import active_capability_count
+from fa3_task_scope_closure import goal_scope_binding, start_task_control
 
 POLICY = Path("canonical/CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001.json")
 DECISION = Path("canonical/decisions/CFA3-DEC-DEVELOPMENT-AI-BEHAVIOR-LAYERING-2026-10-05.json")
@@ -52,12 +53,15 @@ def _runtime_behavior_context() -> dict[str, Any]:
 
 
 def _runtime_wiring_check() -> dict[str, Any]:
+    binding = goal_scope_binding({"goal_id":"behavior-gate-task","revision":1,"scope":{"in_scope":["approved:cfa3-behavior-gate"],"out_of_scope":[]}})
+    control = start_task_control(binding, task_id="behavior-gate-task", root_task_id="behavior-gate-task")
     task = {
         "schema": "fa3.agent-workload-task.v1",
         "task_id": "behavior-gate-task",
         "root_task_id": "behavior-gate-task",
         "scope_origin": "REQUIRED_FOR_APPROVED_GOAL",
         "scope_refs": ["approved:cfa3-behavior-gate"],
+        "goal_scope_binding": binding,
         "action_ref": "orchestration.execute",
         "agent_definition_ref": "agent:def:behavior-gate",
         "workspace_refs": [],
@@ -71,12 +75,12 @@ def _runtime_wiring_check() -> dict[str, Any]:
     graph = {"schema": "fa3.agent-workflow-graph.v1", "graph_id": "behavior-gate-graph", "entry_node": "n1", "yaml_is_canonical": False, "nodes": [{"node_id": "n1", "kind": "AGENT", "side_effecting": False}], "edges": []}
     model = {"schema": "fa3.model-capability-descriptor.v1", "logical_model_id": "behavior-gate-model", "source": "PROVIDER_DECLARED", "router_authority": "FA3-AUTH-MODEL-ROUTER-001", "model_id_heuristic": False, "capabilities": {"tools": False, "structured_output": False, "media_input": False, "media_output": False, "streaming": False}}
     context = _runtime_behavior_context()
-    plan = compile_execution_plan(task, graph, model, task_spec_digest="sha256:behavior-gate", max_transfer_hops=0, behavior_context=context)
+    plan = compile_execution_plan(task, graph, model, task_spec_digest="sha256:behavior-gate", max_transfer_hops=0, behavior_context=context, task_control=control)
     malformed = dict(context)
     malformed.pop("blocker_kind")
     missing_fact_blocked = False
     try:
-        compile_execution_plan(task, graph, model, task_spec_digest="sha256:behavior-gate", max_transfer_hops=0, behavior_context=malformed)
+        compile_execution_plan(task, graph, model, task_spec_digest="sha256:behavior-gate", max_transfer_hops=0, behavior_context=malformed, task_control=control)
     except WorkloadContractError:
         missing_fact_blocked = True
     receipt = plan.get("behavior_preflight", {})

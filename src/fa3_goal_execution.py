@@ -15,6 +15,7 @@ from typing import Any
 
 from fa3_agent_workload import validate_task as validate_workload_task
 from fa3_orchestration_workforce import route_task
+from fa3_task_scope_closure import TaskScopeClosureError, goal_scope_binding, scope_digest
 
 GOAL_SCHEMA = "fa3.goal-contract.v1"
 PLAN_SCHEMA = "fa3.goal-plan.v1"
@@ -106,6 +107,10 @@ def validate_goal(value: dict[str, Any]) -> dict[str, Any]:
         raise GoalContractError("explicit scope required")
     _unique_strings(scope.get("in_scope"), "scope.in_scope")
     _unique_strings(scope.get("out_of_scope", []), "scope.out_of_scope", empty=True)
+    try:
+        scope_digest(scope)
+    except TaskScopeClosureError as exc:
+        raise GoalContractError(str(exc)) from exc
     criteria = goal.get("acceptance_criteria")
     if not isinstance(criteria, list) or not criteria:
         raise GoalContractError("at least one independently verifiable criterion required")
@@ -167,6 +172,7 @@ def prepare_goal(value: dict[str, Any]) -> dict[str, Any]:
         "authority": False,
         "execution_performed": False,
         "canonical_goal_owner": "USER",
+        "goal_scope_binding": goal_scope_binding(goal),
     }
 
 
@@ -179,6 +185,7 @@ def compile_plan(root: Path | str, goal_value: dict[str, Any], steps: list[dict[
     receipt immediately before an effect or a resumed execution.
     """
     goal = validate_goal(goal_value)
+    immutable_scope_binding = goal_scope_binding(goal)
     if not isinstance(preflight, dict):
         raise GoalContractError("preflight receipt references required")
     if preflight.get("reuse_profile") != _REUSE_AUTH:
@@ -246,6 +253,7 @@ def compile_plan(root: Path | str, goal_value: dict[str, Any], steps: list[dict[
             "root_task_id": goal["goal_id"],
             "scope_origin": scope_origin,
             "scope_refs": list(scope_refs),
+            "goal_scope_binding": copy.deepcopy(immutable_scope_binding),
             "action_ref": action,
             "agent_definition_ref": agent,
             "resource_requirements": copy.deepcopy(step.get("resource_requirements", {})),
@@ -257,7 +265,8 @@ def compile_plan(root: Path | str, goal_value: dict[str, Any], steps: list[dict[
         checked = validate_workload_task(workload)
         planned.append({
             "task_id": tid, "criterion_ids": cids, "effect": effect,
-            "scope_origin": scope_origin, "scope_refs": scope_refs,
+            "scope_origin": scope_origin,
+            "scope_refs": scope_refs, "goal_scope_binding": copy.deepcopy(immutable_scope_binding),
             "uaf_action_ref": action, "workload_candidate": checked,
             "design_route": routing,
             "requires_effect_authorization": effect != "READ" or policy["mode"] != "AUTO",

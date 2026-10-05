@@ -25,6 +25,11 @@ DONOR_FILES = {REGISTRY, REJECTION_AUDIT, LIFECYCLE_DECISION,
                "src/fa3_donor_registry.py", "src/fa3_donor_chat_import.py",
                "src/fa3_donor_chat_inbox.py", "src/fa3_donor_readiness.py",
                "src/fa3_application_donor_index.py",
+               "canonical/decisions/FA3-DEC-DONOR-INTAKE-COMMAND-EQUIVALENCE-2026-10-04.json",
+               "canonical/decisions/FA3-DEC-IMPLEMENTATION-PLAN-DONOR-EXCEPTION-2026-10-04.json",
+               "canonical/current-host-impact/FA3-CH-IMPACT-DONOR-COMMAND-EQUIVALENCE-20261004.json",
+               "canonical/current-host-impact/FA3-CH-IMPACT-IMPLEMENTATION-PLAN-DONOR-EXCEPTION-20261004.json",
+               "docs/implementation-plan-donor-exception-2026-10-04.md",
                ".github/workflows/fa3-donor-serialization.yml",
                '.github/workflows/fa3-permanent-enforcement.yml',
                ".github/workflows/fa3-application-donor-inventory.yml",
@@ -477,11 +482,68 @@ def planning_snapshot_findings(row,sha,reg,published_main_sha,registry_blob_sha)
             findings.append("DONOR_PLANNING_SNAPSHOT_MISMATCH:"+key)
     return findings
 
+def planning_processed_donor_findings(
+    row,
+    reg,
+    allow_unregistered=False,
+    expected_lineage_ref=None,
+):
+    """Validate the bounded planning-only donor analysis exception."""
+    items=row.get("planning_processed_donors",[])
+    result={"findings":[],"processed_keys":[],"unregistered_keys":[]}
+    if items is None:
+        items=[]
+    if not isinstance(items,list):
+        result["findings"].append("INVALID_PLANNING_PROCESSED_DONORS")
+        return result
+    registry_keys={
+        e.get("source",{}).get("normalized_key")
+        for e in reg.get("entries",[])
+        if isinstance(e,dict) and isinstance(e.get("source"),dict)
+    }
+    seen=set()
+    for index,item in enumerate(items):
+        if not isinstance(item,dict):
+            result["findings"].append("INVALID_PLANNING_PROCESSED_DONOR:"+str(index))
+            continue
+        key=item.get("normalized_key")
+        if not isinstance(key,str) or not key or key in seen:
+            result["findings"].append("INVALID_OR_DUPLICATE_PLANNING_DONOR_KEY:"+str(index))
+            continue
+        seen.add(key)
+        result["processed_keys"].append(key)
+        if key not in registry_keys:
+            result["unregistered_keys"].append(key)
+    if result["unregistered_keys"]:
+        if allow_unregistered:
+            scope=row.get("planning_donor_analysis_exception")
+            if not isinstance(expected_lineage_ref,str) or not expected_lineage_ref:
+                result["findings"].append("ACTIVE_CONVERSATION_LINEAGE_REQUIRED")
+            if (
+                not isinstance(scope,dict)
+                or scope.get("scope")!="ORIGINATING_CONVERSATION_AND_DIRECT_CONTINUATIONS_ONLY"
+                or scope.get("planning_only") is not True
+                or scope.get("cross_conversation_reuse") is not False
+                or not isinstance(scope.get("lineage_ref"),str)
+                or not scope.get("lineage_ref")
+                or scope.get("lineage_ref")!=expected_lineage_ref
+            ):
+                result["findings"].append("PLANNING_DONOR_EXCEPTION_SCOPE_OR_LINEAGE_INVALID")
+        else:
+            result["findings"].extend(
+                "PROCESSED_PLANNING_DONOR_NOT_REGISTERED:"+key
+                for key in result["unregistered_keys"]
+            )
+    return result
+
+
 def assessment_findings(root,path,sha,reg,published_main_sha,registry_blob_sha):
     if not path:return ["DONOR_ASSESSMENT_REQUIRED"]
     row=json.loads(committed(root,path))
     findings=planning_snapshot_findings(row,sha,reg,published_main_sha,registry_blob_sha)
-    if row.get("donor_review") not in ("REVIEWED_MATCH","REVIEWED_NO_MATCH"):
+    donor_review=row.get("donor_review")
+    donor_review_status=(donor_review.get("status") if isinstance(donor_review,dict) else donor_review)
+    if donor_review_status not in ("REVIEWED_MATCH","REVIEWED_NO_MATCH"):
         findings.append("DONOR_REVIEW_REQUIRED")
     all_ids={e["donor_id"] for e in reg["entries"]}
     adoptions=row.get("adopted_donors",[])
@@ -500,17 +562,54 @@ def assessment_findings(root,path,sha,reg,published_main_sha,registry_blob_sha):
             findings.append("INVALID_DONOR_APPROVAL")
     return findings
 
-def plan_findings(root,plan,approval,pr_number,repo,get):
-    if not plan or not approval or not pr_number:
-        return ["IMMUTABLE_APPROVED_PLAN_AND_EXACT_HEAD_REVIEW_REQUIRED"]
+def approved_plan_findings(root,plan,approval,assessment=None,expected_lineage_ref=None):
+    if not plan or not approval:
+        return ["EXPLICIT_APPROVED_PLAN_REQUIRED"]
     raw=committed(root,plan)
     decision=json.loads(committed(root,approval))
+    findings=[]
     if (not approval.startswith("canonical/decisions/") or
             decision.get("status")!="APPROVED" or
             decision.get("explicit_user_approval") is not True or
             decision.get("approved_plan_sha256")!=hashlib.sha256(raw).hexdigest() or
             not decision.get("user_request_ref")):
         return ["EXPLICIT_APPROVED_PLAN_NOT_PROVEN"]
+    if assessment:
+        assessment_raw=committed(root,assessment)
+        assessment_row=json.loads(assessment_raw)
+        items=assessment_row.get("planning_processed_donors",[])
+        keys=[]
+        if not isinstance(items,list):
+            findings.append("INVALID_PLANNING_PROCESSED_DONORS")
+        else:
+            for item in items:
+                key=item.get("normalized_key") if isinstance(item,dict) else None
+                if not isinstance(key,str) or not key or key in keys:
+                    findings.append("INVALID_OR_DUPLICATE_PLANNING_DONOR_KEY")
+                    break
+                keys.append(key)
+        if keys:
+            exception=assessment_row.get("planning_donor_analysis_exception")
+            lineage=exception.get("lineage_ref") if isinstance(exception,dict) else None
+            if (
+                decision.get("donor_registration_authorization")!="APPROVED_PLAN_PROCESSED_DONORS_ONLY"
+                or set(decision.get("approved_processed_donor_keys",[]))!=set(keys)
+                or decision.get("approved_donor_assessment_path")!=assessment
+                or decision.get("approved_donor_assessment_sha256")!=hashlib.sha256(assessment_raw).hexdigest()
+                or decision.get("conversation_lineage_ref")!=lineage
+            ):
+                findings.append("APPROVED_PLAN_PROCESSED_DONOR_BINDING_INVALID")
+            if expected_lineage_ref is not None and lineage!=expected_lineage_ref:
+                findings.append("APPROVED_PLAN_CONVERSATION_LINEAGE_MISMATCH")
+    return findings
+
+
+def plan_findings(root,plan,approval,pr_number,repo,get,assessment=None,expected_lineage_ref=None):
+    if not pr_number:
+        return ["IMMUTABLE_APPROVED_PLAN_AND_EXACT_HEAD_REVIEW_REQUIRED"]
+    approved=approved_plan_findings(root,plan,approval,assessment,expected_lineage_ref)
+    if approved:
+        return approved
     remote=get(f"/repos/{repo}/pulls/{pr_number}")
     head=remote["head"]["sha"]
     local=subprocess.check_output(["git","-C",str(root),"rev-parse","HEAD"],text=True).strip()
@@ -715,7 +814,7 @@ def validate_batch_finalizer(root,pending,candidate,inspect,get=None,require_com
             "findings":sorted(set(findings))}
 
 def gate(root,phase="status",token="",assessment=None,plan=None,approval=None,
-         pr_number=None,get=None):
+         pr_number=None,get=None,conversation_lineage_ref=None):
     result={"schema":"fa3.donor-readiness.v1","phase":phase,
             "result":"BLOCKED","planning_allowed":False,"execution_allowed":False,
             "finalization_allowed":False,"automatic_donor_adoption":False,
@@ -842,16 +941,35 @@ def gate(root,phase="status",token="",assessment=None,plan=None,approval=None,
         if local != remote["sha"]:
             result["findings"].append("STALE_CANONICAL_DONOR_SNAPSHOT")
             return result
-        if phase in ("entry","finalize"):
+        processed={"processed_keys":[],"unregistered_keys":[],"findings":[]}
+        if phase in ("plan","entry","execute","finalize"):
             result["findings"].extend(assessment_findings(
                 root,assessment,inspect["sha256"],inspect["registry"],after,remote["sha"]))
+            if assessment and not result["findings"]:
+                assessment_row=json.loads(committed(root,assessment))
+                processed=planning_processed_donor_findings(
+                    assessment_row,
+                    inspect["registry"],
+                    allow_unregistered=phase=="plan",
+                    expected_lineage_ref=conversation_lineage_ref,
+                )
+                result["processed_planning_donor_keys"]=processed["processed_keys"]
+                result["unregistered_processed_planning_donor_keys"]=processed["unregistered_keys"]
+                result["findings"].extend(processed["findings"])
+        if phase in ("entry","execute") and processed["processed_keys"] and not result["findings"]:
+            result["findings"].extend(approved_plan_findings(
+                root,plan,approval,assessment,conversation_lineage_ref))
         if phase=="finalize" and not result["findings"]:
             result["findings"].extend(plan_findings(
-                root,plan,approval,pr_number,REPO,getter))
+                root,plan,approval,pr_number,REPO,getter,assessment,conversation_lineage_ref))
         if result["findings"]:return result
+        if phase=="plan":
+            result["result"]="READY_FOR_IMPLEMENTATION_PLANNING"
+            result["planning_allowed"]=True
+            return result
         result["result"]="READY_FOR_SEPARATE_FA3_ADMISSION_GATES"
-        result["planning_allowed"]=phase in ("entry","finalize")
-        result["execution_allowed"]=phase in ("entry","finalize")
+        result["planning_allowed"]=phase in ("entry","execute","finalize")
+        result["execution_allowed"]=phase in ("execute","finalize")
         result["finalization_allowed"]=phase=="finalize"
         return result
     except (OSError,ValueError,RuntimeError,KeyError,TypeError,subprocess.CalledProcessError) as e:
@@ -864,14 +982,15 @@ def gate(root,phase="status",token="",assessment=None,plan=None,approval=None,
 def main():
     p=argparse.ArgumentParser()
     p.add_argument("--root",default=str(Path(__file__).resolve().parents[1]))
-    p.add_argument("--phase",choices=("maintenance","append","intake","status","entry","finalize"),default="status")
+    p.add_argument("--phase",choices=("maintenance","append","intake","status","plan","entry","execute","finalize"),default="status")
     p.add_argument("--assessment")
     p.add_argument("--plan")
     p.add_argument("--approval")
     p.add_argument("--pr",type=int)
+    p.add_argument("--conversation-lineage-ref")
     a=p.parse_args()
     x=gate(Path(a.root).resolve(),a.phase,os.getenv("GITHUB_TOKEN") or os.getenv("GH_TOKEN",""),
-           a.assessment,a.plan,a.approval,a.pr)
+           a.assessment,a.plan,a.approval,a.pr,conversation_lineage_ref=a.conversation_lineage_ref)
     print(json.dumps(x,ensure_ascii=False,indent=2))
     return 0 if x["result"] in ("MAINTENANCE_INTEGRITY_PASS",
                                  "DONOR_BATCH_APPEND_PREFLIGHT_PASS",
@@ -879,5 +998,6 @@ def main():
                                  "DONOR_INTAKE_FINALIZER_SELECTED",
                                  "DONOR_INTAKE_SLOT_AVAILABLE",
                                  "DONOR_INTAKE_READY_TO_FINALIZE",
+                                 "READY_FOR_IMPLEMENTATION_PLANNING",
                                  "READY_FOR_SEPARATE_FA3_ADMISSION_GATES") else 2
 if __name__=="__main__":raise SystemExit(main())
