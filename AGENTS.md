@@ -130,6 +130,7 @@ Canonical source: `canonical/CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001.
 - Merge requires exact checked head/base state. Any drift blocks merge.
 - Unexpected redesign or repair is reported before strategy changes.
 - Current explicit owner restrictions outrank prior autonomy or broader approvals.
+- DEV-11 / AI-11 self-correction is a narrow exception: after notifying the owner, an AI may correct only its own unambiguous deterministic mechanical/technical mistake inside the already approved scope. It may not use self-correction to redesign, choose another technical solution, create a new PR/branch, touch another component as a workaround, weaken a user restriction, bypass a blocker/gate/security boundary, or introduce a new permission/side effect. If the failed action may have partially mutated state, verify exact state before correction. After correction report the original AI error, the correction, whether state changed, the current head/SHA or relevant state, and any remaining blocker.
 - An exception is valid only when explicit, rule/scope-specific and conversation-bounded. Generic approval is not an automatic policy override.
 - The L0-L5 layer model keeps human scope/override, development discipline, task/orchestration, security/effect authorization, model policy and UX/projection distinct. A pending PR is never canonical authority.
 - Use `src/cfa3_development_ai_behavior_guard.py` as the shared fail-closed preflight; it does not replace Security Governance, HRB, Model Router, Evidence or Temporal authorities.
