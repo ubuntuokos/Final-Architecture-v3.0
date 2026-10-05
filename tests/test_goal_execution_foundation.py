@@ -112,6 +112,20 @@ class GoalFoundationTests(unittest.TestCase):
         self.assertEqual(validate_goal(g), original)
         self.assertEqual(g, original)
 
+    def test_scope_overlap_fails_closed(self):
+        g = fixture()
+        g["scope"]["out_of_scope"].append("synthetic test fixture")
+        with self.assertRaises(GoalContractError):
+            validate_goal(g)
+
+    def test_prepare_goal_emits_immutable_scope_binding(self):
+        x = prepare_goal(fixture())
+        binding = x["goal_scope_binding"]
+        self.assertEqual(binding["goal_id"], "goal-fixture")
+        self.assertEqual(binding["goal_revision"], 1)
+        self.assertEqual(binding["max_same_blocker_attempts"], 3)
+        self.assertFalse(binding["automatic_scope_expansion"])
+
     def test_missing_verifier_fails(self):
         g = fixture()
         del g["acceptance_criteria"][0]["verification"]["verifier_ref"]
