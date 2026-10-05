@@ -4,6 +4,7 @@ import copy
 import unittest
 
 from fa3_google_ax_provider import AxProviderBridgeError, compile_ax_provider_bridge
+from fa3_task_scope_closure import goal_scope_binding
 
 
 def task() -> dict:
@@ -13,6 +14,7 @@ def task() -> dict:
         "root_task_id": "agent-task-1",
         "scope_origin": "REQUIRED_FOR_APPROVED_GOAL",
         "scope_refs": ["approved:agent-task-1"],
+        "goal_scope_binding": goal_scope_binding({"goal_id":"agent-task-1","revision":1,"scope":{"in_scope":["approved:agent-task-1"],"out_of_scope":[]}}),
         "action_ref": "orchestration.execute",
         "agent_definition_ref": "agent-def-1",
         "workspace_refs": ["workspace-1"],
