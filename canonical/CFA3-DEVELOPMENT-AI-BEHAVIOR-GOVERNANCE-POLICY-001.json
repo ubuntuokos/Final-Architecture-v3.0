@@ -115,7 +115,7 @@
     {
       "id": "DEV-03",
       "name": "THREAD_SCOPE_LOCK",
-      "requirement": "A conversation may affect only the explicitly scoped task files, PRs and directly authorized dependencies."
+      "requirement": "A conversation may affect only the explicitly scoped task files, PRs and directly authorized dependencies. Every action must be directly required for the requested result or the minimum necessary blocker resolution; self-generated subtasks, optional/opportunistic work and automatic post-completion work are forbidden."
     },
     {
       "id": "DEV-04",
@@ -172,7 +172,7 @@
     {
       "id": "AI-03",
       "name": "ACTIVE_SCOPE_BINDING",
-      "requirement": "AI execution must carry explicit task scope, allowed/forbidden actions and applicable overrides."
+      "requirement": "AI execution must carry explicit task scope, allowed/forbidden actions and applicable overrides. scope_allows_action may be true only for work directly required for the requested result or the minimum necessary blocker resolution; self-generated subtasks and automatic post-completion work are forbidden."
     },
     {
       "id": "AI-04",
@@ -320,5 +320,13 @@
     "host_resource_broker_remains_resource_authority": true,
     "model_router_remains_model_routing_authority": true,
     "behavior_preflight_is_effect_authority": false
+  },
+  "requested_result_scope_guard": {
+    "decision_ref": "canonical/decisions/CFA3-DEC-REQUESTED-RESULT-ONLY-SCOPE-GUARD-2026-10-06.json",
+    "rule_id": "CFA3-REQUESTED-RESULT-ONLY-SCOPE-GUARD-001",
+    "requested_result_is_exclusive_execution_target": true,
+    "self_generated_subtask": "FORBIDDEN",
+    "blocker_resolution_scope": "MINIMUM_NECESSARY_FOR_REQUESTED_RESULT_ONLY",
+    "automatic_post_completion_work": false
   }
 }
