@@ -227,9 +227,28 @@
           "direct_router_mutation": false,
           "credential_values_visible": false,
           "authority": false,
-          "current_host_runtime_status": "PROVIDER_SPECIFIC_EVIDENCE_SEPARATE_CORE_CLOSED",
+          "current_host_runtime_status": "GENERIC_CORE_CLOSED_PROVIDER_SPECIFIC_PHYSICAL_ADMISSION_SEPARATE",
           "runtime_promotion_claim": false,
-          "gui_finalization_obligation": "MUST_RECONCILE_PROVIDER_ADMISSION_BACKLOG"
+          "gui_finalization_obligation": "MUST_RECONCILE_PROVIDER_ADMISSION_BACKLOG",
+          "observability": [
+            "provider_health",
+            "credential_health",
+            "model_health",
+            "endpoint_health",
+            "quota_pressure",
+            "backoff_cooldown",
+            "circuit_state",
+            "credential_pool_traversal",
+            "session_affinity",
+            "rebind_receipts",
+            "reasoning_intent_projection",
+            "context_budget_compaction",
+            "protocol_degradation",
+            "provider_specific_current_host_evidence"
+          ],
+          "context_compaction_authority": false,
+          "reasoning_selection_authority": false,
+          "provider_runtime_environment_authority": false
         }
       ],
       "provider_gui_completion_obligation": {
