@@ -4,6 +4,7 @@ import argparse, json
 from pathlib import Path
 from typing import Any
 from fa3_model_router_provider_execution import CredentialCandidate, ExecutionDenied, ProviderExecutionManager, choose_credential, rebind_action, protocol_projection_status, execution_receipt
+from fa3_release_baseline import active_capability_count
 
 GATESET_ID="FA3-MODEL-ROUTER-PROVIDER-EXECUTION-GATESET-001"
 
@@ -53,6 +54,9 @@ def gate(root: Path) -> dict[str, Any]:
     gateway=loadj(root/"canonical/profiles/FA3-LLM-GATEWAY-001.json")
     p=loadj(root/"canonical/profiles/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-001.json")
     proto=loadj(root/"canonical/profiles/FA3-LLM-PROTOCOL-COMPAT-001.json")
+    execution_contracts=loadj(root/"canonical/contracts/FA3-MODEL-ROUTER-EXECUTION-CONTRACTS-001.json")
+    protocol_contracts=loadj(root/"canonical/contracts/FA3-LLM-PROTOCOL-COMPAT-CONTRACTS-001.json")
+    gate_record=loadj(root/"canonical/FA3-GATE-MODEL-ROUTER-PROVIDER-EXECUTION-001.json")
     enf=loadj(root/"canonical/model-router-provider-execution-enforcement.json")
     assessment=loadj(root/"canonical/assessments/FA3-ANTIGRAVITY-DERIVATION-ASSESSMENT-2026-09-24.json")
     decision=loadj(root/"canonical/decisions/FA3-DEC-ANTIGRAVITY-DERIVED-EXECUTION-MEDIATION-2026-09-24.json")
@@ -62,16 +66,20 @@ def gate(root: Path) -> dict[str, Any]:
     policy=loadj(root/"canonical/enforcement-policy.json")
     current_host=loadj(root/"canonical/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CURRENT-HOST-CONFORMANCE-001.json")
     core_closure=loadj(root/"canonical/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CORE-CLOSURE-001.json")
+    capability_count=active_capability_count(root)
     if router.get("id")!="FA3-AUTH-MODEL-ROUTER-001" or router.get("data_plane",{}).get("single_routing_plane") is not True: f.append(finding("PEX-CANON-001","single Model Router authority drift"))
     if gateway.get("id")!="FA3-LLM-GATEWAY-001" or gateway.get("model_router_materialization",{}).get("role")!="REFERENCE_DATA_PLANE_ONLY": f.append(finding("PEX-CANON-002","LiteLLM data-plane boundary drift"))
-    if p.get("parent_authority")!="FA3-AUTH-MODEL-ROUTER-001" or p.get("new_architectural_authority") is not False or p.get("capability_count")!=143 or p.get("core_closure_status")!="CLOSED_STATIC_DETERMINISTIC_REGRESSION_PASS" or p.get("provider_physical_admission_reopens_core") is not False: f.append(finding("PEX-CANON-003","provider execution profile governance/closure drift"))
+    if p.get("parent_authority")!="FA3-AUTH-MODEL-ROUTER-001" or p.get("new_architectural_authority") is not False or p.get("capability_count")!=capability_count or p.get("core_closure_status")!="CLOSED_STATIC_DETERMINISTIC_REGRESSION_PASS" or p.get("provider_physical_admission_reopens_core") is not False: f.append(finding("PEX-CANON-003","provider execution profile governance/closure drift"))
     if core_closure.get("status")!="CLOSED_STATIC_DETERMINISTIC_REGRESSION_PASS" or core_closure.get("current_host_real_provider_execution_claim") is not False or core_closure.get("physical_provider_evidence",{}).get("blocks_core_closure") is not False or core_closure.get("provider_admission_model",{}).get("generic_core_recertification_per_provider") is not False: f.append(finding("PEX-CANON-006","provider execution core closure split drift"))
     if core_closure.get("gui_provider_completion_obligation",{}).get("pending_provider_admission_backlog_must_be_reconciled") is not True or core_closure.get("gui_provider_completion_obligation",{}).get("silent_omission_forbidden") is not True: f.append(finding("PEX-CANON-007","provider GUI completion obligation missing from core closure record"))
     if proto.get("parent_profile")!="FA3-LLM-GATEWAY-001" or proto.get("new_architectural_authority") is not False: f.append(finding("PEX-CANON-004","protocol compatibility boundary drift"))
+    active_baseline_records=(p,proto,execution_contracts,protocol_contracts,gate_record,enf,core_closure,decision)
+    if any(row.get("capability_count")!=capability_count for row in active_baseline_records): f.append(finding("PEX-CANON-008","active provider-execution records are not reconciled to the release capability baseline"))
+    if any(row.get("capability_model_reconciliation")!="FA3-DEC-CAPABILITY-MODEL-175-2026-09-26" for row in active_baseline_records): f.append(finding("PEX-CANON-009","provider-execution capability-model reconciliation binding missing"))
     if enf.get("credential_policy",{}).get("raw_value_in_config") is not False or enf.get("credential_policy",{}).get("decision_fabric_secret_access") is not False: f.append(finding("PEX-SEC-001","credential secrecy boundary drift"))
     if enf.get("cross_provider_policy",{}).get("automatic_silent_transition") is not False: f.append(finding("PEX-ROUTE-001","silent cross-provider transition enabled"))
     if assessment.get("decision")!="REFERENCE_ONLY_CLEAN_ROOM_DERIVATION" or assessment.get("upstream_reference",{}).get("license")!="CC-BY-NC-SA-4.0": f.append(finding("PEX-LIC-001","clean-room license boundary missing"))
-    if decision.get("capability_count")!=143 or decision.get("new_architectural_authority") is not False: f.append(finding("PEX-CANON-005","capability/authority accounting drift"))
+    if decision.get("capability_count")!=capability_count or decision.get("new_architectural_authority") is not False or "CAPABILITY_BASELINE_FOLLOWS_ACTIVE_RELEASE_WITH_ZERO_CAPABILITY_DELTA" not in decision.get("invariants",[]): f.append(finding("PEX-CANON-005","capability/authority accounting drift"))
     bind=decision_fabric.get("provider_execution_selection_binding",{})
     if bind.get("candidate_expansion")!="DENY" or bind.get("credential_value_access")!="DENY" or bind.get("provider_routing_authority") is not False: f.append(finding("PEX-DEC-001","Decision Fabric provider-execution boundary drift"))
     if "AGENT_DEFINITION_CANNOT_SELECT_PROVIDER_MODEL_OR_CREDENTIAL" not in agent_definition.get("invariants",[]): f.append(finding("PEX-AGENT-001","Agent Definition credential/provider boundary missing"))
