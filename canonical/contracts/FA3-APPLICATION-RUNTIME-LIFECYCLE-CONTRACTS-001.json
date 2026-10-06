@@ -40,21 +40,76 @@
     "FAILED"
   ],
   "transitions": {
-    "INSTALLED": ["CONFIGURING", "READY", "REMOVING"],
-    "CONFIGURING": ["READY", "FAILED"],
-    "READY": ["STARTING", "UPDATING", "REMOVING"],
-    "STARTING": ["RUNNING", "FAILED"],
-    "RUNNING": ["SUSPENDING", "STOPPING", "FAILED"],
-    "SUSPENDING": ["SUSPENDED", "RUNNING", "FAILED"],
-    "SUSPENDED": ["RESUMING", "STOPPING", "UPDATING", "REMOVING"],
-    "RESUMING": ["RUNNING", "FAILED"],
-    "STOPPING": ["STOPPED", "FAILED"],
-    "STOPPED": ["STARTING", "UPDATING", "REMOVING"],
-    "UPDATING": ["READY", "STOPPED", "ROLLBACK_PENDING", "FAILED"],
-    "ROLLBACK_PENDING": ["ROLLING_BACK"],
-    "ROLLING_BACK": ["READY", "STOPPED", "FAILED"],
-    "REMOVING": ["REMOVED", "FAILED"],
-    "FAILED": ["ROLLBACK_PENDING", "STOPPING", "REMOVING"]
+    "INSTALLED": [
+      "CONFIGURING",
+      "READY",
+      "REMOVING"
+    ],
+    "CONFIGURING": [
+      "READY",
+      "FAILED"
+    ],
+    "READY": [
+      "STARTING",
+      "UPDATING",
+      "REMOVING"
+    ],
+    "STARTING": [
+      "RUNNING",
+      "FAILED"
+    ],
+    "RUNNING": [
+      "SUSPENDING",
+      "STOPPING",
+      "FAILED"
+    ],
+    "SUSPENDING": [
+      "SUSPENDED",
+      "RUNNING",
+      "FAILED"
+    ],
+    "SUSPENDED": [
+      "RESUMING",
+      "STOPPING",
+      "UPDATING",
+      "REMOVING"
+    ],
+    "RESUMING": [
+      "RUNNING",
+      "FAILED"
+    ],
+    "STOPPING": [
+      "STOPPED",
+      "FAILED"
+    ],
+    "STOPPED": [
+      "STARTING",
+      "UPDATING",
+      "REMOVING"
+    ],
+    "UPDATING": [
+      "READY",
+      "STOPPED",
+      "ROLLBACK_PENDING",
+      "FAILED"
+    ],
+    "ROLLBACK_PENDING": [
+      "ROLLING_BACK"
+    ],
+    "ROLLING_BACK": [
+      "READY",
+      "STOPPED",
+      "FAILED"
+    ],
+    "REMOVING": [
+      "REMOVED",
+      "FAILED"
+    ],
+    "FAILED": [
+      "ROLLBACK_PENDING",
+      "STOPPING",
+      "REMOVING"
+    ]
   },
   "transition_request_contract": {
     "required_fields": [
@@ -92,7 +147,8 @@
     "entitlement_state_is_distinct": true,
     "provider_install_recipe_state_is_distinct": true,
     "existing_app_specific_lifecycle_may_use_adapter": true,
-    "future_applications_must_declare_supported_runtime_transitions": true
+    "future_applications_must_declare_supported_runtime_transitions": true,
+    "future_applications_must_pass_communication_readiness_before_ready": true
   },
   "reference_patterns": [
     {
@@ -110,5 +166,22 @@
       "use": "SANDBOXED_APPLICATION_INSTANCE_LIFECYCLE_PATTERN",
       "registration_status": "ACCEPTED_REFERENCE"
     }
-  ]
+  ],
+  "application_ready_communication_admission": {
+    "decision_id": "FA3-DEC-FUTURE-APPLICATION-COMMUNICATION-2026-10-06",
+    "contract_id": "FA3-FUTURE-APPLICATION-COMMUNICATION-CONTRACTS-001",
+    "baseline_id": "FA3-FUTURE-APPLICATION-COMMUNICATION-BASELINE-20261006",
+    "readiness_registry_id": "FA3-APPLICATION-COMMUNICATION-READINESS-REGISTRY-001",
+    "runtime_state": "READY",
+    "semantic_alias": "APPLICATION_READY",
+    "applies_to_application_ids_not_in_baseline": true,
+    "canonical_identity_required": true,
+    "application_operation_descriptor_required": true,
+    "shared_application_agent_adapter_required": "FA3-SHARED-APPLICATION-AGENT-ADAPTER-001",
+    "self_sender_admission_required": "PASS",
+    "self_receiver_admission_required": "PASS",
+    "self_round_trip_required": "PASS",
+    "overall_self_communication_admission_required": "PASS",
+    "missing_or_unknown": "DENY"
+  }
 }

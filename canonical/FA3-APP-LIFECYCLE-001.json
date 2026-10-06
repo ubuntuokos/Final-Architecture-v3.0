@@ -38,6 +38,7 @@
     "materialization",
     "security_validation",
     "registration",
+    "application_communication_admission",
     "launch"
   ],
   "states": [
@@ -54,7 +55,8 @@
     "missing_provider_recipe": "DENY",
     "failed_preflight": "DENY",
     "failed_security_validation": "DENY",
-    "unapproved_source": "DENY"
+    "unapproved_source": "DENY",
+    "failed_application_communication_admission": "DENY_APPLICATION_READY"
   },
   "supersedes": [
     "eager installation of optional AI Studio applications"
@@ -85,5 +87,20 @@
     ],
     "stalled_used_donor": "LOCK_LAST_VERIFIED_STABLE_THEN_REPLACE_OR_REMATERIALIZE",
     "rejected_reentry": "VERIFIED_SAFE_EVIDENCE_REQUIRED"
+  },
+  "future_application_communication": {
+    "decision_id": "FA3-DEC-FUTURE-APPLICATION-COMMUNICATION-2026-10-06",
+    "contract_id": "FA3-FUTURE-APPLICATION-COMMUNICATION-CONTRACTS-001",
+    "baseline_id": "FA3-FUTURE-APPLICATION-COMMUNICATION-BASELINE-20261006",
+    "readiness_registry_id": "FA3-APPLICATION-COMMUNICATION-READINESS-REGISTRY-001",
+    "first_materialization_requires": [
+      "CANONICAL_APPLICATION_IDENTITY",
+      "APPLICATION_OPERATION_DESCRIPTOR",
+      "FA3-SHARED-APPLICATION-AGENT-ADAPTER-001"
+    ],
+    "application_ready_semantic_alias": "APPLICATION_READY",
+    "application_ready_requires_self_communication_admission_pass": true,
+    "concrete_inter_application_relationship_requires_bilateral_sender_receiver_and_round_trip_pass": true,
+    "fail_closed": true
   }
 }

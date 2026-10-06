@@ -1,0 +1,22 @@
+{
+  "schema": "fa3.application-communication-readiness-registry.v1",
+  "id": "FA3-APPLICATION-COMMUNICATION-READINESS-REGISTRY-001",
+  "status": "CANONICAL",
+  "contract_id": "FA3-FUTURE-APPLICATION-COMMUNICATION-CONTRACTS-001",
+  "baseline_id": "FA3-FUTURE-APPLICATION-COMMUNICATION-BASELINE-20261006",
+  "shared_adapter_id": "FA3-SHARED-APPLICATION-AGENT-ADAPTER-001",
+  "applications": [],
+  "relationships": [],
+  "rules": {
+    "future_application_entry_required": true,
+    "application_ready_requires_application_entry_result_pass": true,
+    "relationship_result_pass_requires_bilateral_sender_receiver_and_round_trip_pass": true,
+    "evidence_refs_required_for_pass": true,
+    "missing_or_unknown_fails_closed": true
+  },
+  "capability_count": 175,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "authority": false,
+  "current_host_runtime_promotion_claim": false
+}
