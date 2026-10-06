@@ -1,7 +1,7 @@
 # CFA3 Neural Rendering & Reconstruction Fabric
 
-Status: OWNER-APPROVED STATIC MATERIALIZATION  
-Date: 2026-10-06  
+Status: OWNER-APPROVED STATIC MATERIALIZATION
+Date: 2026-10-06
 Capability baseline: 175; capability delta: 0; architectural authority delta: 0.
 
 ## Purpose
