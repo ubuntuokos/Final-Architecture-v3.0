@@ -1,0 +1,251 @@
+{
+  "schema": "cfa3.donor-rolling-batch-finalizer.v1",
+  "id": "CFA3-DONOR-AGENTSCOPE-EMBABEL-SHGAF-BATCH-2026-10-06",
+  "status": "MATERIALIZED_PENDING_EXACT_HEAD_GATES",
+  "canonical_name": "CFA3",
+  "historical_alias": "FA3",
+  "parent_main": "35a6f54b968d65564e0d2f829531cff688189f76",
+  "parent_registry_blob_sha": "2bb6a74dd415b6374e4a6d5adce1bc9265229b63",
+  "parent_entry_count": 1792,
+  "resulting_registry_blob_sha": "b955f76541f4ebd6649b0eb380bab09f08a7fb7d",
+  "resulting_entry_count": 1824,
+  "new_source_count": 32,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "usage_edges_created": 0,
+  "source_prs": [
+    {
+      "pr": 726,
+      "head": "cc344cc2f2379314bf5bc5669db4e6d1d29050bf",
+      "contribution": 14,
+      "mode": "EXACT_HISTORICAL_SOURCE_INTAKE"
+    },
+    {
+      "pr": 729,
+      "head": "d8e83d75725b528b989b5747ff6dba618d9a4db9",
+      "contribution": 18,
+      "mode": "EXACT_HISTORICAL_SOURCE_INTAKE"
+    }
+  ],
+  "historical_source_policy": {
+    "exact_head_provenance_required": true,
+    "source_pr_may_be_closed_or_merged": true,
+    "direct_stale_branch_merge_or_rebase": false,
+    "non_donor_payload_admitted": false
+  },
+  "materialized": [
+    {
+      "donor_id": "FA3-DONOR-AGENTSCOPE-AI-ORG-001",
+      "normalized_key": "github:agentscope-ai",
+      "locator": "https://github.com/agentscope-ai",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-AGENTSCOPE-AI-AGENTSCOPE-001",
+      "normalized_key": "github:agentscope-ai/agentscope",
+      "locator": "https://github.com/agentscope-ai/agentscope",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-AGENTSCOPE-AI-AGENTSCOPE-SAMPLES-001",
+      "normalized_key": "github:agentscope-ai/agentscope-samples",
+      "locator": "https://github.com/agentscope-ai/agentscope-samples",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-AGENTSCOPE-AI-AGENTSCOPE-RUNTIME-001",
+      "normalized_key": "github:agentscope-ai/agentscope-runtime",
+      "locator": "https://github.com/agentscope-ai/agentscope-runtime",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-AGENTSCOPE-AI-AGENTTEAMS-001",
+      "normalized_key": "github:agentscope-ai/agentteams",
+      "locator": "https://github.com/agentscope-ai/AgentTeams",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-AGENTSCOPE-AI-REME-001",
+      "normalized_key": "github:agentscope-ai/reme",
+      "locator": "https://github.com/agentscope-ai/ReMe",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-AGENTSCOPE-AI-OPENJUDGE-001",
+      "normalized_key": "github:agentscope-ai/openjudge",
+      "locator": "https://github.com/agentscope-ai/OpenJudge",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-AGENTSCOPE-AI-TRINITY-RFT-001",
+      "normalized_key": "github:agentscope-ai/trinity-rft",
+      "locator": "https://github.com/agentscope-ai/Trinity-RFT",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-AGENTSCOPE-AI-TUFT-001",
+      "normalized_key": "github:agentscope-ai/tuft",
+      "locator": "https://github.com/agentscope-ai/TuFT",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-AGENTSCOPE-IO-OFFICIAL-SITE-001",
+      "normalized_key": "https://agentscope.io/",
+      "locator": "https://agentscope.io/",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-EMBABEL-ORG-001",
+      "normalized_key": "github:embabel",
+      "locator": "https://github.com/embabel",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-EMBABEL-EMBABEL-AGENT-001",
+      "normalized_key": "github:embabel/embabel-agent",
+      "locator": "https://github.com/embabel/embabel-agent",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-EMBABEL-EMBABEL-AGENT-EXAMPLES-001",
+      "normalized_key": "github:embabel/embabel-agent-examples",
+      "locator": "https://github.com/embabel/embabel-agent-examples",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-EMBABEL-TRIPPER-001",
+      "normalized_key": "github:embabel/tripper",
+      "locator": "https://github.com/embabel/tripper",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-AI-HALLUCINATION-001",
+      "normalized_key": "github:topics/ai-hallucination",
+      "locator": "https://github.com/topics/ai-hallucination",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-HALLUCINATION-DETECTION-001",
+      "normalized_key": "github:topics/hallucination-detection",
+      "locator": "https://github.com/topics/hallucination-detection",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-ANTI-HALLUCINATION-001",
+      "normalized_key": "github:topics/anti-hallucination",
+      "locator": "https://github.com/topics/anti-hallucination",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-HALLUCINATION-REDUCED-AI-001",
+      "normalized_key": "github:topics/hallucination-reduced-ai",
+      "locator": "https://github.com/topics/hallucination-reduced-ai",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-HALLUCINATION-001",
+      "normalized_key": "github:topics/hallucination",
+      "locator": "https://github.com/topics/hallucination",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-HALLUCINATION-PREVENTION-001",
+      "normalized_key": "github:topics/hallucination-prevention",
+      "locator": "https://github.com/topics/hallucination-prevention",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-HALLUCINATION-RESEARCH-001",
+      "normalized_key": "github:topics/hallucination-research",
+      "locator": "https://github.com/topics/hallucination-research",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-HALLUCINATION-BENCHMARK-001",
+      "normalized_key": "github:topics/hallucination-benchmark",
+      "locator": "https://github.com/topics/hallucination-benchmark",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-NO-HALLUCINATION-001",
+      "normalized_key": "github:topics/no-hallucination",
+      "locator": "https://github.com/topics/no-hallucination",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-ANTI-HALLUCINATION-DASH-001",
+      "normalized_key": "github:topics/anti-hallucination-",
+      "locator": "https://github.com/topics/anti-hallucination-",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-PROMPT-INJECTION-001",
+      "normalized_key": "github:topics/prompt-injection",
+      "locator": "https://github.com/topics/prompt-injection",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-MICROSOFT-CONLI-HALLUCINATION-001",
+      "normalized_key": "github:microsoft/conli_hallucination",
+      "locator": "https://github.com/microsoft/CoNLI_hallucination",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-SALVATORERA-LLM-HALLUCINATIONS-ARTICLE-001",
+      "normalized_key": "github-file:salvatorera/artificial-intelligence-articles/articles/llm_hallucinations.md",
+      "locator": "https://github.com/SalvatoreRa/artificial-intelligence-articles/blob/main/articles/LLM_hallucinations.md",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-SALVATORERA-ARTIFICIAL-INTELLIGENCE-ARTICLES-001",
+      "normalized_key": "github:salvatorera/artificial-intelligence-articles",
+      "locator": "https://github.com/SalvatoreRa/artificial-intelligence-articles",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-ARXIV-2601-19106V1-001",
+      "normalized_key": "https://arxiv.org/html/2601.19106v1",
+      "locator": "https://arxiv.org/html/2601.19106v1",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-IDIAP-HALLUCINATION-DETECTION-001",
+      "normalized_key": "github:idiap/hallucination-detection",
+      "locator": "https://github.com/idiap/hallucination-detection",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-THEDATALETTER-AI-HALLUCINATION-DETECTOR-001",
+      "normalized_key": "github:thedataletter/ai-hallucination-detector",
+      "locator": "https://github.com/TheDataLetter/AI-Hallucination-Detector",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-TYPESAFE-SYSTEM-ONE-JEV-BLOG-001",
+      "normalized_key": "https://typesafe.ai/blog/introducing-system-one-models-and-jev",
+      "locator": "https://typesafe.ai/blog/introducing-system-one-models-and-jev",
+      "status": "ACCEPTED_REFERENCE"
+    }
+  ],
+  "reconciled_existing_identities": [],
+  "invariants": [
+    "SOURCE_KEY_UNION_IS_EXACTLY_32_NEW_IDENTITIES_OVER_PUBLISHED_1792_PARENT",
+    "ALL_20_OWNER_SUBMITTED_SHGAF_URLS_REMAIN_IN_SOURCE_DELTA_PROVENANCE",
+    "DONOR_IDS_AND_SOURCE_KEYS_ARE_UNIQUE",
+    "CAPABILITY_BASELINE_REMAINS_175",
+    "NO_NEW_ARCHITECTURAL_AUTHORITY",
+    "NO_USAGE_EDGE_OR_RUNTIME_PROVIDER_MODEL_ADMISSION",
+    "EXISTING_AUTHORITATIVE_DETERMINISTIC_FACT_VERIFICATION_RULE_IS_REUSED_NOT_RECREATED",
+    "ORIGINAL_SOURCE_PR_HEADS_REMAIN_HISTORICAL_PROVENANCE"
+  ],
+  "batch_role": "CANONICAL_ROLLING_BATCH_FINALIZER",
+  "batch_finalizer_pr": 727,
+  "decision_ref": "canonical/decisions/CFA3-DEC-DONOR-INTAKE-BATCH-ACCELERATION-2026-10-04.json",
+  "source_union_proof": {
+    "mode": "EXACT_SOURCE_PR_HEADS_PLUS_CANDIDATE_REGISTRY_BLOB_AND_IDENTITY_BINDING",
+    "materialized_identity_count": 32,
+    "reconciled_existing_identity_count": 0,
+    "source_pr_count": 2
+  }
+}
