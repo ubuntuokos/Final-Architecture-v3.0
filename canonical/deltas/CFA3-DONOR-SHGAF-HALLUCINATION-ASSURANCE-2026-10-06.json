@@ -1,0 +1,241 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "CFA3-DONOR-SHGAF-HALLUCINATION-ASSURANCE-2026-10-06",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "STAGED_PENDING_ROLLING_BATCH_APPEND",
+  "mode": "APPEND_ONLY_OWNER_APPROVED_ANALYZED_DONOR_REGISTRATION",
+  "parent_main": "002766560ee308b7a3a8a5dc0f24076f1a291f49",
+  "parent_registry_blob_sha": "2bb6a74dd415b6374e4a6d5adce1bc9265229b63",
+  "parent_entry_count": 1792,
+  "submitted_url_count": 20,
+  "submitted_urls": [
+    "https://github.com/topics/ai-hallucination",
+    "https://github.com/topics/hallucination-detection",
+    "https://github.com/topics/ai-hallucination?l=javascript&o=desc&s=stars",
+    "https://github.com/topics/anti-hallucination",
+    "https://github.com/topics/hallucination-reduced-ai",
+    "https://github.com/topics/hallucination?l=go&o=desc&s=updated",
+    "https://github.com/topics/hallucination-prevention?l=typescript",
+    "https://github.com/topics/hallucination-research",
+    "https://github.com/topics/hallucination-benchmark",
+    "https://github.com/topics/no-hallucination?l=shell",
+    "https://github.com/topics/anti-hallucination-",
+    "https://github.com/topics/no-hallucination?l=python",
+    "https://github.com/topics/prompt-injection",
+    "https://github.com/microsoft/CoNLI_hallucination",
+    "https://github.com/SalvatoreRa/artificial-intelligence-articles/blob/main/articles/LLM_hallucinations.md",
+    "https://github.com/SalvatoreRa/artificial-intelligence-articles",
+    "https://arxiv.org/html/2601.19106v1",
+    "https://github.com/idiap/hallucination-detection",
+    "https://github.com/TheDataLetter/AI-Hallucination-Detector",
+    "https://typesafe.ai/blog/introducing-system-one-models-and-jev"
+  ],
+  "canonical_identity_count": 18,
+  "query_or_sort_view_alias_count": 2,
+  "duplicate_submission_count": 0,
+  "matched_existing_count": 0,
+  "new_source_count": 18,
+  "projected_entry_count_if_applied_alone": 1810,
+  "projected_entry_count_with_agentscope_embabel_batch": 1824,
+  "approval_mode": "OWNER_APPROVED_ANALYSIS_AND_SHGAF_PLAN",
+  "conversation_lineage_ref": "chat:cfa3-shgaf-hallucination-assurance:2026-10-06",
+  "canonical_registry_materialized": false,
+  "waiting_queue_only": true,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "usage_edges_created": 0,
+  "canonical_identities": [
+    {
+      "source": "https://github.com/topics/ai-hallucination",
+      "normalized_key": "github:topics/ai-hallucination",
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-AI-HALLUCINATION-001",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "HALLUCINATION_DISCOVERY_INDEX",
+      "submitted_views": [
+        "https://github.com/topics/ai-hallucination",
+        "https://github.com/topics/ai-hallucination?l=javascript&o=desc&s=stars"
+      ]
+    },
+    {
+      "source": "https://github.com/topics/hallucination-detection",
+      "normalized_key": "github:topics/hallucination-detection",
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-HALLUCINATION-DETECTION-001",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "HALLUCINATION_DETECTION_DISCOVERY_INDEX"
+    },
+    {
+      "source": "https://github.com/topics/anti-hallucination",
+      "normalized_key": "github:topics/anti-hallucination",
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-ANTI-HALLUCINATION-001",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "HALLUCINATION_MITIGATION_DISCOVERY_INDEX"
+    },
+    {
+      "source": "https://github.com/topics/hallucination-reduced-ai",
+      "normalized_key": "github:topics/hallucination-reduced-ai",
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-HALLUCINATION-REDUCED-AI-001",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "HALLUCINATION_REDUCTION_DISCOVERY_INDEX"
+    },
+    {
+      "source": "https://github.com/topics/hallucination?l=go&o=desc&s=updated",
+      "normalized_key": "github:topics/hallucination",
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-HALLUCINATION-001",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "HALLUCINATION_DISCOVERY_INDEX_GO_VIEW",
+      "submitted_views": [
+        "https://github.com/topics/hallucination?l=go&o=desc&s=updated"
+      ]
+    },
+    {
+      "source": "https://github.com/topics/hallucination-prevention?l=typescript",
+      "normalized_key": "github:topics/hallucination-prevention",
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-HALLUCINATION-PREVENTION-001",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "HALLUCINATION_PREVENTION_DISCOVERY_INDEX_TYPESCRIPT_VIEW",
+      "submitted_views": [
+        "https://github.com/topics/hallucination-prevention?l=typescript"
+      ]
+    },
+    {
+      "source": "https://github.com/topics/hallucination-research",
+      "normalized_key": "github:topics/hallucination-research",
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-HALLUCINATION-RESEARCH-001",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "HALLUCINATION_RESEARCH_DISCOVERY_INDEX"
+    },
+    {
+      "source": "https://github.com/topics/hallucination-benchmark",
+      "normalized_key": "github:topics/hallucination-benchmark",
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-HALLUCINATION-BENCHMARK-001",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "HALLUCINATION_BENCHMARK_DISCOVERY_INDEX"
+    },
+    {
+      "source": "https://github.com/topics/no-hallucination?l=shell",
+      "normalized_key": "github:topics/no-hallucination",
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-NO-HALLUCINATION-001",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "NO_HALLUCINATION_DISCOVERY_INDEX",
+      "submitted_views": [
+        "https://github.com/topics/no-hallucination?l=shell",
+        "https://github.com/topics/no-hallucination?l=python"
+      ]
+    },
+    {
+      "source": "https://github.com/topics/anti-hallucination-",
+      "normalized_key": "github:topics/anti-hallucination-",
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-ANTI-HALLUCINATION-DASH-001",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "ANTI_HALLUCINATION_TRAILING_DASH_DISCOVERY_INDEX",
+      "verification_note": "GitHub repository search returned a public repository tagged with topic:anti-hallucination- on 2026-10-06."
+    },
+    {
+      "source": "https://github.com/topics/prompt-injection",
+      "normalized_key": "github:topics/prompt-injection",
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-PROMPT-INJECTION-001",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "PROMPT_INJECTION_SECURITY_DISCOVERY_INDEX"
+    },
+    {
+      "source": "https://github.com/microsoft/CoNLI_hallucination",
+      "normalized_key": "github:microsoft/conli_hallucination",
+      "donor_id": "FA3-DONOR-MICROSOFT-CONLI-HALLUCINATION-001",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "CHAIN_OF_NLI_HALLUCINATION_DETECTION_AND_POST_EDIT_REFERENCE",
+      "lifecycle_observation": "UPSTREAM_REPOSITORY_ARCHIVED_AS_OF_2026-10-06_REFERENCE_ONLY"
+    },
+    {
+      "source": "https://github.com/SalvatoreRa/artificial-intelligence-articles/blob/main/articles/LLM_hallucinations.md",
+      "normalized_key": "github-file:salvatorera/artificial-intelligence-articles/articles/llm_hallucinations.md",
+      "donor_id": "FA3-DONOR-SALVATORERA-LLM-HALLUCINATIONS-ARTICLE-001",
+      "kind": "GITHUB_FILE",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "HALLUCINATION_TAXONOMY_AND_RESEARCH_ARTICLE_REFERENCE"
+    },
+    {
+      "source": "https://github.com/SalvatoreRa/artificial-intelligence-articles",
+      "normalized_key": "github:salvatorera/artificial-intelligence-articles",
+      "donor_id": "FA3-DONOR-SALVATORERA-ARTIFICIAL-INTELLIGENCE-ARTICLES-001",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "AI_RESEARCH_ARTICLE_COLLECTION_REFERENCE"
+    },
+    {
+      "source": "https://arxiv.org/html/2601.19106v1",
+      "normalized_key": "https://arxiv.org/html/2601.19106v1",
+      "donor_id": "FA3-DONOR-ARXIV-2601-19106V1-001",
+      "kind": "WEBSITE",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "DETERMINISTIC_CODE_HALLUCINATION_AST_API_VALIDATION_RESEARCH_REFERENCE"
+    },
+    {
+      "source": "https://github.com/idiap/hallucination-detection",
+      "normalized_key": "github:idiap/hallucination-detection",
+      "donor_id": "FA3-DONOR-IDIAP-HALLUCINATION-DETECTION-001",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "TOKEN_LEVEL_INTRINSIC_EXTRINSIC_HALLUCINATION_DETECTION_REFERENCE"
+    },
+    {
+      "source": "https://github.com/TheDataLetter/AI-Hallucination-Detector",
+      "normalized_key": "github:thedataletter/ai-hallucination-detector",
+      "donor_id": "FA3-DONOR-THEDATALETTER-AI-HALLUCINATION-DETECTOR-001",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "MATH_SQL_SOURCE_CONTEXTUAL_VALIDATION_PIPELINE_REFERENCE"
+    },
+    {
+      "source": "https://typesafe.ai/blog/introducing-system-one-models-and-jev",
+      "normalized_key": "https://typesafe.ai/blog/introducing-system-one-models-and-jev",
+      "donor_id": "FA3-DONOR-TYPESAFE-SYSTEM-ONE-JEV-BLOG-001",
+      "kind": "WEBSITE",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "TYPED_PROBABILISTIC_DECISION_AND_CALIBRATION_REFERENCE_PROVIDER_CANDIDATE_SEPARATE"
+    }
+  ],
+  "requirements": [
+    "Registration is reference metadata only; no source becomes an architectural authority.",
+    "GitHub topic records are discovery indexes. Filter/sort/language views remain provenance views of the same normalized topic identity.",
+    "The already-existing CFA3 authoritative/deterministic fact-verification rule is reused and MUST NOT be recreated by this intake or SHGAF materialization.",
+    "Prompt-injection references remain under existing Security Governance and do not create a second security authority.",
+    "Jev/System One material is a reference/provider candidate only; no provider or model admission is implied.",
+    "CoNLI is archived upstream and is retained as a pattern/research reference, not a runtime dependency.",
+    "No code, dependency, model, provider or runtime is admitted by donor registration.",
+    "CPU-only viability and the fixed 175 capability baseline remain mandatory.",
+    "Actual adoption requires explicit usage edges and the normal license, provenance, security, coexistence and Current Host gates."
+  ],
+  "boundaries": {
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "automatic_code_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "usage_edge_created": false,
+    "capability_count_change": false,
+    "authority_change": false,
+    "runtime_change": false,
+    "current_host_pass_claimed": false,
+    "new_fact_verification_rule_created": false,
+    "shgaf_implementation_started": false
+  },
+  "serialization_scope": "ROLLING_DONOR_MAINTENANCE",
+  "serialization_order": "APPEND_TO_EXISTING_CANONICAL_SINGLE_WRITER_BATCH",
+  "max_active_canonical_registry_mutation_prs": 1,
+  "expected_initial_state": "STAGED_FOR_EXISTING_ROLLING_BATCH_FINALIZER"
+}
