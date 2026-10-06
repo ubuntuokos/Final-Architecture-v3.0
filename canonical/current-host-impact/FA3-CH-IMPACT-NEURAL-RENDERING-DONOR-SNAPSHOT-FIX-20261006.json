@@ -1,0 +1,33 @@
+{
+  "schema": "fa3.current-host-structural-impact.v1",
+  "id": "FA3-CH-IMPACT-NEURAL-RENDERING-DONOR-SNAPSHOT-FIX-20261006",
+  "date": "2026-10-06",
+  "status": "NO_RUNTIME_IMPACT",
+  "subject_id": "FA3-NEURAL-RENDERING-001",
+  "capability_count": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "structural_change": true,
+  "runtime_change": false,
+  "runtime_delta": "STATIC_DONOR_PLANNING_SNAPSHOT_VALIDATION_ONLY",
+  "service_change": false,
+  "daemon_change": false,
+  "port_or_socket_change": false,
+  "package_dependency_change": false,
+  "driver_change": false,
+  "provider_or_model_activation": false,
+  "hardware_mutation": false,
+  "credential_path_change": false,
+  "current_host_runtime_promotion_claim": false,
+  "physical_current_host_pass_claimed": false,
+  "physical_requalification_required": false,
+  "historical_evidence_reused": false,
+  "current_host_changes": [],
+  "rationale": "The change only corrects static Neural Rendering gate validation so the recorded donor planning snapshot is checked against its own published-main Git commit instead of a donor-finalizer branch-local registry. It does not change runtime execution, provider activation, model use, packages, services, devices, credentials, ports or physical Current Host behavior.",
+  "structural_changes": [
+    "src/fa3_neural_rendering_gate.py"
+  ],
+  "current_host_status": "STATIC_GATE_FIX_NO_RUNTIME_PROMOTION",
+  "runtime_promotion_claim": false,
+  "global_promotion_claim": false
+}
