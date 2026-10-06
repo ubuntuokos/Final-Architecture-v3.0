@@ -2,7 +2,10 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any
+
+from fa3_application_agent_adapter import application_ready_admission
 
 TRANSITIONS = {
     "INSTALLED": {"CONFIGURING", "READY", "REMOVING"},
@@ -32,7 +35,7 @@ def can_transition(current: str, requested: str) -> bool:
     return requested in TRANSITIONS.get(current, set())
 
 
-def evaluate_transition(request: dict[str, Any]) -> LifecycleDecision:
+def evaluate_transition(request: dict[str, Any], *, root: Path | None = None) -> LifecycleDecision:
     required = (
         "application_id", "current_state", "requested_state", "actor_identity",
         "operation_ref", "authorization_decision", "source_revision", "provenance_refs",
@@ -46,6 +49,10 @@ def evaluate_transition(request: dict[str, Any]) -> LifecycleDecision:
         return LifecycleDecision(False, "typed_lifecycle_operation_required")
     if not can_transition(str(request["current_state"]), str(request["requested_state"])):
         return LifecycleDecision(False, "transition_not_allowed")
+    if request["requested_state"] == "READY":
+        communication = application_ready_admission(str(request["application_id"]), root=root)
+        if not communication.allowed:
+            return LifecycleDecision(False, "application_communication_admission_required:" + communication.reason)
     if request["requested_state"] == "SUSPENDED" and request.get("suspend_supported") is not True:
         return LifecycleDecision(False, "suspend_not_supported")
     if request["current_state"] == "SUSPENDED" and request["requested_state"] == "RESUMING":

@@ -136,3 +136,13 @@ Canonical source: `canonical/CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001.
 - An exception is valid only when explicit, rule/scope-specific and conversation-bounded. Generic approval is not an automatic policy override.
 - The L0-L5 layer model keeps human scope/override, development discipline, task/orchestration, security/effect authorization, model policy and UX/projection distinct. A pending PR is never canonical authority.
 - Use `src/cfa3_development_ai_behavior_guard.py` as the shared fail-closed preflight; it does not replace Security Governance, HRB, Model Router, Evidence or Temporal authorities.
+
+## CFA3 Future Application Communication Rule (2026-10-06)
+
+Canonical authority: `canonical/decisions/FA3-DEC-FUTURE-APPLICATION-COMMUNICATION-2026-10-06.json` and `canonical/contracts/FA3-FUTURE-APPLICATION-COMMUNICATION-CONTRACTS-001.json`.
+
+- Every CFA3 application identity created after the policy-epoch baseline MUST have, at first materialization, a canonical application identity, an Application Operation Descriptor and a binding to the shared `FA3-SHARED-APPLICATION-AGENT-ADAPTER-001`.
+- A post-policy application MUST NOT enter runtime `READY` / semantic `APPLICATION_READY` until its self sender, receiver and local round-trip communication admission result is `PASS` with evidence references.
+- A concrete application-to-application relationship MUST NOT be represented as qualified or complete until sender/receiver admission is `PASS` in both directions and the governed round trip is `PASS`.
+- Missing or unknown identity, descriptor, adapter binding or communication admission fails closed.
+- This rule does not create a second lifecycle, workflow, security, UAF/MCP, Evidence or AI-communication authority. Existing canonical owners remain authoritative.

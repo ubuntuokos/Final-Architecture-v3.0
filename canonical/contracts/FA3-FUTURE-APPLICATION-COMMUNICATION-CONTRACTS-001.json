@@ -1,0 +1,109 @@
+{
+  "schema": "fa3.future-application-communication-contracts.v1",
+  "id": "FA3-FUTURE-APPLICATION-COMMUNICATION-CONTRACTS-001",
+  "title": "CFA3 Future Application Communication Readiness",
+  "status": "P0_MUST",
+  "effective_date": "2026-10-06",
+  "capability_count": 175,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "authority": false,
+  "parent_contracts": [
+    "FA3-APPLICATION-RUNTIME-LIFECYCLE-CONTRACTS-001",
+    "FA3-APPLICATION-OPERATION-HANDOFF-CONTRACTS-001",
+    "FA3-AI-COMMS-CONTRACTS-001"
+  ],
+  "canonical_owners": {
+    "application_lifecycle": "FA3-APP-LIFECYCLE-001",
+    "effectful_operation": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "tool_and_mcp_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "authorization": "FA3-AUTH-SECURITY-GOV-001",
+    "durable_workflow": "Temporal",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "ai_communication": "FA3-AI-COMMS-001_WHEN_AI_COMMUNICATION_APPLIES"
+  },
+  "application_ready_semantics": {
+    "runtime_state": "READY",
+    "semantic_alias": "APPLICATION_READY",
+    "future_application_ready_requires_self_communication_admission_pass": true,
+    "document_or_registry_presence_alone_is_not_pass": true,
+    "fail_closed_on_missing_or_unknown": true
+  },
+  "canonical_application_identity": {
+    "schema": "fa3.canonical-application-identity.v1",
+    "required_fields": [
+      "application_id",
+      "identity_revision",
+      "application_class",
+      "provenance_refs"
+    ],
+    "application_id_is_canonical_address": true,
+    "transport_endpoint_is_not_identity": true,
+    "stable_identity_required_before_first_materialization": true
+  },
+  "application_operation_descriptor": {
+    "schema": "fa3.application-operation-descriptor.v1",
+    "required_fields": [
+      "application_id",
+      "descriptor_revision",
+      "operations",
+      "provenance_refs"
+    ],
+    "operation_required_fields": [
+      "operation_ref",
+      "direction",
+      "effectful",
+      "capability_refs"
+    ],
+    "direction_values": [
+      "SEND",
+      "RECEIVE",
+      "BIDIRECTIONAL",
+      "LOCAL"
+    ],
+    "effectful_operation_requires_uaf_action_ref": true,
+    "undeclared_operation": "DENY",
+    "descriptor_required_before_first_materialization": true
+  },
+  "shared_application_agent_adapter": {
+    "adapter_id": "FA3-SHARED-APPLICATION-AGENT-ADAPTER-001",
+    "implementation": "src/fa3_application_agent_adapter.py",
+    "per_application_fork_required": false,
+    "application_specific_binding_allowed": true,
+    "may_grant_authority": false,
+    "may_bypass_uaf_mcp_security_or_ai_comms": false,
+    "required_before_first_materialization": true
+  },
+  "self_communication_admission": {
+    "required_for_future_application": true,
+    "required_result": "PASS",
+    "sender_admission_required": true,
+    "receiver_admission_required": true,
+    "local_round_trip_required": true,
+    "evidence_refs_required": true
+  },
+  "inter_application_qualification": {
+    "concrete_relationship_ready_only_after_pass": true,
+    "a_sender_to_b_receiver_required": "PASS",
+    "b_sender_to_a_receiver_required": "PASS",
+    "governed_round_trip_required": "PASS",
+    "evidence_refs_required": true,
+    "one_way_only_relationship_may_not_be_marked_fully_qualified": true
+  },
+  "future_application_scope": {
+    "baseline_id": "FA3-FUTURE-APPLICATION-COMMUNICATION-BASELINE-20261006",
+    "baseline_path": "canonical/FA3-FUTURE-APPLICATION-COMMUNICATION-BASELINE-20261006.json",
+    "readiness_registry_id": "FA3-APPLICATION-COMMUNICATION-READINESS-REGISTRY-001",
+    "readiness_registry_path": "canonical/FA3-APPLICATION-COMMUNICATION-READINESS-REGISTRY-001.json",
+    "rule": "ANY_CANONICAL_APPLICATION_ID_NOT_IN_BASELINE_IS_FUTURE_AND_MUST_PASS_THIS_CONTRACT"
+  },
+  "failure_policy": {
+    "missing_identity": "DENY_APPLICATION_READY",
+    "missing_operation_descriptor": "DENY_APPLICATION_READY",
+    "missing_shared_adapter_binding": "DENY_APPLICATION_READY",
+    "self_admission_not_pass": "DENY_APPLICATION_READY",
+    "incomplete_directional_admission": "RELATIONSHIP_NOT_QUALIFIED",
+    "round_trip_not_pass": "RELATIONSHIP_NOT_QUALIFIED",
+    "unknown_state": "DENY"
+  }
+}

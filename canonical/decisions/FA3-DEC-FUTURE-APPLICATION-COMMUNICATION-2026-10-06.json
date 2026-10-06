@@ -1,0 +1,37 @@
+{
+  "schema": "fa3.canonical-decision.v1",
+  "id": "FA3-DEC-FUTURE-APPLICATION-COMMUNICATION-2026-10-06",
+  "date": "2026-10-06",
+  "status": "CANONICAL_OWNER_APPROVED",
+  "subject": "Future Application Communication Rule",
+  "decision": "MAKE_COMMUNICATION_READINESS_PART_OF_FIRST_APPLICATION_MATERIALIZATION_AND_APPLICATION_READY",
+  "rule": "Every new CFA3 application must have canonical application identity, an Application Operation Descriptor and the shared CFA3 Application Agent Adapter at first materialization. A new application may not enter APPLICATION_READY until its own communication admission is PASS. A concrete inter-application relationship is complete only after bilateral sender/receiver admission and round-trip qualification PASS.",
+  "contract_id": "FA3-FUTURE-APPLICATION-COMMUNICATION-CONTRACTS-001",
+  "gate_id": "FA3-FUTURE-APPLICATION-COMMUNICATION-GATESET-001",
+  "baseline_id": "FA3-FUTURE-APPLICATION-COMMUNICATION-BASELINE-20261006",
+  "readiness_registry_id": "FA3-APPLICATION-COMMUNICATION-READINESS-REGISTRY-001",
+  "shared_adapter_id": "FA3-SHARED-APPLICATION-AGENT-ADAPTER-001",
+  "capability_count": 175,
+  "capability_delta": 0,
+  "architectural_authority_delta": 0,
+  "new_router": false,
+  "new_workflow_authority": false,
+  "new_security_authority": false,
+  "runtime_integration": [
+    "FA3-APP-LIFECYCLE-001",
+    "FA3-APPLICATION-RUNTIME-LIFECYCLE-CONTRACTS-001",
+    "src/fa3_application_runtime_lifecycle.py",
+    "src/fa3_application_agent_adapter.py"
+  ],
+  "invariants": [
+    "COMMUNICATION_INTEGRATION_IS_NOT_POSTPONED_FOLLOW_UP_WORK",
+    "NEW_APPLICATION_IDENTITY_EXISTS_AT_FIRST_MATERIALIZATION",
+    "NEW_APPLICATION_OPERATION_DESCRIPTOR_EXISTS_AT_FIRST_MATERIALIZATION",
+    "NEW_APPLICATION_USES_SHARED_APPLICATION_AGENT_ADAPTER",
+    "APPLICATION_READY_REQUIRES_SELF_COMMUNICATION_ADMISSION_PASS",
+    "INTER_APPLICATION_RELATIONSHIP_REQUIRES_BILATERAL_SENDER_RECEIVER_ADMISSION",
+    "INTER_APPLICATION_RELATIONSHIP_REQUIRES_ROUND_TRIP_QUALIFICATION_PASS",
+    "UAF_MCP_SECURITY_TEMPORAL_EVIDENCE_AND_AI_COMMS_AUTHORITIES_REMAIN_UNCHANGED"
+  ],
+  "current_host_runtime_promotion_claim": false
+}

@@ -1,0 +1,43 @@
+name: CFA3 Future Application Communication
+on:
+  pull_request:
+    paths:
+      - "apps/**"
+      - "canonical/FA3-APPLICATION-*.json"
+      - "canonical/FA3-APP-LIFECYCLE-001.json"
+      - "canonical/contracts/FA3-APPLICATION-RUNTIME-LIFECYCLE-CONTRACTS-001.json"
+      - "canonical/contracts/FA3-FUTURE-APPLICATION-COMMUNICATION-CONTRACTS-001.json"
+      - "canonical/decisions/FA3-DEC-FUTURE-APPLICATION-COMMUNICATION-2026-10-06.json"
+      - "canonical/FA3-FUTURE-APPLICATION-COMMUNICATION-BASELINE-20261006.json"
+      - "canonical/FA3-APPLICATION-COMMUNICATION-READINESS-REGISTRY-001.json"
+      - "canonical/FA3-GATE-FUTURE-APPLICATION-COMMUNICATION-001.json"
+      - "canonical/FA3-GATE-REGISTRY-001.json"
+      - "canonical/enforcement-policy.json"
+      - "canonical/current-host-impact/FA3-CH-IMPACT-FUTURE-APPLICATION-COMMUNICATION-20261006.json"
+      - "src/fa3_application_agent_adapter.py"
+      - "src/fa3_application_runtime_lifecycle.py"
+      - "src/fa3_future_application_communication_gate.py"
+      - "tests/test_future_application_communication.py"
+      - "AGENTS.md"
+      - ".github/workflows/fa3-future-application-communication.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  future-application-communication:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - name: Compile
+        run: python -m py_compile src/fa3_application_agent_adapter.py src/fa3_application_runtime_lifecycle.py src/fa3_future_application_communication_gate.py
+      - name: Targeted tests
+        run: PYTHONPATH=src python -m unittest -v tests.test_future_application_communication tests.test_application_runtime_lifecycle
+      - name: Communication readiness gate
+        run: PYTHONPATH=src python src/fa3_future_application_communication_gate.py --root .
+      - name: Canonical gate registry
+        run: ./bin/fa3-enforce gate-registry
+      - name: Global static enforcement
+        run: ./bin/fa3-enforce static
