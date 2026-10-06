@@ -4,6 +4,8 @@ import argparse, json
 from pathlib import Path
 from typing import Any
 from fa3_model_router_provider_execution import CredentialCandidate, ExecutionDenied, ProviderExecutionManager, choose_credential, rebind_action, protocol_projection_status, execution_receipt
+from fa3_context_budget_compaction import plan_context_compaction
+from fa3_llm_protocol_compat import normalize_provider_error, project_reasoning_intent, tool_schema_projection, validate_stream_events
 from fa3_release_baseline import active_capability_count
 
 GATESET_ID="FA3-MODEL-ROUTER-PROVIDER-EXECUTION-GATESET-001"
@@ -46,6 +48,45 @@ def regressions() -> dict[str, Any]:
     one.select(provider_id="P",session_id="s2",now=1.0)
     cb=one.record_failure(session_id="s2",error_class="PROVIDER_5XX",now=2.0)
     checks.append(("PEX-013",cb["action"]=="MODEL_ROUTER_REEVALUATION_REQUIRED" and cb["cross_provider_transition"] is False))
+    bounded=ProviderExecutionManager(
+        [CredentialCandidate("B",f"secretref:b/{x}","HEALTHY",True) for x in ("a","b","c","d")],
+        max_rebind_attempts=2,max_credentials_per_request=3,
+    )
+    bounded.select(provider_id="B",session_id="pool",now=1.0)
+    p1=bounded.record_failure(session_id="pool",error_class="RATE_LIMIT",now=2.0)
+    p2=bounded.record_failure(session_id="pool",error_class="RATE_LIMIT",now=3.0)
+    p3=bounded.record_failure(session_id="pool",error_class="RATE_LIMIT",now=4.0)
+    checks.append(("PEX-014",p1["action"]=="INTRA_PROVIDER_REBIND" and p2["action"]=="INTRA_PROVIDER_REBIND" and p3["action"]=="MODEL_ROUTER_REEVALUATION_REQUIRED" and p3["reason"]=="POOL_TRAVERSAL_BOUNDED"))
+    backoff=ProviderExecutionManager([CredentialCandidate("T","secretref:t/a","HEALTHY",True)],circuit_threshold=9,backoff_schedule_seconds=(5,15,30))
+    backoff.select(provider_id="T",session_id="backoff",now=1.0)
+    b1=backoff.record_failure(session_id="backoff",error_class="TRANSIENT_NETWORK",now=2.0)
+    b2=backoff.record_failure(session_id="backoff",error_class="TRANSIENT_NETWORK",now=3.0)
+    checks.append(("PEX-015",b1["action"]=="RETRY_SAME_CREDENTIAL" and b1["backoff_seconds"]==5.0 and b2["backoff_seconds"]==15.0))
+    health=ProviderExecutionManager([CredentialCandidate("H","secretref:h/a","HEALTHY",True,model_id="m",endpoint_id="e")])
+    health.update_health(provider_id="H",model_id="m",state="UNAVAILABLE")
+    hs=health.safe_snapshot(now=1.0)["credentials"][0]
+    checks.append(("PEX-016",hs["provider_health"]=="HEALTHY" and hs["model_health"]=="UNAVAILABLE" and hs["endpoint_health"]=="HEALTHY"))
+    reasoning=project_reasoning_intent({"class":"HIGH","budget_tokens":2048},"ANTHROPIC")
+    checks.append(("PEX-017",reasoning["provider_or_model_selection_authority"] is False and reasoning["adapter_may_increase_reasoning"] is False))
+    schema_receipt=tool_schema_projection(
+        {"type":"object","properties":{"name":{"type":"string","pattern":"^[a-z]+$"}},"required":["name"]},
+        supported_keywords={"type","properties","required"},
+        security_relevant_keywords={"pattern"},
+    )
+    checks.append(("PEX-018",schema_receipt["status"]=="UNSUPPORTED_FAIL_CLOSED" and schema_receipt["silent_drop"] is False))
+    err=normalize_provider_error(503,error_type="overload",error_code="busy")
+    checks.append(("PEX-019",err["http_status"]==503 and err["success"] is False and err["upstream_status_preserved"] is True))
+    stream=validate_stream_events([{"type":"START"},{"type":"HEARTBEAT"},{"type":"DELTA"},{"type":"DONE"}])
+    checks.append(("PEX-020",stream["ordered"] is True and stream["terminal_explicit"] is True))
+    context=plan_context_compaction(
+        [
+          {"segment_id":"p","classification":"PROTECTED","token_count":40,"provenance_ref":"src:p","ordinal":0},
+          {"segment_id":"a","classification":"ACTIVE","token_count":30,"provenance_ref":"src:a","ordinal":1},
+          {"segment_id":"x","classification":"ARCHIVABLE","token_count":80,"provenance_ref":"src:x","ordinal":2},
+        ],
+        max_context_tokens=120,target_context_tokens=80,min_headroom_tokens=20,min_growth_tokens=10,
+    )
+    checks.append(("PEX-021",context["status"]=="COMPACTION_REQUIRED" and "p" not in context["selected_segment_ids"] and "a" not in context["selected_segment_ids"] and context["provenance_preserved"] is True))
     return {"result":"PASS" if all(v for _,v in checks) else "FAIL","total":len(checks),"passed":sum(v for _,v in checks),"cases":[{"case_id":k,"status":"PASS" if v else "FAIL"} for k,v in checks]}
 
 def gate(root: Path) -> dict[str, Any]:
@@ -66,6 +107,12 @@ def gate(root: Path) -> dict[str, Any]:
     policy=loadj(root/"canonical/enforcement-policy.json")
     current_host=loadj(root/"canonical/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CURRENT-HOST-CONFORMANCE-001.json")
     core_closure=loadj(root/"canonical/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CORE-CLOSURE-001.json")
+    provider_runtime=loadj(root/"canonical/profiles/FA3-PROVIDER-RUNTIME-001.json")
+    agent_workload=loadj(root/"canonical/profiles/FA3-AGENT-WORKLOAD-RUNTIME-001.json")
+    conversation=loadj(root/"canonical/profiles/FA3-SHARED-CONVERSATION-SESSION-001.json")
+    knowledge=loadj(root/"canonical/profiles/FA3-SHARED-KNOWLEDGE-RETRIEVAL-001.json")
+    refresh_assessment=loadj(root/"canonical/assessments/CFA3-ANTIGRAVITY-DERIVED-REFRESH-REUSE-ASSESSMENT-2026-10-06.json")
+    donor_links=loadj(root/"canonical/FA3-APPLICATION-DONOR-LINKS-001.json")
     capability_count=active_capability_count(root)
     if router.get("id")!="FA3-AUTH-MODEL-ROUTER-001" or router.get("data_plane",{}).get("single_routing_plane") is not True: f.append(finding("PEX-CANON-001","single Model Router authority drift"))
     if gateway.get("id")!="FA3-LLM-GATEWAY-001" or gateway.get("model_router_materialization",{}).get("role")!="REFERENCE_DATA_PLANE_ONLY": f.append(finding("PEX-CANON-002","LiteLLM data-plane boundary drift"))
@@ -78,6 +125,39 @@ def gate(root: Path) -> dict[str, Any]:
     if any(row.get("capability_model_reconciliation")!="FA3-DEC-CAPABILITY-MODEL-175-2026-09-26" for row in active_baseline_records): f.append(finding("PEX-CANON-009","provider-execution capability-model reconciliation binding missing"))
     if enf.get("credential_policy",{}).get("raw_value_in_config") is not False or enf.get("credential_policy",{}).get("decision_fabric_secret_access") is not False: f.append(finding("PEX-SEC-001","credential secrecy boundary drift"))
     if enf.get("cross_provider_policy",{}).get("automatic_silent_transition") is not False: f.append(finding("PEX-ROUTE-001","silent cross-provider transition enabled"))
+    resilience=enf.get("resilience_policy",{})
+    if not (
+        resilience.get("per_request_pool_traversal_bounded") is True
+        and resilience.get("max_rebind_attempts_required") is True
+        and resilience.get("max_credentials_per_request_required") is True
+        and resilience.get("tiered_backoff_required") is True
+        and resilience.get("health_dimensions")==["PROVIDER","CREDENTIAL","MODEL","ENDPOINT"]
+        and resilience.get("deterministic_tie_break_required") is True
+    ): f.append(finding("PEX-RESILIENCE-001","provider execution resilience policy drift"))
+    if p.get("pool_protection",{}).get("exhausted_pool_action")!="MODEL_ROUTER_REEVALUATION_REQUIRED" or p.get("health_dimensions")!=["PROVIDER","CREDENTIAL","MODEL","ENDPOINT"]: f.append(finding("PEX-RESILIENCE-002","provider execution pool/health profile drift"))
+    if p.get("authority_bindings",{}).get("provider_runtime_environment")!="FA3-PROVIDER-RUNTIME-001" or provider_runtime.get("id")!="FA3-PROVIDER-RUNTIME-001" or "provider runtime environment creation, isolation or package lifecycle" not in p.get("non_responsibilities",[]): f.append(finding("PEX-RUNTIME-001","Provider Runtime environment ownership duplicated or unbound"))
+    reasoning_policy=enf.get("reasoning_policy",{})
+    if reasoning_policy.get("selection_authority")!="FA3-AUTH-MODEL-ROUTER-001" or reasoning_policy.get("adapter_projection_only") is not True or reasoning_policy.get("adapter_budget_escalation") is not False: f.append(finding("PEX-REASONING-001","reasoning authority/projection boundary drift"))
+    if agent_workload.get("reasoning_intent_policy",{}).get("selection_authority")!="FA3-AUTH-MODEL-ROUTER-001" or agent_workload.get("reasoning_intent_policy",{}).get("adapter_override")!="FORBIDDEN": f.append(finding("PEX-REASONING-002","Agent Workload reasoning-intent binding missing"))
+    context_policy=enf.get("context_policy",{})
+    if not (
+        context_policy.get("implementation")=="src/fa3_context_budget_compaction.py"
+        and context_policy.get("silent_drop") is False
+        and context_policy.get("source_history_mutation") is False
+        and context_policy.get("provenance_required") is True
+        and conversation.get("context_budget_compaction",{}).get("authority") is False
+        and knowledge.get("context_budget_compaction_binding",{}).get("retrieval_backreference_required") is True
+    ): f.append(finding("PEX-CONTEXT-001","shared context budget/compaction boundary drift"))
+    proto_policy=enf.get("protocol_policy",{})
+    if not (
+        proto.get("implementation")=="src/fa3_llm_protocol_compat.py"
+        and proto.get("reasoning_projection",{}).get("protocol_adapter_selection_authority") is False
+        and proto.get("error_fidelity",{}).get("fabricated_success_for_upstream_error")=="FORBIDDEN"
+        and proto_policy.get("upstream_error_fidelity") is True
+        and proto_policy.get("tool_id_canonicalization") is True
+        and proto_policy.get("streaming_terminal_explicit") is True
+        and proto_policy.get("multimodal_bounds") is True
+    ): f.append(finding("PEX-PROTOCOL-001","protocol hardening projection drift"))
     if assessment.get("decision")!="REFERENCE_ONLY_CLEAN_ROOM_DERIVATION" or assessment.get("upstream_reference",{}).get("license")!="CC-BY-NC-SA-4.0": f.append(finding("PEX-LIC-001","clean-room license boundary missing"))
     if decision.get("capability_count")!=capability_count or decision.get("new_architectural_authority") is not False or "CAPABILITY_BASELINE_FOLLOWS_ACTIVE_RELEASE_WITH_ZERO_CAPABILITY_DELTA" not in decision.get("invariants",[]): f.append(finding("PEX-CANON-005","capability/authority accounting drift"))
     bind=decision_fabric.get("provider_execution_selection_binding",{})
@@ -90,7 +170,35 @@ def gate(root: Path) -> dict[str, Any]:
     gui_obligation=model_route.get("provider_gui_completion_obligation",{})
     if gui_obligation.get("status")!="MANDATORY_ON_PROVIDER_GUI_FINALIZATION" or gui_obligation.get("unresolved_item_policy")!="EXPLICIT_BLOCKER_STATUS_REQUIRED; SILENT_OMISSION_FORBIDDEN" or gui_obligation.get("core_recertification_required") is not False or gui_obligation.get("provider_specific_admission_evidence_required") is not True or surface.get("gui_finalization_obligation")!="MUST_RECONCILE_PROVIDER_ADMISSION_BACKLOG": f.append(finding("PEX-GUI-002","provider GUI finalization must reconcile pending provider admissions/evidence"))
     if GATESET_ID not in policy.get("mandatory_reference_gates",[]): f.append(finding("PEX-GLOBAL-001","provider execution gate not bound into global enforcement"))
+    refresh_rules={
+        "PROVIDER_POOL_TRAVERSAL_BOUNDED","TIERED_BACKOFF_EXPLICIT_AND_BOUNDED",
+        "PROVIDER_CREDENTIAL_MODEL_ENDPOINT_HEALTH_DISTINCT","REASONING_POLICY_NOT_PROTOCOL_ADAPTER_AUTHORITY",
+        "CONTEXT_COMPACTION_PRESERVES_PROVENANCE","UPSTREAM_HTTP_ERROR_FIDELITY",
+        "GOOGLE_ANTIGRAVITY_DONOR_PATTERN_USAGE_NO_RUNTIME_DEPENDENCY",
+        "PROVIDER_RUNTIME_ENVIRONMENT_OWNERSHIP_NOT_DUPLICATED","PROVIDER_SPECIFIC_CURRENT_HOST_PROMOTION_ONLY",
+    }
+    if not refresh_rules.issubset(set(gate_record.get("mandatory_rules",[]))) or not refresh_rules.issubset(set(policy.get("model_router_provider_execution_mandatory_p0_rules",[]))): f.append(finding("PEX-GLOBAL-002","Antigravity refresh P0 rule binding missing"))
+    donor_id="FA3-DONOR-GOOGLE-ANTIGRAVITY-SDK-PYTHON-001"
+    usage=[row for row in donor_links.get("donor_usage_records",[]) if isinstance(row,dict) and row.get("donor_id")==donor_id and row.get("status")!="REMOVED"]
+    adopted=[row for row in refresh_assessment.get("adopted_donors",[]) if isinstance(row,dict) and row.get("donor_id")==donor_id]
+    chain=refresh_assessment.get("dependency_reference_chain_review",{})
+    if not (
+        len(usage)==1 and usage[0].get("usage_kind")=="ARCHITECTURE_PATTERN"
+        and usage[0].get("code_imported") is False and usage[0].get("runtime_dependency") is False
+        and usage[0].get("compiled_runtime_dependency") is False and usage[0].get("provider_admission") is False
+        and usage[0].get("model_admission") is False and len(adopted)==1
+        and chain.get("maximum_depth")==5 and chain.get("result")=="PASS_NO_TRANSITIVE_RUNTIME_ADOPTION"
+    ): f.append(finding("PEX-DONOR-001","Google Antigravity SDK pattern usage/provenance boundary drift"))
     if current_host.get("status")!="OPTIONAL_PROVIDER_PHYSICAL_EVIDENCE_MATERIALIZED_NOT_CORE_BLOCKING" or current_host.get("blocks_core_closure") is not False or current_host.get("synthetic_or_mock_provider_pass")!="FORBIDDEN" or current_host.get("global_promotion_claim") is not False: f.append(finding("PEX-CH-001","current-host provider-evidence/core-closure separation drift"))
+    refresh_ch=current_host.get("refresh_2026_10_06",{})
+    if not (
+        refresh_ch.get("generic_core_refresh")=="STATIC_DETERMINISTIC_RECONCILED"
+        and refresh_ch.get("provider_or_model_activated_by_refresh") is False
+        and refresh_ch.get("runtime_promotion_claim") is False
+        and refresh_ch.get("physical_requalification_required_for_generic_core_refresh") is False
+        and refresh_ch.get("provider_specific_physical_admission_required_when_promoted") is True
+        and refresh_ch.get("historical_provider_evidence_relabeling") is False
+    ): f.append(finding("PEX-CH-012","Antigravity refresh Current Host separation record drift"))
     producer=root/"bin/fa3-model-router-provider-execution-current-host.py"
     config_schema=root/"canonical/contracts/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CURRENT-HOST-CONFIG-001.schema.json"
     workflow=root/".github/workflows/fa3-model-router-provider-execution-current-host.yml"
