@@ -1,0 +1,100 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "CFA3-ANTIGRAVITY-DERIVED-REFRESH-REUSE-ASSESSMENT-2026-10-06",
+  "project_id": "CFA3-ANTIGRAVITY-DERIVED-PROVIDER-EXECUTION-REFRESH-001",
+  "result": "PASS",
+  "donor_review": {
+    "status": "REVIEWED_MATCH_NO_NEW_MATERIAL_ADOPTION_IN_CLEANUP"
+  },
+  "donor_planning_snapshot": {
+    "published_main_commit": "c2e2ab2aa1c34ef555e2324e9b67af9d8723f76a",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "2bb6a74dd415b6374e4a6d5adce1bc9265229b63",
+    "donor_registry_sha256": "4c3609314b55dc00adb5132297d89f13908c9e7efb7c3c4e750ac94fcef7e04a",
+    "donor_registry_entry_count": 1792
+  },
+  "source_review": [
+    {
+      "source": "https://github.com/lbjlaq/Antigravity-Manager",
+      "observed_main_commit": "b601f5e7375343343922ccab5e50653bc3450c3b",
+      "observed_release": "v4.9.6",
+      "license": "CC-BY-NC-SA-4.0",
+      "registry_state": "ABSENT_FROM_DONOR_REGISTRY",
+      "allowed_use": "EXTERNAL_REFERENCE_ONLY_CLEAN_ROOM_REQUIREMENT_DERIVATION",
+      "direct_code_asset_runtime_reuse": false
+    },
+    {
+      "donor_id": "FA3-DONOR-GOOGLE-ANTIGRAVITY-SDK-PYTHON-001",
+      "source": "https://github.com/google-antigravity/antigravity-sdk-python",
+      "observed_main_commit": "12f9a4c3becf487302dc799b0f59054f01f3ddb9",
+      "license": "Apache-2.0",
+      "registry_state": "ACCEPTED_REFERENCE",
+      "usage_edge_created_by_this_change": false,
+      "runtime_or_binary_admitted_by_this_change": false
+    }
+  ],
+  "selected_existing_cfa3_reuse": [
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-LLM-GATEWAY-001",
+    "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-001",
+    "FA3-LLM-PROTOCOL-COMPAT-001",
+    "FA3-PROVIDER-RUNTIME-001",
+    "FA3-SECRET-BROKER-001",
+    "FA3-AUTH-SECRETS-001",
+    "FA3-AGENT-WORKLOAD-RUNTIME-001",
+    "FA3-DECISION-FABRIC-001",
+    "FA3-AUTH-MCP-GATEWAY-001",
+    "FA3-SKILL-FABRIC-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-OBS-EVIDENCE-001"
+  ],
+  "shared_capability_placement": {
+    "reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED_EXISTING_FABRICS",
+    "local_duplicate_created": false,
+    "retrospective_consumer_impact_reviewed": true,
+    "consumer_scope": [
+      "all CFA3 applications using LLM/model providers",
+      "agent workloads",
+      "developer agents",
+      "knowledge/research",
+      "story/screenplay",
+      "webdesign",
+      "presentation/DTP",
+      "marketing/business collaboration"
+    ]
+  },
+  "cleanup_scope": {
+    "remove_obsolete_active_capability_baseline_143": true,
+    "preserve_historical_reference_evidence_143": true,
+    "preserve_historical_v4_8_0_upstream_pin": true,
+    "replace_obsolete_core_pending_current_host_wording": true,
+    "no_provider_runtime_promotion": true,
+    "no_current_host_rerun": true
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "new_physical_capability_requirement": false,
+    "runtime_promotion_claim": false
+  },
+  "authority_reconciliation": {
+    "capability_baseline": 175,
+    "capability_delta": 0,
+    "architectural_authority_delta": 0,
+    "model_router_remains_sole_model_provider_router": true,
+    "llm_gateway_remains_single_data_plane": true,
+    "secret_broker_remains_non_authoritative_storage_delivery_broker": true,
+    "provider_runtime_remains_environment_fabric": true,
+    "hrb_remains_resource_authority": true,
+    "mcp_gateway_remains_tool_boundary": true,
+    "evidence_remains_promotion_authority": true
+  },
+  "adopted_donors": [],
+  "pending_or_unmerged_donors_consumed": false,
+  "execution_allowed": true,
+  "execution_scope": "ACTIVE_BASELINE_RECONCILIATION_AND_PLANNING_ONLY",
+  "current_host_promotion_claim": false
+}
