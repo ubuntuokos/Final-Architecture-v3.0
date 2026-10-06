@@ -92,6 +92,45 @@ class AntigravityRefreshContextTests(unittest.TestCase):
         ],max_context_tokens=100,target_context_tokens=80,min_headroom_tokens=10,min_growth_tokens=10)
         self.assertEqual("FAIL_CLOSED_RESELECTION_REQUIRED",impossible["status"])
 
+    def test_overhead_checkpoint_cooldown_and_hysteresis(self):
+        plan=plan_context_compaction(
+            [
+                {"segment_id":"p","classification":"PROTECTED","token_count":60,"provenance_ref":"src:p","ordinal":0},
+                {"segment_id":"s","classification":"SUMMARIZABLE","token_count":40,"provenance_ref":"src:s","ordinal":1},
+            ],
+            max_context_tokens=140,
+            target_context_tokens=90,
+            min_headroom_tokens=20,
+            min_growth_tokens=10,
+            tool_schema_overhead_tokens=10,
+            multimodal_overhead_tokens=10,
+            reserved_output_tokens=10,
+            hysteresis_tokens=10,
+            checkpoint_id="cp:2",
+            parent_checkpoint_id="cp:1",
+        )
+        self.assertEqual("COMPACTION_REQUIRED",plan["status"])
+        self.assertEqual(20,plan["overhead_tokens"])
+        self.assertEqual("cp:2",plan["checkpoint_lineage"]["checkpoint_id"])
+        self.assertTrue(plan["summarization_required"])
+        self.assertEqual("SUMMARIZATION_CANDIDATE",plan["selected_actions"][0]["action"])
+        receipt=compaction_receipt(plan,summary_artifact_ref="artifact:summary")
+        self.assertEqual("cp:1",receipt["checkpoint_lineage"]["parent_checkpoint_id"])
+        self.assertEqual(10,receipt["hysteresis_tokens"])
+
+        cooldown=plan_context_compaction(
+            self.segments[:3],
+            max_context_tokens=120,
+            target_context_tokens=80,
+            min_headroom_tokens=30,
+            min_growth_tokens=1,
+            now_seconds=15,
+            last_compaction_at_seconds=10,
+            cooldown_seconds=10,
+        )
+        self.assertEqual("DEFER_COOLDOWN",cooldown["status"])
+        self.assertGreater(cooldown["cooldown_remaining_seconds"],0)
+
     def test_invalid_segment_fails_closed(self):
         with self.assertRaises(ContextBudgetError):
             plan_context_compaction([{"segment_id":"x","classification":"ACTIVE","token_count":1}],max_context_tokens=10,target_context_tokens=8,min_headroom_tokens=1,min_growth_tokens=1)
