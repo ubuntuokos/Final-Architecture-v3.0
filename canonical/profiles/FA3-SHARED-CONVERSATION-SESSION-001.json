@@ -73,9 +73,21 @@
       "PROTECTED_CONTEXT",
       "ANTI_THRASH_COMPACTION",
       "COMPACTION_RECEIPT",
-      "RETRIEVAL_BACKREFERENCE"
+      "RETRIEVAL_BACKREFERENCE",
+      "TOOL_SCHEMA_OVERHEAD_ACCOUNTING",
+      "MULTIMODAL_OVERHEAD_ACCOUNTING",
+      "SUMMARIZATION_AND_ARCHIVE_CANDIDATES",
+      "CHECKPOINT_LINEAGE",
+      "TIME_BASED_COOLDOWN",
+      "HYSTERESIS"
     ],
     "authority": false,
-    "source_history_mutation": false
+    "source_history_mutation": false,
+    "tool_schema_overhead_accounted": true,
+    "multimodal_overhead_accounted": true,
+    "checkpoint_lineage_required": true,
+    "cooldown_required": true,
+    "hysteresis_required": true,
+    "hard_overflow_may_bypass_cooldown": true
   }
 }
