@@ -1,0 +1,249 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "CFA3-DONOR-GROQ-REFERENCE-SOURCES-2026-10-06",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "STAGED_PENDING_ROLLING_BATCH_APPEND",
+  "mode": "EXACT_OWNER_AUTHORIZED_REFERENCE_REGISTRATION",
+  "parent_main": "c2e2ab2aa1c34ef555e2324e9b67af9d8723f76a",
+  "parent_registry_blob_sha": "2bb6a74dd415b6374e4a6d5adce1bc9265229b63",
+  "parent_entry_count": 1792,
+  "authorization": {
+    "owner_command": "donornak",
+    "exact_owner_message_marker": "minden beküldött linket donornak",
+    "execution_command": "végezd el",
+    "explicit_user_approval": true,
+    "scope": "ALL_FIVE_UNIQUE_GROQ_SOURCE_IDENTITIES_SUBMITTED_IN_THIS_CONVERSATION",
+    "conversation_lineage_ref": "chat:cfa3-groq-reference-sources:2026-10-06"
+  },
+  "submitted_url_count": 5,
+  "submitted_urls": [
+    "https://github.com/groq",
+    "https://github.com/topics/groq-cloud?o=asc&s=updated",
+    "https://github.com/topics/groq-ai",
+    "https://github.com/topics/groq-api?l=go",
+    "https://github.com/topics/groq-ai-real-time"
+  ],
+  "duplicate_submission_observation": {
+    "source": "https://github.com/topics/groq-ai",
+    "additional_occurrences": 1,
+    "canonical_identity_count": 1,
+    "disposition": "EXACT_DUPLICATE_NORMALIZED_TO_ONE_DONOR_IDENTITY"
+  },
+  "unique_source_count": 5,
+  "new_source_count": 5,
+  "canonical_identities": [
+    {
+      "source": "https://github.com/groq",
+      "normalized_key": "github:groq",
+      "donor_id": "FA3-DONOR-GROQ-ORGANIZATION-001",
+      "name": "Groq GitHub organization",
+      "kind": "GITHUB_ORGANIZATION",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "OFFICIAL_GROQ_ECOSYSTEM_DISCOVERY_REFERENCE",
+      "group": "GROQ_PROVIDER_ACCELERATION_AND_PROTOCOL_REFERENCES",
+      "license_observation": "ORGANIZATION_LEVEL_LICENSE_NOT_APPLICABLE_CHILD_LICENSE_REVIEW_REQUIRED",
+      "target_hints": [
+        "FA3-AUTH-MODEL-ROUTER-001 provider discovery",
+        "FA3-LLM-GATEWAY-001 provider adaptation",
+        "CFA3 MCP / tool interoperability",
+        "CFA3 batch and low-latency inference patterns"
+      ]
+    },
+    {
+      "source": "https://github.com/topics/groq-cloud?o=asc&s=updated",
+      "normalized_key": "github:topics/groq-cloud?o=asc&s=updated",
+      "donor_id": "FA3-DONOR-GITHUB-GROQ-CLOUD-TOPIC-UPDATED-ASC-001",
+      "name": "GitHub groq-cloud topic — updated ascending",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "GROQ_CLOUD_APPLICATION_INTEGRATION_DISCOVERY_REFERENCE",
+      "group": "GROQ_CLOUD_APPLICATION_PATTERNS",
+      "license_observation": "TOPIC_INDEX_NO_CODE_LICENSE_CHILD_REVIEW_REQUIRED",
+      "target_hints": [
+        "CFA3 local-plus-cloud execution patterns",
+        "CFA3 RAG / document intelligence",
+        "CFA3 MCP integration",
+        "CFA3 agent orchestration"
+      ]
+    },
+    {
+      "source": "https://github.com/topics/groq-ai",
+      "normalized_key": "github:topics/groq-ai",
+      "donor_id": "FA3-DONOR-GITHUB-GROQ-AI-TOPIC-001",
+      "name": "GitHub groq-ai topic",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "GROQ_AGENT_MCP_MULTI_PROVIDER_DISCOVERY_REFERENCE",
+      "group": "GROQ_AGENT_AND_MULTI_PROVIDER_PATTERNS",
+      "license_observation": "TOPIC_INDEX_NO_CODE_LICENSE_CHILD_REVIEW_REQUIRED",
+      "target_hints": [
+        "CFA3 Agent Skills / Agent Operations",
+        "CFA3 MCP / A2A interoperability",
+        "CFA3 provider and model selection UX",
+        "CFA3 tool and integration registries"
+      ]
+    },
+    {
+      "source": "https://github.com/topics/groq-api?l=go",
+      "normalized_key": "github:topics/groq-api?l=go",
+      "donor_id": "FA3-DONOR-GITHUB-GROQ-API-TOPIC-GO-001",
+      "name": "GitHub groq-api topic — Go filter",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "GROQ_GO_PROVIDER_GATEWAY_DISCOVERY_REFERENCE",
+      "group": "GROQ_GO_PROVIDER_AND_SERVICE_PATTERNS",
+      "license_observation": "TOPIC_INDEX_NO_CODE_LICENSE_CHILD_REVIEW_REQUIRED",
+      "target_hints": [
+        "FA3-LLM-GATEWAY-001 Go implementation patterns",
+        "CFA3 Groq provider adapter",
+        "CFA3 streaming / batch / backpressure",
+        "CFA3 observability and async worker patterns"
+      ]
+    },
+    {
+      "source": "https://github.com/topics/groq-ai-real-time",
+      "normalized_key": "github:topics/groq-ai-real-time",
+      "donor_id": "FA3-DONOR-GITHUB-GROQ-AI-REAL-TIME-TOPIC-001",
+      "name": "GitHub groq-ai-real-time topic",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "GROQ_REALTIME_INTERACTION_DISCOVERY_REFERENCE",
+      "group": "GROQ_REALTIME_INTERACTION_PATTERNS",
+      "license_observation": "TOPIC_INDEX_NO_CODE_LICENSE_CHILD_REVIEW_REQUIRED",
+      "target_hints": [
+        "CFA3 Shared Realtime Interaction Fabric",
+        "CFA3 collaboration transport",
+        "CFA3 AI streaming transport",
+        "CFA3 realtime application integration"
+      ]
+    }
+  ],
+  "lineage_observations": {
+    "max_reference_depth_policy": 5,
+    "child_auto_admission": false,
+    "analysis_depth_applied": 5,
+    "representative_reference_chains": [
+      {
+        "chain_type": "OFFICIAL_SDK_TRANSPORT_REFERENCE",
+        "depth": 5,
+        "nodes": [
+          "https://github.com/groq",
+          "https://github.com/groq/groq-python",
+          "httpx / optional aiohttp client transport",
+          "REST plus SSE streaming semantics",
+          "FA3-LLM-GATEWAY-001 provider-adapter pattern"
+        ]
+      },
+      {
+        "chain_type": "OFFICIAL_MCP_REFERENCE",
+        "depth": 5,
+        "nodes": [
+          "https://github.com/groq",
+          "https://github.com/groq/groq-mcp-server",
+          "MCP-exposed Groq model/tool operations",
+          "tool discovery and invocation boundary",
+          "CFA3 MCP compatibility / Application Agent Adapter pattern"
+        ]
+      },
+      {
+        "chain_type": "HYBRID_RAG_APPLICATION_REFERENCE",
+        "depth": 5,
+        "nodes": [
+          "https://github.com/topics/groq-cloud?o=asc&s=updated",
+          "https://github.com/Balaji-R-05/askdocs-ai",
+          "LangChain plus ChromaDB plus BM25",
+          "local retrieval / preprocessing with remote inference split",
+          "CFA3 local-plus-cloud RAG execution pattern"
+        ]
+      },
+      {
+        "chain_type": "AGENT_MODULARITY_REFERENCE",
+        "depth": 5,
+        "nodes": [
+          "https://github.com/topics/groq-ai",
+          "https://github.com/phenobarbital/ai-parrot",
+          "server MCP/A2A transports and tool registry",
+          "loaders / embeddings / integrations modular packages",
+          "CFA3 Agent Skills / Application Agent Adapter pattern"
+        ]
+      },
+      {
+        "chain_type": "GO_PROVIDER_SERVICE_REFERENCE",
+        "depth": 5,
+        "nodes": [
+          "https://github.com/topics/groq-api?l=go",
+          "https://github.com/ZaguanLabs/groq-go",
+          "Go context / SSE / retry / rate-limit / batch surfaces",
+          "provider-service execution and cancellation semantics",
+          "CFA3 Groq Provider Adapter behind FA3-LLM-GATEWAY-001"
+        ]
+      },
+      {
+        "chain_type": "REALTIME_PLANE_SEPARATION_REFERENCE",
+        "depth": 5,
+        "nodes": [
+          "https://github.com/topics/groq-ai-real-time",
+          "https://github.com/Durgesh1008/Real-TimeCollaborativeDevelopmentEnvironment",
+          "Socket.io/WebSocket collaborative state plus separate Groq HTTP AI path",
+          "realtime state plane separated from AI inference plane",
+          "CFA3 Shared Realtime Interaction Fabric pattern"
+        ]
+      }
+    ],
+    "observed_non_admitted_references": [
+      "https://github.com/groq/groq-api-cookbook",
+      "https://github.com/groq/groq-python",
+      "https://github.com/groq/groq-typescript",
+      "https://github.com/groq/groq-mcp-server",
+      "https://github.com/groq/compound-mcp-server",
+      "https://github.com/groq/groqflow",
+      "https://github.com/Balaji-R-05/askdocs-ai",
+      "https://github.com/DasunThathsara/multi-agent-application-builder",
+      "https://github.com/joemathew2004/MCP_implementation",
+      "https://github.com/glenjaysondmello/FluentEdge",
+      "https://github.com/phenobarbital/ai-parrot",
+      "https://github.com/The-Agentic-Intelligence-Co/Eclipse",
+      "https://github.com/albertocubeddu/extensionOS",
+      "https://github.com/vishalGitthub/cli-llm-mesh",
+      "https://github.com/run-llama/LlamaIndexTS",
+      "https://github.com/ankitrmishra01/OpenTrace",
+      "https://github.com/ZaguanLabs/groq-go",
+      "https://github.com/connerohnesorge/groq-go",
+      "https://github.com/wycliff-ochieng/OmniTrace",
+      "https://github.com/Durgesh1008/Real-TimeCollaborativeDevelopmentEnvironment"
+    ],
+    "archival_observations": [
+      "groq/groqflow was observed archived and is historical/architectural reference only",
+      "run-llama/LlamaIndexTS was observed archived/deprecated and is historical reference only"
+    ],
+    "disposition": "FIVE_LEVEL_REFERENCE_LINEAGE_ANALYZED_FOR_REPRESENTATIVE_PATHS; CHILD_SOURCES_REMAIN_NON_ADMITTED_AND_REQUIRE_INDEPENDENT_LICENSE_PROVENANCE_SECURITY_AND_USAGE_REVIEW"
+  },
+  "requirements": [
+    "Reference registration only; no code import, runtime dependency, provider/model admission or activation.",
+    "The Groq organization and all GitHub topics are discovery/reference indexes and do not recursively admit child repositories, packages, services or models.",
+    "Official Groq repositories may inform API/protocol adaptation, but CFA3 architectural authority remains unchanged and official upstream API contracts must be reverified at material-use time.",
+    "Community repositories are non-authoritative references; all source copying and dependency adoption remain blocked pending License & Rights, provenance, Security, Software Coexistence and supply-chain review.",
+    "Archived/deprecated child projects may be used only as historical architectural references unless separately requalified.",
+    "The fixed CFA3 capability baseline remains 175 and no architectural authority is added.",
+    "Model Router remains the sole provider/model routing authority; FA3-LLM-GATEWAY-001 remains the LLM data plane; no silent local-to-cloud fallback is introduced.",
+    "Actual adoption requires an explicit usage edge plus all applicable fail-closed gates."
+  ],
+  "boundaries": {
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "automatic_code_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "usage_edge_created": false,
+    "capability_count_change": false,
+    "authority_change": false,
+    "runtime_change": false,
+    "current_host_pass_claimed": false,
+    "application_implementation_started": false
+  },
+  "serialization_scope": "ROLLING_FIVE_SLOT_DONOR_MAINTENANCE",
+  "serialization_order": "SINGLE_CANONICAL_WRITER_WITH_BATCH_APPEND_AND_EXACT_HEAD_REVALIDATION",
+  "batch_finalizer_pr": 727
+}
