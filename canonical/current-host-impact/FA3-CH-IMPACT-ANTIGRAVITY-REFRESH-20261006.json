@@ -28,7 +28,9 @@
   "rationale": "The refresh changes generic Provider Execution and Agent Workload runtime semantics (bounded credential traversal, backoff/health state, reasoning intent, protocol projection and shared context-compaction contracts) but activates no provider, model, service, package, port, credential path, device or physical runtime promotion. The Current Host conformance companion is reconciled in the same changeset and explicitly preserves provider-specific physical admission: a provider or multi-credential deployment must obtain fresh physical Current Host evidence when it is actually promoted. No historical provider evidence is relabeled or inherited as proof for this refresh.",
   "structural_changes": [
     ".github/workflows/fa3-model-router-provider-execution-gate.yml",
+    "apps/fa3-control-center/qml/ProviderExecutionView.qml",
     "canonical/FA3-GATE-MODEL-ROUTER-PROVIDER-EXECUTION-001.json",
+    "canonical/FA3-GUI-SURFACE-REGISTRY-001.json",
     "canonical/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CORE-CLOSURE-001.json",
     "canonical/contracts/FA3-AGENT-WORKLOAD-RUNTIME-CONTRACTS-001.json",
     "canonical/contracts/FA3-AGENT-WORKLOAD-TASK-001.schema.json",
@@ -43,8 +45,10 @@
     "canonical/model-router-provider-execution-enforcement.json",
     "canonical/profiles/FA3-AGENT-WORKLOAD-RUNTIME-001.json",
     "canonical/profiles/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-001.json",
+    "canonical/profiles/FA3-SHARED-CONVERSATION-SESSION-001.json",
     "src/fa3_agent_runtime_semantics.py",
     "src/fa3_agent_workload.py",
+    "src/fa3_context_budget_compaction.py",
     "src/fa3_model_router_provider_execution.py",
     "src/fa3_model_router_provider_execution_gate.py",
     "src/fa3_release_projection_gate.py"
