@@ -3,12 +3,14 @@ import sys, unittest
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]; SRC=ROOT/"src"
 if str(SRC) not in sys.path: sys.path.insert(0,str(SRC))
-from fa3_neural_rendering import NeuralRenderingError,SelectionRequest,select_provider,validate_execution_preflight
+from fa3_neural_rendering import NeuralRenderingError,SelectionRequest,select_provider,validate_execution_preflight,validate_frame_surface,validate_output_policy
 from fa3_neural_rendering_jev_adapter import JevAdvisoryError,JevRequest,advise
 
-def candidate(ident,admitted=True,execution_class="HOST_NATIVE_ACCELERATED",priority=0):
-    return {"id":ident,"execution_class":execution_class,"policy_eligible":True,"provider_admitted":admitted,
-            "model_artifact_admitted":True,"runtime_compatible":True,"hardware_compatible":True,"supply_chain_valid":True,"priority":priority}
+def candidate(ident,admitted=True,execution_class="HOST_NATIVE_ACCELERATED",priority=0,feature_classes=None):
+    row={"id":ident,"execution_class":execution_class,"policy_eligible":True,"provider_admitted":admitted,
+         "model_artifact_admitted":True,"runtime_compatible":True,"hardware_compatible":True,"supply_chain_valid":True,"priority":priority}
+    if feature_classes is not None: row["feature_classes"]=feature_classes
+    return row
 
 class NeuralRenderingTests(unittest.TestCase):
     def test_deterministic_filter_and_selection(self):
@@ -44,4 +46,31 @@ class NeuralRenderingTests(unittest.TestCase):
         with self.assertRaises(NeuralRenderingError) as c:
             validate_execution_preflight(selected_provider_id="p",executed_provider_id="p",execution_class="BROWSER_WEBGPU",model_artifact_ref="m",supply_chain_receipt_ref="s",evidence_context_ref="e")
         self.assertEqual("NR-WEB-AI-RECEIPT-MISSING",c.exception.code)
+    def test_cpu_execution_is_explicit_and_model_router_bound(self):
+        with self.assertRaises(NeuralRenderingError) as c:
+            validate_execution_preflight(selected_provider_id="cpu",executed_provider_id="cpu",execution_class="CPU_SOFTWARE",model_artifact_ref="m",supply_chain_receipt_ref="s",evidence_context_ref="e",hrb_lease_ref="lease")
+        self.assertEqual("NR-MODEL-ROUTER-RECEIPT-MISSING",c.exception.code)
+        r=validate_execution_preflight(selected_provider_id="cpu",executed_provider_id="cpu",execution_class="CPU_SOFTWARE",model_artifact_ref="m",supply_chain_receipt_ref="s",evidence_context_ref="e",hrb_lease_ref="lease",model_router_receipt_ref="router")
+        self.assertEqual("CPU_SOFTWARE",r["execution_class"]); self.assertFalse(r["silent_fallback_allowed"])
+
+    def test_feature_class_filters_provider_candidates(self):
+        r=select_provider(SelectionRequest(operation_id="op-feature",feature_class="SUPER_RESOLUTION",candidates=(candidate("nr",feature_classes=["NEURAL_RENDER"]),candidate("sr",feature_classes=["SUPER_RESOLUTION"]))))
+        self.assertEqual(["sr"],r["selected_ids"]); self.assertEqual("SUPER_RESOLUTION",r["feature_class"])
+
+    def test_temporal_frame_surface_contract(self):
+        surface={"frame_id":"f1","width":1920,"height":1080,"color_space":"scene-linear","timecode":"00:00:00:00","source_artifact_ref":"asset:1","provenance_ref":"prov:1","motion_vectors_ref":"mv:1","depth_ref":"depth:1","temporal_history_ref":"hist:1","camera_ref":"cam:1","jitter":[0.0,0.0]}
+        r=validate_frame_surface(surface,feature_class="NEURAL_RENDER")
+        self.assertEqual("VALIDATED",r["status"]); self.assertFalse(r["canonical_timeline_mutated"])
+
+    def test_frame_generation_is_forbidden_for_final_master(self):
+        with self.assertRaises(NeuralRenderingError) as c:
+            validate_output_policy(feature_class="FRAME_GENERATION",output_class="FINAL_MASTER")
+        self.assertEqual("NR-FRAME-GENERATION-FINAL-FORBIDDEN",c.exception.code)
+
+    def test_super_resolution_requires_target_dimensions(self):
+        surface={"frame_id":"f1","width":960,"height":540,"color_space":"scene-linear","timecode":"00:00:00:00","source_artifact_ref":"asset:1","provenance_ref":"prov:1","motion_vectors_ref":"mv:1","depth_ref":"depth:1","temporal_history_ref":"hist:1","camera_ref":"cam:1","jitter":[0.0,0.0]}
+        with self.assertRaises(NeuralRenderingError) as c:
+            validate_frame_surface(surface,feature_class="SUPER_RESOLUTION")
+        self.assertEqual("NR-TARGET-DIMENSION-MISSING",c.exception.code)
+
 if __name__=="__main__": unittest.main()
