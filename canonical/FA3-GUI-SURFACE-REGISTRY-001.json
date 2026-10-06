@@ -237,18 +237,23 @@
             "endpoint_health",
             "quota_pressure",
             "backoff_cooldown",
-            "circuit_state",
+            "circuit_breaker",
             "credential_pool_traversal",
             "session_affinity",
-            "rebind_receipts",
-            "reasoning_intent_projection",
-            "context_budget_compaction",
+            "rebind_history",
             "protocol_degradation",
-            "provider_specific_current_host_evidence"
+            "reasoning_intent",
+            "reasoning_result",
+            "context_budget",
+            "provider_runtime_admission",
+            "current_host_evidence_status"
           ],
           "context_compaction_authority": false,
           "reasoning_selection_authority": false,
-          "provider_runtime_environment_authority": false
+          "provider_runtime_environment_authority": false,
+          "observability_read_only": true,
+          "raw_secret_visible": false,
+          "secret_reference_full_value_visible": false
         }
       ],
       "provider_gui_completion_obligation": {
