@@ -91,5 +91,22 @@
   "blocks_core_closure": false,
   "core_closure_record": "canonical/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CORE-CLOSURE-001.json",
   "capability_baseline_release": "2026-09-26/v3.1.0",
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "refresh_2026_10_06": {
+    "generic_core_refresh": "STATIC_DETERMINISTIC_RECONCILED",
+    "provider_or_model_activated_by_refresh": false,
+    "runtime_promotion_claim": false,
+    "physical_requalification_required_for_generic_core_refresh": false,
+    "provider_specific_physical_admission_required_when_promoted": true,
+    "multi_credential_physical_rebind_required_when_promoted": true,
+    "future_promotion_obligations": [
+      "BOUNDED_CREDENTIAL_POOL_TRAVERSAL",
+      "TIERED_BACKOFF_AND_COOLDOWN",
+      "PROVIDER_CREDENTIAL_MODEL_ENDPOINT_HEALTH_SEPARATION",
+      "REASONING_INTENT_PROJECTION_WITHOUT_ADAPTER_AUTHORITY",
+      "PROTOCOL_ERROR_AND_SCHEMA_FIDELITY"
+    ],
+    "context_compaction_is_shared_non_provider_runtime": true,
+    "historical_provider_evidence_relabeling": false
+  }
 }
