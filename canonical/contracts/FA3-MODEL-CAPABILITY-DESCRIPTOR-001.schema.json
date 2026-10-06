@@ -57,11 +57,44 @@
         },
         "streaming": {
           "type": "boolean"
+        },
+        "reasoning": {
+          "type": "boolean"
         }
       },
       "additionalProperties": {
         "type": "boolean"
       }
+    },
+    "reasoning_limits": {
+      "type": "object",
+      "properties": {
+        "levels": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "OFF",
+              "LOW",
+              "MEDIUM",
+              "HIGH",
+              "MAX"
+            ]
+          }
+        },
+        "token_budget_supported": {
+          "type": "boolean"
+        },
+        "effort_class_supported": {
+          "type": "boolean"
+        },
+        "max_budget_tokens": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
     }
   },
   "additionalProperties": false

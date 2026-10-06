@@ -14,6 +14,8 @@ NODE_KINDS={"AGENT","FUNCTION","SEQUENTIAL","PARALLEL","LOOP","DECISION"}
 MODEL_CAP_SOURCES={"PROVIDER_DECLARED","ADMITTED_PROBE","PROVIDER_DECLARED_AND_PROBED"}
 MCP_RESULT_FIELDS={"content","isError","structuredContent","_meta"}
 BUDGET_DIMENSIONS={"model_calls","tool_calls","retries","transfer_hops"}
+REASONING_CLASSES={"AUTO","OFF","LOW","MEDIUM","HIGH","MAX"}
+REASONING_LEVELS={"OFF","LOW","MEDIUM","HIGH","MAX"}
 
 class RuntimeSemanticsError(ValueError): pass
 
@@ -53,7 +55,47 @@ def validate_model_capability_descriptor(d:dict[str,Any])->dict[str,Any]:
     caps=d.get("capabilities"); required=("tools","structured_output","media_input","media_output","streaming")
     if not isinstance(caps,dict) or any(k not in caps or not _strict_bool(caps[k]) for k in required) or any(not _strict_bool(v) for v in caps.values()):
         raise RuntimeSemanticsError("explicit boolean model capabilities required")
+    limits=d.get("reasoning_limits")
+    if limits is not None:
+        if not isinstance(limits,dict): raise RuntimeSemanticsError("reasoning_limits must be object")
+        levels=limits.get("levels",[])
+        if not isinstance(levels,list) or any(x not in REASONING_LEVELS for x in levels) or len(set(levels))!=len(levels):
+            raise RuntimeSemanticsError("reasoning levels invalid")
+        for key in ("token_budget_supported","effort_class_supported"):
+            if key in limits and not _strict_bool(limits[key]): raise RuntimeSemanticsError(f"{key} must be boolean")
+        max_budget=limits.get("max_budget_tokens")
+        if max_budget is not None and (not isinstance(max_budget,int) or isinstance(max_budget,bool) or max_budget<0):
+            raise RuntimeSemanticsError("max reasoning budget invalid")
+        if caps.get("reasoning") is not True and (levels or limits.get("token_budget_supported") is True or limits.get("effort_class_supported") is True):
+            raise RuntimeSemanticsError("reasoning limits declared for non-reasoning model")
     return copy.deepcopy(d)
+
+def validate_reasoning_intent(intent:dict[str,Any])->dict[str,Any]:
+    if not isinstance(intent,dict) or intent.get("class") not in REASONING_CLASSES:
+        raise RuntimeSemanticsError("reasoning intent invalid")
+    budget=intent.get("budget_tokens")
+    if budget is not None and (not isinstance(budget,int) or isinstance(budget,bool) or budget<0):
+        raise RuntimeSemanticsError("reasoning budget invalid")
+    if intent["class"]=="OFF" and budget not in (None,0):
+        raise RuntimeSemanticsError("OFF reasoning cannot request positive budget")
+    return copy.deepcopy(intent)
+
+def reasoning_intent_satisfied(d:dict[str,Any],intent:dict[str,Any])->bool:
+    checked=validate_reasoning_intent(intent)
+    model=validate_model_capability_descriptor(d)
+    level=checked["class"]
+    if level in {"AUTO","OFF"}: return True
+    caps=model["capabilities"]
+    if caps.get("reasoning") is not True: return False
+    limits=model.get("reasoning_limits",{})
+    levels=limits.get("levels",[])
+    if levels and level not in levels: return False
+    budget=checked.get("budget_tokens")
+    if budget is not None:
+        if limits.get("token_budget_supported") is not True: return False
+        max_budget=limits.get("max_budget_tokens")
+        if max_budget is not None and budget>max_budget: return False
+    return True
 
 def capabilities_satisfy(d:dict[str,Any],required:set[str])->bool:
     caps=validate_model_capability_descriptor(d)["capabilities"]
