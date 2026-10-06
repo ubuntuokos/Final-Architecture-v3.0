@@ -327,6 +327,50 @@
       "automatic_backend_selection": false,
       "silent_fallback": false,
       "current_host_runtime_promotion_claim": false
+    },
+    {
+      "engine_id": "FA3-ENGINE-FA3-NEURAL-RECONSTRUCTION-001",
+      "name": "CFA3 Neural Rendering & Reconstruction Fabric",
+      "implementation_kind": "FA3_NATIVE_SHARED_FABRIC",
+      "engine_classes": [
+        "NEURAL_RENDER",
+        "RENDER"
+      ],
+      "capability_projection": [
+        "CAP-127",
+        "CAP-161",
+        "CAP-162",
+        "CAP-163"
+      ],
+      "execution_modes": [
+        "LOCAL",
+        "LAN",
+        "REMOTE",
+        "BROWSER"
+      ],
+      "status": "STATIC_SHARED_FABRIC_MATERIALIZED_RUNTIME_PROVIDER_ADMISSION_SEPARATE",
+      "health_state": "AVAILABLE_CONDITIONAL",
+      "architectural_authority": false,
+      "provider_record": null,
+      "permanent_parallel_option": true,
+      "hrb_bound": true,
+      "engine_selection_bound": true,
+      "model_router_bound_when_model_backed": true,
+      "provider_selection_authority": false,
+      "cpu_software_path_required": true,
+      "feature_classes": [
+        "NEURAL_RENDER",
+        "SUPER_RESOLUTION",
+        "NATIVE_RESOLUTION_AA",
+        "RAY_RECONSTRUCTION",
+        "DENOISE",
+        "TEMPORAL_RECONSTRUCTION",
+        "FRAME_GENERATION",
+        "LOW_LATENCY_PRESENTATION"
+      ],
+      "automatic_backend_selection": false,
+      "silent_fallback": false,
+      "current_host_runtime_promotion_claim": false
     }
   ],
   "custom_engine_policy": {

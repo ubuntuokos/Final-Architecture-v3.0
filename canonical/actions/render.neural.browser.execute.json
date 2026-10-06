@@ -1,7 +1,7 @@
 {
   "schema": "fa3.uaf.action-contract.v1",
   "id": "render.neural.browser.execute",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Execute an already selected browser WebGPU neural-rendering plan under FA3-WEB-AI capability, provenance and egress policy.",
   "input_schema": {
     "type": "object",
@@ -11,7 +11,10 @@
       "selected_provider_id",
       "model_artifact_ref",
       "web_ai_capability_receipt_ref",
-      "execution_class"
+      "execution_class",
+      "feature_class",
+      "output_class",
+      "frame_surface"
     ],
     "properties": {
       "operation_id": {
@@ -44,6 +47,42 @@
       "execution_class": {
         "type": "string",
         "const": "BROWSER_WEBGPU"
+      },
+      "feature_class": {
+        "type": "string",
+        "enum": [
+          "NEURAL_RENDER",
+          "SUPER_RESOLUTION",
+          "NATIVE_RESOLUTION_AA",
+          "RAY_RECONSTRUCTION",
+          "DENOISE",
+          "TEMPORAL_RECONSTRUCTION",
+          "FRAME_GENERATION",
+          "LOW_LATENCY_PRESENTATION"
+        ]
+      },
+      "output_class": {
+        "type": "string",
+        "enum": [
+          "INTERACTIVE_PREVIEW",
+          "VIEWPORT",
+          "PREVIZ",
+          "VP_MONITOR",
+          "PLAYBACK",
+          "FINAL_MASTER",
+          "ARCHIVAL_MASTER",
+          "EXR_SEQUENCE",
+          "VFX_HANDOFF"
+        ]
+      },
+      "frame_surface": {
+        "type": "object"
+      },
+      "application_id": {
+        "type": [
+          "string",
+          "null"
+        ]
       }
     },
     "additionalProperties": false

@@ -35,6 +35,8 @@ SOURCES = (
     "canonical/contracts/FA3-SHARED-HAIR-GROOM-CONTRACTS-001.json",
     "canonical/profiles/FA3-SHARED-RAY-PATH-TRACING-001.json",
     "canonical/contracts/FA3-SHARED-RAY-PATH-TRACING-CONTRACTS-001.json",
+    "canonical/profiles/FA3-NEURAL-RENDERING-001.json",
+    "canonical/contracts/FA3-NEURAL-RENDERING-CONTRACTS-001.json",
 )
 
 

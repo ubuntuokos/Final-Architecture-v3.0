@@ -8,18 +8,45 @@
     "FA3-NEURAL-RENDERING-001",
     "FA3-PROVIDER-OPENDLSS-NR-001"
   ],
-  "project_status": "MATERIALIZED_STATIC_REFERENCE_PROVIDER_E2E_PENDING",
+  "project_status": "OWNER_APPROVED_FULL_SHARED_INTEGRATION_STATIC_RUNTIME_PROVIDER_E2E_SEPARATE",
   "result": "PASS",
   "selected_reuse": [
-    {"id": "FA3-NEURAL-MEDIA-EXECUTION-001", "use": "MEDIA_EXECUTION_PARENT"},
-    {"id": "FA3-GPU-KERNEL-RUNTIME-001", "use": "ACCELERATOR_KERNEL_EXECUTION_BOUNDARY"},
-    {"id": "FA3-AUTH-HOST-RESOURCE-BROKER-001", "use": "RESOURCE_DISCOVERY_ADMISSION_PLACEMENT_AND_LEASE"},
-    {"id": "FA3-UNIFIED-ACTION-FABRIC-001", "use": "TYPED_ACTION_EXECUTION_BOUNDARY"},
-    {"id": "FA3-MODEL-REGISTRY-001", "use": "MODEL_ARTIFACT_IDENTITY_AND_PROVENANCE"},
-    {"id": "FA3-AUTH-MODEL-ROUTER-001", "use": "MODEL_PROVIDER_ROUTING_WHEN_MODEL_ROUTE_IS_USED"},
-    {"id": "FA3-WEB-AI-001", "use": "BROWSER_WEBGPU_EXECUTION_DOMAIN"},
-    {"id": "FA3-3D-GEOM-001", "use": "GEOMETRY_SEMANTIC_AUTHORITY"},
-    {"id": "FA3-AUTH-OBS-EVIDENCE-001", "use": "EVIDENCE_AUTHORITY"}
+    {
+      "id": "FA3-NEURAL-MEDIA-EXECUTION-001",
+      "use": "MEDIA_EXECUTION_PARENT"
+    },
+    {
+      "id": "FA3-GPU-KERNEL-RUNTIME-001",
+      "use": "ACCELERATOR_KERNEL_EXECUTION_BOUNDARY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "RESOURCE_DISCOVERY_ADMISSION_PLACEMENT_AND_LEASE"
+    },
+    {
+      "id": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "use": "TYPED_ACTION_EXECUTION_BOUNDARY"
+    },
+    {
+      "id": "FA3-MODEL-REGISTRY-001",
+      "use": "MODEL_ARTIFACT_IDENTITY_AND_PROVENANCE"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "MODEL_PROVIDER_ROUTING_WHEN_MODEL_ROUTE_IS_USED"
+    },
+    {
+      "id": "FA3-WEB-AI-001",
+      "use": "BROWSER_WEBGPU_EXECUTION_DOMAIN"
+    },
+    {
+      "id": "FA3-3D-GEOM-001",
+      "use": "GEOMETRY_SEMANTIC_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "EVIDENCE_AUTHORITY"
+    }
   ],
   "rejected_candidates": [
     {
@@ -67,10 +94,40 @@
     "upstream_paths_shadowed": false,
     "provider_source_and_model_data_external_to_fa3_core": true
   },
-  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
+  "implementation_readiness": "STATIC_SHARED_FABRIC_READY_RUNTIME_PROVIDER_PROMOTION_SEPARATE",
   "current_host_runtime_promotion_claim": false,
   "global_promotion_claim": false,
-  "capability_count_after": 143,
+  "capability_count_after": 175,
   "new_capabilities": 0,
-  "new_architectural_authorities": 0
+  "new_architectural_authorities": 0,
+  "donor_planning_snapshot": {
+    "published_main_commit": "35a6f54b968d65564e0d2f829531cff688189f76",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "2bb6a74dd415b6374e4a6d5adce1bc9265229b63",
+    "donor_registry_sha256": "4c3609314b55dc00adb5132297d89f13908c9e7efb7c3c4e750ac94fcef7e04a",
+    "donor_registry_entry_count": 1792
+  },
+  "pending_or_unmerged_donors_consumed": false,
+  "donor_usage_edges_created": 0,
+  "donor_review": "REVIEWED_MATCH_EXISTING_SHARED_COMPONENTS",
+  "donor_adoption_authorized": false,
+  "indirect_donor_reuse_via_existing_canonical_components": [
+    "FA3-SHARED-RAY-PATH-TRACING-001",
+    "FA3-KHRONOS-OPEN-STANDARDS-001",
+    "FA3-ENGINE-SELECTION-FABRIC-001"
+  ],
+  "shared_capability_placement": {
+    "reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "shared_component_ids": [
+      "FA3-NEURAL-RENDERING-001"
+    ],
+    "retrospective_consumer_impact_reviewed": true,
+    "local_duplicate_created": false,
+    "consumer_scope": [
+      "CURRENT_RELEVANT_APPLICATIONS",
+      "FUTURE_CAPABILITY_COMPATIBLE_APPLICATIONS"
+    ]
+  }
 }

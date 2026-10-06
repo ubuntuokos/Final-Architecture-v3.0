@@ -746,6 +746,76 @@
       ],
       "local_ui_adapter_only": true,
       "pattern_catalogue_refs": []
+    },
+    {
+      "id": "FA3-NEURAL-RENDERING-001",
+      "owner_layer": "Creative Design, Film, DCC & Documents",
+      "consumer_applications": [
+        "fa3.video-editor",
+        "fa3.quickclip",
+        "fa3.story-screenplay",
+        "fa3.character-studio",
+        "fa3.ai-module-factory",
+        "studio.comfyui",
+        "studio.invokeai",
+        "studio.kdenlive",
+        "studio.bforartists",
+        "studio.natron",
+        "studio.gaffer",
+        "reference.krita"
+      ],
+      "status": "MATERIALIZED_STATIC",
+      "authority": false,
+      "local_ui_adapter_only": true,
+      "retrospective_review_required": true,
+      "manual_update_required": true,
+      "capability_loss_allowed": false,
+      "current_host_alignment_required_for_structural_change": true,
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT"
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-NEURAL-RENDERING-001"
+        ],
+        "contract_ids": [
+          "FA3-NEURAL-RENDERING-CONTRACTS-001"
+        ],
+        "authority_ids": [
+          "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+          "FA3-AUTH-MODEL-ROUTER-001",
+          "FA3-AUTH-OBS-EVIDENCE-001"
+        ],
+        "shared_module_ids": []
+      },
+      "pattern_catalogue_refs": [],
+      "gui_surface_ids": [],
+      "consumer_modes": {
+        "fa3.video-editor": "FRAME_TIMELINE_RECONSTRUCTION",
+        "fa3.quickclip": "SHORT_FORM_PREVIEW_AND_RECONSTRUCTION",
+        "fa3.story-screenplay": "INDIRECT_PREVIZ_RENDER_REQUEST",
+        "fa3.character-studio": "DIGITAL_HUMAN_VIEWPORT_AND_RENDER",
+        "fa3.ai-module-factory": "READ_ONLY_EVIDENCE_AND_ARTIFACT_CONSUMER",
+        "studio.comfyui": "POST_GENERATION_RECONSTRUCTION_ADAPTER",
+        "studio.invokeai": "POST_GENERATION_RECONSTRUCTION_ADAPTER",
+        "studio.kdenlive": "EDITORIAL_PREVIEW_AND_RECONSTRUCTION_ADAPTER",
+        "studio.bforartists": "DCC_RENDER_FRAME_HANDOFF",
+        "studio.natron": "COMPOSITING_FRAME_HANDOFF",
+        "studio.gaffer": "DCC_RENDER_COMPOSITING_HANDOFF",
+        "reference.krita": "IMAGE_PREVIEW_RECONSTRUCTION_REFERENCE"
+      },
+      "future_product_family_domains": [
+        "IMAGE",
+        "VIDEO",
+        "DIGITAL_HUMAN",
+        "ANIMATION",
+        "SHOT_DESIGN",
+        "VIRTUAL_PRODUCTION",
+        "LOCATION_SET",
+        "RENDER",
+        "EDITING"
+      ],
+      "future_application_binding": "AUTO_DISCOVER_CAPABILITY_COMPATIBLE_SURFACE_BUT_NEVER_AUTO_ACTIVATE_PROVIDER"
     }
   ],
   "governance_decisions": [
