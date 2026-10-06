@@ -43,7 +43,7 @@ The wrapper starts a transient loopback-only adapter for `FA3-PROVIDER-OPENAI-AP
 The adapter is evidence-scope only. It does not enable normal application routing, does not alter baseline local routes, and does not create a local-to-cloud fallback. External egress is bounded by `FA3-OPENAI-API-EXTERNAL-POLICY-001` to `https://api.openai.com/v1` for `GET /v1/models` and `POST /v1/chat/completions`. The bridge accepts only fixed FA3 provider-execution probe content.
 
 Before asking for credentials, the generic harness starts the already-installed production Secret Broker lifecycle if needed and validates the durable admitted current-host Secret Broker reference. It does not invoke the heavyweight Secret Broker current-host qualification helper.
-The Secret Broker prerequisite was requalified on 2026-09-24 and is active through `evidence/reference/secret-broker-current-host-2026-09-24.json`. The historical `2026-09-21` reference remains provenance only and is explicitly denied as an active prerequisite. Provider execution is therefore unblocked at the secrets prerequisite boundary, but real OpenAI provider-execution PASS is still withheld until the two-credential physical E2E and cleanup-bound gate complete.
+The Secret Broker prerequisite was requalified on 2026-09-24 and is active through `evidence/reference/secret-broker-current-host-2026-09-24.json`. The historical `2026-09-21` reference remains provenance only and is explicitly denied as an active prerequisite. The generic Provider Execution core is statically/deterministically closed; the explicit OpenAI evidence adapter remains separately pending its own two-credential physical E2E and cleanup-bound provider-specific promotion gate.
 
 Before the live Secret Broker lifecycle is started, the provisioning harness also requires the production vault artifacts `/var/lib/fa3/state/fa3-machine-state.img` and `/etc/credstore.encrypted/fa3-machine-state-key.cred`. Durable current-host admission proves that the Secret Broker implementation can run on this host; it does not initialize the operator's persistent production vault. If those artifacts are absent, provisioning fails immediately with the one-time initializer command instead of waiting on a systemd dependency timeout.
 
@@ -57,3 +57,23 @@ The provider-execution core is canonically closed by deterministic executable re
 Per-provider runtime promotion is separate. A new external provider must prove its own authentication/identity path, provider/model discovery when applicable, at least one real request, provider-specific protocol/error mapping, and Secret Broker-bound credential handling. Physical multi-credential rebind is required only when that provider or deployment is itself promoted for multi-credential failover. Gemini, GitHub Copilot, Anthropic, OpenAI and future providers therefore do not repeat the generic core certification.
 
 OpenAI currently remains optional provider evidence with both credential catalog preflights proven PASS on tested head `4c90056bbec6647c54adb834ddd764698e5776e8`, while real inference is `PENDING_EXTERNAL_BILLING` due to upstream `429 insufficient_quota / credit_balance_exhausted`. This does not block the provider-execution core closure.
+
+
+## 2026-10-06 refresh
+
+The active CFA3 release baseline is 175 capabilities. Historical 2026-09-24 Antigravity-derived reference/evidence records remain immutable at the baseline that existed when they were produced; active Provider Execution and Protocol Compatibility records follow the 175-capability release baseline with zero capability and authority delta.
+
+The refresh retains the original architecture and adds native CFA3 semantics for:
+
+- bounded per-request credential-pool traversal and explicit pool exhaustion back to the Model Router;
+- tiered backoff/cooldown, circuit state and separate provider/credential/model/endpoint health;
+- Agent Workload reasoning intent with Model Router selection authority and projection-only OpenAI/Anthropic/Gemini adapters;
+- non-destructive Context Budget & Compaction shared by Agent Workload, Shared Conversation and Shared Knowledge with provenance, retrieval backreferences and anti-thrashing;
+- tool-call ID normalization, explicit JSON Schema degradation, stream termination/error fidelity, bounded multimodal payloads and normalized usage metadata;
+- read-only Control Center observability for these states.
+
+Provider runtime-environment ownership belongs to `FA3-PROVIDER-RUNTIME-001`; Provider Execution does not own venv, OCI, host-native package/runtime isolation or lifecycle.
+
+The registered `FA3-DONOR-GOOGLE-ANTIGRAVITY-SDK-PYTHON-001` donor contributes architecture patterns only through the explicit usage edge `CFA3-USAGE-GOOGLE-ANTIGRAVITY-SDK-SHARED-AGENT-PATTERNS-20261006`. No Google Antigravity wheel, compiled runtime, Python dependency chain, Google service, MCP server, provider or model is admitted by this pattern use. The separate `lbjlaq/Antigravity-Manager` source remains clean-room external reference only because direct source/runtime reuse is incompatible with the commercial CFA3 distribution boundary.
+
+Current Host evidence remains provider-specific. This refresh activates no provider or model and makes no physical Current Host PASS claim. A provider/deployment promoted for multi-credential Provider Execution must still supply fresh physical evidence for its applicable admission and rebind semantics.

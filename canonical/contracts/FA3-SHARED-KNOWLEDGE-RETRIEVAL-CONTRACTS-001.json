@@ -28,7 +28,9 @@
     "HistoryAwareQueryRewrite",
     "CitationEnvelope",
     "ClaimSourceLink",
-    "RetrievalDenial"
+    "RetrievalDenial",
+    "ContextRetrievalBackreference",
+    "CompactedContextSourceLink"
   ],
   "required_semantics": {
     "segmentation": "SOURCE_AND_STRUCTURE_AWARE_POLICY_DRIVEN",
@@ -37,13 +39,15 @@
     "provenance": "CAP_155_MANDATORY_FOR_CITED_OUTPUT",
     "claim_verification": "CAP_156_WHEN_VERIFICATION_REQUESTED",
     "access_filtering": "BEFORE_RESULT_DISCLOSURE",
-    "implementation_examples": "REFERENCE_ONLY_NOT_CANONICAL"
+    "implementation_examples": "REFERENCE_ONLY_NOT_CANONICAL",
+    "compacted_context": "ORIGINAL_SOURCE_AND_PROVENANCE_BACKREFERENCE_REQUIRED"
   },
   "invariants": [
     "NO_FIXED_CHUNK_MAGIC_NUMBER",
     "NO_FIXED_TOP_K_MAGIC_NUMBER",
     "NO_GENERATION_MODEL_ASSUMED_AS_EMBEDDING_MODEL",
-    "NO_UNCITED_SOURCE_CLAIM_WHEN_CITATION_REQUESTED"
+    "NO_UNCITED_SOURCE_CLAIM_WHEN_CITATION_REQUESTED",
+    "NO_COMPACTION_WITHOUT_RETRIEVABLE_SOURCE_LINEAGE"
   ],
   "capability_baseline_release": "2026-09-26/v3.1.0",
   "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"

@@ -4,7 +4,7 @@
   "status": "CANONICAL",
   "profile_id": "FA3-LLM-PROTOCOL-COMPAT-001",
   "provider_neutral": true,
-  "capability_count": 143,
+  "capability_count": 175,
   "new_capability": false,
   "new_architectural_authority": false,
   "contracts": [
@@ -15,12 +15,39 @@
     "ProtocolDegradationReceipt",
     "StreamingProjectionReceipt",
     "ToolSchemaCompatibilityReceipt",
-    "MultimodalProjectionReceipt"
+    "MultimodalProjectionReceipt",
+    "ReasoningIntent",
+    "ReasoningProtocolProjection",
+    "ToolCallIdProjection",
+    "ProviderErrorEnvelope",
+    "CanonicalUsageMetadata"
   ],
   "degradation_semantics": {
     "silent_drop": "FORBIDDEN",
     "security_relevant_loss": "FAIL_CLOSED",
     "tool_semantic_loss": "FAIL_CLOSED_UNLESS_EXPLICITLY_ALLOWED_BY_CALLER_POLICY",
     "receipt_required": true
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "reasoning_semantics": {
+    "decision_owner": "AGENT_WORKLOAD_PLUS_FA3_AUTH_MODEL_ROUTER",
+    "adapter_role": "PROJECTION_ONLY",
+    "adapter_may_increase_budget": false,
+    "silent_budget_clamp": false
+  },
+  "streaming_semantics": {
+    "ordered": true,
+    "explicit_terminal_state": true,
+    "heartbeat_transport_only": true,
+    "error_not_success": true
+  },
+  "error_fidelity": {
+    "upstream_http_status_preserved": true,
+    "fabricated_2xx_for_error": false
+  },
+  "multimodal_semantics": {
+    "inline_payload_bounded": true,
+    "artifact_reference_preferred_for_large_payload": true
   }
 }

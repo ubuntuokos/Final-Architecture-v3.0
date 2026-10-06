@@ -1,7 +1,7 @@
 import unittest
 from pathlib import Path
 from fa3_adk2_runtime_gate import gate,regression_cases
-from fa3_agent_runtime_semantics import RuntimeSemanticsError,consume_budget,make_execution_ledger,normalize_mcp_result,plan_resume,validate_artifact_write,validate_session_append,validate_tool_confirmation
+from fa3_agent_runtime_semantics import RuntimeSemanticsError,consume_budget,make_execution_ledger,normalize_mcp_result,plan_resume,reasoning_intent_satisfied,validate_artifact_write,validate_model_capability_descriptor,validate_session_append,validate_tool_confirmation
 from fa3_agent_workload import WorkloadContractError, compile_execution_plan, validate_execution_admission
 from fa3_task_scope_closure import blocker_fingerprint, goal_scope_binding, record_blocker_failure, start_task_control
 ROOT=Path(__file__).resolve().parents[1]
@@ -52,6 +52,13 @@ class Adk2DerivedRuntimeSemanticsTests(unittest.TestCase):
         with self.assertRaises(RuntimeSemanticsError): validate_session_append({"session_id":"s","thread_id":"t","state":"ACTIVE"},{"event_id":"e","session_id":"s","thread_id":"other"},set())
     def test_artifact_version_cannot_skip(self):
         with self.assertRaises(RuntimeSemanticsError): validate_artifact_write("out/a.bin",1,2,previous_version=1,requested_version=3)
+    def test_reasoning_intent_requires_explicit_model_capability(self):
+        base={"schema":"fa3.model-capability-descriptor.v1","logical_model_id":"default","source":"PROVIDER_DECLARED","router_authority":"FA3-AUTH-MODEL-ROUTER-001","model_id_heuristic":False,"capabilities":{"tools":True,"structured_output":False,"media_input":False,"media_output":False,"streaming":True,"reasoning":True},"reasoning_limits":{"levels":["LOW","MEDIUM","HIGH"],"token_budget_supported":True,"effort_class_supported":True,"max_budget_tokens":4096}}
+        self.assertTrue(reasoning_intent_satisfied(base,{"class":"HIGH","budget_tokens":2048}))
+        self.assertFalse(reasoning_intent_satisfied(base,{"class":"MAX","budget_tokens":2048}))
+        self.assertFalse(reasoning_intent_satisfied(base,{"class":"HIGH","budget_tokens":8192}))
+        bad=dict(base); bad["capabilities"]=dict(base["capabilities"]); bad["capabilities"]["reasoning"]=False
+        with self.assertRaises(RuntimeSemanticsError): validate_model_capability_descriptor(bad)
     def test_execution_plan_compiler_binds_task_graph_model_and_budget(self):
         binding=goal_scope_binding({"goal_id":"t","revision":1,"scope":{"in_scope":["approved:t"],"out_of_scope":[]}})
         control=start_task_control(binding,task_id="t",root_task_id="t")

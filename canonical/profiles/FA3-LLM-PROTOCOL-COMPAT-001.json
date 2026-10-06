@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-LLM-PROTOCOL-COMPAT-001",
   "name": "Provider-Neutral LLM Protocol Compatibility Projection",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST-IF-PROTOCOL-TRANSLATION-USED",
@@ -11,7 +11,7 @@
   "provider_neutral": true,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "protocols": [
     "OPENAI",
     "ANTHROPIC",
@@ -38,8 +38,27 @@
     "SILENT_SCHEMA_STRIPPING_FORBIDDEN",
     "SECURITY_RELEVANT_SCHEMA_LOSS_FAILS_CLOSED",
     "MULTIMODAL_PAYLOADS_BOUNDED",
-    "SECRET_FORWARDING_DEFAULT_DENY"
+    "SECRET_FORWARDING_DEFAULT_DENY",
+    "REASONING_POLICY_DECIDED_BEFORE_PROTOCOL_ADAPTER",
+    "ADAPTER_CANNOT_INCREASE_REASONING_BUDGET",
+    "TOOL_CALL_ID_CANONICALIZATION_RECEIPT_REQUIRED_WHEN_TRANSFORMED",
+    "UPSTREAM_HTTP_ERROR_STATUS_PRESERVED",
+    "STREAM_TERMINATION_EXPLICIT",
+    "USAGE_METADATA_NORMALIZED"
   ],
   "contract_id": "FA3-LLM-PROTOCOL-COMPAT-CONTRACTS-001",
-  "fail_closed": true
+  "fail_closed": true,
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "implementation": "src/fa3_llm_protocol_compat.py",
+  "reasoning_projection": {
+    "source": "CANONICAL_REASONING_INTENT",
+    "model_router_selection_authority": true,
+    "protocol_adapter_selection_authority": false,
+    "silent_budget_clamp": false
+  },
+  "error_fidelity": {
+    "fabricated_success_for_upstream_error": "FORBIDDEN",
+    "http_status_preserved": true
+  }
 }

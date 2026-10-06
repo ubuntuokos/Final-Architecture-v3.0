@@ -4,7 +4,7 @@
   "status": "CANONICAL",
   "profile_id": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-001",
   "provider_neutral": true,
-  "capability_count": 143,
+  "capability_count": 175,
   "new_capability": false,
   "new_architectural_authority": false,
   "contracts": [
@@ -20,7 +20,16 @@
     "ProviderTransitionPolicy",
     "RouteExecutionIntent",
     "RouteExecutionReceipt",
-    "RouteRebindReceipt"
+    "RouteRebindReceipt",
+    "ProviderHealthSnapshot",
+    "ModelHealthSnapshot",
+    "EndpointHealthSnapshot",
+    "CredentialPoolTraversalBudget",
+    "BackoffSchedule",
+    "QuotaWindowMetadata",
+    "ReasoningIntent",
+    "ReasoningSelectionReceipt",
+    "ProviderPoolExhaustionReceipt"
   ],
   "secret_semantics": {
     "raw_secret_value": "FORBIDDEN",
@@ -30,6 +39,24 @@
   "selection_semantics": {
     "provider_candidate_source": "FA3-AUTH-MODEL-ROUTER-001_ADMITTED_SET_ONLY",
     "candidate_expansion": "DENY",
-    "cross_provider_selection": "FA3-AUTH-MODEL-ROUTER-001_ONLY"
+    "cross_provider_selection": "FA3-AUTH-MODEL-ROUTER-001_ONLY",
+    "per_request_pool_traversal": "EXPLICIT_BOUNDED",
+    "deterministic_tie_break": true
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "failure_semantics": {
+    "provider_credential_model_endpoint_health": "DISTINCT",
+    "transient_success_reset": "ALLOWED",
+    "security_or_policy_failure_reset": "FORBIDDEN",
+    "pool_exhaustion": "RETURN_TO_MODEL_ROUTER",
+    "silent_cross_provider_transition": "FORBIDDEN",
+    "provider_pool_exhaustion_receipt": "EXPLICIT_TYPED",
+    "traversal_budget_exhaustion": "DISTINCT_FROM_PROVIDER_POOL_EXHAUSTION",
+    "exhaustion_reasons": [
+      "MAX_REBIND_ATTEMPTS_EXHAUSTED",
+      "MAX_CREDENTIALS_PER_REQUEST_EXHAUSTED",
+      "NO_ELIGIBLE_CREDENTIAL_REMAINING"
+    ]
   }
 }

@@ -3314,11 +3314,24 @@ def gate(root: Path):
     model_router_provider_execution_paths = {
         "canonical/profiles/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-001.json",
         "canonical/profiles/FA3-LLM-PROTOCOL-COMPAT-001.json",
+        "canonical/profiles/FA3-PROVIDER-RUNTIME-001.json",
+        "canonical/profiles/FA3-AGENT-WORKLOAD-RUNTIME-001.json",
+        "canonical/contracts/FA3-AGENT-WORKLOAD-RUNTIME-CONTRACTS-001.json",
+        "canonical/contracts/FA3-AGENT-WORKLOAD-TASK-001.schema.json",
+        "canonical/contracts/FA3-MODEL-CAPABILITY-DESCRIPTOR-001.schema.json",
+        "canonical/profiles/FA3-SHARED-CONVERSATION-SESSION-001.json",
+        "canonical/contracts/FA3-SHARED-CONVERSATION-SESSION-CONTRACTS-001.json",
+        "canonical/profiles/FA3-SHARED-KNOWLEDGE-RETRIEVAL-001.json",
+        "canonical/contracts/FA3-SHARED-KNOWLEDGE-RETRIEVAL-CONTRACTS-001.json",
         "canonical/contracts/FA3-MODEL-ROUTER-EXECUTION-CONTRACTS-001.json",
         "canonical/contracts/FA3-LLM-PROTOCOL-COMPAT-CONTRACTS-001.json",
         "canonical/contracts/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CURRENT-HOST-CONFIG-001.schema.json",
         "canonical/assessments/FA3-ANTIGRAVITY-DERIVATION-ASSESSMENT-2026-09-24.json",
         "canonical/assessments/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-DECISION-ASSESSMENT-2026-09-24.json",
+        "canonical/assessments/CFA3-ANTIGRAVITY-DERIVED-REFRESH-REUSE-ASSESSMENT-2026-10-06.json",
+        "canonical/intents/CFA3-ANTIGRAVITY-DERIVED-REFRESH-APPLICATION-INTENT-2026-10-06.json",
+        "canonical/decisions/CFA3-DEC-GOOGLE-ANTIGRAVITY-SDK-PATTERN-USE-2026-10-06.json",
+        "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
         "canonical/decisions/FA3-DEC-ANTIGRAVITY-DERIVED-EXECUTION-MEDIATION-2026-09-24.json",
         "canonical/references/FA3-ANTIGRAVITY-UPSTREAM-REFERENCE-2026-09-24.json",
         "canonical/FA3-GATE-MODEL-ROUTER-PROVIDER-EXECUTION-001.json",
@@ -3329,6 +3342,10 @@ def gate(root: Path):
         "canonical/distribution-manifest.json",
         "canonical/enforcement-policy.json",
         "src/fa3_model_router_provider_execution.py",
+        "src/fa3_llm_protocol_compat.py",
+        "src/fa3_context_budget_compaction.py",
+        "src/fa3_agent_runtime_semantics.py",
+        "src/fa3_agent_workload.py",
         "src/fa3_model_router_provider_execution_gate.py",
         "src/fa3_model_router_provider_execution_current_host_gate.py",
         "src/fa3_enforce.py",
@@ -3339,6 +3356,11 @@ def gate(root: Path):
         "apps/fa3-control-center/qml/ProviderExecutionView.qml",
         "apps/fa3-control-center/qml/ModelsProvidersPage.qml",
         "tests/test_model_router_provider_execution.py",
+        "tests/test_antigravity_refresh_semantics.py",
+        "tests/test_adk2_runtime_semantics.py",
+        "tests/test_donor_google_antigravity_20261002.py",
+        "docs/cfa3-antigravity-refresh-plan-2026-10-06.md",
+        "canonical/current-host-impact/FA3-CH-IMPACT-ANTIGRAVITY-REFRESH-20261006.json",
         "tests/test_model_router_provider_execution_current_host.py",
         ".github/workflows/fa3-model-router-provider-execution-gate.yml",
         ".github/workflows/fa3-model-router-provider-execution-current-host.yml",
@@ -3365,15 +3387,27 @@ def gate(root: Path):
         or model_router_provider_execution.get("upstream_runtime_dependency") is not False
         or model_router_provider_execution.get("gui_surface_id") != "models.provider-execution"
         or model_router_provider_execution.get("gui_parent_route") != "models.providers"
+        or model_router_provider_execution.get("refresh_plan_path") != "docs/cfa3-antigravity-refresh-plan-2026-10-06.md"
+        or model_router_provider_execution.get("refresh_application_intent_id") != "CFA3-ANTIGRAVITY-DERIVED-REFRESH-APPLICATION-INTENT-2026-10-06"
+        or model_router_provider_execution.get("refresh_reuse_assessment_id") != "CFA3-ANTIGRAVITY-DERIVED-REFRESH-REUSE-ASSESSMENT-2026-10-06"
+        or model_router_provider_execution.get("google_antigravity_donor_id") != "FA3-DONOR-GOOGLE-ANTIGRAVITY-SDK-PYTHON-001"
+        or model_router_provider_execution.get("donor_usage_edge_id") != "CFA3-USAGE-GOOGLE-ANTIGRAVITY-SDK-SHARED-AGENT-PATTERNS-20261006"
+        or model_router_provider_execution.get("provider_runtime_environment") != "FA3-PROVIDER-RUNTIME-001"
+        or model_router_provider_execution.get("pool_traversal_bounded") is not True
+        or model_router_provider_execution.get("tiered_backoff_required") is not True
+        or model_router_provider_execution.get("health_dimensions") != ["PROVIDER", "CREDENTIAL", "MODEL", "ENDPOINT"]
+        or model_router_provider_execution.get("reasoning_arbitration") != "AGENT_WORKLOAD_TO_MODEL_ROUTER_TO_PROTOCOL_COMPAT"
+        or model_router_provider_execution.get("context_budget_compaction") != "SHARED_CONVERSATION_PLUS_KNOWLEDGE_NON_AUTHORITY"
+        or model_router_provider_execution.get("protocol_error_fidelity") is not True
         or model_router_provider_execution.get("current_host_conformance_id") != "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CURRENT-HOST-CONFORMANCE-001"
         or model_router_provider_execution.get("current_host_producer") != "bin/fa3-model-router-provider-execution-current-host.py"
         or model_router_provider_execution.get("current_host_config_schema") != "canonical/contracts/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CURRENT-HOST-CONFIG-001.schema.json"
-        or model_router_provider_execution.get("current_host_status") != "PRODUCER_MATERIALIZED_PENDING_REAL_PROVIDER_EXECUTION_EVIDENCE"
+        or model_router_provider_execution.get("current_host_status") != "GENERIC_CORE_REFRESH_RECONCILED_PROVIDER_SPECIFIC_PHYSICAL_ADMISSION_SEPARATE"
         or model_router_provider_execution.get("global_promotion_claim") is not False
         or model_router_provider_execution.get("new_capabilities") != 0
         or model_router_provider_execution.get("new_architectural_authorities") != 0
         or model_router_provider_execution.get("capability_count_after") != CAPABILITY_COUNT
-        or model_router_provider_execution.get("reconciliation_status") != "CANONICAL_EXECUTION_CORE_GUI_STATIC_RECONCILED_CURRENT_HOST_PRODUCER_MATERIALIZED_E2E_PENDING"
+        or model_router_provider_execution.get("reconciliation_status") != "CANONICAL_EXECUTION_REFRESH_RECONCILED_PROVIDER_SPECIFIC_PHYSICAL_ADMISSION_SEPARATE"
         or "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-GATESET-001" not in projection_gates
         or "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-GATESET-001" not in policy_gates
         or not model_router_provider_execution_paths.issubset(manifest_paths)

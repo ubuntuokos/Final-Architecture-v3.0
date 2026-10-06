@@ -9,7 +9,7 @@ from collections.abc import Mapping
 from typing import Any
 
 from cfa3_development_ai_behavior_guard import MUTATING_ACTIONS, authorize_action
-from fa3_agent_runtime_semantics import capabilities_satisfy, make_execution_ledger, validate_graph, validate_model_capability_descriptor
+from fa3_agent_runtime_semantics import RuntimeSemanticsError, capabilities_satisfy, make_execution_ledger, reasoning_intent_satisfied, validate_graph, validate_model_capability_descriptor, validate_reasoning_intent
 from fa3_task_scope_closure import (
     MAIN_TASK_CONTINUITY_ID,
     POLICY_ID as TASK_SCOPE_POLICY_ID,
@@ -105,6 +105,11 @@ def validate_task(task: dict[str, Any]) -> dict[str, Any]:
         raise WorkloadContractError("resource_requirements/model_intent must be objects")
     if any(k in task["model_intent"] for k in ("provider","provider_id","endpoint","model_id")):
         raise WorkloadContractError("physical model/provider pin forbidden; use logical model intent")
+    if "reasoning_intent" in task["model_intent"]:
+        try:
+            validate_reasoning_intent(task["model_intent"]["reasoning_intent"])
+        except RuntimeSemanticsError as exc:
+            raise WorkloadContractError(str(exc)) from exc
     participants=task.get("authorized_ai_participants")
     if not isinstance(participants,list) or not all(_nonempty(x) for x in participants):
         raise WorkloadContractError("authorized_ai_participants invalid")
@@ -375,6 +380,15 @@ def compile_execution_plan(
         raise WorkloadContractError("model_intent.required_capabilities must be a string list")
     if not capabilities_satisfy(checked_model, set(required_caps)):
         raise WorkloadContractError("admitted model capability descriptor does not satisfy task intent")
+    reasoning_intent = checked_task.get("model_intent", {}).get("reasoning_intent")
+    checked_reasoning = None
+    if reasoning_intent is not None:
+        try:
+            checked_reasoning = validate_reasoning_intent(reasoning_intent)
+            if not reasoning_intent_satisfied(checked_model, checked_reasoning):
+                raise WorkloadContractError("admitted model reasoning capability does not satisfy task intent")
+        except RuntimeSemanticsError as exc:
+            raise WorkloadContractError(str(exc)) from exc
     try:
         ledger = make_execution_ledger(checked_task["fanout_limits"], max_transfer_hops=max_transfer_hops)
     except ValueError as exc:
@@ -388,6 +402,8 @@ def compile_execution_plan(
         "workflow_graph": checked_graph,
         "model_capability_descriptor": checked_model,
         "required_model_capabilities": sorted(set(required_caps)),
+        "reasoning_intent": checked_reasoning,
+        "reasoning_selection_authority": "FA3-AUTH-MODEL-ROUTER-001",
         "behavior_preflight": behavior_preflight,
         "task_scope_control_required": scope_control_required,
         "task_scope_policy_id": TASK_SCOPE_POLICY_ID if scope_control_required else None,

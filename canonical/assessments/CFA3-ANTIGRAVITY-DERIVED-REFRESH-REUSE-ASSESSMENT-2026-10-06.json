@@ -1,0 +1,217 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "CFA3-ANTIGRAVITY-DERIVED-REFRESH-REUSE-ASSESSMENT-2026-10-06",
+  "project_id": "CFA3-ANTIGRAVITY-DERIVED-PROVIDER-EXECUTION-REFRESH-001",
+  "result": "PASS",
+  "donor_review": {
+    "status": "REVIEWED_MATCH_EXPLICIT_PATTERN_ADOPTION"
+  },
+  "donor_planning_snapshot": {
+    "published_main_commit": "c2e2ab2aa1c34ef555e2324e9b67af9d8723f76a",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "2bb6a74dd415b6374e4a6d5adce1bc9265229b63",
+    "donor_registry_sha256": "4c3609314b55dc00adb5132297d89f13908c9e7efb7c3c4e750ac94fcef7e04a",
+    "donor_registry_entry_count": 1792
+  },
+  "source_review": [
+    {
+      "source": "https://github.com/lbjlaq/Antigravity-Manager",
+      "observed_main_commit": "b601f5e7375343343922ccab5e50653bc3450c3b",
+      "observed_release": "v4.9.6",
+      "license": "CC-BY-NC-SA-4.0",
+      "registry_state": "ABSENT_FROM_DONOR_REGISTRY",
+      "allowed_use": "EXTERNAL_REFERENCE_ONLY_CLEAN_ROOM_REQUIREMENT_DERIVATION",
+      "direct_code_asset_runtime_reuse": false
+    },
+    {
+      "donor_id": "FA3-DONOR-GOOGLE-ANTIGRAVITY-SDK-PYTHON-001",
+      "source": "https://github.com/google-antigravity/antigravity-sdk-python",
+      "observed_main_commit": "12f9a4c3becf487302dc799b0f59054f01f3ddb9",
+      "license": "Apache-2.0",
+      "registry_state": "ACCEPTED_REFERENCE",
+      "usage_edge_created_by_this_change": false,
+      "runtime_or_binary_admitted_by_this_change": false
+    }
+  ],
+  "selected_existing_cfa3_reuse": [
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-LLM-GATEWAY-001",
+    "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-001",
+    "FA3-LLM-PROTOCOL-COMPAT-001",
+    "FA3-PROVIDER-RUNTIME-001",
+    "FA3-SECRET-BROKER-001",
+    "FA3-AUTH-SECRETS-001",
+    "FA3-AGENT-WORKLOAD-RUNTIME-001",
+    "FA3-DECISION-FABRIC-001",
+    "FA3-AUTH-MCP-GATEWAY-001",
+    "FA3-SKILL-FABRIC-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-OBS-EVIDENCE-001"
+  ],
+  "shared_capability_placement": {
+    "reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "local_duplicate_created": false,
+    "retrospective_consumer_impact_reviewed": true,
+    "consumer_scope": [
+      "all CFA3 applications using LLM/model providers",
+      "agent workloads",
+      "developer agents",
+      "knowledge/research",
+      "story/screenplay",
+      "webdesign",
+      "presentation/DTP",
+      "marketing/business collaboration"
+    ],
+    "shared_component_ids": [
+      "FA3-AGENT-WORKLOAD-RUNTIME-001",
+      "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-001",
+      "FA3-LLM-PROTOCOL-COMPAT-001",
+      "FA3-SHARED-CONVERSATION-SESSION-001",
+      "FA3-SHARED-KNOWLEDGE-RETRIEVAL-001"
+    ]
+  },
+  "cleanup_scope": {
+    "remove_obsolete_active_capability_baseline_143": true,
+    "preserve_historical_reference_evidence_143": true,
+    "preserve_historical_v4_8_0_upstream_pin": true,
+    "replace_obsolete_core_pending_current_host_wording": true,
+    "no_provider_runtime_promotion": true,
+    "no_current_host_rerun": true
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "new_physical_capability_requirement": false,
+    "runtime_promotion_claim": false
+  },
+  "authority_reconciliation": {
+    "capability_baseline": 175,
+    "capability_delta": 0,
+    "architectural_authority_delta": 0,
+    "model_router_remains_sole_model_provider_router": true,
+    "llm_gateway_remains_single_data_plane": true,
+    "secret_broker_remains_non_authoritative_storage_delivery_broker": true,
+    "provider_runtime_remains_environment_fabric": true,
+    "hrb_remains_resource_authority": true,
+    "mcp_gateway_remains_tool_boundary": true,
+    "evidence_remains_promotion_authority": true
+  },
+  "adopted_donors": [
+    {
+      "donor_id": "FA3-DONOR-GOOGLE-ANTIGRAVITY-SDK-PYTHON-001",
+      "decision": "EXPLICITLY_APPROVED",
+      "mode": "APPROVED_CAPABILITY_PATTERN",
+      "code_imported": false,
+      "runtime_dependency": false,
+      "compiled_runtime_admission": false,
+      "provider_admission": false,
+      "model_admission": false
+    }
+  ],
+  "pending_or_unmerged_donors_consumed": false,
+  "execution_allowed": true,
+  "execution_scope": "APPROVED_NATIVE_PATTERN_MATERIALIZATION_NO_UPSTREAM_RUNTIME_OR_CODE_IMPORT",
+  "current_host_promotion_claim": false,
+  "covered_ids": [
+    "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-001",
+    "FA3-LLM-PROTOCOL-COMPAT-001",
+    "FA3-AGENT-WORKLOAD-RUNTIME-001",
+    "FA3-SHARED-CONVERSATION-SESSION-001",
+    "FA3-SHARED-KNOWLEDGE-RETRIEVAL-001"
+  ],
+  "donor_pattern_reuse": [
+    {
+      "donor_id": "FA3-DONOR-GOOGLE-ANTIGRAVITY-SDK-PYTHON-001",
+      "use": "STATEFUL_AGENT_AND_CONVERSATION_LIFECYCLE_PATTERN",
+      "target": "FA3-AGENT-WORKLOAD-RUNTIME-001 + FA3-SHARED-CONVERSATION-SESSION-001"
+    },
+    {
+      "donor_id": "FA3-DONOR-GOOGLE-ANTIGRAVITY-SDK-PYTHON-001",
+      "use": "POLICY_HOOK_AND_SCOPED_TOOL_DISPATCH_PATTERN",
+      "target": "EXISTING_UAF_SECURITY_SKILL_BOUNDARIES_ONLY"
+    },
+    {
+      "donor_id": "FA3-DONOR-GOOGLE-ANTIGRAVITY-SDK-PYTHON-001",
+      "use": "CENTRALIZED_MCP_MEDIATION_PATTERN",
+      "target": "FA3-AUTH-MCP-GATEWAY-001"
+    },
+    {
+      "donor_id": "FA3-DONOR-GOOGLE-ANTIGRAVITY-SDK-PYTHON-001",
+      "use": "BACKGROUND_TRIGGER_TO_DURABLE_ORCHESTRATION_PATTERN",
+      "target": "EXISTING_DURABLE_ORCHESTRATION_AUTHORITY"
+    },
+    {
+      "donor_id": "FA3-DONOR-GOOGLE-ANTIGRAVITY-SDK-PYTHON-001",
+      "use": "LOCAL_HOSTED_MODEL_ADAPTER_SEPARATION_PATTERN",
+      "target": "FA3-AUTH-MODEL-ROUTER-001 + FA3-PROVIDER-RUNTIME-001"
+    },
+    {
+      "donor_id": "FA3-DONOR-GOOGLE-ANTIGRAVITY-SDK-PYTHON-001",
+      "use": "STREAMING_REASONING_TOOL_EVENT_PROJECTION_PATTERN",
+      "target": "FA3-LLM-PROTOCOL-COMPAT-001"
+    }
+  ],
+  "donor_usage_edges_created": 1,
+  "dependency_reference_chain_review": {
+    "maximum_depth": 5,
+    "result": "PASS_NO_TRANSITIVE_RUNTIME_ADOPTION",
+    "levels": [
+      {
+        "depth": 1,
+        "source": "google-antigravity/antigravity-sdk-python",
+        "license": "Apache-2.0",
+        "disposition": "APPROVED_ARCHITECTURE_PATTERN_ONLY"
+      },
+      {
+        "depth": 2,
+        "sources": [
+          "absl-py",
+          "google-genai>=1.0",
+          "mcp>=1.0,<3.0",
+          "pydantic>=2.0",
+          "uvicorn>=0.46",
+          "websockets>=12.0",
+          "protobuf>=7.35",
+          "platform-specific compiled localharness binary"
+        ],
+        "disposition": "NOT_ADOPTED_NO_CFA3_RUNTIME_DEPENDENCY"
+      },
+      {
+        "depth": 3,
+        "sources": [
+          "Gemini API",
+          "Gemini Enterprise Agent Platform / Vertex AI",
+          "Google ADC/gcloud",
+          "external MCP servers",
+          "LiteRT-LM",
+          "Gemma local model artifacts"
+        ],
+        "disposition": "NOT_ADMITTED_BY_PATTERN_USE"
+      },
+      {
+        "depth": 4,
+        "sources": [
+          "transitive SDK/cloud/MCP/model dependencies below non-adopted depth-2/3 nodes"
+        ],
+        "disposition": "CHAIN_TERMINATED_NO_MATERIAL_EDGE"
+      },
+      {
+        "depth": 5,
+        "sources": [
+          "grandchild runtime/service/model dependencies below terminated non-adopted chain"
+        ],
+        "disposition": "CHAIN_TERMINATED_NO_MATERIAL_EDGE"
+      }
+    ],
+    "compiled_binary_dependency": false,
+    "cloud_dependency": false,
+    "mcp_runtime_dependency": false,
+    "model_dependency": false,
+    "package_dependency": false
+  },
+  "intent_id": "CFA3-ANTIGRAVITY-DERIVED-REFRESH-APPLICATION-INTENT-2026-10-06",
+  "intent_path": "canonical/intents/CFA3-ANTIGRAVITY-DERIVED-REFRESH-APPLICATION-INTENT-2026-10-06.json"
+}

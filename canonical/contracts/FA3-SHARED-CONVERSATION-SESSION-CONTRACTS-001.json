@@ -27,7 +27,17 @@
     "SessionCheckpoint",
     "SessionExport",
     "SessionImport",
-    "SessionCloseReceipt"
+    "SessionCloseReceipt",
+    "ContextBudget",
+    "ContextSegment",
+    "ContextCompactionPlan",
+    "ContextCompactionReceipt",
+    "ContextRetrievalBackreference",
+    "ContextOverheadAccounting",
+    "ContextCheckpointLineage",
+    "ContextCompactionCooldown",
+    "ContextHysteresisPolicy",
+    "ContextCompactionAction"
   ],
   "required_semantics": {
     "event_model": "VERSIONED_APPEND_OR_RECONCILED_EVENTS",
@@ -36,12 +46,26 @@
     "knowledge_boundary": "EXPLICIT_REFERENCE_ONLY",
     "streaming": "TRANSPORT_INDEPENDENT",
     "import_export": "VERSIONED_SCHEMA_ROUND_TRIP",
-    "ai_off": "BACKGROUND_MODEL_INVOCATION_FORBIDDEN"
+    "ai_off": "BACKGROUND_MODEL_INVOCATION_FORBIDDEN",
+    "context_budget": "EXPLICIT_TASK_OR_SESSION_SCOPED",
+    "context_compaction": "PROVENANCE_PRESERVING_NON_DESTRUCTIVE",
+    "anti_thrash": "HEADROOM_AND_MINIMUM_GROWTH_REQUIRED",
+    "context_overhead_accounting": "TOOL_SCHEMA_AND_MULTIMODAL_OVERHEAD_EXPLICIT",
+    "checkpoint_lineage": "SOURCE_AND_PARENT_CHECKPOINT_PRESERVED",
+    "compaction_action_taxonomy": "SUMMARIZATION_ARCHIVE_RETRIEVAL_BACKREFERENCE_EXPLICIT",
+    "cooldown": "TIME_BASED_DEFER_ALLOWED_EXCEPT_HARD_OVERFLOW",
+    "hysteresis": "POST_COMPACTION_TARGET_BELOW_TRIGGER_REQUIRED"
   },
   "invariants": [
     "NO_FRAMEWORK_OBJECT_PERSISTENCE_AS_CANONICAL",
     "NO_CONVERSATION_MEMORY_RAG_COLLAPSE",
-    "NO_HIDDEN_BACKGROUND_AI"
+    "NO_HIDDEN_BACKGROUND_AI",
+    "NO_SILENT_CONTEXT_DROP",
+    "COMPACTION_RECEIPT_REQUIRED_WHEN_CONTEXT_IS_REMOVED_FROM_ACTIVE_WINDOW",
+    "TOOL_SCHEMA_AND_MULTIMODAL_OVERHEAD_MUST_NOT_BE_SILENT",
+    "CHECKPOINT_LINEAGE_REQUIRED_FOR_COMPACTION_RECEIPT",
+    "COOLDOWN_CANNOT_MASK_HARD_CONTEXT_OVERFLOW",
+    "HYSTERESIS_REQUIRED_TO_PREVENT_COMPACTION_OSCILLATION"
   ],
   "capability_baseline_release": "2026-09-26/v3.1.0",
   "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"

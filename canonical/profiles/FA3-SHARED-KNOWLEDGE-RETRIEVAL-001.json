@@ -40,7 +40,8 @@
     "ACL_AND_CONTEXT_FILTERING_BEFORE_DISCLOSURE",
     "HISTORY_AWARE_QUERY_REWRITE_MUST_PRESERVE_ORIGINAL_QUERY",
     "CITATION_AND_CLAIM_SOURCE_LINEAGE_REQUIRED",
-    "RAG_STORE_IMPLEMENTATION_NOT_ARCHITECTURAL_AUTHORITY"
+    "RAG_STORE_IMPLEMENTATION_NOT_ARCHITECTURAL_AUTHORITY",
+    "COMPACTED_CONTEXT_RETRIEVAL_BACKREFERENCE_REQUIRED"
   ],
   "gui_projection": [
     "create.knowledge",
@@ -65,5 +66,11 @@
     "analysis_patterns_may_be_reexpressed_fa3_native": true
   },
   "capability_baseline_release": "2026-09-26/v3.1.0",
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "context_budget_compaction_binding": {
+    "implementation": "src/fa3_context_budget_compaction.py",
+    "retrieval_backreference_required": true,
+    "original_source_identity_preserved": true,
+    "authority": false
+  }
 }

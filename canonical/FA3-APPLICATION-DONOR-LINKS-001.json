@@ -1923,6 +1923,86 @@
           "canonical/decisions/FA3-DEC-NVIDIA-RTX-RAY-PATH-TRACING-001-2026-10-05.json"
         ]
       }
+    },
+    {
+      "id": "CFA3-USAGE-GOOGLE-ANTIGRAVITY-SDK-SHARED-AGENT-PATTERNS-20261006",
+      "donor_id": "FA3-DONOR-GOOGLE-ANTIGRAVITY-SDK-PYTHON-001",
+      "donor_capability_key": "stateful-agent-session-policy-mcp-streaming-adapter-patterns",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-06",
+      "capability_baseline": 175,
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-AGENT-WORKLOAD-RUNTIME-001",
+        "relationship": "SHARED_PATTERN_HOST"
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-AGENT-WORKLOAD-RUNTIME-001",
+          "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-001",
+          "FA3-LLM-PROTOCOL-COMPAT-001",
+          "FA3-SHARED-CONVERSATION-SESSION-001",
+          "FA3-SHARED-KNOWLEDGE-RETRIEVAL-001"
+        ],
+        "contract_ids": [
+          "FA3-AGENT-WORKLOAD-RUNTIME-CONTRACTS-001",
+          "FA3-MODEL-ROUTER-EXECUTION-CONTRACTS-001",
+          "FA3-LLM-PROTOCOL-COMPAT-CONTRACTS-001",
+          "FA3-SHARED-CONVERSATION-SESSION-CONTRACTS-001",
+          "FA3-SHARED-KNOWLEDGE-RETRIEVAL-CONTRACTS-001"
+        ],
+        "authority_ids": [
+          "FA3-AUTH-MODEL-ROUTER-001",
+          "FA3-AUTH-MCP-GATEWAY-001",
+          "FA3-AUTH-SECURITY-GOV-001",
+          "FA3-AUTH-OBS-EVIDENCE-001"
+        ],
+        "shared_module_ids": [
+          "FA3-SHARED-CONVERSATION-SESSION-001",
+          "FA3-SHARED-KNOWLEDGE-RETRIEVAL-001"
+        ]
+      },
+      "consumers": [
+        {
+          "kind": "PROFILE",
+          "id": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-001",
+          "relationship": "NATIVE_PATTERN_CONSUMER"
+        },
+        {
+          "kind": "PROFILE",
+          "id": "FA3-LLM-PROTOCOL-COMPAT-001",
+          "relationship": "NATIVE_PATTERN_CONSUMER"
+        },
+        {
+          "kind": "PROFILE",
+          "id": "FA3-SHARED-CONVERSATION-SESSION-001",
+          "relationship": "NATIVE_PATTERN_CONSUMER"
+        },
+        {
+          "kind": "PROFILE",
+          "id": "FA3-SHARED-KNOWLEDGE-RETRIEVAL-001",
+          "relationship": "NATIVE_PATTERN_CONSUMER"
+        }
+      ],
+      "code_imported": false,
+      "runtime_dependency": false,
+      "compiled_runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "current_host_impact": {
+        "classification": "STRUCTURAL_REASSESSMENT_REQUIRED"
+      },
+      "provenance": {
+        "evidence_classification": "EXPLICIT_CANONICAL_DONOR_PATTERN_USE_NO_CODE_OR_RUNTIME_IMPORT",
+        "evidence_paths": [
+          "canonical/assessments/CFA3-ANTIGRAVITY-DERIVED-REFRESH-REUSE-ASSESSMENT-2026-10-06.json",
+          "canonical/decisions/CFA3-DEC-GOOGLE-ANTIGRAVITY-SDK-PATTERN-USE-2026-10-06.json",
+          "docs/cfa3-antigravity-refresh-plan-2026-10-06.md",
+          "canonical/deltas/FA3-DONOR-GOOGLE-ANTIGRAVITY-2026-10-02.json"
+        ]
+      }
     }
   ],
   "donor_usage_contract": {

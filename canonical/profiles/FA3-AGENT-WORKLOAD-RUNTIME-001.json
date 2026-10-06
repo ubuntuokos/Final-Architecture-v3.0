@@ -47,7 +47,8 @@
     "EXECUTION_LEDGER",
     "MODEL_CAPABILITY_DESCRIPTOR",
     "TOOL_CONFIRMATION_RECEIPT",
-    "EXECUTION_PLAN"
+    "EXECUTION_PLAN",
+    "CONTEXT_BUDGET_COMPACTION"
   ],
   "lifecycle": {
     "phases": [
@@ -181,5 +182,19 @@
     "routing_authority": "FA3-AUTH-MODEL-ROUTER-001"
   },
   "capability_baseline_release": "2026-09-26/v3.1.0",
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "reasoning_intent_policy": {
+    "source": "AGENT_WORKLOAD_TASK_MODEL_INTENT",
+    "physical_provider_or_model_selection": false,
+    "selection_authority": "FA3-AUTH-MODEL-ROUTER-001",
+    "adapter_override": "FORBIDDEN",
+    "unsupported_reasoning_requirement": "FAIL_CLOSED_OR_ROUTER_RESELECT"
+  },
+  "context_budget_compaction_binding": {
+    "implementation": "src/fa3_context_budget_compaction.py",
+    "shared_conversation_profile": "FA3-SHARED-CONVERSATION-SESSION-001",
+    "shared_knowledge_profile": "FA3-SHARED-KNOWLEDGE-RETRIEVAL-001",
+    "authority": false,
+    "source_history_mutation": false
+  }
 }

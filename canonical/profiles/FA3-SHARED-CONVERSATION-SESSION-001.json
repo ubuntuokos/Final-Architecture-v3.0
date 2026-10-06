@@ -37,7 +37,10 @@
     "SESSION_SCOPE_AND_PROJECT_SCOPE_EXPLICIT",
     "AI_DISABLED_SESSION_CANNOT_TRIGGER_BACKGROUND_AI",
     "SESSION_EXPORT_MUST_PRESERVE_PROVENANCE_AND_SCHEMA_VERSION",
-    "FRAMEWORK_SESSION_OBJECTS_ARE_NON_CANONICAL"
+    "FRAMEWORK_SESSION_OBJECTS_ARE_NON_CANONICAL",
+    "CONTEXT_COMPACTION_MUST_PRESERVE_PROVENANCE",
+    "CONTEXT_COMPACTION_MUST_NOT_MUTATE_SOURCE_HISTORY",
+    "ANTI_THRASH_HEADROOM_AND_GROWTH_GATES_REQUIRED"
   ],
   "gui_projection": [
     "create.ai-studio",
@@ -62,5 +65,29 @@
     "analysis_patterns_may_be_reexpressed_fa3_native": true
   },
   "capability_baseline_release": "2026-09-26/v3.1.0",
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "context_budget_compaction": {
+    "implementation": "src/fa3_context_budget_compaction.py",
+    "roles": [
+      "CONTEXT_TOKEN_ACCOUNTING",
+      "PROTECTED_CONTEXT",
+      "ANTI_THRASH_COMPACTION",
+      "COMPACTION_RECEIPT",
+      "RETRIEVAL_BACKREFERENCE",
+      "TOOL_SCHEMA_OVERHEAD_ACCOUNTING",
+      "MULTIMODAL_OVERHEAD_ACCOUNTING",
+      "SUMMARIZATION_AND_ARCHIVE_CANDIDATES",
+      "CHECKPOINT_LINEAGE",
+      "TIME_BASED_COOLDOWN",
+      "HYSTERESIS"
+    ],
+    "authority": false,
+    "source_history_mutation": false,
+    "tool_schema_overhead_accounted": true,
+    "multimodal_overhead_accounted": true,
+    "checkpoint_lineage_required": true,
+    "cooldown_required": true,
+    "hysteresis_required": true,
+    "hard_overflow_may_bypass_cooldown": true
+  }
 }

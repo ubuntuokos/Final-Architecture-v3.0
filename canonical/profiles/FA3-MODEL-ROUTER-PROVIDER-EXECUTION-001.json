@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-001",
   "name": "Credential-Aware Provider Execution, Session Affinity & Recovery Projection",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST-IF-MULTI-CREDENTIAL-OR-STATEFUL-PROVIDER-USED",
@@ -11,7 +11,7 @@
   "provider_neutral": true,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "responsibilities": [
     "credential eligibility over SecretReference metadata",
     "credential health and quota state",
@@ -19,7 +19,12 @@
     "bounded credential lease",
     "intra-provider failover",
     "circuit breaker state",
-    "route execution provenance"
+    "route execution provenance",
+    "bounded per-request credential-pool traversal",
+    "tiered credential backoff and cooldown",
+    "separate provider credential model and endpoint health",
+    "deterministic candidate tie-breaking",
+    "provider and credential-pool exhaustion receipts"
   ],
   "non_responsibilities": [
     "secret custody",
@@ -28,7 +33,9 @@
     "authorization",
     "host resource placement",
     "cross-provider routing authority",
-    "workflow orchestration"
+    "workflow orchestration",
+    "provider runtime environment creation, isolation or package lifecycle",
+    "venv, OCI or host-native runtime ownership"
   ],
   "authority_bindings": {
     "routing": "FA3-AUTH-MODEL-ROUTER-001",
@@ -37,7 +44,8 @@
     "security": "FA3-AUTH-SECURITY-GOV-001",
     "decision_advisory": "FA3-DECISION-FABRIC-001",
     "agent_native": "FA3-UNIFIED-ACTION-FABRIC-001",
-    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "provider_runtime_environment": "FA3-PROVIDER-RUNTIME-001"
   },
   "credential_states": [
     "UNKNOWN",
@@ -61,12 +69,39 @@
     "CROSS_PROVIDER_TRANSITION_MODEL_ROUTER_ONLY",
     "NO_SILENT_LOCAL_TO_CLOUD_FALLBACK",
     "CURRENT_HOST_PASS_DOES_NOT_IMPLY_GLOBAL_PROMOTION",
-    "PER_PROVIDER_PHYSICAL_ADMISSION_DOES_NOT_REOPEN_CORE"
+    "PER_PROVIDER_PHYSICAL_ADMISSION_DOES_NOT_REOPEN_CORE",
+    "PER_REQUEST_CREDENTIAL_POOL_TRAVERSAL_BOUNDED",
+    "TIERED_BACKOFF_EXPLICIT_AND_BOUNDED",
+    "PROVIDER_CREDENTIAL_MODEL_ENDPOINT_HEALTH_DISTINCT",
+    "SUCCESS_RESETS_TRANSIENT_FAILURE_STATE_ONLY",
+    "DETERMINISTIC_TIE_BREAK_REQUIRED",
+    "PROVIDER_RUNTIME_ENVIRONMENT_OWNERSHIP_NOT_DUPLICATED",
+    "PROVIDER_POOL_EXHAUSTION_RECEIPT_REQUIRED"
   ],
   "contract_id": "FA3-MODEL-ROUTER-EXECUTION-CONTRACTS-001",
   "gate_id": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-GATESET-001",
   "fail_closed": true,
   "core_closure_record": "canonical/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CORE-CLOSURE-001.json",
   "core_closure_status": "CLOSED_STATIC_DETERMINISTIC_REGRESSION_PASS",
-  "provider_physical_admission_reopens_core": false
+  "provider_physical_admission_reopens_core": false,
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "pool_protection": {
+    "max_rebind_attempts_required": true,
+    "max_credentials_per_request_required": true,
+    "retry_after_bound_required": true,
+    "exhausted_pool_action": "MODEL_ROUTER_REEVALUATION_REQUIRED",
+    "exhaustion_receipt_required": true,
+    "exhaustion_reason_taxonomy": [
+      "MAX_REBIND_ATTEMPTS_EXHAUSTED",
+      "MAX_CREDENTIALS_PER_REQUEST_EXHAUSTED",
+      "NO_ELIGIBLE_CREDENTIAL_REMAINING"
+    ]
+  },
+  "health_dimensions": [
+    "PROVIDER",
+    "CREDENTIAL",
+    "MODEL",
+    "ENDPOINT"
+  ]
 }

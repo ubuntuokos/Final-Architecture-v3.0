@@ -1,0 +1,73 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "CFA3-ANTIGRAVITY-DERIVED-REFRESH-APPLICATION-INTENT-2026-10-06",
+  "project_id": "CFA3-ANTIGRAVITY-DERIVED-PROVIDER-EXECUTION-REFRESH-001",
+  "project_type": "MATERIAL_EXTENSION",
+  "goal": "Refresh the existing CFA3 provider-execution, protocol-compatibility, workload reasoning and shared context-lifecycle implementation against the active 175-capability architecture and the canonical donor/reuse system without adding a capability, routing authority, runtime dependency or provider promotion.",
+  "required_capabilities": [],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "provider-execution-resilience",
+    "protocol-compatibility",
+    "reasoning-intent",
+    "context-budget-compaction",
+    "donor-pattern-provenance"
+  ],
+  "input_modalities": [
+    "MODEL_INTENT",
+    "PROVIDER_STATE",
+    "SESSION_STATE",
+    "CONTEXT_STATE",
+    "DONOR_REFERENCE"
+  ],
+  "output_modalities": [
+    "ROUTING_RECEIPT",
+    "PROTOCOL_PROJECTION",
+    "REASONING_PROJECTION",
+    "CONTEXT_COMPACTION_RECEIPT",
+    "OBSERVABILITY_STATE"
+  ],
+  "execution_classes": [
+    "CPU_ONLY",
+    "OPTIONAL_ACCELERATOR_PROVIDER"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "new_physical_capability_requirement": false,
+    "runtime_promotion_claim": false
+  },
+  "namespace_claims": {
+    "package_prefix": "cfa3-antigravity-refresh",
+    "service_prefix": "cfa3-antigravity-refresh",
+    "config_root": "$XDG_CONFIG_HOME/cfa3/antigravity-refresh",
+    "cache_root": "$XDG_CACHE_HOME/cfa3/antigravity-refresh",
+    "runtime_root": "$XDG_RUNTIME_DIR/cfa3/antigravity-refresh",
+    "socket_namespace": "org.cfa3.antigravity.refresh",
+    "data_root": "$XDG_DATA_HOME/cfa3/antigravity-refresh",
+    "desktop_prefix": "org.cfa3.antigravity.refresh",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "security_requirements": [
+    "SECRETREFERENCE_ONLY",
+    "NO_SILENT_LOCAL_TO_CLOUD_FALLBACK",
+    "SECURITY_RELEVANT_PROTOCOL_LOSS_FAILS_CLOSED"
+  ],
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-PROVIDER-RUNTIME-001",
+    "FA3-AUTH-MCP-GATEWAY-001",
+    "FA3-AUTH-OBS-EVIDENCE-001"
+  ],
+  "gui_requirements": [
+    "READ_ONLY_PROVIDER_EXECUTION_OBSERVABILITY"
+  ]
+}
