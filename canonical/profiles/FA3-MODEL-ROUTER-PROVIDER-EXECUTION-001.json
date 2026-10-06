@@ -23,7 +23,8 @@
     "bounded per-request credential-pool traversal",
     "tiered credential backoff and cooldown",
     "separate provider credential model and endpoint health",
-    "deterministic candidate tie-breaking"
+    "deterministic candidate tie-breaking",
+    "provider and credential-pool exhaustion receipts"
   ],
   "non_responsibilities": [
     "secret custody",
@@ -74,7 +75,8 @@
     "PROVIDER_CREDENTIAL_MODEL_ENDPOINT_HEALTH_DISTINCT",
     "SUCCESS_RESETS_TRANSIENT_FAILURE_STATE_ONLY",
     "DETERMINISTIC_TIE_BREAK_REQUIRED",
-    "PROVIDER_RUNTIME_ENVIRONMENT_OWNERSHIP_NOT_DUPLICATED"
+    "PROVIDER_RUNTIME_ENVIRONMENT_OWNERSHIP_NOT_DUPLICATED",
+    "PROVIDER_POOL_EXHAUSTION_RECEIPT_REQUIRED"
   ],
   "contract_id": "FA3-MODEL-ROUTER-EXECUTION-CONTRACTS-001",
   "gate_id": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-GATESET-001",
@@ -88,7 +90,13 @@
     "max_rebind_attempts_required": true,
     "max_credentials_per_request_required": true,
     "retry_after_bound_required": true,
-    "exhausted_pool_action": "MODEL_ROUTER_REEVALUATION_REQUIRED"
+    "exhausted_pool_action": "MODEL_ROUTER_REEVALUATION_REQUIRED",
+    "exhaustion_receipt_required": true,
+    "exhaustion_reason_taxonomy": [
+      "MAX_REBIND_ATTEMPTS_EXHAUSTED",
+      "MAX_CREDENTIALS_PER_REQUEST_EXHAUSTED",
+      "NO_ELIGIBLE_CREDENTIAL_REMAINING"
+    ]
   },
   "health_dimensions": [
     "PROVIDER",
