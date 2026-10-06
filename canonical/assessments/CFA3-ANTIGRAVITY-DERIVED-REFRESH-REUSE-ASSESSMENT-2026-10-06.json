@@ -51,7 +51,7 @@
   "shared_capability_placement": {
     "reviewed": true,
     "multi_application_reuse_detected": true,
-    "disposition": "SHARED_EXISTING_FABRICS",
+    "disposition": "SHARED",
     "local_duplicate_created": false,
     "retrospective_consumer_impact_reviewed": true,
     "consumer_scope": [
@@ -63,6 +63,13 @@
       "webdesign",
       "presentation/DTP",
       "marketing/business collaboration"
+    ],
+    "shared_component_ids": [
+      "FA3-AGENT-WORKLOAD-RUNTIME-001",
+      "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-001",
+      "FA3-LLM-PROTOCOL-COMPAT-001",
+      "FA3-SHARED-CONVERSATION-SESSION-001",
+      "FA3-SHARED-KNOWLEDGE-RETRIEVAL-001"
     ]
   },
   "cleanup_scope": {
@@ -204,5 +211,7 @@
     "mcp_runtime_dependency": false,
     "model_dependency": false,
     "package_dependency": false
-  }
+  },
+  "intent_id": "CFA3-ANTIGRAVITY-DERIVED-REFRESH-APPLICATION-INTENT-2026-10-06",
+  "intent_path": "canonical/intents/CFA3-ANTIGRAVITY-DERIVED-REFRESH-APPLICATION-INTENT-2026-10-06.json"
 }
