@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse, hashlib, json
+import argparse, hashlib, json, subprocess
 from pathlib import Path
 from typing import Any
 from fa3_release_baseline import load_active_release_baseline
@@ -18,6 +18,35 @@ def _load(path:Path)->dict[str,Any]:
     return value
 
 def _finding(code:str,message:str,**details:Any)->dict[str,Any]: return {"code":code,"message":message,**details}
+
+def _git_show_bytes(root:Path,ref:str,rel:str)->bytes|None:
+    proc=subprocess.run(["git","-C",str(root),"show",f"{ref}:{rel}"],capture_output=True,check=False)
+    return proc.stdout if proc.returncode==0 else None
+
+def _git_blob_sha(raw:bytes)->str:
+    return hashlib.sha1(b"blob "+str(len(raw)).encode("ascii")+b"\0"+raw).hexdigest()
+
+def _donor_snapshot_matches_published_commit(root:Path,snapshot:dict[str,Any])->bool:
+    commit=str(snapshot.get("published_main_commit","")).strip()
+    if len(commit)!=40 or any(ch not in "0123456789abcdefABCDEF" for ch in commit):
+        return False
+    raw=_git_show_bytes(root,commit,"canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json")
+    if raw is None:
+        return False
+    try:
+        registry=json.loads(raw.decode("utf-8"))
+    except Exception:
+        return False
+    entries=registry.get("entries")
+    if not isinstance(entries,list):
+        return False
+    return (
+        snapshot.get("donor_registry_id")==registry.get("id")
+        and snapshot.get("donor_registry_blob_sha")==_git_blob_sha(raw)
+        and snapshot.get("donor_registry_sha256")==hashlib.sha256(raw).hexdigest()
+        and snapshot.get("donor_registry_entry_count")==len(entries)
+    )
+
 
 def validate(root:Path)->list[dict[str,Any]]:
     root=root.resolve(); findings=[]
@@ -105,7 +134,7 @@ def validate(root:Path)->list[dict[str,Any]]:
       (set(contract.get("feature_classes",[]))=={"NEURAL_RENDER","SUPER_RESOLUTION","NATIVE_RESOLUTION_AA","RAY_RECONSTRUCTION","DENOISE","TEMPORAL_RECONSTRUCTION","FRAME_GENERATION","LOW_LATENCY_PRESENTATION"},"NR-GATE-048","neural feature-class contract drift"),
       (set(contract.get("output_policy",{}).get("frame_generation_forbidden",[]))=={"FINAL_MASTER","ARCHIVAL_MASTER","EXR_SEQUENCE","VFX_HANDOFF"} and contract.get("output_policy",{}).get("final_master_requires_frame_accurate_canonical_timeline") is True,"NR-GATE-049","frame-generation final-output prohibition missing"),
       (contract.get("interoperability",{}).get("engine_selection")=="FA3-ENGINE-SELECTION-FABRIC-001" and contract.get("interoperability",{}).get("ray_path_tracing")=="FA3-SHARED-RAY-PATH-TRACING-001" and contract.get("interoperability",{}).get("render_dispatch_capability")=="CAP-161" and contract.get("interoperability",{}).get("external_render_service_capability")=="CAP-162","NR-GATE-050","render interoperability boundary missing"),
-      (reuse_assessment.get("pending_or_unmerged_donors_consumed") is False and reuse_assessment.get("donor_usage_edges_created")==0 and reuse_assessment.get("donor_planning_snapshot",{}).get("donor_registry_entry_count")==len(donor_registry.get("entries",[])) and reuse_assessment.get("donor_planning_snapshot",{}).get("donor_registry_sha256")==donor_sha256,"NR-GATE-051","reuse assessment is not bound to the published donor snapshot"),
+      (reuse_assessment.get("pending_or_unmerged_donors_consumed") is False and reuse_assessment.get("donor_usage_edges_created")==0 and _donor_snapshot_matches_published_commit(root,reuse_assessment.get("donor_planning_snapshot",{})),"NR-GATE-051","reuse assessment is not bound to the published donor snapshot"),
       (current_host_impact.get("status")=="NO_RUNTIME_IMPACT" and current_host_impact.get("runtime_change") is False and current_host_impact.get("provider_or_model_activation") is False and current_host_impact.get("physical_current_host_pass_claimed") is False and current_host_impact.get("runtime_promotion_claim") is False,"NR-GATE-052","Current Host static-impact boundary invalid")]
     for ok,code,message in checks:
         if not ok: findings.append(_finding(code,message))
