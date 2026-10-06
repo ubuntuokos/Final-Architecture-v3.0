@@ -3,10 +3,16 @@ import sys,unittest
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]; SRC=ROOT/"src"
 if str(SRC) not in sys.path: sys.path.insert(0,str(SRC))
-from fa3_neural_rendering_gate import gate
+from fa3_neural_rendering_gate import gate,_donor_snapshot_matches_published_commit
 class NeuralRenderingGateTests(unittest.TestCase):
     def test_static_reference_gate(self):
         r=gate(ROOT); self.assertEqual("PASS",r["result"],r["findings"]); self.assertEqual(0,r["capability_delta"]); self.assertEqual(0,r["authority_delta"]); self.assertFalse(r["current_host_provider_e2e_claim"])
+    def test_donor_snapshot_is_verified_against_recorded_published_commit(self):
+        import json
+        assessment=json.loads((ROOT/"canonical/assessments/FA3-NEURAL-RENDERING-REUSE-ASSESSMENT-001.json").read_text(encoding="utf-8"))
+        self.assertTrue(_donor_snapshot_matches_published_commit(ROOT,assessment["donor_planning_snapshot"]))
+        bad=dict(assessment["donor_planning_snapshot"]); bad["donor_registry_entry_count"]+=1
+        self.assertFalse(_donor_snapshot_matches_published_commit(ROOT,bad))
     def test_active_records_are_on_175_baseline(self):
         import json
         from fa3_release_baseline import load_active_release_baseline
