@@ -1,0 +1,79 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "CFA3-DONOR-NVIDIA-PHYSICAL-AI-DATA-FACTORY-2026-10-06",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "STAGED_PENDING_ROLLING_BATCH_APPEND",
+  "mode": "APPEND_ONLY_EXPLICIT_OWNER_DONOR_COMMAND",
+  "parent_main": "35a6f54b968d65564e0d2f829531cff688189f76",
+  "parent_registry_blob_sha": "2bb6a74dd415b6374e4a6d5adce1bc9265229b63",
+  "parent_registry_sha256": "4c3609314b55dc00adb5132297d89f13908c9e7efb7c3c4e750ac94fcef7e04a",
+  "parent_entry_count": 1792,
+  "submitted_url_count": 1,
+  "submitted_urls": [
+    "https://github.com/NVIDIA/physical-ai-data-factory"
+  ],
+  "approval_mode": "OWNER_EXPLICIT_DONOR_COMMAND",
+  "owner_donor_command": "donornak",
+  "conversation_lineage_ref": "chat:cfa3-intel-xess-physical-ai-data-factory:2026-10-06",
+  "duplicate_submission_count": 0,
+  "matched_existing_count": 0,
+  "matched_pending_intake_count": 0,
+  "unique_source_count": 1,
+  "new_source_count": 1,
+  "proposed_entry_count": 1793,
+  "canonical_registry_materialized": false,
+  "waiting_queue_only": true,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "usage_edges_created": 0,
+  "provider_count_policy": "DYNAMIC_UNCHANGED",
+  "canonical_identities": [
+    {
+      "source": "https://github.com/NVIDIA/physical-ai-data-factory",
+      "normalized_key": "github:nvidia/physical-ai-data-factory",
+      "donor_id": "FA3-DONOR-NVIDIA-PHYSICAL-AI-DATA-FACTORY-001",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "PHYSICAL_AI_SYNTHETIC_DATA_WORKFLOW_ORCHESTRATION_SIMULATION_LABELING_VALIDATION_REFERENCE",
+      "observed_revision": "e4c663cbbdcf159ad952751274c883c81d3ab4be",
+      "license_observation": "ROOT_REPOSITORY_DECLARES_APACHE-2.0_CODE_AND_CC-BY-4.0_DOCUMENTATION_SKILLS"
+    }
+  ],
+  "related_upstream_repositories_analysis_only": [
+    "https://github.com/NVIDIA/paidf-orchestration",
+    "https://github.com/NVIDIA/paidf-auto-labeling",
+    "https://github.com/NVIDIA/paidf-augmentation",
+    "https://github.com/NVIDIA/paidf-simulation",
+    "https://github.com/NVIDIA/paidf-curation-and-retrieval",
+    "https://github.com/NVIDIA/paidf-anomalygen"
+  ],
+  "requirements": [
+    "Reference registration only; no runtime, provider, model, driver, container, cluster or cloud authority is created.",
+    "Child repositories linked by the upstream project are analysis-only unless separately present in the published donor registry or separately owner-authorized.",
+    "Temporal remains the sole CFA3 durable workflow authority; Airflow/OSMO/Kubernetes patterns are adapter references only.",
+    "HRB remains the sole resource placement and lease authority; vendor-specific GPU requirements remain workload/provider scoped.",
+    "CPU-only CFA3 baseline and accelerator cardinality 0..N remain unchanged.",
+    "Actual source/code adoption requires separate license, provenance, security, Software Coexistence, Hardware Safety and usage-edge review."
+  ],
+  "boundaries": {
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "automatic_code_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "usage_edge_created": false,
+    "capability_count_change": false,
+    "authority_change": false,
+    "runtime_change": false,
+    "current_host_pass_claimed": false,
+    "canonical_planning_visibility": false,
+    "application_implementation_started": false
+  },
+  "serialization_scope": "ROLLING_FIVE_SLOT_DONOR_MAINTENANCE",
+  "serialization_order": "SINGLE_CANONICAL_WRITER_WITH_BATCH_APPEND_AND_EXACT_HEAD_REVALIDATION",
+  "max_active_donor_intakes": 5,
+  "expected_initial_state": "STAGED_FOR_ROLLING_BATCH_FINALIZER"
+}
