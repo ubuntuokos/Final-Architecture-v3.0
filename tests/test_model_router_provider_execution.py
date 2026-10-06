@@ -43,7 +43,19 @@ class ProviderExecutionTests(unittest.TestCase):
         r=mgr.record_failure(session_id="s",error_class="RATE_LIMIT",now=4)
         self.assertEqual("MODEL_ROUTER_REEVALUATION_REQUIRED",r["action"])
         self.assertEqual("POOL_TRAVERSAL_BOUNDED",r["reason"])
+        self.assertTrue(r["traversal_budget_exhausted"])
+        self.assertIn(r["exhaustion_reason"],{"MAX_REBIND_ATTEMPTS_EXHAUSTED","MAX_CREDENTIALS_PER_REQUEST_EXHAUSTED"})
+        self.assertFalse(r["provider_pool_exhausted"])
         self.assertLessEqual(r["pool_traversal_count"],3)
+    def test_no_eligible_credential_returns_explicit_pool_exhaustion_receipt(self):
+        mgr=ProviderExecutionManager([CredentialCandidate("p","secretref:p/a","HEALTHY",True)],max_rebind_attempts=3,max_credentials_per_request=3)
+        mgr.select(provider_id="p",session_id="s",now=1)
+        r=mgr.record_failure(session_id="s",error_class="RATE_LIMIT",now=2)
+        self.assertEqual("MODEL_ROUTER_REEVALUATION_REQUIRED",r["action"])
+        self.assertTrue(r["provider_pool_exhausted"])
+        self.assertEqual("NO_ELIGIBLE_CREDENTIAL_REMAINING",r["exhaustion_reason"])
+        self.assertFalse(r["cross_provider_transition"])
+
     def test_tiered_backoff_and_health_dimensions(self):
         row=CredentialCandidate("p","secretref:p/a","HEALTHY",True,model_id="m",endpoint_id="e")
         mgr=ProviderExecutionManager([row],backoff_schedule_seconds=(5,15,30))
