@@ -9,14 +9,16 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
+sys.path.insert(0, str(ROOT / "src"))
 import fa3_buzz_global_reconcile as common  # noqa: E402
+from fa3_release_baseline import module_active_capability_count  # noqa: E402
 
 PROJECTION_ID = "FA3-WORK-MANAGEMENT-PROJECTION-001"
 CONTRACT_ID = "FA3-WORK-ITEM-PROJECTION-CONTRACTS-001"
 GATESET_ID = "FA3-WORK-MANAGEMENT-GATESET-001"
 KANEO_ID = "FA3-PROVIDER-KANEO-001"
 KANBOARD_ID = "FA3-PROVIDER-KANBOARD-001"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 POLICY = "canonical/enforcement-policy.json"
 ENFORCEMENT = "canonical/work-management-enforcement.json"
 RELEASE = common.RELEASE
@@ -48,7 +50,7 @@ def replace_once(text: str, old: str, new: str, label: str) -> str:
 def patch_policy() -> None:
     policy = load(POLICY)
     if policy.get("canonical_capability_count") != CAPABILITY_COUNT:
-        raise RuntimeError("FA3 capability count must remain exactly 143")
+        raise RuntimeError(f"FA3 capability count must remain exactly {CAPABILITY_COUNT}")
     gates = policy.setdefault("mandatory_reference_gates", [])
     if GATESET_ID not in gates:
         gates.append(GATESET_ID)
@@ -274,7 +276,7 @@ def patch_release_semantics() -> None:
         "FA3-WORK-MANAGEMENT-PROJECTION-001 globally reconciles Kaneo and Kanboard behind one mandatory "
         "provider-neutral Work Management Control Center menu. Provider identity remains projection metadata; "
         "resource admission is workload-driven and HRB-authoritative, CPU-lightweight by default, and the existing "
-        "Accelerator Guard decision surface is made GUI-reachable. Capability count remains 143 and no authority is added."
+        f"Accelerator Guard decision surface is made GUI-reachable. Capability count remains {CAPABILITY_COUNT} and no authority is added."
     )
     notes = release.setdefault("review_notes", [])
     if note not in notes:
