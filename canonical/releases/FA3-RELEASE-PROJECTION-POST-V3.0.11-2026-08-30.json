@@ -1095,7 +1095,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 3108,
+  "manifest_entry_count": 3116,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -4996,12 +4996,20 @@
       "git_blob_sha": "0dcb8593cde4bca4ffef3706783425ba80d08403"
     },
     {
+      "path": "canonical/deltas/CFA3-DONOR-AGENTSCOPE-EMBABEL-SHGAF-BATCH-2026-10-06.json",
+      "git_blob_sha": "a7f53dd7534720c03cbf767003dc8255003700bb"
+    },
+    {
       "path": "canonical/deltas/CFA3-DONOR-BACKLOG-CONSOLIDATION-2026-10-04.json",
       "git_blob_sha": "9c028d6bf0a7f9b4c1d08e75cafe4b3a45bc1947"
     },
     {
       "path": "canonical/deltas/CFA3-DONOR-BASELINE-USER-SOURCE-UNION-2026-10-05.json",
       "git_blob_sha": "d22dce8bfe3d9697a1121033ff7b387d051a638a"
+    },
+    {
+      "path": "canonical/deltas/CFA3-DONOR-SHGAF-HALLUCINATION-ASSURANCE-2026-10-06.json",
+      "git_blob_sha": "3652f591b08acff0de53910a68c03cec84de9971"
     },
     {
       "path": "canonical/deltas/CFA3-DONOR-TILE-AI-BATCH-FINALIZER-2026-10-05.json",
@@ -5014,6 +5022,10 @@
     {
       "path": "canonical/deltas/FA3-DONOR-AGENT-NATIVE-TOPICS-2026-10-01.json",
       "git_blob_sha": "fd725b6f538cc40184070a17a8adeaaa94d222da"
+    },
+    {
+      "path": "canonical/deltas/FA3-DONOR-AGENTSCOPE-EMBABEL-PLAN-2026-10-06.json",
+      "git_blob_sha": "4c49bbaca5529261efa59a70280ab0fe1465732e"
     },
     {
       "path": "canonical/deltas/FA3-DONOR-AI-TEXT-MINDMAP-RENDER-SHADER-2026-09-29.json",
@@ -5371,7 +5383,7 @@
     },
     {
       "path": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
-      "git_blob_sha": "2bb6a74dd415b6374e4a6d5adce1bc9265229b63"
+      "git_blob_sha": "b955f76541f4ebd6649b0eb380bab09f08a7fb7d"
     },
     {
       "path": "canonical/FA3-DONOR-REJECTION-AUDIT-001.json",
@@ -8769,6 +8781,14 @@
       "git_blob_sha": "7631872b704ad5464a597376e6b3c778e913e92d"
     },
     {
+      "path": "docs/donor-agentscope-embabel-batch-finalizer-2026-10-06.md",
+      "git_blob_sha": "e0d3995a3bb70bb70a290a05b425a4bf07b403f1"
+    },
+    {
+      "path": "docs/donor-agentscope-embabel-plan-2026-10-06.md",
+      "git_blob_sha": "1636c01961e15d4f391615df31a65ba183b18772"
+    },
+    {
       "path": "docs/donor-ai-orchestration-shell-2026-09-29.md",
       "git_blob_sha": "1a0b61316a41af65a50e6a28d74259989c0d9763"
     },
@@ -9003,6 +9023,10 @@
     {
       "path": "docs/donor-repair/RECONCILIATION.md",
       "git_blob_sha": "12b099acb68d64c97c73441b77c1bf93650fd719"
+    },
+    {
+      "path": "docs/donor-shgaf-hallucination-assurance-2026-10-06.md",
+      "git_blob_sha": "8a7d3544274e20327cdf08e00f0eaf7553671d01"
     },
     {
       "path": "docs/donor-supercool-org-2026-10-03.md",
@@ -10938,7 +10962,7 @@
     },
     {
       "path": "src/fa3_donor_readiness.py",
-      "git_blob_sha": "13f6aa2c7ac2408a52f89ee3017dc937fd408a1c"
+      "git_blob_sha": "0213218182f5d4c7a1696b1d1ad00ce225c893c6"
     },
     {
       "path": "src/fa3_donor_registry.py",
@@ -12412,6 +12436,10 @@
       "git_blob_sha": "d0c2d0082ecfd74813f695217cb758217b23ac11"
     },
     {
+      "path": "tests/test_donor_agentscope_embabel_plan_20261006.py",
+      "git_blob_sha": "e7481f627cd494a14da9206402e6f790c17b676c"
+    },
+    {
       "path": "tests/test_donor_ai_orchestration_shell.py",
       "git_blob_sha": "1726ccbf0d0e758648671888b4f8ef4c06438fa4"
     },
@@ -12437,7 +12465,7 @@
     },
     {
       "path": "tests/test_donor_batch_finalizer_bootstrap_20261005.py",
-      "git_blob_sha": "7b77dcde53fa475889d8ecd5e1af9481db1bf3a8"
+      "git_blob_sha": "4ea5a018bb2a3a0c31d03952e345754bfd735ca5"
     },
     {
       "path": "tests/test_donor_blender_github.py",
@@ -12582,6 +12610,10 @@
     {
       "path": "tests/test_donor_registry_identity_uniqueness.py",
       "git_blob_sha": "cfd2ad998bf698901f904bc6ca91027d2c12ef31"
+    },
+    {
+      "path": "tests/test_donor_shgaf_hallucination_assurance_20261006.py",
+      "git_blob_sha": "b6b8cfd2e4a3974b1113640948745be06c1fad27"
     },
     {
       "path": "tests/test_donor_supercool_org_20261003.py",
