@@ -23,6 +23,7 @@ CONTRACT = ROOT / "canonical/contracts/FA3-DONOR-CHAT-INGEST-001.json"
 POLICY = ROOT / "canonical/enforcement-policy.json"
 LATEST_BATCH = ROOT / "canonical/deltas/CFA3-DONOR-TILE-AI-BATCH-FINALIZER-2026-10-05.json"
 CURRENT_BASELINE = ROOT / "canonical/deltas/CFA3-DONOR-BASELINE-USER-SOURCE-UNION-2026-10-05.json"
+CURRENT_BATCH = ROOT / "canonical/deltas/CFA3-DONOR-AGENTSCOPE-EMBABEL-SHGAF-BATCH-2026-10-06.json"
 
 
 class DonorBatchAccelerationTests(unittest.TestCase):
@@ -35,6 +36,7 @@ class DonorBatchAccelerationTests(unittest.TestCase):
         cls.policy = json.loads(POLICY.read_text(encoding="utf-8"))
         cls.latest_batch = json.loads(LATEST_BATCH.read_text(encoding="utf-8"))
         cls.current_baseline = json.loads(CURRENT_BASELINE.read_text(encoding="utf-8"))
+        cls.current_batch = json.loads(CURRENT_BATCH.read_text(encoding="utf-8"))
 
     def test_exact_backlog_union_and_baseline(self):
         self.assertEqual(self.registry["capability_count"], 175)
@@ -45,8 +47,16 @@ class DonorBatchAccelerationTests(unittest.TestCase):
             self.latest_batch["resulting_entry_count"],
         )
         self.assertEqual(
-            len(self.registry["entries"]),
+            self.current_batch["parent_entry_count"],
             self.current_baseline["resulting_entry_count"],
+        )
+        self.assertEqual(
+            self.current_batch["parent_registry_blob_sha"],
+            self.current_baseline["resulting_registry_blob_sha"],
+        )
+        self.assertEqual(
+            len(self.registry["entries"]),
+            self.current_batch["resulting_entry_count"],
         )
         self.assertGreaterEqual(len(self.registry["entries"]), 1551)
         self.assertEqual(self.manifest["parent_entry_count"], 1427)
@@ -154,8 +164,14 @@ class DonorBatchAccelerationTests(unittest.TestCase):
         )
         self.assertEqual(
             self.current_baseline["resulting_registry_blob_sha"],
+            self.current_batch["parent_registry_blob_sha"],
+        )
+        self.assertEqual(
+            self.current_batch["resulting_registry_blob_sha"],
             git_blob_sha(REGISTRY.read_bytes()),
         )
+        self.assertEqual(self.current_batch["resulting_entry_count"], len(self.registry["entries"]))
+        self.assertEqual(self.current_batch["batch_finalizer_pr"], 727)
         self.assertEqual(
             self.latest_batch["source_prs"],
             [{
