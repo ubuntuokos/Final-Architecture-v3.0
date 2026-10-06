@@ -29,22 +29,20 @@
     "NO_UAF_MCP_SECURITY_TEMPORAL_OR_AI_COMMS_BYPASS"
   ],
   "historical_evidence_reused": false,
-  "current_host_changes": [],
+  "current_host_changes": [
+    "canonical/current-host-impact/FA3-CH-IMPACT-FUTURE-APPLICATION-COMMUNICATION-20261006.json"
+  ],
   "rationale": "This changes application readiness admission semantics for application IDs created after the policy epoch. No provider, model, device, daemon, port, package, driver or credential path is activated. Static materialization does not claim physical Current Host PASS. Fresh physical qualification of the new readiness and round-trip path is required later before any runtime-promotion claim that depends on this changed lifecycle boundary.",
   "structural_changes": [
-    "canonical/FA3-APP-LIFECYCLE-001.json",
-    "canonical/contracts/FA3-APPLICATION-RUNTIME-LIFECYCLE-CONTRACTS-001.json",
-    "canonical/contracts/FA3-FUTURE-APPLICATION-COMMUNICATION-CONTRACTS-001.json",
-    "canonical/FA3-FUTURE-APPLICATION-COMMUNICATION-BASELINE-20261006.json",
-    "canonical/FA3-APPLICATION-COMMUNICATION-READINESS-REGISTRY-001.json",
+    ".github/workflows/fa3-future-application-communication.yml",
     "canonical/FA3-GATE-FUTURE-APPLICATION-COMMUNICATION-001.json",
     "canonical/FA3-GATE-REGISTRY-001.json",
+    "canonical/contracts/FA3-APPLICATION-RUNTIME-LIFECYCLE-CONTRACTS-001.json",
+    "canonical/contracts/FA3-FUTURE-APPLICATION-COMMUNICATION-CONTRACTS-001.json",
+    "canonical/decisions/FA3-DEC-FUTURE-APPLICATION-COMMUNICATION-2026-10-06.json",
     "canonical/enforcement-policy.json",
-    "src/fa3_application_agent_adapter.py",
     "src/fa3_application_runtime_lifecycle.py",
-    "src/fa3_future_application_communication_gate.py",
-    ".github/workflows/fa3-future-application-communication.yml",
-    "AGENTS.md"
+    "src/fa3_future_application_communication_gate.py"
   ],
   "current_host_status": "PENDING_FRESH_PHYSICAL_CURRENT_HOST_REQUALIFICATION",
   "runtime_promotion_claim": false,
