@@ -1,8 +1,8 @@
 {
   "schema": "fa3.uaf.action-contract.v1",
   "id": "render.neural.execute",
-  "version": "1.0.0",
-  "description": "Execute an already selected host-native neural-rendering plan. HRB lease and current provider/model admission are mandatory; no silent fallback is allowed.",
+  "version": "2.0.0",
+  "description": "Execute an already selected CPU-software or host-accelerated neural-rendering plan. HRB, provider/model admission and exact-provider semantics are mandatory; no silent fallback is allowed.",
   "input_schema": {
     "type": "object",
     "required": [
@@ -10,7 +10,10 @@
       "plan_ref",
       "selected_provider_id",
       "model_artifact_ref",
-      "execution_class"
+      "execution_class",
+      "feature_class",
+      "output_class",
+      "frame_surface"
     ],
     "properties": {
       "operation_id": {
@@ -39,7 +42,55 @@
       },
       "execution_class": {
         "type": "string",
-        "const": "HOST_NATIVE_ACCELERATED"
+        "enum": [
+          "CPU_SOFTWARE",
+          "HOST_NATIVE_ACCELERATED"
+        ]
+      },
+      "feature_class": {
+        "type": "string",
+        "enum": [
+          "NEURAL_RENDER",
+          "SUPER_RESOLUTION",
+          "NATIVE_RESOLUTION_AA",
+          "RAY_RECONSTRUCTION",
+          "DENOISE",
+          "TEMPORAL_RECONSTRUCTION",
+          "FRAME_GENERATION",
+          "LOW_LATENCY_PRESENTATION"
+        ]
+      },
+      "output_class": {
+        "type": "string",
+        "enum": [
+          "INTERACTIVE_PREVIEW",
+          "VIEWPORT",
+          "PREVIZ",
+          "VP_MONITOR",
+          "PLAYBACK",
+          "FINAL_MASTER",
+          "ARCHIVAL_MASTER",
+          "EXR_SEQUENCE",
+          "VFX_HANDOFF"
+        ]
+      },
+      "frame_surface": {
+        "type": "object"
+      },
+      "hrb_lease_ref": {
+        "type": "string"
+      },
+      "model_router_receipt_ref": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "application_id": {
+        "type": [
+          "string",
+          "null"
+        ]
       }
     },
     "additionalProperties": false
@@ -107,7 +158,7 @@
       "logical_processors": null
     },
     "accelerator": {
-      "required": true,
+      "required": false,
       "cardinality": "0..N"
     },
     "memory": {
@@ -116,7 +167,7 @@
   },
   "provider": {
     "selection": "policy-bounded-capability-match",
-    "preferred_role": "HOST_NATIVE_NEURAL_RENDERING_PROVIDER"
+    "preferred_role": "CPU_OR_HOST_NATIVE_NEURAL_RENDERING_PROVIDER"
   },
   "evidence": {
     "required": true,
