@@ -14,6 +14,7 @@ REBINDS_ALLOWED = {
     "PROVIDER_5XX", "PROVIDER_OVERLOAD", "PROVIDER_UNAVAILABLE",
     "MODEL_UNAVAILABLE", "ENDPOINT_UNAVAILABLE",
 }
+EXHAUSTION_REASONS = {"MAX_REBIND_ATTEMPTS_EXHAUSTED", "MAX_CREDENTIALS_PER_REQUEST_EXHAUSTED", "NO_ELIGIBLE_CREDENTIAL_REMAINING"}
 FAIL_CLOSED_ERRORS = {"POLICY_DENIED", "SECURITY_DENIED", "PROTOCOL_INVALID"}
 
 class ExecutionDenied(RuntimeError):
@@ -334,18 +335,37 @@ class ProviderExecutionManager:
         binding.attempted_refs = {binding.credential_ref}
         return {"result":"RECORDED","credential_ref_sha256":credential_ref_digest(c.credential_ref),"transient_failure_state_reset":True,"raw_credential_present":False}
 
-    def _receipt(self, *, action: str, reason: str, provider_id: str, old_hash: str, binding: SessionRuntimeState, new_hash: str | None = None, backoff_seconds: float | None = None) -> dict:
+    def _receipt(
+        self,
+        *,
+        action: str,
+        reason: str,
+        provider_id: str,
+        old_hash: str,
+        binding: SessionRuntimeState,
+        new_hash: str | None = None,
+        backoff_seconds: float | None = None,
+        exhaustion_reason: str | None = None,
+        provider_pool_exhausted: bool = False,
+        traversal_budget_exhausted: bool = False,
+    ) -> dict:
+        if exhaustion_reason is not None and exhaustion_reason not in EXHAUSTION_REASONS:
+            raise ExecutionDenied("invalid exhaustion reason")
         result = {
             "schema":"fa3.route-rebind-receipt.v1","action":action,"reason":reason,"provider_id":provider_id,
             "old_credential_ref_sha256":old_hash,"cross_provider_transition":False,
             "rebind_attempt":binding.rebind_count,"max_rebind_attempts":self.max_rebind_attempts,
             "pool_traversal_count":len(binding.attempted_refs),"max_credentials_per_request":self.max_credentials_per_request,
+            "provider_pool_exhausted":bool(provider_pool_exhausted),
+            "traversal_budget_exhausted":bool(traversal_budget_exhausted),
             "raw_credential_present":False,
         }
         if new_hash is not None:
             result["new_credential_ref_sha256"] = new_hash
         if backoff_seconds is not None:
             result["backoff_seconds"] = backoff_seconds
+        if exhaustion_reason is not None:
+            result["exhaustion_reason"] = exhaustion_reason
         return result
 
     def record_failure(self, *, session_id: str, error_class: str, now: float, retry_after_seconds: float | None = None) -> dict:
@@ -398,7 +418,21 @@ class ProviderExecutionManager:
         next_rebind = binding.rebind_count + 1
         if next_rebind > self.max_rebind_attempts or len(attempted) >= self.max_credentials_per_request:
             binding.rebind_count = next_rebind; binding.attempted_refs = attempted
-            receipt = self._receipt(action="MODEL_ROUTER_REEVALUATION_REQUIRED",reason="POOL_TRAVERSAL_BOUNDED",provider_id=provider_id,old_hash=old_hash,binding=binding,backoff_seconds=backoff_seconds)
+            exhaustion_reason = (
+                "MAX_REBIND_ATTEMPTS_EXHAUSTED"
+                if next_rebind > self.max_rebind_attempts
+                else "MAX_CREDENTIALS_PER_REQUEST_EXHAUSTED"
+            )
+            receipt = self._receipt(
+                action="MODEL_ROUTER_REEVALUATION_REQUIRED",
+                reason="POOL_TRAVERSAL_BOUNDED",
+                provider_id=provider_id,
+                old_hash=old_hash,
+                binding=binding,
+                backoff_seconds=backoff_seconds,
+                exhaustion_reason=exhaustion_reason,
+                traversal_budget_exhausted=True,
+            )
             self._release_binding(session_id)
             return receipt
         self._release_binding(session_id)
@@ -408,7 +442,17 @@ class ProviderExecutionManager:
             return self._receipt(action="INTRA_PROVIDER_REBIND",reason=error_class,provider_id=provider_id,old_hash=old_hash,new_hash=lease["credential_ref_sha256"],binding=new_binding,backoff_seconds=backoff_seconds)
         except ExecutionDenied:
             exhausted = SessionRuntimeState(st.candidate.credential_ref,now,next_rebind,attempted)
-            return self._receipt(action="MODEL_ROUTER_REEVALUATION_REQUIRED",reason=error_class,provider_id=provider_id,old_hash=old_hash,binding=exhausted,backoff_seconds=backoff_seconds)
+            return self._receipt(
+                action="MODEL_ROUTER_REEVALUATION_REQUIRED",
+                reason=error_class,
+                provider_id=provider_id,
+                old_hash=old_hash,
+                binding=exhausted,
+                backoff_seconds=backoff_seconds,
+                exhaustion_reason="NO_ELIGIBLE_CREDENTIAL_REMAINING",
+                provider_pool_exhausted=True,
+                traversal_budget_exhausted=len(attempted) >= self.max_credentials_per_request,
+            )
 
     def release_session(self, session_id: str) -> None:
         self._release_binding(session_id)
