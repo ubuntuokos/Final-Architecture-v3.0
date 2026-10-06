@@ -37,6 +37,28 @@ class ProviderExecutionTests(unittest.TestCase):
     def test_receipt_redacts_reference(self):
         r=execution_receipt(CredentialCandidate("p","secretref:p/a","HEALTHY",True),logical_route="x",physical_model="y",selection_reason="z")
         self.assertNotIn("credential_ref",r); self.assertFalse(r["raw_credential_present"])
+    def test_active_antigravity_derived_records_follow_release_baseline(self):
+        import json
+        from pathlib import Path
+        from fa3_release_baseline import active_capability_count
+        root=Path(__file__).resolve().parents[1]
+        expected=active_capability_count(root)
+        paths=[
+            "canonical/profiles/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-001.json",
+            "canonical/profiles/FA3-LLM-PROTOCOL-COMPAT-001.json",
+            "canonical/contracts/FA3-MODEL-ROUTER-EXECUTION-CONTRACTS-001.json",
+            "canonical/contracts/FA3-LLM-PROTOCOL-COMPAT-CONTRACTS-001.json",
+            "canonical/model-router-provider-execution-enforcement.json",
+            "canonical/FA3-GATE-MODEL-ROUTER-PROVIDER-EXECUTION-001.json",
+            "canonical/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CORE-CLOSURE-001.json",
+            "canonical/decisions/FA3-DEC-ANTIGRAVITY-DERIVED-EXECUTION-MEDIATION-2026-09-24.json",
+        ]
+        for rel in paths:
+            row=json.loads((root/rel).read_text())
+            self.assertEqual(expected,row["capability_count"],rel)
+            self.assertEqual("FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",row["capability_model_reconciliation"],rel)
+        historical=json.loads((root/"evidence/reference/model-router-provider-execution-ci-2026-09-24.json").read_text())
+        self.assertEqual(143,historical["capability_count"])
 class ProviderExecutionCoreClosureTests(unittest.TestCase):
     def test_core_closure_is_provider_independent(self):
         import json
