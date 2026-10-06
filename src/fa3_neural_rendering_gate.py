@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse, json
+import argparse, hashlib, json
 from pathlib import Path
 from typing import Any
 from fa3_release_baseline import load_active_release_baseline
 from fa3_uaf import ActionRegistry
+from fa3_neural_rendering import NeuralRenderingError, validate_execution_preflight, validate_output_policy
 
 GATE_ID="FA3-NEURAL-RENDERING-GATESET-001"; PROFILE_ID="FA3-NEURAL-RENDERING-001"
 CONTRACT_ID="FA3-NEURAL-RENDERING-CONTRACTS-001"; PROVIDER_ID="FA3-PROVIDER-OPENDLSS-NR-001"
-DECISION_ID="FA3-DEC-NEURAL-RENDERING-OPENDLSS-NR-2026-09-23"; PIN="9d08f4184bbcb9d858e2fb7a7834ec0837a9d2f1"
+DECISION_ID="FA3-DEC-NEURAL-RENDERING-OPENDLSS-NR-2026-09-23"; INTEGRATION_DECISION_ID="FA3-DEC-NEURAL-RENDERING-FULL-INTEGRATION-2026-10-06"; PIN="9d08f4184bbcb9d858e2fb7a7834ec0837a9d2f1"
 ACTION_IDS={"render.neural.evaluate","render.neural.execute","render.neural.browser.execute"}
 
 def _load(path:Path)->dict[str,Any]:
@@ -39,7 +40,16 @@ def validate(root:Path)->list[dict[str,Any]]:
       "adapter":root/"src/fa3_opendlss_nr_provider.py","decision_impl":root/"src/fa3_neural_rendering.py",
       "intent":root/"canonical/intents/FA3-NEURAL-RENDERING-APPLICATION-INTENT-001.json",
       "reuse_assessment":root/"canonical/assessments/FA3-NEURAL-RENDERING-REUSE-ASSESSMENT-001.json",
-      "derived_patterns":root/"canonical/references/FA3-OPENDLSS-NR-DERIVED-PATTERNS-001.json"}
+      "derived_patterns":root/"canonical/references/FA3-OPENDLSS-NR-DERIVED-PATTERNS-001.json",
+      "integration_decision":root/"canonical/decisions/FA3-DEC-NEURAL-RENDERING-FULL-INTEGRATION-2026-10-06.json",
+      "app_links":root/"canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
+      "engine_registry":root/"canonical/FA3-ENGINE-REGISTRY-001.json",
+      "current_host_impact":root/"canonical/current-host-impact/FA3-CH-IMPACT-NEURAL-RENDERING-FULL-INTEGRATION-20261006.json",
+      "donor_registry":root/"canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+      "action_evaluate":root/"canonical/actions/render.neural.evaluate.json",
+      "action_execute":root/"canonical/actions/render.neural.execute.json",
+      "action_browser":root/"canonical/actions/render.neural.browser.execute.json",
+      "architecture_doc":root/"docs/CFA3-NEURAL-RENDERING-RECONSTRUCTION-FABRIC-2026-10-06.md"}
     for name,path in paths.items():
         if not path.is_file(): findings.append(_finding("NR-GATE-001","required file missing",name=name,path=path.as_posix()))
     if findings: return findings
@@ -49,6 +59,10 @@ def validate(root:Path)->list[dict[str,Any]]:
     neural_media=_load(paths["neural_media"]); web_ai=_load(paths["web_ai"]); registry=_load(paths["evidence_registry"])
     reference=_load(paths["reference"]); projection=_load(paths["projection"])
     intent=_load(paths["intent"]); reuse_assessment=_load(paths["reuse_assessment"]); derived_patterns=_load(paths["derived_patterns"])
+    integration_decision=_load(paths["integration_decision"]); app_links=_load(paths["app_links"]); engine_registry=_load(paths["engine_registry"])
+    current_host_impact=_load(paths["current_host_impact"]); donor_registry=_load(paths["donor_registry"])
+    action_evaluate=_load(paths["action_evaluate"]); action_execute=_load(paths["action_execute"]); action_browser=_load(paths["action_browser"])
+    donor_raw=paths["donor_registry"].read_bytes(); donor_sha256=hashlib.sha256(donor_raw).hexdigest()
     checks=[
       (isinstance(count,int) and count>0,"NR-GATE-002","active capability baseline is invalid"),
       (profile.get("id")==PROFILE_ID and profile.get("provider_neutral") is True and profile.get("fail_closed") is True,"NR-GATE-003","profile identity/provider-neutral/fail-closed mismatch"),
@@ -81,7 +95,18 @@ def validate(root:Path)->list[dict[str,Any]]:
       (reuse_assessment.get("coexistence",{}).get("result")=="PASS" and reuse_assessment.get("coexistence",{}).get("upstream_uninstall_required") is False and reuse_assessment.get("coexistence",{}).get("global_mutation") is False and reuse_assessment.get("coexistence",{}).get("default_port_hijack") is False,"NR-GATE-038","ReuseAssessment coexistence boundary invalid"),
       (reuse_assessment.get("hardware_audit",{}).get("vendor_neutral") is True and reuse_assessment.get("hardware_audit",{}).get("cpu_only_viable") is True and reuse_assessment.get("hardware_audit",{}).get("accelerator_cardinality")=="0..N" and reuse_assessment.get("current_host_runtime_promotion_claim") is False and reuse_assessment.get("global_promotion_claim") is False,"NR-GATE-039","ReuseAssessment hardware/promotion boundary invalid"),
       (reuse_assessment.get("new_capabilities")==0 and reuse_assessment.get("new_architectural_authorities")==0 and isinstance(reuse_assessment.get("capability_count_after"),int) and reuse_assessment.get("capability_count_after")<=count,"NR-GATE-040","ReuseAssessment changes capability or authority baseline"),
-      (derived_patterns.get("authority") is False and derived_patterns.get("runtime_dependency_implied") is False and derived_patterns.get("current_host_claim") is False and len(derived_patterns.get("patterns",[]))>=5,"NR-GATE-041","OpenDLSS-NR derived-pattern reference boundary invalid")]
+      (derived_patterns.get("authority") is False and derived_patterns.get("runtime_dependency_implied") is False and derived_patterns.get("current_host_claim") is False and len(derived_patterns.get("patterns",[]))>=5,"NR-GATE-041","OpenDLSS-NR derived-pattern reference boundary invalid"),
+      (contract.get("capability_count")==count and provider.get("capability_count")==count and gate_record.get("capability_count")==count and runtime.get("capability_count")==count and reuse_assessment.get("capability_count_after")==count,"NR-GATE-042","active neural rendering records are not reconciled to the live capability baseline"),
+      (runtime.get("hardware_audit",{}).get("vendor_neutral") is True and runtime.get("hardware_audit",{}).get("cpu_only_host_conformant") is True and runtime.get("hardware_audit",{}).get("accelerator_cardinality")=="0..N" and runtime.get("hardware_safety_envelope",{}).get("fail_closed") is True,"NR-GATE-043","runtime hardware or CPU-only boundary drift"),
+      (runtime.get("software_coexistence",{}).get("capability")=="CAP-175" and runtime.get("ai_execution",{}).get("model_router_authority")=="FA3-AUTH-MODEL-ROUTER-001" and runtime.get("ai_execution",{}).get("silent_fallback") is False and runtime.get("ai_execution",{}).get("display_gpu_automatic_ai_recruitment_with_other_gpu_or_npu") is False,"NR-GATE-044","runtime coexistence, Model Router or display-GPU boundary drift"),
+      (integration_decision.get("id")==INTEGRATION_DECISION_ID and integration_decision.get("status")=="OWNER_APPROVED_MATERIALIZATION" and integration_decision.get("invariants",{}).get("capability_baseline")==count and integration_decision.get("invariants",{}).get("capability_delta")==0 and integration_decision.get("invariants",{}).get("architectural_authority_delta")==0 and integration_decision.get("invariants",{}).get("pending_or_unmerged_donors_consumed") is False,"NR-GATE-045","approved full-integration decision missing or invalid"),
+      (gate_record.get("integration_decision_id")==INTEGRATION_DECISION_ID,"NR-GATE-046","gate is not bound to approved integration decision"),
+      ("CPU_SOFTWARE" in profile.get("execution_classes",{}) and "CPU_SOFTWARE" in contract.get("execution_classes",{}) and runtime.get("execution_classes",{}).get("CPU_SOFTWARE",{}).get("explicit_selection_required") is True,"NR-GATE-047","explicit CPU software execution path missing"),
+      (set(contract.get("feature_classes",[]))=={"NEURAL_RENDER","SUPER_RESOLUTION","NATIVE_RESOLUTION_AA","RAY_RECONSTRUCTION","DENOISE","TEMPORAL_RECONSTRUCTION","FRAME_GENERATION","LOW_LATENCY_PRESENTATION"},"NR-GATE-048","neural feature-class contract drift"),
+      (set(contract.get("output_policy",{}).get("frame_generation_forbidden",[]))=={"FINAL_MASTER","ARCHIVAL_MASTER","EXR_SEQUENCE","VFX_HANDOFF"} and contract.get("output_policy",{}).get("final_master_requires_frame_accurate_canonical_timeline") is True,"NR-GATE-049","frame-generation final-output prohibition missing"),
+      (contract.get("interoperability",{}).get("engine_selection")=="FA3-ENGINE-SELECTION-FABRIC-001" and contract.get("interoperability",{}).get("ray_path_tracing")=="FA3-SHARED-RAY-PATH-TRACING-001" and contract.get("interoperability",{}).get("render_dispatch_capability")=="CAP-161" and contract.get("interoperability",{}).get("external_render_service_capability")=="CAP-162","NR-GATE-050","render interoperability boundary missing"),
+      (reuse_assessment.get("pending_or_unmerged_donors_consumed") is False and reuse_assessment.get("donor_usage_edges_created")==0 and reuse_assessment.get("donor_planning_snapshot",{}).get("donor_registry_entry_count")==len(donor_registry.get("entries",[])) and reuse_assessment.get("donor_planning_snapshot",{}).get("donor_registry_sha256")==donor_sha256,"NR-GATE-051","reuse assessment is not bound to the published donor snapshot"),
+      (current_host_impact.get("status")=="NO_RUNTIME_IMPACT" and current_host_impact.get("runtime_change") is False and current_host_impact.get("provider_or_model_activation") is False and current_host_impact.get("physical_current_host_pass_claimed") is False and current_host_impact.get("runtime_promotion_claim") is False,"NR-GATE-052","Current Host static-impact boundary invalid")]
     for ok,code,message in checks:
         if not ok: findings.append(_finding(code,message))
     opendlss_lock=lock.get("locks",{}).get("opendlss_nr",{})
@@ -97,6 +122,34 @@ def validate(root:Path)->list[dict[str,Any]]:
         if action.resources.get("accelerator",{}).get("cardinality")!="0..N": findings.append(_finding("NR-GATE-030","accelerator cardinality not portable",action=action_id))
     if actions.get("render.neural.execute") and actions["render.neural.execute"].resources.get("hrb_required") is not True: findings.append(_finding("NR-GATE-031","host execution action does not require HRB"))
     if actions.get("render.neural.browser.execute") and actions["render.neural.browser.execute"].resources.get("hrb_required") is not False: findings.append(_finding("NR-GATE-032","browser execution incorrectly claims host HRB lease"))
+    execute_class=action_execute.get("input_schema",{}).get("properties",{}).get("execution_class",{})
+    if set(execute_class.get("enum",[]))!={"CPU_SOFTWARE","HOST_NATIVE_ACCELERATED"}: findings.append(_finding("NR-GATE-053","UAF execute action does not expose CPU and host execution classes"))
+    for raw_action,name in ((action_evaluate,"evaluate"),(action_execute,"execute"),(action_browser,"browser")):
+        props=raw_action.get("input_schema",{}).get("properties",{})
+        if "feature_class" not in props: findings.append(_finding("NR-GATE-054","UAF action lacks feature-class contract",action=name))
+    for raw_action,name in ((action_execute,"execute"),(action_browser,"browser")):
+        required=set(raw_action.get("input_schema",{}).get("required",[]))
+        if not {"feature_class","output_class","frame_surface"}.issubset(required): findings.append(_finding("NR-GATE-055","execution action lacks frame/output contract",action=name))
+    shared={x.get("id"):x for x in app_links.get("shared_capabilities",[]) if isinstance(x,dict)}
+    neural_shared=shared.get(PROFILE_ID)
+    required_consumers={"fa3.video-editor","fa3.character-studio","studio.bforartists","studio.kdenlive","studio.natron","studio.gaffer"}
+    if not neural_shared or neural_shared.get("authority") is not False or neural_shared.get("status")!="MATERIALIZED_STATIC" or not required_consumers.issubset(set(neural_shared.get("consumer_applications",[]))):
+        findings.append(_finding("NR-GATE-056","shared application projection incomplete"))
+    if neural_shared and neural_shared.get("future_application_binding")!="AUTO_DISCOVER_CAPABILITY_COMPATIBLE_SURFACE_BUT_NEVER_AUTO_ACTIVATE_PROVIDER":
+        findings.append(_finding("NR-GATE-057","future application shared-fabric binding policy missing"))
+    engine=next((x for x in engine_registry.get("engine_records",[]) if x.get("engine_id")=="FA3-ENGINE-FA3-NEURAL-RECONSTRUCTION-001"),None)
+    if not engine or "CAP-163" not in engine.get("capability_projection",[]) or engine.get("automatic_backend_selection") is not False or engine.get("silent_fallback") is not False or engine.get("provider_selection_authority") is not False:
+        findings.append(_finding("NR-GATE-058","shared neural engine registry projection invalid"))
+    try:
+        validate_output_policy(feature_class="FRAME_GENERATION",output_class="FINAL_MASTER")
+        findings.append(_finding("NR-GATE-059","frame generation unexpectedly allowed in final master"))
+    except NeuralRenderingError as exc:
+        if exc.code!="NR-FRAME-GENERATION-FINAL-FORBIDDEN": findings.append(_finding("NR-GATE-059","wrong frame-generation denial",code=exc.code))
+    try:
+        cpu=validate_execution_preflight(selected_provider_id="cpu",executed_provider_id="cpu",execution_class="CPU_SOFTWARE",model_artifact_ref="model:admitted",supply_chain_receipt_ref="supply:admitted",evidence_context_ref="evidence:ctx",hrb_lease_ref="hrb:lease",model_router_receipt_ref="router:receipt")
+        if cpu.get("status")!="READY_FOR_GOVERNED_PROVIDER_ADAPTER" or cpu.get("silent_fallback_allowed") is not False: findings.append(_finding("NR-GATE-060","CPU software execution preflight regression"))
+    except NeuralRenderingError as exc:
+        findings.append(_finding("NR-GATE-060","CPU software execution preflight blocked",code=exc.code))
     policy_text=json.dumps({"profile_hardware":profile.get("hardware_policy"),"action_resources":{k:v.resources for k,v in actions.items()}},sort_keys=True).lower()
     for forbidden in ("nvidia","cuda","ada","windows","vk_nv_"):
         if forbidden in policy_text: findings.append(_finding("NR-GATE-033","provider-specific hardware leaked into global/action hardware policy",token=forbidden))
