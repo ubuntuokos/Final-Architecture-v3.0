@@ -32,7 +32,9 @@
     "authorization",
     "host resource placement",
     "cross-provider routing authority",
-    "workflow orchestration"
+    "workflow orchestration",
+    "provider runtime environment creation, isolation or package lifecycle",
+    "venv, OCI or host-native runtime ownership"
   ],
   "authority_bindings": {
     "routing": "FA3-AUTH-MODEL-ROUTER-001",
@@ -41,7 +43,8 @@
     "security": "FA3-AUTH-SECURITY-GOV-001",
     "decision_advisory": "FA3-DECISION-FABRIC-001",
     "agent_native": "FA3-UNIFIED-ACTION-FABRIC-001",
-    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "provider_runtime_environment": "FA3-PROVIDER-RUNTIME-001"
   },
   "credential_states": [
     "UNKNOWN",
@@ -70,7 +73,8 @@
     "TIERED_BACKOFF_EXPLICIT_AND_BOUNDED",
     "PROVIDER_CREDENTIAL_MODEL_ENDPOINT_HEALTH_DISTINCT",
     "SUCCESS_RESETS_TRANSIENT_FAILURE_STATE_ONLY",
-    "DETERMINISTIC_TIE_BREAK_REQUIRED"
+    "DETERMINISTIC_TIE_BREAK_REQUIRED",
+    "PROVIDER_RUNTIME_ENVIRONMENT_OWNERSHIP_NOT_DUPLICATED"
   ],
   "contract_id": "FA3-MODEL-ROUTER-EXECUTION-CONTRACTS-001",
   "gate_id": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-GATESET-001",
