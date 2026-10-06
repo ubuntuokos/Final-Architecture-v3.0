@@ -15,7 +15,10 @@ DECISION_SCHEMA="fa3.neural-rendering-decision-receipt.v1"
 CONTEXT_SCHEMA="fa3.neural-rendering-context-envelope.v1"
 MAX_CANDIDATES=32
 MAX_CONTEXT_ITEMS=32
-EXECUTION_CLASSES={"CPU_SOFTWARE","HOST_NATIVE_ACCELERATED","BROWSER_WEBGPU"}\nFEATURE_CLASSES={"NEURAL_RENDER","SUPER_RESOLUTION","NATIVE_RESOLUTION_AA","RAY_RECONSTRUCTION","DENOISE","TEMPORAL_RECONSTRUCTION","FRAME_GENERATION","LOW_LATENCY_PRESENTATION"}\nTEMPORAL_FEATURES={"NEURAL_RENDER","SUPER_RESOLUTION","NATIVE_RESOLUTION_AA","RAY_RECONSTRUCTION","DENOISE","TEMPORAL_RECONSTRUCTION","FRAME_GENERATION"}\nFRAME_GENERATION_FORBIDDEN_OUTPUTS={"FINAL_MASTER","ARCHIVAL_MASTER","EXR_SEQUENCE","VFX_HANDOFF"}
+EXECUTION_CLASSES={"CPU_SOFTWARE","HOST_NATIVE_ACCELERATED","BROWSER_WEBGPU"}
+FEATURE_CLASSES={"NEURAL_RENDER","SUPER_RESOLUTION","NATIVE_RESOLUTION_AA","RAY_RECONSTRUCTION","DENOISE","TEMPORAL_RECONSTRUCTION","FRAME_GENERATION","LOW_LATENCY_PRESENTATION"}
+TEMPORAL_FEATURES={"NEURAL_RENDER","SUPER_RESOLUTION","NATIVE_RESOLUTION_AA","RAY_RECONSTRUCTION","DENOISE","TEMPORAL_RECONSTRUCTION","FRAME_GENERATION"}
+FRAME_GENERATION_FORBIDDEN_OUTPUTS={"FINAL_MASTER","ARCHIVAL_MASTER","EXR_SEQUENCE","VFX_HANDOFF"}
 
 class NeuralRenderingError(ValueError):
     def __init__(self,code:str,message:str):
@@ -28,6 +31,7 @@ class SelectionRequest:
     context:tuple[dict[str,Any],...]=()
     requested_provider_id:str|None=None
     requested_execution_class:str|None=None
+    feature_class:str="NEURAL_RENDER"
     signals:dict[str,Any]=field(default_factory=dict)
 
 def _digest(value:Any)->str:
@@ -57,6 +61,9 @@ def _eligible(item:dict[str,Any],request:SelectionRequest)->tuple[bool,str]:
     if execution_class not in EXECUTION_CLASSES: return False,"unsupported-execution-class"
     if request.requested_execution_class and execution_class!=request.requested_execution_class:
         return False,"not-requested-execution-class"
+    supported=item.get("feature_classes")
+    if isinstance(supported,(list,tuple,set)) and request.feature_class not in supported:
+        return False,"feature-class-unsupported"
     for field_name,reason in (
         ("policy_eligible","policy-ineligible"),("provider_admitted","provider-not-admitted"),
         ("model_artifact_admitted","model-artifact-not-admitted"),("runtime_compatible","runtime-incompatible"),
@@ -131,6 +138,7 @@ def validate_output_policy(*,feature_class:str,output_class:str)->dict[str,Any]:
 
 def select_provider(request:SelectionRequest,advisory:Callable[[tuple[str,...],dict[str,Any]],list[str]]|None=None)->dict[str,Any]:
     if not request.operation_id.strip(): raise NeuralRenderingError("NR-REQUEST-INVALID","operation_id is required")
+    if request.feature_class not in FEATURE_CLASSES: raise NeuralRenderingError("NR-FEATURE-CLASS-INVALID",request.feature_class)
     candidates=_bounded(request.candidates,"candidates",MAX_CANDIDATES); eligible=[]; rejected=[]
     for candidate in candidates:
         ok,reason=_eligible(candidate,request)
