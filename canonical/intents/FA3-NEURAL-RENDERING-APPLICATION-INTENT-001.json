@@ -3,7 +3,7 @@
   "id": "FA3-NEURAL-RENDERING-APPLICATION-INTENT-001",
   "project_id": "FA3-NEURAL-RENDERING-001",
   "project_type": "PROFILE",
-  "goal": "Provide provider-neutral neural rendering, temporal reconstruction and evidence-bounded execution for Creative Studio, neural media, DCC/RT3D and browser projections while preserving existing FA3 resource, model, security, geometry, action and evidence authorities.",
+  "goal": "Provide one provider-neutral shared neural rendering and reconstruction fabric for all current and future capability-compatible CFA3 applications, with explicit CPU software, host accelerator and browser execution classes while preserving existing resource, model, security, geometry, action, render-dispatch and evidence authorities.",
   "required_capabilities": [
     "render.neural.evaluate"
   ],
@@ -16,7 +16,14 @@
     "temporal-reconstruction",
     "render-quality-evidence",
     "provider-parity",
-    "multi-backend-render-execution"
+    "multi-backend-render-execution",
+    "super-resolution",
+    "native-resolution-aa",
+    "ray-reconstruction",
+    "denoise",
+    "frame-generation",
+    "low-latency-presentation",
+    "application-render-interoperability"
   ],
   "input_modalities": [
     "IMAGE",
@@ -34,8 +41,8 @@
     "EVIDENCE_RECEIPT"
   ],
   "execution_classes": [
-    "CPU_ONLY_CONTROL_PLANE",
-    "OPTIONAL_HOST_ACCELERATOR",
+    "CPU_SOFTWARE",
+    "HOST_NATIVE_ACCELERATED",
     "BROWSER_WEBGPU"
   ],
   "proposed_authority_roles": [],
@@ -76,6 +83,36 @@
     "FA3-AUTH-MODEL-ROUTER-001",
     "FA3-WEB-AI-001",
     "FA3-3D-GEOM-001",
-    "FA3-AUTH-OBS-EVIDENCE-001"
-  ]
+    "FA3-AUTH-OBS-EVIDENCE-001",
+    "FA3-ENGINE-SELECTION-FABRIC-001",
+    "FA3-SHARED-RAY-PATH-TRACING-001",
+    "CAP-161",
+    "CAP-162",
+    "CAP-163"
+  ],
+  "feature_classes": [
+    "NEURAL_RENDER",
+    "SUPER_RESOLUTION",
+    "NATIVE_RESOLUTION_AA",
+    "RAY_RECONSTRUCTION",
+    "DENOISE",
+    "TEMPORAL_RECONSTRUCTION",
+    "FRAME_GENERATION",
+    "LOW_LATENCY_PRESENTATION"
+  ],
+  "output_policy": {
+    "frame_generation_preview_only": true,
+    "frame_generation_forbidden_output_classes": [
+      "FINAL_MASTER",
+      "ARCHIVAL_MASTER",
+      "EXR_SEQUENCE",
+      "VFX_HANDOFF"
+    ],
+    "canonical_timeline_preserved": true
+  },
+  "shared_placement": {
+    "required": true,
+    "application_local_duplicate_forbidden": true,
+    "future_capability_compatible_applications_inherit_contract": true
+  }
 }
