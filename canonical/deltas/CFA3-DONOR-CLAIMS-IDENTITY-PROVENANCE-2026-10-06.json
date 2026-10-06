@@ -1,0 +1,207 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "CFA3-DONOR-CLAIMS-IDENTITY-PROVENANCE-2026-10-06",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "STAGED_PENDING_ROLLING_BATCH_APPEND",
+  "mode": "EXACT_OWNER_AUTHORIZED_REFERENCE_REGISTRATION",
+  "parent_main": "c2e2ab2aa1c34ef555e2324e9b67af9d8723f76a",
+  "parent_registry_blob_sha": "2bb6a74dd415b6374e4a6d5adce1bc9265229b63",
+  "parent_entry_count": 1792,
+  "authorization": {
+    "owner_command": "donornak",
+    "exact_owner_message_marker": "minden linket donornak vegyél fel",
+    "explicit_user_approval": true,
+    "scope": "EXACT_TEN_URLS_IN_PRECEDING_OWNER_SUBMISSION",
+    "conversation_lineage_ref": "chat:cfa3-claims-identity-provenance:2026-10-06"
+  },
+  "submitted_url_count": 10,
+  "submitted_urls": [
+    "https://github.com/claimed-framework",
+    "https://github.com/topics/claims?l=html&o=desc&s=updated",
+    "https://github.com/topics/file-claim",
+    "https://github.com/thunlp/CLAIM",
+    "https://github.com/marketplace/actions/actions-custom-oidc-claim",
+    "https://github.blog/changelog/2026-04-23-immutable-subject-claims-for-github-actions-oidc-tokens/",
+    "https://github.com/gitcoinco/claim-tool",
+    "https://github.com/decentralized-identity/claim-format-registry",
+    "https://github.com/decentralized-identity/claims-credentials",
+    "https://github.com/netlify/deploy-and-claim"
+  ],
+  "unique_source_count": 10,
+  "new_source_count": 10,
+  "canonical_identities": [
+    {
+      "source": "https://github.com/claimed-framework",
+      "normalized_key": "github:claimed-framework",
+      "donor_id": "FA3-DONOR-CLAIMED-FRAMEWORK-ORG-001",
+      "name": "CLAIMED Framework GitHub organization",
+      "kind": "GITHUB_ORGANIZATION",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "AI_COMPONENT_COMPILER_GRID_COMPUTE_PROVENANCE_DISCOVERY_REFERENCE",
+      "group": "CLAIMS_IDENTITY_CREDENTIALS_PROVENANCE",
+      "target_hints": [
+        "CFA3 Component Materialization & Execution Fabric",
+        "CFA3 HPC Layer",
+        "CFA3 Provenance"
+      ]
+    },
+    {
+      "source": "https://github.com/topics/claims?l=html&o=desc&s=updated",
+      "normalized_key": "github:topics/claims?l=html&o=desc&s=updated",
+      "donor_id": "FA3-DONOR-GITHUB-CLAIMS-TOPIC-HTML-UPDATED-001",
+      "name": "GitHub claims topic — HTML / updated sort",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "DYNAMIC_DISCOVERY_INDEX_REFERENCE",
+      "group": "CLAIMS_DISCOVERY",
+      "target_hints": [
+        "Reuse Discovery",
+        "CFA3 Identity, Claims, Credentials & Provenance Fabric"
+      ]
+    },
+    {
+      "source": "https://github.com/topics/file-claim",
+      "normalized_key": "github:topics/file-claim",
+      "donor_id": "FA3-DONOR-GITHUB-FILE-CLAIM-TOPIC-001",
+      "name": "GitHub file-claim topic",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "DYNAMIC_DISCOVERY_INDEX_REFERENCE",
+      "group": "CLAIMS_DISCOVERY",
+      "target_hints": [
+        "Reuse Discovery",
+        "CFA3 Provenance"
+      ]
+    },
+    {
+      "source": "https://github.com/thunlp/CLAIM",
+      "normalized_key": "github:thunlp/claim",
+      "donor_id": "FA3-DONOR-THUNLP-CLAIM-001",
+      "name": "THUNLP CLAIM",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "LEGAL_AI_NLP_REFERENCE",
+      "group": "LEGAL_AI_REFERENCE",
+      "target_hints": [
+        "CFA3 Legal / Document Intelligence"
+      ]
+    },
+    {
+      "source": "https://github.com/marketplace/actions/actions-custom-oidc-claim",
+      "normalized_key": "github:marketplace/actions/actions-custom-oidc-claim",
+      "donor_id": "FA3-DONOR-GITHUB-MARKETPLACE-ACTIONS-CUSTOM-OIDC-CLAIM-001",
+      "name": "Actions Custom OIDC Claim",
+      "kind": "GITHUB_MARKETPLACE_ACTION",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "OIDC_CUSTOM_CLAIM_WORKFLOW_REFERENCE",
+      "group": "OIDC_WORKLOAD_IDENTITY",
+      "target_hints": [
+        "CFA3 Trust / PKI",
+        "CFA3 Security",
+        "CI/CD workload identity"
+      ]
+    },
+    {
+      "source": "https://github.blog/changelog/2026-04-23-immutable-subject-claims-for-github-actions-oidc-tokens/",
+      "normalized_key": "https://github.blog/changelog/2026-04-23-immutable-subject-claims-for-github-actions-oidc-tokens/",
+      "donor_id": "FA3-DONOR-GITHUB-BLOG-IMMUTABLE-SUBJECT-CLAIMS-OIDC-2026-04-23-001",
+      "name": "GitHub Actions immutable subject claims changelog",
+      "kind": "REFERENCE",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "IMMUTABLE_OIDC_SUBJECT_IDENTITY_REFERENCE",
+      "group": "OIDC_WORKLOAD_IDENTITY",
+      "target_hints": [
+        "CFA3 Trust / PKI",
+        "CFA3 Security",
+        "Canonical Application Identity"
+      ]
+    },
+    {
+      "source": "https://github.com/gitcoinco/claim-tool",
+      "normalized_key": "github:gitcoinco/claim-tool",
+      "donor_id": "FA3-DONOR-GITCOINCO-CLAIM-TOOL-001",
+      "name": "Gitcoin Claim Tool",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "CLAIM_DELEGATION_WORKFLOW_UX_REFERENCE",
+      "group": "CLAIM_WORKFLOW_REFERENCE",
+      "target_hints": [
+        "CFA3 Identity, Claims, Credentials & Provenance Fabric",
+        "Workflow UX reference"
+      ]
+    },
+    {
+      "source": "https://github.com/decentralized-identity/claim-format-registry",
+      "normalized_key": "github:decentralized-identity/claim-format-registry",
+      "donor_id": "FA3-DONOR-DIF-CLAIM-FORMAT-REGISTRY-001",
+      "name": "DIF Claim Format Registry",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "VERIFIABLE_CREDENTIAL_CLAIM_FORMAT_REGISTRY_REFERENCE",
+      "group": "CLAIMS_CREDENTIALS_INTEROPERABILITY",
+      "target_hints": [
+        "CFA3 Identity, Claims, Credentials & Provenance Fabric",
+        "Credential interoperability"
+      ]
+    },
+    {
+      "source": "https://github.com/decentralized-identity/claims-credentials",
+      "normalized_key": "github:decentralized-identity/claims-credentials",
+      "donor_id": "FA3-DONOR-DIF-CLAIMS-CREDENTIALS-001",
+      "name": "DIF Claims & Credentials",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "SSI_CLAIMS_CREDENTIALS_INTEROPERABILITY_REFERENCE",
+      "group": "CLAIMS_CREDENTIALS_INTEROPERABILITY",
+      "target_hints": [
+        "CFA3 Identity, Claims, Credentials & Provenance Fabric",
+        "Credential interoperability"
+      ]
+    },
+    {
+      "source": "https://github.com/netlify/deploy-and-claim",
+      "normalized_key": "github:netlify/deploy-and-claim",
+      "donor_id": "FA3-DONOR-NETLIFY-DEPLOY-AND-CLAIM-001",
+      "name": "Netlify Deploy and Claim",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "DEPLOYMENT_OWNERSHIP_CLAIM_TRANSFER_REFERENCE",
+      "group": "OWNERSHIP_TRANSFER_REFERENCE",
+      "target_hints": [
+        "CFA3 Deployment Fabric",
+        "CFA3 Provenance",
+        "Ownership transfer workflows"
+      ]
+    }
+  ],
+  "lineage_observations": {
+    "max_reference_depth_policy": 5,
+    "child_auto_admission": false,
+    "disposition": "REFERENCE_LINEAGE_MAY_BE_ANALYZED_TO_POLICY_DEPTH; CHILD_SOURCES_ARE_NOT_AUTO_REGISTERED_BY_THIS_TEN_SOURCE_INTAKE"
+  },
+  "requirements": [
+    "Reference registration only; no code import, runtime dependency, provider/model admission or activation.",
+    "Organization/topic/Marketplace records are discovery or workflow references and do not recursively admit child repositories, actions or packages.",
+    "All source copying and dependency adoption remain blocked pending License & Rights, provenance, Security and Software Coexistence review.",
+    "The fixed CFA3 capability baseline remains 175 and no architectural authority is added.",
+    "Actual adoption requires an explicit usage edge plus all applicable fail-closed gates."
+  ],
+  "boundaries": {
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "automatic_code_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "usage_edge_created": false,
+    "capability_count_change": false,
+    "authority_change": false,
+    "runtime_change": false,
+    "current_host_pass_claimed": false,
+    "application_implementation_started": false
+  },
+  "serialization_scope": "ROLLING_FIVE_SLOT_DONOR_MAINTENANCE",
+  "serialization_order": "SINGLE_CANONICAL_WRITER_WITH_BATCH_APPEND_AND_EXACT_HEAD_REVALIDATION",
+  "batch_finalizer_pr": 727
+}
