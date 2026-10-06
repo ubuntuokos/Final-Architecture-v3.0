@@ -51,5 +51,26 @@
     "transient_success_reset_allowed": true,
     "security_policy_failure_reset_forbidden": true,
     "deterministic_tie_break_required": true
+  },
+  "reasoning_policy": {
+    "workload_intent_source": "FA3-AGENT-WORKLOAD-TASK-001",
+    "selection_authority": "FA3-AUTH-MODEL-ROUTER-001",
+    "adapter_projection_only": true,
+    "adapter_budget_escalation": false
+  },
+  "context_policy": {
+    "implementation": "src/fa3_context_budget_compaction.py",
+    "shared_conversation": "FA3-SHARED-CONVERSATION-SESSION-001",
+    "shared_knowledge": "FA3-SHARED-KNOWLEDGE-RETRIEVAL-001",
+    "silent_drop": false,
+    "source_history_mutation": false,
+    "provenance_required": true
+  },
+  "protocol_policy": {
+    "implementation": "src/fa3_llm_protocol_compat.py",
+    "upstream_error_fidelity": true,
+    "tool_id_canonicalization": true,
+    "streaming_terminal_explicit": true,
+    "multimodal_bounds": true
   }
 }
