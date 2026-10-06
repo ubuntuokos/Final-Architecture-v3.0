@@ -1,0 +1,108 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "CFA3-DEC-GOOGLE-ANTIGRAVITY-SDK-PATTERN-USE-2026-10-06",
+  "title": "Governed Google Antigravity SDK pattern use for CFA3 shared agent and provider execution layers",
+  "date": "2026-10-06",
+  "status": "CANONICAL",
+  "decision": "ACCEPT",
+  "owner_approval": "EXPLICIT",
+  "owner_approval_context": "Owner approved the displayed CFA3 Antigravity-derived refresh plan and ordered implementation through full closure on 2026-10-06.",
+  "scope": {
+    "donor_id": "FA3-DONOR-GOOGLE-ANTIGRAVITY-SDK-PYTHON-001",
+    "usage_edge_id": "CFA3-USAGE-GOOGLE-ANTIGRAVITY-SDK-SHARED-AGENT-PATTERNS-20261006",
+    "usage_kind": "ARCHITECTURE_PATTERN",
+    "primary_consumer": {
+      "kind": "PROFILE",
+      "id": "FA3-AGENT-WORKLOAD-RUNTIME-001"
+    },
+    "implementation": "CFA3_NATIVE_PATTERN_REEXPRESSION_ONLY"
+  },
+  "donor_registry_snapshot": {
+    "published_main_commit": "c2e2ab2aa1c34ef555e2324e9b67af9d8723f76a",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "2bb6a74dd415b6374e4a6d5adce1bc9265229b63",
+    "donor_registry_sha256": "4c3609314b55dc00adb5132297d89f13908c9e7efb7c3c4e750ac94fcef7e04a",
+    "donor_registry_entry_count": 1792
+  },
+  "capability_count": 175,
+  "capability_delta": 0,
+  "architectural_authority_delta": 0,
+  "boundaries": {
+    "code_copy": false,
+    "runtime_dependency": false,
+    "compiled_runtime_dependency": false,
+    "package_dependency": false,
+    "google_service_dependency": false,
+    "mcp_server_dependency": false,
+    "provider_admission": false,
+    "model_admission": false,
+    "secret_authority": false,
+    "routing_authority": false,
+    "orchestration_authority": false,
+    "runtime_promotion": false,
+    "current_host_pass_claim": false
+  },
+  "dependency_reference_chain_review": {
+    "maximum_depth": 5,
+    "result": "PASS_NO_TRANSITIVE_RUNTIME_ADOPTION",
+    "levels": [
+      {
+        "depth": 1,
+        "source": "google-antigravity/antigravity-sdk-python",
+        "license": "Apache-2.0",
+        "disposition": "APPROVED_ARCHITECTURE_PATTERN_ONLY"
+      },
+      {
+        "depth": 2,
+        "sources": [
+          "absl-py",
+          "google-genai>=1.0",
+          "mcp>=1.0,<3.0",
+          "pydantic>=2.0",
+          "uvicorn>=0.46",
+          "websockets>=12.0",
+          "protobuf>=7.35",
+          "platform-specific compiled localharness binary"
+        ],
+        "disposition": "NOT_ADOPTED_NO_CFA3_RUNTIME_DEPENDENCY"
+      },
+      {
+        "depth": 3,
+        "sources": [
+          "Gemini API",
+          "Gemini Enterprise Agent Platform / Vertex AI",
+          "Google ADC/gcloud",
+          "external MCP servers",
+          "LiteRT-LM",
+          "Gemma local model artifacts"
+        ],
+        "disposition": "NOT_ADMITTED_BY_PATTERN_USE"
+      },
+      {
+        "depth": 4,
+        "sources": [
+          "transitive SDK/cloud/MCP/model dependencies below non-adopted depth-2/3 nodes"
+        ],
+        "disposition": "CHAIN_TERMINATED_NO_MATERIAL_EDGE"
+      },
+      {
+        "depth": 5,
+        "sources": [
+          "grandchild runtime/service/model dependencies below terminated non-adopted chain"
+        ],
+        "disposition": "CHAIN_TERMINATED_NO_MATERIAL_EDGE"
+      }
+    ],
+    "compiled_binary_dependency": false,
+    "cloud_dependency": false,
+    "mcp_runtime_dependency": false,
+    "model_dependency": false,
+    "package_dependency": false
+  },
+  "evidence": [
+    "canonical/assessments/CFA3-ANTIGRAVITY-DERIVED-REFRESH-REUSE-ASSESSMENT-2026-10-06.json",
+    "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
+    "canonical/deltas/FA3-DONOR-GOOGLE-ANTIGRAVITY-2026-10-02.json",
+    "docs/cfa3-antigravity-refresh-plan-2026-10-06.md"
+  ]
+}

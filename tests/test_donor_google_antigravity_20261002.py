@@ -68,11 +68,22 @@ class GoogleAntigravityDonorIntakeTests(unittest.TestCase):
         ):
             self.assertEqual(self.by_key[key]["license"]["status"], "COLLECTION_INDEX")
 
-    def test_no_automatic_usage_or_runtime_admission(self):
-        serialized = json.dumps(self.links, sort_keys=True)
-        for donor_id, _kind in EXPECTED.values():
-            self.assertNotIn(donor_id, serialized)
+    def test_historical_intake_remains_reference_only_but_later_explicit_sdk_pattern_use_is_bounded(self):
         self.assertTrue(all(v is False for v in self.delta["boundaries"].values()))
+        sdk_id = "FA3-DONOR-GOOGLE-ANTIGRAVITY-SDK-PYTHON-001"
+        sdk_usage = [x for x in self.links.get("donor_usage_records", []) if x.get("donor_id") == sdk_id and x.get("status") != "REMOVED"]
+        self.assertEqual(1, len(sdk_usage))
+        row = sdk_usage[0]
+        self.assertEqual("ARCHITECTURE_PATTERN", row["usage_kind"])
+        self.assertFalse(row["code_imported"])
+        self.assertFalse(row["runtime_dependency"])
+        self.assertFalse(row["compiled_runtime_dependency"])
+        self.assertFalse(row["provider_admission"])
+        self.assertFalse(row["model_admission"])
+        self.assertFalse(row["automatic_activation"])
+        index_ids = {donor_id for key, (donor_id, _kind) in EXPECTED.items() if key != "github:google-antigravity/antigravity-sdk-python"}
+        used_ids = {x.get("donor_id") for x in self.links.get("donor_usage_records", []) if x.get("status") != "REMOVED"}
+        self.assertTrue(index_ids.isdisjoint(used_ids))
 
 if __name__ == "__main__":
     unittest.main()
