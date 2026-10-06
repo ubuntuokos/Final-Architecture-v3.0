@@ -1,0 +1,171 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "CFA3-DONOR-OPTISCALER-NEURAL-RENDERING-2026-10-06",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "STAGED_PENDING_ROLLING_BATCH_APPEND",
+  "mode": "EXACT_OWNER_AUTHORIZED_REFERENCE_REGISTRATION",
+  "parent_main": "c2e2ab2aa1c34ef555e2324e9b67af9d8723f76a",
+  "parent_registry_blob_sha": "2bb6a74dd415b6374e4a6d5adce1bc9265229b63",
+  "parent_entry_count": 1792,
+  "authorization": {
+    "owner_command": "donornak",
+    "exact_owner_message_marker": "Donornak!",
+    "explicit_user_approval": true,
+    "scope": "EXACT_SIX_URLS_IN_OWNER_MESSAGE",
+    "conversation_lineage_ref": "chat:cfa3-optiscaler-neural-rendering:2026-10-06"
+  },
+  "submitted_url_count": 6,
+  "submitted_urls": [
+    "https://github.com/optiscaler/OptiScaler",
+    "https://github.com/optiscaler",
+    "https://github.com/topics/framegeneration?l=c%23",
+    "https://github.com/ind4skylivey",
+    "https://github.com/wilsjo2/OptiScaler-DLSSNR-PreSR-Multipass",
+    "https://github.com/Dagherbou"
+  ],
+  "unique_source_count": 6,
+  "new_source_count": 6,
+  "canonical_identities": [
+    {
+      "source": "https://github.com/optiscaler/OptiScaler",
+      "normalized_key": "github:optiscaler/optiscaler",
+      "donor_id": "FA3-DONOR-OPTISCALER-OPTISCALER-001",
+      "name": "OptiScaler",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "CROSS_VENDOR_UPSCALING_FRAME_GENERATION_MIDDLEWARE_REFERENCE",
+      "group": "NEURAL_RENDERING_UPSCALING_FRAME_GENERATION",
+      "observed_revision": "b971c82c775993d1dab0296c15a411e287ddb889",
+      "license_observation": "GPL-3.0_ROOT_LICENSE_OBSERVED",
+      "target_hints": [
+        "CFA3 Shared Rendering Fabric",
+        "CFA3 Upscaling / Frame Generation Fabric",
+        "Engine/Provider Selector",
+        "Cross-vendor GPU Compatibility Fabric"
+      ]
+    },
+    {
+      "source": "https://github.com/optiscaler",
+      "normalized_key": "github:optiscaler",
+      "donor_id": "FA3-DONOR-OPTISCALER-ORGANIZATION-001",
+      "name": "OptiScaler GitHub organization",
+      "kind": "GITHUB_ORGANIZATION",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "DYNAMIC_DISCOVERY_INDEX_REFERENCE",
+      "group": "NEURAL_RENDERING_UPSCALING_FRAME_GENERATION",
+      "license_observation": "ORGANIZATION_LEVEL_LICENSE_NOT_APPLICABLE_CHILD_LICENSE_REVIEW_REQUIRED",
+      "target_hints": [
+        "Reuse Discovery",
+        "CFA3 Shared Rendering Fabric",
+        "Cross-vendor GPU Compatibility Fabric"
+      ]
+    },
+    {
+      "source": "https://github.com/topics/framegeneration?l=c%23",
+      "normalized_key": "github:topics/framegeneration?l=c%23",
+      "donor_id": "FA3-DONOR-GITHUB-FRAMEGENERATION-TOPIC-CSHARP-FILTER-001",
+      "name": "GitHub framegeneration topic — C# filter",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "DYNAMIC_DISCOVERY_INDEX_REFERENCE",
+      "group": "FRAME_GENERATION_DISCOVERY",
+      "license_observation": "TOPIC_INDEX_NO_CODE_LICENSE_CHILD_REVIEW_REQUIRED",
+      "target_hints": [
+        "Reuse Discovery",
+        "CFA3 Upscaling / Frame Generation Fabric"
+      ]
+    },
+    {
+      "source": "https://github.com/ind4skylivey",
+      "normalized_key": "github:ind4skylivey",
+      "donor_id": "FA3-DONOR-IND4SKYLIVEY-PROFILE-001",
+      "name": "ind4skylivey GitHub profile",
+      "kind": "GITHUB_PROFILE",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "LINUX_PROTON_OPTISCALER_DEPLOYMENT_DISCOVERY_REFERENCE",
+      "group": "NEURAL_RENDERING_LINUX_DEPLOYMENT",
+      "license_observation": "PROFILE_LEVEL_LICENSE_NOT_APPLICABLE_CHILD_LICENSE_REVIEW_REQUIRED",
+      "target_hints": [
+        "CFA3 Linux/Proton Compatibility",
+        "Hardware-aware Provider Deployment",
+        "Reuse Discovery"
+      ]
+    },
+    {
+      "source": "https://github.com/wilsjo2/OptiScaler-DLSSNR-PreSR-Multipass",
+      "normalized_key": "github:wilsjo2/optiscaler-dlssnr-presr-multipass",
+      "donor_id": "FA3-DONOR-WILSJO2-OPTISCALER-DLSSNR-PRESR-MULTIPASS-001",
+      "name": "OptiScaler DLSSNR PreSR Multipass",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "EXPERIMENTAL_NEURAL_RENDERING_MULTIPASS_PIPELINE_REFERENCE",
+      "group": "NEURAL_RENDERING_UPSCALING_FRAME_GENERATION",
+      "observed_revision": "1bd39091337cc07ba961c8e59ded57e21dc95b18",
+      "license_observation": "GPL-3.0_ROOT_LICENSE_OBSERVED",
+      "target_hints": [
+        "CFA3 Shared Rendering Fabric",
+        "CFA3 Neural Rendering Fabric",
+        "Hydra Fabric",
+        "Render Graph / Pass Composition"
+      ]
+    },
+    {
+      "source": "https://github.com/Dagherbou",
+      "normalized_key": "github:dagherbou",
+      "donor_id": "FA3-DONOR-DAGHERBOU-PROFILE-001",
+      "name": "Dagherbou GitHub profile",
+      "kind": "GITHUB_PROFILE",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "DLSS_NEURAL_RENDERING_EXPERIMENTAL_DISCOVERY_REFERENCE",
+      "group": "NEURAL_RENDERING_UPSCALING_FRAME_GENERATION",
+      "license_observation": "PROFILE_LEVEL_LICENSE_NOT_APPLICABLE_CHILD_LICENSE_REVIEW_REQUIRED",
+      "target_hints": [
+        "CFA3 Neural Rendering Fabric",
+        "Reuse Discovery"
+      ]
+    }
+  ],
+  "lineage_observations": {
+    "max_reference_depth_policy": 5,
+    "child_auto_admission": false,
+    "observed_non_admitted_references": [
+      "https://github.com/Dagherbou/OptiScaler_DLSSNR",
+      "https://github.com/clshortfuse/renodx",
+      "https://github.com/optiscaler/OptiPatcher",
+      "https://github.com/optiscaler/dlssg-to-fsr3",
+      "https://github.com/optiscaler/FidelityFX-FSR2-DX11",
+      "https://github.com/optiscaler/FidelityFX-SDK-DX11",
+      "https://github.com/NVIDIAGameWorks/Streamline",
+      "https://github.com/intel/xess",
+      "https://github.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK",
+      "https://github.com/NVIDIA/nvapi",
+      "https://github.com/KhronosGroup/Vulkan-Headers"
+    ],
+    "disposition": "REFERENCE_LINEAGE_OBSERVED_ONLY_NOT_REGISTERED_BY_THIS_SIX_SOURCE_INTAKE"
+  },
+  "requirements": [
+    "Reference registration only; no code import, runtime dependency, provider/model admission or activation.",
+    "Organization/profile/topic records are discovery references and do not recursively admit child repositories.",
+    "GPL and all transitive licenses require separate License & Rights review before code reuse.",
+    "The fixed CFA3 capability baseline remains 175 and no architectural authority is added.",
+    "Actual adoption requires an explicit usage edge plus Security, Software Coexistence, Hardware Safety and provenance review."
+  ],
+  "boundaries": {
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "automatic_code_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "usage_edge_created": false,
+    "capability_count_change": false,
+    "authority_change": false,
+    "runtime_change": false,
+    "current_host_pass_claimed": false,
+    "application_implementation_started": false
+  },
+  "serialization_scope": "ROLLING_FIVE_SLOT_DONOR_MAINTENANCE",
+  "serialization_order": "SINGLE_CANONICAL_WRITER_WITH_BATCH_APPEND_AND_EXACT_HEAD_REVALIDATION",
+  "batch_finalizer_pr": 727
+}
