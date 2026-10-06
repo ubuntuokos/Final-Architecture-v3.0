@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "2c90d5d24317f3ac184e30890f93cb8d2cb400d2",
-    "pre_projection_root_tree_sha": "803009978fe252593a367a4aac1ca1ece9e23b14",
-    "pre_projection_canonical_tree_sha": "d1a4e8071457c34ceb31adf2616953bdb7f44ab7",
-    "commits_ahead_of_v3_0_11_conformance_commit": 3517,
-    "total_post_baseline_commits": 3517,
-    "delta_file_count": 3127,
-    "delta_added_files": 3121,
+    "pre_projection_head_sha": "47abe5da7bf0a02693e31345c7dd45a0eeb5fa77",
+    "pre_projection_root_tree_sha": "3fc009b8490e0d4a5ac1b31cd499acfaf33f755f",
+    "pre_projection_canonical_tree_sha": "4c6079899d1d1ce925b9bc242a47e42ea3598024",
+    "commits_ahead_of_v3_0_11_conformance_commit": 3522,
+    "total_post_baseline_commits": 3522,
+    "delta_file_count": 3128,
+    "delta_added_files": 3122,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,7 +46,7 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1480,
+    "canonical_files_in_post_baseline_delta": 1481,
     "evidence_files_in_post_baseline_delta": 172,
     "source_files_in_post_baseline_delta": 398,
     "test_files_in_post_baseline_delta": 375,
@@ -1108,7 +1108,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 3117,
+  "manifest_entry_count": 3118,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -6168,6 +6168,11 @@
     {
       "path": "canonical/current-host-impact/FA3-CH-IMPACT-IMPLEMENTATION-PLAN-DONOR-EXCEPTION-20261004.json",
       "git_blob_sha": "474a8311e3aad402d3ec8f7acb2c33cd1a4f901d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/current-host-impact/FA3-CH-IMPACT-NEURAL-RENDERING-DONOR-SNAPSHOT-FIX-20261006.json",
+      "git_blob_sha": "9f81859d92f36c4305d643c85ba1f41b3aeb7c44",
       "baseline_delta_status": "added"
     },
     {
@@ -14122,7 +14127,7 @@
     },
     {
       "path": "src/fa3_neural_rendering_gate.py",
-      "git_blob_sha": "575499a9da4df6aa1f9adbf9439e22ec0a12f5eb",
+      "git_blob_sha": "f85919d9f0a21fb05de5d4f4194203cce23b2e6a",
       "baseline_delta_status": "added"
     },
     {
@@ -16122,7 +16127,7 @@
     },
     {
       "path": "tests/test_neural_rendering_gate.py",
-      "git_blob_sha": "3520eb127a14bf629109e261187f68627931ddf8",
+      "git_blob_sha": "1e3c9ba5fd7df6659e534423eaebe2b8a289a05b",
       "baseline_delta_status": "added"
     },
     {
