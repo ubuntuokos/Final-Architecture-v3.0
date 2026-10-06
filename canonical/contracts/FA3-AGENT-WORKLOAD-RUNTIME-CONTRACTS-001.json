@@ -52,7 +52,10 @@
     "automatic_followup_execution": false,
     "verified_closure_requires_evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001",
     "executable_scope_binding_required": true,
-    "all_allowed_scope_origins_require_task_control": true
+    "all_allowed_scope_origins_require_task_control": true,
+    "reasoning_intent_optional": true,
+    "reasoning_intent_provider_or_model_pin_forbidden": true,
+    "context_budget_reference_optional": true
   },
   "runner_spi": [
     "probe",
@@ -138,7 +141,9 @@
     "CACHED_EXECUTION_PLAN_CANNOT_BYPASS_SCOPE_CONTROL_REVISION",
     "VERIFIED_CLOSURE_REQUIRES_EVIDENCE_AUTHORITY_RECEIPT",
     "CLOSED_TASK_REEXECUTION_FORBIDDEN",
-    "ALL_EXECUTABLE_SCOPE_ORIGINS_REQUIRE_IMMUTABLE_BINDING_AND_TASK_CONTROL"
+    "ALL_EXECUTABLE_SCOPE_ORIGINS_REQUIRE_IMMUTABLE_BINDING_AND_TASK_CONTROL",
+    "REASONING_INTENT_CANNOT_GRANT_PROVIDER_MODEL_OR_ADAPTER_AUTHORITY",
+    "CONTEXT_COMPACTION_PRESERVES_PROVENANCE_AND_SOURCE_HISTORY"
   ],
   "failure_policy": {
     "malformed_task": "FAIL_CLOSED",
