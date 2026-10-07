@@ -1,0 +1,87 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-NVLABS-SANA-SOL-REFINER-2026-10-02",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "STAGED_PENDING_EXACT_HEAD_GATES",
+  "mode": "APPEND_ONLY_OWNER_EXPLICIT_REFERENCE_INTAKE_WITH_COMPONENT_PROVENANCE_DEDUPLICATION",
+  "parent_commit": "9c4bb49d5a5cc189c4cb129a909ba7d4e9537cec",
+  "parent_registry_blob_sha": "26b70a29a4eb1ed4c824835dbc10349d8701426a",
+  "parent_entry_count": 1355,
+  "owner_marked_url_count": 3,
+  "source_count": 2,
+  "unique_source_key_count": 2,
+  "matched_existing_count": 0,
+  "component_provenance_url_count": 1,
+  "proposed_entry_count": 1357,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "provider_count_policy": "DYNAMIC_UNCHANGED",
+  "approval_ref": "docs/donor-nvlabs-sana-sol-refiner-2026-10-02.md",
+  "requirements": [
+    "Register NVlabs/Sana as one canonical repository reference and NVlabs as one organization-level discovery index.",
+    "Preserve the separately owner-marked sol-engine/models/sol-refiner URL as branch/path component provenance under github:nvlabs/sana instead of creating a duplicate repository donor identity.",
+    "Organization-level registration does not recursively admit child repositories, models, datasets, binaries, containers, services or runtime dependencies.",
+    "Registration is metadata-only ACCEPTED_REFERENCE and grants no code, dependency, model/checkpoint, provider, runtime, GPU-kernel or architectural-authority admission.",
+    "SoL-Refiner may inform generator/refiner separation, one-step and multi-step refinement, high-resolution enhancement, streaming refinement and explicit optimized-versus-reference execution patterns.",
+    "Any material SoL/LTX/H3 reuse requires a fresh published-main-bound Reuse Assessment, explicit canonical usage edge, independent License & Rights/provenance checks for model/runtime components, Security, Software Coexistence, Hardware Safety and Current Host evidence.",
+    "FA3 Model Router remains provider/model/refiner selection authority; HRB remains physical resource/device authority; no silent backend or semantic substitution is allowed.",
+    "Fixed capability baseline remains 175; provider count remains dynamic; capability delta and authority delta are zero."
+  ],
+  "sources": [
+    {
+      "url": "https://github.com/NVlabs/Sana",
+      "normalized_key": "github:nvlabs/sana",
+      "donor_id": "FA3-DONOR-NVLABS-SANA-001",
+      "kind": "GITHUB_REPOSITORY",
+      "status": "ACCEPTED_REFERENCE",
+      "observed_default_head": "f9178744c096dcf2a2ea773da183e341bcbeb044",
+      "observed_sol_engine_head": "670482d8a857d578ac8a2ea89b052d0fb47badba",
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UPSTREAM_REPOSITORY_METADATA_DECLARED_BRANCH_COMPONENT_AND_MODEL_RIGHTS_SEPARATE"
+      }
+    },
+    {
+      "url": "https://github.com/NVlabs",
+      "normalized_key": "github:nvlabs",
+      "donor_id": "FA3-DONOR-NVLABS-ORG-001",
+      "kind": "GITHUB_ORGANIZATION",
+      "status": "ACCEPTED_REFERENCE",
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      }
+    }
+  ],
+  "component_provenance": [
+    {
+      "submitted_url": "https://github.com/NVlabs/Sana/tree/sol-engine/models/sol-refiner",
+      "canonical_source_key": "github:nvlabs/sana",
+      "separate_registry_entry": false,
+      "branch": "sol-engine",
+      "path": "models/sol-refiner",
+      "commit": "670482d8a857d578ac8a2ea89b052d0fb47badba",
+      "tree_sha": "67717f3cf6e22ea280c258acef196f6c1b8a0ab2",
+      "readme_blob_sha": "6ecd584c2397bc3a2e44aca271aa4bc34cf094c5"
+    }
+  ],
+  "boundaries": {
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "automatic_code_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "automatic_refiner_selection": false,
+    "runtime_admission": false,
+    "model_or_checkpoint_admission": false,
+    "gpu_kernel_admission": false,
+    "organization_child_auto_admission": false,
+    "usage_edge_created": false,
+    "capability_count_change": false,
+    "authority_change": false,
+    "current_host_pass_claimed": false
+  }
+}

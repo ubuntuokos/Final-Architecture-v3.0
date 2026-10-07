@@ -11,12 +11,18 @@
     "STREAMING_CAPABLE",
     "HUNGARIAN_EXPERIMENTAL_ONLY"
   ],
-  "profiles": ["FA3-VOICE-001"],
-  "capability_projection": ["CAP-115", "CAP-116", "CAP-117"],
+  "profiles": [
+    "FA3-VOICE-001"
+  ],
+  "capability_projection": [
+    "CAP-115",
+    "CAP-116",
+    "CAP-117"
+  ],
   "canonical_root": false,
   "architectural_authority": false,
   "new_capability": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "activation_mode": "OPTIONAL_PROVIDER_ROUTED",
   "global_runtime_promotion_required_when_disabled": false,
   "model_allowlist": "FA3-COSYVOICE-MODEL-ALLOWLIST-001",
@@ -38,8 +44,20 @@
     "artifact_model_identity": "FA3-REG-ARTIFACT-MODEL-001"
   },
   "language_policy": {
-    "official_model_card_languages": ["zh", "en", "fr", "es", "ja", "ko", "it", "ru", "de"],
+    "official_model_card_languages": [
+      "zh",
+      "en",
+      "fr",
+      "es",
+      "ja",
+      "ko",
+      "it",
+      "ru",
+      "de"
+    ],
     "hu": "EXPERIMENTAL_NOT_PRODUCTION_PROMOTABLE_WITHOUT_DEDICATED_QUALITY_EVIDENCE"
   },
-  "promotion_status": "CURRENT_HOST_PRODUCTION_E2E_PENDING"
+  "promotion_status": "CURRENT_HOST_PRODUCTION_E2E_PENDING",
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

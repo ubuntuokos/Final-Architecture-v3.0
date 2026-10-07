@@ -1,0 +1,48 @@
+{
+  "schema": "fa3.decision-fabric-assessment.v1",
+  "project_id": "FA3-EXTERNAL-LLM-CATALOG-2026-09-24",
+  "covered_ids": [
+    "FA3-EXTERNAL-LLM-CATALOG-001",
+    "FA3-FREELLM-UPSTREAM-REFERENCE-2026-09-24"
+  ],
+  "assessment": "RECOMMENDED",
+  "rationale": "External catalog ingestion and provider admission are deterministic fail-closed governance operations. Decision Fabric is useful only after that boundary, to advise ranking among the exact already-admitted external providers for an explicitly external-enabled route.",
+  "decision_points": [
+    {
+      "id": "external-llm-admitted-provider-advisory-ranking",
+      "purpose": "advise ranking among already-admitted external providers using cost, quota, latency, context, modality, privacy, jurisdiction, health and entitlement metadata",
+      "contract": "SELECT_ONE",
+      "candidate_source": "FA3-AUTH-MODEL-ROUTER-001 deterministic external-route admitted provider set",
+      "final_policy_owner": "FA3-AUTH-MODEL-ROUTER-001 plus FA3-AUTH-SECURITY-GOV-001 egress/policy boundary",
+      "failure_policy": "EXISTING_DETERMINISTIC_ROUTER_BEHAVIOR"
+    }
+  ],
+  "not_delegated": [
+    "catalog trust or provenance validation",
+    "provider identity creation",
+    "provider admission",
+    "credential acquisition or storage",
+    "privacy or jurisdiction authorization",
+    "network egress authorization",
+    "candidate-set construction or expansion",
+    "model/provider/runtime routing authority",
+    "resource leasing",
+    "evidence promotion"
+  ],
+  "project_radar_checked": true,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "global_accelerator_requirement": false
+  },
+  "security_boundary": {
+    "may_grant_permission": false,
+    "may_expand_candidate_set": false,
+    "may_create_agent": false,
+    "may_admit_model": false,
+    "may_admit_provider": false
+  },
+  "shadow_mode_required": true,
+  "capability_delta": 0,
+  "authority_delta": 0
+}

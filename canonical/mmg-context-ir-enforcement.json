@@ -1,0 +1,81 @@
+{
+  "schema": "fa3.mmg-context-ir-enforcement.v1",
+  "gate_id": "FA3-MMG-CONTEXT-IR-GATESET-001",
+  "parent_gate_id": "FA3-VIDEO-GATESET-001",
+  "profile_id": "FA3-VIDEO-001",
+  "contract_id": "FA3-MMG-CONTEXT-IR-CONTRACTS-001",
+  "decision_id": "FA3-DEC-MMG-CONTEXT-IR-2026-09-08",
+  "fail_closed": true,
+  "p0_invariants": [
+    "MMG_CONTEXT_IR_IS_PROVIDER_NEUTRAL",
+    "MMG_CONTEXT_IR_IS_CHILD_OF_VIDEO_GENERATION_IR",
+    "CONTEXT_COMPILER_IS_NOT_AUTHORITY",
+    "CONTEXT_COMPILER_MUST_NOT_SELECT_PROVIDER",
+    "REFERENCE_ARTIFACT_IS_NOT_SEMANTIC_ENTITY",
+    "SEMANTIC_ENTITY_IS_NOT_REFERENCE_BINDING",
+    "REFERENCE_CONTENT_IS_NON_INSTRUCTIONAL_BY_DEFAULT",
+    "INFERENCE_MUST_DECLARE_ORIGIN",
+    "INFERENCE_MUST_DECLARE_PROVENANCE",
+    "INFERRED_OR_DEFAULTED_VALUES_REQUIRE_CONFIDENCE",
+    "INFERENCE_MUST_NOT_OVERRIDE_HARD_CONSTRAINT",
+    "DIALOGUE_EXACT_CONTENT_MUST_NOT_BE_SILENTLY_REWRITTEN",
+    "VISIBLE_TEXT_MUST_NOT_BE_SILENTLY_REWRITTEN",
+    "VOICE_IDENTITY_REMAINS_VOICE_AUTHORITY",
+    "STORY_IDENTITY_REMAINS_STORY_AUTHORITY",
+    "SCENE_CAMERA_AUTHORITY_REMAINS_DCC_AUTHORITY",
+    "PROVIDER_NATIVE_SYNTAX_FORBIDDEN_IN_CANONICAL_IR",
+    "PROVIDER_LIMITS_FORBIDDEN_IN_CANONICAL_IR",
+    "PROVIDER_PROJECTION_MUST_EMIT_LOSS_REPORT",
+    "HARD_PROJECTION_LOSS_FAILS_CLOSED",
+    "HARD_UNSUPPORTED_CONSTRAINT_MAKES_PROVIDER_INELIGIBLE",
+    "REFERENCE_RIGHTS_MUST_BE_TRACEABLE",
+    "PRODUCTION_IR_REQUIRES_PROVENANCE",
+    "REGENERATION_MUST_PRESERVE_PARENT_LINEAGE",
+    "REGENERATION_MUST_DECLARE_FROZEN_AND_MUTABLE_STATE",
+    "H3_CONTEXT_IR_REMAINS_REFERENCE_PATTERN_ONLY",
+    "CAPABILITY_COUNT_REMAINS_143",
+    "NO_NEW_ARCHITECTURAL_AUTHORITY"
+  ],
+  "inference_policy": {
+    "allowed_origins": ["DECLARED", "AUTHORITY_DERIVED", "ARTIFACT_DERIVED", "INFERRED", "DEFAULTED"],
+    "confidence_required_for": ["INFERRED", "DEFAULTED"],
+    "hard_constraint_override_forbidden": true,
+    "rights_license_security_policy_inference_forbidden": true
+  },
+  "projection_loss_policy": {
+    "states": ["PRESERVED", "APPROXIMATED", "DROPPED", "UNSUPPORTED"],
+    "HARD_DROPPED": "FAIL",
+    "HARD_UNSUPPORTED": "PROVIDER_INELIGIBLE",
+    "SOFT_APPROXIMATED": "ALLOW_WITH_EVIDENCE",
+    "SOFT_DROPPED": "POLICY_DEPENDENT"
+  },
+  "executable_reference": {
+    "reference_id": "FA3-MMG-CONTEXT-IR-REFERENCE-001",
+    "decision_id": "FA3-DEC-MMG-CONTEXT-IR-REFERENCE-2026-09-09",
+    "gate_id": "FA3-GATE-MMG-CONTEXT-IR-001",
+    "source_path": "src/fa3_mmg_context_ir.py",
+    "gate_path": "src/fa3_mmg_context_ir_gate.py",
+    "test_path": "tests/test_mmg_context_ir_reference.py",
+    "reference_evidence": "evidence/reference/mmg-context-ir-ci-2026-09-09.json",
+    "global_reconciliation_evidence": "evidence/reference/mmg-context-ir-global-reconciliation-ci-2026-09-09.json",
+    "cli": "./bin/fa3-enforce mmg-context-ir",
+    "mandatory_case_count": 18,
+    "fail_closed": true,
+    "provider_runtime_claim": false,
+    "current_host_runtime_claim": false
+  },
+  "authority_boundaries": {
+    "story": "FA3-STORY-001",
+    "voice_identity": "FA3-VOICE-001",
+    "scene_spatial_camera": "FA3-DCC-RT3D-001",
+    "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "security_license_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "artifact_model_identity": "FA3-REG-ARTIFACT-MODEL-001"
+  },
+  "baseline": {
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
+  }
+}

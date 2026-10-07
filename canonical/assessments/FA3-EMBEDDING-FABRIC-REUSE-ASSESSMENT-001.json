@@ -1,0 +1,80 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-EMBEDDING-FABRIC-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-EMBEDDING-FABRIC-001",
+  "intent_id": "FA3-EMBEDDING-FABRIC-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-EMBEDDING-FABRIC-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-EMBEDDING-FABRIC-001"
+  ],
+  "project_status": "PLANNED_NOT_MATERIALIZED_BY_THIS_CHANGE",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-HIERARCHICAL-HYBRID-RETRIEVAL-001",
+      "use": "KNOWLEDGE_RETRIEVAL_PARENT"
+    },
+    {
+      "id": "FA3-INFERENCE-PORTABILITY-001",
+      "use": "BACKEND_EXECUTION_PORTABILITY"
+    },
+    {
+      "id": "FA3-MODEL-MANAGER-001",
+      "use": "MODEL_ARTIFACT_IDENTITY_AND_LINEAGE"
+    },
+    {
+      "id": "FA3-WEB-AI-001",
+      "use": "BROWSER_EXECUTION_DOMAIN"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "LOGICAL_MODEL_PROVIDER_ROUTING"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "RESOURCE_ADMISSION_AND_PLACEMENT"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "ImageBind",
+      "reason": "REFERENCE_ONLY_NON_COMMERCIAL_CORE_EXCLUDED"
+    },
+    {
+      "id": "MetaVec",
+      "reason": "ALGORITHM_REFERENCE_ONLY_NO_DIRECT_CODE_REUSE"
+    }
+  ],
+  "pattern_reuse": [
+    "FA3-PATTERN-SHADOW-MIGRATION-001",
+    "FA3-PATTERN-DERIVED-ARTIFACT-LINEAGE-001",
+    "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001",
+    "FA3-PATTERN-PROVIDER-NEUTRAL-ADAPTER-001"
+  ],
+  "existing_authority_bindings": {
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "knowledge": "FA3-KNOWLEDGE-001"
+  },
+  "gaps": [
+    "EMBEDDING_SPACE_IDENTITY",
+    "EMBEDDING_REPRESENTATION_POLICY",
+    "EMBEDDING_MIGRATION_STATE_MACHINE",
+    "PROVIDER_NEUTRAL_EMBEDDING_EXECUTION_CONTRACT"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false
+  },
+  "implementation_readiness": "PENDING_GAPS"
+}

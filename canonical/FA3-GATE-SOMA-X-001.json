@@ -1,0 +1,14 @@
+{
+  "schema": "fa3.executable-gate.v1",
+  "id": "FA3-GATE-SOMA-X-001",
+  "gateset_id": "FA3-SOMA-X-GATESET-001",
+  "provider_id": "FA3-PROVIDER-SOMA-X-001",
+  "profile_id": "FA3-HUMAN-MOTION-001",
+  "contract_id": "FA3-HUMAN-MOTION-CONTRACTS-001",
+  "fail_closed": true,
+  "rule_count": 18,
+  "executable": "./bin/fa3-enforce soma-x",
+  "report": "reports/soma-x-gate-report.json",
+  "reference_evidence": "evidence/reference/soma-x-reference-pass.json",
+  "current_host_evidence_required_for_runtime_promotion": true
+}

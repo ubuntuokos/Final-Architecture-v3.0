@@ -1,0 +1,61 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-HIDREAM-GENERATIVE-MEDIA-MESH-2026-10-04",
+  "status": "OWNER_CLOSURE_EXCEPTION_RECORDED_PENDING_REQUIRED_CHECKS",
+  "owner_approval_date": "2026-10-04",
+  "intent_id": "FA3-HIDREAM-GENERATIVE-MEDIA-MESH-APPLICATION-INTENT-2026-10-04",
+  "assessment_id": "FA3-HIDREAM-GENERATIVE-MEDIA-MESH-REUSE-ASSESSMENT-2026-10-04",
+  "profile_id": "FA3-GENERATIVE-MEDIA-MESH-001",
+  "contract_id": "FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001",
+  "decisions": [
+    "Use a provider-neutral Generative Media Capability Mesh; do not create a HiDream application or HiDream authority.",
+    "Keep the capability baseline at 175 and create no new architectural authority.",
+    "Reuse existing FA3 image, multimodal context, motion/video and refinement contracts rather than duplicate them.",
+    "Use only published canonical donor patterns in this materialization.",
+    "HiDream organization donor is discovery/provenance parent only; child repositories remain non-admitted until explicitly marked and independently reviewed.",
+    "Model Router remains provider/model authority; HRB remains device/resource authority; Temporal remains durable workflow authority.",
+    "MM skill routing is advisory/scoring only.",
+    "Static GUI materialization requires physical Current Host requalification before runtime/global promotion; no simulated PASS is permitted."
+  ],
+  "child_admission_state": "BLOCKED_PENDING_EXPLICIT_CHILD_DONOR_MARKERS_AND_INDIVIDUAL_GATES",
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "runtime_promotion_claim": false,
+  "current_host_pass_claimed": false,
+  "approval_binding": {
+    "plan_approved_by_owner_in_conversation": true,
+    "owner_instruction": "jóváhagyom",
+    "approved_plan_document": "docs/hidream-generative-media-mesh-final-2026-10-04.md",
+    "exact_head_repository_owner_approved_review_required": false,
+    "exact_head_repository_owner_approved_review_observed": false,
+    "owner_exception_active": true,
+    "owner_exception_record": "canonical/exceptions/FA3-OWNER-EXCEPTION-HIDREAM-GENERATIVE-MEDIA-MESH-PR674-CI-REPAIR-2026-10-04.json",
+    "owner_exception_scope": "GITHUB_SELF_REVIEW_IMPOSSIBILITY_AND_SINGLE_ATOMIC_PR674_CI_REPAIR_COMMIT_ONLY",
+    "owner_exception_does_not_waive_required_checks": true,
+    "owner_exception_does_not_waive_branch_protection": true,
+    "owner_exception_does_not_waive_runtime_or_current_host_gates": true,
+    "finalization_fail_closed_until_required_checks": true,
+    "prior_owner_exception_record": "canonical/exceptions/FA3-OWNER-EXCEPTION-HIDREAM-GENERATIVE-MEDIA-MESH-PR674-2026-10-04.json",
+    "current_host_structural_impact_reconciled": true,
+    "physical_requalification_still_pending": true,
+    "prior_owner_exception_records": [
+      "canonical/exceptions/FA3-OWNER-EXCEPTION-HIDREAM-GENERATIVE-MEDIA-MESH-PR674-2026-10-04.json",
+      "canonical/exceptions/FA3-OWNER-EXCEPTION-HIDREAM-GENERATIVE-MEDIA-MESH-PR674-CLOSURE-2026-10-04.json"
+    ],
+    "ci_repair_parent_head": "2f05dffe7d1b15e034c8beb22a09a25692804790",
+    "ci_repair_failures": [
+      "CURRENT_HOST_STRUCTURAL_IMPACT_MISSING_DECISION_ASSESSMENT_COVERAGE",
+      "FA3_GUI_GATE_INDENTATION_ERROR_FROM_GENERATIVE_MEDIA_CMAKE_ASSERTION_PLACEMENT"
+    ]
+  },
+  "child_recommendations_are_analysis_only_not_canonical_queue": true,
+  "current_host_alignment": {
+    "structural_impact_record": "canonical/current-host-impact/FA3-CH-IMPACT-HIDREAM-GENERATIVE-MEDIA-MESH-PR674-20261004.json",
+    "conformance_record": "canonical/FA3-GENERATIVE-MEDIA-MESH-CURRENT-HOST-CONFORMANCE-001.json",
+    "status": "RECONCILED_PENDING_FRESH_PHYSICAL_CURRENT_HOST_REQUALIFICATION",
+    "physical_requalification_required": true,
+    "physical_pass_claimed": false,
+    "historical_evidence_reused": false
+  }
+}

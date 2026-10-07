@@ -1,0 +1,322 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.local/contracts/FA3-AGENT-EXECUTION-PLAN-001.schema.json",
+  "x-fa3-contract-id": "FA3-AGENT-EXECUTION-PLAN-001",
+  "title": "FA3 Agent Execution Plan",
+  "type": "object",
+  "required": [
+    "schema",
+    "task_id",
+    "scope_refs",
+    "scope_origin",
+    "task_spec_digest",
+    "workflow_graph",
+    "model_capability_descriptor",
+    "required_model_capabilities",
+    "behavior_preflight",
+    "ledger",
+    "authorities",
+    "task_scope_control_required",
+    "task_scope_policy_id",
+    "task_scope_control_revision",
+    "task_scope_control_digest",
+    "goal_scope_binding_digest",
+    "main_task_continuity_id",
+    "main_task_id",
+    "main_task_binding_revision",
+    "main_task_binding_digest"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.agent-execution-plan.v1"
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "task_spec_digest": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workflow_graph": {
+      "type": "object"
+    },
+    "model_capability_descriptor": {
+      "type": "object"
+    },
+    "required_model_capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "ledger": {
+      "type": "object"
+    },
+    "authorities": {
+      "type": "object",
+      "required": [
+        "durable_workflow",
+        "model_routing",
+        "tool_mediation",
+        "resources"
+      ],
+      "properties": {
+        "durable_workflow": {
+          "const": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY"
+        },
+        "model_routing": {
+          "const": "FA3-AUTH-MODEL-ROUTER-001"
+        },
+        "tool_mediation": {
+          "const": "FA3-AUTH-MCP-GATEWAY-001"
+        },
+        "resources": {
+          "const": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+        }
+      },
+      "additionalProperties": false
+    },
+    "scope_origin": {
+      "type": "string",
+      "enum": [
+        "EXPLICIT_USER_SCOPE",
+        "REQUIRED_FOR_APPROVED_GOAL",
+        "EXPLICIT_USER_SCOPE_EXTENSION"
+      ]
+    },
+    "scope_refs": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "behavior_preflight": {
+      "type": "object",
+      "required": [
+        "schema",
+        "policy_id",
+        "decision",
+        "action",
+        "policy_preflight_passed",
+        "side_effect_authorized",
+        "effect_authority_required",
+        "scope_origin",
+        "scope_refs",
+        "applied_owner_overrides",
+        "self_correction_authorized",
+        "post_correction_report_required"
+      ],
+      "properties": {
+        "schema": {
+          "const": "cfa3.behavior-preflight-receipt.v1"
+        },
+        "policy_id": {
+          "const": "CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001"
+        },
+        "decision": {
+          "const": "ALLOW"
+        },
+        "action": {
+          "enum": [
+            "READ",
+            "ANALYZE",
+            "PLAN",
+            "WRITE",
+            "COMMIT",
+            "PUSH",
+            "PR",
+            "WORKFLOW",
+            "GATE",
+            "MERGE",
+            "RELEASE",
+            "EXTERNAL_ACTION"
+          ]
+        },
+        "policy_preflight_passed": {
+          "const": true
+        },
+        "side_effect_authorized": {
+          "const": false
+        },
+        "effect_authority_required": {
+          "type": "boolean"
+        },
+        "scope_origin": {
+          "enum": [
+            "EXPLICIT_USER_SCOPE",
+            "REQUIRED_FOR_APPROVED_GOAL",
+            "EXPLICIT_USER_SCOPE_EXTENSION"
+          ]
+        },
+        "scope_refs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "applied_owner_overrides": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^(DEV|AI)-[0-9]{2}$"
+          }
+        },
+        "self_correction_authorized": {
+          "type": "boolean"
+        },
+        "post_correction_report_required": {
+          "type": "boolean"
+        },
+        "post_correction_report_fields": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "task_scope_control_required": {
+      "type": "boolean"
+    },
+    "task_scope_policy_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "task_scope_control_revision": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 1
+    },
+    "task_scope_control_digest": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "goal_scope_binding_digest": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "main_task_continuity_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "main_task_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "main_task_binding_revision": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 1
+    },
+    "main_task_binding_digest": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "task_scope_control_required": {
+            "const": true
+          }
+        },
+        "required": [
+          "task_scope_control_required"
+        ]
+      },
+      "then": {
+        "properties": {
+          "task_scope_policy_id": {
+            "const": "FA3-TASK-SCOPE-CLOSURE-POLICY-2026-10-03"
+          },
+          "task_scope_control_revision": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "task_scope_control_digest": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "goal_scope_binding_digest": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "main_task_continuity_id": {
+            "const": "CFA3-MAIN-TASK-CONTINUITY-001"
+          },
+          "main_task_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "main_task_binding_revision": {
+            "const": 1
+          },
+          "main_task_binding_digest": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "task_scope_policy_id": {
+            "type": "null"
+          },
+          "task_scope_control_revision": {
+            "type": "null"
+          },
+          "task_scope_control_digest": {
+            "type": "null"
+          },
+          "main_task_continuity_id": {
+            "type": "null"
+          },
+          "main_task_id": {
+            "type": "null"
+          },
+          "main_task_binding_revision": {
+            "type": "null"
+          },
+          "main_task_binding_digest": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ]
+}

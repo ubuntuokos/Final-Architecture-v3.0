@@ -1,0 +1,114 @@
+{
+  "schema": "fa3.application-runtime-lifecycle-contracts.v1",
+  "id": "FA3-APPLICATION-RUNTIME-LIFECYCLE-CONTRACTS-001",
+  "title": "CFA3 Application Runtime Lifecycle v2",
+  "status": "P0_MUST",
+  "parent_lifecycle": "FA3-APP-LIFECYCLE-001",
+  "relationship": "RUNTIME_EXTENSION_OF_EXISTING_PROVISIONING_LIFECYCLE",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "authority": false,
+  "provisioning_compatibility": {
+    "legacy_states_preserved": [
+      "AVAILABLE",
+      "READY_TO_INSTALL",
+      "INSTALLING",
+      "INSTALLED",
+      "INCOMPATIBLE",
+      "RECIPE_REQUIRED",
+      "ERROR"
+    ],
+    "runtime_entry_state": "INSTALLED",
+    "existing_ai_studio_first_use_flow_preserved": true
+  },
+  "runtime_states": [
+    "CONFIGURING",
+    "READY",
+    "STARTING",
+    "RUNNING",
+    "SUSPENDING",
+    "SUSPENDED",
+    "RESUMING",
+    "STOPPING",
+    "STOPPED",
+    "UPDATING",
+    "ROLLBACK_PENDING",
+    "ROLLING_BACK",
+    "REMOVING",
+    "REMOVED",
+    "FAILED"
+  ],
+  "transitions": {
+    "INSTALLED": ["CONFIGURING", "READY", "REMOVING"],
+    "CONFIGURING": ["READY", "FAILED"],
+    "READY": ["STARTING", "UPDATING", "REMOVING"],
+    "STARTING": ["RUNNING", "FAILED"],
+    "RUNNING": ["SUSPENDING", "STOPPING", "FAILED"],
+    "SUSPENDING": ["SUSPENDED", "RUNNING", "FAILED"],
+    "SUSPENDED": ["RESUMING", "STOPPING", "UPDATING", "REMOVING"],
+    "RESUMING": ["RUNNING", "FAILED"],
+    "STOPPING": ["STOPPED", "FAILED"],
+    "STOPPED": ["STARTING", "UPDATING", "REMOVING"],
+    "UPDATING": ["READY", "STOPPED", "ROLLBACK_PENDING", "FAILED"],
+    "ROLLBACK_PENDING": ["ROLLING_BACK"],
+    "ROLLING_BACK": ["READY", "STOPPED", "FAILED"],
+    "REMOVING": ["REMOVED", "FAILED"],
+    "FAILED": ["ROLLBACK_PENDING", "STOPPING", "REMOVING"]
+  },
+  "transition_request_contract": {
+    "required_fields": [
+      "application_id",
+      "current_state",
+      "requested_state",
+      "actor_identity",
+      "operation_ref",
+      "authorization_decision",
+      "source_revision",
+      "provenance_refs"
+    ],
+    "typed_uaf_action_required": true,
+    "security_authority": "FA3-AUTH-SECURITY-GOV-001",
+    "durable_workflow_authority": "Temporal",
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "update_authority": "FA3-UPDATE-FABRIC-001",
+    "evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001",
+    "lifecycle_contract_is_execution_authority": false
+  },
+  "suspend_resume_contract": {
+    "suspend_support_must_be_declared": true,
+    "unsupported_suspend_fails_explicitly": true,
+    "resume_requires_fresh_resource_admission_if_runtime_resources_are_needed": true,
+    "stale_resource_lease_reuse_forbidden": true
+  },
+  "update_rollback_contract": {
+    "update_requires_rollback_profile": true,
+    "failed_update_must_not_auto_promote_new_revision": true,
+    "rollback_requires_provenance_and_evidence": true,
+    "historical_evidence_rewrite_forbidden": true
+  },
+  "compatibility": {
+    "application_portfolio_state_is_distinct": true,
+    "entitlement_state_is_distinct": true,
+    "provider_install_recipe_state_is_distinct": true,
+    "existing_app_specific_lifecycle_may_use_adapter": true,
+    "future_applications_must_declare_supported_runtime_transitions": true
+  },
+  "reference_patterns": [
+    {
+      "source": "https://github.com/webosose",
+      "use": "APPLICATION_AND_SERVICE_LIFECYCLE_PATTERN",
+      "registration_status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "source": "https://github.com/PhreshOS",
+      "use": "PROGRAM_PROCESS_SERVICE_LIFECYCLE_PATTERN",
+      "registration_status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "use": "SANDBOXED_APPLICATION_INSTANCE_LIFECYCLE_PATTERN",
+      "registration_status": "ACCEPTED_REFERENCE"
+    }
+  ]
+}

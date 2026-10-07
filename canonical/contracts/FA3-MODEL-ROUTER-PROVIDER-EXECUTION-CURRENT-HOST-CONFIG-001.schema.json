@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CURRENT-HOST-CONFIG-001",
+  "title": "FA3 Model Router Provider Execution Current-Host Config",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "provider_id",
+    "api_base",
+    "provider_current_host_admission_receipt",
+    "secret_broker_current_host_receipt",
+    "credentials"
+  ],
+  "properties": {
+    "schema": {"const": "fa3.model-router-provider-execution-current-host-config.v1"},
+    "provider_id": {"type": "string", "minLength": 1},
+    "api_base": {"type": "string", "pattern": "^https?://(127\\.0\\.0\\.1|localhost|\\[::1\\])(?::[0-9]+)?(?:/.*)?$"},
+    "logical_route": {"type": "string", "minLength": 1},
+    "consumer_id": {"type": "string", "minLength": 1},
+    "provider_current_host_admission_receipt": {"type": "string", "minLength": 1},
+    "secret_broker_current_host_receipt": {"type": "string", "minLength": 1},
+    "models_path": {"type": "string", "minLength": 1, "pattern": "^[^/][^?#]*$"},
+    "chat_path": {"type": "string", "minLength": 1, "pattern": "^[^/][^?#]*$"},
+    "preferred_models": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "credentials": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["credential_ref", "secret_id"],
+        "properties": {
+          "credential_ref": {"type": "string", "pattern": "^secretref:.+"},
+          "secret_id": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}

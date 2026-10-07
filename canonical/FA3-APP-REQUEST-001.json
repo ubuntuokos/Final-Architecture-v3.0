@@ -1,0 +1,50 @@
+{
+  "schema": "fa3.application-request.v1",
+  "id": "FA3-APP-REQUEST-001",
+  "name": "Application Admission Request",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "purpose": "Allow users to propose applications without granting installation authority.",
+  "submission": {
+    "enabled": true,
+    "minimum_fields": ["source_url"],
+    "optional_fields": ["category", "rationale"],
+    "accepted_url_scheme": "https",
+    "transport": "FA3_REVIEW_OUTBOX",
+    "initial_status": "PENDING_REVIEW"
+  },
+  "security_boundary": {
+    "request_is_executable": false,
+    "request_grants_install_authority": false,
+    "request_grants_catalog_membership": false,
+    "source_url_may_be_executed": false,
+    "source_url_may_be_cloned_automatically": false,
+    "automatic_dependency_install_allowed": false
+  },
+  "review_checks": [
+    "source_identity",
+    "licence",
+    "maintenance_state",
+    "supply_chain",
+    "malware_and_security",
+    "dependencies",
+    "network_requirements",
+    "telemetry",
+    "authentication",
+    "hardware_requirements",
+    "FA3_capability_overlap"
+  ],
+  "review_outcomes": [
+    "REJECTED",
+    "DUPLICATE",
+    "OPTIONAL_PROVIDER",
+    "APPROVED_PROVIDER"
+  ],
+  "promotion_requirements": [
+    "canonical_registry_entry",
+    "provider_manifest",
+    "conformance_tests",
+    "evidence_PASS",
+    "AI_Studio_catalog_projection"
+  ]
+}

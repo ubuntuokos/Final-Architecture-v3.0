@@ -1,0 +1,12 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-SESSION-VAULT-CURRENT-HOST-001",
+  "profile_id": "FA3-SESSION-VAULT-001",
+  "priority": "P0",
+  "fail_closed": true,
+  "executable": "PYTHONPATH=src python src/fa3_session_vault_current_host_gate.py --root .",
+  "receipt": "evidence/receipts/session-vault-current-host.json",
+  "real_current_host_required": true,
+  "synthetic_evidence_allowed_for_promotion": false,
+  "global_promotion_claim": false
+}

@@ -1,0 +1,18 @@
+{
+  "schema": "fa3.gate.v1",
+  "id": "FA3-BROWSER-CDP-PROVIDER-GATESET-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "fail_closed": true,
+  "provider_id": "FA3-PROVIDER-BROWSER-CDP-001",
+  "implementation": "src/fa3_browser_cdp_gate.py",
+  "checks": [
+    "OPTIONAL_PROVIDER",
+    "NO_AUTHORITY_DELTA",
+    "LOOPBACK_CDP_ONLY",
+    "CPU_ONLY_SUPPORTED",
+    "NO_BROWSER_SANDBOX_DISABLE",
+    "UAF_ONLY_EXECUTION",
+    "CURRENT_HOST_EVIDENCE_SEPARATE"
+  ]
+}

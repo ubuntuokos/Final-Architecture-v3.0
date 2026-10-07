@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "fa3://schemas/current-host-delta-shared-gate-evidence.v1",
+  "title": "FA3 Current Host delta shared gate evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "source_commit", "gates"],
+  "properties": {
+    "schema": {"const": "fa3.current-host-delta-shared-gate-evidence.v1"},
+    "source_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "HARDWARE_SAFETY_ENVELOPE",
+        "LICENSE_RIGHTS",
+        "CURRENT_HOST_STRUCTURAL_IMPACT"
+      ],
+      "properties": {
+        "HARDWARE_SAFETY_ENVELOPE": {"$ref": "#/$defs/evidence"},
+        "LICENSE_RIGHTS": {"$ref": "#/$defs/evidence"},
+        "CURRENT_HOST_STRUCTURAL_IMPACT": {"$ref": "#/$defs/evidence"}
+      }
+    }
+  },
+  "$defs": {
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "artifact_path", "artifact_sha256"],
+      "properties": {
+        "status": {"const": "PASS"},
+        "artifact_path": {"type": "string", "minLength": 1},
+        "artifact_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    }
+  }
+}

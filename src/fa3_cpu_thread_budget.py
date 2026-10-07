@@ -7,73 +7,84 @@ import os
 from pathlib import Path
 from typing import Any, Iterable
 
+from fa3_hardware_discovery import discover_cpu_topology, physical_core_key
+
 
 class AdmissionDenied(ValueError):
     """Fail-closed CPU thread-budget admission error."""
 
 
 def discover_live_topology() -> dict[str, Any]:
-    allowed = sorted(os.sched_getaffinity(0))
-    logical_cpus: list[dict[str, int]] = []
-    for cpu in allowed:
-        topology = Path(f"/sys/devices/system/cpu/cpu{cpu}/topology")
-        try:
-            socket_id = int((topology / "physical_package_id").read_text().strip())
-            core_id = int((topology / "core_id").read_text().strip())
-        except (FileNotFoundError, ValueError) as exc:
-            raise AdmissionDenied(f"cannot discover topology for allowed CPU {cpu}") from exc
-        numa_node = -1
-        for candidate in Path(f"/sys/devices/system/cpu/cpu{cpu}").glob("node[0-9]*"):
-            try:
-                numa_node = int(candidate.name[4:])
-                break
-            except ValueError:
-                continue
-        logical_cpus.append(
-            {"cpu_id": cpu, "socket_id": socket_id, "core_id": core_id, "numa_node": numa_node}
-        )
+    descriptor = discover_cpu_topology()
+    allowed = sorted(int(cpu) for cpu in descriptor["effective_logical_cpus"])
+    allowed_set = set(allowed)
+    logical_cpus = [
+        dict(entry)
+        for entry in descriptor["logical_processors"]
+        if int(entry["cpu_id"]) in allowed_set
+    ]
+    if not logical_cpus:
+        raise AdmissionDenied("effective CPU envelope contains no logical CPUs")
     return {
-        "schema": "fa3.cpu-thread-topology-snapshot.v1",
-        "source": "LIVE_OS_AFFINITY_AND_SYSFS",
+        "schema": "fa3.cpu-thread-topology-snapshot.v2",
+        "source": descriptor["source"],
         "allowed_cpus": allowed,
         "logical_cpus": logical_cpus,
+        "descriptor_summary": descriptor["summary"],
     }
 
 
-def make_reference_t7910_topology() -> dict[str, Any]:
-    logical: list[dict[str, int]] = []
+def make_synthetic_dual_numa_topology() -> dict[str, Any]:
+    logical: list[dict[str, Any]] = []
     cpu_id = 0
-    for socket_id in range(2):
-        for core_id in range(22):
-            for _smt_thread in range(2):
+    for package_id in range(2):
+        for core_id in range(8):
+            siblings = [cpu_id, cpu_id + 1]
+            for sibling_cpu in siblings:
                 logical.append(
                     {
-                        "cpu_id": cpu_id,
-                        "socket_id": socket_id,
+                        "cpu_id": sibling_cpu,
+                        "package_id": package_id,
+                        "socket_id": package_id,
+                        "die_id": 0,
+                        "cluster_id": None,
                         "core_id": core_id,
-                        "numa_node": socket_id,
+                        "numa_node": package_id,
+                        "online_sibling_cpus": list(siblings),
                     }
                 )
-                cpu_id += 1
+            cpu_id += 2
     return {
-        "schema": "fa3.cpu-thread-topology-snapshot.v1",
-        "source": "SYNTHETIC_REFERENCE_FIXTURE_NOT_CURRENT_HOST",
-        "reference_deployment_id": "FA3-T7910-CPU-NUMA-REFERENCE-2026-09-02",
-        "allowed_cpus": list(range(88)),
+        "schema": "fa3.cpu-thread-topology-snapshot.v2",
+        "source": "SYNTHETIC_PORTABILITY_FIXTURE_NOT_CURRENT_HOST",
+        "allowed_cpus": list(range(32)),
         "logical_cpus": logical,
+        "descriptor_summary": {
+            "packages_total": 2,
+            "dies_total": 2,
+            "clusters_total": None,
+            "physical_cores_total": 16,
+            "logical_cpus_total": 32,
+            "physical_cores_visible": 16,
+            "logical_cpus_visible": 32,
+            "physical_cores_fully_allocated": 16,
+            "physical_cores_partially_allocated": 0,
+            "max_threads_per_core": 2,
+            "numa_domains_total": 2,
+        },
     }
 
 
-def _selected_entries(topology: dict[str, Any], request: dict[str, Any]) -> list[dict[str, int]]:
+def _selected_entries(topology: dict[str, Any], request: dict[str, Any]) -> list[dict[str, Any]]:
     entries = topology.get("logical_cpus")
     if not isinstance(entries, list) or not entries:
         raise AdmissionDenied("topology has no logical CPUs")
-    topology_allowed = set(topology.get("allowed_cpus", []))
-    placement_allowed = set(request.get("allowed_cpus", topology_allowed))
+    topology_allowed = {int(cpu) for cpu in topology.get("allowed_cpus", [])}
+    placement_allowed = {int(cpu) for cpu in request.get("allowed_cpus", topology_allowed)}
     selected_ids = topology_allowed & placement_allowed
     if not selected_ids:
         raise AdmissionDenied("admitted cpuset and visible affinity do not intersect")
-    selected = [entry for entry in entries if entry.get("cpu_id") in selected_ids]
+    selected = [entry for entry in entries if int(entry.get("cpu_id")) in selected_ids]
     numa_node = request.get("numa_node")
     if numa_node is not None:
         selected = [entry for entry in selected if entry.get("numa_node") == numa_node]
@@ -82,8 +93,33 @@ def _selected_entries(topology: dict[str, Any], request: dict[str, Any]) -> list
     return selected
 
 
-def _unique_physical_cores(entries: Iterable[dict[str, int]]) -> set[tuple[int, int]]:
-    return {(int(entry["socket_id"]), int(entry["core_id"])) for entry in entries}
+def _unique_physical_cores(entries: Iterable[dict[str, Any]]) -> set[tuple[int, int | None, int | None, int]]:
+    return {physical_core_key(entry) for entry in entries}
+
+
+def _physical_core_allocation(entries: Iterable[dict[str, Any]]) -> dict[str, int]:
+    rows = list(entries)
+    selected_ids = {int(entry["cpu_id"]) for entry in rows}
+    expected_by_core: dict[tuple[int, int | None, int | None, int], set[int]] = {}
+    for entry in rows:
+        siblings = entry.get("online_sibling_cpus") or [entry["cpu_id"]]
+        expected_by_core.setdefault(physical_core_key(entry), set()).update(int(cpu) for cpu in siblings)
+
+    full = 0
+    partial = 0
+    for expected in expected_by_core.values():
+        visible = expected & selected_ids
+        if not visible:
+            continue
+        if visible == expected:
+            full += 1
+        else:
+            partial += 1
+    return {
+        "visible": len(expected_by_core),
+        "fully_allocated": full,
+        "partially_allocated": partial,
+    }
 
 
 def build_thread_plan(topology: dict[str, Any], request: dict[str, Any]) -> dict[str, Any]:
@@ -92,6 +128,7 @@ def build_thread_plan(topology: dict[str, Any], request: dict[str, Any]) -> dict
     selected = _selected_entries(topology, request)
     logical_budget = len({int(entry["cpu_id"]) for entry in selected})
     physical_budget = len(_unique_physical_cores(selected))
+    allocation = _physical_core_allocation(selected)
     if physical_budget < 1:
         raise AdmissionDenied("no physical cores are visible in the admitted cpuset")
 
@@ -149,13 +186,15 @@ def build_thread_plan(topology: dict[str, Any], request: dict[str, Any]) -> dict
     logging_settings = {"DNNL_VERBOSE": str(int(request.get("dnnl_verbose", 0)))}
 
     return {
-        "schema": "fa3.thread-pool-budget.v1",
+        "schema": "fa3.thread-pool-budget.v2",
         "status": "ADMITTED",
         "authority_receipt": request["authority_receipt"],
         "topology_source": topology.get("source"),
         "workload_class": request.get("workload_class", "UNSPECIFIED"),
         "visible_logical_cpus": logical_budget,
         "visible_physical_cores": physical_budget,
+        "fully_allocated_physical_cores": allocation["fully_allocated"],
+        "partially_allocated_physical_cores": allocation["partially_allocated"],
         "thread_budget": requested,
         "uses_smt_above_physical_budget": smt_requested,
         "numa_node": request.get("numa_node"),
@@ -180,7 +219,10 @@ def main() -> int:
     parser.add_argument("--exec", dest="execute", action="store_true", help="apply admitted env and execute command")
     parser.add_argument("command", nargs=argparse.REMAINDER)
     args = parser.parse_args()
-    topology = json.loads(Path(args.topology).read_text()) if args.topology else discover_live_topology()
+    if args.topology:
+        topology = json.loads(Path(args.topology).read_text())
+    else:
+        topology = discover_live_topology()
     request = json.loads(Path(args.request).read_text())
     try:
         plan = build_thread_plan(topology, request)

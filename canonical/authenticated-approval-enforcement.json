@@ -1,0 +1,32 @@
+{
+  "schema": "fa3.authenticated-approval-enforcement.v1",
+  "id": "FA3-AUTHENTICATED-APPROVAL-GATESET-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "capability_count": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "identity_trust_profile": "FA3-TRUST-PKI-001",
+  "authorization_authority": "FA3-AUTH-SECURITY-GOV-001",
+  "evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001",
+  "root_ca_path": "/var/lib/fa3-step-ca/certs/root_ca.crt",
+  "security_governance_verification_key": "/etc/fa3/trust/security-governance-approval.pub",
+  "invariants": [
+    "BOOLEAN_SIGNED_APPROVED_INDEPENDENT_FIELDS_ARE_NOT_AUTHORITY_EVIDENCE",
+    "SIGNER_CERTIFICATE_MUST_CHAIN_TO_FA3_TRUST_ROOT",
+    "SIGNER_IDENTITY_MUST_BE_CERTIFICATE_URI_SAN_BOUND",
+    "CERTIFICATE_ISSUANCE_DOES_NOT_GRANT_APPROVAL_ROLE",
+    "SECURITY_GOVERNANCE_SIGNED_ROLE_GRANT_REQUIRED",
+    "ROLE_GRANT_MUST_MATCH_CERTIFICATE_FINGERPRINT_AND_IDENTITY",
+    "ROLE_GRANT_SCOPE_MUST_BE_FA3_RELEASE_ACCEPTANCE",
+    "RECEIPT_SIGNATURE_MUST_VERIFY_OVER_CANONICAL_CONTENT",
+    "PAYLOAD_SHA256_MUST_MATCH_CANONICAL_PAYLOAD",
+    "SOURCE_COMMIT_MUST_MATCH_CURRENT_REPOSITORY_HEAD",
+    "RECEIPT_AND_ROLE_GRANT_MUST_BE_FRESH",
+    "PROMOTION_APPROVAL_RECEIPTS_ARE_SINGLE_USE",
+    "INDEPENDENT_REVIEWER_IDENTITY_MUST_DIFFER_FROM_PRODUCER_IDENTITY",
+    "HUMAN_PROMOTION_REQUIRES_HUMAN_IDENTITY_CLASS",
+    "PROMOTION_CONSUMPTION_LEDGER_IS_FAIL_CLOSED"
+  ],
+  "current_host_runtime_promotion_claim": false
+}

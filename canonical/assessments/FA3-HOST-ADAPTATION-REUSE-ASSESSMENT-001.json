@@ -1,0 +1,105 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-HOST-ADAPTATION-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-HOST-ADAPTATION-001",
+  "intent_id": "FA3-HOST-ADAPTATION-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-HOST-ADAPTATION-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-HOST-ADAPTATION-001"
+  ],
+  "project_status": "HOST_ADAPTATION_MATERIALIZATION_APPROVED_NO_NEW_AUTHORITY",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-HARDWARE-BASELINE-001",
+      "use": "EXISTING_VENDOR_NEUTRAL_CPU_ACCELERATOR_BASELINE_AND_LIVE_DISCOVERY_BOUNDARY"
+    },
+    {
+      "id": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+      "use": "EXISTING_DYNAMIC_1_TO_N_CPU_AND_0_TO_N_ACCELERATOR_DISCOVERY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "EXISTING_SOLE_RESOURCE_ADMISSION_PLACEMENT_AND_LEASE_AUTHORITY"
+    },
+    {
+      "id": "FA3-DESKTOP-BASE-001",
+      "use": "EXISTING_GENERIC_LINUX_DESKTOP_AND_SESSION_BOUNDARY"
+    },
+    {
+      "id": "FA3-DESKTOP-PLASMA-001",
+      "use": "EXISTING_QT_KDE_REFERENCE_ENHANCEMENT_PROFILE"
+    },
+    {
+      "id": "FA3-DEC-HARDWARE-SAFETY-2026-09-26",
+      "use": "EXISTING_NON_BYPASSABLE_HARDWARE_SAFETY_ENVELOPE"
+    },
+    {
+      "id": "CAP-175",
+      "use": "EXISTING_SOFTWARE_COEXISTENCE_AND_HOST_NON_INTERFERENCE_CAPABILITY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "EXISTING_EVIDENCE_AUTHORITY"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "NEW_HARDWARE_OR_GPU_AUTHORITY",
+      "reason": "HRB_REMAINS_SOLE_RESOURCE_AUTHORITY"
+    },
+    {
+      "id": "FIXED_NVIDIA_CUDA_GLOBAL_PATH",
+      "reason": "HARDWARE_BASELINE_IS_VENDOR_NEUTRAL_AND_CPU_ONLY_CONFORMANT"
+    },
+    {
+      "id": "FIXED_AUDIO_VIDEO_WORKSPACE_SHARDS",
+      "reason": "EXECUTION_PARTITIONING_MAY_BE_DYNAMIC_AND_MUST_NOT_DEFINE_CAPABILITY_AUTHORITY"
+    },
+    {
+      "id": "FIXED_HOST_PORTS",
+      "reason": "SOFTWARE_COEXISTENCE_REQUIRES_NAMESPACED_OR_DYNAMIC_ENDPOINTS"
+    },
+    {
+      "id": "KDE_ONLY_OR_WAYLAND_ONLY_RUNTIME",
+      "reason": "QT6_NATIVE_ENHANCEMENT_MUST_PRESERVE_X11_AND_NON_KDE_SUPPORT"
+    },
+    {
+      "id": "AUTOMATIC_UNINSTALL_ON_DEVICE_DISAPPEARANCE",
+      "reason": "TRANSIENT_HOST_DRIFT_MUST_NOT_CAUSE_DESTRUCTIVE_PACKAGE_MUTATION"
+    },
+    {
+      "id": "DISCOVERY_EQUALS_ADMISSION",
+      "reason": "DISCOVERY_IS_NON_AUTHORITATIVE_AND_RECONCILIATION_REQUIRES_EXISTING_AUTHORITIES"
+    }
+  ],
+  "pattern_reuse": [
+    "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001"
+  ],
+  "gaps": [
+    "INSTALLATION_HOST_PROFILE_LIFECYCLE",
+    "SEMANTIC_HOST_DRIFT_CLASSIFICATION",
+    "SELECTIVE_HOST_MATERIALIZATION_PLAN",
+    "QT6_NATIVE_DESKTOP_INTEGRATION_SELECTION"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hrb_bound": true
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "claims_default_port": false
+  },
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}

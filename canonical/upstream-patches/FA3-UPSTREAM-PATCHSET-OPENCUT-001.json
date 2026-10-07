@@ -1,0 +1,19 @@
+{
+  "schema": "fa3.upstream-patch-set.v1",
+  "id": "FA3-UPSTREAM-PATCHSET-OPENCUT-001",
+  "provider_id": "FA3-PROVIDER-OPENCUT-001",
+  "disposition": "REFERENCE_ONLY",
+  "upstream_repository": "OpenCut-app/OpenCut",
+  "upstream_commit": "400f097becba5db0fbc305d5a65348cb81c20356",
+  "runtime_admission": false,
+  "reason": "STRUCTURAL_UPSTREAM_INTERFACE_INSTABILITY_IS_NOT_A_LOCAL_PATCHING_PROBLEM",
+  "required_stability_before_direct_or_patched_admission": [
+    "VERSIONED_EDITOR_API",
+    "VERSIONED_PLUGIN_API",
+    "VERSIONED_HEADLESS_AUTOMATION_SURFACE",
+    "CAPABILITY_COMPATIBILITY_MATRIX",
+    "CURRENT_HOST_E2E"
+  ],
+  "fa3_policy": "DO_NOT_FORK_TO_ASSUME_UPSTREAM_EDITOR_CORE_MAINTENANCE",
+  "promotion_claim": false
+}

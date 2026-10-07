@@ -1,0 +1,19 @@
+{
+  "schema": "fa3.architecture-decision.v1",
+  "id": "FA3-DEC-OPENVID-BROWSER-LOCAL-COMPOSITING-2026-09-04",
+  "status": "CANONICAL_CLOSED",
+  "date": "2026-09-04",
+  "title": "OpenVid as license-restricted optional browser-local compositing reference provider",
+  "provider_id": "FA3-PROVIDER-OPENVID-001",
+  "contract_id": "FA3-BROWSER-LOCAL-VIDEO-COMPOSITING-CONTRACTS-001",
+  "gate_id": "FA3-OPENVID-GATESET-001",
+  "decision": "Adopt OpenVid only as an optional architectural/reference provider and pattern source behind existing FA3 video/editorial/compositing authorities. Do not vendor or admit the PolyForm Noncommercial upstream as baseline/commercial production runtime.",
+  "rationale": ["browser-local deterministic compositing and product-demo workflow is useful to FA3", "hardware→software→WASM fallback and direct-to-disk patterns are reusable", "existing FA3 video/editorial/compositing profiles already own the capability", "PolyForm Noncommercial licensing forbids treating upstream as unrestricted production dependency"],
+  "mandatory_rules": ["BROWSER_LOCAL_COMPOSITING_CONTRACT_REQUIRED", "OPENVID_OPTIONAL_REFERENCE_PROVIDER_NOT_HARD_DEPENDENCY", "POLYFORM_NONCOMMERCIAL_LICENSE_PRODUCTION_COMMERCIAL_RUNTIME_DENY", "NO_VENDORING_OR_DERIVATIVE_RUNTIME_WITHOUT_SEPARATE_LICENSE_ADMISSION", "NO_NEW_CAPABILITY_AND_CAPABILITY_COUNT_143", "NO_NEW_ARCHITECTURAL_AUTHORITY", "EXISTING_EDITORIAL_COMPOSITING_AUTHORITIES_REMAIN_CANONICAL", "LOCAL_FIRST_MEDIA_PROCESSING_AND_EXPLICIT_CLOUD_ESCALATION", "DETERMINISTIC_TIMELINE_AND_CANVAS_COMPOSITION_REQUIRED", "TYPED_OVERLAY_MOCKUP_3D_CAMERA_OPERATION_DESCRIPTORS", "HARDWARE_ENCODE_ATTEMPT_WITH_SOFTWARE_FALLBACK", "WASM_FALLBACK_IS_BOUNDED_AND_NON_AUTHORITY", "DIRECT_TO_DISK_PREFERRED_WITH_BOUNDED_BUFFER_FALLBACK", "REMUX_PACKET_COPY_PREFERRED_WHEN_REENCODE_UNNECESSARY", "OUTPUT_QA_HASH_PROVENANCE_AND_AUDIT_REQUIRED", "IMMUTABLE_UPSTREAM_PIN_FOR_REFERENCE_EVIDENCE", "FLOATING_MAIN_FORBIDDEN_AS_PROMOTION_EVIDENCE", "CURRENT_HOST_RUNTIME_PROMOTION_NOT_CLAIMED"],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_before": 143,
+  "capability_count_after": 143,
+  "runtime_activation_status": "DENIED_BASELINE_AND_COMMERCIAL_RUNTIME_BY_LICENSE_POLICY",
+  "current_host_runtime_promotion_claimed": false
+}

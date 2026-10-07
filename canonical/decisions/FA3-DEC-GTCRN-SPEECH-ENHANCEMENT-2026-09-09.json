@@ -1,0 +1,16 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-GTCRN-SPEECH-ENHANCEMENT-2026-09-09",
+  "date": "2026-09-09",
+  "status": "CANONICAL_CLOSED",
+  "subject": "GTCRN real-time speech enhancement integration",
+  "decision": "ACCEPT_OPTIONAL_STRONG_REFERENCE_PROVIDER_BEHIND_PROVIDER_NEUTRAL_SPEECH_ENHANCEMENT_AND_EXISTING_INFERENCE_SECURITY_AUTHORITIES",
+  "profile_id": "FA3-SPEECH-ENHANCEMENT-001",
+  "provider_id": "FA3-PROVIDER-GTCRN-001",
+  "contract_id": "FA3-SPEECH-ENHANCEMENT-CONTRACTS-001",
+  "gate_set_id": "FA3-GTCRN-GATESET-001",
+  "upstream_reference_id": "FA3-GTCRN-UPSTREAM-REFERENCE-2026-09-09",
+  "rationale": ["ultralight local CPU execution is useful for microphone and pre-ASR conditioning", "ONNX streaming interface avoids tying FA3 to legacy PyTorch runtime", "PipeWire/LADSPA adapter is useful but experimental and must remain optional", "existing inference portability and model security profiles already own admission and execution policy"],
+  "rejected": ["NEW_AUDIO_AUTHORITY", "NEW_INFERENCE_AUTHORITY", "NEW_MODEL_REGISTRY_AUTHORITY", "DIRECT_UNTRUSTED_TORCH_LOAD_IN_PRODUCTION", "MANDATORY_GPU_EXECUTION", "LADSPA_AS_CANONICAL_AUDIO_INTERFACE"],
+  "baseline_effect": {"capability_count_before": 143, "capability_count_after": 143, "new_architectural_authority": 0, "semantic_change": "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_UPDATE"}
+}

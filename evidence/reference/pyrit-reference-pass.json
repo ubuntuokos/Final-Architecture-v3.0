@@ -1,0 +1,30 @@
+{
+  "schema": "fa3.pyrit-reference-evidence.v1",
+  "provider_id": "FA3-PROVIDER-PYRIT-001",
+  "profile_id": "FA3-AI-SEC-VALIDATION-001",
+  "contract_id": "FA3-AI-SECURITY-VALIDATION-CONTRACTS-001",
+  "gate_id": "FA3-PYRIT-GATESET-001",
+  "status": "PASS",
+  "evidence_scope": "REFERENCE_CANONICAL_AND_EXECUTABLE_REGRESSION_ONLY",
+  "upstream": {
+    "repository": "microsoft/PyRIT",
+    "release": "v1.1.0",
+    "release_commit": "d0524f0714840519b826eb770687ca1d4f46a761",
+    "license": "MIT"
+  },
+  "rules_checked": 16,
+  "executable_regression_cases": 8,
+  "expected_regression_status": "PASS",
+  "authority_delta": 0,
+  "current_host_runtime_evidence": false,
+  "production_runtime_promoted": false,
+  "synthetic_current_host_evidence": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "limitations": [
+    "This record does not claim a real current-host PyRIT execution.",
+    "Runtime admission remains NOT_ADMITTED until a separate current-host production E2E receipt passes.",
+    "PyRIT output remains provider evidence input and requires canonical FA3 evidence attestation before promotion use."
+  ]
+}

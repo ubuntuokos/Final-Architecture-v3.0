@@ -1,0 +1,43 @@
+{
+  "schema": "fa3.canonical-decision.v1",
+  "id": "FA3-DEC-ADK2-DERIVED-AGENT-RUNTIME-SEMANTICS-2026-09-24",
+  "status": "CANONICAL_CLOSED",
+  "date": "2026-09-24",
+  "subject": "FA3-native adoption of selected Google ADK 2.x execution-semantics patterns",
+  "parent_profile": "FA3-AGENT-WORKLOAD-RUNTIME-001",
+  "profile_id": "FA3-AGENT-RUNTIME-SEMANTICS-001",
+  "contract_id": "FA3-AGENT-RUNTIME-SEMANTICS-CONTRACTS-001",
+  "reference_id": "FA3-GOOGLE-ADK2-UPSTREAM-REFERENCE-2026-09-24",
+  "gate_id": "FA3-ADK2-DERIVED-AGENT-RUNTIME-GATESET-001",
+  "adopted_mechanisms": [
+    "TYPED_DECLARATIVE_WORKFLOW_GRAPH",
+    "EXPLICIT_MODEL_CAPABILITY_DESCRIPTOR",
+    "HARD_EXECUTION_BUDGET_LEDGER",
+    "DIGEST_BOUND_RESUME_AND_RETRY",
+    "STRICT_BOOLEAN_TOOL_CONFIRMATION_WITH_APPROVAL_RECEIPT",
+    "AUTHORIZED_BOUNDED_AGENT_TRANSFER_WITH_REASON",
+    "RELAYED_AGENT_OUTPUT_FENCED_AS_UNTRUSTED_DATA",
+    "MCP_STANDARD_FIELDS_PLUS_META_NORMALIZATION",
+    "SESSION_THREAD_SCOPING_AND_EVENT_DEDUPLICATION",
+    "ARTIFACT_SCOPE_SIZE_AND_ATOMIC_VERSION_BOUNDARY"
+  ],
+  "exclusions": [
+    "GOOGLE_ADK_AS_RUNTIME_AUTHORITY",
+    "GOOGLE_ADK_SESSION_OR_MEMORY_BACKEND_AS_FA3_AUTHORITY",
+    "GOOGLE_ADK_DEPLOYMENT_AUTHORITY",
+    "AUTOMATIC_CROSS_PROVIDER_MODEL_FAILOVER",
+    "LIVEKIT_OR_VOICE_RUNTIME_FROM_ADK",
+    "ADK_SKILL_REGISTRY_AS_PARALLEL_SKILL_AUTHORITY",
+    "ADK_EVALUATION_AS_PARALLEL_EVIDENCE_AUTHORITY"
+  ],
+  "rationale": [
+    "Adopt execution semantics that strengthen deterministic safety, resumability, observability and interoperability without importing a parallel agent framework.",
+    "Retain existing FA3 authorities for durable orchestration, model routing, tools, security, resources, evidence, memory and deployment.",
+    "Do not adopt automatic cross-provider model failover here because provider execution and credential-aware routing are separately governed.",
+    "Treat upstream ADK code and release metadata as REFERENCE_ONLY; implementation is FA3-native."
+  ],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "current_host_runtime_promotion_claim": false
+}

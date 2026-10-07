@@ -1,0 +1,33 @@
+name: FA3 Capability Model 175
+
+on:
+  pull_request:
+    paths:
+      - 'canonical/**'
+      - 'evidence/evidence-registry.json'
+      - 'src/fa3_capability_model_175_gate.py'
+      - 'src/fa3_capability_count_dehardcode_gate.py'
+      - 'tests/test_capability_model_175.py'
+  push:
+    branches: [ main ]
+    paths:
+      - 'canonical/**'
+      - 'evidence/evidence-registry.json'
+      - 'src/fa3_capability_model_175_gate.py'
+      - 'src/fa3_capability_count_dehardcode_gate.py'
+      - 'tests/test_capability_model_175.py'
+
+jobs:
+  capability-model-175:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Capability model 175 gate
+        run: PYTHONPATH=src python src/fa3_capability_model_175_gate.py
+      - name: Capability model 175 unit test
+        run: PYTHONPATH=src python -m unittest tests.test_capability_model_175 -v
+      - name: Capability count de-hardcode gate
+        run: PYTHONPATH=src python src/fa3_capability_count_dehardcode_gate.py --root .

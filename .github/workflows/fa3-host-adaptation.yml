@@ -1,0 +1,125 @@
+name: FA3 Host Adaptation Gate
+
+on:
+  pull_request:
+    paths:
+      - 'canonical/profiles/FA3-HOST-ADAPTATION-001.json'
+      - 'canonical/contracts/FA3-HOST-ADAPTATION-CONTRACTS-001.json'
+      - 'canonical/intents/FA3-HOST-ADAPTATION-APPLICATION-INTENT-001.json'
+      - 'canonical/assessments/FA3-HOST-ADAPTATION-REUSE-ASSESSMENT-001.json'
+      - 'canonical/decisions/FA3-DEC-HOST-ADAPTATION-2026-09-27.json'
+      - 'canonical/FA3-DESKTOP-BASE-001.json'
+      - 'canonical/FA3-DESKTOP-PLASMA-001.json'
+      - 'canonical/FA3-GATE-DESKTOP-PORTABILITY-001.json'
+      - 'src/fa3_host_adaptation.py'
+      - 'src/fa3_desktop_admission.py'
+      - 'src/fa3_current_host_runtime_resolver.py'
+      - 'src/fa3_full_current_host_preflight.py'
+      - 'src/fa3_full_current_host_capability_producer.py'
+      - 'src/fa3_mat003_interaction_creative_current_host.py'
+      - 'src/fa3_hardware_portability_gate.py'
+      - 'src/fa3_enforce.py'
+      - 'deployment/fa3-gui/install.sh'
+      - 'bin/fa3-host-adaptation'
+      - 'tests/test_host_adaptation.py'
+      - 'tests/test_desktop_portability.py'
+      - 'tests/test_current_host_runtime_resolver.py'
+      - 'tests/test_full_current_host_capability_producer.py'
+      - 'tests/test_mat003_interaction_creative_current_host.py'
+      - 'tests/test_hardware_portability_gate.py'
+      - 'tests/test_fa3_gui_gate.py'
+      - 'docs/host-adaptation.md'
+      - 'docs/desktop-portability.md'
+      - '.github/workflows/fa3-host-adaptation.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'canonical/profiles/FA3-HOST-ADAPTATION-001.json'
+      - 'canonical/contracts/FA3-HOST-ADAPTATION-CONTRACTS-001.json'
+      - 'canonical/FA3-DESKTOP-BASE-001.json'
+      - 'canonical/FA3-DESKTOP-PLASMA-001.json'
+      - 'src/fa3_host_adaptation.py'
+      - 'src/fa3_desktop_admission.py'
+      - 'src/fa3_current_host_runtime_resolver.py'
+      - 'src/fa3_full_current_host_preflight.py'
+      - 'src/fa3_full_current_host_capability_producer.py'
+      - 'src/fa3_mat003_interaction_creative_current_host.py'
+      - 'src/fa3_hardware_portability_gate.py'
+      - 'src/fa3_enforce.py'
+      - 'deployment/fa3-gui/install.sh'
+      - 'tests/test_host_adaptation.py'
+      - 'tests/test_current_host_runtime_resolver.py'
+      - 'tests/test_full_current_host_capability_producer.py'
+      - 'tests/test_mat003_interaction_creative_current_host.py'
+      - 'tests/test_hardware_portability_gate.py'
+      - 'tests/test_fa3_gui_gate.py'
+      - 'tests/test_desktop_portability.py'
+      - '.github/workflows/fa3-host-adaptation.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  host-adaptation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+      - name: Syntax
+        run: >-
+          python -m py_compile
+          src/fa3_host_adaptation.py
+          src/fa3_desktop_admission.py
+          src/fa3_current_host_runtime_resolver.py
+          src/fa3_full_current_host_preflight.py
+          src/fa3_full_current_host_capability_producer.py
+          src/fa3_mat003_interaction_creative_current_host.py
+          src/fa3_hardware_portability_gate.py
+          src/fa3_enforce.py
+          bin/fa3-host-adaptation
+      - name: Regressions
+        run: >-
+          python -m unittest
+          tests.test_host_adaptation
+          tests.test_desktop_portability
+          tests.test_current_host_runtime_resolver
+          tests.test_full_current_host_capability_producer
+          tests.test_mat003_interaction_creative_current_host
+          tests.test_hardware_portability_gate
+          tests.test_fa3_gui_gate
+          -v
+      - name: Host adaptation canonical self-test
+        run: python ./bin/fa3-host-adaptation --self-test --json | tee host-adaptation-gate-report.json
+      - name: Desktop canonical self-test
+        run: python ./bin/fa3-desktop-admission --self-test --json | tee desktop-portability-gate-report.json
+      - name: Hardware portability gate
+        run: python ./bin/fa3-enforce hardware-portability | tee hardware-portability-gate-report.json
+      - name: Central host-adaptation gate
+        run: python ./bin/fa3-enforce host-adaptation | tee host-adaptation-enforcer-report.json
+      - name: GUI installer source contract
+        run: bash deployment/fa3-gui/install.sh --check-source-contract
+      - name: No synthetic current-host promotion
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          h=json.loads(Path("host-adaptation-gate-report.json").read_text())
+          d=json.loads(Path("desktop-portability-gate-report.json").read_text())
+          assert h["result"]=="PASS", h
+          assert h["current_host_production_evidence"] is False, h
+          assert h["current_host_promotion_claim"] is False, h
+          assert d["result"]=="PASS", d
+          assert d["current_host_production_evidence"] is False, d
+          PY
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: fa3-host-adaptation-gate-report
+          path: |
+            host-adaptation-gate-report.json
+            desktop-portability-gate-report.json
+            hardware-portability-gate-report.json
+            host-adaptation-enforcer-report.json
+          if-no-files-found: error

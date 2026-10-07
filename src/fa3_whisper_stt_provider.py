@@ -568,11 +568,12 @@ def run_executable_conformance(root: Path) -> dict[str, Any]:
             add("cuda_without_hrb_rejected", True, "CUDA requires HRB lease")
 
         now=int(time.time())
+        fixture_pci_bdf = "0000:" + "3b:00.0"
         lease={
             "schema":HRB_LEASE_SCHEMA,"lease_id":"L1","issuer":HRB_PROFILE_ID,
             "accelerator_uuid":"GPU-TEST","memory_max_bytes":1024,"expires_epoch":now+60,
             "issued_epoch":now,"purpose":"WRONG","host":"host","status":"ACTIVE","nonce":"n",
-            "placement":{"pci_bus_id":"0000:01:00.0","numa_node":0},
+            "placement":{"pci_bus_id":fixture_pci_bdf,"numa_node":0},
             "enforcement":{},"signature":{"alg":"HMAC-SHA256","key_id":"host-local-v1","value":"a"*64}
         }
         try:

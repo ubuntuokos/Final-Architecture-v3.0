@@ -6,7 +6,7 @@ It is **not** a new canonical profile, capability, provider authority, or archit
 
 ## Invariants
 
-- canonical capability count: **143**
+- canonical capability count: **175**
 - new capabilities: **0**
 - new architectural authorities: **0**
 - document-only promotion: **forbidden**
@@ -26,7 +26,7 @@ It is **not** a new canonical profile, capability, provider authority, or archit
 ./bin/fa3-current-host promote
 ```
 
-`verify` checks the current-host projection against canonical policy, the exact `CAP-001..CAP-143` conformance surface, the 143-record Evidence Registry, registered collectors/gates, and the unified release manifest.
+`verify` checks the current-host projection against the canonical policy, the exact `CAP-001..CAP-175` conformance surface, the 175-record Evidence Registry and 525 positive/negative/rollback obligations, registered collectors/gates, and the unified release manifest.
 
 `collect` runs the existing read-only host fingerprint collector. Successful collection remains `COLLECTED_UNVALIDATED`; it is never converted to `PASS` merely because collection succeeded.
 
@@ -38,45 +38,90 @@ It is **not** a new canonical profile, capability, provider authority, or archit
 
 ## Current-host execution
 
-CI validates only projection structure and executable regressions. Real host execution is opt-in through self-hosted workflows on a runner labeled:
+CI validates only the projection structure. Real host execution is opt-in through `.github/workflows/fa3-current-host.yml` on a self-hosted runner labeled:
 
 ```text
 self-hosted, linux, x64, fa3-current-host
 ```
 
-No GitHub-hosted runner may claim current-host production evidence for a workstation.
+No GitHub-hosted runner may claim current-host production evidence for the workstation.
+
+## Multidimensional resource admission current-host closure
+
+`FA3-GATE-RESOURCE-ADMISSION-CURRENT-HOST-001` requires live Host Attestation, a measured Compute Profile, a non-empty workload envelope, a current scope-bound HRB admission authorization, and PASS for every declared resource dimension.
+
+Every workload requires HRB admission authorization. The mechanism depends on the workload:
+
+- **CPU-only / non-accelerator:** a short-lived `fa3.hrb-admission-authorization.v1` is issued by the existing HRB authority and bound to host, workload ID, exact workload-envelope SHA-256 and requested resource classes. It is not a lease.
+- **Accelerator workload:** the existing `FA3-HOST-RESOURCE-BROKER-001/AcceleratorExecutionLease@1` remains required and can serve as the HRB authorization source for that accelerated execution.
+
+A CPU-only workload must not require accelerator discovery or an accelerator lease. `CU`/`TU` values remain diagnostic-only and are forbidden as admission requirements.
+
+### HRB privilege separation
+
+Use the combined one-time installer:
+
+```bash
+sudo ./bin/fa3-install-host-admission-bridge.sh --user "$USER"
+```
+
+It installs the generic admission client, accelerator acquire client and accelerator validator. Both HMAC secret domains remain root-only. The non-root runner can request only typed authorization/validation operations through narrow sudo helpers; collector, provider and orchestrator cannot mint their own authorization.
+
+The default smoke now exercises the vendor-neutral CPU-only path:
+
+```bash
+./bin/fa3-resource-admission-current-host.sh smoke
+```
+
+For a custom CPU-only workload, the lower-level path is:
+
+```bash
+/usr/local/bin/fa3-host-resource-broker-admission authorize \
+  --workload .fa3-current-host/input/resource-workload-envelope.json \
+  --output .fa3-current-host/input/resource-hrb-authorization.json
+
+./bin/fa3-resource-admission-current-host.sh collect \
+  --workload-envelope .fa3-current-host/input/resource-workload-envelope.json \
+  --hrb-authorization .fa3-current-host/input/resource-hrb-authorization.json
+
+./bin/fa3-enforce resource-admission-current-host
+```
+
+Accelerator workflows continue to use `--hrb-lease` or the admitted acquire bridge and are not silently rerouted to CPU.
+
+A successful receipt may claim only `CURRENT_HOST_RESOURCE_ADMISSION_PASS` and must keep `GLOBAL_FA3_PROMOTION` as a non-claim.
 
 ## FFmpeg neural-media current-host closure
 
-`FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001` is a **portable execution-conformance prerequisite**, not production neural-media E2E evidence. The 2026-09-03 audit correction is recorded in `FA3-DEC-FFMPEG-AI-CURRENT-HOST-AUDIT-2026-09-03`.
+The executable closure for `FA3-NEURAL-MEDIA-EXECUTION-001` is `FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001`. It is deliberately fail-closed and does not derive a PASS from CI, documentation, a static GPU ordinal, or the earlier HRB/CUDA component evidence alone.
 
-The collector follows `FA3-HARDWARE-BASELINE-001` and `FA3-HARDWARE-DISCOVERY-CONTRACTS-001`: CPU affinity/cgroup/NUMA and accelerator topology are discovered live. A Dell T7910, E5-2696 v4, a concrete GPU SKU, fixed PCI BDF, or a CUDA ordinal may appear in evidence as a non-normative current-host fact, but none is a portable production admission constant.
+A real run requires two attributed local inputs:
 
-A real execution-conformance run requires:
+- an unexpired `fa3.hrb-placement-receipt.v1` from `FA3-AUTH-HOST-RESOURCE-BROKER-001`, workload `NEURAL_MEDIA`, bound to live GPU UUID + PCI BDF;
+- a `fa3.ffmpeg-build-trust-receipt.v1` proving an immutable signed upstream release or signed distribution package and matching the installed FFmpeg binary SHA-256.
 
-- an active canonical `FA3-HOST-RESOURCE-BROKER-001/AcceleratorExecutionLease@1`, issued by `FA3-HOST-RESOURCE-BROKER-001`, validated by the canonical broker, and revalidated against live GPU UUID + PCI BDF;
-- a `fa3.ffmpeg-build-trust-receipt.v2` proving stable immutable version identity, installed binary hash match, signature verification with verifier identity, SBOM hash, and provenance-attestation hash.
+The collector performs no network model fetch. It generates a tiny deterministic ONNX Identity model and a synthetic BT.709 A/V golden clip locally, proves ONNX Runtime CUDA execution without CPU fallback, executes hardware decode → `scale_cuda` → NVENC → mux, then measures VMAF/SSIM/PSNR plus A/V duration, timestamp monotonicity and color/HDR expectations. Stable FFmpeg 9.0.1 DNN zero-copy is explicitly **not** claimed.
 
-The smoke collector performs no network model fetch. It generates a deterministic ONNX Identity model and synthetic BT.709 A/V clip locally. Those fixtures can prove only:
-
-- observed ONNX Runtime CUDA execution with no silent CPU fallback;
-- observed H.264 CUVID decode → `scale_cuda` → NVENC execution from verbose FFmpeg evidence;
-- mux/container/codec/stream validation;
-- fixture-scoped VMAF/SSIM/PSNR, A/V, timestamp, color/HDR checks;
-- rollback, negative tests and an execution-evidence hash chain.
-
-Stable FFmpeg 9.0.1 DNN zero-copy is explicitly **not** claimed.
-
-Run on any hardware admitted by the portable FA3 baseline:
+Run on the current admitted host:
 
 ```bash
 bin/fa3-ffmpeg-ai-current-host.sh \
-  .fa3-current-host/input/ffmpeg-ai-accelerator-lease.json \
-  .fa3-current-host/input/ffmpeg-ai-build-trust-v2.json
+  .fa3-current-host/input/ffmpeg-ai-hrb-placement.json \
+  .fa3-current-host/input/ffmpeg-ai-build-trust.json
 
 ./bin/fa3-enforce ffmpeg-ai-current-host
 ```
 
-A PASS from this gate means `CURRENT_HOST_FFMPEG_EXECUTION_CONFORMANCE_PASS` only. It does **not** satisfy `CURRENT_HOST_FFMPEG_NEURAL_MEDIA_PRODUCTION_E2E_PASS`.
+Or dispatch `FA3 FFmpeg Neural Media Current-Host E2E` with `execute_current_host=true`. A component PASS remains separate from the 175-capability / 525-obligation Evidence Registry closure and the 19-point global promotion gate.
 
-Production runtime admission separately requires real or curated admitted media, a real admitted neural model from `FA3-MODEL-REGISTRY-001` with identity/hash/license/provenance, an actual neural transform, task-specific production QA, artifact provenance and rollback. Only after that separate evidence exists may the FFmpeg profile become runtime-promotion eligible; global FA3 promotion still remains behind the 143-capability Evidence Registry and 19-point acceptance gate.
+
+## Structural co-development rule
+
+Every FA3 structural behavior change must be evaluated against Current Host in the same development changeset. The fail-closed policy is `FA3-CURRENT-HOST-STRUCTURAL-CHANGE-POLICY-001` and is enforced by `src/fa3_current_host_structural_impact_gate.py`.
+
+A structural change must either:
+
+- provide a `RECONCILED` Current Host impact record with the changed Current Host companion surfaces and an explicit physical requalification requirement; or
+- provide a justified `NO_RUNTIME_IMPACT` record when the change genuinely cannot alter runtime/evidence behavior.
+
+Historical Current Host evidence is immutable and cannot be inherited as proof for a structurally changed active release.

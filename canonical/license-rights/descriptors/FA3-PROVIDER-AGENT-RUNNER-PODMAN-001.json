@@ -1,0 +1,55 @@
+{
+  "schema": "fa3.license-rights-descriptor.v1",
+  "subject": {
+    "id": "FA3-PROVIDER-AGENT-RUNNER-PODMAN-001",
+    "type": "CODE"
+  },
+  "source": {
+    "locator": "canonical/providers/FA3-PROVIDER-AGENT-RUNNER-PODMAN-001.json",
+    "revision": "7c320638f021fd2783975d13e42af993dfae40e0"
+  },
+  "license": {
+    "declared": "Apache-2.0",
+    "detected": [
+      "Apache-2.0"
+    ],
+    "concluded": "Apache-2.0",
+    "effective": "Apache-2.0",
+    "scope": "FA3_NATIVE_PROVIDER_RECORD_ADAPTER_AND_POLICY_IMPLEMENTATION_ONLY"
+  },
+  "rights": {
+    "modification_allowed": true,
+    "redistribution_allowed": true,
+    "commercial_use_allowed": true,
+    "output_usage_rights": null,
+    "implementation_classification": "FA3_NATIVE_REIMPLEMENTATION",
+    "external_runtime_dependencies": [
+      "PODMAN_HOST_RUNTIME"
+    ],
+    "external_runtime_rights_separate": true,
+    "external_runtime_bundled": false,
+    "podman_name_usage": "NOMINATIVE_RUNTIME_IDENTIFIER_ONLY"
+  },
+  "obligations": {
+    "attribution_required": true,
+    "source_offer_required": false,
+    "entitlement_required": false,
+    "entitlement_reference": null,
+    "unresolved": []
+  },
+  "disposition": "ALLOW_WITH_OBLIGATIONS",
+  "evidence": [
+    "LICENSE",
+    "NOTICE",
+    "canonical/license-rights/provenance/FA3-AGENT-RUNNERS-001.json",
+    "canonical/providers/FA3-PROVIDER-AGENT-RUNNER-PODMAN-001.json",
+    "canonical/references/FA3-GOOGLE-AX-UPSTREAM-REFERENCE-2026-09-24.json",
+    "canonical/decisions/FA3-DEC-AGENT-WORKLOAD-RUNTIME-AX-DERIVED-2026-09-24.json",
+    "canonical/profiles/FA3-AGENT-WORKLOAD-RUNTIME-001.json",
+    "src/fa3_agent_workload.py",
+    "src/fa3_provider_runtime.py",
+    "evidence/collect-runtime-isolation-sandbox-current-host.py",
+    "evidence/collect-provider-runtime-current-host.py",
+    "podman-container-tools/podman@a91da8a40219588bce9320ba1e56af6382465a85 LICENSE blob 9b259bdfcf9022e7f4999a318ab7261300644e11"
+  ]
+}

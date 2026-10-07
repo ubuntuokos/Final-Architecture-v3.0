@@ -1,0 +1,68 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-EMBEDDING-FABRIC-APPLICATION-INTENT-001",
+  "project_id": "FA3-EMBEDDING-FABRIC-001",
+  "project_type": "PROFILE",
+  "goal": "Provide provider-neutral embedding execution, representation, retrieval interoperability and embedding-space migration while reusing existing FA3 model, inference, knowledge, security and evidence authorities.",
+  "required_capabilities": [
+    "fa3.document.retrieve"
+  ],
+  "optional_capabilities": [
+    "fa3.document.index",
+    "fa3.memory.retrieve",
+    "fa3.decision.rank"
+  ],
+  "problem_classes": [
+    "embedding",
+    "semantic-search",
+    "hybrid-retrieval",
+    "reranking",
+    "model-portability",
+    "space-migration",
+    "browser-semantic-find"
+  ],
+  "input_modalities": [
+    "TEXT",
+    "IMAGE",
+    "AUDIO",
+    "VIDEO"
+  ],
+  "output_modalities": [
+    "VECTOR",
+    "SPARSE_VECTOR",
+    "MULTI_VECTOR",
+    "RANKED_CANDIDATES"
+  ],
+  "execution_classes": [
+    "CPU_ONLY",
+    "OPTIONAL_ACCELERATOR"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "EMBEDDING_SPACE_IDENTITY",
+    "EMBEDDING_REPRESENTATION_POLICY",
+    "EMBEDDING_MIGRATION_STATE_MACHINE",
+    "PROVIDER_NEUTRAL_EMBEDDING_EXECUTION_CONTRACT"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-embedding",
+    "service_prefix": "fa3-embedding",
+    "config_root": "$XDG_CONFIG_HOME/fa3/embedding",
+    "cache_root": "$XDG_CACHE_HOME/fa3/embedding",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/embedding",
+    "socket_namespace": "fa3/embedding",
+    "data_root": "$XDG_DATA_HOME/fa3/embedding",
+    "desktop_prefix": "org.fa3.embedding",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  }
+}

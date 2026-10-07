@@ -1,0 +1,77 @@
+{
+  "id": "FA3-REFERENCE-CLI-ANYTHING-001",
+  "title": "CLI-Anything Agent-Native Application Control Reference Source",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "class": "EXTERNAL_REFERENCE",
+  "priority": "P1",
+  "requirement": "SHOULD_CONSULT",
+  "scope": [
+    "agent-native-application-control",
+    "gui-to-cli",
+    "cli-harness",
+    "application-automation",
+    "mcp-backend",
+    "skill-discovery",
+    "json-contracts",
+    "repl",
+    "preview",
+    "live-preview",
+    "trajectory",
+    "state-management",
+    "real-backend-e2e",
+    "artifact-validation",
+    "security-patterns",
+    "desktop-automation",
+    "media-production",
+    "dcc"
+  ],
+  "source": {
+    "controlled_fork": "https://github.com/ubuntuokos/CLI-Anything",
+    "upstream": "https://github.com/HKUDS/CLI-Anything",
+    "last_reviewed_revision": "810c18b0d1ab9b234bc996c9fd999318523a3ef0",
+    "pinned_revision": "810c18b0d1ab9b234bc996c9fd999318523a3ef0"
+  },
+  "authority": {
+    "canonical": "NONE",
+    "execution": "NONE",
+    "security": "NONE",
+    "admission": "NONE",
+    "resource": "NONE"
+  },
+  "dependency": {
+    "build": false,
+    "runtime": false,
+    "git_submodule": false
+  },
+  "import_policy": {
+    "automatic_import": "FORBIDDEN",
+    "copy_paste_adoption": "FORBIDDEN",
+    "manual_pattern_adaptation": "ALLOWED_AFTER_FA3_REVIEW",
+    "generated_harness_execution": "REQUIRES_EXPLICIT_PROVIDER_MATERIALIZATION"
+  },
+  "consult_policy": {
+    "mode": "SHOULD_CONSULT",
+    "trigger_domains": [
+      "agent-to-application control",
+      "GUI application automation",
+      "CLI harness design",
+      "MCP backend design",
+      "SKILL or capability contracts",
+      "preview/live-preview/trajectory mechanisms",
+      "stateful application automation",
+      "real-backend end-to-end validation"
+    ],
+    "outcome": "Reference findings MAY inform an FA3-native design but MUST NOT override canonical FA3 contracts, security, admission, HRB, SCS, conformance, or evidence requirements."
+  },
+  "promotion_rule": {
+    "provider_id": "FA3-PROVIDER-CLI-ANYTHING-001",
+    "provider_created_only_if": "FA3 actually executes a CLI-Anything component or generated harness as a runtime integration",
+    "provider_authority": "NONE"
+  },
+  "documentation": {
+    "capability_index": "docs/references/cli-anything/CAPABILITY-INDEX.md",
+    "adoption_rules": "docs/references/cli-anything/ADOPTION-RULES.md",
+    "revision_pin": "docs/references/cli-anything/PINNED-REVISION"
+  }
+}

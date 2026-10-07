@@ -1,11 +1,22 @@
 {
-  "schema": "fa3.model-manager-current-host-enforcement.v1",
+  "schema": "fa3.model-manager-current-host-enforcement.v2",
   "gate_id": "FA3-GATE-MODEL-MANAGER-CURRENT-HOST-001",
   "conformance_id": "FA3-MODEL-MANAGER-RUNTIME-CONFORMANCE-001",
   "profile_id": "FA3-MODEL-MANAGER-001",
   "fail_closed": true,
   "evidence_level": "CURRENT_HOST_MODEL_PROVIDER_E2E_PASS",
-  "provider_requirements": {
+  "pass_semantics": "AT_LEAST_ONE_REAL_LOCAL_SERVING_RUNTIME_PASS",
+  "provider_independence": {
+    "optional_provider_absence_blocks_other_provider_admission": false,
+    "provider_pass_is_attributed": true,
+    "provider_failure_must_be_explicit": true,
+    "combined_pass_does_not_imply_all_providers_pass": true
+  },
+  "serving_provider_ids": [
+    "FA3-PROVIDER-LM-STUDIO-MODEL-001",
+    "FA3-PROVIDER-OLLAMA-MODEL-001"
+  ],
+  "provider_requirements_when_claiming_pass": {
     "FA3-PROVIDER-HF-MODEL-STORE-001": [
       "REAL_LOCAL_CACHE_ROOT",
       "IMMUTABLE_COMMIT_SNAPSHOT",
@@ -35,7 +46,8 @@
     "FLOATING_REMOTE_MODEL_ADMISSION",
     "GPU_EXECUTION_WITHOUT_HRB",
     "CURRENT_HOST_PASS_FROM_CI_ONLY",
-    "PROVIDER_AUTHORITY_ESCALATION"
+    "PROVIDER_AUTHORITY_ESCALATION",
+    "OPTIONAL_PROVIDER_ABSENCE_CAUSING_FALSE_GLOBAL_FAILURE"
   ],
   "current_host_runtime_promotion_claim": false
 }

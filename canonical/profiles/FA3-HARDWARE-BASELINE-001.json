@@ -2,15 +2,18 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-HARDWARE-BASELINE-001",
   "name": "Portable Hardware Baseline & Dynamic Topology Admission Profile",
-  "version": "1.0.0",
+  "version": "1.6.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
   "canonical_root": false,
-  "relationship": {"type": "SUBPROFILE-OF", "parent": "FA3-HW-001"},
+  "relationship": {
+    "type": "SUBPROFILE-OF",
+    "parent": "FA3-HW-001"
+  },
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "contracts": [
     "FA3-HW-CONTRACTS-001",
     "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
@@ -32,40 +35,192 @@
       "model_pin": "FORBIDDEN",
       "fixed_socket_count": "FORBIDDEN"
     },
-    "gpu": {
-      "qualifying_device_count_min": 1,
+    "accelerator": {
+      "qualifying_device_count_min": 0,
       "qualifying_device_count_max": "UNBOUNDED_BY_FA3",
-      "vendor_family": "NVIDIA_RTX",
-      "rtx_series_floor": 30,
-      "accepted_series": "RTX_30_SERIES_OR_NEWER",
-      "newer_generations": "MUST_ACCEPT_WHEN_RUNTIME_CAPABILITIES_SATISFY_WORKLOAD",
+      "vendor_pin": "FORBIDDEN",
+      "global_runtime_api_pin": "FORBIDDEN",
+      "global_cuda_compute_capability_floor": "FORBIDDEN",
+      "global_rocm_arch_floor": "FORBIDDEN",
+      "global_level_zero_device_floor": "FORBIDDEN",
+      "workload_runtime_compatibility": "REQUIRED",
+      "provider_capability_negotiation": "REQUIRED",
+      "supported_reference_vendor_families": [
+        "NVIDIA",
+        "AMD",
+        "INTEL"
+      ],
+      "supported_reference_platform_families": [
+        "NVIDIA_DGX"
+      ],
+      "sku_series_admission_authority": false,
+      "product_line_pin": "FORBIDDEN",
       "exact_sku_pin": "FORBIDDEN",
       "vram_size_pin": "FORBIDDEN_AS_GLOBAL_BASELINE",
-      "sm_pin": "FORBIDDEN_AS_GLOBAL_BASELINE",
-      "fixed_device_count": "FORBIDDEN"
+      "architecture_pin": "FORBIDDEN_AS_GLOBAL_BASELINE",
+      "fixed_device_count": "FORBIDDEN",
+      "cpu_only_host_conforms": true,
+      "cpu_only_workload_requires_lease": false,
+      "required_workload_admission": "COMPATIBLE_DISCOVERED_DEVICE_AND_HRB_LEASE"
     }
   },
   "runtime_discovery": {
-    "when": ["BOOT", "SERVICE_ADMISSION", "WORKLOAD_ADMISSION", "TOPOLOGY_CHANGE_OR_REVALIDATION"],
-    "cpu": ["PACKAGE", "PHYSICAL_CORE", "SMT", "CPUSET", "NUMA", "MEMORY_LOCALITY"],
-    "gpu": ["UUID", "PCI_BDF", "RTX_SERIES", "VRAM", "DRIVER", "RUNTIME_CAPABILITY", "HEALTH", "NUMA_LOCALITY"],
-    "pcie": ["TOPOLOGY", "BDF", "LOCALITY"],
-    "cardinality": "ENUMERATE_1_TO_N_NO_STATIC_INDEX_ASSUMPTION"
+    "when": [
+      "BOOT",
+      "SERVICE_ADMISSION",
+      "WORKLOAD_ADMISSION",
+      "TOPOLOGY_CHANGE_OR_REVALIDATION"
+    ],
+    "cpu": [
+      "PACKAGE",
+      "DIE_WHEN_EXPOSED",
+      "CLUSTER_WHEN_EXPOSED",
+      "PHYSICAL_CORE",
+      "LOGICAL_CPU",
+      "SMT_SIBLING_SET",
+      "FULL_CORE_ALLOCATION",
+      "PARTIAL_CORE_ALLOCATION",
+      "CPUSET_EFFECTIVE",
+      "NUMA",
+      "MEMORY_LOCALITY"
+    ],
+    "accelerator": [
+      "DISCOVERY_ID",
+      "STABLE_DEVICE_ID_WHEN_AVAILABLE",
+      "DEVICE_UUID_WHEN_AVAILABLE",
+      "PCI_BDF_WHEN_APPLICABLE",
+      "VENDOR",
+      "VENDOR_ID",
+      "DEVICE_ID",
+      "DEVICE_CLASS",
+      "MEMORY",
+      "KERNEL_DRIVER",
+      "DEVICE_NODES",
+      "BACKEND_DESCRIPTORS",
+      "EXECUTION_PATHS",
+      "HEALTH",
+      "NUMA_LOCALITY"
+    ],
+    "pcie": [
+      "TOPOLOGY",
+      "BDF",
+      "LOCALITY"
+    ],
+    "cpu_cardinality": "ENUMERATE_1_TO_N_NO_STATIC_INDEX_ASSUMPTION",
+    "accelerator_cardinality": "ENUMERATE_0_TO_N_NO_STATIC_INDEX_ASSUMPTION",
+    "backend_classes": [
+      "NATIVE",
+      "PORTABLE",
+      "TRANSLATION"
+    ],
+    "device_presence_implies_backend_usability": false,
+    "unknown_vendor_is_valid_discovery_output": true,
+    "backend_binding_policy": {
+      "available_requires_device_binding": true,
+      "host_unbound_backend_is_discovery_only": true,
+      "host_unbound_backend_may_authorize_admission": false
+    }
   },
   "invariants": [
     "CPU_CARDINALITY_DYNAMIC_1_TO_N",
     "CPU_MINIMUM_ONE_PACKAGE_AND_EIGHT_PHYSICAL_CORES_PER_QUALIFYING_CPU",
-    "GPU_CARDINALITY_DYNAMIC_1_TO_N",
-    "GPU_MINIMUM_NVIDIA_RTX_30_SERIES_OR_NEWER",
-    "NEWER_RTX_GENERATIONS_MUST_NOT_BE_REJECTED_BY_MODEL_PIN",
+    "ACCELERATOR_CARDINALITY_DYNAMIC_0_TO_N",
+    "NO_GLOBAL_ACCELERATOR_PRESENCE_REQUIREMENT",
+    "CPU_ONLY_HOST_AND_WORKLOAD_BASELINE_CONFORMANT",
+    "CPU_ONLY_WORKLOAD_MUST_NOT_REQUEST_ACCELERATOR_LEASE",
+    "ACCELERATOR_REQUIRED_WORKLOAD_REQUIRES_COMPATIBLE_DEVICE_AND_HRB_LEASE",
+    "ACCELERATOR_VENDOR_SKU_OR_SERIES_NAME_MUST_NOT_BE_GLOBAL_ADMISSION_AUTHORITY",
+    "ACCELERATOR_COMPATIBILITY_MUST_BE_DERIVED_FROM_WORKLOAD_AND_PROVIDER_CAPABILITIES",
     "NO_CONCRETE_CPU_VENDOR_MODEL_SOCKET_COUNT_AS_CANONICAL_REQUIREMENT",
-    "NO_CONCRETE_GPU_SKU_VRAM_SM_DEVICE_COUNT_AS_CANONICAL_REQUIREMENT",
-    "NO_STATIC_CPU_ID_NUMA_NODE_PCI_BDF_OR_CUDA_ORDINAL_AS_PORTABLE_PLACEMENT",
+    "NO_CONCRETE_ACCELERATOR_VENDOR_SKU_VRAM_ARCH_DEVICE_COUNT_AS_CANONICAL_REQUIREMENT",
+    "NO_STATIC_CPU_ID_NUMA_NODE_PCI_BDF_OR_RUNTIME_ORDINAL_AS_PORTABLE_PLACEMENT",
     "LIVE_DISCOVERY_AND_REVALIDATION_REQUIRED",
     "CURRENT_HOST_FACTS_ARE_EVIDENCE_ONLY",
     "HRB_REMAINS_EXCLUSIVE_RESOURCE_ADMISSION_AND_PLACEMENT_AUTHORITY",
-    "APPLICATIONS_AND_SERVICES_CONSUME_DISCOVERED_CAPABILITIES_NOT_MACHINE_IDENTITY"
+    "APPLICATIONS_AND_SERVICES_CONSUME_DISCOVERED_CAPABILITIES_NOT_MACHINE_IDENTITY",
+    "LOGICAL_CPU_AND_PHYSICAL_CORE_COUNTS_MUST_BE_DISTINCT",
+    "FULL_AND_PARTIAL_PHYSICAL_CORE_VISIBILITY_MUST_BE_REPRESENTED",
+    "PHYSICAL_ACCELERATOR_PRESENCE_DOES_NOT_IMPLY_COMPUTE_BACKEND_USABILITY",
+    "ACCELERATOR_BACKEND_CLASS_MUST_DISTINGUISH_NATIVE_PORTABLE_AND_TRANSLATION",
+    "UNKNOWN_ACCELERATOR_VENDOR_IS_VALID_DISCOVERY_OUTPUT",
+    "UNBOUND_HOST_BACKEND_DETECTION_MUST_NOT_AUTHORIZE_DEVICE_ADMISSION",
+    "HARDWARE_SAFETY_OVERRIDES_PERFORMANCE_OPTIMIZATION",
+    "FA3_MUST_NOT_SET_HARDWARE_VALUES_OUTSIDE_VENDOR_SUPPORTED_OPERATING_ENVELOPE",
+    "FA3_MUST_NOT_DISABLE_OR_BYPASS_HARDWARE_SAFETY_PROTECTIONS",
+    "UNKNOWN_SAFE_RANGE_MUST_FAIL_CLOSED_WITH_NO_HARDWARE_MUTATION",
+    "EXISTING_USER_HARDWARE_TUNING_MUST_NOT_AUTHORIZE_ESCALATION",
+    "STRONGLY_CUDA_ORIENTED_CAPABILITY_REQUIRES_TARGET_HARDWARE_ALTERNATIVE_ASSESSMENT",
+    "CUDA_ORIENTED_FUNCTIONAL_CORE_MUST_BE_SHARED_LAYER_ONLY",
+    "TARGET_HARDWARE_FUNCTIONAL_REDUCTION_MUST_BE_USER_VISIBLE",
+    "UNAVAILABLE_TARGET_BACKEND_MUST_FAIL_CLOSED_WITHOUT_SILENT_SUBSTITUTION"
   ],
   "current_host_semantics": "EXACT_HOST_TUPLES_ALLOWED_AS_EVIDENCE_ONLY_NOT_PORTABLE_REQUIREMENTS",
-  "implementation_status": "CANONICAL_MATERIALIZED_EXECUTABLE_REPOSITORY_AUDIT_BOUND"
+  "implementation_status": "CANONICAL_MATERIALIZED_EXECUTABLE_REPOSITORY_AUDIT_BOUND",
+  "hardware_safety_envelope": {
+    "policy": "MANDATORY_FAIL_CLOSED",
+    "precedence": "HARDWARE_SAFETY_OVERRIDES_PERFORMANCE_OPTIMIZATION",
+    "applies_to": [
+      "FA3_RUNTIME",
+      "INSTALLER",
+      "PROVISIONING",
+      "TUNING",
+      "BENCHMARK",
+      "AUTOMATION",
+      "AGENT_ACTIONS"
+    ],
+    "permitted_mutation_basis": "ATTRIBUTABLE_DEVICE_IDENTITY_PLUS_VENDOR_SUPPORTED_RANGE_EVIDENCE_PLUS_POLICY_ADMISSION",
+    "vendor_supported_operating_envelope_required": true,
+    "unknown_safe_range": "NO_MUTATION_FAIL_CLOSED",
+    "existing_user_tuning": "DOES_NOT_AUTHORIZE_ESCALATION",
+    "forbidden": [
+      "OUT_OF_VENDOR_SUPPORTED_RANGE",
+      "OVERVOLT",
+      "OUT_OF_POLICY_OVERCLOCK",
+      "UNSAFE_POWER_LIMIT",
+      "THERMAL_PROTECTION_BYPASS",
+      "CURRENT_PROTECTION_BYPASS",
+      "FAN_SAFETY_BYPASS",
+      "FIRMWARE_SAFETY_BYPASS"
+    ],
+    "installer_override": false,
+    "expert_mode_override": false,
+    "user_override_bypass": false
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "cuda_portability_shared_function_policy": {
+    "policy_id": "FA3-CUDA-PORTABILITY-SHARED-FUNCTION-POLICY-001",
+    "decision_id": "FA3-DEC-CUDA-PORTABILITY-SHARED-FUNCTION-2026-10-04",
+    "applies_to_product_families": [
+      "FA3",
+      "CFA3"
+    ],
+    "applies_to_development_process": true,
+    "trigger": "STRONGLY_CUDA_ORIENTED",
+    "target_hardware_assessment_required": true,
+    "reference_vendor_families": [
+      "NVIDIA",
+      "AMD",
+      "INTEL"
+    ],
+    "allowed_result_states": [
+      "FULL_EQUIVALENCE",
+      "FUNCTIONALLY_REDUCED",
+      "UNAVAILABLE"
+    ],
+    "function_core_placement": "SHARED_LAYER_ONLY",
+    "application_local_core": "FORBIDDEN",
+    "application_local_allowed": [
+      "UI_INTEGRATION",
+      "WORKFLOW_ADAPTER",
+      "APPLICATION_CONTEXT",
+      "PRESENTATION",
+      "LIMITATION_DISCLOSURE"
+    ],
+    "reduced_functionality_disclosure": "MANDATORY_USER_VISIBLE",
+    "unavailable_behavior": "FAIL_CLOSED_DISABLED_OR_UNAVAILABLE",
+    "silent_backend_substitution": false,
+    "hrb_binding_required": true,
+    "hardware_safety_precedence": true
+  }
 }

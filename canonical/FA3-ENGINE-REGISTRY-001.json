@@ -1,0 +1,441 @@
+{
+  "schema": "fa3.engine-registry.v1",
+  "id": "FA3-ENGINE-REGISTRY-001",
+  "status": "CANONICAL_DERIVED_SELECTION_CATALOG",
+  "authority": false,
+  "source_of_execution_truth": false,
+  "capability_count": 175,
+  "default_engine": null,
+  "default_fallback_mode": "OFF",
+  "selection_is_execution_authority": false,
+  "model_router_authority": "FA3-AUTH-MODEL-ROUTER-001",
+  "hrb_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+  "secret_authority": "FA3-AUTH-SECRETS-001",
+  "scopes": [
+    "GLOBAL",
+    "PRODUCT_FAMILY",
+    "APPLICATION",
+    "WORKSPACE",
+    "PROJECT",
+    "SEQUENCE",
+    "SCENE",
+    "TRACK",
+    "CLIP",
+    "NODE",
+    "TASK"
+  ],
+  "compatibility_grades": [
+    "NATIVE",
+    "LOSSLESS",
+    "ADAPTED",
+    "BAKE_REQUIRED",
+    "PARTIAL",
+    "UNSUPPORTED"
+  ],
+  "health_states": [
+    "READY",
+    "AVAILABLE_CONDITIONAL",
+    "NOT_INSTALLED",
+    "DISABLED",
+    "CURRENT_HOST_NOT_ADMITTED",
+    "MISSING_MODEL",
+    "MISSING_CREDENTIAL",
+    "HARDWARE_UNAVAILABLE",
+    "LICENSE_BLOCKED",
+    "SECURITY_BLOCKED",
+    "NETWORK_BLOCKED",
+    "PROVIDER_UNAVAILABLE",
+    "VERSION_MISMATCH",
+    "UPDATE_AVAILABLE",
+    "REFERENCE_ONLY",
+    "PLANNED"
+  ],
+  "engine_classes": [
+    "EDITORIAL",
+    "MEDIA_COMPOSITION",
+    "TRANSCODE",
+    "VIDEO_GENERATION",
+    "VIDEO_REFINEMENT",
+    "DIGITAL_HUMAN",
+    "LIP_SYNC",
+    "PORTRAIT_ANIMATION",
+    "BODY_ANIMATION",
+    "VOICE",
+    "STT",
+    "AUDIO_PROCESSING",
+    "DUBBING",
+    "TRANSLATION",
+    "IMAGE_GENERATION",
+    "COMPOSITING",
+    "DCC_3D",
+    "RENDER",
+    "NEURAL_RENDER",
+    "STREAMING",
+    "CUSTOM",
+    "RAY_TRACING",
+    "PATH_TRACING"
+  ],
+  "provider_projection_rules": [
+    {
+      "source": "canonical/profiles/FA3-KDENLIVE-EDITORIAL-001.json",
+      "pointer": "provider",
+      "engine_classes": [
+        "EDITORIAL"
+      ],
+      "execution_mode_default": [
+        "LOCAL"
+      ],
+      "require_provider_record": true
+    },
+    {
+      "source": "canonical/profiles/FA3-NEURAL-MEDIA-EXECUTION-001.json",
+      "pointer": "reference_providers",
+      "engine_classes": [
+        "TRANSCODE",
+        "MEDIA_COMPOSITION",
+        "NEURAL_RENDER"
+      ],
+      "execution_mode_default": [
+        "LOCAL"
+      ],
+      "require_provider_record": true
+    },
+    {
+      "source": "canonical/profiles/FA3-VIDEO-001.json",
+      "pointer": "providers",
+      "engine_classes": [
+        "VIDEO_GENERATION"
+      ],
+      "execution_mode_default": [
+        "UNSPECIFIED"
+      ],
+      "require_provider_record": true,
+      "provider_model_selection_authority": "FA3-AUTH-MODEL-ROUTER-001"
+    }
+  ],
+  "engine_records": [
+    {
+      "engine_id": "FA3-ENGINE-MLT-001",
+      "name": "MLT",
+      "implementation_kind": "UPSTREAM_BASE_ENGINE",
+      "engine_classes": [
+        "EDITORIAL",
+        "MEDIA_COMPOSITION"
+      ],
+      "capability_projection": [
+        "CAP-121",
+        "CAP-126"
+      ],
+      "execution_modes": [
+        "LOCAL"
+      ],
+      "status": "PRESERVED_PARALLEL_OPTION_RUNTIME_ADMISSION_SEPARATE",
+      "health_state": "AVAILABLE_CONDITIONAL",
+      "architectural_authority": false,
+      "permanent_parallel_option": true,
+      "replacement_target": false,
+      "runtime_binding": "TYPED_VERSIONED_KDENLIVE_MLT_SURFACE_WHEN_CAPABILITY_DISCOVERED",
+      "provider_record": null,
+      "current_host_runtime_promotion_claim": false
+    },
+    {
+      "engine_id": "FA3-ENGINE-KDENLIVE-001",
+      "name": "Kdenlive",
+      "implementation_kind": "CANONICAL_PROVIDER",
+      "engine_classes": [
+        "EDITORIAL"
+      ],
+      "capability_projection": [
+        "CAP-121",
+        "CAP-126"
+      ],
+      "execution_modes": [
+        "LOCAL"
+      ],
+      "status": "CANONICAL_PROVIDER_PROJECTION",
+      "health_state": "AVAILABLE_CONDITIONAL",
+      "architectural_authority": false,
+      "provider_record": "FA3-PROVIDER-KDENLIVE-001",
+      "permanent_parallel_option": true,
+      "current_host_runtime_promotion_claim": false
+    },
+    {
+      "engine_id": "FA3-ENGINE-FFMPEG-001",
+      "name": "FFmpeg",
+      "implementation_kind": "CANONICAL_PROVIDER",
+      "engine_classes": [
+        "TRANSCODE",
+        "MEDIA_COMPOSITION",
+        "RENDER"
+      ],
+      "capability_projection": [
+        "CAP-005",
+        "CAP-006",
+        "CAP-016",
+        "CAP-121",
+        "CAP-126",
+        "CAP-137"
+      ],
+      "execution_modes": [
+        "LOCAL"
+      ],
+      "status": "CANONICAL_PROVIDER_RUNTIME_EVIDENCE_GATED",
+      "health_state": "CURRENT_HOST_NOT_ADMITTED",
+      "architectural_authority": false,
+      "provider_record": "FA3-PROVIDER-FFMPEG-001",
+      "permanent_parallel_option": true,
+      "current_host_runtime_promotion_claim": false
+    },
+    {
+      "engine_id": "FA3-ENGINE-FA3-MEDIA-COMPOSITION-NATIVE-001",
+      "name": "FA3 Native Media Composition Engine",
+      "implementation_kind": "FA3_NATIVE_ENGINE",
+      "engine_classes": [
+        "EDITORIAL",
+        "MEDIA_COMPOSITION",
+        "COMPOSITING",
+        "RENDER"
+      ],
+      "capability_projection": [
+        "CAP-121",
+        "CAP-126",
+        "CAP-161"
+      ],
+      "execution_modes": [
+        "LOCAL",
+        "LAN"
+      ],
+      "status": "STATIC_CONTRACT_MATERIALIZED_RUNTIME_IMPLEMENTATION_PENDING",
+      "health_state": "PLANNED",
+      "architectural_authority": false,
+      "permanent_parallel_option": true,
+      "replaces_engine_ids": [],
+      "current_host_runtime_promotion_claim": false
+    },
+    {
+      "engine_id": "FA3-ENGINE-FA3-MOTION-VIDEO-001",
+      "name": "FA3 Motion & Video Generation Fabric",
+      "implementation_kind": "FA3_NATIVE_SHARED_FABRIC",
+      "engine_classes": [
+        "VIDEO_GENERATION"
+      ],
+      "capability_projection": [
+        "CAP-159",
+        "CAP-160"
+      ],
+      "execution_modes": [
+        "LOCAL",
+        "LAN",
+        "REMOTE",
+        "CLOUD"
+      ],
+      "status": "STATIC_MATERIALIZED_PROVIDER_MODEL_EXECUTION_GATED",
+      "health_state": "AVAILABLE_CONDITIONAL",
+      "architectural_authority": false,
+      "provider_record": null,
+      "model_router_bound": true,
+      "current_host_runtime_promotion_claim": false
+    },
+    {
+      "engine_id": "FA3-ENGINE-FA3-VIDEO-REFINEMENT-001",
+      "name": "FA3 Video Refinement Fabric",
+      "implementation_kind": "FA3_NATIVE_SHARED_FABRIC",
+      "engine_classes": [
+        "VIDEO_REFINEMENT",
+        "NEURAL_RENDER"
+      ],
+      "capability_projection": [
+        "CAP-159",
+        "CAP-160",
+        "CAP-163"
+      ],
+      "execution_modes": [
+        "LOCAL",
+        "LAN",
+        "REMOTE"
+      ],
+      "status": "STATIC_MATERIALIZED_RUNTIME_REQUALIFICATION_SEPARATE",
+      "health_state": "AVAILABLE_CONDITIONAL",
+      "architectural_authority": false,
+      "model_router_bound": true,
+      "current_host_runtime_promotion_claim": false
+    },
+    {
+      "engine_id": "FA3-ENGINE-FA3-DIGITAL-HUMAN-NATIVE-001",
+      "name": "FA3 Native Digital Human Engine",
+      "implementation_kind": "FA3_NATIVE_ENGINE",
+      "engine_classes": [
+        "DIGITAL_HUMAN",
+        "LIP_SYNC",
+        "PORTRAIT_ANIMATION",
+        "BODY_ANIMATION"
+      ],
+      "capability_projection": [
+        "CAP-043",
+        "CAP-159",
+        "CAP-160",
+        "CAP-164"
+      ],
+      "execution_modes": [
+        "LOCAL",
+        "LAN",
+        "REMOTE",
+        "CLOUD"
+      ],
+      "status": "STATIC_ENGINE_RECORD_MATERIALIZED_RUNTIME_IMPLEMENTATION_PENDING",
+      "health_state": "PLANNED",
+      "architectural_authority": false,
+      "model_router_bound": true,
+      "permanent_parallel_option": true,
+      "external_provider_alternatives_allowed": true,
+      "current_host_runtime_promotion_claim": false
+    },
+    {
+      "engine_id": "FA3-ENGINE-FA3-RAY-PATH-TRACING-001",
+      "name": "CFA3 Shared Ray/Path Tracing Fabric",
+      "implementation_kind": "FA3_NATIVE_SHARED_FABRIC",
+      "engine_classes": [
+        "RAY_TRACING",
+        "PATH_TRACING",
+        "RENDER"
+      ],
+      "capability_projection": [
+        "CAP-025",
+        "CAP-083",
+        "CAP-127",
+        "CAP-161",
+        "CAP-163"
+      ],
+      "execution_modes": [
+        "LOCAL",
+        "LAN"
+      ],
+      "status": "STATIC_SHARED_FABRIC_MATERIALIZED_RUNTIME_BACKEND_ADMISSION_SEPARATE",
+      "health_state": "AVAILABLE_CONDITIONAL",
+      "architectural_authority": false,
+      "provider_record": null,
+      "permanent_parallel_option": true,
+      "hrb_bound": true,
+      "engine_selection_bound": true,
+      "model_router_bound_when_neural_denoise": true,
+      "cpu_software_path_required": true,
+      "gpu_vendor_paths": [
+        "NVIDIA",
+        "AMD",
+        "INTEL"
+      ],
+      "automatic_backend_selection": false,
+      "silent_fallback": false,
+      "current_host_runtime_promotion_claim": false
+    },
+    {
+      "engine_id": "FA3-ENGINE-FA3-NEURAL-RECONSTRUCTION-001",
+      "name": "CFA3 Neural Rendering & Reconstruction Fabric",
+      "implementation_kind": "FA3_NATIVE_SHARED_FABRIC",
+      "engine_classes": [
+        "NEURAL_RENDER",
+        "RENDER"
+      ],
+      "capability_projection": [
+        "CAP-127",
+        "CAP-161",
+        "CAP-162",
+        "CAP-163"
+      ],
+      "execution_modes": [
+        "LOCAL",
+        "LAN",
+        "REMOTE",
+        "BROWSER"
+      ],
+      "status": "STATIC_SHARED_FABRIC_MATERIALIZED_RUNTIME_PROVIDER_ADMISSION_SEPARATE",
+      "health_state": "AVAILABLE_CONDITIONAL",
+      "architectural_authority": false,
+      "provider_record": null,
+      "permanent_parallel_option": true,
+      "hrb_bound": true,
+      "engine_selection_bound": true,
+      "model_router_bound_when_model_backed": true,
+      "provider_selection_authority": false,
+      "cpu_software_path_required": true,
+      "feature_classes": [
+        "NEURAL_RENDER",
+        "SUPER_RESOLUTION",
+        "NATIVE_RESOLUTION_AA",
+        "RAY_RECONSTRUCTION",
+        "DENOISE",
+        "TEMPORAL_RECONSTRUCTION",
+        "FRAME_GENERATION",
+        "LOW_LATENCY_PRESENTATION"
+      ],
+      "automatic_backend_selection": false,
+      "silent_fallback": false,
+      "current_host_runtime_promotion_claim": false
+    }
+  ],
+  "custom_engine_policy": {
+    "allowed": true,
+    "plugin_extension_fabric_required": true,
+    "manifest_does_not_grant_admission": true,
+    "required_metadata": [
+      "capabilities",
+      "execution_modes",
+      "license",
+      "security",
+      "hardware",
+      "health_probe",
+      "failure_semantics"
+    ]
+  },
+  "selectable_health_states": [
+    "READY",
+    "AVAILABLE_CONDITIONAL"
+  ],
+  "provider_capability_fields": [
+    "capability_projection",
+    "capability_bindings",
+    "capabilities"
+  ],
+  "provider_execution_mode_fields": [
+    "execution_modes",
+    "execution_topologies",
+    "classification"
+  ],
+  "provider_projection_missing_required_record": "FAIL_CLOSED",
+  "provider_projection_deduplication": "EXPLICIT_PROVIDER_RECORD_WINS_BY_PROVIDER_RECORD_ID",
+  "compatibility_projection": {
+    "materialized": true,
+    "deterministic_grades": [
+      "NATIVE",
+      "PARTIAL",
+      "UNSUPPORTED"
+    ],
+    "evidence_required_for": [
+      "LOSSLESS",
+      "ADAPTED",
+      "BAKE_REQUIRED"
+    ],
+    "runtime_eligibility_separate": true
+  },
+  "scope_precedence": [
+    "GLOBAL",
+    "PRODUCT_FAMILY",
+    "APPLICATION",
+    "WORKSPACE",
+    "PROJECT",
+    "SEQUENCE",
+    "SCENE",
+    "TRACK",
+    "CLIP",
+    "NODE",
+    "TASK"
+  ],
+  "product_family_scope": {
+    "registry_id": "FA3-PRODUCT-FAMILY-REGISTRY-001",
+    "target_id_must_be_registered_family": true,
+    "context_only": true,
+    "execution_authority": false,
+    "permission_grant": false,
+    "fallback_grant": false
+  }
+}

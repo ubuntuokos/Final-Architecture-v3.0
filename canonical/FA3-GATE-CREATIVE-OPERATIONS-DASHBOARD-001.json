@@ -1,0 +1,11 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-CREATIVE-OPERATIONS-DASHBOARD-001",
+  "gateset": "FA3-CREATIVE-OPERATIONS-DASHBOARD-GATESET-001",
+  "status": "CANONICAL",
+  "fail_closed": true,
+  "command": "./bin/fa3-enforce creative-operations-dashboard",
+  "tests": "PYTHONPATH=src python -m unittest tests.test_creative_operations_dashboard_gate -v",
+  "reference_evidence": "evidence/reference/creative-operations-dashboard-ci-2026-09-26.json",
+  "current_host_runtime_promotion": false
+}

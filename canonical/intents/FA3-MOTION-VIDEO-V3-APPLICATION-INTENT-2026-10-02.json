@@ -1,0 +1,83 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-MOTION-VIDEO-V3-APPLICATION-INTENT-2026-10-02",
+  "project_id": "FA3-MOTION-VIDEO-GENERATION-FABRIC-001",
+  "project_type": "MATERIAL_EXTENSION",
+  "goal": "Materialize the shared Motion & Video Generation Fabric v3 with provider-neutral execution and a separate provider-neutral video refinement stage while retaining MiniMax H3 only as an explicitly admitted conditional reference provider.",
+  "required_capabilities": [
+    "CAP-159",
+    "CAP-160"
+  ],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "VIDEO_GENERATION_PROVIDER_INTERCHANGE",
+    "VIDEO_REFINEMENT",
+    "MULTI_ACCELERATOR_EXECUTION",
+    "LOCAL_REMOTE_HYBRID_EXECUTION"
+  ],
+  "input_modalities": [
+    "TEXT",
+    "IMAGE",
+    "VIDEO",
+    "AUDIO",
+    "REFERENCE_ASSET",
+    "VIDEO_GENERATION_IR"
+  ],
+  "output_modalities": [
+    "VIDEO",
+    "VIDEO_AUDIO",
+    "FRAMES",
+    "LATENTS",
+    "REFINED_VIDEO"
+  ],
+  "execution_classes": [
+    "CPU_ONLY",
+    "LOCAL_ACCELERATOR",
+    "MULTI_ACCELERATOR",
+    "DISTRIBUTED",
+    "REMOTE_PROVIDER",
+    "HYBRID"
+  ],
+  "data_classes": [
+    "CREATIVE_MEDIA",
+    "MODEL_ARTIFACT_REFERENCE",
+    "PROVENANCE"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hrb_exclusive_resource_authority": true,
+    "display_gpu_automatic_ai_use": false
+  },
+  "namespace_claims": {
+    "namespaced": true,
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "security_requirements": [
+    "LICENSE_AND_RIGHTS_FAIL_CLOSED",
+    "MODEL_ROUTER_EXCLUSIVE_PROVIDER_MODEL_REFINER_SELECTION",
+    "HRB_EXCLUSIVE_PHYSICAL_RESOURCE_ADMISSION",
+    "NO_SILENT_PROVIDER_MODEL_DEVICE_BACKEND_OR_CLOUD_FALLBACK",
+    "PHYSICAL_CURRENT_HOST_EVIDENCE_REQUIRED_BEFORE_RUNTIME_PROMOTION"
+  ],
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-VIDEO-001",
+    "FA3-MMG-CONTEXT-IR-001",
+    "FA3-WORKLOAD-MODE-CONTRACTS-001",
+    "FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001"
+  ],
+  "task_classes": [
+    "video-generation",
+    "video-refinement",
+    "provider-routing",
+    "resource-admission"
+  ]
+}

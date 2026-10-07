@@ -11,13 +11,13 @@
   ],
   "parent_profile": "FA3-INFERENCE-PORTABILITY-001",
   "upstream_repository": "openvinotoolkit/openvino",
-  "upstream_snapshot_commit": "71a64cffaf01cdd66610b1ffc7fe817dd4aa6924",
-  "observed_release": "2026.3.1",
+  "upstream_snapshot_commit": "99c81491cc302313c8937d3533c4fb6458b54e7a",
+  "observed_release": "2026.4.0",
   "canonical_root": false,
   "architectural_authority": false,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "requirement": "MUST-IF-SELECTED",
   "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
   "global_runtime_promotion_required_when_disabled": false,
@@ -48,5 +48,35 @@
     "openvino_ir_to_onnx_general_reverse_conversion": "FORBIDDEN"
   },
   "production_pin_policy": "IMMUTABLE_VALIDATED_VERSION_REQUIRED_AT_ADMISSION",
-  "current_host_production_evidence": "NOT_CLAIMED"
+  "current_host_production_evidence": "NOT_CLAIMED",
+  "latest_reference_id": "FA3-INFERENCE-PORTABILITY-UPSTREAM-REFERENCE-2026-09-23",
+  "hardware_execution_binding": {
+    "cpu": "NO_ACCELERATOR_LEASE_REQUIRED",
+    "intel_gpu_npu": "DEVICE_BOUND_BACKEND_PLUS_HRB_LEASE_REQUIRED",
+    "discovery_contract": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+    "silent_device_or_backend_substitution": false
+  },
+  "current_host_admission": {
+    "framework_id": "FA3-INFERENCE-PROVIDER-CURRENT-HOST-CONFORMANCE-001",
+    "gate_id": "FA3-GATE-INFERENCE-PROVIDER-CURRENT-HOST-001",
+    "aggregate_receipt": "evidence/receipts/inference-provider-current-host.json",
+    "scope_ids": [
+      "CPU",
+      "INTEL_GPU",
+      "INTEL_NPU"
+    ],
+    "default_mode": "DISCOVER_AND_PROVE_WITHOUT_INSTALL",
+    "provider_absence_is_global_failure": false,
+    "direct_probe_scope": "ADMISSION_HARNESS_ONLY_NOT_APPLICATION_PATH",
+    "model_router_candidate_requirement": "SCOPE_BOUND_ADMITTED_RECEIPT_DIGEST_REQUIRED",
+    "automatic_install": false,
+    "network_model_fetch": false,
+    "global_promotion_claim": false,
+    "runtime_probe_descriptor": "EXPLICIT_OR_DEFAULT_RUNNER_ENVIRONMENT",
+    "default_probe_scope": "CURRENT_RUNNER_PYTHON_AND_PATH_ONLY",
+    "absence_status": "NOT_PRESENT_IN_PROBE_ENVIRONMENT",
+    "host_wide_absence_claim": false,
+    "automatic_environment_scanning": false
+  },
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

@@ -1,0 +1,53 @@
+name: FA3 SillyTavern KDE
+
+on:
+  push:
+    branches:
+      - "fa3/**"
+    paths:
+      - "canonical/FA3-GATE-SILLYTAVERN-KDE-001.json"
+      - "canonical/sillytavern-kde-enforcement.json"
+      - "canonical/profiles/FA3-SILLYTAVERN-KDE-DESKTOP-001.json"
+      - "canonical/providers/FA3-PROVIDER-SILLYTAVERN-KDE-001.json"
+      - "canonical/contracts/FA3-LOCAL-CONVERSATION-DESKTOP-CONTRACTS-001.json"
+      - "canonical/decisions/FA3-DEC-SILLYTAVERN-KDE-DESKTOP-2026-09-07.json"
+      - "canonical/references/FA3-SILLYTAVERN-UPSTREAM-REFERENCE-2026-09-07.json"
+      - "deployment/sillytavern-kde/**"
+      - "bin/fa3-sillytavern-kde-install-user-integration.sh"
+      - "src/fa3_sillytavern_kde_gate.py"
+      - "tests/test_sillytavern_kde_gate.py"
+      - "docs/sillytavern-kde-integration.md"
+      - "evidence/reference/sillytavern-kde-ci-2026-09-07.json"
+  pull_request:
+    paths:
+      - "canonical/FA3-GATE-SILLYTAVERN-KDE-001.json"
+      - "canonical/sillytavern-kde-enforcement.json"
+      - "canonical/profiles/FA3-SILLYTAVERN-KDE-DESKTOP-001.json"
+      - "canonical/providers/FA3-PROVIDER-SILLYTAVERN-KDE-001.json"
+      - "canonical/contracts/FA3-LOCAL-CONVERSATION-DESKTOP-CONTRACTS-001.json"
+      - "canonical/decisions/FA3-DEC-SILLYTAVERN-KDE-DESKTOP-2026-09-07.json"
+      - "canonical/references/FA3-SILLYTAVERN-UPSTREAM-REFERENCE-2026-09-07.json"
+      - "deployment/sillytavern-kde/**"
+      - "bin/fa3-sillytavern-kde-install-user-integration.sh"
+      - "src/fa3_sillytavern_kde_gate.py"
+      - "tests/test_sillytavern_kde_gate.py"
+      - "docs/sillytavern-kde-integration.md"
+      - "evidence/reference/sillytavern-kde-ci-2026-09-07.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  canonical-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run SillyTavern KDE unit regressions
+        run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_sillytavern_kde_gate.py'
+      - name: Run SillyTavern KDE executable canonical gate
+        run: PYTHONPATH=src python src/fa3_sillytavern_kde_gate.py --root .

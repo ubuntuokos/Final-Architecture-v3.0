@@ -1,0 +1,64 @@
+name: FA3 Ideation-Advisory Canonical Gate
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/FA3-IDEATION-ADVISORY-*.json'
+      - 'canonical/FA3-GATE-IDEATION-ADVISORY-001.json'
+      - 'canonical/ideation-advisory-enforcement.json'
+      - 'canonical/profiles/FA3-IDEATION-ADVISORY-001.json'
+      - 'canonical/contracts/FA3-IDEATION-ADVISORY-CONTRACTS-001.json'
+      - 'canonical/providers/FA3-PROVIDER-IDEATION-ADVISORY-LOCAL-001.json'
+      - 'canonical/decisions/FA3-DEC-IDEATION-ADVISORY-2026-09-12.json'
+      - 'src/fa3_ideation_advisory.py'
+      - 'src/fa3_ideation_advisory_gate.py'
+      - 'tests/test_ideation_advisory_gate.py'
+      - '.github/workflows/fa3-ideation-advisory-gate.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'canonical/FA3-IDEATION-ADVISORY-*.json'
+      - 'canonical/FA3-GATE-IDEATION-ADVISORY-001.json'
+      - 'canonical/ideation-advisory-enforcement.json'
+      - 'canonical/profiles/FA3-IDEATION-ADVISORY-001.json'
+      - 'canonical/contracts/FA3-IDEATION-ADVISORY-CONTRACTS-001.json'
+      - 'canonical/providers/FA3-PROVIDER-IDEATION-ADVISORY-LOCAL-001.json'
+      - 'canonical/decisions/FA3-DEC-IDEATION-ADVISORY-2026-09-12.json'
+      - 'src/fa3_ideation_advisory.py'
+      - 'src/fa3_ideation_advisory_gate.py'
+      - 'tests/test_ideation_advisory_gate.py'
+      - '.github/workflows/fa3-ideation-advisory-gate.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ideation-advisory-canonical:
+    name: ideation-advisory-canonical / P0
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax check
+        run: python -m py_compile src/fa3_ideation_advisory.py src/fa3_ideation_advisory_gate.py tests/test_ideation_advisory_gate.py
+      - name: Ideation-Advisory self-check
+        run: PYTHONPATH=src python src/fa3_ideation_advisory.py --self-check
+      - name: Ideation-Advisory fail-closed canonical gate
+        run: |
+          mkdir -p reports
+          PYTHONPATH=src python src/fa3_ideation_advisory_gate.py | tee reports/ideation-advisory-gate-output.txt
+      - name: Ideation-Advisory regression tests
+        run: PYTHONPATH=src python -m unittest tests.test_ideation_advisory_gate -v
+      - name: Upload Ideation-Advisory gate output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-ideation-advisory-gate-output
+          path: reports/ideation-advisory-gate-output.txt

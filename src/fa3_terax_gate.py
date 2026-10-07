@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import hashlib
+import hmac
 import ipaddress
 import json
 import tempfile
@@ -10,12 +12,14 @@ from pathlib import Path
 from typing import Any
 
 PROVIDER_ID = "FA3-PROVIDER-TERAX-001"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 REFERENCE_RELEASE = "v0.8.6"
 REFERENCE_COMMIT = "1fdbc50e53b3ac53db3ba80057805a2d54258545"
 REFERENCE_TAG_OBJECT = "0165b39c2e52760316aa3202b6acf0f25fad0551"
 LOCAL_CONTROL_REFERENCE_COMMIT = "e9b489c5d50cb9e654fc9a61f901c0eb9f341be3"
 LOCAL_CONTROL_BLOB = "2c997c54be458e146cb35bbfb93351cb04853bcb"
+GHOSTTY_WEBGPU_REFERENCE_COMMIT = "c7f8e6799272ae0b40da94d2702529062923876f"
+HRB_AUTHORITY = "FA3-AUTH-HOST-RESOURCE-BROKER-001"
 
 P0_INVARIANTS = [
     "READ_BEFORE_EDIT",
@@ -42,7 +46,7 @@ RULES = [
     (14, "explicit delegated caller context"),
     (15, "security invariant -> executable regression evidence"),
     (16, "unsupported/unverified path -> fail closed"),
-    (17, "disabled capability -> effectively zero runtime resource cost"),
+    (17, "disabled capability -> effectively zero provider-owned runtime resource cost without probing unrequested accelerator classes"),
 ]
 
 
@@ -143,9 +147,11 @@ def local_control_valid(request: dict[str, Any], *, expected_token: str, granted
     }
     if not required.issubset(request):
         return False
-    if request["protocol_version"] != 1 or request["authorization_token"] != expected_token:
+    if request["protocol_version"] != 1 or not (isinstance(request["authorization_token"], str) and hmac.compare_digest(request["authorization_token"], expected_token)):
         return False
-    if not request["request_id"] or not request["caller_identity"] or not request["target"]:
+    if not all(isinstance(request[k], str) and bool(request[k]) for k in ("request_id", "caller_identity", "method", "target")):
+        return False
+    if not isinstance(request["caller_context"], dict) or not isinstance(request["parameters"], dict):
         return False
     if not isinstance(request["deadline_ms"], int) or request["deadline_ms"] <= 0:
         return False
@@ -175,45 +181,179 @@ def unsupported_disposition(state: str) -> str:
 
 
 def disabled_zero_cost(metrics: dict[str, Any]) -> bool:
-    numeric_zero = (
-        "resident_process_count", "worker_thread_count", "ram_resident_bytes",
-        "gpu_memory_bytes", "network_session_count", "accelerator_reservation_count",
-    )
-    if any(metrics.get(k) != 0 for k in numeric_zero):
+    required_zero = ("resident_process_count", "worker_thread_count", "ram_resident_bytes", "network_session_count")
+    if any(metrics.get(k) != 0 for k in required_zero):
         return False
+    for optional in ("gpu_memory_bytes", "accelerator_reservation_count"):
+        if optional in metrics and metrics.get(optional) not in (None, 0):
+            return False
     return metrics.get("active_polling") is False and metrics.get("background_inference") is False
+
+
+def resource_admission_valid(*, workload_execution_requested: bool, requested_resource_classes: list[str], hrb_authorization_present: bool, accelerator_lease_present: bool) -> bool:
+    classes = {str(x).upper() for x in requested_resource_classes}
+    accelerator_classes = {"ACCELERATOR", "AI_ACCELERATOR", "GPU_COMPUTE", "CUDA", "ROCM", "VULKAN_COMPUTE", "ONEAPI_COMPUTE", "METAL_COMPUTE"}
+    accelerator_requested = bool(classes & accelerator_classes)
+    if not workload_execution_requested:
+        return not classes and not accelerator_lease_present
+    if not classes:
+        return False
+    if not hrb_authorization_present:
+        return False
+    if accelerator_requested and not accelerator_lease_present:
+        return False
+    if not accelerator_requested and accelerator_lease_present:
+        return False
+    return True
+
+
+
+def validate_coexistence_footprint(footprint: dict[str, Any]) -> bool:
+    if footprint.get("schema") != "fa3.coexistence-footprint.v1" or footprint.get("component_id") != PROVIDER_ID:
+        return False
+    if footprint.get("classification") != "PROVIDER_RUNTIME":
+        return False
+    if footprint.get("risk") != "P0":
+        return False
+    if footprint.get("evidence", {}).get("static_status") not in {"PENDING", "PASS"}:
+        return False
+    co = footprint.get("coexistence", {})
+    mandatory_false = ("requires_upstream_uninstall", "global_environment_mutation",
+                       "claims_default_port", "shared_upstream_config_mutation",
+                       "shadow_upstream_executable")
+    if any(co.get(key) is not False for key in mandatory_false):
+        return False
+    if any(co.get(key) != [] for key in ("executables", "services", "sockets", "ports",
+                                       "env_mutations", "desktop_ids", "mime_types")):
+        return False
+    if co.get("dynamic_local_control_endpoint_required_when_enabled") is not True:
+        return False
+    hardware = footprint.get("hardware_audit", {})
+    if not (hardware.get("vendor_neutral") is True and hardware.get("cpu_only_viable") is True
+            and hardware.get("accelerator_cardinality") == "0..N"
+            and hardware.get("disabled_reference_gpu_probe") is False
+            and hardware.get("display_gpu_is_not_ai_compute_lease") is True):
+        return False
+    evidence = footprint.get("evidence", {})
+    if evidence.get("runtime_promotion_claim") is not False:
+        return False
+    if evidence.get("current_host_status") != "PENDING_CURRENT_HOST":
+        return False
+    return True
+
+
+def coexistence_static_check(root: Path) -> dict[str, Any]:
+    path = root / "canonical/coexistence/footprints/FA3-PROVIDER-TERAX-001.json"
+    if not path.is_file():
+        return {"result": "FAIL", "findings": [_finding("TERAX-COEX-001", "Missing Terax coexistence footprint")]}
+    try:
+        footprint = _load(path)
+    except (ValueError, OSError) as exc:
+        return {"result": "FAIL", "findings": [_finding("TERAX-COEX-002", f"Unreadable Terax coexistence footprint: {exc}")]}
+    if not validate_coexistence_footprint(footprint):
+        return {"result": "FAIL", "findings": [_finding("TERAX-COEX-003", "Terax footprint may collide with upstream, claim unverified current-host evidence, or violate hardware boundaries")]}
+    return {"result": "PASS", "findings": [], "physical_current_host_pass_claim": False}
+
+
+def approved_change_binding_valid(read: dict[str, Any], proposal: dict[str, Any],
+                                  approval: dict[str, Any], current: dict[str, Any],
+                                  *, now_epoch: int) -> bool:
+    """Reference-contract validator: does NOT itself perform a race-free filesystem mutation."""
+    keys = ("artifact_id", "artifact_version", "workspace_id", "resolved_path")
+    if any(not read.get(k) or read.get(k) != proposal.get(k) or read.get(k) != current.get(k)
+           for k in keys):
+        return False
+    if any(not proposal.get(k) or proposal.get(k) != approval.get(k)
+           for k in ("artifact_id", "artifact_version", "workspace_id", "resolved_path",
+                     "caller_identity", "diff_sha256")):
+        return False
+    if not isinstance(proposal.get("diff_sha256"), str) or len(proposal["diff_sha256"]) != 64:
+        return False
+    if not isinstance(proposal.get("diff_text"), str) or hashlib.sha256(proposal["diff_text"].encode("utf-8")).hexdigest() != proposal["diff_sha256"]:
+        return False
+    if not isinstance(approval.get("expires_at_epoch"), int) or approval["expires_at_epoch"] <= now_epoch:
+        return False
+    return (approval.get("decision") == "ALLOW" and approval.get("authorized") is True
+            and isinstance(approval.get("evidence_ref"), str) and bool(approval["evidence_ref"]))
 
 
 def reference_check(root: Path) -> dict[str, Any]:
     findings: list[dict[str, Any]] = []
-    policy_path = root / "canonical/terax-enforcement.json"
-    provider_path = root / "canonical/providers/FA3-PROVIDER-TERAX-001.json"
-    evidence_path = root / "evidence/reference/terax-v0.8.6.json"
-    for path, code in ((policy_path, "TERAX-REF-001"), (provider_path, "TERAX-REF-002"), (evidence_path, "TERAX-REF-003")):
-        if not path.exists():
-            findings.append(_finding(code, f"Missing required Terax canonical artifact: {path.relative_to(root)}"))
+    paths = {
+        "policy": root / "canonical/terax-enforcement.json",
+        "provider": root / "canonical/providers/FA3-PROVIDER-TERAX-001.json",
+        "evidence": root / "evidence/reference/terax-v0.8.6.json",
+        "resource": root / "canonical/FA3-RESOURCE-ADMISSION-CONTRACTS-001.json",
+        "hardware_safety": root / "canonical/decisions/FA3-DEC-HARDWARE-SAFETY-2026-09-26.json",
+        "host_adaptation": root / "canonical/profiles/FA3-HOST-ADAPTATION-001.json",
+        "donor_registry": root / "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+        "intent": root / "canonical/intents/FA3-TERAX-APPLICATION-INTENT-2026-09-28.json",
+        "reuse_assessment": root / "canonical/assessments/FA3-TERAX-REUSE-ASSESSMENT-2026-09-28.json",
+        "decision": root / "canonical/decisions/FA3-DEC-TERAX-RECONCILIATION-2026-09-28.json",
+        "active_baseline": root / "canonical/FA3-RELEASE-CAPABILITY-BASELINE-001.json",
+    }
+    for name, path in paths.items():
+        if not path.is_file():
+            findings.append(_finding("TERAX-REF-001", f"Missing mandatory reference: {name}:{path.relative_to(root)}"))
     if findings:
         return {"result": "FAIL", "findings": findings}
-
-    policy, provider, evidence = _load(policy_path), _load(provider_path), _load(evidence_path)
-    if policy.get("provider_id") != PROVIDER_ID or policy.get("mandatory_rule_count") != 17:
-        findings.append(_finding("TERAX-REF-004", "Terax enforcement rule/provider invariant mismatch"))
+    policy, provider, evidence, resource = (_load(paths[k]) for k in ("policy", "provider", "evidence", "resource"))
+    safety, host, donors, intent, reuse, decision, baseline = (_load(paths[k]) for k in
+        ("hardware_safety", "host_adaptation", "donor_registry", "intent", "reuse_assessment", "decision", "active_baseline"))
+    count = baseline.get("current_release_capability_count")
+    if baseline.get("current_release") != "2026-09-26/v3.1.0" or count != 175 or count != CAPABILITY_COUNT:
+        findings.append(_finding("TERAX-REF-002", "Terax must match active release-scoped 175 baseline"))
+    if policy.get("schema") != "fa3.terax-enforcement.v2" or policy.get("provider_id") != PROVIDER_ID or policy.get("mandatory_rule_count") != 17 or len(policy.get("rules", [])) != 17:
+        findings.append(_finding("TERAX-REF-004", "Terax 17-rule enforcement drift"))
     if policy.get("p0_invariants") != P0_INVARIANTS:
-        findings.append(_finding("TERAX-REF-005", "Terax P0 invariant set drift"))
-    if policy.get("floating_main_allowed_as_promotion_evidence") is not False:
-        findings.append(_finding("TERAX-REF-006", "Floating main was enabled as Terax promotion evidence"))
+        findings.append(_finding("TERAX-REF-005", "Five P0 invariants drift"))
+    if policy.get("floating_main_allowed_as_promotion_evidence") is not False or evidence.get("floating_main_allowed") is not False:
+        findings.append(_finding("TERAX-REF-006", "Floating Git branch must not be promotion evidence"))
     if provider.get("id") != PROVIDER_ID or provider.get("capability_count") != CAPABILITY_COUNT:
-        findings.append(_finding("TERAX-REF-007", "Terax provider identity/capability-count invariant mismatch"))
-    if any(provider.get(k) is not False for k in ("canonical_root", "architectural_authority", "new_capability")):
-        findings.append(_finding("TERAX-REF-008", "Terax provider was promoted to forbidden authority/root/capability"))
+        findings.append(_finding("TERAX-REF-007", "Provider baseline identity drift"))
+    if any(provider.get(k) is not False for k in ("canonical_root", "architectural_authority", "new_capability", "global_promotion_claim")):
+        findings.append(_finding("TERAX-REF-008", "Terax must not claim authority, capability or global promotion"))
+    ev = provider.get("current_host_evidence", {})
+    if "may_promote_any_of_143_capabilities" in ev or ev.get("may_promote_any_of_175_capabilities") is not False or ev.get("baseline_capability_obligations") != 525:
+        findings.append(_finding("TERAX-EVID-003", "Legacy 143 or active 175/525 evidence guard drift"))
     stable = evidence.get("stable_reference", {})
     if stable.get("release") != REFERENCE_RELEASE or stable.get("commit_sha") != REFERENCE_COMMIT or stable.get("tag_object_sha") != REFERENCE_TAG_OBJECT:
-        findings.append(_finding("TERAX-REF-009", "Stable Terax immutable reference drift"))
+        findings.append(_finding("TERAX-REF-009", "Immutable release identity drift"))
     lc = evidence.get("local_control_reference", {})
     if lc.get("commit_sha") != LOCAL_CONTROL_REFERENCE_COMMIT or lc.get("blob_sha") != LOCAL_CONTROL_BLOB:
-        findings.append(_finding("TERAX-REF-010", "Terax local-control immutable reference drift"))
-    if evidence.get("floating_main_allowed") is not False:
-        findings.append(_finding("TERAX-REF-011", "Terax evidence permits floating main"))
+        findings.append(_finding("TERAX-REF-010", "Immutable local-control reference identity drift"))
+    refs = evidence.get("post_release_pattern_references", [])
+    if not any(x.get("commit_sha") == GHOSTTY_WEBGPU_REFERENCE_COMMIT and x.get("classification") == "EXACT_COMMIT_PATTERN_REFERENCE_NON_PROMOTING" for x in refs):
+        findings.append(_finding("TERAX-REF-012", "WebGPU post-release pattern must be exact-commit non-promoting"))
+    donor_id = "FA3-DONOR-CRYNTA-TERAX-AI-001"
+    matches = [row for row in donors.get("entries", []) if row.get("source", {}).get("normalized_key") == "github:crynta/terax-ai"]
+    if len(matches) != 1 or matches[0].get("donor_id") != donor_id or matches[0].get("automatic_activation") is not False:
+        findings.append(_finding("TERAX-DONOR-001", "Terax donor must be unique and non-activating"))
+    if provider.get("donor_registry_id") != donor_id or reuse.get("donor_registry_id") != donor_id or intent.get("id") != provider.get("application_intent"):
+        findings.append(_finding("TERAX-DONOR-002", "Provider/intent/reuse donor linkage drift"))
+    if intent.get("declared_new_capabilities") != [] or reuse.get("new_capabilities") != 0 or reuse.get("new_architectural_authorities") != 0:
+        findings.append(_finding("TERAX-DONOR-003", "Reuse must not create capability or authority"))
+    if safety.get("id") != "FA3-DEC-HARDWARE-SAFETY-2026-09-26" or safety.get("enforcement", {}).get("bypass") is not None and safety.get("enforcement", {}).get("bypass") is not False:
+        findings.append(_finding("TERAX-HW-001", "Mandatory Hardware Safety Envelope missing"))
+    ha = provider.get("hardware_audit", {})
+    if ha.get("vendor_neutral") is not True or ha.get("cpu_only_viable") is not True or ha.get("accelerator_cardinality") != "0..N" or ha.get("gpu_discovery_for_disabled_reference") is not False or ha.get("hrb_admission_for_enabled_workload") is not True or ha.get("accelerator_lease_only_if_workload_requests_accelerator") is not True:
+        findings.append(_finding("TERAX-HW-002", "Provider hardware classification drift"))
+    if host.get("accelerator_rules", {}).get("display_owner_is_not_compute_assignment") is not True or host.get("accelerator_rules", {}).get("cpu_only_host") != "VALID_BASELINE":
+        findings.append(_finding("TERAX-HW-003", "Host adaptation CPU/display boundary drift"))
+    if resource.get("authoritative_admission_authority") != HRB_AUTHORITY or resource.get("provider_self_admission_forbidden") is not True:
+        findings.append(_finding("TERAX-HW-004", "HRB authority drift"))
+    adm, core = resource.get("admission_semantics", {}), resource.get("provider_neutral_core", {})
+    if not all(adm.get(k) is True for k in ("workload_driven_resource_classes", "accelerator_required_only_when_requested_by_workload", "cpu_only_workload_must_not_require_accelerator_discovery_or_accelerator_lease")):
+        findings.append(_finding("TERAX-HW-005", "Workload-driven resource admission drift"))
+    if core.get("global_nvidia_cuda_requirement_for_generic_resource_admission") is not False:
+        findings.append(_finding("TERAX-HW-006", "Generic hardware floor must remain vendor-neutral"))
+    ch = policy.get("current_host_semantics", {})
+    if ch.get("provider_receipt_substitution_allowed") is not False or ch.get("global_promotion_claim_allowed") is not False or ch.get("disabled_reference_requires_gpu_telemetry") is not False:
+        findings.append(_finding("TERAX-EVID-001", "Terax auxiliary receipt boundary drift"))
+    if decision.get("active_capability_count") != 175 or decision.get("authority_delta") != 0 or decision.get("capability_delta") != 0:
+        findings.append(_finding("TERAX-EVID-002", "Reconciliation decision count drift"))
+    coexistence = coexistence_static_check(root)
+    findings.extend(coexistence["findings"])
     return {"result": "PASS" if not findings else "FAIL", "findings": findings}
 
 
@@ -224,7 +364,6 @@ def run_regressions() -> dict[str, Any]:
         cases.append({"rule_id": rule_id, "name": name, "status": "PASS" if passed and negative_passed else "FAIL", "positive_case": passed, "negative_case": negative_passed, "detail": detail})
 
     add(1, boundary_first_allowed(native_boundary=True, authorized=True), not boundary_first_allowed(native_boundary=False, authorized=True), "native boundary is mandatory")
-
     with tempfile.TemporaryDirectory() as td:
         base = Path(td)
         workspace = base / "workspace"; workspace.mkdir()
@@ -233,7 +372,6 @@ def run_regressions() -> dict[str, Any]:
         link = workspace / "link"; link.symlink_to(secret)
         add(2, workspace_authorized(workspace, inside), not workspace_authorized(workspace, outside / "x"), "workspace root is explicit")
         add(7, workspace_authorized(workspace, inside), not workspace_authorized(workspace, link), "resolved symlink cannot escape workspace")
-
     add(3, capability_scoped({"read", "edit"}, {"read"}), not capability_scoped({"read"}, {"read", "shell"}), "requested capabilities must be subset of grant")
     add(4, mutation_authorized("ASK_HUMAN", True), not mutation_authorized("ASK_HUMAN", False), "ASK_HUMAN cannot silently become ALLOW")
     add(5, read_before_edit(read_seen=True, read_version="v1", current_version="v1"), not read_before_edit(read_seen=True, read_version="v1", current_version="v2"), "stale read is rejected")
@@ -242,67 +380,91 @@ def run_regressions() -> dict[str, Any]:
     add(9, provider_projection_valid("FA3-AUTH-MODEL-ROUTER-001"), not provider_projection_valid("TERAX"), "Terax cannot become model-routing authority")
     add(10, project_instruction_valid("UNTRUSTED_SCOPED_PROJECT_CONTEXT", False), not project_instruction_valid("TRUSTED_POLICY", True), "project instructions cannot override policy")
     add(11, subagent_narrowed({"read", "grep"}, {"read"}), not subagent_narrowed({"read"}, {"read", "shell"}), "child capability set cannot widen")
-    budget = {"max_steps": 20, "max_tool_calls": 40, "max_wall_time": 300, "max_processes": 4}
-    add(12, execution_budget_valid(budget), not execution_budget_valid({"max_steps": 0, "max_tool_calls": 1, "max_wall_time": 1, "max_processes": 1}), "agent execution is bounded")
+    budget = {"max_steps":20,"max_tool_calls":40,"max_wall_time":300,"max_processes":4}
+    add(12, execution_budget_valid(budget), not execution_budget_valid({"max_steps":0,"max_tool_calls":1,"max_wall_time":1,"max_processes":1}), "agent execution is bounded")
     req = {"protocol_version":1,"request_id":"r1","caller_identity":"agent","caller_context":{"workspace":"w1"},"method":"open","parameters":{},"capability_scope":["ui.open"],"authorization_token":"token","target":"pane-1","deadline_ms":1000}
-    add(13, local_control_valid(req, expected_token="token", granted={"ui.open"}), not local_control_valid({**req, "authorization_token":"bad"}, expected_token="token", granted={"ui.open"}), "local control is typed, bounded and authenticated")
+    add(13, local_control_valid(req, expected_token="token", granted={"ui.open"}), not local_control_valid({**req,"authorization_token":"bad"}, expected_token="token", granted={"ui.open"}), "local control is typed, bounded and authenticated")
     now = 1_800_000_000
     ctx = {"caller_identity":"a","parent_execution_id":"p","workspace_id":"w","allowed_capabilities":["read"],"expires_at_epoch":now+10,"policy_ref":"POL-1","evidence_chain":["E1"]}
     add(14, delegation_valid(ctx, now), not delegation_valid({**ctx,"expires_at_epoch":now-1}, now), "delegation context expires and is explicit")
     ev = [{"id":"T1","executable":True,"status":"PASS"}]
     add(15, invariant_evidence_valid(ev), not invariant_evidence_valid([{"id":"T1","executable":False,"status":"PASS"}]), "documentation-only evidence is rejected")
     add(16, unsupported_disposition("SUPPORTED") == "ALLOW", unsupported_disposition("UNVERIFIED") == "DENY", "unsupported/unverified states fail closed")
-    zero = {"resident_process_count":0,"worker_thread_count":0,"ram_resident_bytes":0,"gpu_memory_bytes":0,"network_session_count":0,"accelerator_reservation_count":0,"active_polling":False,"background_inference":False}
-    add(17, disabled_zero_cost(zero), not disabled_zero_cost({**zero,"resident_process_count":1}), "disabled provider has effectively zero runtime cost")
-
+    zero = {"resident_process_count":0,"worker_thread_count":0,"ram_resident_bytes":0,"network_session_count":0,"active_polling":False,"background_inference":False}
+    add(17, disabled_zero_cost(zero), not disabled_zero_cost({**zero,"resident_process_count":1}), "disabled provider has zero provider-owned runtime cost without requiring an accelerator probe")
     passed = sum(x["status"] == "PASS" for x in cases)
-    return {"schema":"fa3.terax-regression-report.v1","result":"PASS" if passed == 17 else "FAIL","passed":passed,"total":17,"cases":cases}
+    return {"schema":"fa3.terax-regression-report.v2","result":"PASS" if passed == 17 else "FAIL","passed":passed,"total":17,"cases":cases}
+
+
+def run_hardware_regressions() -> dict[str, Any]:
+    cases = {
+        "disabled_reference_no_accelerator_probe": resource_admission_valid(workload_execution_requested=False, requested_resource_classes=[], hrb_authorization_present=False, accelerator_lease_present=False),
+        "cpu_only_requires_hrb_but_not_accelerator_lease": resource_admission_valid(workload_execution_requested=True, requested_resource_classes=["CPU"], hrb_authorization_present=True, accelerator_lease_present=False),
+        "cpu_only_without_hrb_rejected": not resource_admission_valid(workload_execution_requested=True, requested_resource_classes=["CPU"], hrb_authorization_present=False, accelerator_lease_present=False),
+        "accelerator_workload_with_hrb_lease": resource_admission_valid(workload_execution_requested=True, requested_resource_classes=["CPU","ACCELERATOR"], hrb_authorization_present=True, accelerator_lease_present=True),
+        "accelerator_workload_without_lease_rejected": not resource_admission_valid(workload_execution_requested=True, requested_resource_classes=["ACCELERATOR"], hrb_authorization_present=True, accelerator_lease_present=False),
+        "ui_display_renderer_does_not_force_compute_lease": resource_admission_valid(workload_execution_requested=True, requested_resource_classes=["CPU","DISPLAY_RENDERER"], hrb_authorization_present=True, accelerator_lease_present=False),
+    }
+    passed = sum(bool(v) for v in cases.values())
+    return {"schema":"fa3.terax-hardware-regression-report.v1","result":"PASS" if passed == len(cases) else "FAIL","passed":passed,"total":len(cases),"cases":cases}
 
 
 def current_host_check(root: Path) -> dict[str, Any]:
     p = root / "evidence/receipts/terax-current-host.json"
     if not p.exists():
-        return {"result":"FAIL","findings":[_finding("TERAX-HOST-001","Missing current-host Terax receipt")],"receipt":None}
+        return {"result":"NOT_PRESENT_OPTIONAL","findings":[],"receipt":None,"promotion_effect":"NONE"}
     try:
         receipt = _load(p)
     except Exception as exc:
-        return {"result":"FAIL","findings":[_finding("TERAX-HOST-002",f"Unreadable current-host Terax receipt: {exc}")],"receipt":None}
+        return {"result":"FAIL","findings":[_finding("TERAX-HOST-002",f"Unreadable auxiliary Terax receipt: {exc}")],"receipt":None,"promotion_effect":"NONE"}
     findings: list[dict[str, Any]] = []
-    if receipt.get("schema") != "fa3.terax-current-host.v1" or receipt.get("provider_id") != PROVIDER_ID:
-        findings.append(_finding("TERAX-HOST-003","Current-host receipt schema/provider mismatch"))
+    if receipt.get("schema") != "fa3.terax-current-host.v2" or receipt.get("provider_id") != PROVIDER_ID:
+        findings.append(_finding("TERAX-HOST-003","Auxiliary Terax receipt schema/provider mismatch"))
     if receipt.get("host_scope") != "CURRENT_HOST" or receipt.get("provider_state") != "DISABLED_REFERENCE_ONLY":
-        findings.append(_finding("TERAX-HOST-004","Terax current-host receipt is not explicit disabled-reference current-host evidence"))
-    if receipt.get("status") != "PASS":
-        findings.append(_finding("TERAX-HOST-005","Terax current-host receipt is not PASS",status=receipt.get("status")))
-    metrics = receipt.get("metrics", {})
-    if not disabled_zero_cost(metrics):
-        findings.append(_finding("TERAX-HOST-006","Disabled Terax provider consumed runtime resources",metrics=metrics))
-    if receipt.get("gpu_telemetry") != "AVAILABLE":
-        findings.append(_finding("TERAX-HOST-007","GPU telemetry unavailable; zero-VRAM claim cannot be current-host PASS"))
+        findings.append(_finding("TERAX-HOST-004","Terax receipt is not explicit disabled-reference current-host evidence"))
+    if receipt.get("status") != "OBSERVATIONAL_ONLY" or receipt.get("physical_attestation") is not False:
+        findings.append(_finding("TERAX-HOST-005","Terax process-name snapshot may only claim OBSERVATIONAL_ONLY, never physical PASS",status=receipt.get("status")))
+    if not disabled_zero_cost(receipt.get("metrics", {})):
+        findings.append(_finding("TERAX-HOST-006","Disabled Terax provider consumed observed provider-owned runtime resources",metrics=receipt.get("metrics", {})))
+    if receipt.get("workload_execution_requested") is not False or receipt.get("requested_resource_classes") != []:
+        findings.append(_finding("TERAX-HOST-007","Disabled-reference receipt incorrectly claims a workload/resource class"))
+    if receipt.get("accelerator_discovery_performed") is not False or receipt.get("accelerator_lease_required") is not False:
+        findings.append(_finding("TERAX-HOST-008","Disabled-reference receipt incorrectly performed/required accelerator admission"))
+    if receipt.get("gpu_telemetry") != "NOT_APPLICABLE_NO_ACCELERATOR_RESOURCE_CLASS":
+        findings.append(_finding("TERAX-HOST-009","Disabled-reference receipt must mark GPU telemetry not applicable rather than probing NVIDIA/CUDA"))
+    if receipt.get("provider_receipt_substitution_allowed") is not False or receipt.get("capability_promotion_claim") is not False or receipt.get("global_promotion_claim") is not False:
+        findings.append(_finding("TERAX-HOST-010","Terax auxiliary receipt attempted capability/global promotion substitution"))
     expires_at = receipt.get("expires_at")
     try:
         if not expires_at or datetime.fromisoformat(expires_at.replace("Z", "+00:00")) <= datetime.now(timezone.utc):
-            findings.append(_finding("TERAX-HOST-008","Terax current-host receipt expired or has no expiry"))
+            findings.append(_finding("TERAX-HOST-011","Terax auxiliary receipt expired or has no expiry"))
     except ValueError:
-        findings.append(_finding("TERAX-HOST-009","Invalid Terax current-host receipt expiry"))
-    return {"result":"PASS" if not findings else "FAIL","findings":findings,"receipt":receipt}
+        findings.append(_finding("TERAX-HOST-012","Invalid Terax auxiliary receipt expiry"))
+    return {"result":"OBSERVATIONAL_ONLY" if not findings else "FAIL","findings":findings,"receipt":receipt,"promotion_effect":"NONE","physical_current_host_claim":False}
 
 
 def gate(root: Path, *, require_current_host: bool = True) -> dict[str, Any]:
     reference = reference_check(root)
     regressions = run_regressions()
-    host = current_host_check(root) if require_current_host else {"result":"NOT_REQUIRED_IN_CI","findings":[],"receipt":None}
-    ok = reference["result"] == "PASS" and regressions["result"] == "PASS" and (not require_current_host or host["result"] == "PASS")
+    hardware = run_hardware_regressions()
+    coexistence = coexistence_static_check(root)
+    host = current_host_check(root) if require_current_host else {"result":"NOT_REQUIRED_IN_CI","findings":[],"receipt":None,"promotion_effect":"NONE"}
+    ok = reference["result"] == "PASS" and regressions["result"] == "PASS" and hardware["result"] == "PASS" and coexistence["result"] == "PASS" and (not require_current_host or host["result"] in {"PASS", "NOT_PRESENT_OPTIONAL", "OBSERVATIONAL_ONLY"})
     report = {
-        "schema":"fa3.terax-gate-report.v1",
+        "schema":"fa3.terax-gate-report.v2",
         "provider_id":PROVIDER_ID,
         "capability_count":CAPABILITY_COUNT,
         "result":"PASS" if ok else "FAIL",
-        "mode":"CURRENT_HOST" if require_current_host else "CI_REFERENCE_ONLY",
+        "mode":"REFERENCE_PLUS_AUXILIARY_CURRENT_HOST" if require_current_host else "CI_REFERENCE_ONLY",
         "reference":reference,
         "regressions":regressions,
+        "hardware_regressions":hardware,
+        "coexistence_static":coexistence,
         "current_host":host,
-        "promotion_effect":"REQUIRED_PASS" if require_current_host else "CI_REFERENCE_EVIDENCE_ONLY",
+        "current_host_is_global_promotion_requirement":False,
+        "provider_receipt_substitution_allowed":False,
+        "promotion_effect":"MANDATORY_REFERENCE_GATE_ONLY_NO_CAPABILITY_OR_GLOBAL_RUNTIME_PROMOTION",
+        "physical_current_host_pass_claim":False,
     }
     _write(root / "reports/terax-gate-report.json", report)
     return report

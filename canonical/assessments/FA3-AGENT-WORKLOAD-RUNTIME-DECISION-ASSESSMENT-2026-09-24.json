@@ -1,0 +1,51 @@
+{
+  "schema": "fa3.decision-fabric-assessment.v1",
+  "project_id": "FA3-AGENT-WORKLOAD-RUNTIME-2026-09-24",
+  "covered_ids": [
+    "FA3-AGENT-WORKLOAD-RUNTIME-001",
+    "FA3-PROVIDER-AGENT-RUNNER-NATIVE-001",
+    "FA3-PROVIDER-AGENT-RUNNER-PODMAN-001",
+    "FA3-PROVIDER-GOOGLE-AX-001",
+    "FA3-GOOGLE-AX-UPSTREAM-REFERENCE-2026-09-24"
+  ],
+  "assessment": "RECOMMENDED",
+  "rationale": "Runtime admission, authorization, resource leasing and sandbox minima are deterministic fail-closed operations. Decision Fabric may only advise ranking inside the exact already-eligible runner set.",
+  "decision_points": [
+    {
+      "id": "agent-workload-runner-advisory-ranking",
+      "purpose": "advise ranking among runners that already passed deterministic capability, policy and runtime-admission filters",
+      "contract": "SELECT_ONE",
+      "candidate_source": "FA3-AGENT-RUNTIME-PROVIDER-REGISTRY-001 deterministic eligible runner set",
+      "final_policy_owner": "FA3-UNIFIED-ACTION-FABRIC-001 with FA3-AUTH-SECURITY-GOV-001 and FA3-AUTH-HOST-RESOURCE-BROKER-001 boundaries",
+      "failure_policy": "EXISTING_BEHAVIOR"
+    }
+  ],
+  "not_delegated": [
+    "authorization",
+    "provider admission",
+    "runtime promotion",
+    "HRB admission or lease",
+    "network egress authorization",
+    "model routing",
+    "tool authorization",
+    "checkpoint compatibility hard gate",
+    "sandbox minimum",
+    "candidate-set expansion"
+  ],
+  "project_radar_checked": true,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "global_accelerator_requirement": false
+  },
+  "security_boundary": {
+    "may_grant_permission": false,
+    "may_expand_candidate_set": false,
+    "may_create_agent": false,
+    "may_admit_model": false,
+    "may_admit_provider": false
+  },
+  "shadow_mode_required": true,
+  "capability_delta": 0,
+  "authority_delta": 0
+}

@@ -1,0 +1,65 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-NVDIFFRAST-001",
+  "name": "NVlabs/nvdiffrast",
+  "status": "REFERENCE_RESEARCH_ONLY_NOT_PRODUCTION_ADMITTED",
+  "provider_role": "LOW_LEVEL_DIFFERENTIABLE_RASTERIZATION_REFERENCE_BACKEND",
+  "classification": [
+    "SPECIALIZED_RASTER_BACKEND",
+    "PYTORCH_CUDA_EXTENSION",
+    "NON_COMMERCIAL_LICENSE_RESTRICTED",
+    "REFERENCE_RESEARCH_ONLY",
+    "NOT_CAP032_GLOBAL_HARD_DEPENDENCY"
+  ],
+  "profile_ids": [
+    "FA3-DIFFERENTIABLE-3D-001"
+  ],
+  "contract_ids": [
+    "FA3-DIFFERENTIABLE-3D-CONTRACTS-001"
+  ],
+  "capability_bindings": [
+    "CAP-032"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "upstream": {
+    "repository": "NVlabs/nvdiffrast",
+    "verified_on": "2026-09-19",
+    "package_version": "0.4.0",
+    "license": "NVIDIA Source Code License (1-Way Commercial)",
+    "license_use_limitation": "NON_COMMERCIAL_RESEARCH_OR_EVALUATION_ONLY_FOR_NON_NVIDIA_USERS",
+    "current_docs_recommend_pytorch": "2.7+",
+    "cuda_toolkit_must_match_pytorch": true
+  },
+  "capability_surface": [
+    "differentiable_rasterization",
+    "attribute_interpolation",
+    "texture_sampling",
+    "antialiasing"
+  ],
+  "activation": {
+    "production_admitted": false,
+    "commercial_workflow_admitted": false,
+    "research_or_evaluation_only": true,
+    "separate_license_required_for_commercial_use": true,
+    "global_current_host_hard_dependency": false,
+    "runtime_network_fetch": false
+  },
+  "authority_boundaries": {
+    "geometry_semantics": false,
+    "dcc_scene_and_final_asset": false,
+    "workflow": false,
+    "host_resource": false,
+    "device_routing": false,
+    "security": false,
+    "evidence": false
+  },
+  "production_policy": {
+    "role": "NOT_PRODUCTION_BASELINE",
+    "may_be_used_as_kaolin_backend_only_when_license_policy_allows": true,
+    "global_promotion_claim": false
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "schema": "fa3.decision-fabric-assessment.v1",
+  "project_id": "FA3-CAPTION-SUBTITLE-DECISION-ADOPTION-2026-09-25",
+  "covered_ids": [
+    "FA3-CAPTION-SUBTITLE-001"
+  ],
+  "assessment": "RECOMMENDED",
+  "rationale": "Caption, subtitle and narration parsing, validation, timing hard limits, UAF authorization, provider admission, Model Router selection and HRB resource admission remain deterministic authorities. Decision Fabric may only provide bounded advisory ranking among already-eligible editorial or workflow alternatives where human review or multiple policy-valid choices exist.",
+  "decision_points": [
+    {
+      "id": "caption-editorial-advisory-ranking",
+      "purpose": "rank already-eligible caption repair, translation or editorial alternatives without rewriting source text or expanding the candidate set",
+      "contract": "SELECT_ONE_OR_ESCALATE",
+      "candidate_source": "FA3-CAPTION-SUBTITLE-001 deterministic policy-valid candidate set",
+      "final_policy_owner": "FA3-CAPTION-SUBTITLE-001 with FA3-UNIFIED-ACTION-FABRIC-001 and human editorial approval",
+      "failure_policy": "EXISTING_BEHAVIOR"
+    },
+    {
+      "id": "narration-planning-advisory-ranking",
+      "purpose": "rank already-eligible narration planning alternatives while voice provider/model selection remains outside Decision Fabric",
+      "contract": "RANK_ONLY",
+      "candidate_source": "FA3-CAPTION-SUBTITLE-001 narration planner after deterministic constraints",
+      "final_policy_owner": "FA3-VOICE-001 and FA3-AUTH-MODEL-ROUTER-001 with human approval where required",
+      "failure_policy": "EXISTING_BEHAVIOR"
+    }
+  ],
+  "not_delegated": [
+    "authorization",
+    "provider admission",
+    "provider selection",
+    "model routing",
+    "HRB admission or lease",
+    "voice authority",
+    "STT authority",
+    "tool authorization",
+    "source subtitle text mutation",
+    "candidate-set expansion",
+    "runtime promotion"
+  ],
+  "project_radar_checked": true,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "global_accelerator_requirement": false
+  },
+  "security_boundary": {
+    "may_grant_permission": false,
+    "may_expand_candidate_set": false,
+    "may_create_agent": false,
+    "may_admit_model": false,
+    "may_admit_provider": false
+  },
+  "shadow_mode_required": true,
+  "capability_delta": 0,
+  "authority_delta": 0
+}

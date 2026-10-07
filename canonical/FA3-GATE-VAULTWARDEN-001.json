@@ -1,0 +1,21 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-VAULTWARDEN-001",
+  "gateset_id": "FA3-VAULTWARDEN-GATESET-001",
+  "provider_id": "FA3-PROVIDER-VAULTWARDEN-001",
+  "profile_id": "FA3-SCS-001",
+  "contract_id": "FA3-HUMAN-CREDENTIAL-VAULT-CONTRACTS-001",
+  "priority": "P0",
+  "fail_closed": true,
+  "rule_count": 23,
+  "executable": "PYTHONPATH=src python src/fa3_vaultwarden_gate.py",
+  "reference_evidence": "evidence/reference/vaultwarden-reference-pass.json",
+  "current_host_runtime_required_for_reference_pass": false,
+  "current_host_runtime_required_for_runtime_promotion": true,
+  "production_digest_required_for_runtime_promotion": true,
+  "client_compatibility_required_for_runtime_promotion": true,
+  "restore_drill_required_for_runtime_promotion": true,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143
+}

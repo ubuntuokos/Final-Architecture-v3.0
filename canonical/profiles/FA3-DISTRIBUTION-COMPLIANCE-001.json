@@ -1,0 +1,39 @@
+{
+  "schema": "fa3.profile.v1",
+  "id": "FA3-DISTRIBUTION-COMPLIANCE-001",
+  "title": "Commercial Distribution, Redistribution & Third-Party Compliance Fabric",
+  "version": "1.0.0",
+  "priority": "P0",
+  "requirement": "MUST",
+  "status": "CANONICAL",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "role": "CROSS_CUTTING_COMPLIANCE_PROJECTION_NOT_LICENSE_AUTHORITY",
+  "contract_id": "FA3-DISTRIBUTION-COMPLIANCE-CONTRACTS-001",
+  "distribution_classes": [
+    "FA3_NATIVE",
+    "EXTERNAL_REDISTRIBUTABLE",
+    "USER_LOCAL_EXTERNAL",
+    "REFERENCE_ONLY",
+    "BLOCKED"
+  ],
+  "authority_bindings": {
+    "registry": "FA3-REGISTRY-001",
+    "supply_chain": "FA3-SCS-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "invariants": [
+    "DISTRIBUTION_CLASS_REQUIRED_FOR_EXTERNAL_ARTIFACT",
+    "UNKNOWN_REQUIRED_LICENSE_FACT_FAILS_CLOSED",
+    "EXTERNAL_REDISTRIBUTABLE_REQUIRES_EXPLICIT_COMPATIBILITY_ATTESTATION",
+    "REFERENCE_ONLY_AND_USER_LOCAL_EXTERNAL_NEVER_ENTER_PRODUCT_BUNDLE",
+    "BLOCKED_ARTIFACT_NEVER_ENTERS_RUNTIME_OR_PRODUCT_BUNDLE",
+    "DISTRIBUTION_CLASS_DOES_NOT_GRANT_RUNTIME_AUTHORITY",
+    "RELEASE_INCLUSION_IS_SEPARATE_FROM_REDISTRIBUTABILITY",
+    "THIRD_PARTY_OBLIGATIONS_ARE_MACHINE_TRACKED",
+    "CAPABILITY_COUNT_REMAINS_143"
+  ]
+}

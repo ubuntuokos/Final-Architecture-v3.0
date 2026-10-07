@@ -1,0 +1,146 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-SHARED-HAIR-GROOM-REUSE-ASSESSMENT-2026-10-03",
+  "project_id": "FA3-SHARED-HAIR-GROOM-001",
+  "intent_id": "FA3-SHARED-HAIR-GROOM-APPLICATION-INTENT-2026-10-03",
+  "intent_path": "canonical/intents/FA3-SHARED-HAIR-GROOM-APPLICATION-INTENT-2026-10-03.json",
+  "covered_ids": [
+    "FA3-SHARED-HAIR-GROOM-001",
+    "FA3-SHARED-HAIR-GROOM-CONTRACTS-001",
+    "FA3-APPLICATION-DONOR-LINKS-001",
+    "FA3-SHARED-MODULE-PATTERN-CATALOGUE-001"
+  ],
+  "project_status": "OWNER_APPROVED_STATIC_MATERIALIZATION",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "MANDATORY_EXISTING_REUSE_DISCOVERY"
+    },
+    {
+      "id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+      "use": "PUBLISHED_MAIN_DONOR_PLANNING_INPUT_ONLY"
+    },
+    {
+      "id": "FA3-3D-GEOM-001",
+      "use": "SOLE_CANONICAL_GEOMETRY_SEMANTIC_AUTHORITY"
+    },
+    {
+      "id": "FA3-DCC-RT3D-001",
+      "use": "EXISTING_DCC_SCENE_AND_FINAL_ASSET_AUTHORITY"
+    },
+    {
+      "id": "FA3-SHARED-MULTIMODAL-SOURCE-001",
+      "use": "EXISTING_MULTIMODAL_SOURCE_NORMALIZATION"
+    },
+    {
+      "id": "FA3-SHARED-CREATIVE-PROVENANCE-PATTERN-001",
+      "use": "EXISTING_CREATIVE_PROVENANCE_PATTERN"
+    },
+    {
+      "id": "FA3-SHARED-MEDIA-ASSET-FABRIC-PATTERN-001",
+      "use": "EXISTING_SHARED_ASSET_PATTERN"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "AI_PROVIDER_MODEL_ROUTING_AUTHORITY_UNCHANGED"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "RESOURCE_DEVICE_PLACEMENT_AUTHORITY_UNCHANGED"
+    },
+    {
+      "id": "FA3-LICENSE-RIGHTS-001",
+      "use": "RIGHTS_AUTHORITY_UNCHANGED"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "NEW_HAIR_APPLICATION",
+      "reason": "MULTI_APPLICATION_FUNCTION_BELONGS_IN_SHARED_LAYER"
+    },
+    {
+      "id": "HAIR_AS_GEOMETRY_AUTHORITY",
+      "reason": "FA3_3D_GEOM_REMAINS_SOLE_GEOMETRY_SEMANTIC_AUTHORITY"
+    },
+    {
+      "id": "HAIR_AS_DCC_OR_RENDER_AUTHORITY",
+      "reason": "EXISTING_DCC_AND_RENDER_AUTHORITIES_REMAIN_CANONICAL"
+    },
+    {
+      "id": "NEW_CAPABILITY",
+      "reason": "REQUIRED_SCOPE_COMPOSES_EXISTING_CAP_001_TO_CAP_175"
+    },
+    {
+      "id": "PENDING_PR_587_591_597_640_643",
+      "reason": "PENDING_IMPLEMENTATIONS_ARE_NOT_HARD_DEPENDENCIES"
+    }
+  ],
+  "donor_planning_snapshot": {
+    "published_main_commit": "8332a0fd5fadc141f7f4c00db052c5c33c1a9bbd",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "4ac6c46935176c0e2027d771557cdec159e4c2bf",
+    "donor_registry_sha256": "1f62f01fd1249590f3834c5547a9f209c19a33f044f21d3696d4a572b9e79a8e",
+    "donor_registry_entry_count": 1421
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "shared_component_ids": [
+      "FA3-SHARED-HAIR-GROOM-001"
+    ],
+    "retrospective_consumer_impact_reviewed": true,
+    "local_duplicate_created": false,
+    "rationale": "Hair/groom semantics are consumed across Character Studio, DCC, image and video workflows; the functional core is shared and application-local adapters remain projections only."
+  },
+  "pending_or_unmerged_donors_consumed": false,
+  "donor_usage_edges_created": 0,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "implementation_readiness": "READY_FOR_STATIC_MATERIALIZATION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "published_reference_refresh": {
+    "source_pr": 644,
+    "status": "PUBLISHED_MAIN_REFERENCE_INPUT_ONLY",
+    "observed_hair_reference_ids": [
+      "FA3-DONOR-MESHCAPADE-DIFFLOCKS-001",
+      "FA3-DONOR-GITHUB-TOPIC-HAIR-SEGMENTATION-001",
+      "FA3-DONOR-FIGHTING-ZHANG-STRANDDESIGNER-001"
+    ],
+    "material_dependency_created": false,
+    "donor_usage_edge_created": false,
+    "architecture_restart_required": false
+  },
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "MATCHED",
+      "available_candidate_ids": [
+        "FA3-KHRONOS-BINDING:ASSET_GRAPH",
+        "FA3-KHRONOS-BINDING:RENDER_FABRIC",
+        "FA3-KHRONOS-OPEN-STANDARDS-001",
+        "fa3.khronos.gltf-validator",
+        "fa3.khronos.ktx",
+        "fa3.khronos.anari"
+      ],
+      "matched_candidate_ids": [
+        "FA3-KHRONOS-BINDING:ASSET_GRAPH",
+        "FA3-KHRONOS-BINDING:RENDER_FABRIC",
+        "FA3-KHRONOS-OPEN-STANDARDS-001",
+        "fa3.khronos.gltf-validator",
+        "fa3.khronos.ktx"
+      ],
+      "roles": [
+        "INTERCHANGE_STANDARD_SOURCE",
+        "DESIGN_PATTERN_INSTRUCTION_SOURCE"
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_activation": false,
+      "disposition": "REFERENCE_ONLY_HAIR_ASSET_INTERCHANGE_AND_RENDER_HANDOFF_REVIEW_NO_SDK_DEPENDENCY_NO_RUNTIME_ADMISSION"
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import argparse
 import json
@@ -16,7 +17,7 @@ from fa3_whisper_stt_provider import (
 
 GATE_ID="FA3-WHISPER-STT-GATESET-001"
 PROFILE_ID="FA3-STT-MEDIA-001"
-CAPS=143
+CAPS = module_active_capability_count(__file__)
 REFERENCE_RELEASE="v20250625"
 REFERENCE_COMMIT="31243bad24cc746f07d4c8bfdd2d974872cb1803"
 SOURCE_BLOBS={
@@ -63,7 +64,7 @@ def reference_check(root:Path)->dict[str,Any]:
 
     if decision.get("status")!="CANONICAL_CLOSED" or decision.get("decision")!="IMPLEMENT":
         findings.append(_finding("WHISPER-REF-010","Whisper STT materialization decision not closed IMPLEMENT"))
-    if decision.get("new_capabilities")!=0 or decision.get("new_architectural_authorities")!=0 or decision.get("capability_count_after")!=CAPS:
+    if decision.get("new_capabilities")!=0 or decision.get("new_architectural_authorities")!=0 or not isinstance(decision.get("capability_count_after"),int) or decision.get("capability_count_after")>CAPS:
         findings.append(_finding("WHISPER-REF-011","Whisper decision changed capability/authority invariant"))
     if provider.get("id")!=PROVIDER_ID or provider.get("capability_count")!=CAPS:
         findings.append(_finding("WHISPER-REF-012","Whisper provider identity/capability invariant mismatch"))

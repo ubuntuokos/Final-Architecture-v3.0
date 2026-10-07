@@ -1,0 +1,57 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-HRB-ADMISSION-AUTHORIZATION-APPLICATION-INTENT-001",
+  "project_id": "FA3-HRB-ADMISSION-AUTHORIZATION-001",
+  "project_type": "PROFILE",
+  "goal": "Materialize a generic short-lived workload-scope-bound HRB admission authorization for CPU-only resource admission without turning accelerator leases into a universal lease requirement or creating a parallel resource authority.",
+  "required_capabilities": [],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "host-resource-admission",
+    "cpu-only-admission",
+    "privilege-separation",
+    "fail-closed-authorization"
+  ],
+  "task_classes": [
+    "resource-admission",
+    "cpu-only"
+  ],
+  "skill_triggers": [],
+  "input_modalities": [
+    "CANONICAL_METADATA"
+  ],
+  "output_modalities": [
+    "MACHINE_READABLE_AUTHORIZATION"
+  ],
+  "execution_classes": [
+    "CPU_ONLY"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "GENERIC_NON_ACCELERATOR_HRB_ADMISSION_AUTHORIZATION"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-hrb-admission",
+    "service_prefix": "fa3-hrb-admission",
+    "config_root": "/etc/fa3/host-resource-broker",
+    "cache_root": "$XDG_CACHE_HOME/fa3/hrb-admission",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/hrb-admission",
+    "socket_namespace": "fa3/hrb-admission",
+    "data_root": "$XDG_DATA_HOME/fa3/hrb-admission",
+    "desktop_prefix": "org.fa3.hrb.admission",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001"
+  ]
+}

@@ -2,14 +2,14 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-REGISTRY-001",
   "name": "Canonical Registry & Single Source of Truth Governance Profile",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
   "canonical_root": true,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "registry_families": [
     "Capability Registry",
     "Profile Registry",
@@ -18,7 +18,9 @@
     "Provider Registry",
     "Supersedence Registry",
     "Decision Registry",
-    "Evidence Registry"
+    "Evidence Registry",
+    "Skill Registry",
+    "Distribution Registry"
   ],
   "authority_role": "METADATA_IDENTITY_STATUS_RELATIONSHIP_SSOT_NOT_RUNTIME_AUTHORITY",
   "invariants": [
@@ -29,7 +31,13 @@
     "SUPERSEDENCE_MUST_BE_EXPLICIT_AND_ACYCLIC",
     "PROVIDER_RECORD_DOES_NOT_GRANT_ARCHITECTURAL_AUTHORITY",
     "EVIDENCE_STATUS_IS_SEPARATE_FROM_DESIGN_STATUS",
-    "CAPABILITY_COUNT_REMAINS_143_UNLESS_EXPLICIT_CANONICAL_DECISION_CHANGES_IT"
+    "CAPABILITY_COUNT_FOLLOWS_ACTIVE_RELEASE_BASELINE_AND_REQUIRES_EXPLICIT_CANONICAL_DECISION_TO_CHANGE",
+    "SKILL_REGISTRY_IS_METADATA_SSOT_NOT_EXECUTION_AUTHORITY",
+    "DISTRIBUTION_REGISTRY_IS_METADATA_SSOT_NOT_LICENSE_AUTHORITY",
+    "BUNDLED_EXTERNAL_ARTIFACT_REQUIRES_DISTRIBUTION_REGISTRY_RECORD"
   ],
-  "implementation_status": "CANONICAL_BASELINE_MATERIALIZED"
+  "implementation_status": "CANONICAL_BASELINE_MATERIALIZED",
+  "capability_baseline_source": "canonical/FA3-RELEASE-CAPABILITY-BASELINE-001.json",
+  "previous_capability_baseline": 143,
+  "baseline_migration_decision": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

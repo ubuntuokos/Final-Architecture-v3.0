@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "fa3.license-rights-audit-inventory.v1",
+  "title": "FA3 Retroactive License & Rights Audit Inventory",
+  "type": "object",
+  "required": [
+    "schema",
+    "audit_id",
+    "result",
+    "audit_closure_status",
+    "summary",
+    "work_queue"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.license-rights-audit-inventory.v1"
+    },
+    "audit_id": {
+      "const": "FA3-LICENSE-RIGHTS-AUDIT-001"
+    },
+    "result": {
+      "enum": [
+        "PASS",
+        "FAIL"
+      ]
+    },
+    "audit_closure_status": {
+      "enum": [
+        "BLOCKED",
+        "PASS"
+      ]
+    },
+    "summary": {
+      "type": "object"
+    },
+    "work_queue": {
+      "type": "array"
+    },
+    "subjects": {
+      "type": "array"
+    }
+  }
+}

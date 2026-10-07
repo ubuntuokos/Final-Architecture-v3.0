@@ -1,0 +1,106 @@
+{
+  "schema": "fa3.uaf.action-contract.v1",
+  "id": "agent.workload.debug.exec",
+  "version": "1.0.0",
+  "description": "Request an audited temporary debug operation by command-intent reference; raw shell authorization is not implied.",
+  "input_schema": {
+    "type": "object",
+    "required": [
+      "operation_id",
+      "workload_id",
+      "command_intent_ref"
+    ],
+    "properties": {
+      "operation_id": {
+        "type": "string",
+        "minLength": 1
+      },
+      "workload_id": {
+        "type": "string",
+        "minLength": 1
+      },
+      "command_intent_ref": {
+        "type": "string",
+        "minLength": 1
+      },
+      "reason": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "evidence_refs"
+    ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "workload_id": {
+        "type": "string"
+      },
+      "execution_ref": {
+        "type": "string"
+      },
+      "checkpoint_ref": {
+        "type": "string"
+      },
+      "evidence_refs": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "semantics": {
+    "mutating": true,
+    "idempotent": true,
+    "retry_safe": true,
+    "long_running": false
+  },
+  "exposure": {
+    "gui": true,
+    "agent": true,
+    "cli": true,
+    "mcp": true,
+    "a2a": true,
+    "automation": true,
+    "http": false
+  },
+  "security": {
+    "authentication": "required",
+    "authorization": "required",
+    "approval": "explicit",
+    "audit": "required"
+  },
+  "resources": {
+    "hrb_required": false,
+    "cpu": {
+      "physical_cores": {
+        "minimum": 0
+      },
+      "logical_processors": null
+    },
+    "accelerator": {
+      "required": false,
+      "cardinality": "0..N"
+    },
+    "memory": {
+      "admission": "workload-declared"
+    }
+  },
+  "provider": {
+    "selection": "policy-bounded-capability-match",
+    "preferred_role": "FA3-AGENT-WORKLOAD-RUNTIME-001"
+  },
+  "evidence": {
+    "required": true,
+    "decision_receipt_required": true
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "schema": "fa3.owner-exception.v1",
+  "id": "FA3-OWNER-EXCEPTION-HIDREAM-GENERATIVE-MEDIA-MESH-PR674-MOVING-BASE-2026-10-04",
+  "status": "ACTIVE_SINGLE_PR_MOVING_BASE_RECONCILIATION_EXCEPTION",
+  "owner": "ubuntuokos",
+  "owner_instruction": "Folytasd ha lehetséges",
+  "prior_owner_approval": "jóváhagyom",
+  "recorded_date": "2026-10-04",
+  "repository": "ubuntuokos/Final-Architecture-v3.0",
+  "pull_request": 674,
+  "authorized_transition_parent_head": "5ba428bf0bfed033cc8236afe136289b34abd3c5",
+  "previous_published_main": "07518f8a55c49fec5efa010ea285ff0a736e9524",
+  "current_published_main": "a3071208cf182857d4c49dad4f0d17bf9fe68a6a",
+  "main_advance_commits": 3,
+  "main_delta_non_projection_paths": [
+    ".github/workflows/fa3-current-host-runner.yml"
+  ],
+  "donor_registry_changed": false,
+  "reason": "Published main advanced while PR #674 exact-head checks were running. Strict required-status policy requires up-to-date main history, and donor planning freshness requires binding the assessment to the new published-main commit even though donor registry content is unchanged.",
+  "scope": "AUTHORIZE_CONTENT_PRESERVING_MAIN_SYNC_REUSE_SNAPSHOT_COMMIT_REFRESH_HISTORY_RECONCILIATION_AND_ONE_REPOSITORY_GENERATED_PROJECTION_ADOPTION",
+  "authorized_paths": [
+    "canonical/exceptions/FA3-OWNER-EXCEPTION-HIDREAM-GENERATIVE-MEDIA-MESH-PR674-MOVING-BASE-2026-10-04.json",
+    ".github/workflows/fa3-current-host-runner.yml",
+    "canonical/assessments/FA3-HIDREAM-GENERATIVE-MEDIA-MESH-REUSE-ASSESSMENT-2026-10-04.json",
+    "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json"
+  ],
+  "invariants": {
+    "capability_baseline": 175,
+    "capability_delta": 0,
+    "authority_delta": 0,
+    "material_feature_scope_delta": 0,
+    "donor_registry_content_delta": 0,
+    "required_status_checks_still_mandatory": true,
+    "branch_protection_still_mandatory": true,
+    "runtime_promotion_claim": false,
+    "physical_current_host_pass_claim": false
+  }
+}

@@ -1,0 +1,102 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-CONDUCTOR-001",
+  "name": "Conductor",
+  "status": "ACCEPTED_DESIGN_PENDING_CURRENT_HOST",
+  "provider_role": "ADAPTIVE_BOUNDED_JOB_GRAPH_PROVIDER",
+  "classification": [
+    "ADAPTIVE_JOB_GRAPH_SPECIALIST",
+    "MEDIA_BATCH_JOB_SPECIALIST",
+    "OPTIONAL_ADAPTER_PROVIDER"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "capability_count": 143,
+  "workforce_profile": "FA3-ORCHESTRATION-WORKFORCE-001",
+  "activation_mode": "CONTROLLED_DISABLED_UNTIL_CURRENT_HOST_CONFORMANCE",
+  "runtime_activation_requires_current_host_conformance": true,
+  "runtime_promotion_status": "PENDING_CURRENT_HOST",
+  "strong_capabilities": [
+    "adaptive_job_graph",
+    "dynamic_fork",
+    "bounded_parallelism",
+    "media_batch_job",
+    "retry_restart_rerun"
+  ],
+  "anti_capabilities": [
+    "creative_direction",
+    "gpu_placement",
+    "security_policy",
+    "global_durable_lifecycle_authority",
+    "canonical_registry",
+    "host_resource_admission",
+    "accelerator_placement",
+    "execution_path_selection",
+    "model_routing",
+    "ai_participant_set_expansion",
+    "direct_provider_execution"
+  ],
+  "authority_boundaries": {
+    "authorization_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "accelerator_conflict": "FA3-ACCEL-GUARD-001",
+    "durable_workflow_lifecycle": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "canonical_registry": "FA3-REGISTRY-001"
+  },
+  "prohibited_authority_roles": [
+    "FA3_AUTHORIZATION_AUTHORITY",
+    "FA3_MCP_CAPABILITY_GATEWAY_AUTHORITY",
+    "FA3_MODEL_ROUTING_AUTHORITY",
+    "FA3_HOST_RESOURCE_AUTHORITY",
+    "FA3_ACCELERATOR_CONFLICT_AUTHORITY",
+    "FA3_DURABLE_WORKFLOW_AUTHORITY",
+    "FA3_EVIDENCE_PROVENANCE_AUTHORITY",
+    "FA3_CANONICAL_REGISTRY_AUTHORITY"
+  ],
+  "normative_constraint": "Conductor SHALL remain a delegated specialist provider and SHALL NOT become a global FA3 architectural authority.",
+  "execution_boundary": {
+    "fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "action_prefix": "orchestration.",
+    "direct_agent_provider_bypass": false,
+    "direct_surface_provider_bypass": false
+  },
+  "decision_fabric": {
+    "fabric": "FA3-DECISION-FABRIC-001",
+    "role": "OPTIONAL_ADVISORY_AFTER_DETERMINISTIC_ELIGIBILITY",
+    "candidate_expansion": false,
+    "architectural_authority": false
+  },
+  "ai_communication": {
+    "profile": "FA3-AI-COMMS-001",
+    "human_readable_authoritative": true,
+    "private_model_language_allowed": false,
+    "participant_set_expansion_allowed": false
+  },
+  "runtime_admission": {
+    "contract": "FA3-ORCHESTRATION-PROVIDER-CURRENT-HOST-ADMISSION-001",
+    "required_evidence_level": "CURRENT_HOST_PRODUCTION_E2E_PASS",
+    "scope_bound": true,
+    "runtime_identity_required": true,
+    "static_runtime_promotion_status_is_authority": false,
+    "global_promotion_claim": false
+  },
+  "hardware_boundary": {
+    "discovery": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+    "host_resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "accelerator_cardinality": "0..N",
+    "cpu_only_host_valid": true,
+    "global_vendor_pin": null
+  },
+  "distribution_class": "USER_LOCAL_EXTERNAL",
+  "product_bundle_allowed": false,
+  "distribution": {
+    "class": "USER_LOCAL_EXTERNAL",
+    "release_bundle_status": "EXCLUDED",
+    "rationale": "External orchestration runtime is user-local and replaceable. FA3 distributes its own provider-neutral contracts/adapters but does not bundle or imply redistribution rights for this upstream runtime.",
+    "runtime_admission_separate": true
+  }
+}

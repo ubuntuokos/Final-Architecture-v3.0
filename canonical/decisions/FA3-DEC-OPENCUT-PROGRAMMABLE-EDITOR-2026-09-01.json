@@ -15,7 +15,7 @@
   ],
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
-  "capability_count_after": 143,
+  "capability_count_after": 175,
   "canonical_timeline_ir": "OpenTimelineIO",
   "provider_disposition": "REQ_ADAPTER_PLUS_REFERENCE_NOT_HARD_DEPENDENCY_NOT_EXCLUSIVE_NLE",
   "runtime_activation_status": "NOT_ADMITTED_UPSTREAM_INTERFACES_UNSTABLE",
@@ -41,5 +41,6 @@
     "OpenCut's declared Editor API, plugins, Rust core, MCP, headless and scripting direction aligns strongly with FA3's programmable editorial surface.",
     "The upstream rewrite does not yet expose stable versions of those interfaces; production admission is therefore fail-closed and requires a future immutable adapter/current-host evidence package.",
     "Kdenlive, OpenMontage, Temporal, NATS JetStream, Valkey, Central MCP and Host Resource Broker boundaries remain unchanged."
-  ]
+  ],
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

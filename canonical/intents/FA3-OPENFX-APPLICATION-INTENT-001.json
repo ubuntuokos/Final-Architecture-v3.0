@@ -1,0 +1,67 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-OPENFX-APPLICATION-INTENT-001",
+  "project_id": "FA3-STANDARD-OPENFX-001",
+  "project_type": "PROFILE",
+  "goal": "Provide a provider-neutral OpenFX interoperability profile for FA3 compositing/VFX workflows without creating a new authority, requiring a specific host runtime, replacing independently installed applications, or making provider-local project formats canonical.",
+  "required_capabilities": [
+    "CAP-071",
+    "CAP-126"
+  ],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "vfx-plugin-interoperability",
+    "host-plugin-capability-negotiation",
+    "creative-software-coexistence"
+  ],
+  "task_classes": [
+    "openfx-contract-admission",
+    "host-plugin-negotiation",
+    "round-trip-interoperability"
+  ],
+  "skill_triggers": [],
+  "input_modalities": [
+    "CANONICAL_METADATA",
+    "IMAGE_EFFECT_GRAPH"
+  ],
+  "output_modalities": [
+    "INTEROPERABILITY_CONTRACT",
+    "MACHINE_READABLE_ASSESSMENT"
+  ],
+  "execution_classes": [
+    "CPU_ONLY",
+    "OPTIONAL_ACCELERATOR"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-openfx",
+    "service_prefix": "fa3-openfx",
+    "config_root": "$XDG_CONFIG_HOME/fa3/openfx",
+    "cache_root": "$XDG_CACHE_HOME/fa3/openfx",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/openfx",
+    "socket_namespace": "fa3/openfx",
+    "data_root": "$XDG_DATA_HOME/fa3/openfx",
+    "desktop_prefix": "org.fa3.openfx",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-STANDARD-OPENFX-001",
+    "FA3-COMPOSITING-001",
+    "FA3-AUTH-SECURITY-GOV-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-OBS-EVIDENCE-001",
+    "FA3-REG-ARTIFACT-MODEL-001"
+  ]
+}

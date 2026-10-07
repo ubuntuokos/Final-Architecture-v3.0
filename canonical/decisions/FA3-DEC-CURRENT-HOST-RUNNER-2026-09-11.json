@@ -1,0 +1,16 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-CURRENT-HOST-RUNNER-2026-09-11",
+  "date": "2026-09-11",
+  "status": "CANONICAL_CLOSED",
+  "subject": "FA3 current-host GitHub Actions self-hosted runner control plane",
+  "decision": "MATERIALIZE_SHARED_EXECUTION_SUBSTRATE",
+  "conformance_id": "FA3-CURRENT-HOST-RUNNER-CONFORMANCE-001",
+  "gate_id": "FA3-CURRENT-HOST-RUNNER-GATESET-001",
+  "rationale": "Multiple current-host production E2E jobs are blocked by the absence of an online runner matching [self-hosted, linux, x64, fa3-current-host]. Materialize one provider-neutral, fail-closed, secret-free runner bootstrap/doctor surface instead of provider-specific runner setup.",
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "authority_effect": "NONE",
+  "runtime_promotion_effect": "NONE_UNTIL_REAL_PROVIDER_E2E_RECEIPTS_PASS"
+}

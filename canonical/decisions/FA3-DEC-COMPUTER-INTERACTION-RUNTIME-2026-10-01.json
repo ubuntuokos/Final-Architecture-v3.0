@@ -1,0 +1,63 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-COMPUTER-INTERACTION-RUNTIME-2026-10-01",
+  "date": "2026-10-01",
+  "status": "CANONICAL",
+  "title": "Native Computer Interaction Runtime under UAF",
+  "decision": "MATERIALIZE_FA3_NATIVE_OBSERVATION_BOUND_COMPUTER_INTERACTION_AS_SHARED_UAF_EXECUTION_RUNTIME",
+  "owner_plan_approval": "APPROVED_IN_CONVERSATION_2026-10-01",
+  "primary_layer": "FA3-UNIFIED-ACTION-FABRIC-001",
+  "shared_layer": "FA3-SHARED-TOOL-ACTION-MEDIATION-001",
+  "desktop_layer": "FA3-DESKTOP-001",
+  "capability_subject": "CAP-013",
+  "related_capabilities": [
+    "CAP-007",
+    "CAP-008",
+    "CAP-011",
+    "CAP-079"
+  ],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 175,
+  "upstream_code_import": false,
+  "upstream_runtime_dependency": false,
+  "provider_or_model_admission": false,
+  "physical_current_host_pass_claim": false,
+  "research_context": {
+    "repository": "https://github.com/trycua/cua",
+    "observed_upstream_commit": "9545a3d17b44b587b593d59090dc140740876a6e",
+    "observed_driver_release": "0.31.0",
+    "registry_status": "UNREGISTERED_UNMARKED_ANALYSIS_ONLY",
+    "reuse_mode": "FUNCTIONAL_AND_ARCHITECTURAL_PATTERN_REEXPRESSION_ONLY",
+    "source_copying": false,
+    "root_license_observed": "MIT",
+    "license_boundary": "OPTIONAL_PERCEPTION_AND_SOM_COMPONENTS_HAVE_SEPARATE_AGPL_TERMS_AND_ARE_NOT_ADMITTED_OR_BUNDLED"
+  },
+  "selected_patterns": [
+    "OBSERVATION_DECISION_ACTION_SEPARATION",
+    "CAPTURE_BOUND_INTERACTION",
+    "BOUNDED_ACTION_SET",
+    "REOBSERVE_AND_ABSTAIN_OUTCOMES",
+    "POST_MUTATION_REOBSERVATION",
+    "INDEPENDENT_EFFECT_VERIFICATION",
+    "TYPED_SDK_PROTOCOL_BOUNDARY",
+    "PRIVACY_MINIMAL_ACTION_HISTORY",
+    "BENCHMARK_STYLE_STEP_AND_EVALUATE_VERIFICATION"
+  ],
+  "explicit_non_adoptions": [
+    "CUA_AS_GLOBAL_ORCHESTRATOR",
+    "CUA_AS_MCP_AUTHORITY",
+    "CUA_AS_MODEL_ROUTER",
+    "CUA_AS_EVIDENCE_AUTHORITY",
+    "CUA_FLEETS_AS_MANDATORY_DEPENDENCY",
+    "CUA_LUME_AS_GENERIC_LINUX_VM_AUTHORITY",
+    "CUA_PERCEPTION_AGPL_BUNDLE",
+    "CUA_TELEMETRY_OPT_OUT_DEFAULT",
+    "DIRECT_AGENT_TO_CUA_DRIVER_BYPASS"
+  ],
+  "browser_relationship": "FA3-BROWSER-ACTION-RUNTIME-001_REMAINS_SEPARATE_BROWSER_SPECIALIZATION_USING_COMPATIBLE_BOUNDED_INTERACTION_SEMANTICS",
+  "model_relationship": "SPECIALIST_DECISION_MODELS_MAY_BE_ROUTED_ONLY_THROUGH_EXISTING_MODEL_ROUTER_AND_DECISION_FABRIC_AFTER_SEPARATE_ADMISSION",
+  "sandbox_relationship": "ISOLATION_AND_REMOTE_DESKTOP_PATTERNS_MAP_TO_EXISTING_AGENT_WORKLOAD_RUNTIME_AND_OPTIONAL_PROVIDER_ADMISSION",
+  "current_host_relationship": "CAP_013_MUST_BE_PHYSICALLY_REQUALIFIED_BEFORE_RUNTIME_PROMOTION",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}

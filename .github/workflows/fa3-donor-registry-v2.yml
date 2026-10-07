@@ -1,0 +1,38 @@
+name: FA3 Donor Registry v2
+
+on:
+  push:
+    paths:
+      - "src/fa3_registry_v2.py"
+      - "bin/fa3-registry-v2"
+      - "tests/test_registry_v2.py"
+      - "canonical/FA3-DONOR-REGISTRY-V2-POLICY-001.json"
+      - "canonical/decisions/FA3-DEC-DONOR-REGISTRY-V2-2026-10-01.json"
+      - "canonical/schemas/FA3-DONOR-REGISTRY-V2-*.json"
+      - ".github/workflows/fa3-donor-registry-v2.yml"
+  pull_request:
+    paths:
+      - "src/fa3_registry_v2.py"
+      - "bin/fa3-registry-v2"
+      - "tests/test_registry_v2.py"
+      - "canonical/FA3-DONOR-REGISTRY-V2-POLICY-001.json"
+      - "canonical/decisions/FA3-DEC-DONOR-REGISTRY-V2-2026-10-01.json"
+      - "canonical/schemas/FA3-DONOR-REGISTRY-V2-*.json"
+      - ".github/workflows/fa3-donor-registry-v2.yml"
+
+jobs:
+  registry-v2:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Unit and repository integration tests
+        run: python -m unittest tests.test_registry_v2
+      - name: Shadow migration smoke test
+        run: |
+          tmp="$(mktemp -d)"
+          ./bin/fa3-registry-v2 shadow-migrate --output "$tmp/shadow" --handling-limit-bytes 1048576
+          ./bin/fa3-registry-v2 verify-shadow --shadow "$tmp/shadow"
+          ./bin/fa3-registry-v2 project-legacy --shadow "$tmp/shadow" --output "$tmp/legacy-projection.json"

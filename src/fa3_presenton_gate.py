@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import hashlib
 import io
@@ -13,7 +14,7 @@ CONTRACT_ID = "FA3-PRESENTON-CONTRACTS-001"
 GATE_ID = "FA3-PRESENTON-GATESET-001"
 DECISION_ID = "FA3-DEC-PRESENTON-2026-08-30"
 REFERENCE_ID = "FA3-PRESENTON-UPSTREAM-REFERENCE-2026-08-30"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 RELEASE = "v0.9.8-beta"
 SOURCE_COMMIT = "88c28f18a63e29742e4922facdba6b95c67959cd"
 OCI_INDEX_DIGEST = "sha256:e6866086f2dbdf9f6c50c8f217123cada2a84f4dd03131ad78f397d6fb11b3d1"
@@ -269,7 +270,7 @@ def reference_check(root: Path) -> dict[str, Any]:
         or decision.get("contract_id") != CONTRACT_ID
         or decision.get("new_capabilities") != 0
         or decision.get("new_architectural_authorities") != 0
-        or decision.get("capability_count_after") != CAPABILITY_COUNT
+        or not isinstance(decision.get("capability_count_after"), int) or decision.get("capability_count_after") > CAPABILITY_COUNT
     ):
         findings.append(_finding("PRESENTON-REF-004", "Decision invariant mismatch"))
     stable = reference.get("stable_reference", {})
@@ -308,7 +309,7 @@ def reference_check(root: Path) -> dict[str, Any]:
         or evidence.get("current_host_production_e2e", {}).get("status") != "PENDING_REAL_CURRENT_HOST_EXECUTION"
         or evidence.get("new_capabilities") != 0
         or evidence.get("new_architectural_authorities") != 0
-        or evidence.get("capability_count_after") != CAPABILITY_COUNT
+        or not isinstance(evidence.get("capability_count_after"), int) or evidence.get("capability_count_after") > CAPABILITY_COUNT
     ):
         findings.append(_finding("PRESENTON-REF-009", "Reference evidence scope or capability invariant mismatch"))
     if (

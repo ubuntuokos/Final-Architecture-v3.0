@@ -1,0 +1,41 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-REPRODUCIBILITY-FABRIC-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-REPRODUCIBILITY-FABRIC-001",
+  "intent_id": "FA3-REPRODUCIBILITY-FABRIC-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-REPRODUCIBILITY-FABRIC-APPLICATION-INTENT-001.json",
+  "covered_ids": ["FA3-REPRODUCIBILITY-FABRIC-001"],
+  "project_status": "CANONICAL_REPRODUCIBILITY_MATERIALIZED",
+  "result": "PASS",
+  "selected_reuse": [
+    {"id": "FA3-REUSE-DISCOVERY-001", "use": "MANDATORY_REUSE_AND_GAP_ASSESSMENT"},
+    {"id": "FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30", "use": "EXISTING_SOURCE_SNAPSHOT_AUTHORITY"},
+    {"id": "FA3-EVIDENCE-VALIDATION-CORE-001", "use": "EXISTING_SOURCE_COMMIT_BINDING_SEMANTICS"}
+  ],
+  "rejected_candidates": [
+    {"id": "SECOND_PYTHON_PACKAGE_NAMESPACE", "reason": "DUPLICATE_MODULE_IDENTITY_BREAKS_EXCEPTION_AND_SINGLETON_IDENTITY"},
+    {"id": "SECOND_FULL_TEST_RUNNER", "reason": "MULTIPLE_FULL_SUITE_ENTRYPOINTS_CREATE_COVERAGE_DRIFT"},
+    {"id": "MANUAL_HISTORICAL_GIT_FETCH", "reason": "REPOSITORY_PREPARATION_MUST_BE_REPRODUCIBLE"}
+  ],
+  "pattern_reuse": ["FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001"],
+  "gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hrb_bound": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_environment_mutation": false
+  },
+  "implementation_readiness": "READY_FOR_CANONICAL_ADMISSION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}

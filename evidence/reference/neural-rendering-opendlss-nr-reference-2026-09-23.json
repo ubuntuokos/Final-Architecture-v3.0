@@ -1,0 +1,65 @@
+{
+  "schema": "fa3.reference-evidence.v1",
+  "id": "FA3-EVIDENCE-NEURAL-RENDERING-OPENDLSS-NR-2026-09-23",
+  "date": "2026-09-23",
+  "status": "PASS",
+  "evidence_level": "STATIC_REFERENCE_EXECUTABLE_PASS_NOT_PROVIDER_RUNTIME_E2E",
+  "subject": {
+    "profile_id": "FA3-NEURAL-RENDERING-001",
+    "contract_id": "FA3-NEURAL-RENDERING-CONTRACTS-001",
+    "provider_id": "FA3-PROVIDER-OPENDLSS-NR-001",
+    "decision_id": "FA3-DEC-NEURAL-RENDERING-OPENDLSS-NR-2026-09-23"
+  },
+  "validated_implementation_commit": "051a99606f9a244e0b1cb162382d50be5963c603",
+  "github_actions": {
+    "run_id": 35862363651,
+    "job_id": 107185408323,
+    "workflow": "FA3 Neural Rendering Reference Gate",
+    "run_conclusion": "success",
+    "executable_core_tests": {
+      "passed": 12,
+      "failed": 0
+    },
+    "closure_tests": {
+      "passed": 1,
+      "failed": 0
+    },
+    "cross_cutting_gates": {
+      "neural_rendering_canonical": "PASS",
+      "uaf": "PASS",
+      "hardware_portability": "PASS",
+      "global_static_enforcement": "PASS"
+    },
+    "logs_url": "https://github.com/ubuntuokos/Final-Architecture-v3.0/actions/runs/35862363651"
+  },
+  "proven": [
+    "deterministic policy eligibility filters execute before optional Jev advisory",
+    "Jev candidate expansion is fail-closed",
+    "optional Jev outage does not become authority",
+    "explicit requested provider is not silently substituted",
+    "host accelerated execution requires an HRB lease reference",
+    "browser WebGPU execution requires an FA3-WEB-AI capability receipt",
+    "model stage SHA-256 mismatch fails closed",
+    "model manifest stage integrity succeeds for a valid fixture",
+    "optional provider not requested is globally conformant without provider-E2E promotion",
+    "unknown requested provider fails closed",
+    "model-backed Jev advisory remains bounded behind the supplied FA3 Model Router invocation boundary",
+    "Jev Model Router result cannot expand the deterministic policy-eligible candidate set"
+  ],
+  "not_proven": [
+    "OpenDLSS-NR native provider execution on a compatible current host",
+    "NVIDIA Ada-or-newer Vulkan/PTX current-host parity",
+    "browser WebGPU current-host parity",
+    "production supply-chain admission",
+    "model-weight license or output-rights admission",
+    "production provider admission",
+    "global runtime promotion"
+  ],
+  "current_host_provider_e2e_claim": false,
+  "production_provider_admission": false,
+  "global_promotion_claim": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "validated_release_commit": "ca9f6a343727206034aa5a95b689b3db50359488"
+}

@@ -1,0 +1,38 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
+
+from fa3_decision_fabric import DecisionFabric, RuleDecisionProvider
+from fa3_jev_decision_provider import JevDecisionProvider
+from fa3_local_decision_provider import LocalSemanticDecisionProvider
+from fa3_decision_trace import DecisionTraceStore
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--request", required=True, help="JSON request file or - for stdin")
+    parser.add_argument("--provider", default="FA3-PROVIDER-DECISION-RULES-001")
+    args = parser.parse_args()
+    raw = sys.stdin.read() if args.request == "-" else Path(args.request).read_text(encoding="utf-8")
+    request = json.loads(raw)
+    providers = [RuleDecisionProvider()]
+    if args.provider == "FA3-PROVIDER-JEV-DECISION-001":
+        providers.append(JevDecisionProvider())
+    if args.provider == "FA3-PROVIDER-DECISION-LOCAL-001":
+        providers.append(LocalSemanticDecisionProvider())
+    trace_store = DecisionTraceStore()
+    fabric = DecisionFabric(providers, trace_writer=trace_store.append)
+    trace = fabric.decide(request, args.provider)
+    print(json.dumps(trace, ensure_ascii=False, indent=2))
+    return 0 if trace["status"] in {"DECIDED", "NO_DECISION", "HUMAN_CONFIRM"} else 2
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

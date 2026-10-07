@@ -1,0 +1,62 @@
+name: FA3 Khronos Open Standards Gate
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'canonical/**KHRONOS**'
+      - 'canonical/**/FA3-KHRONOS-*'
+      - 'src/fa3_khronos_*'
+      - 'src/fa3_cap083_khronos_current_host.py'
+      - 'canonical/current-host-capability-proof-recipes.json'
+      - 'canonical/current-host-capability-qualification-constituent-producers.json'
+      - 'evidence/evidence-registry.json'
+      - 'tests/test_cap083_khronos_current_host.py'
+      - '.github/workflows/fa3-global-current-host-closure.yml'
+      - '.github/workflows/fa3-khronos-current-host.yml'
+      - 'bin/fa3-materialize-khronos-sdks.sh'
+      - 'evidence/collect-khronos-sdk-materialization-current-host.py'
+      - 'tests/test_khronos_open_standards_gate.py'
+      - 'docs/FA3-KHRONOS-*'
+      - 'canonical/FA3-GATE-REGISTRY-001.json'
+      - 'canonical/enforcement-policy.json'
+      - 'canonical/distribution-registry.json'
+      - 'canonical/distribution-manifest.json'
+      - 'canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json'
+  pull_request:
+    paths:
+      - 'canonical/**KHRONOS**'
+      - 'canonical/**/FA3-KHRONOS-*'
+      - 'src/fa3_khronos_*'
+      - 'src/fa3_cap083_khronos_current_host.py'
+      - 'canonical/current-host-capability-proof-recipes.json'
+      - 'canonical/current-host-capability-qualification-constituent-producers.json'
+      - 'evidence/evidence-registry.json'
+      - 'tests/test_cap083_khronos_current_host.py'
+      - '.github/workflows/fa3-global-current-host-closure.yml'
+      - '.github/workflows/fa3-khronos-current-host.yml'
+      - 'bin/fa3-materialize-khronos-sdks.sh'
+      - 'evidence/collect-khronos-sdk-materialization-current-host.py'
+      - 'tests/test_khronos_open_standards_gate.py'
+      - 'docs/FA3-KHRONOS-*'
+      - 'canonical/FA3-GATE-REGISTRY-001.json'
+      - 'canonical/enforcement-policy.json'
+      - 'canonical/distribution-registry.json'
+      - 'canonical/distribution-manifest.json'
+      - 'canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json'
+  workflow_dispatch:
+
+concurrency:
+  group: fa3-khronos-static-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  static-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with: {python-version: '3.12'}
+      - run: PYTHONPATH=src python3 src/fa3_khronos_open_standards_gate.py --root . --json
+      - run: PYTHONPATH=src python3 -m unittest tests.test_khronos_open_standards_gate tests.test_cap083_khronos_current_host -v
+      - run: PYTHONPATH=src python3 src/fa3_enforce.py --root . gate-registry
+      - run: PYTHONPATH=src python3 src/fa3_distribution_compliance_gate.py --root .

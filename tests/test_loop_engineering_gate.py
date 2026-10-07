@@ -82,23 +82,24 @@ class LoopEngineeringGateTests(unittest.TestCase):
         self.assertTrue(refimpl.portable_hardware_floor_valid(
             cpu_packages=1, physical_cores_per_package=8,
             cpu_vendor_pinned=False, cpu_model_pinned=False,
-            gpu_count=1, gpu_rtx_series=30,
+            gpu_count=0, gpu_vendor=None, gpu_compute_capability=None,
             gpu_specific_sku_pinned=False, gpu_specific_vram_pinned=False,
-            gpu_specific_sm_pinned=False, newer_rtx_generations_allowed=True,
+            gpu_specific_sm_pinned=False,
         ))
         self.assertTrue(refimpl.portable_hardware_floor_valid(
             cpu_packages=2, physical_cores_per_package=24,
             cpu_vendor_pinned=False, cpu_model_pinned=False,
-            gpu_count=1, gpu_rtx_series=50,
+            gpu_count=1, gpu_vendor="NVIDIA", gpu_compute_capability=12.0,
             gpu_specific_sku_pinned=False, gpu_specific_vram_pinned=False,
-            gpu_specific_sm_pinned=False, newer_rtx_generations_allowed=True,
+            gpu_specific_sm_pinned=False,
         ))
         self.assertFalse(refimpl.portable_hardware_floor_valid(
-            cpu_packages=1, physical_cores_per_package=7,
+            cpu_packages=1, physical_cores_per_package=8,
             cpu_vendor_pinned=False, cpu_model_pinned=False,
-            gpu_count=1, gpu_rtx_series=20,
+            gpu_count=0, gpu_vendor=None, gpu_compute_capability=None,
             gpu_specific_sku_pinned=False, gpu_specific_vram_pinned=False,
-            gpu_specific_sm_pinned=False, newer_rtx_generations_allowed=True,
+            gpu_specific_sm_pinned=False,
+            accelerator_required=True,
         ))
 
     def test_global_hardware_floor_drift_fails(self):

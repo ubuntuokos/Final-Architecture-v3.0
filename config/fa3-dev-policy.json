@@ -1,0 +1,67 @@
+{
+  "schema": "fa3.dev-policy.v1",
+  "policy_id": "FA3-DEV-POLICY-001",
+  "environment": "development",
+  "production_eligible": false,
+  "trust_domain": {
+    "canonical_write": "DENY",
+    "production_evidence_write": "DENY",
+    "production_secrets": "DENY",
+    "production_network_policy_override": "DENY"
+  },
+  "enforcement_overrides": {
+    "hash_mismatch_policy": "ALLOW_TAINTED_AND_LOG",
+    "untrusted_source_policy": "SANDBOX_PROBE_ONLY",
+    "implicit_cpu_fallback": "ALLOW_WITH_PROVENANCE",
+    "license_check_policy": "WARN_AND_BLOCK_PROMOTION"
+  },
+  "host_resource_broker": {
+    "lease_mode": "EPHEMERAL_AUTO",
+    "default_ttl_seconds": 900,
+    "max_auto_renewals": 4,
+    "max_accelerator_memory_fraction": 0.5,
+    "hardware_discovery_contract": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+    "accelerator_cardinality": "0..N",
+    "cpu_only_valid": true,
+    "global_vendor_pin": null,
+    "accelerator_conflict_policy": "DELEGATE_TO_FA3_ACCEL_GUARD_001",
+    "fallback_backend": "AUTO_COMPATIBLE_DISCOVERED_BACKEND"
+  },
+  "workspace": {
+    "direct_write_paths": [
+      "src/dev-playground/**",
+      "examples/drafts/**"
+    ],
+    "protected_paths": [
+      "canonical/**",
+      "release/**",
+      "evidence/production/**"
+    ],
+    "maker_checker": "DEFERRED"
+  },
+  "network": {
+    "default_egress": "DENY",
+    "unknown_endpoint_policy": "MOCK_OR_DENY",
+    "credential_forwarding": "DENY"
+  },
+  "evidence": {
+    "initial_status": "DEV_DRAFT",
+    "taint_on_policy_relaxation": true,
+    "authoritative": false,
+    "production_eligible": false
+  },
+  "snapshot": {
+    "source": "GIT_INDEX",
+    "hash_algorithm": "sha256",
+    "exclude": [
+      "**/__pycache__/**",
+      "**/.venv/**",
+      "**/.git/**",
+      "**/*.log",
+      "**/*.tmp",
+      "**/*.partial",
+      "**/.env",
+      "**/*secret*"
+    ]
+  }
+}

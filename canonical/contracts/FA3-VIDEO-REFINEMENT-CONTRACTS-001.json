@@ -1,0 +1,81 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-VIDEO-REFINEMENT-CONTRACTS-001",
+  "profile_id": "FA3-VIDEO-001",
+  "status": "CANONICAL",
+  "provider_neutral": true,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-159",
+    "CAP-160"
+  ],
+  "contracts": [
+    "VideoRefinementRequest",
+    "VideoRefinementSelectionReceipt",
+    "VideoRefinementExecutionPlan",
+    "VideoRefinementReceipt",
+    "VideoRefinementQualityComparisonReceipt",
+    "RefinementArtifactLineage"
+  ],
+  "lifecycle": {
+    "generator_stage": "SEPARATE_IMMUTABLE_INPUT_RECEIPT",
+    "refinement_stage": "SEPARATE_ROUTED_EXECUTION",
+    "supported_modes": [
+      "ONE_STEP_DISTILLED",
+      "MULTI_STEP_REFERENCE"
+    ],
+    "resolution_transition": "DRAFT_TO_TARGET",
+    "multi_generator_interoperability": true,
+    "streaming_or_bidirectional_refinement": "OPTIONAL_PROVIDER_CAPABILITY_METADATA"
+  },
+  "execution_quality_modes": [
+    "REFERENCE",
+    "OPTIMIZED",
+    "APPROXIMATE"
+  ],
+  "rules": {
+    "generator_and_refiner_lifecycle_separated": true,
+    "generator_receipt_required": true,
+    "draft_artifact_hash_required": true,
+    "target_resolution_required": true,
+    "target_resolution_must_not_be_lower_than_draft": true,
+    "model_router_refiner_selection_receipt_required": true,
+    "hrb_required_for_local_accelerator_refinement": true,
+    "cpu_reference_path_mandatory_at_fabric_level": true,
+    "vendor_acceleration_optional": true,
+    "silent_device_backend_provider_or_model_fallback_forbidden": true,
+    "optimized_or_approximate_mode_requires_explicit_mode_metadata": true,
+    "approximate_mode_requires_visible_quality_disclosure": true,
+    "quality_comparison_receipt_required_for_promotion": true,
+    "reference_and_optimized_paths_must_preserve_lineage": true,
+    "refiner_runtime_promotion_requires_physical_positive_negative_rollback_evidence": true,
+    "external_model_weights_and_checkpoints_require_separate_license_rights_admission": true,
+    "vendor_specific_kernel_admission_is_separate": true,
+    "current_host_pass_must_not_be_inferred_from_static_materialization": true
+  },
+  "backend_classes": [
+    "CPU_REFERENCE",
+    "CUDA_OPTIONAL",
+    "ROCM_HIP_OPTIONAL",
+    "INTEL_XPU_OPTIONAL",
+    "REMOTE_OPTIONAL"
+  ],
+  "authority_boundaries": {
+    "provider_model_refiner_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "physical_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "license_security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence_provenance": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "donor_pattern_provenance": {
+    "source_donor_id": "FA3-DONOR-NVLABS-SANA-001",
+    "source_component": "sol-engine/models/sol-refiner",
+    "adopted_as": "ARCHITECTURE_PATTERN_ONLY",
+    "code_imported": false,
+    "runtime_dependency": false,
+    "model_checkpoint_admitted": false,
+    "gpu_kernel_admitted": false
+  }
+}

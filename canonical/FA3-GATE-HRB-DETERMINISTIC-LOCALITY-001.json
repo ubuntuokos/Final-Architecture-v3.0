@@ -13,6 +13,9 @@
   "fail_closed": true,
   "mandatory_checks": 30,
   "current_host_runtime_promotion_claim": false,
-  "capability_count": 143,
-  "promotion_semantics": "Reference conformance PASS validates HRB locality and neutral systemd Manager policy only; current-host placement/locality and effective manager-config promotion require separately collected executable runtime evidence."
+  "capability_count": 175,
+  "promotion_semantics": "Reference conformance PASS validates HRB locality and neutral systemd Manager policy only; current-host placement/locality and effective manager-config promotion require separately collected executable runtime evidence.",
+  "required_child_gates": [
+    "FA3-GATE-SYSCTL-HOST-TUNING-001"
+  ]
 }

@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.local/contracts/FA3-EXECUTION-NETWORK-ENVELOPE-001.schema.json",
+  "x-fa3-contract-id": "FA3-EXECUTION-NETWORK-ENVELOPE-001",
+  "title": "FA3 Execution Network Envelope",
+  "type": "object",
+  "required": [
+    "schema",
+    "default",
+    "egress",
+    "direct_model_provider_access",
+    "direct_external_tool_access"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.execution-network-envelope.v1"
+    },
+    "default": {
+      "const": "DENY"
+    },
+    "egress": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "ingress": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "direct_model_provider_access": {
+      "const": false
+    },
+    "direct_external_tool_access": {
+      "const": false
+    },
+    "authority": {
+      "const": false
+    }
+  },
+  "additionalProperties": false
+}

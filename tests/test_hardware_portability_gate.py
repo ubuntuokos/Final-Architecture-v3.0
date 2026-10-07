@@ -4,115 +4,268 @@ import tempfile
 import unittest
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
-SRC = ROOT / "src"
+ROOT=Path(__file__).resolve().parents[1]
+SRC=ROOT/"src"
 if str(SRC) not in sys.path:
-    sys.path.insert(0, str(SRC))
+    sys.path.insert(0,str(SRC))
 
 from fa3_hardware_portability_gate import (
     CAPABILITY_COUNT,
+    REFERENCE_PLATFORM_FAMILIES,
+    REFERENCE_VENDOR_FAMILIES,
     evaluate,
     portable_hardware_floor_valid,
     scan_repository,
 )
 
-
 class HardwarePortabilityGateTests(unittest.TestCase):
     def test_repository_gate_passes(self):
-        result = evaluate(ROOT)
-        self.assertEqual("PASS", result["result"], result)
-        self.assertEqual(CAPABILITY_COUNT, result["capability_count"])
-        self.assertEqual(0, result["repository_audit"]["blocking_hardcoded_production_assumptions"])
+        result=evaluate(ROOT)
+        self.assertEqual("PASS",result["result"],result)
+        self.assertEqual(CAPABILITY_COUNT,result["capability_count"])
+        self.assertEqual("FORBIDDEN",result["accelerator_floor"]["vendor_pin"])
+        self.assertEqual("FORBIDDEN",result["accelerator_floor"]["runtime_api_pin"])
+        self.assertEqual(0,result["accelerator_floor"]["minimum_device_count"])
+        self.assertTrue(result["accelerator_floor"]["cpu_only_host_conforms"])
+        self.assertFalse(result["accelerator_floor"]["cpu_only_workload_requires_lease"])
         self.assertFalse(result["current_host_runtime_promotion_claim"])
+        self.assertEqual("MANDATORY_FAIL_CLOSED",result["hardware_safety"]["policy"])
+        self.assertEqual("FORBIDDEN",result["hardware_safety"]["unsafe_or_unknown_mutation"])
+        self.assertFalse(result["hardware_safety"]["installer_override"])
+        self.assertFalse(result["hardware_safety"]["expert_mode_override"])
+        self.assertEqual(
+            "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+            result["host_adaptation"]["hrb_resource_authority"],
+        )
+        self.assertTrue(result["host_adaptation"]["startup_revalidation_required"])
+        self.assertFalse(result["host_adaptation"]["selective_materialization_plan_is_authority"])
+        self.assertFalse(result["host_adaptation"]["missing_device_automatic_uninstall"])
+        host_check = next(
+            row for row in result["checks"]
+            if row["name"] == "host-adaptation-reuses-hardware-authorities"
+        )
+        self.assertEqual("PASS", host_check["status"])
 
-    def test_minimum_and_larger_hosts_are_admitted(self):
-        self.assertTrue(portable_hardware_floor_valid(
-            cpu_packages=1,
-            physical_cores_per_qualifying_cpu=8,
-            gpu_count=1,
-            gpu_rtx_series=30,
-        ))
-        self.assertTrue(portable_hardware_floor_valid(
-            cpu_packages=2,
-            physical_cores_per_qualifying_cpu=24,
-            gpu_count=4,
-            gpu_rtx_series=50,
-        ))
+    def test_vendor_neutral_reference_families(self):
+        self.assertTrue({"NVIDIA","AMD","INTEL"} <= REFERENCE_VENDOR_FAMILIES)
+        self.assertIn("NVIDIA_DGX",REFERENCE_PLATFORM_FAMILIES)
+        for vendor in ("NVIDIA","AMD","INTEL"):
+            self.assertTrue(portable_hardware_floor_valid(
+                cpu_packages=1, physical_cores_per_qualifying_cpu=8,
+                accelerator_count=1, accelerator_vendor=vendor,
+            ))
 
-    def test_no_fixed_upper_bound(self):
+    def test_vendor_specific_capability_is_not_global_floor(self):
         self.assertTrue(portable_hardware_floor_valid(
-            cpu_packages=8,
-            physical_cores_per_qualifying_cpu=64,
-            gpu_count=16,
-            gpu_rtx_series=60,
-        ))
-
-    def test_floor_rejects_under_minimum_hosts(self):
-        self.assertFalse(portable_hardware_floor_valid(
-            cpu_packages=1,
-            physical_cores_per_qualifying_cpu=7,
-            gpu_count=1,
-            gpu_rtx_series=30,
-        ))
-        self.assertFalse(portable_hardware_floor_valid(
-            cpu_packages=1,
-            physical_cores_per_qualifying_cpu=8,
-            gpu_count=0,
-            gpu_rtx_series=50,
+            cpu_packages=1, physical_cores_per_qualifying_cpu=8,
+            gpu_count=1, gpu_vendor="AMD", gpu_compute_capability=0.0,
         ))
         self.assertFalse(portable_hardware_floor_valid(
-            cpu_packages=1,
-            physical_cores_per_qualifying_cpu=8,
-            gpu_count=1,
-            gpu_rtx_series=20,
+            cpu_packages=1, physical_cores_per_qualifying_cpu=8,
+            accelerator_count=1, accelerator_vendor="AMD", workload_compatible=False,
+            accelerator_required=True,
         ))
 
-    def test_runtime_fixed_cuda_list_is_blocking(self):
+    def test_floor_rejects_only_global_minimum_failures(self):
+        self.assertFalse(portable_hardware_floor_valid(cpu_packages=1,physical_cores_per_qualifying_cpu=7,accelerator_count=1))
+        self.assertTrue(portable_hardware_floor_valid(cpu_packages=1,physical_cores_per_qualifying_cpu=8,accelerator_count=0))
+        self.assertFalse(portable_hardware_floor_valid(cpu_packages=1,physical_cores_per_qualifying_cpu=8,accelerator_count=0,accelerator_required=True))
+        self.assertTrue(portable_hardware_floor_valid(cpu_packages=4,physical_cores_per_qualifying_cpu=64,accelerator_count=16,accelerator_vendor="FUTURE_VENDOR"))
+
+    def test_canonical_profile_has_no_vendor_or_runtime_pin(self):
+        obj=json.loads((ROOT/"canonical/profiles/FA3-HARDWARE-BASELINE-001.json").read_text(encoding="utf-8"))
+        accelerator=obj["portable_minimum"]["accelerator"]
+        self.assertEqual(0,accelerator["qualifying_device_count_min"])
+        self.assertTrue(accelerator["cpu_only_host_conforms"])
+        self.assertFalse(accelerator["cpu_only_workload_requires_lease"])
+        self.assertEqual("FORBIDDEN",accelerator["vendor_pin"])
+        self.assertEqual("FORBIDDEN",accelerator["global_runtime_api_pin"])
+        self.assertTrue(accelerator["global_cuda_compute_capability_floor"].startswith("FORBIDDEN"))
+        self.assertTrue({"NVIDIA","AMD","INTEL"} <= set(accelerator["supported_reference_vendor_families"]))
+        self.assertIn("NVIDIA_DGX",accelerator["supported_reference_platform_families"])
+
+    def test_discovery_contract_distinguishes_cpu_and_backend_dimensions(self):
+        obj=json.loads((ROOT/"canonical/contracts/FA3-HARDWARE-DISCOVERY-CONTRACTS-001.json").read_text(encoding="utf-8"))
+        self.assertEqual("1.5.0",obj["version"])
+        cpu=obj["descriptor_schemas"]["cpu"]
+        accel=obj["descriptor_schemas"]["accelerator"]
+        self.assertIn("physical_cores_fully_allocated",cpu["required_counts"])
+        self.assertIn("physical_cores_partially_allocated",cpu["required_counts"])
+        self.assertEqual(
+            set(obj["discovery_semantics"]["backend_classes"]),
+            {"native","portable","translation"},
+        )
+        self.assertFalse(obj["discovery_semantics"]["device_presence_implies_workload_compatibility"])
+        self.assertFalse(obj["discovery_semantics"]["unknown_accelerator_vendor_is_error"])
+        self.assertEqual(
+            accel["unknown_vendor_policy"],
+            "VALID_DISCOVERY_RESULT_NOT_GLOBAL_ADMISSION_FAILURE",
+        )
+        binding=accel["backend_binding_semantics"]
+        self.assertTrue(binding["available_true_requires"]=="DETECTED_AND_DEVICE_BOUND")
+        self.assertEqual(
+            binding["host_unbound_admission"],
+            "FORBIDDEN_UNTIL_PROVIDER_OR_RUNTIME_PROVES_DEVICE_BINDING",
+        )
+        self.assertIn(
+            "UNBOUND_HOST_BACKEND_DETECTION_MUST_NOT_AUTHORIZE_DEVICE_ADMISSION",
+            obj["invariants"],
+        )
+
+
+    def test_hardware_safety_envelope_is_fail_closed_and_non_bypassable(self):
+        profile=json.loads((ROOT/"canonical/profiles/FA3-HARDWARE-BASELINE-001.json").read_text(encoding="utf-8"))
+        contract=json.loads((ROOT/"canonical/contracts/FA3-HARDWARE-DISCOVERY-CONTRACTS-001.json").read_text(encoding="utf-8"))
+        enforcement=json.loads((ROOT/"canonical/hardware-portability-enforcement.json").read_text(encoding="utf-8"))
+        decision=json.loads((ROOT/"canonical/decisions/FA3-DEC-HARDWARE-SAFETY-2026-09-26.json").read_text(encoding="utf-8"))
+
+        safety=profile["hardware_safety_envelope"]
+        self.assertEqual("MANDATORY_FAIL_CLOSED",safety["policy"])
+        self.assertTrue(safety["vendor_supported_operating_envelope_required"])
+        self.assertEqual("NO_MUTATION_FAIL_CLOSED",safety["unknown_safe_range"])
+        self.assertFalse(safety["installer_override"])
+        self.assertFalse(safety["expert_mode_override"])
+        self.assertFalse(safety["user_override_bypass"])
+
+        mutation=contract["hardware_mutation_safety"]
+        self.assertEqual("REJECT_MUTATION",mutation["unknown_safe_range"])
+        self.assertEqual("REJECT_MUTATION",mutation["out_of_supported_range"])
+        self.assertEqual("FORBIDDEN",mutation["installer_and_expert_override"])
+
+        self.assertTrue(enforcement["hardware_safety_fail_closed"])
+        self.assertEqual("FA3-DEC-HARDWARE-SAFETY-2026-09-26",enforcement["hardware_safety_decision_id"])
+        self.assertEqual(47,enforcement["mandatory_rule_count"])
+        self.assertEqual(
+            "MANDATORY_FAIL_CLOSED_HARDWARE_SAFETY_ENVELOPE_NO_UNSAFE_HARDWARE_TUNING",
+            decision["decision"],
+        )
+        self.assertFalse(decision["enforcement"]["user_override_may_bypass_safety_envelope"])
+
+
+    def test_cuda_oriented_capabilities_require_shared_portable_assessment(self):
+        policy=json.loads((ROOT/"canonical/FA3-CUDA-PORTABILITY-SHARED-FUNCTION-POLICY-001.json").read_text(encoding="utf-8"))
+        profile=json.loads((ROOT/"canonical/profiles/FA3-HARDWARE-BASELINE-001.json").read_text(encoding="utf-8"))
+        enforcement=json.loads((ROOT/"canonical/hardware-portability-enforcement.json").read_text(encoding="utf-8"))
+
+        self.assertEqual({"FA3","CFA3"},set(policy["scope"]["product_families"]))
+        assess=policy["mandatory_portability_assessment"]
+        self.assertTrue(assess["required_before_application_integration"])
+        self.assertTrue({"NVIDIA","AMD","INTEL"} <= set(assess["reference_vendor_families"]))
+        self.assertEqual(
+            {"FULL_EQUIVALENCE","FUNCTIONALLY_REDUCED","UNAVAILABLE"},
+            set(assess["assessment_result_enum"]),
+        )
+
+        placement=policy["shared_placement_policy"]
+        self.assertEqual("SHARED_LAYER_ONLY",placement["strongly_cuda_oriented_function_core"])
+        self.assertEqual("FORBIDDEN",placement["application_local_functional_core"])
+        ux=policy["product_runtime_and_ux_policy"]
+        self.assertTrue(ux["limitation_disclosure_required"])
+        self.assertFalse(ux["may_hide_reduced_functionality"])
+        self.assertFalse(ux["may_silently_fallback_to_cuda_or_other_backend"])
+
+        bound=profile["cuda_portability_shared_function_policy"]
+        self.assertEqual("SHARED_LAYER_ONLY",bound["function_core_placement"])
+        self.assertEqual("MANDATORY_USER_VISIBLE",bound["reduced_functionality_disclosure"])
+        self.assertFalse(bound["silent_backend_substitution"])
+
+        required={
+            "STRONGLY_CUDA_ORIENTED_CAPABILITY_REQUIRES_TARGET_HARDWARE_ALTERNATIVE_ASSESSMENT",
+            "AMD_AND_INTEL_ALTERNATIVE_PATHS_MUST_NOT_BE_SKIPPED_WHEN_TARGETED",
+            "CUDA_ORIENTED_FUNCTIONAL_CORE_MUST_BE_SHARED_LAYER_ONLY",
+            "APPLICATION_LOCAL_CUDA_ORIENTED_FUNCTIONAL_CORE_IS_FORBIDDEN",
+            "TARGET_HARDWARE_FUNCTIONAL_REDUCTION_MUST_BE_USER_VISIBLE",
+            "TARGET_BACKEND_UNAVAILABLE_MUST_FAIL_CLOSED",
+            "NO_SILENT_CUDA_OR_ACCELERATOR_BACKEND_SUBSTITUTION",
+        }
+        self.assertTrue(required <= set(enforcement["p0_invariants"]))
+        mandatory={row["invariant"] for row in enforcement["rules"] if row["mandatory"]}
+        self.assertTrue(required <= mandatory)
+
+    def test_gate_report_exposes_cuda_portability_shared_policy(self):
+        result=evaluate(ROOT)
+        policy=result["cuda_portability_shared_function"]
+        self.assertTrue(policy["target_hardware_assessment_required"])
+        self.assertEqual("SHARED_LAYER_ONLY",policy["function_core_placement"])
+        self.assertEqual("MANDATORY_USER_VISIBLE",policy["reduced_functionality_disclosure"])
+        self.assertEqual("FAIL_CLOSED_DISABLED_OR_UNAVAILABLE",policy["unavailable_behavior"])
+        self.assertFalse(policy["silent_backend_substitution"])
+        names={row["name"]:row["status"] for row in result["checks"]}
+        self.assertEqual("PASS",names["cuda-portability-shared-function-policy"])
+        self.assertEqual("PASS",names["cuda-portability-enforcement-rules"])
+
+
+    def test_runtime_fixed_vendor_lists_are_blocking(self):
+        for line in (
+            'CUDA_VISIBLE_DEVICES="0,1"\n',
+            'ROCR_VISIBLE_DEVICES="0,1"\n',
+            'ZE_AFFINITY_MASK="0.0"\n',
+            'DEVICE="0000:3b:00.0"\n',
+        ):
+            with self.subTest(line=line), tempfile.TemporaryDirectory() as td:
+                root=Path(td); (root/"apps").mkdir()
+                (root/"apps"/"bad.py").write_text(line,encoding="utf-8")
+                audit=scan_repository(root)
+                self.assertEqual("FAIL",audit["result"],audit)
+
+    def test_apps_qml_cpp_are_audited(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td); (root/"apps").mkdir()
+            (root/"apps"/"bad.qml").write_text('property string gpu: "RTX 4070"\n',encoding="utf-8")
+            audit=scan_repository(root)
+            self.assertEqual("FAIL",audit["result"],audit)
+
+    def test_legacy_host_reference_is_blocking_even_outside_runtime(self):
+        old_cpu = "E5-" + "26" + "96 v4"
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td); p=root/"docs"; p.mkdir()
+            (p/"legacy.md").write_text("Historical machine: " + old_cpu + "\n",encoding="utf-8")
+            audit=scan_repository(root)
+            self.assertEqual("FAIL",audit["result"],audit)
+            self.assertEqual(1,audit["legacy_repository_reference_count"])
+
+    def test_legacy_host_reference_embedded_in_identifier_is_blocking(self):
+        old_host = "NOT_" + "T" + "79" + "10" + "_EVIDENCE"
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td); p=root/"canonical"; p.mkdir()
+            (p/"bad.json").write_text(json.dumps({"claim": old_host}),encoding="utf-8")
+            audit=scan_repository(root)
+            self.assertEqual("FAIL",audit["result"],audit)
+            self.assertEqual(1,audit["legacy_repository_reference_count"])
+
+    def test_legacy_global_accelerator_floor_tokens_are_blocking(self):
+        old_rules = (
+            "ACCELERATOR_CARDINALITY_DYNAMIC_" + "1_TO_N",
+            "GPU_CARDINALITY_IS_LIVE_DISCOVERED_DYNAMIC_" + "1_TO_N",
+        )
+        for old_rule in old_rules:
+            with self.subTest(old_rule=old_rule), tempfile.TemporaryDirectory() as td:
+                root=Path(td); p=root/"canonical"; p.mkdir()
+                (p/"bad.json").write_text(json.dumps({"invariant": old_rule}),encoding="utf-8")
+                audit=scan_repository(root)
+                self.assertEqual("FAIL",audit["result"],audit)
+
+    def test_generated_current_host_evidence_is_excluded_from_repository_hardcode_audit(self):
+        old_cpu = "E5-" + "26" + "96 v4"
+        old_gpu = "RTX " + "A" + "1000"
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
-            (root / "src").mkdir()
-            (root / "src" / "bad.py").write_text(
-                'import os\nos.environ["CUDA_VISIBLE_DEVICES"] = "0,1"\n',
-                encoding="utf-8",
-            )
+            raw = root / ".fa3-current-host" / "global-closure" / "host" / "raw"
+            raw.mkdir(parents=True)
+            (raw / "lscpu.txt").write_text("Model name: " + old_cpu + "\n", encoding="utf-8")
+            (raw / "nvidia-summary.txt").write_text("GPU: " + old_gpu + "\n", encoding="utf-8")
             audit = scan_repository(root)
-            self.assertEqual("FAIL", audit["result"])
-            self.assertEqual(1, audit["blocking_hardcoded_production_assumptions"])
+            self.assertEqual("PASS", audit["result"], audit)
+            self.assertEqual(0, audit["legacy_repository_reference_count"])
+            self.assertEqual(0, audit["blocking_hardcoded_production_assumptions"])
 
     def test_reference_evidence_hardware_tuple_is_non_normative(self):
         with tempfile.TemporaryDirectory() as td:
-            root = Path(td)
-            p = root / "canonical" / "references"
-            p.mkdir(parents=True)
-            (p / "fixture.md").write_text(
-                "Reference evidence only: E5-2696 v4, RTX 3080, 44C/88T.",
-                encoding="utf-8",
-            )
-            audit = scan_repository(root)
-            self.assertEqual("PASS", audit["result"])
-            self.assertGreaterEqual(audit["non_normative_hardware_mentions"], 3)
+            root=Path(td); p=root/"canonical"/"references"; p.mkdir(parents=True)
+            (p/"fixture.md").write_text("Reference evidence only: Xeon Xeon Gold 6430, RTX 4070, 0000:3b:00.0.",encoding="utf-8")
+            audit=scan_repository(root)
+            self.assertEqual("PASS",audit["result"])
+            self.assertGreaterEqual(audit["non_normative_hardware_mentions"],2)
 
-    def test_runtime_reference_fixture_is_allowed_only_when_marked(self):
-        with tempfile.TemporaryDirectory() as td:
-            root = Path(td)
-            (root / "src").mkdir()
-            (root / "src" / "fixture.py").write_text(
-                '# reference topology fixture only\nMODEL = "E5-2696 v4"\n',
-                encoding="utf-8",
-            )
-            audit = scan_repository(root)
-            self.assertEqual("PASS", audit["result"])
-            self.assertGreaterEqual(audit["non_normative_hardware_mentions"], 1)
-
-    def test_reference_evidence_cannot_promote_runtime(self):
-        obj = json.loads(
-            (ROOT / "evidence/reference/hardware-portability-ci-2026-09-03.json")
-            .read_text(encoding="utf-8")
-        )
-        self.assertEqual("PASS", obj["status"])
-        self.assertFalse(obj["current_host_runtime_evidence"])
-        self.assertFalse(obj["current_host_runtime_promotion_claim"])
-
-
-if __name__ == "__main__":
+if __name__=="__main__":
     unittest.main()

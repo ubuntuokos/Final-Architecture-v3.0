@@ -1,0 +1,75 @@
+{
+  "schema": "fa3.desktop-plasma-reference.v1",
+  "id": "FA3-DESKTOP-PLASMA-001",
+  "title": "KDE Plasma Reference Desktop Profile",
+  "type": "CANONICAL_DESKTOP_REFERENCE_PROFILE",
+  "status": "REFERENCE_PROFILE",
+  "priority": "P1",
+  "role": "REFERENCE_AND_ENHANCED_DESKTOP_IMPLEMENTATION",
+  "base_profile": "FA3-DESKTOP-BASE-001",
+  "architectural_authority": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count": 175,
+  "reference_environment": {
+    "desktop": "KDE_PLASMA",
+    "session": "WAYLAND",
+    "tier": 1
+  },
+  "enhancements": [
+    "KIO_VIA_FA3_ENHANCEMENT_ADAPTER",
+    "KF6_NATIVE_ENHANCEMENT",
+    "QT6_NATIVE_DESKTOP_INTEGRATION",
+    "PLASMA_NATIVE_UX",
+    "KWALLET_VIA_SECRET_BROKER",
+    "KDE_FILE_DIALOG_WHEN_SELECTED_BY_PORTAL_OR_ADAPTER",
+    "KWIN_WAYLAND_ENHANCEMENTS",
+    "PLASMA_NOTIFICATIONS",
+    "PLASMA_TRAY_ENHANCEMENT",
+    "PLASMA_POWER_MANAGEMENT_ENHANCEMENT"
+  ],
+  "constraints": {
+    "enhancements_must_not_become_core_requirements": true,
+    "kwallet_direct_use_by_providers": "FORBIDDEN",
+    "kio_direct_use_by_portable_core": "FORBIDDEN",
+    "plasma_private_api_core_dependency": "FORBIDDEN",
+    "non_plasma_desktop_core_feature_parity": "REQUIRED_EXCEPT_OPTIONAL_ENHANCEMENTS",
+    "qt_native_integration_may_be_full_strength": true,
+    "lowest_common_denominator_restriction": false,
+    "kf6_enhancement_requires_fa3_interface_boundary": true,
+    "native_enhancement_must_not_reduce_non_plasma_support": true,
+    "desktop_native_enhancement_is_not_architectural_authority": true
+  },
+  "appearance": {
+    "breeze": "REFERENCE_APPEARANCE_ONLY",
+    "runtime_dependency": false,
+    "fa3_design_tokens_required": true
+  },
+  "secret_service_activation": {
+    "mode": "REFERENCE_PROVIDER_SECRET_SERVICE_ADAPTER",
+    "activation_bus_name": "org.kde.secretservicecompat",
+    "preferred_standard_bus_name": "org.freedesktop.secrets",
+    "object_path": "/org/freedesktop/secrets",
+    "interface": "org.freedesktop.Secret.Service",
+    "standard_interface_required": true,
+    "standard_bus_name_preferred": true,
+    "standard_bus_name_required_for_system_interop": true,
+    "compatibility_bus_name_allowed": true,
+    "compatibility_endpoint_may_satisfy_fa3_secret_backend": true,
+    "compatibility_endpoint_scope": "FA3_REFERENCE_ADAPTER_ONLY",
+    "activation_alias_semantics": "FA3_REFERENCE_ADAPTER_ONLY_NO_SYSTEM_SECRET_SERVICE_CLAIM",
+    "core_requirement": false,
+    "architectural_authority": false,
+    "semantics": "STANDARD_BUS_NAME_REMAINS_PREFERRED_FOR_SYSTEM_INTEROP; KDE_REFERENCE_ALIAS_MAY_SATISFY_ONLY_FA3_SECRET_BACKEND_WHEN_EXACT_XML_INTROSPECTION_PROVES_ORG_FREEDESKTOP_SECRET_SERVICE",
+    "activation_method": "DBUS_START_SERVICE_BY_NAME"
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "integration_strategy": {
+    "application_core": "QT6_QML_NATIVE",
+    "preferred": "QT6_NATIVE_KF6_ENHANCED",
+    "interoperability": "XDG_FREEDESKTOP",
+    "portal": "WHEN_SESSION_OR_SANDBOX_REQUIRES",
+    "portable_core_direct_private_kde_api": "FORBIDDEN"
+  }
+}

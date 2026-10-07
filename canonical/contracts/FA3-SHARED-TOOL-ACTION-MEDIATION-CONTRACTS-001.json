@@ -1,0 +1,63 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-SHARED-TOOL-ACTION-MEDIATION-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-SHARED-TOOL-ACTION-MEDIATION-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-003",
+    "CAP-007",
+    "CAP-011",
+    "CAP-013",
+    "CAP-051",
+    "CAP-079",
+    "CAP-144",
+    "CAP-145",
+    "CAP-172"
+  ],
+  "contracts": [
+    "ActionIntent",
+    "ActionCapabilityRequest",
+    "ActionRiskAssessment",
+    "ActionAuthorizationDecision",
+    "HumanApprovalRequest",
+    "ToolBinding",
+    "WorkloadAdmissionRequest",
+    "ExecutionEnvelope",
+    "ExecutionReceipt",
+    "RollbackReceipt",
+    "ActionDenial"
+  ],
+  "required_semantics": {
+    "pipeline": [
+      "MODEL_OR_AGENT_REQUEST",
+      "TYPED_ACTION_INTENT",
+      "LAYER_GUARD_AND_POLICY",
+      "OPTIONAL_HUMAN_APPROVAL",
+      "MCP_OR_UAF_BINDING",
+      "AGENT_WORKLOAD_RUNTIME",
+      "HRB_ADMISSION_IF_REQUIRED",
+      "ISOLATED_EXECUTION",
+      "RECEIPT_AND_EVIDENCE"
+    ],
+    "direct_shell_from_model": "DENY",
+    "direct_tool_provider_bypass": "DENY",
+    "prompt_injection_signal": "ADVISORY_ONLY",
+    "authorization": "DETERMINISTIC_SECURITY_GOVERNANCE",
+    "secrets": "SECRETREF_ONLY_WHERE_SUPPORTED",
+    "failure": "FAIL_CLOSED_EXPLICIT_DENIAL"
+  },
+  "invariants": [
+    "NO_MODEL_EXECUTION_AUTHORITY",
+    "NO_CLASSIFIER_AS_SECURITY_AUTHORITY",
+    "NO_DIRECT_PROVIDER_BYPASS",
+    "NO_SILENT_SANDBOX_DOWNGRADE",
+    "ROLLBACK_RECEIPT_FOR_REVERSIBLE_MUTATIONS"
+  ],
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}

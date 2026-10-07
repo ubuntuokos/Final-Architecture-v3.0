@@ -1,0 +1,35 @@
+[Unit]
+Description=FA3 Central MCP/Capability Gateway
+After=network.target
+ConditionPathExists=/opt/fa3/Final-Architecture-v3.0/canonical/mcp-capability-registry.json
+
+[Service]
+Type=simple
+User=fa3-mcp
+Group=fa3-mcp
+WorkingDirectory=/opt/fa3/Final-Architecture-v3.0
+Environment=FA3_MCP_GATEWAY_HOST=127.0.0.1
+Environment=FA3_MCP_GATEWAY_PORT=18790
+ExecStart=/usr/bin/env bash /opt/fa3/Final-Architecture-v3.0/bin/fa3-mcp-gateway
+Restart=on-failure
+RestartSec=2
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+SystemCallArchitectures=native
+UMask=0077
+
+# Provider-specific filesystem/network access is not granted here. Admitted
+# adapters receive only their separately governed scopes. HRB remains the
+# compute-resource authority.
+
+[Install]
+WantedBy=multi-user.target

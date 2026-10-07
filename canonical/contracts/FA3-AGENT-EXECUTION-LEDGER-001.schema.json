@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.local/contracts/FA3-AGENT-EXECUTION-LEDGER-001.schema.json",
+  "x-fa3-contract-id": "FA3-AGENT-EXECUTION-LEDGER-001",
+  "title": "FA3 Agent Execution Budget Ledger",
+  "type": "object",
+  "required": [
+    "schema",
+    "limits",
+    "used",
+    "termination_reason"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.agent-execution-ledger.v1"
+    },
+    "limits": {
+      "type": "object",
+      "required": [
+        "model_calls",
+        "tool_calls",
+        "retries",
+        "transfer_hops"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "model_calls": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "tool_calls": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "retries": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "transfer_hops": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "used": {
+      "type": "object",
+      "required": [
+        "model_calls",
+        "tool_calls",
+        "retries",
+        "transfer_hops"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "model_calls": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "tool_calls": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "retries": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "transfer_hops": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "termination_reason": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

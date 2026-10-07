@@ -1,28 +1,47 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse,csv,json,sys
+import argparse,csv,json,sys,os
 from pathlib import Path
+from fa3_release_baseline import load_active_release_baseline
+from fa3_donor_readiness import gate as donor_readiness_gate
+from fa3_evidence_validation import git_head, validate_capability_receipt
+from fa3_authenticated_approval import ApprovalVerificationError, PROMOTION_RECEIPT_FILENAMES, consume_promotion_receipts, ensure_promotion_receipts_unconsumed, requirement_for_filename, sha256_file, verify_receipt_file
+from fa3_authenticated_approval_gate import gate as authenticated_approval_gate
+from fa3_reproducibility_gate import gate as reproducibility_gate
+from fa3_gate_registry import gate as gate_registry_gate
+from fa3_permanent_gate_hardening import gate as permanent_gate_hardening_gate
+from fa3_canonical_registry_integrity import gate as canonical_registry_integrity_gate
+from fa3_governance_status import gate as governance_status_gate, project as governance_status_project
 from fa3_terax_gate import gate as terax_gate, reference_check as terax_reference_check
 from fa3_kaneo_gate import gate as kaneo_gate
 from fa3_kanboard_gate import gate as kanboard_gate
+from fa3_work_management_gate import gate as work_management_gate
 from fa3_buzz_gate import gate as buzz_gate
 from fa3_xcmd_gate import gate as xcmd_gate
 from fa3_ai_engineering_gate import gate as ai_engineering_gate
 from fa3_external_api_discovery_gate import gate as external_api_discovery_gate
 from fa3_autogpt_gate import gate as autogpt_gate
+from fa3_caveman_gate import gate as caveman_gate
 from fa3_ai_infra_guard_gate import gate as ai_infra_guard_gate, current_host_gate as ai_infra_guard_current_host_gate
+from fa3_ai_guardrail_runtime_gate import gate as ai_guardrail_runtime_gate
 from fa3_munder_difflin_gate import gate as munder_difflin_gate
 from fa3_munder_difflin_executable_gate import gate as munder_difflin_executable_gate
 from fa3_muse_code_gate import gate as muse_code_gate
 from fa3_loop_engineering_gate import gate as loop_engineering_gate
 from fa3_openhands_gate import gate as openhands_gate
+from fa3_openyak_gate import gate as openyak_gate
+from fa3_obsidian_knowledge_workspace_gate import gate as obsidian_knowledge_workspace_gate
+from fa3_creative_operations_dashboard_gate import gate as creative_operations_dashboard_gate
 from fa3_openbmb_gate import gate as openbmb_gate
 from fa3_gpu_kernel_runtime_gate import gate as gpu_kernel_runtime_gate, current_host_gate as gpu_kernel_runtime_current_host_gate
 from fa3_tencentdb_agent_memory_gate import gate as tencentdb_agent_memory_gate
 from fa3_video_provider_lifecycle_gate import gate as video_provider_lifecycle_gate
 from fa3_stability_sgm_gate import gate as stability_sgm_gate
 from fa3_stability_portfolio_gate import gate as stability_portfolio_gate
+from fa3_local_generative_media_lifecycle_gate import gate as local_generative_media_lifecycle_gate
 from fa3_developer_agent_coordination_gate import gate as developer_agent_coordination_gate
+from fa3_ai_comms_gate import gate as ai_comms_gate
+from fa3_integration_broker_gate import gate as integration_broker_gate
 from fa3_codex_gate import gate as codex_gate, current_host_gate as codex_current_host_gate
 from fa3_modular_gate import gate as modular_gate
 from fa3_inference_portability_gate import gate as inference_portability_gate
@@ -41,7 +60,13 @@ from fa3_ffmpeg_ai_gate import gate as ffmpeg_ai_gate
 from fa3_ffmpeg_ai_current_host_gate import gate as ffmpeg_ai_current_host_gate
 from fa3_hybrid_editorial_gate import gate as hybrid_editorial_gate
 from fa3_marketing_gate import gate as marketing_gate
+from fa3_marketing_agent_native_gate import gate as marketing_agent_native_gate
+from fa3_caption_subtitle_gate import gate as caption_subtitle_gate
+from fa3_caption_subtitle_current_host_gate import gate as caption_subtitle_current_host_gate
 from fa3_marketingskills_gate import gate as marketingskills_gate
+from fa3_skill_fabric_gate import gate as skill_fabric_gate
+from fa3_distribution_compliance_gate import gate as distribution_compliance_gate
+from fa3_reuse_gate import gate as reuse_discovery_gate
 from fa3_whisper_stt_gate import gate as whisper_stt_gate
 from fa3_whisper_stt_provider import run_executable_conformance as whisper_stt_provider_conformance
 from fa3_cosyvoice_gate import gate as cosyvoice_gate, current_host_gate as cosyvoice_current_host_gate
@@ -50,15 +75,46 @@ from fa3_release_projection_gate import gate as release_projection_gate
 from fa3_mentor_gate import gate as mentor_gate
 from fa3_presenton_gate import gate as presenton_gate, current_host_gate as presenton_current_host_gate
 from fa3_hrb_deterministic_locality_gate import gate as hrb_deterministic_locality_gate
+from fa3_sysctl_governance_gate import gate as sysctl_governance_gate
 from fa3_cpu_numa_threading_gate import gate as cpu_numa_threading_gate
+from fa3_openmp_governance_gate import gate as openmp_governance_gate
 from fa3_cpu_numa_threading_current_host_gate import gate as cpu_numa_threading_current_host_gate
 from fa3_hardware_portability_gate import gate as hardware_portability_gate
+from fa3_host_adaptation import self_test as host_adaptation_gate
+from fa3_uaf_gate import gate as uaf_gate
+from fa3_computer_interaction_gate import gate as computer_interaction_runtime_gate
+from fa3_browser_action_gate import gate as browser_action_runtime_gate
+from fa3_browser_cdp_gate import gate as browser_cdp_provider_gate
+from fa3_neural_rendering_gate import gate as neural_rendering_gate
+from fa3_hair_groom_gate import gate as hair_groom_gate
+from fa3_cuda_compat_gate import gate as cuda_compat_native_gate
+from fa3_ray_path_tracing_gate import gate as ray_path_tracing_gate
+from cfa3_development_ai_behavior_gate import gate as cfa3_development_ai_behavior_gate
+from cfa3_retroactive_redesign_compliance_gate import gate as cfa3_retroactive_redesign_compliance_gate
+from fa3_khronos_open_standards_gate import gate as khronos_open_standards_gate
+from fa3_audacity_mcp_gate import gate as audacity_mcp_gate
+from fa3_agent_instructions_gate import gate as agent_instructions_gate
+from fa3_quality_gate import evaluate as quality_anti_slop_gate
+from fa3_agency_agents_gate import gate as agency_agents_gate
+from fa3_agent_definition_gate import gate as agent_definition_gate
+from fa3_external_llm_catalog_gate import reference_check as external_llm_catalog_gate
+from fa3_model_router_provider_execution_gate import gate as model_router_provider_execution_gate
+from fa3_agent_workload_gate import gate as agent_workload_runtime_gate
+from fa3_agent_workload_current_host_gate import gate as agent_workload_runtime_current_host_gate
+from fa3_agent_federation_gate import gate as agent_federation_gate
+from fa3_gui_current_host_gate import gate as gui_current_host_gate
+from fa3_supply_runtime_hardening_gate import gate as supply_runtime_hardening_gate
+from fa3_supply_runtime_hardening_current_host_gate import gate as supply_runtime_hardening_current_host_gate
+from fa3_pytorch3d_gate import gate as pytorch3d_gate
+from fa3_openfx_interop_gate import gate as openfx_interop_gate
+from fa3_os_event_privacy_gate import gate as fa3_os_event_privacy_gate
+from fa3_runtime_hardening_gate import gate as runtime_hardening_gate
+from fa3_modernization_integration_gate import gate as modernization_integration_gate
+from fa3_external_rt3d_engine_exclusion_gate import gate as external_rt3d_engine_exclusion_gate
 
 OK=0
 BLOCKED=2
 INPUT=3
-RELEASE="2026-08-23/v3.0.11"
-CAPS=143
 FORBIDDEN={"OPEN","ORPHANED","UNCLASSIFIED"}
 
 RECEIPTS={
@@ -82,7 +138,7 @@ RECEIPTS={
 NAMES={
   1:"modular source graph and schema lint PASS",
   2:"authority lint has no duplicate owner",
-  3:"143 capability catalog validation PASS",
+  3:"active release capability catalog validation PASS",
   4:"current-host fingerprint and source exclusion receipt signed",
   5:"every active provider has current ResolvedRuntimePlan",
   6:"process and CPU/RAM/VRAM/I/O/network envelope fits host budget",
@@ -111,7 +167,12 @@ def writej(p:Path,o):
 def finding(code,msg,**kw):
     return {"code":code,"severity":"P0","message":msg,**kw}
 
+def active_release_values(root:Path):
+    baseline=load_active_release_baseline(root)
+    return baseline.release,baseline.capability_count
+
 def static_check(root:Path):
+    RELEASE,CAPS=active_release_values(root)
     fs=[]
     pol=loadj(root/"canonical/enforcement-policy.json")
     att=loadj(root/"canonical/source-graph-attestation.json")
@@ -119,9 +180,109 @@ def static_check(root:Path):
     mapping=loadj(root/"canonical/fa3_legacy_gap_to_registry_mapping_2026-08-26.json")
     rows=list(csv.DictReader((root/"canonical/conformance-matrix.csv").open(encoding="utf-8-sig",newline="")))
 
+    gate_registry_ref=gate_registry_gate(root)
+    if gate_registry_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-139","Canonical mandatory gate registry failed",gate_registry_gate=gate_registry_ref))
+
+    permanent_gate_hardening_ref=permanent_gate_hardening_gate(root)
+    if permanent_gate_hardening_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-147","Permanent Gate authority/provenance hardening failed",permanent_gate_hardening_gate=permanent_gate_hardening_ref))
+
+    canonical_registry_integrity_ref=canonical_registry_integrity_gate(root)
+    if canonical_registry_integrity_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-148","Canonical Registry integrity/live graph gate failed",canonical_registry_integrity_gate=canonical_registry_integrity_ref))
+
+    governance_status_ref=governance_status_gate(root)
+    if governance_status_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-140","Machine-derived governance status projection failed",governance_status_gate=governance_status_ref))
+
+    reproducibility_ref=reproducibility_gate(root)
+    if reproducibility_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-138","Repository reproducibility gate failed",reproducibility_gate=reproducibility_ref))
+
+    authenticated_approval_ref=authenticated_approval_gate(root)
+    if authenticated_approval_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-136","Authenticated approval trust boundary gate failed",authenticated_approval_gate=authenticated_approval_ref))
+
+    hardware_portability_ref=hardware_portability_gate(root)
+    if hardware_portability_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-081","Primary hardware portability and repository-wide legacy/hardcoded-assumption gate failed",hardware_portability_gate=hardware_portability_ref))
+    uaf_ref=uaf_gate(root)
+    if uaf_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-115","Unified Action Fabric P0 canonical/security-boundary gate failed",uaf_gate=uaf_ref))
+    computer_interaction_ref=computer_interaction_runtime_gate(root)
+    if computer_interaction_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-146","Computer Interaction Runtime bounded native-desktop execution gate failed",computer_interaction_runtime_gate=computer_interaction_ref))
+    browser_action_ref=browser_action_runtime_gate(root)
+    if browser_action_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-120","Browser Action Runtime bounded-execution gate failed",browser_action_runtime_gate=browser_action_ref))
+    browser_cdp_ref=browser_cdp_provider_gate(root)
+    if browser_cdp_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-121","Browser CDP optional provider boundary gate failed",browser_cdp_provider_gate=browser_cdp_ref))
+    marketing_agent_native_ref=marketing_agent_native_gate(root)
+    if marketing_agent_native_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-118","Marketing Agent Native / bounded advisory gate failed",marketing_agent_native_gate=marketing_agent_native_ref))
+    caption_subtitle_ref=caption_subtitle_gate(root)
+    if caption_subtitle_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-136","Caption/Subtitle/Narration Fabric canonical/runtime-reference gate failed",caption_subtitle_gate=caption_subtitle_ref))
+    neural_rendering_ref=neural_rendering_gate(root)
+    if neural_rendering_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-119","Neural Rendering / OpenDLSS-NR provider projection gate failed",neural_rendering_gate=neural_rendering_ref))
+
+    hair_groom_ref=hair_groom_gate(root)
+    if hair_groom_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-149","Shared Hair/Groom mandatory static gate failed",hair_groom_gate=hair_groom_ref))
+
+    cuda_compat_native_ref=cuda_compat_native_gate(root)
+    if cuda_compat_native_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-151","CFA3 native CUDA compatibility mandatory static gate failed",cuda_compat_native_gate=cuda_compat_native_ref))
+
+    ray_path_tracing_ref=ray_path_tracing_gate(root)
+    if ray_path_tracing_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-155","CFA3 Shared Ray/Path Tracing mandatory static gate failed",ray_path_tracing_gate=ray_path_tracing_ref))
+
+    cfa3_development_ai_behavior_ref=cfa3_development_ai_behavior_gate(root)
+    if cfa3_development_ai_behavior_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-153","CFA3 development and AI behavior mandatory governance gate failed",cfa3_development_ai_behavior_gate=cfa3_development_ai_behavior_ref))
+    cfa3_retroactive_redesign_ref=cfa3_retroactive_redesign_compliance_gate(root)
+    if cfa3_retroactive_redesign_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-156","CFA3 retroactive redesign compliance mandatory governance gate failed",cfa3_retroactive_redesign_compliance_gate=cfa3_retroactive_redesign_ref))
+    agent_instructions_ref=agent_instructions_gate(root)
+    if agent_instructions_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-114","Repository agent-instruction projection governance gate failed",agent_instructions_gate=agent_instructions_ref))
+
+    quality_anti_slop_ref=quality_anti_slop_gate(root)
+    if quality_anti_slop_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-124","Native anti-slop quality gate failed",quality_anti_slop_gate=quality_anti_slop_ref))
+    agency_agents_ref=agency_agents_gate(root)
+    if agency_agents_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-125","Agency Agents reference-provider normalization gate failed",agency_agents_gate=agency_agents_ref))
+    agent_definition_ref=agent_definition_gate(root)
+    if agent_definition_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-126","Agent Definition admission gate failed",agent_definition_gate=agent_definition_ref))
+    gui_current_host_ref=gui_current_host_gate(root)
+    if gui_current_host_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-134","GUI current-host closure materialization gate failed",gui_current_host_gate=gui_current_host_ref))
+    external_llm_catalog_ref=external_llm_catalog_gate(root)
+    if external_llm_catalog_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-127","External LLM Catalog discovery/admission-boundary gate failed",external_llm_catalog_gate=external_llm_catalog_ref))
+    model_router_provider_execution_ref=model_router_provider_execution_gate(root)
+    if model_router_provider_execution_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-129","Model Router Provider Execution gate failed",model_router_provider_execution_gate=model_router_provider_execution_ref))
+    agent_workload_runtime_ref=agent_workload_runtime_gate(root)
+    if agent_workload_runtime_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-128","Agent Workload Runtime canonical/boundary gate failed",agent_workload_runtime_gate=agent_workload_runtime_ref))
+
     projection_ref=release_projection_gate(root)
     if projection_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-039","Unified post-v3.0.11 canonical release projection gate failed",release_projection_gate=projection_ref))
+
+    runtime_hardening_ref=runtime_hardening_gate(root)
+    if runtime_hardening_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-108","Cross-cutting runtime hardening gate failed",runtime_hardening_gate=runtime_hardening_ref))
+    modernization_integration_ref=modernization_integration_gate(root)
+    if modernization_integration_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-135","Modernization integration authority/evidence boundary gate failed",modernization_integration_gate=modernization_integration_ref))
 
     if pol.get("architecture_release")!=RELEASE or pol.get("canonical_capability_count")!=CAPS:
         fs.append(finding("FA3-STATIC-001","Enforcement policy release/capability invariant mismatch"))
@@ -142,17 +303,48 @@ def static_check(root:Path):
     if "FA3-INFERENCE-PORTABILITY-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-050","Inference portability compatibility/provider gate is not bound into global enforcement policy"))
     if "FA3-MODEL-MANAGER-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
-        fs.append(finding("FA3-STATIC-052","Model Manager/StabilityMatrix canonical gate is not bound into global enforcement policy"))
+        fs.append(finding("FA3-STATIC-052","Model Manager canonical-store gate is not bound into global enforcement policy"))
     if "FA3-MUNDER-DIFFLIN-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-034","Munder Difflin multi-agent coordination gate is not bound into global enforcement policy"))
     if "FA3-MUSE-CODE-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-060","Muse Code durable/replayable execution gate is not bound into global enforcement policy"))
     if "FA3-OPENHANDS-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-066","OpenHands developer-agent execution gate is not bound into global enforcement policy"))
+    if "FA3-OPENYAK-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-084","OpenYak desktop-agent workbench gate is not bound into global enforcement policy"))
+    if "FA3-CREATIVE-OPERATIONS-DASHBOARD-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-086","FA3 Creative Operations Dashboard gate is not bound into global enforcement policy"))
     if "FA3-LOOP-ENGINEERING-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-078","Closed-loop agent operations governance gate is not bound into global enforcement policy"))
     if "FA3-HARDWARE-PORTABILITY-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-080","Hardware portability/repository-assumption gate is not bound into global enforcement policy"))
+    if "FA3-UNIFIED-ACTION-FABRIC-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-115","Unified Action Fabric gate is not bound into global enforcement policy"))
+    if "FA3-COMPUTER-INTERACTION-RUNTIME-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-146","Computer Interaction Runtime gate is not bound into global enforcement policy"))
+    if "FA3-BROWSER-ACTION-RUNTIME-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-120","Browser Action Runtime gate is not bound into global enforcement policy"))
+    if "FA3-BROWSER-CDP-PROVIDER-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-121","Browser CDP provider gate is not bound into global enforcement policy"))
+    if "FA3-AGENT-INSTRUCTIONS-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-113","Agent-instruction projection gate is not bound into global enforcement policy"))
+    if "FA3-SHARED-HAIR-GROOM-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-150","Shared Hair/Groom gate is not bound into global enforcement policy"))
+    if "FA3-CUDA-COMPAT-NATIVE-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-152","CFA3 native CUDA compatibility gate is not bound into global enforcement policy"))
+    if "FA3-RAY-PATH-TRACING-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-156","CFA3 Shared Ray/Path Tracing gate is not bound into global enforcement policy"))
+    if not (
+        pol.get("ray_path_tracing_profile_id") == "FA3-SHARED-RAY-PATH-TRACING-001"
+        and pol.get("ray_path_tracing_contract_id") == "FA3-SHARED-RAY-PATH-TRACING-CONTRACTS-001"
+        and pol.get("ray_path_tracing_gate_id") == "FA3-RAY-PATH-TRACING-GATESET-001"
+        and pol.get("ray_path_tracing_enforcement_class") == "P0_CROSS_CUTTING_STATIC_GATE"
+        and pol.get("ray_path_tracing_global_static_required") is True
+        and pol.get("ray_path_tracing_current_host_runtime_promotion_claim") is False
+    ):
+        fs.append(finding("FA3-STATIC-157","CFA3 Shared Ray/Path Tracing cross-cutting binding is invalid"))
+    if "CFA3-DEVELOPMENT-AI-BEHAVIOR-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-154","CFA3 development and AI behavior gate is not bound into global enforcement policy"))
     if "FA3-OPENBMB-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-070","OpenBMB provider-family boundary/hardware gate is not bound into global enforcement policy"))
     if "FA3-GPU-KERNEL-RUNTIME-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
@@ -163,10 +355,34 @@ def static_check(root:Path):
         fs.append(finding("FA3-STATIC-070","Stability provider portfolio gate is not bound into global enforcement policy"))
     if "FA3-DEVELOPER-AGENT-COORDINATION-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-046","Developer-agent coordination gate is not bound into global enforcement policy"))
+    if "FA3-AI-COMMS-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-116","Human-auditable AI communication gate is not bound into global enforcement policy"))
+    if not (
+        pol.get("ai_comms_profile_id") == "FA3-AI-COMMS-001"
+        and pol.get("ai_comms_contract_id") == "FA3-AI-COMMS-CONTRACTS-001"
+        and pol.get("ai_comms_gate_id") == "FA3-AI-COMMS-GATESET-001"
+        and pol.get("ai_comms_enforcement_class") == "P0_CROSS_CUTTING_STATIC_GATE"
+        and pol.get("ai_comms_global_static_required") is True
+    ):
+        fs.append(finding("FA3-STATIC-117","Human-auditable AI communication cross-cutting binding is invalid"))
+    if not (
+        pol.get("integration_broker_gate_id") == "FA3-INTEGRATION-BROKER-GATESET-001"
+        and pol.get("integration_broker_enforcement_class") == "P0_CROSS_CUTTING_STATIC_GATE"
+        and pol.get("integration_broker_global_static_required") is True
+    ):
+        fs.append(finding("FA3-STATIC-109","Human-approved integration broker cross-cutting static binding is invalid"))
     if "FA3-CODEX-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-048","Codex adapter gate is not bound into global enforcement policy"))
     if "FA3-AUTOGPT-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-037","AutoGPT agentic-workflow boundary gate is not bound into global enforcement policy"))
+    if "FA3-CAVEMAN-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-091","Caveman recoverable context-transformation gate is not bound into global enforcement policy"))
+    if "FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-093","Local Generative Media Lifecycle gate is not bound into global enforcement policy"))
+    if "FA3-OBSIDIAN-KNOWLEDGE-WORKSPACE-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-095","Obsidian human knowledge workspace gate is not bound into global enforcement policy"))
+    if "FA3-KNOWLEDGE-HYBRID-RETRIEVAL-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-096","Knowledge hierarchical/hybrid retrieval gate is not bound into global enforcement policy"))
     if "FA3-EXTERNAL-API-DISCOVERY-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-042","External API/MCP discovery gate is not bound into global enforcement policy"))
     if "FA3-DEMUCS-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
@@ -183,8 +399,37 @@ def static_check(root:Path):
         fs.append(finding("FA3-STATIC-054","Hybrid editorial executable gate is not bound into global enforcement policy"))
     if "FA3-MARKETING-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-056","Marketing/Hungarian-first executable gate is not bound into global enforcement policy"))
+    if "FA3-MARKETING-AGENT-NATIVE-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-118","Marketing Agent Native gate is not bound into global enforcement policy"))
+    if "FA3-CAPTION-SUBTITLE-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-136","Caption/Subtitle/Narration Fabric gate is not bound into global enforcement policy"))
+    if "FA3-NEURAL-RENDERING-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-119","Neural Rendering gate is not bound into global enforcement policy"))
     if "FA3-MARKETINGSKILLS-SKILL-ADMISSION-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-082","MarketingSkills skill-package admission gate is not bound into global enforcement policy"))
+    if "FA3-SKILL-FABRIC-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-122","Provider-neutral Skill Fabric gate is not bound into global enforcement policy"))
+    if "FA3-DISTRIBUTION-COMPLIANCE-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-123","Distribution Compliance gate is not bound into global enforcement policy"))
+    if "FA3-REUSE-DISCOVERY-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-130","Reuse Discovery gate is not bound into global enforcement policy"))
+    if "FA3-AGENCY-AGENTS-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-125","Agency Agents reference-provider gate is not bound into global enforcement policy"))
+    if "FA3-AGENT-DEFINITION-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-126","Agent Definition gate is not bound into global enforcement policy"))
+    if "FA3-EXTERNAL-LLM-CATALOG-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-127","External LLM Catalog gate is not bound into global enforcement policy"))
+    if "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-129","Model Router Provider Execution gate is not bound into global enforcement policy"))
+    if "FA3-AGENT-WORKLOAD-RUNTIME-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-128","Agent Workload Runtime gate is not bound into global enforcement policy"))
+    if "FA3-AGENT-FEDERATION-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-132","Agent Federation gate is not bound into global enforcement policy"))
+    if "FA3-GUI-CURRENT-HOST-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-134","GUI current-host closure gate is not bound into global enforcement policy"))
+    supply_runtime_ref=supply_runtime_hardening_gate(root)
+    if supply_runtime_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-133","Supply-chain / Provider Runtime / HRB composite hardening gate failed",supply_runtime_hardening_gate=supply_runtime_ref))
     if "FA3-WHISPER-STT-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-026","Whisper STT provider gate is not bound into global enforcement policy"))
     if "FA3-MENTOR-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
@@ -199,8 +444,12 @@ def static_check(root:Path):
         fs.append(finding("FA3-STATIC-068","CPU/NUMA thread-pool governance gate is not bound into global enforcement policy"))
     if "FA3-VIDEO-PROVIDER-LIFECYCLE-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-078","Video provider lifecycle/backend/cache gate is not bound into global enforcement policy"))
+    if "FA3-PYTORCH3D-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-097","PyTorch3D differentiable 3D source-build/device-safety gate is not bound into global enforcement policy"))
+    if "FA3-OPENFX-INTEROPERABILITY-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-099","OpenFX VFX plug-in interoperability gate is not bound into global enforcement policy"))
 
-    if att.get("release")!=RELEASE or att.get("ci_status")!="PASS" or att.get("design_coverage_status")!="STRUCTURALLY_COMPLETE":
+    if att.get("release")!="2026-08-23/v3.0.11" or att.get("ci_status")!="PASS" or att.get("design_coverage_status")!="STRUCTURALLY_COMPLETE":
         fs.append(finding("FA3-STATIC-004","Source-graph attestation not current structural PASS"))
     if att.get("sha256")!="0418528b52fd9a29d993fc69c1ea508f57cd527d96e234d738c6b8fc553c4f16":
         fs.append(finding("FA3-STATIC-005","Canonical source-graph attestation digest drift"))
@@ -209,10 +458,19 @@ def static_check(root:Path):
     if any(att.get(k)!=0 for k in ("orphan_must","unmapped_capabilities","missing_evidence_mappings")):
         fs.append(finding("FA3-STATIC-007","Source graph contains unresolved design gaps"))
 
-    expected=[f"CAP-{i:03d}" for i in range(1,144)]
+    expected=[f"CAP-{i:03d}" for i in range(1,CAPS+1)]
     ids=[r.get("capability_id") for r in rows]
+    if "FA3-OS-EVENT-PRIVACY-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-104","FA3 OS event/privacy gate is not bound into global enforcement policy"))
+
+    if "FA3-WORK-MANAGEMENT-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-106","Work Management mandatory GUI/provider-neutral gate is not bound into global enforcement policy"))
+
+    if "FA3-EXTERNAL-RT3D-ENGINE-EXCLUSION-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-111","External RT3D engine exclusion gate is not bound into global enforcement policy"))
+
     if len(rows)!=CAPS or ids!=expected:
-        fs.append(finding("FA3-STATIC-008","Capability catalog is not exact CAP-001..CAP-143",rows=len(rows)))
+        fs.append(finding("FA3-STATIC-008",f"Capability catalog is not exact CAP-001..CAP-{CAPS:03d}",rows=len(rows)))
     bad=[r.get("capability_id") for r in rows if r.get("design_conformance")!="DESIGN-CONFORMANT"]
     if bad:
         fs.append(finding("FA3-STATIC-009","Non design-conformant capability found",sample=bad[:20]))
@@ -257,6 +515,12 @@ def static_check(root:Path):
     autogpt_ref=autogpt_gate(root)
     if autogpt_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-038","AutoGPT mandatory agentic workflow/boundary regression gate failed",autogpt_gate=autogpt_ref))
+    caveman_ref=caveman_gate(root)
+    if caveman_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-092","Caveman recoverable context-transformation regression gate failed",caveman_gate=caveman_ref))
+    local_media_lifecycle_ref=local_generative_media_lifecycle_gate(root)
+    if local_media_lifecycle_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-094","Local Generative Media Lifecycle regression gate failed",local_generative_media_lifecycle_gate=local_media_lifecycle_ref))
     external_discovery_ref=external_api_discovery_gate(root)
     if external_discovery_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-043","External API/MCP discovery mandatory admission-boundary gate failed",external_api_discovery_gate=external_discovery_ref))
@@ -268,7 +532,7 @@ def static_check(root:Path):
         fs.append(finding("FA3-STATIC-051","Inference portability compatibility/provider regression gate failed",inference_portability_gate=inference_portability_ref))
     model_manager_ref=model_manager_gate(root)
     if model_manager_ref["result"]!="PASS":
-        fs.append(finding("FA3-STATIC-053","Model Manager/StabilityMatrix canonical regression gate failed",model_manager_gate=model_manager_ref))
+        fs.append(finding("FA3-STATIC-053","Model Manager canonical-store regression gate failed",model_manager_gate=model_manager_ref))
     munder_ref=munder_difflin_gate(root)
     if munder_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-035","Munder Difflin mandatory multi-agent coordination regression gate failed",munder_difflin_gate=munder_ref))
@@ -278,6 +542,15 @@ def static_check(root:Path):
     openhands_ref=openhands_gate(root)
     if openhands_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-067","OpenHands developer-agent execution boundary regression gate failed",openhands_gate=openhands_ref))
+    openyak_ref=openyak_gate(root)
+    if openyak_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-085","OpenYak desktop-agent workbench boundary regression gate failed",openyak_gate=openyak_ref))
+    obsidian_ref=obsidian_knowledge_workspace_gate(root)
+    if obsidian_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-096","Obsidian human knowledge workspace boundary regression gate failed",obsidian_knowledge_workspace_gate=obsidian_ref))
+    creative_ops_ref=creative_operations_dashboard_gate(root)
+    if creative_ops_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-087","FA3 Creative Operations Dashboard boundary regression gate failed",creative_operations_dashboard_gate=creative_ops_ref))
     loop_engineering_ref=loop_engineering_gate(root)
     if loop_engineering_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-079","Closed-loop agent operations / Loop Engineering regression gate failed",loop_engineering_gate=loop_engineering_ref))
@@ -299,9 +572,15 @@ def static_check(root:Path):
     stability_portfolio_ref=stability_portfolio_gate(root)
     if stability_portfolio_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-071","Stability provider portfolio canonical/admission gate failed",stability_portfolio_gate=stability_portfolio_ref))
+    ai_comms_ref=ai_comms_gate(root)
+    if ai_comms_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-118","Human-auditable AI communication regression gate failed",ai_comms_gate=ai_comms_ref))
     dac_ref=developer_agent_coordination_gate(root)
     if dac_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-047","Developer-agent coordination contract/runtime E2E gate failed",developer_agent_coordination_gate=dac_ref))
+    integration_broker_ref=integration_broker_gate(root)
+    if integration_broker_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-110","Human-approved integration broker regression gate failed",integration_broker_gate=integration_broker_ref))
     codex_ref=codex_gate(root)
     if codex_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-049","Codex adapter/admission regression gate failed",codex_gate=codex_ref))
@@ -326,6 +605,15 @@ def static_check(root:Path):
     marketing_ref=marketing_gate(root)
     if marketing_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-057","Marketing/Hungarian-first executable gate failed",marketing_gate=marketing_ref))
+    skill_fabric_ref=skill_fabric_gate(root)
+    if skill_fabric_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-122","Provider-neutral Skill Fabric gate failed",skill_fabric_gate=skill_fabric_ref))
+    distribution_compliance_ref=distribution_compliance_gate(root)
+    if distribution_compliance_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-123","Distribution Compliance gate failed",distribution_compliance_gate=distribution_compliance_ref))
+    reuse_discovery_ref=reuse_discovery_gate(root)
+    if reuse_discovery_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-131","Reuse Discovery mandatory pre-implementation gate failed",reuse_discovery_gate=reuse_discovery_ref))
     marketingskills_ref=marketingskills_gate(root)
     if marketingskills_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-083","MarketingSkills skill-package admission gate failed",marketingskills_gate=marketingskills_ref))
@@ -347,9 +635,12 @@ def static_check(root:Path):
     cpu_numa_threading_ref=cpu_numa_threading_gate(root)
     if cpu_numa_threading_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-069","CPU/NUMA physical-core-first thread governance gate failed",cpu_numa_threading_gate=cpu_numa_threading_ref))
-    hardware_portability_ref=hardware_portability_gate(root)
-    if hardware_portability_ref["result"]!="PASS":
-        fs.append(finding("FA3-STATIC-081","Hardware portability and repository-wide hardcoded-assumption gate failed",hardware_portability_gate=hardware_portability_ref))
+    pytorch3d_ref=pytorch3d_gate(root)
+    if pytorch3d_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-098","PyTorch3D differentiable 3D source-build/device-safety gate failed",pytorch3d_gate=pytorch3d_ref))
+    openfx_ref=openfx_interop_gate(root)
+    if openfx_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-100","OpenFX VFX plug-in interoperability gate failed",openfx_interoperability_gate=openfx_ref))
     mentor_ref=mentor_gate(root)
     if mentor_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-041","FA3 Mentor mandatory canonical/regression gate failed",mentor_gate=mentor_ref))
@@ -359,100 +650,179 @@ def static_check(root:Path):
     ai_infra_guard_ref=ai_infra_guard_gate(root)
     if ai_infra_guard_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-049","AI-Infra-Guard mandatory security-validation gate failed",ai_infra_guard_gate=ai_infra_guard_ref))
+    ai_guardrail_runtime_ref=ai_guardrail_runtime_gate(root)
+    if ai_guardrail_runtime_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-102","Request-time AI guardrail runtime/QoS gate failed",ai_guardrail_runtime_gate=ai_guardrail_runtime_ref))
+
+    fa3_os_ref=fa3_os_event_privacy_gate(root)
+    if fa3_os_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-105","FA3 OS event/privacy substrate gate failed",fa3_os_event_privacy_gate=fa3_os_ref))
+
+    work_management_ref=work_management_gate(root)
+    if work_management_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-107","Work Management provider-neutral GUI gate failed",work_management_gate=work_management_ref))
+
+    external_rt3d_exclusion_ref=external_rt3d_engine_exclusion_gate(root)
+    if external_rt3d_exclusion_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-112","External RT3D engine exclusion gate failed",external_rt3d_engine_exclusion_gate=external_rt3d_exclusion_ref))
+
+    khronos_ref=khronos_open_standards_gate(root)
+    if khronos_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-141","Khronos Open Standards SDK Fabric gate failed",khronos_open_standards_gate=khronos_ref))
+
+    audacity_ref=audacity_mcp_gate(root)
+    if audacity_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-142","Audacity MCP CAP-124 mandatory governance gate failed",audacity_mcp_gate=audacity_ref))
 
     result="PASS" if not fs else "FAIL"
     rep={"schema":"fa3.static-gate-report.v1","architecture_release":RELEASE,"result":result,"blocking_findings":len(fs),"findings":fs,
-         "details":{"capabilities":len(rows),"reconciliation_records":len(maps),"geometry_status":geom.get("status"),"source_graph_sha256":att.get("sha256"),"terax_reference_status":terax_ref["result"],"kaneo_gate_status":kaneo_ref["result"],"buzz_gate_status":buzz_ref["result"],"xcmd_gate_status":xcmd_ref["result"],"ai_engineering_gate_status":ai_ref["result"],"autogpt_gate_status":autogpt_ref["result"],"external_api_discovery_gate_status":external_discovery_ref["result"],"modular_gate_status":modular_ref["result"],"inference_portability_gate_status":inference_portability_ref["result"],"model_manager_gate_status":model_manager_ref["result"],"munder_difflin_gate_status":munder_ref["result"],"muse_code_gate_status":muse_code_ref["result"],"openhands_gate_status":openhands_ref["result"],"loop_engineering_gate_status":loop_engineering_ref["result"],"openbmb_gate_status":openbmb_ref["result"],"gpu_kernel_runtime_gate_status":gpu_kernel_runtime_ref["result"],"video_provider_lifecycle_gate_status":video_provider_lifecycle_ref["result"],"stability_sgm_gate_status":stability_sgm_ref["result"],"developer_agent_coordination_gate_status":dac_ref["result"],"codex_gate_status":codex_ref["result"],"demucs_gate_status":demucs_ref["result"],"ace_step_gate_status":ace_ref["result"],"kdenlive_editorial_gate_status":kdenlive_ref["result"],"opencut_gate_status":opencut_ref["result"],"ffmpeg_ai_gate_status":ffmpeg_ai_ref["result"],"hybrid_editorial_gate_status":hybrid_editorial_ref["result"],"marketing_gate_status":marketing_ref["result"],"marketingskills_gate_status":marketingskills_ref["result"],"blackhole_kdenlive_gate_status":blackhole_ref["result"],"whisper_stt_gate_status":whisper_ref["result"],"cosyvoice_gate_status":cosyvoice_ref["result"],"voice_synthesis_gate_status":voice_synthesis_ref["result"],"hrb_deterministic_locality_gate_status":hrb_deterministic_ref["result"],"cpu_numa_threading_gate_status":cpu_numa_threading_ref["result"],"hardware_portability_gate_status":hardware_portability_ref["result"],"release_projection_gate_status":projection_ref["result"],"mentor_gate_status":mentor_ref["result"],"presenton_gate_status":presenton_ref["result"],"ai_infra_guard_gate_status":ai_infra_guard_ref["result"]}}
+         "details":{"capabilities":len(rows),"reconciliation_records":len(maps),"geometry_status":geom.get("status"),"source_graph_sha256":att.get("sha256"),"terax_reference_status":terax_ref["result"],"kaneo_gate_status":kaneo_ref["result"],"buzz_gate_status":buzz_ref["result"],"xcmd_gate_status":xcmd_ref["result"],"ai_engineering_gate_status":ai_ref["result"],"autogpt_gate_status":autogpt_ref["result"],"caveman_gate_status":caveman_ref["result"],"external_api_discovery_gate_status":external_discovery_ref["result"],"modular_gate_status":modular_ref["result"],"inference_portability_gate_status":inference_portability_ref["result"],"model_manager_gate_status":model_manager_ref["result"],"munder_difflin_gate_status":munder_ref["result"],"muse_code_gate_status":muse_code_ref["result"],"openhands_gate_status":openhands_ref["result"],"openyak_gate_status":openyak_ref["result"],"obsidian_knowledge_workspace_gate_status":obsidian_ref["result"],"creative_operations_dashboard_gate_status":creative_ops_ref["result"],"loop_engineering_gate_status":loop_engineering_ref["result"],"openbmb_gate_status":openbmb_ref["result"],"gpu_kernel_runtime_gate_status":gpu_kernel_runtime_ref["result"],"video_provider_lifecycle_gate_status":video_provider_lifecycle_ref["result"],"stability_sgm_gate_status":stability_sgm_ref["result"],"ai_comms_gate_status":ai_comms_ref["result"],"developer_agent_coordination_gate_status":dac_ref["result"],"codex_gate_status":codex_ref["result"],"demucs_gate_status":demucs_ref["result"],"ace_step_gate_status":ace_ref["result"],"kdenlive_editorial_gate_status":kdenlive_ref["result"],"opencut_gate_status":opencut_ref["result"],"ffmpeg_ai_gate_status":ffmpeg_ai_ref["result"],"hybrid_editorial_gate_status":hybrid_editorial_ref["result"],"marketing_gate_status":marketing_ref["result"],"marketingskills_gate_status":marketingskills_ref["result"],"blackhole_kdenlive_gate_status":blackhole_ref["result"],"whisper_stt_gate_status":whisper_ref["result"],"cosyvoice_gate_status":cosyvoice_ref["result"],"voice_synthesis_gate_status":voice_synthesis_ref["result"],"hrb_deterministic_locality_gate_status":hrb_deterministic_ref["result"],"cpu_numa_threading_gate_status":cpu_numa_threading_ref["result"],"hardware_portability_gate_status":hardware_portability_ref["result"],"agent_instructions_gate_status":agent_instructions_ref["result"],"pytorch3d_gate_status":pytorch3d_ref["result"],"openfx_interoperability_gate_status":openfx_ref["result"],"release_projection_gate_status":projection_ref["result"],"mentor_gate_status":mentor_ref["result"],"presenton_gate_status":presenton_ref["result"],"ai_infra_guard_gate_status":ai_infra_guard_ref["result"],"external_rt3d_engine_exclusion_gate_status":external_rt3d_exclusion_ref["result"]}}
     writej(root/"reports/static-gate-report.json",rep)
     return rep
 
 def runtime_check(root:Path):
+    RELEASE,CAPS=active_release_values(root)
     fs=[]
     reg=loadj(root/"evidence/evidence-registry.json")
     recs=reg.get("records",[])
     if reg.get("architecture_release")!=RELEASE:
         fs.append(finding("FA3-RUNTIME-001","Evidence Registry release mismatch"))
-    expected=[f"CAP-{i:03d}" for i in range(1,144)]
+    expected=[f"CAP-{i:03d}" for i in range(1,CAPS+1)]
     ids=[r.get("subject_id") for r in recs]
     if len(recs)!=CAPS or ids!=expected:
-        fs.append(finding("FA3-RUNTIME-002","Evidence Registry is not exact 143 capability set",records=len(recs)))
+        fs.append(finding("FA3-RUNTIME-002",f"Evidence Registry is not exact {CAPS} capability set",records=len(recs)))
     pending=[]
     invalid=[]
+    invalid_details=[]
+    head=git_head(root)
+    if head is None:
+        fs.append(finding("FA3-RUNTIME-005","Current source revision unavailable for evidence binding"))
     for r in recs:
         s=str(r.get("status","")).upper()
         if s!="PASS":
             pending.append(r.get("subject_id"))
         if not r.get("required_positive_test") or not r.get("required_negative_test") or not r.get("rollback_requirement"):
             invalid.append(r.get("subject_id"))
-        if s=="PASS" and not r.get("expires_at"):
-            invalid.append(r.get("subject_id"))
+            invalid_details.append({"subject_id":r.get("subject_id"),"findings":["registry test/rollback requirements missing"]})
+        if s=="PASS":
+            validation=validate_capability_receipt(root,r,expected_source_commit=head)
+            if not validation.get("qualified"):
+                invalid.append(r.get("subject_id"))
+                invalid_details.append({"subject_id":r.get("subject_id"),"receipt":validation.get("receipt"),"findings":validation.get("findings",[])})
     if pending:
         fs.append(finding("FA3-RUNTIME-003","Current-host evidence is not complete",pending_count=len(pending),sample=pending[:20]))
     if invalid:
-        fs.append(finding("FA3-RUNTIME-004","Evidence record missing test/rollback/expiry requirement",sample=invalid[:20]))
+        dedup=list(dict.fromkeys(invalid))
+        fs.append(finding("FA3-RUNTIME-004","Current-host PASS evidence failed shared qualification",invalid_count=len(dedup),sample=dedup[:20],details=invalid_details[:20]))
     result="PASS" if not fs else "FAIL"
     rep={"schema":"fa3.runtime-gate-report.v1","architecture_release":RELEASE,"result":result,"blocking_findings":len(fs),
-         "evidence_records":len(recs),"pass_count":sum(str(r.get("status","")).upper()=="PASS" for r in recs),
+         "evidence_records":len(recs),"pass_count":sum(str(r.get("status","")).upper()=="PASS" for r in recs),"source_commit":head,
          "pending_count":sum(str(r.get("status","")).upper()!="PASS" for r in recs),"findings":fs}
     writej(root/"reports/runtime-gate-report.json",rep)
     return rep
 
-def receipt_ok(p:Path,signed=False,human=False,independent=False):
-    if not p.exists(): return False,"missing"
+def receipt_ok(root:Path,p:Path,source_commit:str|None):
+    requirement=requirement_for_filename(p.name)
+    if requirement is not None:
+        if source_commit is None:
+            return False,"current source commit unavailable",None
+        try:
+            result=verify_receipt_file(p,expected_source_commit=source_commit)
+        except ApprovalVerificationError as exc:
+            return False,str(exc),None
+        if not result.get("qualified"):
+            return False,"; ".join(result.get("findings",[])) or "authenticated receipt invalid",result
+        return True,"PASS",result
+    if not p.exists(): return False,"missing",None
     try: d=loadj(p)
-    except Exception: return False,"unreadable"
-    if d.get("status")!="PASS": return False,str(d.get("status","not PASS"))
-    if signed and not d.get("signed"): return False,"not signed"
-    if human and not d.get("approved"): return False,"not approved"
-    if independent and not d.get("independent"): return False,"not independent"
-    return True,"PASS"
+    except Exception: return False,"unreadable",None
+    if d.get("status")!="PASS": return False,str(d.get("status","not PASS")),None
+    return True,"PASS",{"qualified":True,"legacy_domain_receipt":True}
 
 def acceptance_check(root:Path):
+    RELEASE,CAPS=active_release_values(root)
     s=static_check(root)
     r=runtime_check(root)
     t=terax_gate(root,require_current_host=True)
+    source_commit=git_head(root)
     results=[]
+    authenticated_receipts=[]
     for i in range(1,20):
         reasons=[]
+        evidence_details=[]
         if i in (1,2):
             ok=s["result"]=="PASS"
             if not ok: reasons=["static/authority structural gate not PASS"]
         elif i==3:
             ok=s["result"]=="PASS" and s["details"]["capabilities"]==CAPS
-            if not ok: reasons=["143 capability validation not PASS"]
+            if not ok: reasons=[f"{CAPS} capability validation not PASS"]
         else:
             ok=True
             for fn in RECEIPTS[i]:
-                rok,why=receipt_ok(root/"evidence/receipts"/fn,
-                                   signed=(i in (4,19)),
-                                   human=(fn=="human-promotion-receipt.json"),
-                                   independent=(fn=="independent-review.json"))
+                rok,why,detail=receipt_ok(root,root/"evidence/receipts"/fn,source_commit)
+                if detail is not None:
+                    evidence_details.append({"filename":fn,**detail})
+                    if requirement_for_filename(fn) is not None and detail.get("qualified"):
+                        authenticated_receipts.append({"filename":fn,**detail})
                 if not rok:
                     ok=False
                     reasons.append(f"{fn}: {why}")
-        results.append({"id":i,"name":NAMES[i],"status":"PASS" if ok else "PENDING_OR_FAIL","reasons":reasons})
+        results.append({"id":i,"name":NAMES[i],"status":"PASS" if ok else "PENDING_OR_FAIL","reasons":reasons,"evidence":evidence_details})
     all_ok=all(x["status"]=="PASS" for x in results) and r["result"]=="PASS" and t["result"]=="PASS"
     rep={"schema":"fa3.acceptance-report.v1","architecture_release":RELEASE,
          "status":"PASS" if all_ok else "DENIED","decision":"ACCEPT" if all_ok else "DENY","fail_closed":True,
-         "static_gate":s["result"],"runtime_gate":r["result"],"terax_gate":t["result"],
+         "static_gate":s["result"],"runtime_gate":r["result"],"terax_gate":t["result"],"source_commit":source_commit,"authenticated_receipts":authenticated_receipts,
          "criteria_passed":sum(x["status"]=="PASS" for x in results),"criteria_total":19,"criteria":results}
     writej(root/"acceptance/acceptance-report.json",rep)
     return rep
 
 def promote(root:Path):
+    RELEASE,_=active_release_values(root)
+    head=git_head(root)
+    existing_path=root/"promotion/runtime-status.json"
+    if existing_path.is_file():
+        try:
+            existing=loadj(existing_path)
+        except Exception:
+            existing={}
+        if existing.get("actual_state")=="PROMOTED" and existing.get("source_commit")==head:
+            return existing,OK
     a=acceptance_check(root)
     allowed=a["status"]=="PASS"
+    consumption=None
+    reason=None
+    if allowed:
+        receipt_paths=[root/"evidence/receipts"/fn for fn in PROMOTION_RECEIPT_FILENAMES]
+        availability=ensure_promotion_receipts_unconsumed(root,receipt_paths)
+        if not availability.get("available"):
+            allowed=False
+            reason="Fail-closed: one or more promotion approval receipts were already consumed or are invalid."
+        else:
+            try:
+                acceptance_digest=sha256_file(root/"acceptance/acceptance-report.json")
+                consumption=consume_promotion_receipts(
+                    root,
+                    receipt_paths,
+                    source_commit=str(head),
+                    acceptance_report_sha256=acceptance_digest,
+                )
+            except ApprovalVerificationError as exc:
+                allowed=False
+                reason=f"Fail-closed: promotion approval receipt consumption failed: {exc}"
+    if not allowed and reason is None:
+        reason="Fail-closed: PROMOTED is forbidden until all current-host evidence, all 19 acceptance criteria, authenticated approvals, and the mandatory Terax gate are PASS."
     state={"schema":"fa3.runtime-status.v1","architecture_release":RELEASE,"target_state":"PROMOTED",
            "actual_state":"PROMOTED" if allowed else "PROMOTION_BLOCKED","promotion_allowed":allowed,"acceptance":a["status"],
-           "reason":None if allowed else "Fail-closed: PROMOTED is forbidden until all current-host evidence, all 19 acceptance criteria, and the mandatory Terax gate are PASS."}
-    writej(root/"promotion/runtime-status.json",state)
+           "source_commit":head,"approval_consumption":consumption,"reason":None if allowed else reason}
+    writej(existing_path,state)
     return state,OK if allowed else BLOCKED
 
 def main():
     ap=argparse.ArgumentParser(description="FINAL ARCHITECTURE v3.0 permanent enforcement")
     ap.add_argument("--root",default=str(Path(__file__).resolve().parents[1]))
     ap.add_argument("--ci-only",action="store_true",help="For Terax gate: validate immutable reference + executable regressions without claiming current-host evidence")
-    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","loop-engineering","hardware-portability","openhands","openbmb","gpu-kernel-runtime","gpu-kernel-runtime-current-host","tencentdb-agent-memory","video-provider-lifecycle","stability-sgm","stability-portfolio","developer-agent-coordination","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","ffmpeg-ai","ffmpeg-ai-current-host","hybrid-editorial","marketing","marketingskills","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","hrb-deterministic-locality","cpu-numa-threading","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","acceptance","promote","all","status"))
+    ap.add_argument("--require-evidence",action="store_true",help="Require real current-host evidence for commands that expose an evidence closure mode")
+    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","work-management","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","caveman","local-generative-media-lifecycle","obsidian-knowledge-workspace","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","loop-engineering","hardware-portability","host-adaptation","pytorch3d","openfx-interoperability","openhands","openyak","creative-operations-dashboard","openbmb","gpu-kernel-runtime","gpu-kernel-runtime-current-host","tencentdb-agent-memory","video-provider-lifecycle","stability-sgm","stability-portfolio","ai-comms","developer-agent-coordination","integration-broker","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","ffmpeg-ai","ffmpeg-ai-current-host","hybrid-editorial","marketing","marketing-agent-native","caption-subtitle","caption-subtitle-current-host","marketingskills","skill-fabric","distribution-compliance","reuse-discovery","agency-agents","agent-definition","external-llm-catalog","model-router-provider-execution","agent-workload-runtime","agent-workload-runtime-current-host","agent-federation","gui-current-host","supply-runtime-hardening","supply-runtime-hardening-current-host","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","hrb-deterministic-locality","sysctl-host-tuning","cpu-numa-threading","openmp","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","fa3-os-event-privacy","runtime-hardening","modernization-integration","authenticated-approval","reproducibility","gate-registry","governance-status","khronos-open-standards","audacity-mcp","cfa3-development-ai-behavior","acceptance","promote","all","status"))
     a=ap.parse_args()
     root=Path(a.root).resolve()
     try:
@@ -462,12 +832,28 @@ def main():
             x=release_projection_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="runtime":
             x=runtime_check(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="authenticated-approval":
+            x=authenticated_approval_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="reproducibility":
+            x=reproducibility_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="gate-registry":
+            x=gate_registry_gate(root); writej(root/"reports/gate-registry-gate-report.json",x); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="governance-status":
+            x=governance_status_gate(root); writej(root/"reports/governance-status-gate-report.json",x); writej(root/"reports/governance-status-projection.json",x["projection"]); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="khronos-open-standards":
+            x=khronos_open_standards_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="audacity-mcp":
+            x=audacity_mcp_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="cfa3-development-ai-behavior":
+            x=cfa3_development_ai_behavior_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="terax":
             x=terax_gate(root,require_current_host=not a.ci_only); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="kaneo":
             x=kaneo_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="kanboard":
             x=kanboard_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="work-management":
+            x=work_management_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="buzz":
             x=buzz_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="xcmd":
@@ -478,6 +864,10 @@ def main():
             x=external_api_discovery_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="autogpt":
             x=autogpt_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="caveman":
+            x=caveman_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="local-generative-media-lifecycle":
+            x=local_generative_media_lifecycle_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="ai-infra-guard":
             x=ai_infra_guard_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="ai-infra-guard-current-host":
@@ -492,8 +882,20 @@ def main():
             x=loop_engineering_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="hardware-portability":
             x=hardware_portability_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="host-adaptation":
+            x=host_adaptation_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="pytorch3d":
+            x=pytorch3d_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="openfx-interoperability":
+            x=openfx_interop_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="openhands":
             x=openhands_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="openyak":
+            x=openyak_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="obsidian-knowledge-workspace":
+            x=obsidian_knowledge_workspace_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="creative-operations-dashboard":
+            x=creative_operations_dashboard_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="openbmb":
             x=openbmb_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="gpu-kernel-runtime":
@@ -508,8 +910,12 @@ def main():
             x=stability_sgm_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="stability-portfolio":
             x=stability_portfolio_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="ai-comms":
+            x=ai_comms_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="developer-agent-coordination":
             x=developer_agent_coordination_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="integration-broker":
+            x=integration_broker_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="codex":
             x=codex_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="codex-current-host":
@@ -546,8 +952,40 @@ def main():
             x=hybrid_editorial_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="marketing":
             x=marketing_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="marketing-agent-native":
+            x=marketing_agent_native_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="caption-subtitle":
+            x=caption_subtitle_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="caption-subtitle-current-host":
+            x=caption_subtitle_current_host_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="marketingskills":
             x=marketingskills_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="skill-fabric":
+            x=skill_fabric_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="distribution-compliance":
+            x=distribution_compliance_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="reuse-discovery":
+            x=reuse_discovery_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="agency-agents":
+            x=agency_agents_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="agent-definition":
+            x=agent_definition_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="external-llm-catalog":
+            x=external_llm_catalog_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="model-router-provider-execution":
+            x=model_router_provider_execution_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="agent-workload-runtime":
+            x=agent_workload_runtime_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="agent-workload-runtime-current-host":
+            x=agent_workload_runtime_current_host_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="agent-federation":
+            x=agent_federation_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="gui-current-host":
+            x=gui_current_host_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="supply-runtime-hardening":
+            x=supply_runtime_hardening_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="supply-runtime-hardening-current-host":
+            x=supply_runtime_hardening_current_host_gate(root,require_evidence=a.require_evidence); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="blackhole-kdenlive":
             x=blackhole_kdenlive_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="whisper-stt":
@@ -562,8 +1000,12 @@ def main():
             x=voice_synthesis_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="hrb-deterministic-locality":
             x=hrb_deterministic_locality_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="sysctl-host-tuning":
+            x=sysctl_governance_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="cpu-numa-threading":
             x=cpu_numa_threading_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="openmp":
+            x=openmp_governance_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="cpu-numa-threading-current-host":
             x=cpu_numa_threading_current_host_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="mentor":
@@ -572,9 +1014,22 @@ def main():
             x=presenton_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="presenton-current-host":
             x=presenton_current_host_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="fa3-os-event-privacy":
+            x=fa3_os_event_privacy_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="runtime-hardening":
+            x=runtime_hardening_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="modernization-integration":
+            x=modernization_integration_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="acceptance":
             x=acceptance_check(root); print(json.dumps(x,indent=2)); return OK if x["status"]=="PASS" else BLOCKED
         if a.command in ("promote","all"):
+            pr=os.getenv("FA3_APPROVAL_PR_NUMBER", "")
+            donor=donor_readiness_gate(root,"finalize",token=os.getenv("GITHUB_TOKEN") or os.getenv("GH_TOKEN", ""),
+                assessment=os.getenv("FA3_DONOR_REUSE_ASSESSMENT"),
+                plan=os.getenv("FA3_APPROVED_PLAN_PATH"),approval=os.getenv("FA3_PLAN_APPROVAL_RECORD"),
+                pr_number=int(pr) if pr.isdigit() else None)
+            if donor["result"] != "READY_FOR_SEPARATE_FA3_ADMISSION_GATES":
+                print(json.dumps({"result":"PROMOTION_BLOCKED","donor_readiness":donor},indent=2)); return BLOCKED
             x,rc=promote(root); print(json.dumps(x,indent=2)); return rc
         p=root/"promotion/runtime-status.json"
         print(p.read_text() if p.exists() else '{"actual_state":"UNKNOWN"}')

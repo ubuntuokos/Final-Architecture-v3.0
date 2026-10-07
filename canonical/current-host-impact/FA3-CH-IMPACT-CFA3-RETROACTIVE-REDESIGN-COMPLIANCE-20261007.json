@@ -1,0 +1,26 @@
+{
+  "schema": "fa3.current-host-structural-impact.v1",
+  "id": "FA3-CH-IMPACT-CFA3-RETROACTIVE-REDESIGN-COMPLIANCE-20261007",
+  "date": "2026-10-07",
+  "status": "RECONCILED",
+  "capability_count": 175,
+  "structural_changes": [
+    "canonical/CFA3-RETROACTIVE-REDESIGN-COMPLIANCE-POLICY-001.json",
+    "canonical/contracts/CFA3-RETROACTIVE-REDESIGN-RECORD-001.schema.json",
+    "canonical/decisions/CFA3-DEC-RETROACTIVE-REDESIGN-COMPLIANCE-2026-10-07.json",
+    "canonical/FA3-GATE-CFA3-RETROACTIVE-REDESIGN-COMPLIANCE-001.json",
+    "canonical/CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001.json",
+    "canonical/FA3-GATE-REGISTRY-001.json",
+    "canonical/enforcement-policy.json",
+    "src/cfa3_retroactive_redesign_compliance_gate.py",
+    "src/fa3_enforce.py"
+  ],
+  "current_host_changes": [
+    "canonical/current-host-impact/FA3-CH-IMPACT-CFA3-RETROACTIVE-REDESIGN-COMPLIANCE-20261007.json"
+  ],
+  "physical_requalification_required": false,
+  "historical_evidence_reused": false,
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "rationale": "This change adds development/design governance and static fail-closed validation for legacy redesigns. It creates no provider, model, daemon, scheduler, driver, hardware path, lease, runtime service or physical Current Host claim. Capability baseline remains 175."
+}

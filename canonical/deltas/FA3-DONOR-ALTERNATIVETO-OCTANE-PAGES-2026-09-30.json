@@ -1,0 +1,46 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-ALTERNATIVETO-OCTANE-PAGES-2026-09-30",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "STAGED_PENDING_EXACT_HEAD_GATES",
+  "mode": "APPEND_ONLY_OWNER_EXPLICIT_REFERENCE_INTAKE",
+  "parent_commit": "83e35c93a03a197c5f8a596e098b03d9acd4162d",
+  "source_count": 4,
+  "unique_source_key_count": 1,
+  "matched_existing_parent": [],
+  "expected_new_source_count": 1,
+  "requirements": [
+    "Preserve exact four owner-marked AlternativeTo Octane Render page URLs ?p=1..4 as aliases of one canonical discovery-index source",
+    "Only the owner-marked index itself becomes ACCEPTED_REFERENCE; no automatic admission of renderers or other products linked from its pages",
+    "Catalog ratings and mixed-age descriptions are non-authoritative; any later source-code use requires separate upstream provenance, license, safety and explicit source selection",
+    "No application implementation, paid renderer runtime dependency, source copying, provider/model admission or current-host claim"
+  ],
+  "automatic_dependency": false,
+  "automatic_fetch": false,
+  "automatic_install": false,
+  "automatic_code_import": false,
+  "automatic_provider_admission": false,
+  "automatic_activation": false,
+  "authority": false,
+  "capability_delta": 0,
+  "source_license_status": "UNVERIFIED_THIRD_PARTY_CATALOG_RESEARCH_ONLY",
+  "sources": [
+    {
+      "normalized_source_key": "https://alternativeto.net/software/octane-render/",
+      "urls": [
+        "https://alternativeto.net/software/octane-render/?p=1",
+        "https://alternativeto.net/software/octane-render/?p=2",
+        "https://alternativeto.net/software/octane-render/?p=3",
+        "https://alternativeto.net/software/octane-render/?p=4"
+      ],
+      "domain": "RENDERER_DISCOVERY_INDEX",
+      "kind": "WEBSITE"
+    }
+  ],
+  "new_ids": [
+    {
+      "id": "FA3-DONOR-ALTERNATIVETO-OCTANE-ALTERNATIVES-001",
+      "key": "https://alternativeto.net/software/octane-render/"
+    }
+  ]
+}

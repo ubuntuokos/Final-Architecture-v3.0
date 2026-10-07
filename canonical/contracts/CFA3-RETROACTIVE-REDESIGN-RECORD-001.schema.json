@@ -1,0 +1,315 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cfa3.local/contracts/CFA3-RETROACTIVE-REDESIGN-RECORD-001.schema.json",
+  "title": "CFA3-RETROACTIVE-REDESIGN-RECORD-001",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "component",
+    "phase",
+    "legacy_source_discovery_complete",
+    "legacy_sources",
+    "current_rule_baseline",
+    "rule_delta",
+    "finalization_checks",
+    "capability_baseline",
+    "capability_delta",
+    "architectural_authority_delta"
+  ],
+  "properties": {
+    "schema": {
+      "const": "cfa3.retroactive-redesign-record.v1"
+    },
+    "component": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "designed_before_mandatory_donor_policy",
+        "trigger_evidence_refs"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "APPLICATION",
+            "SERVICE",
+            "SHARED_FABRIC",
+            "SHARED_LAYER",
+            "MODULE",
+            "PLUGIN",
+            "EXTENSION",
+            "PROVIDER_BACKEND",
+            "WORKFLOW",
+            "AGENT_SKILL",
+            "ADAPTER",
+            "INFRASTRUCTURE_COMPONENT",
+            "USER_FUNCTION",
+            "PROTOCOL_COMPATIBILITY_LAYER"
+          ]
+        },
+        "designed_before_mandatory_donor_policy": {
+          "type": "boolean"
+        },
+        "donor_policy_applicable_at_original_design": {
+          "type": "boolean"
+        },
+        "trigger_evidence_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "phase": {
+      "type": "string",
+      "enum": [
+        "LEGACY_COMPONENT_IDENTIFIED",
+        "LEGACY_SOURCE_DISCOVERY",
+        "CURRENT_RULE_BASELINE_CAPTURE",
+        "DONOR_GAP_ANALYSIS",
+        "RULE_DELTA_ANALYSIS",
+        "REDESIGN_IN_PROGRESS",
+        "DONOR_CANONICALIZATION_PENDING",
+        "RULE_DELTA_RESOLUTION",
+        "RETROACTIVE_REDESIGN_FINALIZATION_GATE",
+        "REDESIGN_FINAL"
+      ]
+    },
+    "legacy_source_discovery_complete": {
+      "type": "boolean"
+    },
+    "legacy_sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "locator",
+          "normalized_key",
+          "origin_refs",
+          "registry_status_at_discovery",
+          "temporary_planning_use"
+        ],
+        "properties": {
+          "locator": {
+            "type": "string",
+            "format": "uri"
+          },
+          "normalized_key": {
+            "type": "string",
+            "minLength": 1
+          },
+          "origin_refs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "registry_status_at_discovery": {
+            "type": "string",
+            "enum": [
+              "PRESENT",
+              "MISSING",
+              "UNRESOLVED"
+            ]
+          },
+          "temporary_planning_use": {
+            "type": "boolean"
+          },
+          "canonical_donor_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "registration_evidence_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "current_rule_baseline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "captured_from_canonical_main",
+        "captured_main_sha",
+        "mandatory_rule_refs"
+      ],
+      "properties": {
+        "captured_from_canonical_main": {
+          "const": true
+        },
+        "captured_main_sha": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "mandatory_rule_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "rule_delta": {
+      "type": "array",
+      "minItems": 16,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "category",
+          "status",
+          "rationale",
+          "evidence_refs"
+        ],
+        "properties": {
+          "category": {
+            "type": "string",
+            "enum": [
+              "ARCHITECTURE",
+              "APPLICATION_INTEGRATION",
+              "DONOR_POLICY",
+              "AI",
+              "HARDWARE",
+              "WORKLOAD_MODE",
+              "SECURITY",
+              "RIGHTS_LICENSING",
+              "COMPATIBILITY",
+              "PLUGIN_EXTENSION",
+              "COMMUNICATION",
+              "WORKFLOW",
+              "GUI",
+              "TELEMETRY",
+              "FUTURE_ADMISSION",
+              "DEVELOPMENT_PROCESS"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "APPLICABLE",
+              "NOT_APPLICABLE",
+              "ALREADY_COMPLIANT",
+              "REQUIRES_CHANGE",
+              "BLOCKED"
+            ]
+          },
+          "rationale": {
+            "type": "string"
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "finalization_checks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ARCHITECTURAL_AUTHORITY",
+        "INTEGRATION",
+        "SECURITY",
+        "HARDWARE",
+        "AI",
+        "DEVELOPMENT_POLICY"
+      ],
+      "properties": {
+        "ARCHITECTURAL_AUTHORITY": {
+          "type": "string",
+          "enum": [
+            "PASS",
+            "FAIL",
+            "BLOCKED",
+            "NOT_CHECKED"
+          ]
+        },
+        "INTEGRATION": {
+          "type": "string",
+          "enum": [
+            "PASS",
+            "FAIL",
+            "BLOCKED",
+            "NOT_CHECKED"
+          ]
+        },
+        "SECURITY": {
+          "type": "string",
+          "enum": [
+            "PASS",
+            "FAIL",
+            "BLOCKED",
+            "NOT_CHECKED"
+          ]
+        },
+        "HARDWARE": {
+          "type": "string",
+          "enum": [
+            "PASS",
+            "FAIL",
+            "BLOCKED",
+            "NOT_CHECKED"
+          ]
+        },
+        "AI": {
+          "type": "string",
+          "enum": [
+            "PASS",
+            "FAIL",
+            "BLOCKED",
+            "NOT_CHECKED"
+          ]
+        },
+        "DEVELOPMENT_POLICY": {
+          "type": "string",
+          "enum": [
+            "PASS",
+            "FAIL",
+            "BLOCKED",
+            "NOT_CHECKED"
+          ]
+        }
+      }
+    },
+    "donor_registry_sha256": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "capability_baseline": {
+      "const": 175
+    },
+    "capability_delta": {
+      "const": 0
+    },
+    "architectural_authority_delta": {
+      "const": 0
+    }
+  }
+}

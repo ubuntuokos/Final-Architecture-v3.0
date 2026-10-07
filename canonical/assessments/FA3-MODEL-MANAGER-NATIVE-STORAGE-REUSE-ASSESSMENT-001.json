@@ -1,0 +1,79 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-MODEL-MANAGER-NATIVE-STORAGE-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-MODEL-MANAGER-001",
+  "intent_id": "FA3-MODEL-MANAGER-NATIVE-STORAGE-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-MODEL-MANAGER-NATIVE-STORAGE-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-MODEL-MANAGER-001",
+    "FA3-DEC-MODEL-MANAGER-NATIVE-STORAGE-2026-09-26"
+  ],
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "MODEL_AND_PROVIDER_ROUTING_AUTHORITY_REMAINS_SEPARATE"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "DEVICE_AND_RESOURCE_PLACEMENT_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-SECURITY-GOV-001",
+      "use": "SECURITY_AND_MUTATION_POLICY_BOUNDARY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "EVIDENCE_AND_PROMOTION_BOUNDARY"
+    },
+    {
+      "id": "FA3-PROVIDER-HF-MODEL-STORE-001",
+      "use": "OPTIONAL_RUNTIME_NATIVE_MODEL_STORE_PROJECTION"
+    },
+    {
+      "id": "FA3-PROVIDER-LM-STUDIO-MODEL-001",
+      "use": "OPTIONAL_RUNTIME_NATIVE_MODEL_STORE_PROJECTION"
+    },
+    {
+      "id": "FA3-PROVIDER-OLLAMA-MODEL-001",
+      "use": "OPTIONAL_RUNTIME_NATIVE_MODEL_STORE_PROJECTION"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "EXTERNAL_CANONICAL_MODEL_STORE_AUTHORITY",
+      "reason": "CANONICAL_ARTIFACT_STORE_MUST_BE_FA3_NATIVE_PROVIDER_NEUTRAL_AND_POLICY_BOUND"
+    },
+    {
+      "id": "MODEL_MANAGER_ROUTING_AUTHORITY",
+      "reason": "MODEL_ROUTER_REMAINS_THE_SINGLE_ROUTING_AUTHORITY"
+    }
+  ],
+  "pattern_reuse": [
+    "FA3-PATTERN-PROVIDER-NEUTRAL-ADAPTER-001",
+    "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001"
+  ],
+  "existing_authority_bindings": {
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_claim": false
+  },
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false
+}

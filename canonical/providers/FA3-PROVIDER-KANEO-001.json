@@ -13,12 +13,44 @@
   "canonical_root": false,
   "architectural_authority": false,
   "new_capability": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
   "global_runtime_promotion_required_when_disabled": false,
   "authority_boundaries": {
     "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
     "policy": "FA3-AUTH-SECURITY-GOV-001",
     "registry": "FA3-REGISTRY-001"
-  }
+  },
+  "runtime_admission": {
+    "upstream_reference_id": "FA3-KANEO-UPSTREAM-REFERENCE-2026-09-12",
+    "release": "v2.24.0",
+    "commit_sha": "863b979e2af6d9b4d75064edc43a2c118d9af7ce",
+    "evidence": "evidence/reference/kaneo-v2.24.0.json",
+    "floating_main_forbidden": true,
+    "compatibility_status": "PASS_NO_CANONICAL_SEMANTIC_CHANGE",
+    "last_reconciled_at": "2026-09-12"
+  },
+  "prohibited_authority_roles": [
+    "CANONICAL_ROOT",
+    "ARCHITECTURAL_AUTHORITY",
+    "GLOBAL_WORKFLOW_ORCHESTRATION_AUTHORITY",
+    "FA3_CANONICAL_IDENTITY_AUTHORITY"
+  ],
+  "work_management_projection": {
+    "projection_id": "FA3-WORK-MANAGEMENT-PROJECTION-001",
+    "contract_id": "FA3-WORK-ITEM-PROJECTION-CONTRACTS-001",
+    "shared_top_level_surface": "Work Management",
+    "gui_role": "PRIMARY_INTERACTIVE_PROVIDER",
+    "separate_top_level_menu": false,
+    "provider_origin_is_metadata": true
+  },
+  "resource_admission": {
+    "contract_id": "FA3-RESOURCE-ADMISSION-CONTRACTS-001",
+    "authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "default_resource_class": "CPU_LIGHTWEIGHT",
+    "accelerator_required_by_default": false,
+    "provider_self_admission_forbidden": true,
+    "accelerator_conflict_profile": "FA3-ACCEL-GUARD-001"
+  },
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

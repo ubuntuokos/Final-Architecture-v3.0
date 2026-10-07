@@ -1,0 +1,43 @@
+name: FA3 Buzz Runtime Admission
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fa3-buzz-runtime-admission-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  buzz-runtime-admission:
+    name: buzz-runtime-admission / P0
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Prepare gate
+        run: chmod +x bin/fa3-buzz-runtime-admission-gate
+      - name: Syntax check
+        run: python -m py_compile src/fa3_buzz_runtime_admission.py src/fa3_buzz_runtime_admission_gate.py
+      - name: Buzz runtime-admission regression tests
+        run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_buzz_runtime_admission_gate.py' -v
+      - name: Buzz runtime-admission executable gate
+        run: ./bin/fa3-buzz-runtime-admission-gate
+      - name: Upload Buzz runtime-admission report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-buzz-runtime-admission-report
+          path: reports/buzz-runtime-admission-gate-report.json

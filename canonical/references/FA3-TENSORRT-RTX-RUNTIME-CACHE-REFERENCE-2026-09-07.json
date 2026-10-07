@@ -1,0 +1,36 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-TENSORRT-RTX-RUNTIME-CACHE-REFERENCE-2026-09-07",
+  "date": "2026-09-07",
+  "status": "PINNED_REFERENCE_SEMANTICS",
+  "provider_id": "FA3-PROVIDER-TENSORRT-RTX-001",
+  "observed_provider_release": "1.6.1.120",
+  "source_documents": [
+    {
+      "name": "TensorRT for RTX 1.6 Release Notes",
+      "url": "https://docs.nvidia.com/deeplearning/tensorrt-rtx/latest/getting-started/release-notes-1/1.6.html",
+      "observed_semantics": "Runtime cache compatibility tightened: GPU SKU, TensorRT-RTX version and CiG state must match; runtime driver must be greater than or equal to the cached driver version."
+    },
+    {
+      "name": "Working with Runtime Cache",
+      "url": "https://docs.nvidia.com/deeplearning/tensorrt-rtx/latest/inference-library/work-with-runtime-cache.html",
+      "observed_semantics": "On compatibility failure the runtime cache is ignored and kernels are JIT-compiled again without raising an error; cache use can be verified through application logs or profiling/JIT timing."
+    },
+    {
+      "name": "TensorRT-RTX 1.5 Release Notes",
+      "url": "https://docs.nvidia.com/deeplearning/tensorrt-rtx/latest/getting-started/release-notes-1/1.5.html",
+      "observed_semantics": "Timing cache APIs are deprecated and timing cache has no effect on the built TensorRT-RTX engine."
+    }
+  ],
+  "compatibility_requirements": {
+    "gpu_sku": "EQUIVALENT_TO_CACHE",
+    "tensorrt_rtx_version": "EXACT_MATCH",
+    "cuda_context_cig_state": "EXACT_MATCH",
+    "nvidia_driver": "RUNTIME_VERSION_GREATER_THAN_OR_EQUAL_TO_CACHE_ORIGIN_VERSION"
+  },
+  "compatibility_failure_behavior": "CACHE_IGNORED_TRANSPARENT_JIT_RECOMPILE_NO_ERROR",
+  "observability_requirement": "LOG_OR_PROFILING_EVIDENCE_OF_CACHE_USE_OR_JIT_REBUILD",
+  "timing_cache_api_status": "DEPRECATED_NOT_CANONICAL_RUNTIME_CACHE",
+  "latest_documentation_is_not_automatic_runtime_promotion": true,
+  "current_host_runtime_evidence": "NOT_CLAIMED"
+}

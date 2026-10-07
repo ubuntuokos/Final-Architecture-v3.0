@@ -1,15 +1,33 @@
 {
   "schema": "fa3.contract-set.v1",
   "id": "FA3-VOICE-CONTRACTS-001",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "profile_id": "FA3-VOICE-001",
   "status": "CANONICAL",
   "provider_neutral": true,
   "contracts": {
     "request": {
       "schema": "fa3.voice-synthesis-request.v2",
-      "required": ["request_id", "text", "language", "mode", "voice_identity_ref", "execution_mode", "output_intent"],
-      "mode_enum": ["plain", "preset_voice", "zero_shot", "cross_lingual", "voice_clone", "voice_design", "controllable_clone", "ultimate_clone", "instruct2"],
+      "required": [
+        "request_id",
+        "text",
+        "language",
+        "mode",
+        "voice_identity_ref",
+        "execution_mode",
+        "output_intent"
+      ],
+      "mode_enum": [
+        "plain",
+        "preset_voice",
+        "zero_shot",
+        "cross_lingual",
+        "voice_clone",
+        "voice_design",
+        "controllable_clone",
+        "ultimate_clone",
+        "instruct2"
+      ],
       "fields": {
         "request_id": "non-empty stable request identifier",
         "text": "UTF-8 provider input after canonical normalization",
@@ -30,20 +48,46 @@
     },
     "consent": {
       "schema": "fa3.voice-consent-proof.v2",
-      "required": ["status", "scope", "subject_authorized", "purpose", "provenance_ref", "issued_at", "expires_at", "revocation_ref"],
+      "required": [
+        "status",
+        "scope",
+        "subject_authorized",
+        "purpose",
+        "provenance_ref",
+        "issuer_ref",
+        "jurisdiction",
+        "legal_basis_ref",
+        "signature_ref",
+        "derived_asset_lineage_ref",
+        "retention_policy_ref",
+        "issued_at",
+        "expires_at",
+        "revocation_ref"
+      ],
       "rules": [
         "status MUST equal GRANTED at admission and execution time",
         "scope MUST include VOICE_SYNTHESIS and VOICE_CLONING when applicable",
         "purpose MUST cover the requested output use",
         "subject_authorized MUST be true",
-        "provenance_ref and revocation_ref MUST be non-empty",
+        "provenance_ref, issuer_ref, jurisdiction, legal_basis_ref, signature_ref and revocation_ref MUST be non-empty",
+        "derived voice assets MUST bind derived_asset_lineage_ref and retention_policy_ref",
+        "revocation or expiry MUST produce an auditable deletion receipt before retained derived assets may be considered closed",
         "expired or revoked consent MUST fail closed",
-        "provider MUST NOT mint, infer, extend or persist consent"
+        "provider MUST NOT mint, infer, extend or persist consent",
+        "scope MUST include VOICE_CONVERSION for human-target voice conversion when applicable",
+        "scope MUST include SINGING_VOICE_CONVERSION for human-target singing conversion when applicable",
+        "scope MUST cover REALTIME_VOICE_CONVERSION when a live human-target transformation is requested"
       ]
     },
     "reference": {
       "schema": "fa3.voice-reference-artifact.v2",
-      "required": ["voice_identity_ref", "audio_sha256", "consent_proof_ref", "provenance_ref", "retention_policy_ref"],
+      "required": [
+        "voice_identity_ref",
+        "audio_sha256",
+        "consent_proof_ref",
+        "provenance_ref",
+        "retention_policy_ref"
+      ],
       "rules": [
         "audio_sha256 MUST match bytes consumed by provider",
         "transcript digest MUST match bytes/text consumed when a transcript is used",
@@ -53,7 +97,16 @@
     },
     "provider_decision": {
       "schema": "fa3.voice-provider-decision-receipt.v1",
-      "required": ["request_id", "selected_provider_id", "selected_model_id", "language_status", "license_status", "resource_admission_ref", "fallback_chain", "decision_reason"],
+      "required": [
+        "request_id",
+        "selected_provider_id",
+        "selected_model_id",
+        "language_status",
+        "license_status",
+        "resource_admission_ref",
+        "fallback_chain",
+        "decision_reason"
+      ],
       "rules": [
         "no silent provider, model, device, cloud or language fallback",
         "hu-HU cloning MUST select an admitted Hungarian cloning provider",
@@ -63,7 +116,16 @@
     },
     "license_and_rights": {
       "schema": "fa3.voice-license-and-rights.v1",
-      "required": ["code_license", "runtime_license", "model_license", "voice_or_dataset_license", "output_usage_rights", "commercial_use_status", "attribution_obligations", "evidence_ref"],
+      "required": [
+        "code_license",
+        "runtime_license",
+        "model_license",
+        "voice_or_dataset_license",
+        "output_usage_rights",
+        "commercial_use_status",
+        "attribution_obligations",
+        "evidence_ref"
+      ],
       "rules": [
         "open-source code classification MUST NOT be inherited by model or voice artifacts",
         "unknown, incompatible or purpose-restricted rights MUST fail closed",
@@ -72,11 +134,33 @@
     },
     "result": {
       "schema": "fa3.voice-synthesis-result.v2",
-      "required": ["request_id", "provider_id", "model_id", "model_revision", "audio_path", "audio_sha256", "sample_rate_hz", "channels", "voice_identity_ref", "language", "synthetic_disclosure", "license_and_rights_ref", "execution_evidence"],
+      "required": [
+        "request_id",
+        "provider_id",
+        "model_id",
+        "model_revision",
+        "audio_path",
+        "audio_sha256",
+        "sample_rate_hz",
+        "channels",
+        "voice_identity_ref",
+        "language",
+        "synthetic_disclosure",
+        "license_and_rights_ref",
+        "execution_evidence"
+      ],
       "audio_contract": {
         "preferred_container": "WAV",
-        "allowed_native_sample_rates_hz": [22050, 24000, 48000],
-        "media_mezzanine": {"sample_rate_hz": 48000, "sample_format": "PCM", "channels": "explicit"},
+        "allowed_native_sample_rates_hz": [
+          22050,
+          24000,
+          48000
+        ],
+        "media_mezzanine": {
+          "sample_rate_hz": 48000,
+          "sample_format": "PCM",
+          "channels": "explicit"
+        },
         "resample_requires_derived_artifact_lineage": true
       },
       "rules": [
@@ -88,8 +172,158 @@
     },
     "quality": {
       "schema": "fa3.voice-quality-report.v1",
-      "required": ["locale", "provider_id", "model_revision", "test_corpus_digest", "intelligibility", "pronunciation", "prosody", "speaker_similarity_if_cloned", "human_review", "status"],
-      "hungarian_minimum": ["numbers", "dates", "abbreviations", "currency", "names", "long-form chunk boundaries", "diacritics", "mixed-language denial or explicit routing"]
+      "required": [
+        "locale",
+        "provider_id",
+        "model_revision",
+        "test_corpus_digest",
+        "intelligibility",
+        "pronunciation",
+        "prosody",
+        "speaker_similarity_if_cloned",
+        "human_review",
+        "status"
+      ],
+      "hungarian_minimum": [
+        "numbers",
+        "dates",
+        "abbreviations",
+        "currency",
+        "names",
+        "long-form chunk boundaries",
+        "diacritics",
+        "mixed-language denial or explicit routing"
+      ]
+    },
+    "transformation_request": {
+      "schema": "fa3.voice-transformation-request.v1",
+      "required": [
+        "request_id",
+        "mode",
+        "source_audio_ref",
+        "execution_mode",
+        "output_intent",
+        "consent_proof",
+        "license_and_rights_ref",
+        "license_and_rights_status",
+        "silent_fallback"
+      ],
+      "mode_enum": [
+        "VOICE_CONVERSION",
+        "REALTIME_VOICE_CONVERSION",
+        "SINGING_VOICE_CONVERSION",
+        "STYLE_TRANSFER",
+        "SPEECH_REPRESENTATION"
+      ],
+      "fields": {
+        "request_id": "non-empty stable request identifier",
+        "mode": "provider-neutral voice transformation intent",
+        "source_audio_ref": "authorized immutable source audio artifact reference",
+        "target_voice_identity_ref": "canonical target voice identity; optional only for SPEECH_REPRESENTATION",
+        "execution_mode": "OFFLINE_LOCAL or ONLINE_ALLOWED",
+        "output_intent": "INTERACTIVE, MEDIA_MEZZANINE or ARCHIVAL_MASTER",
+        "consent_proof": "VoiceConsentProof covering the requested transformation and purpose",
+        "license_and_rights_ref": "separate code/runtime/model/voice-dataset/output rights receipt",
+        "latency_requirement": "required for REALTIME_VOICE_CONVERSION",
+        "pitch_intent": "bounded provider-neutral pitch preservation or transformation intent",
+        "formant_intent": "bounded provider-neutral formant intent",
+        "prosody_intent": "bounded provider-neutral prosody intent",
+        "language": "explicit language/locale when linguistic content is relevant",
+        "provider_constraints": "optional allow/deny and local-only constraints; never direct execution authority",
+        "license_and_rights_status": "resolved admission status; MUST equal PASS before execution",
+        "resource_admission_ref": "required for any accelerator execution; issued only by Host Resource Broker",
+        "silent_fallback": "MUST be false",
+        "provider_eligibility": "selected provider MUST be independently admitted; reference-only providers are forbidden"
+      },
+      "rules": [
+        "no provider, model, device, cloud or language fallback may occur silently",
+        "target human voice identity requires valid purpose-scoped non-expired non-revoked consent",
+        "provider selection remains exclusive to FA3-AUTH-MODEL-ROUTER-001",
+        "device placement and accelerator leases remain exclusive to FA3-AUTH-HOST-RESOURCE-BROKER-001",
+        "unknown or incompatible rights fail closed",
+        "reference-only donor children cannot be selected as providers"
+      ],
+      "conditional_required": {
+        "target_voice_identity_ref": [
+          "VOICE_CONVERSION",
+          "REALTIME_VOICE_CONVERSION",
+          "SINGING_VOICE_CONVERSION",
+          "STYLE_TRANSFER"
+        ],
+        "latency_requirement": [
+          "REALTIME_VOICE_CONVERSION"
+        ]
+      }
+    },
+    "transformation_result": {
+      "schema": "fa3.voice-transformation-result.v1",
+      "required": [
+        "request_id",
+        "mode",
+        "provider_id",
+        "model_id",
+        "model_revision",
+        "audio_path",
+        "audio_sha256",
+        "sample_rate_hz",
+        "channels",
+        "source_audio_ref",
+        "license_and_rights_ref",
+        "execution_evidence",
+        "synthetic_disclosure"
+      ],
+      "rules": [
+        "result MUST bind request, source audio, target voice identity when applicable, provider, model, device and output lineage",
+        "native-rate master MUST be preserved when media projection resamples",
+        "synthetic or transformed-audio disclosure MUST be retained",
+        "result MUST NOT create provider-specific consent, identity, routing or hardware authority"
+      ],
+      "conditional_required": {
+        "target_voice_identity_ref": [
+          "VOICE_CONVERSION",
+          "REALTIME_VOICE_CONVERSION",
+          "SINGING_VOICE_CONVERSION",
+          "STYLE_TRANSFER"
+        ]
+      }
+    },
+    "realtime_session": {
+      "schema": "fa3.realtime-voice-session.v1",
+      "required": [
+        "session_id",
+        "request_id",
+        "latency_budget_ms",
+        "input_stream_ref",
+        "output_stream_ref",
+        "resource_admission_ref",
+        "consent_proof_ref",
+        "started_at",
+        "status"
+      ],
+      "rules": [
+        "REALTIME_VOICE_CONVERSION requires an explicit latency budget",
+        "session start requires valid consent, rights and Host Resource Broker admission",
+        "dropout, jitter and latency observations MUST be auditable",
+        "session termination MUST release resource leases and produce a session receipt"
+      ]
+    },
+    "speech_representation": {
+      "schema": "fa3.speech-representation-artifact.v1",
+      "required": [
+        "artifact_id",
+        "source_audio_ref",
+        "representation_kind",
+        "producer_provider_id",
+        "producer_model_id",
+        "artifact_sha256",
+        "provenance_ref",
+        "license_and_rights_ref"
+      ],
+      "rules": [
+        "representation artifacts are derived assets, not identity or routing authorities",
+        "speaker/content disentanglement claims require evidence and MUST NOT be inferred from provider marketing",
+        "reuse across providers requires compatible rights and canonical provenance"
+      ]
     }
   },
   "security": {
@@ -103,5 +337,16 @@
   },
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
-  "capability_count": 143
+  "capability_count": 175,
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "reference_materialization": {
+    "donor_id": "FA3-DONOR-0XDEVALIAS-AI-VOICE-CLONING-GIST-001",
+    "reference_role": "DISCOVERY_AND_PROVENANCE_ONLY",
+    "material_adoption": false,
+    "code_copy": false,
+    "child_provider_admission": false,
+    "capability_delta": 0,
+    "authority_delta": 0
+  }
 }

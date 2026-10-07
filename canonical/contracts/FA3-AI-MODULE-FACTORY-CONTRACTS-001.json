@@ -1,0 +1,61 @@
+{
+  "schema": "fa3.ai-module-factory-contracts.v1",
+  "id": "FA3-AI-MODULE-FACTORY-CONTRACTS-001",
+  "status": "CANONICAL_STATIC_CONTRACT",
+  "authority": false,
+  "provider_neutral": true,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-004",
+    "CAP-006",
+    "CAP-094",
+    "CAP-095",
+    "CAP-098",
+    "CAP-141"
+  ],
+  "artifact_input": {
+    "required_fields": [
+      "artifact_id",
+      "source_application",
+      "approved_final",
+      "provenance_status",
+      "use_rights",
+      "consent_scope"
+    ],
+    "training_extra_fields": [
+      "training_rights",
+      "derivative_model_rights"
+    ],
+    "fail_closed_on_missing_or_unknown": true
+  },
+  "module_plan": {
+    "schema": "fa3.ai-module-plan.v1",
+    "allowed_types": [
+      "KNOWLEDGE",
+      "PREFERENCE",
+      "SKILL_ADAPTER",
+      "WORKFLOW",
+      "NATIVE_MODEL"
+    ],
+    "draft_state": "DRAFT_REQUIRES_HUMAN_APPROVAL",
+    "execution_authorized": false,
+    "direct_provider_execution": false,
+    "direct_hardware_selection": false,
+    "silent_fallback": false,
+    "current_host_pass_claimed": false
+  },
+  "runtime_handoff": {
+    "training": "CAP-095",
+    "knowledge": "FA3-SHARED-KNOWLEDGE-RETRIEVAL-001",
+    "model_router": "FA3-AUTH-MODEL-ROUTER-001",
+    "hrb": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "license_rights": "FA3-LICENSE-RIGHTS-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "data_minimization": {
+    "raw_secret_values_forbidden": true,
+    "credential_material_forbidden": true,
+    "project_scope_preserved": true,
+    "shared_scope_requires_explicit_consent": true
+  }
+}

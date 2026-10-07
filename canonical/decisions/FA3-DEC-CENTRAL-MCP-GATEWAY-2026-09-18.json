@@ -1,0 +1,42 @@
+{
+  "schema": "fa3.decision.v1",
+  "id": "FA3-DEC-CENTRAL-MCP-GATEWAY-2026-09-18",
+  "date": "2026-09-18",
+  "status": "FINAL",
+  "decision": "FA3-MCP-GATEWAY-001_IS_THE_SINGLE_CANONICAL_MCP_AND_CAPABILITY_TOOL_BOUNDARY",
+  "authority": "FA3-AUTH-MCP-GATEWAY-001",
+  "capability_count_before": 143,
+  "capability_count_after": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "adopt": [
+    "data-plane/control-plane separation",
+    "provider/tool registry pattern",
+    "dynamic typed routing",
+    "per-resource authorization pattern",
+    "server-side resource filtering",
+    "management/inspection surface",
+    "fail-closed security regression pattern"
+  ],
+  "adapt": [
+    "Microsoft adapter concept into provider-neutral FA3 provider/capability bindings",
+    "deployment management into pluggable local-first lifecycle drivers",
+    "portal concepts into native Qt/KDE FA3 Control Center",
+    "identity integration into provider-neutral FA3 identity boundary"
+  ],
+  "reject_as_canonical": [
+    "Kubernetes hard dependency",
+    "Azure hard dependency",
+    "Entra ID hard dependency",
+    "transport session affinity as canonical routing model",
+    "gateway-process privileged bash/file execution",
+    "direct agent-to-provider bypass",
+    "GUI self-approval or direct tool execution"
+  ],
+  "modern_transport": "MCP 2026-07-28 STATELESS",
+  "legacy_transport": "COMPATIBILITY_ADAPTER_ONLY",
+  "upstream_reference": "FA3-MCP-GATEWAY-MICROSOFT-REFERENCE-2026-09-18",
+  "runtime_projection": "FA3-MCP-CURRENT-HOST-001",
+  "gui_projection": "FA3-MCP-GATEWAY-GUI-001",
+  "production_runtime_status": "PENDING_CURRENT_HOST_E2E"
+}

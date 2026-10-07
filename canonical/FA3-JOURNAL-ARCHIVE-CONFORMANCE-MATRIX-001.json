@@ -1,0 +1,29 @@
+{
+  "schema": "fa3.conformance-matrix.v1",
+  "id": "FA3-JOURNAL-ARCHIVE-CONFORMANCE-MATRIX-001",
+  "profile_ids": ["FA3-JOURNAL-001", "FA3-JOURNAL-ARCHIVE-001"],
+  "provider_id": "FA3-PROVIDER-JOURNAL-LOCAL-001",
+  "gateset_id": "FA3-JOURNAL-GATESET-001",
+  "status": "REFERENCE_MATERIALIZED_CURRENT_HOST_PENDING",
+  "checks": [
+    {"id": "JRN-001", "requirement": "P0 unified journal profile exists", "status": "PASS_REFERENCE"},
+    {"id": "JRN-002", "requirement": "P0 archive subprofile exists", "status": "PASS_REFERENCE"},
+    {"id": "JRN-003", "requirement": "event and archive contracts exist", "status": "PASS_REFERENCE"},
+    {"id": "JRN-004", "requirement": "append-only local provider is implemented", "status": "PASS_REFERENCE"},
+    {"id": "JRN-005", "requirement": "soft delete emits tombstone", "status": "PASS_REFERENCE"},
+    {"id": "JRN-006", "requirement": "archive creates SEALED manifest with SHA-256", "status": "PASS_REFERENCE"},
+    {"id": "JRN-007", "requirement": "restore is blocked on integrity failure", "status": "PASS_REFERENCE"},
+    {"id": "JRN-008", "requirement": "restore preserves provenance and emits audit event", "status": "PASS_REFERENCE"},
+    {"id": "JRN-009", "requirement": "archive delete is retirement to trash, not GUI purge", "status": "PASS_REFERENCE"},
+    {"id": "JRN-010", "requirement": "Markdown/JSON/HTML export exists", "status": "PASS_REFERENCE"},
+    {"id": "JRN-011", "requirement": "print path exists", "status": "PASS_REFERENCE"},
+    {"id": "JRN-012", "requirement": "email and chat adapter/fallback paths exist", "status": "PASS_REFERENCE"},
+    {"id": "JRN-013", "requirement": "Control Center navigation exposes Journal", "status": "PASS_REFERENCE"},
+    {"id": "JRN-014", "requirement": "active/closed/planned project views exist", "status": "PASS_REFERENCE"},
+    {"id": "JRN-015", "requirement": "reference CI build and static gate", "status": "PENDING_CI"},
+    {"id": "JRN-016", "requirement": "current-host executable E2E archive/restore evidence", "status": "PENDING_CURRENT_HOST"}
+  ],
+  "capability_count_before": 143,
+  "capability_count_after": 143,
+  "new_architectural_authorities": 0
+}

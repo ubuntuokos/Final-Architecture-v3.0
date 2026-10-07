@@ -1,0 +1,20 @@
+{
+  "schema": "fa3.provider-runtime-environment.v1",
+  "template_only": true,
+  "provider_id": "REPLACE_WITH_ADMITTED_PROVIDER_ID",
+  "execution_class": "VENV",
+  "hrb_admission_required": true,
+  "secret_delivery": "NONE",
+  "host_global_reconfiguration": false,
+  "upstream_uninstall_required": false,
+  "supply_chain_receipt_status": "PASS",
+  "venv": {
+    "manager": "uv",
+    "path": "REPLACE_WITH_ABSOLUTE_VENV_PATH",
+    "dependency_lock_path": "REPLACE_WITH_ABSOLUTE_LOCK_PATH",
+    "dependency_lock_sha256": "REPLACE_WITH_64_HEX_SHA256",
+    "environment_identity_sha256": "REPLACE_WITH_64_HEX_SHA256",
+    "system_site_packages": false
+  },
+  "supply_chain_receipt_sha256": "REPLACE_WITH_64_HEX_SHA256_OF_SCS_RECEIPT"
+}

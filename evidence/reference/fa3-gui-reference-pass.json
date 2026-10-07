@@ -1,0 +1,24 @@
+{
+  "schema": "fa3.reference-evidence.v1",
+  "id": "FA3-GUI-REFERENCE-PASS-2026-09-12",
+  "date": "2026-09-12",
+  "gate_id": "FA3-GATE-GUI-001",
+  "profile_id": "FA3-DESKTOP-001",
+  "status": "PASS",
+  "scope": "STATIC_CANONICAL_AND_SOURCE_REGRESSION",
+  "command": "PYTHONPATH=. python src/fa3_gui_gate.py && PYTHONPATH=. python -m unittest tests.test_fa3_gui_gate -v",
+  "checks": [
+    "canonical profile/contract/decision/gate linkage",
+    "143 capability count preserved",
+    "zero new architectural authorities",
+    "navigation baseline present",
+    "AI Studio module baseline present",
+    "draft ChangeSet path present",
+    "direct execution and canonical write denied",
+    "Qt6/QML build contract present"
+  ],
+  "qt_reference_build": "CI_REQUIRED",
+  "current_host_runtime_claim": false,
+  "current_host_runtime_status": "PENDING_CURRENT_HOST",
+  "production_admitted": false
+}

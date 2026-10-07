@@ -1,0 +1,56 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-SKILL-SECURITY-INSPECTION-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-SKILL-FABRIC-001",
+  "security_owner": "FA3-SCS-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "SkillSecurityFinding",
+    "SkillSecurityInspectionReceipt",
+    "SkillSemanticReviewRequest"
+  ],
+  "inspection_stages": [
+    "immutable_snapshot_validation",
+    "path_and_symlink_validation",
+    "static_instruction_scan",
+    "script_and_dependency_manifest_scan",
+    "permission_intent_comparison",
+    "optional_semantic_review",
+    "admission_policy_decision"
+  ],
+  "blocking_categories": [
+    "PROMPT_INJECTION",
+    "INSTRUCTION_OVERRIDE",
+    "SECRET_OR_CREDENTIAL_ACCESS",
+    "DATA_EXFILTRATION",
+    "PRIVILEGE_ESCALATION",
+    "UNBOUNDED_SHELL_EXECUTION",
+    "NETWORK_BOOTSTRAP",
+    "PATH_ESCAPE",
+    "MCP_TOOL_POISONING",
+    "MEMORY_POISONING",
+    "OBFUSCATED_EXECUTION",
+    "SELF_MODIFYING_AGENT_INSTRUCTIONS"
+  ],
+  "provider_boundary": {
+    "external_scanners_optional": true,
+    "external_scanner_is_authority": false,
+    "scanner_result_is_evidence_input_only": true,
+    "semantic_model_review_via_model_router": true,
+    "semantic_model_review_cannot_expand_permissions": true,
+    "static_fail_closed_baseline_required": true
+  },
+  "upstream_pattern_sources": [
+    {
+      "repository": "NVIDIA/SkillSpector",
+      "commit": "c7958a3268d9498644b22edb75d0f051bbc8cbfc",
+      "observed_license": "Apache-2.0",
+      "relationship": "SECURITY_PATTERN_REFERENCE_OR_OPTIONAL_SCANNER_PROVIDER"
+    }
+  ]
+}

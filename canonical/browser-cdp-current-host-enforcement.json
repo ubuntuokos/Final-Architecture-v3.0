@@ -1,0 +1,25 @@
+{
+  "schema": "fa3.browser-cdp-current-host-enforcement.v1",
+  "gate_id": "FA3-GATE-BROWSER-CDP-CURRENT-HOST-001",
+  "provider_id": "FA3-PROVIDER-BROWSER-CDP-001",
+  "runner_labels": [
+    "self-hosted",
+    "linux",
+    "x64",
+    "fa3-current-host"
+  ],
+  "physical_browser_required": true,
+  "synthetic_current_host_pass": "DENY",
+  "github_hosted_current_host_pass": "DENY",
+  "loopback_cdp_required": true,
+  "remote_cdp": "DENY",
+  "cpu_only_path_required": true,
+  "uaf_execution_required": true,
+  "authorization_required": true,
+  "hrb_lease_required": true,
+  "evidence_required": true,
+  "positive_required": true,
+  "negative_stale_required": true,
+  "rollback_required": true,
+  "global_promotion_claim": false
+}

@@ -1,0 +1,102 @@
+from __future__ import annotations
+
+import json
+import unittest
+from pathlib import Path
+
+from fa3_current_host_batch_planner import build_plan
+from fa3_full_current_host_preflight import desktop_preflight_admission, required_primitives
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+class FullCurrentHostPreflightTests(unittest.TestCase):
+    def test_175_baseline_materializes_all_definitions_without_runtime_promotion(self):
+        plan = build_plan(ROOT, batch_size=5)
+        self.assertEqual(175, plan["capability_count"])
+        self.assertEqual(525, plan["required_test_obligation_count"])
+        self.assertEqual(525, plan["materialized_obligation_count"])
+        self.assertEqual(0, plan["pending_obligation_count"])
+        self.assertEqual(175, plan["fully_materialized_capability_count"])
+        self.assertEqual(0, plan["pending_materialization_capability_count"])
+        self.assertIsNone(plan["next_materialization_batch"])
+        self.assertEqual([], plan["materialization_batches"])
+
+    def test_recipe_registry_is_explicit_and_nontrivial(self):
+        primitives, recipes = required_primitives(ROOT)
+        registry = json.loads((ROOT / "canonical/current-host-capability-proof-recipes.json").read_text(encoding="utf-8"))
+        self.assertEqual(149, registry["capability_count"])
+        self.assertEqual(175, registry["active_capability_count"])
+        self.assertEqual(registry["shared_recipe_count"], len(recipes))
+        self.assertEqual(149, registry["shared_recipe_count"])
+        self.assertEqual(26, registry["dedicated_capability_count"])
+        self.assertEqual(
+            175,
+            registry["shared_recipe_count"] + registry["dedicated_capability_count"],
+        )
+        self.assertEqual(525, registry["required_test_obligation_count"])
+        self.assertTrue(set(recipes).isdisjoint(registry["dedicated_capability_ids"]))
+        self.assertGreaterEqual(len(primitives), 12)
+        excluded_primitive = "un" + "real_runtime"
+        self.assertNotIn(excluded_primitive, primitives)
+        cap027 = recipes["CAP-027"]
+        self.assertEqual("Realtime / Virtual Production Interchange", cap027["subject"])
+        self.assertEqual("graphics_3d", cap027["primitive"])
+
+        for primitive in (
+            "gpu_compute",
+            "media_video",
+            "audio_local",
+            "desktop_wayland",
+            "graphics_3d",
+            "metric_3d_reconstruction",
+            "toolchain_build",
+            "storage_io",
+            "security_local",
+            "agent_process",
+            "knowledge_cache",
+        ):
+            self.assertIn(primitive, primitives)
+
+    def test_desktop_preflight_uses_gui_scope_not_secret_backend_as_proxy(self):
+        report = {
+            "result": "FAIL",
+            "desktop": {"desktop": "KDE_PLASMA", "tier": 1},
+            "session": {"type": "wayland"},
+            "integration": {
+                "application_core": "QT6_QML_NATIVE",
+                "strategy": "QT6_NATIVE_KF6_ENHANCED",
+                "architectural_authority": False,
+            },
+            "capabilities": {
+                "linux_host": "PASS",
+                "xdg_runtime": "PASS",
+                "dbus_session": "PASS",
+                "uri_open": "PASS",
+                "secret_backend": "FAIL",
+                "local_gui_session": "PASS",
+                "xdg_desktop_portal": "PASS",
+            },
+        }
+        evidence = {
+            "active_local_graphical_session_proven": True,
+            "wayland_socket_proven": True,
+        }
+        scoped = desktop_preflight_admission(report, evidence)
+        self.assertEqual("PASS", scoped["result"], scoped)
+        self.assertEqual("FAIL", scoped["secret_backend_status"])
+        self.assertFalse(scoped["secret_backend_used_for_desktop_wayland_admission"])
+
+    def test_all_recipes_are_fail_closed_nonpromoting(self):
+        _, recipes = required_primitives(ROOT)
+        for capability_id, recipe in recipes.items():
+            with self.subTest(capability_id=capability_id):
+                self.assertEqual("CURRENT_HOST", recipe["execution_scope"])
+                self.assertFalse(recipe["external_side_effects_allowed"])
+                self.assertFalse(recipe["global_promotion_claim"])
+                self.assertEqual("REJECTED_NOT_PASS", recipe["dependency_failure_semantics"])
+                self.assertIn(recipe["network_policy"], {"NONE", "LOOPBACK_ONLY"})
+
+
+if __name__ == "__main__":
+    unittest.main()

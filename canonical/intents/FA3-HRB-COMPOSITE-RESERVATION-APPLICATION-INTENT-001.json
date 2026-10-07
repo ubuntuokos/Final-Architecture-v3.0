@@ -1,0 +1,54 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-HRB-COMPOSITE-RESERVATION-APPLICATION-INTENT-001",
+  "project_id": "FA3-HOST-RESOURCE-BROKER-001",
+  "project_type": "PROFILE",
+  "goal": "Extend the existing Host Resource Broker with atomic composite reservations and HRB-minted derived leases to prevent nested-workload hold-and-wait deadlocks.",
+  "required_capabilities": [],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "resource-deadlock-prevention",
+    "atomic-reservation",
+    "lease-lineage",
+    "nested-workload-resource-governance"
+  ],
+  "input_modalities": [
+    "CANONICAL_METADATA"
+  ],
+  "output_modalities": [
+    "MACHINE_READABLE_POLICY_AND_EVIDENCE"
+  ],
+  "execution_classes": [
+    "CPU_LIGHTWEIGHT"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "COMPOSITE_RESERVATION_AND_DERIVED_LEASE"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3",
+    "service_prefix": "fa3",
+    "config_root": "$XDG_CONFIG_HOME/fa3",
+    "cache_root": "$XDG_CACHE_HOME/fa3",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3",
+    "socket_namespace": "fa3",
+    "data_root": "$XDG_DATA_HOME/fa3",
+    "desktop_prefix": "org.fa3",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "task_classes": [
+    "architecture",
+    "developer"
+  ],
+  "skill_triggers": []
+}

@@ -1,0 +1,64 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-HRB-LEASE-LIFECYCLE-APPLICATION-INTENT-001",
+  "project_id": "FA3-HOST-RESOURCE-BROKER-001",
+  "project_type": "PROFILE",
+  "goal": "Extend the existing Host Resource Broker authority with lease lifecycle, TTL eviction and cryptographic lease-integrity semantics without creating a second resource authority or accelerator-specific dependency.",
+  "required_capabilities": [],
+  "optional_capabilities": [
+    "fa3.decision.rank"
+  ],
+  "problem_classes": [
+    "resource-lease",
+    "ttl-eviction",
+    "lease-integrity",
+    "resource-governance",
+    "runtime-isolation"
+  ],
+  "task_classes": [
+    "resource-lease",
+    "ttl-eviction",
+    "lease-integrity",
+    "resource-governance",
+    "runtime-isolation"
+  ],
+  "skill_triggers": [],
+  "input_modalities": [
+    "CANONICAL_METADATA"
+  ],
+  "output_modalities": [
+    "MACHINE_READABLE_ASSESSMENT"
+  ],
+  "execution_classes": [
+    "CPU_ONLY",
+    "OPTIONAL_ACCELERATOR"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "LEASE_LIFECYCLE_TTL_EVICTION_AND_CRYPTO_INTEGRITY_UNDER_EXISTING_HRB"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-hrb-lease",
+    "service_prefix": "fa3-hrb-lease",
+    "config_root": "$XDG_CONFIG_HOME/fa3/hrb-lease",
+    "cache_root": "$XDG_CACHE_HOME/fa3/hrb-lease",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/hrb-lease",
+    "socket_namespace": "fa3/hrb-lease",
+    "data_root": "$XDG_DATA_HOME/fa3/hrb-lease",
+    "desktop_prefix": "org.fa3.hrb.lease",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001"
+  ]
+}

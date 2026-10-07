@@ -1,0 +1,119 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-LICENSE-RIGHTS-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-LICENSE-RIGHTS-001",
+  "intent_id": "FA3-LICENSE-RIGHTS-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-LICENSE-RIGHTS-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-LICENSE-RIGHTS-001",
+    "FA3-DEC-LICENSE-RIGHTS-AUTHORITY-2026-09-30"
+  ],
+  "project_status": "CANONICAL_AUTHORITY_EXTENSION_RETROACTIVE_AUDIT_PENDING",
+  "result": "PASS",
+  "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+  "selected_reuse": [
+    {
+      "id": "FA3-SCS-001",
+      "use": "EXISTING_SOFTWARE_AND_MODEL_SUPPLY_CHAIN_SECURITY_PARENT"
+    },
+    {
+      "id": "FA3-AUTH-SECURITY-GOV-001",
+      "use": "EXISTING_SECURITY_POLICY_AND_FAIL_CLOSED_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "EXISTING_EVIDENCE_AND_PROMOTION_BOUNDARY"
+    },
+    {
+      "id": "FA3-DISTRIBUTION-COMPLIANCE-001",
+      "use": "EXISTING_RELEASE_BUNDLE_DISTRIBUTION_COMPLIANCE"
+    },
+    {
+      "id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+      "use": "MANDATORY_DONOR_AND_REFERENCE_DISCOVERY_SOURCE"
+    },
+    {
+      "id": "FA3-SECRET-BROKER-001",
+      "use": "OPAQUE_COMMERCIAL_ENTITLEMENT_SECRET_RESOLUTION"
+    },
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "MANDATORY_REUSE_AND_DUPLICATION_PREVENTION"
+    },
+    {
+      "id": "FA3-SCS-LICENSE-POLICY-001",
+      "use": "EXISTING_AUTOMATED_CODE_LICENSE_ADMISSION_POLICY"
+    },
+    {
+      "id": "Syft",
+      "use": "EXISTING_SBOM_TOOLING_PATTERN"
+    },
+    {
+      "id": "ScanCode_OR_ORT",
+      "use": "EXISTING_LICENSE_DETECTION_TOOLING_PATTERN"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "NEW_PARALLEL_LICENSE_AUTHORITY",
+      "reason": "SECURITY_GOVERNANCE_AND_SCS_ALREADY_OWN_THE_REQUIRED_POLICY_BOUNDARY"
+    },
+    {
+      "id": "CUSTOM_FA3_OPEN_SOURCE_LICENSE",
+      "reason": "STANDARD_SPDX_IDENTIFIED_LICENSES_ARE_PREFERRED"
+    },
+    {
+      "id": "DONOR_REGISTRATION_AS_REUSE_PERMISSION",
+      "reason": "DONOR_DISCOVERY_NEVER_IMPLIES_COPY_BUNDLE_OR_RUNTIME_ADMISSION"
+    },
+    {
+      "id": "DECISION_FABRIC_LICENSE_ELIGIBILITY",
+      "reason": "RIGHTS_AND_RELEASE_ADMISSION_REMAIN_DETERMINISTIC_FAIL_CLOSED_WITH_HUMAN_LEGAL_REVIEW_WHEN_REQUIRED"
+    }
+  ],
+  "pattern_reuse": [
+    "FAIL_CLOSED_ADMISSION",
+    "POLICY_DERIVED_COMPATIBILITY",
+    "OPAQUE_SECRET_REFERENCE",
+    "APPEND_ONLY_EVIDENCE",
+    "SEPARATE_ARCHITECTURE_FROM_RUNTIME_AND_RELEASE_PROMOTION"
+  ],
+  "existing_authority_bindings": {
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "distribution": "FA3-DISTRIBUTION-COMPLIANCE-001",
+    "secret_resolution": "FA3-SECRET-BROKER-001",
+    "reuse": "FA3-REUSE-DISCOVERY-001"
+  },
+  "gaps": [
+    "RETROACTIVE_REPOSITORY_RIGHTS_AUDIT"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_claim": false
+  },
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "authority": false,
+      "automatic_selection": false,
+      "assessment": "License and rights governance does not require direct Khronos SDK reuse. Khronos licenses for any admitted SDK remain third-party rights subjects governed by this authority."
+    }
+  ],
+  "implementation_readiness": "READY_FOR_CANONICAL_AUTHORITY_MATERIALIZATION_WITH_RELEASE_BLOCKED_PENDING_RETROACTIVE_AUDIT",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}

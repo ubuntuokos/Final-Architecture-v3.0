@@ -11,11 +11,15 @@
     "REMOTE_CLOUD_PROVIDER"
   ],
   "profile": "FA3-VIDEO-001",
-  "capability_projection": ["CAP-016", "CAP-123", "CAP-126"],
+  "capability_projection": [
+    "CAP-016",
+    "CAP-123",
+    "CAP-126"
+  ],
   "canonical_root": false,
   "architectural_authority": false,
   "new_capability": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
   "integration_patterns": [
     "cinematic_multishot_control",
@@ -24,12 +28,17 @@
     "agent_batch_execution_projection",
     "native_av_projection"
   ],
-  "provider_interfaces": ["API", "MCP", "CLI"],
+  "provider_interfaces": [
+    "API",
+    "MCP",
+    "CLI"
+  ],
   "mcp_boundary": "MUST_ROUTE_THROUGH_FA3_CENTRAL_MCP_GATEWAY",
   "authority_boundaries": {
     "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
     "policy_trust": "FA3-AUTH-SECURITY-GOV-001",
     "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
     "artifact_model_registry": "FA3-REG-ARTIFACT-MODEL-001"
-  }
+  },
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

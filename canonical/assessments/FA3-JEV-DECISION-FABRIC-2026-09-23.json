@@ -1,0 +1,48 @@
+{
+  "schema": "fa3.decision-fabric-assessment.v1",
+  "project_id": "FA3-JEV-DECISION-FABRIC-MATERIALIZATION-2026-09-23",
+  "covered_ids": [
+    "FA3-DECISION-FABRIC-001",
+    "FA3-CONTEXT-SELECTION-001",
+    "FA3-EXTERNAL-PROJECT-RADAR-001",
+    "FA3-PROVIDER-DECISION-RULES-001",
+    "FA3-PROVIDER-DECISION-LOCAL-001",
+    "FA3-PROVIDER-JEV-DECISION-001"
+  ],
+  "assessment": "REQUIRED",
+  "rationale": "This materialization introduces the common bounded semantic-decision service and optional provider adapters while preserving all existing FA3 authorities.",
+  "decision_points": [
+    {
+      "id": "bounded-selection",
+      "purpose": "choose or rank only pre-authorized candidates",
+      "contract": "SELECT_ONE",
+      "candidate_source": "calling FA3 authority",
+      "final_policy_owner": "calling FA3 authority",
+      "failure_policy": "NO_DECISION"
+    },
+    {
+      "id": "semantic-risk-signal",
+      "purpose": "provide semantic evidence without granting permission",
+      "contract": "SCORE",
+      "candidate_source": "calling FA3 security component",
+      "final_policy_owner": "FA3-SCS-001",
+      "failure_policy": "FAIL_CLOSED"
+    }
+  ],
+  "project_radar_checked": true,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "global_accelerator_requirement": false
+  },
+  "security_boundary": {
+    "may_grant_permission": false,
+    "may_expand_candidate_set": false,
+    "may_create_agent": false,
+    "may_admit_model": false,
+    "may_admit_provider": false
+  },
+  "shadow_mode_required": true,
+  "capability_delta": 0,
+  "authority_delta": 0
+}

@@ -1,0 +1,14 @@
+{
+  "schema": "fa3.runtime-admission.v1",
+  "id": "FA3-OPENVID-RUNTIME-ADMISSION-001",
+  "provider_id": "FA3-PROVIDER-OPENVID-001",
+  "status": "DENIED_BASELINE_AND_COMMERCIAL_RUNTIME_BY_LICENSE_POLICY",
+  "current_host_runtime_evidence": "NOT_CLAIMED",
+  "admission": {"reference_design_use": true, "source_vendoring": false, "baseline_runtime": false, "commercial_production_runtime": false, "noncommercial_experimental_runtime": "SEPARATE_EXPLICIT_ADMISSION_REQUIRED"},
+  "blocking_conditions": ["upstream is PolyForm Noncommercial License 1.0.0", "FA3 baseline must remain usable without a noncommercial-only hard dependency", "no separately admitted commercial/permissive OpenVid license is recorded", "no independently implemented FA3-compatible OpenVid-pattern adapter is admitted", "no current-host production E2E evidence is claimed"],
+  "future_admission_requirements": ["separate license compatible with intended deployment OR independent clean implementation", "immutable upstream/reference pin", "dependency lock/SBOM identity", "provider-neutral contract conformance", "privacy and explicit-cloud-escalation tests", "bounded-memory/direct-to-disk tests", "hardware/software/WASM fallback receipts", "output QA/hash/provenance evidence", "current-host rollback and E2E evidence"],
+  "provider_runtime_required_for_global_promotion_when_disabled": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143
+}

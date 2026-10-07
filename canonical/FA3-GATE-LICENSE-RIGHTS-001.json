@@ -1,0 +1,25 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-LICENSE-RIGHTS-001",
+  "gateset_id": "FA3-SUPPLY-RUNTIME-HARDENING-GATESET-001",
+  "name": "License & Rights static conformance",
+  "status": "MANDATORY_REFERENCE_SUBGATE",
+  "fail_closed": true,
+  "capability_count": 175,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "executable": "src/fa3_license_rights_gate.py",
+  "policy": "canonical/license-rights-policy.json",
+  "audit_status": "canonical/license-rights-audit-status.json",
+  "blocks_release_when": [
+    "RETROACTIVE_AUDIT_NOT_PASS",
+    "UNKNOWN_REQUIRED_RIGHTS_FACT",
+    "UNRESOLVED_LICENSE_CONFLICT",
+    "MISSING_ATTRIBUTION",
+    "MISSING_SOURCE_OFFER",
+    "MISSING_REQUIRED_ENTITLEMENT",
+    "MISSING_SPDX_OR_CYCLONEDX_SBOM"
+  ],
+  "static_materialization_can_pass_while_release_blocked": true,
+  "rationale": "The authority and fail-closed behavior must be mergeable before the historical audit can be completed; release eligibility remains independently false until that audit passes."
+}

@@ -1,0 +1,66 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-AGENT-RUNTIME-SEMANTICS-APPLICATION-INTENT-001",
+  "project_id": "FA3-AGENT-RUNTIME-SEMANTICS-001",
+  "project_type": "PROFILE",
+  "goal": "Materialize provider-neutral agent graph, resume, budget, transfer and boundary semantics as an extension of the existing FA3 Agent Workload Runtime while preserving Temporal, UAF, security, HRB, Model Router, MCP, AI communication, Journal and Evidence authority boundaries.",
+  "required_capabilities": [],
+  "optional_capabilities": [
+    "fa3.decision.rank"
+  ],
+  "problem_classes": [
+    "agent-runtime",
+    "agent-graph",
+    "resume",
+    "budget",
+    "handoff",
+    "transfer",
+    "provider-neutral-runtime-semantics"
+  ],
+  "task_classes": [
+    "agent-runtime",
+    "agent-graph",
+    "resume",
+    "budget",
+    "handoff"
+  ],
+  "skill_triggers": [],
+  "input_modalities": [
+    "CANONICAL_METADATA"
+  ],
+  "output_modalities": [
+    "MACHINE_READABLE_ASSESSMENT"
+  ],
+  "execution_classes": [
+    "CPU_ONLY",
+    "OPTIONAL_ACCELERATOR"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "PROVIDER_NEUTRAL_AGENT_GRAPH_RESUME_BUDGET_TRANSFER_SEMANTICS"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-agent-runtime-semantics",
+    "service_prefix": "fa3-agent-runtime-semantics",
+    "config_root": "$XDG_CONFIG_HOME/fa3/agent-runtime-semantics",
+    "cache_root": "$XDG_CACHE_HOME/fa3/agent-runtime-semantics",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/agent-runtime-semantics",
+    "socket_namespace": "fa3/agent-runtime-semantics",
+    "data_root": "$XDG_DATA_HOME/fa3/agent-runtime-semantics",
+    "desktop_prefix": "org.fa3.agent.runtime.semantics",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001"
+  ]
+}

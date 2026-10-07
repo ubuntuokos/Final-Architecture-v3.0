@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.local/contracts/FA3-UAF-EXECUTION-CONTEXT-001.schema.json",
+  "x-fa3-contract-id": "FA3-UAF-EXECUTION-CONTEXT-001",
+  "title": "FA3 UAF Execution Context",
+  "type": "object",
+  "required": [
+    "schema",
+    "context_id",
+    "selection"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.uaf.execution-context.v1"
+    },
+    "context_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "application": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "project": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "selection": {
+      "type": "object"
+    },
+    "session_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

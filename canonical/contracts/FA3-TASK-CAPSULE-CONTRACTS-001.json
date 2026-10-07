@@ -1,0 +1,85 @@
+{
+  "schema": "fa3.task-capsule-contracts.v1",
+  "id": "FA3-TASK-CAPSULE-CONTRACTS-001",
+  "title": "CFA3 Task Capsule Contracts",
+  "status": "P0_MUST",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "authority": false,
+  "composition": {
+    "execution_profile": "FA3-AGENT-WORKLOAD-RUNTIME-001",
+    "blueprint_contract": "FA3-AGENT-APPLICATION-BLUEPRINT-EXTENSION-CONTRACTS-001",
+    "capability_grant_contract": "FA3-CAPABILITY-GRANT-SCOPE-CONTRACTS-001",
+    "work_context_contract": "FA3-WORK-CONTEXT-CONTRACTS-001",
+    "action_fabric": "FA3-UNIFIED-ACTION-FABRIC-001"
+  },
+  "required_fields": [
+    "capsule_id",
+    "application_id",
+    "objective",
+    "blueprint_ref",
+    "workload_task_ref",
+    "workspace_ref",
+    "capability_grant_ref",
+    "work_context_ref",
+    "lifecycle_state",
+    "provenance_refs"
+  ],
+  "lifecycle_states": [
+    "DECLARED",
+    "VALIDATING",
+    "READY",
+    "RUNNING",
+    "WAITING_APPROVAL",
+    "SUSPENDED",
+    "COMPLETED",
+    "FAILED",
+    "PROMOTION_CANDIDATE",
+    "ARCHIVED"
+  ],
+  "invariants": [
+    "TASK_CAPSULE_IS_NOT_APPLICATION_AUTHORITY",
+    "TASK_CAPSULE_IS_NOT_PROJECT_OR_TASK_TRUTH",
+    "TASK_CAPSULE_IS_NOT_PERMISSION_AUTHORITY",
+    "TASK_CAPSULE_IS_NOT_DURABLE_WORKFLOW_AUTHORITY",
+    "TASK_CAPSULE_MUST_NOT_EXPAND_CAPABILITY_GRANT",
+    "TASK_CAPSULE_EFFECTS_MUST_USE_UAF",
+    "TASK_CAPSULE_EXTERNAL_TOOLS_MUST_USE_CENTRAL_MCP_GATEWAY",
+    "TASK_CAPSULE_RUNTIME_RESOURCES_MUST_USE_HRB",
+    "TASK_CAPSULE_MODEL_PROVIDER_NEEDS_MUST_USE_MODEL_ROUTER",
+    "TASK_CAPSULE_SECRET_VALUES_MUST_NOT_BE_EMBEDDED",
+    "SPECULATIVE_RESULT_IS_NOT_CANONICAL_COMMIT_OR_EVIDENCE_PASS"
+  ],
+  "promotion": {
+    "automatic_promotion": false,
+    "allowed_targets": [
+      "BLUEPRINT_TEMPLATE",
+      "PLUGIN",
+      "EXTENSION",
+      "APPLICATION"
+    ],
+    "required_reviews": [
+      "FUNCTIONAL_REUSE",
+      "SECURITY",
+      "LICENSE_RIGHTS",
+      "CAPABILITY_COMPATIBILITY",
+      "GUI_COMPATIBILITY",
+      "APPLICATION_COMPATIBILITY_PROPAGATION",
+      "TEST_AND_ROLLBACK"
+    ],
+    "runtime_promotion_requires_current_host_if_applicable": true
+  },
+  "reference_patterns": [
+    {
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "use": "SANDBOXED_GADGET_PATTERN",
+      "registration_status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "source": "https://github.com/PhreshOS",
+      "use": "PROGRAM_PROCESS_ENDPOINT_PATTERN",
+      "registration_status": "ACCEPTED_REFERENCE"
+    }
+  ]
+}

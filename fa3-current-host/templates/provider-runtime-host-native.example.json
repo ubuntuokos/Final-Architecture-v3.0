@@ -1,0 +1,20 @@
+{
+  "schema": "fa3.provider-runtime-environment.v1",
+  "template_only": true,
+  "provider_id": "REPLACE_WITH_ADMITTED_PROVIDER_ID",
+  "execution_class": "HOST_NATIVE",
+  "hrb_admission_required": true,
+  "secret_delivery": "NONE",
+  "host_global_reconfiguration": false,
+  "upstream_uninstall_required": false,
+  "supply_chain_receipt_status": "PASS",
+  "host_native": {
+    "justification": "REPLACE_WITH_EXPLICIT_HOST_NATIVE_JUSTIFICATION",
+    "package_identity": "REPLACE_WITH_PACKAGE_IDENTITY",
+    "namespaced_state": true,
+    "global_environment_mutation": false,
+    "executable_path": "/REPLACE/WITH/ABSOLUTE/EXECUTABLE",
+    "executable_sha256": "REPLACE_WITH_64_HEX_SHA256"
+  },
+  "supply_chain_receipt_sha256": "REPLACE_WITH_64_HEX_SHA256_OF_SCS_RECEIPT"
+}

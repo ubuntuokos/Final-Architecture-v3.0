@@ -1,0 +1,117 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "CFA3-DONOR-INTAKE-BATCH-ACCELERATION-REUSE-ASSESSMENT-2026-10-04",
+  "project_id": "FA3-REGISTRY-001",
+  "subject_id": "FA3-DONOR-CHAT-INGEST-001",
+  "intent_id": "FA3-CANONICAL-REGISTRY-GOVERNANCE-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-CANONICAL-REGISTRY-GOVERNANCE-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-REGISTRY-001",
+    "FA3-DONOR-CHAT-INGEST-001",
+    "FA3-DONOR-PLANNING-SNAPSHOT-GATESET-001",
+    "CFA3-DEC-DONOR-INTAKE-BATCH-ACCELERATION-2026-10-04"
+  ],
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-REGISTRY-001",
+      "use": "EXISTING_CANONICAL_DONOR_REGISTRY_SINGLE_SOURCE_OF_TRUTH"
+    },
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "EXISTING_PUBLISHED_MAIN_PLANNING_SNAPSHOT_AND_REUSE_GATE"
+    },
+    {
+      "id": "FA3-GATE-REGISTRY-001",
+      "use": "EXISTING_GATE_IDENTITY_AND_POLICY_MIRROR"
+    },
+    {
+      "id": "FA3-PERMANENT-GATE-HARDENING-001",
+      "use": "EXISTING_PROTECTED_CANONICAL_FINALIZATION_AND_PROVENANCE_PATH"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "PARALLEL_DONOR_REGISTRY",
+      "reason": "BATCH_ACCELERATION_MUST_REUSE_THE_EXISTING_CANONICAL_REGISTRY"
+    },
+    {
+      "id": "MULTIPLE_CANONICAL_REGISTRY_WRITERS",
+      "reason": "CANONICAL_MUTATION_REMAINS_SINGLE_WRITER_AND_BATCHED"
+    },
+    {
+      "id": "STALE_BRANCH_REBASE_AS_INTAKE",
+      "reason": "EXACT_HEAD_DONOR_DELTA_REHYDRATION_PRESERVES_PROVENANCE_WITHOUT_IMPORTING_STALE_FEATURE_HISTORY"
+    },
+    {
+      "id": "PENDING_DONOR_AS_PLANNING_INPUT",
+      "reason": "PENDING_BATCH_CONTENT_IS_NOT_A_PLANNING_INPUT_BEFORE_COMMITTED_MAIN_PUBLICATION"
+    }
+  ],
+  "pattern_reuse": [
+    "PUBLISHED_MAIN_SNAPSHOT_ONLY",
+    "FAIL_CLOSED_INTAKE_ADMISSION",
+    "ROLLING_REQUEST_WINDOW",
+    "SINGLE_WRITER_CANONICAL_BATCH",
+    "EXACT_HEAD_DELTA_REHYDRATION",
+    "SOURCE_KEY_UNION_AND_DEDUPLICATION",
+    "FINAL_BATCH_HEAD_FULL_PROTECTED_GATES",
+    "NO_IMPLICIT_DONOR_ADOPTION"
+  ],
+  "existing_authority_bindings": {
+    "registry": "FA3-REGISTRY-001",
+    "reuse_discovery": "FA3-REUSE-DISCOVERY-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "release_authority": "EXISTING_FA3_CANONICAL_AND_PROMOTION_PATH"
+  },
+  "gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_claim": false
+  },
+  "mandatory_source_reviews": [],
+  "donor_planning_snapshot": {
+    "published_main_commit": "1e4f5a91585c17ae4258d0001968d9e8ad99fa10",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "1362d75186c6da74e5cf947fdf0b8867d462636a",
+    "donor_registry_sha256": "b8d0eb42ee02885863af375071ffae89033664089ddba3c69682a8d0f7c7cff1",
+    "donor_registry_entry_count": 1427
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "retrospective_consumer_impact_reviewed": true,
+    "rationale": "Donor intake coordination is shared governance used by every CFA3 application and module; acceleration changes only the shared canonical intake path and creates no application-local duplicate.",
+    "shared_component_ids": [
+      "FA3-REGISTRY-001",
+      "FA3-REUSE-DISCOVERY-001",
+      "FA3-DONOR-CHAT-INGEST-001"
+    ]
+  },
+  "governance_delta": {
+    "decision_id": "CFA3-DEC-DONOR-INTAKE-BATCH-ACCELERATION-2026-10-04",
+    "max_active_donor_intakes": 5,
+    "max_active_canonical_registry_mutation_prs": 1,
+    "canonical_mutation_mode": "SINGLE_WRITER_BATCH",
+    "exact_head_source_union_required": true,
+    "donor_adoption_authorized": false,
+    "runtime_or_provider_admission_authorized": false
+  },
+  "implementation_readiness": "READY_FOR_STATIC_MATERIALIZATION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}

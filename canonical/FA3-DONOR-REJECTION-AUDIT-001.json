@@ -1,0 +1,70 @@
+{
+  "schema": "fa3.donor-rejection-audit.v1",
+  "id": "FA3-DONOR-REJECTION-AUDIT-001",
+  "status": "CANONICAL_AUDIT_HISTORY",
+  "authority": false,
+  "active_donor_registry": false,
+  "purpose": "Preserve provenance for donors removed from the active registry because they are unsafe or otherwise rejected.",
+  "reentry_policy": {
+    "active_registry_reentry_default": "DENY",
+    "required_status": "VERIFIED_SAFE",
+    "required_evidence": [
+      "SECURITY_REVIEW",
+      "REMEDIATION_PROOF",
+      "FA3_IMPACT_REVIEW"
+    ],
+    "reentry_must_not_restore_old_unsafe_artifact": true
+  },
+  "entries": [
+    {
+      "removed_from_active_registry_on": "2026-09-30",
+      "removal_reason": "OWNER_POLICY_UNSAFE_OR_REJECTED_DONOR_MUST_NOT_REMAIN_ACTIVE",
+      "donor": {
+        "donor_id": "FA3-DONOR-DONUTBROWSER-001",
+        "name": "donutbrowser",
+        "source": {
+          "kind": "PROJECT",
+          "locator": "project:donutbrowser",
+          "normalized_key": "project:donutbrowser"
+        },
+        "status": "REJECTED",
+        "discovered_from": [
+          "prior-fa3-research-backfill"
+        ],
+        "first_seen": "2026-09-27",
+        "last_seen": "2026-09-28",
+        "donor_modes": [
+          "REFERENCE_IMPLEMENTATION"
+        ],
+        "capability_hints": [],
+        "domain_hints": [
+          "browser"
+        ],
+        "problem_hints": [],
+        "target_hints": [],
+        "tags": [
+          "anti-detect",
+          "fingerprint-spoofing"
+        ],
+        "license": {
+          "declared": "UNKNOWN",
+          "status": "UNKNOWN"
+        },
+        "code_reuse_policy": "FORBIDDEN",
+        "discoverable_for_planning": false,
+        "authority": false,
+        "automatic_selection": false,
+        "automatic_fetch": false,
+        "automatic_install": false,
+        "automatic_activation": false,
+        "automatic_dependency": false,
+        "automatic_code_import": false,
+        "automatic_provider_admission": false,
+        "automatic_model_selection": false,
+        "rejection_reasons": [
+          "ANTI_DETECT_AND_FINGERPRINT_SPOOFING_CONFLICT_WITH_FA3_TRUST_AND_AUDITABILITY"
+        ]
+      }
+    }
+  ]
+}

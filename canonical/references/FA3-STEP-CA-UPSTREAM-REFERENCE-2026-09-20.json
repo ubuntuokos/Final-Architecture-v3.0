@@ -1,0 +1,45 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-STEP-CA-UPSTREAM-REFERENCE-2026-09-20",
+  "provider_id": "FA3-PROVIDER-STEP-CA-001",
+  "repository": "smallstep/certificates",
+  "observed_at": "2026-09-20",
+  "stable_reference": {
+    "release": "0.30.2",
+    "tag": "v0.30.2",
+    "commit_sha": "6e8ec61405239cf3f37b2bbf260a587b7d2e4e31",
+    "published_at": "2026-03-23T00:17:17Z",
+    "prerelease": false
+  },
+  "release_supply_chain": {
+    "checksums_asset": true,
+    "checksums_asset_sha256": "5076defb1b4759f270fd85a31fc7e4756ddf2551237249aa12739f5be1544f98",
+    "sigstore_bundles_available": true,
+    "cosign_verification_documented_by_upstream": true
+  },
+  "license": {
+    "spdx": "Apache-2.0",
+    "permissive": true,
+    "patent_grant": true
+  },
+  "observed_surfaces": [
+    "X509_CA",
+    "ACME_V2_SERVER",
+    "SSH_CA",
+    "OIDC_PROVISIONER",
+    "JWK_PROVISIONER",
+    "X5C_PROVISIONER",
+    "SCEP_PROVISIONER",
+    "DATABASE_BACKENDS"
+  ],
+  "fa3_disposition": {
+    "classification": "DEFAULT_REPLACEABLE_INTERNAL_CA_PROVIDER",
+    "provider_is_security_policy_authority": false,
+    "provider_is_identity_authority": false,
+    "provider_is_authorization_authority": false,
+    "root_private_key_online_allowed": false,
+    "short_lived_certificates_required": true,
+    "runtime_provider_required_for_canonical_reference_pass": false,
+    "current_host_runtime_promotion_claim": false
+  }
+}

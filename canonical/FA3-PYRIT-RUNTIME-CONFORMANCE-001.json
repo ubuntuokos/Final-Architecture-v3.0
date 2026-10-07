@@ -1,0 +1,25 @@
+{
+  "schema": "fa3.runtime-conformance.v1",
+  "id": "FA3-PYRIT-RUNTIME-CONFORMANCE-001",
+  "provider_id": "FA3-PROVIDER-PYRIT-001",
+  "runtime_admission_id": "FA3-PYRIT-RUNTIME-ADMISSION-001",
+  "status": "PENDING_CURRENT_HOST",
+  "production_admitted": false,
+  "current_host_receipt": "evidence/receipts/pyrit-current-host.json",
+  "current_host_receipt_present": false,
+  "required_evidence_level": "CURRENT_HOST_PRODUCTION_E2E_PASS",
+  "reference_gate_status": "PASS",
+  "runtime_identity": {
+    "release": "v1.1.0",
+    "release_commit": "d0524f0714840519b826eb770687ca1d4f46a761",
+    "python": ">=3.11,<3.15"
+  },
+  "promotion_blockers": [
+    "REAL_CURRENT_HOST_PYRIT_SCAN_EVIDENCE_MISSING",
+    "CURRENT_HOST_PRODUCTION_E2E_RECEIPT_MISSING"
+  ],
+  "global_143_capability_promotion_claim": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143
+}

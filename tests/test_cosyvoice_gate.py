@@ -23,7 +23,22 @@ class CosyVoiceGateTests(unittest.TestCase):
             "mode":"zero_shot",
             "model_id":MODEL_ID,
             "voice_identity_ref":"voice:test:001",
-            "consent_proof":{"status":"GRANTED","scope":["VOICE_SYNTHESIS"],"subject_authorized":True,"provenance_ref":"consent:test:001"},
+            "consent_proof":{
+                "status":"GRANTED",
+                "scope":["VOICE_SYNTHESIS","VOICE_CLONING"],
+                "subject_authorized":True,
+                "purpose":"TEST_SYNTHESIS",
+                "provenance_ref":"consent:test:001",
+                "issuer_ref":"issuer:test:001",
+                "jurisdiction":"HU",
+                "legal_basis_ref":"legal:test:001",
+                "signature_ref":"sig:test:001",
+                "derived_asset_lineage_ref":"lineage:test:001",
+                "retention_policy_ref":"retention:test:001",
+                "issued_at":"2026-09-01T00:00:00Z",
+                "expires_at":"2027-09-01T00:00:00Z",
+                "revocation_ref":"revocation:test:001"
+            },
             "reference_audio_path":str(audio),
             "reference_audio_sha256":hashlib.sha256(audio.read_bytes()).hexdigest(),
             "prompt_text":"Hello reference speaker"
@@ -48,6 +63,15 @@ class CosyVoiceGateTests(unittest.TestCase):
     def test_voice_reference_requires_consent(self):
         with tempfile.TemporaryDirectory() as d:
             req=self._request(Path(d)); req.pop("consent_proof")
+            with self.assertRaises(PolicyDenied):
+                validate_request(ROOT,req)
+
+    def test_unsigned_or_unscoped_consent_is_rejected(self):
+        with tempfile.TemporaryDirectory() as d:
+            req=self._request(Path(d)); req["consent_proof"]["signature_ref"]=""
+            with self.assertRaises(PolicyDenied):
+                validate_request(ROOT,req)
+            req=self._request(Path(d)); req["consent_proof"]["scope"]=["VOICE_SYNTHESIS"]
             with self.assertRaises(PolicyDenied):
                 validate_request(ROOT,req)
 

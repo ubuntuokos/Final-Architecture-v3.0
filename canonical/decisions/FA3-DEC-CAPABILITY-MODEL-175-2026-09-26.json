@@ -1,0 +1,421 @@
+{
+  "schema": "fa3.capability-model-migration-decision.v1",
+  "id": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "date": "2026-09-26",
+  "status": "CANONICAL_CANDIDATE",
+  "title": "Expand FA3 canonical capability model from 143 to 175",
+  "previous_release": "2026-08-23/v3.0.11",
+  "release": "2026-09-26/v3.1.0",
+  "capability_count_before": 143,
+  "capability_count_after": 175,
+  "capability_delta": 32,
+  "authority_delta": 0,
+  "renumber_existing_capabilities": false,
+  "stable_existing_capability_ids": "CAP-001..CAP-143",
+  "new_capability_ids": "CAP-144..CAP-175",
+  "rationale": "Materialize independently governable capability surfaces that emerged from post-v3.0 architecture work without inventing new architectural authorities or rewriting historical capability identity.",
+  "invariants": [
+    "NO_EXISTING_CAPABILITY_ID_RENUMBERING",
+    "NO_NEW_ARCHITECTURAL_AUTHORITY",
+    "NEW_CAPABILITIES_START_PENDING_CURRENT_HOST",
+    "143_CAPABILITY_429_OBLIGATION_CLOSURE_REMAINS_HISTORICAL_EVIDENCE_ONLY",
+    "175_CAPABILITY_BASELINE_REQUIRES_525_OBLIGATION_CURRENT_HOST_CLOSURE",
+    "DOCUMENT_ONLY_PROMOTION_FORBIDDEN",
+    "CPU_ONLY_AND_VENDOR_NEUTRAL_WHERE_APPLICABLE",
+    "SOFTWARE_COEXISTENCE_AND_HOST_NON_INTERFERENCE_MANDATORY",
+    "WAYLAND_PREFERRED_X11_SUPPORTED_WHERE_GUI_APPLIES"
+  ],
+  "new_capabilities": [
+    {
+      "id": "CAP-144",
+      "name": "Agent Workload Isolation & Execution",
+      "layers": "6",
+      "activation": "ALWAYS_ON + JOB/GATE",
+      "authority_owners": [
+        "AUTH-DURABLE",
+        "AUTH-POLICY",
+        "AUTH-RESOURCE",
+        "AUTH-REGISTRY"
+      ]
+    },
+    {
+      "id": "CAP-145",
+      "name": "Decision Fabric & Policy-Governed Choice Lifecycle",
+      "layers": "4; 6",
+      "activation": "JOB/GATE",
+      "authority_owners": [
+        "AUTH-DURABLE",
+        "AUTH-POLICY",
+        "AUTH-REGISTRY",
+        "AUTH-HUMAN"
+      ]
+    },
+    {
+      "id": "CAP-146",
+      "name": "Application Intent & Reuse Assessment",
+      "layers": "8",
+      "activation": "GATE/JOB",
+      "authority_owners": [
+        "AUTH-POLICY",
+        "AUTH-REGISTRY",
+        "AUTH-OBS"
+      ]
+    },
+    {
+      "id": "CAP-147",
+      "name": "Capability Reuse Discovery & Admission",
+      "layers": "7; 8",
+      "activation": "GATE/JOB",
+      "authority_owners": [
+        "AUTH-POLICY",
+        "AUTH-REGISTRY",
+        "AUTH-OBS"
+      ]
+    },
+    {
+      "id": "CAP-148",
+      "name": "Provider Admission & Runtime Discovery",
+      "layers": "5",
+      "activation": "ALWAYS_ON module/GATE",
+      "authority_owners": [
+        "AUTH-AI-ROUTING",
+        "AUTH-REGISTRY",
+        "AUTH-RESOURCE",
+        "AUTH-POLICY"
+      ]
+    },
+    {
+      "id": "CAP-149",
+      "name": "Model Provider Execution Admission",
+      "layers": "5",
+      "activation": "JOB/GATE",
+      "authority_owners": [
+        "AUTH-AI-ROUTING",
+        "AUTH-REGISTRY",
+        "AUTH-RESOURCE",
+        "AUTH-MEMORY"
+      ]
+    },
+    {
+      "id": "CAP-150",
+      "name": "Cross-Instance Model Synchronization & Artifact Exchange",
+      "layers": "2; 5",
+      "activation": "PROFILE/JOB",
+      "authority_owners": [
+        "AUTH-REGISTRY",
+        "AUTH-RESOURCE",
+        "AUTH-DURABLE",
+        "AUTH-POLICY"
+      ]
+    },
+    {
+      "id": "CAP-151",
+      "name": "AI Asset Acquisition & Download Logistics",
+      "layers": "2; 5",
+      "activation": "JOB/GATE",
+      "authority_owners": [
+        "AUTH-REGISTRY",
+        "AUTH-RESOURCE",
+        "AUTH-POLICY",
+        "AUTH-OBS"
+      ]
+    },
+    {
+      "id": "CAP-152",
+      "name": "Workspace & Artifact Exchange / Handoff",
+      "layers": "4; 8",
+      "activation": "JOB",
+      "authority_owners": [
+        "AUTH-DURABLE",
+        "AUTH-REGISTRY",
+        "AUTH-POLICY",
+        "AUTH-OBS"
+      ]
+    },
+    {
+      "id": "CAP-153",
+      "name": "Embedding & Vectorization Service Fabric",
+      "layers": "5",
+      "activation": "ALWAYS_ON module/JOB",
+      "authority_owners": [
+        "AUTH-AI-ROUTING",
+        "AUTH-REGISTRY",
+        "AUTH-MEMORY",
+        "AUTH-RESOURCE"
+      ]
+    },
+    {
+      "id": "CAP-154",
+      "name": "Research Artifact Lifecycle & Reproducibility",
+      "layers": "8",
+      "activation": "JOB/GATE",
+      "authority_owners": [
+        "AUTH-DURABLE",
+        "AUTH-REGISTRY",
+        "AUTH-OBS",
+        "AUTH-HUMAN"
+      ]
+    },
+    {
+      "id": "CAP-155",
+      "name": "Knowledge Provenance & Citation Graph",
+      "layers": "5; 8",
+      "activation": "ALWAYS_ON module/JOB",
+      "authority_owners": [
+        "AUTH-MEMORY",
+        "AUTH-REGISTRY",
+        "AUTH-DURABLE",
+        "AUTH-OBS"
+      ]
+    },
+    {
+      "id": "CAP-156",
+      "name": "Evidence Reasoning & Claim Verification",
+      "layers": "8; 12",
+      "activation": "JOB/GATE",
+      "authority_owners": [
+        "AUTH-OBS",
+        "AUTH-POLICY",
+        "AUTH-REGISTRY",
+        "AUTH-HUMAN"
+      ]
+    },
+    {
+      "id": "CAP-157",
+      "name": "Browser Skill Composition Runtime",
+      "layers": "7",
+      "activation": "JOB",
+      "authority_owners": [
+        "AUTH-POLICY",
+        "AUTH-DURABLE",
+        "AUTH-REGISTRY"
+      ]
+    },
+    {
+      "id": "CAP-158",
+      "name": "Web Task Planning, Recovery & Deterministic Replay",
+      "layers": "7",
+      "activation": "JOB/GATE",
+      "authority_owners": [
+        "AUTH-POLICY",
+        "AUTH-DURABLE",
+        "AUTH-OBS"
+      ]
+    },
+    {
+      "id": "CAP-159",
+      "name": "Motion & Video Generation Engine",
+      "layers": "9",
+      "activation": "PROFILE/JOB",
+      "authority_owners": [
+        "AUTH-REGISTRY",
+        "AUTH-HUMAN",
+        "AUTH-OBS",
+        "AUTH-RESOURCE",
+        "AUTH-AI-ROUTING"
+      ]
+    },
+    {
+      "id": "CAP-160",
+      "name": "Video Generation Provider & Model Interchange",
+      "layers": "5; 9",
+      "activation": "PROFILE/JOB/GATE",
+      "authority_owners": [
+        "AUTH-AI-ROUTING",
+        "AUTH-REGISTRY",
+        "AUTH-RESOURCE",
+        "AUTH-HUMAN"
+      ]
+    },
+    {
+      "id": "CAP-161",
+      "name": "Render Fabric & Job Dispatch",
+      "layers": "2; 9",
+      "activation": "PROFILE/JOB",
+      "authority_owners": [
+        "AUTH-RESOURCE",
+        "AUTH-DURABLE",
+        "AUTH-REGISTRY",
+        "AUTH-OBS"
+      ]
+    },
+    {
+      "id": "CAP-162",
+      "name": "External Render Service Adapter Fabric",
+      "layers": "2; 9",
+      "activation": "COND/PROFILE/JOB",
+      "authority_owners": [
+        "AUTH-RESOURCE",
+        "AUTH-POLICY",
+        "AUTH-REGISTRY",
+        "AUTH-OBS"
+      ]
+    },
+    {
+      "id": "CAP-163",
+      "name": "Neural Rendering & Reconstruction Enhancement",
+      "layers": "5; 9",
+      "activation": "PROFILE/JOB",
+      "authority_owners": [
+        "AUTH-AI-ROUTING",
+        "AUTH-RESOURCE",
+        "AUTH-REGISTRY",
+        "AUTH-HUMAN",
+        "AUTH-OBS"
+      ]
+    },
+    {
+      "id": "CAP-164",
+      "name": "Character Motion Synthesis, Retargeting & Performance Transfer",
+      "layers": "9",
+      "activation": "PROFILE/JOB",
+      "authority_owners": [
+        "AUTH-REGISTRY",
+        "AUTH-HUMAN",
+        "AUTH-OBS",
+        "AUTH-RESOURCE"
+      ]
+    },
+    {
+      "id": "CAP-165",
+      "name": "VFX / Gaffer Automation",
+      "layers": "9",
+      "activation": "PROFILE/JOB",
+      "authority_owners": [
+        "AUTH-REGISTRY",
+        "AUTH-HUMAN",
+        "AUTH-OBS"
+      ]
+    },
+    {
+      "id": "CAP-166",
+      "name": "Scene / Shot / Camera / Rig Interchange",
+      "layers": "9",
+      "activation": "PROFILE/JOB",
+      "authority_owners": [
+        "AUTH-REGISTRY",
+        "AUTH-HUMAN",
+        "AUTH-OBS"
+      ]
+    },
+    {
+      "id": "CAP-167",
+      "name": "Vision Detection, Tracking & Segmentation Fabric",
+      "layers": "5; 10",
+      "activation": "PROFILE/JOB",
+      "authority_owners": [
+        "AUTH-AI-ROUTING",
+        "AUTH-REGISTRY",
+        "AUTH-RESOURCE",
+        "AUTH-OBS"
+      ]
+    },
+    {
+      "id": "CAP-168",
+      "name": "Caption, Subtitle & Narration Composition",
+      "layers": "9; 10",
+      "activation": "PROFILE/JOB",
+      "authority_owners": [
+        "AUTH-REGISTRY",
+        "AUTH-HUMAN",
+        "AUTH-OBS",
+        "AUTH-AI-ROUTING"
+      ]
+    },
+    {
+      "id": "CAP-169",
+      "name": "Credits / Stáblista Generation",
+      "layers": "9",
+      "activation": "PROFILE/JOB",
+      "authority_owners": [
+        "AUTH-REGISTRY",
+        "AUTH-HUMAN",
+        "AUTH-OBS"
+      ]
+    },
+    {
+      "id": "CAP-170",
+      "name": "Story / Screenplay Authoring & AI-Notes Provenance",
+      "layers": "9",
+      "activation": "PROFILE/JOB",
+      "authority_owners": [
+        "AUTH-REGISTRY",
+        "AUTH-HUMAN",
+        "AUTH-OBS",
+        "AUTH-MEMORY"
+      ]
+    },
+    {
+      "id": "CAP-171",
+      "name": "Creative Native-Project Preservation & Round-Trip Interchange",
+      "layers": "9",
+      "activation": "PROFILE/JOB/GATE",
+      "authority_owners": [
+        "AUTH-REGISTRY",
+        "AUTH-HUMAN",
+        "AUTH-OBS",
+        "AUTH-DURABLE"
+      ]
+    },
+    {
+      "id": "CAP-172",
+      "name": "Media Review, Approval & Human Sign-Off",
+      "layers": "9; 12",
+      "activation": "PROFILE/JOB/GATE",
+      "authority_owners": [
+        "AUTH-HUMAN",
+        "AUTH-OBS",
+        "AUTH-REGISTRY",
+        "AUTH-DURABLE"
+      ]
+    },
+    {
+      "id": "CAP-173",
+      "name": "Live / Broadcast Production Control",
+      "layers": "10",
+      "activation": "PROFILE/SESSION",
+      "authority_owners": [
+        "AUTH-HUMAN",
+        "AUTH-OBS",
+        "AUTH-RESOURCE",
+        "AUTH-REGISTRY"
+      ]
+    },
+    {
+      "id": "CAP-174",
+      "name": "Logistics / Transfer / Queue Management",
+      "layers": "2; 4",
+      "activation": "ALWAYS_ON module/JOB",
+      "authority_owners": [
+        "AUTH-DURABLE",
+        "AUTH-RESOURCE",
+        "AUTH-REGISTRY",
+        "AUTH-OBS"
+      ]
+    },
+    {
+      "id": "CAP-175",
+      "name": "Software Coexistence & Host Non-Interference",
+      "layers": "1; 3; 11",
+      "activation": "ALWAYS_ON/GATE",
+      "authority_owners": [
+        "AUTH-HOST-LIFE",
+        "AUTH-POLICY",
+        "AUTH-REGISTRY",
+        "AUTH-OBS"
+      ]
+    }
+  ],
+  "hardware_audit": {
+    "requirement": "MANDATORY_BEFORE_RUNTIME_PROMOTION",
+    "vendor_neutral": true,
+    "cpu_only_supported_where_applicable": true,
+    "accelerator_count": "0..N",
+    "current_host_runtime_claim": false
+  },
+  "evidence": {
+    "design_materialization": "IN_THIS_CHANGESET",
+    "current_host_runtime": "PENDING_FRESH_EXECUTION_FOR_CAP_144_175",
+    "previous_429_closure_reused": false
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "schema": "fa3.creative-operations-dashboard-enforcement.v1",
+  "gate_id": "FA3-CREATIVE-OPERATIONS-DASHBOARD-GATESET-001",
+  "profile_id": "FA3-CREATIVE-OPERATIONS-DASHBOARD-001",
+  "contract_id": "FA3-CREATIVE-OPERATIONS-DASHBOARD-CONTRACTS-001",
+  "capability_id": "CAP-057",
+  "fail_closed": true,
+  "mandatory_rules": [
+    "FA3_NATIVE_DASHBOARD_NO_EXTERNAL_PROVIDER",
+    "FIXED_ACTION_ALLOWLIST",
+    "LOOPBACK_BROWSER_TARGETS_ONLY",
+    "PRIVILEGED_ACTIONS_DENIED",
+    "DIRECT_MCP_MODEL_SECRET_ACCESS_DENIED",
+    "NO_NEW_CAPABILITY_OR_AUTHORITY"
+  ],
+  "current_host_runtime_promotion_claim": false
+}

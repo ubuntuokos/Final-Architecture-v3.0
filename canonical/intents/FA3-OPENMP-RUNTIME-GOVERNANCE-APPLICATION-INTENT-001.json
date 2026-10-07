@@ -1,0 +1,59 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-OPENMP-RUNTIME-GOVERNANCE-APPLICATION-INTENT-001",
+  "project_id": "FA3-OPENMP-RUNTIME-GOVERNANCE-001",
+  "project_type": "PROFILE",
+  "goal": "Strengthen the existing FA3 CPU/NUMA execution path with fail-closed OpenMP runtime governance and physical runtime/affinity evidence while preserving HRB resource authority, CPU-only operation, vendor neutrality, software coexistence and host non-interference.",
+  "required_capabilities": ["CAP-001"],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "cpu-parallel-runtime-governance",
+    "thread-oversubscription-control",
+    "runtime-affinity-verification",
+    "accelerator-offload-admission"
+  ],
+  "task_classes": [
+    "hardware-audit",
+    "cpu-thread-budgeting",
+    "openmp-runtime-validation"
+  ],
+  "skill_triggers": [],
+  "input_modalities": ["HOST_TOPOLOGY", "HRB_PLACEMENT_RECEIPT", "RUNTIME_OBSERVATION"],
+  "output_modalities": ["OPENMP_EXECUTION_PLAN", "CURRENT_HOST_EVIDENCE"],
+  "execution_classes": ["CPU_ONLY", "OPTIONAL_ACCELERATOR"],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "PHYSICAL_CURRENT_HOST_OPENMP_RUNTIME_EXECUTION_PENDING",
+    "ACCELERATOR_TARGET_OFFLOAD_EVIDENCE_CONDITIONAL_WHEN_USED"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "hardware_safety_envelope_required": true
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-openmp",
+    "service_prefix": "fa3-openmp",
+    "config_root": "$XDG_CONFIG_HOME/fa3/openmp",
+    "cache_root": "$XDG_CACHE_HOME/fa3/openmp",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/openmp",
+    "socket_namespace": "fa3/openmp",
+    "data_root": "$XDG_DATA_HOME/fa3/openmp",
+    "desktop_prefix": "org.fa3.openmp",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "integration_requirements": [
+    "FA3-REUSE-DISCOVERY-001",
+    "FA3-CPU-NUMA-THREADING-001",
+    "FA3-HARDWARE-BASELINE-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-OBS-EVIDENCE-001",
+    "FA3-PROVIDER-SYSTEMD-CGROUPV2-001"
+  ]
+}

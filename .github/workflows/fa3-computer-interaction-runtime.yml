@@ -1,0 +1,56 @@
+name: FA3 Computer Interaction Runtime
+
+on:
+  pull_request:
+    paths:
+      - "canonical/profiles/FA3-COMPUTER-INTERACTION-RUNTIME-001.json"
+      - "canonical/contracts/FA3-COMPUTER-INTERACTION-RUNTIME-CONTRACTS-001.json"
+      - "canonical/actions/computer.interaction.execute.json"
+      - "canonical/FA3-GATE-COMPUTER-INTERACTION-RUNTIME-001.json"
+      - "canonical/computer-interaction-runtime-enforcement.json"
+      - "canonical/decisions/FA3-DEC-COMPUTER-INTERACTION-RUNTIME-2026-10-01.json"
+      - "canonical/intents/FA3-COMPUTER-INTERACTION-RUNTIME-APPLICATION-INTENT-001.json"
+      - "canonical/assessments/FA3-COMPUTER-INTERACTION-RUNTIME-REUSE-ASSESSMENT-001.json"
+      - "canonical/assessments/FA3-COMPUTER-INTERACTION-RUNTIME-DECISION-ASSESSMENT-2026-10-01.json"
+      - "canonical/FA3-COMPUTER-INTERACTION-CURRENT-HOST-IMPACT-001.json"
+      - "canonical/profiles/FA3-UNIFIED-ACTION-FABRIC-001.json"
+      - "canonical/profiles/FA3-SHARED-TOOL-ACTION-MEDIATION-001.json"
+      - "canonical/contracts/FA3-UNIFIED-ACTION-FABRIC-CONTRACTS-001.json"
+      - "canonical/enforcement-policy.json"
+      - "src/fa3_computer_interaction_runtime.py"
+      - "src/fa3_computer_interaction_gate.py"
+      - "src/fa3_uaf_gate.py"
+      - "src/fa3_enforce.py"
+      - "tests/test_computer_interaction_runtime.py"
+      - "tests/test_uaf_gate.py"
+      - "docs/FA3-COMPUTER-INTERACTION-RUNTIME-2026-10-01.md"
+  push:
+    branches: [main]
+    paths:
+      - "canonical/profiles/FA3-COMPUTER-INTERACTION-RUNTIME-001.json"
+      - "canonical/contracts/FA3-COMPUTER-INTERACTION-RUNTIME-CONTRACTS-001.json"
+      - "canonical/actions/computer.interaction.execute.json"
+      - "src/fa3_computer_interaction_runtime.py"
+      - "src/fa3_computer_interaction_gate.py"
+      - "tests/test_computer_interaction_runtime.py"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - name: Syntax
+        run: python3 -m py_compile src/fa3_computer_interaction_runtime.py src/fa3_computer_interaction_gate.py
+      - name: Runtime regression
+        run: python3 -m unittest tests.test_computer_interaction_runtime -v
+      - name: Computer Interaction gate
+        run: python3 src/fa3_computer_interaction_gate.py --root .
+      - name: Governance gate regressions
+        run: python3 -m unittest tests.test_computer_interaction_gate -v
+      - name: UAF regression
+        run: python3 -m unittest tests.test_uaf_gate -v
+      - name: Browser specialization regression
+        run: python3 -m unittest tests.test_browser_action_runtime -v

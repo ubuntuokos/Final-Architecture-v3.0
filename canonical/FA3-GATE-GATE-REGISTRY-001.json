@@ -1,0 +1,16 @@
+{
+  "schema": "fa3.executable-gate-record.v1",
+  "id": "FA3-GATE-GATE-REGISTRY-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "enforcement_id": "FA3-GATE-REGISTRY-GATESET-001",
+  "entrypoint": "src/fa3_gate_registry.py::gate",
+  "tests": [
+    "tests/test_governance_status.py"
+  ],
+  "fail_closed": true,
+  "capability_count": 175,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "current_host_runtime_promotion_claim": false
+}

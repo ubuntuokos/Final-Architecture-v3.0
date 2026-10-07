@@ -1,0 +1,32 @@
+{
+  "schema": "fa3.architecture-decision.v1",
+  "id": "FA3-DEC-LICENSE-RIGHTS-AUTHORITY-2026-09-30",
+  "date": "2026-09-30",
+  "status": "ACCEPTED",
+  "title": "Materialize fail-closed FA3 License & Rights Management",
+  "decision": [
+    "Use Apache-2.0 as the default license for FA3-original work unless a narrower file/component marker explicitly states otherwise.",
+    "Never infer that FA3 licensing changes third-party licenses, model terms, dataset terms, asset rights, service terms or output-use rights.",
+    "Use SPDX identifiers and SPDX/CycloneDX release evidence rather than an FA3-private license vocabulary.",
+    "Bind license-rights enforcement into the existing Software Supply Chain / Security Governance authority instead of creating a new top-level architectural authority.",
+    "Keep the 175 capability baseline unchanged.",
+    "Block release eligibility until the pre-existing repository has completed a retroactive rights audit."
+  ],
+  "rejected_alternatives": [
+    "CUSTOM_FA3_OPEN_SOURCE_LICENSE",
+    "BLANKET_RELICENSE_ALL_EXISTING_THIRD_PARTY_CONTENT",
+    "OPERATOR_ASSERTED_COMMERCIAL_COMPATIBILITY",
+    "ALLOW_UNKNOWN_LICENSES_WITH_WARNING"
+  ],
+  "bindings": {
+    "profile": "FA3-LICENSE-RIGHTS-001",
+    "contracts": "FA3-LICENSE-RIGHTS-CONTRACTS-001",
+    "policy": "FA3-LICENSE-RIGHTS-POLICY-001",
+    "automated_code_policy": "FA3-SCS-LICENSE-POLICY-001",
+    "gate": "FA3-GATE-LICENSE-RIGHTS-001"
+  },
+  "capability_count_before": 175,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}

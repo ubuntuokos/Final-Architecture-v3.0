@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "FA3-DONOR-REGISTRY-V2-VOLUME-SCHEMA-001",
+  "title": "FA3 Donor Registry v2 Volume Manifest",
+  "type": "object",
+  "required": ["schema", "dataset", "volume_id", "state", "capacity", "entries"],
+  "properties": {
+    "schema": {"const": "fa3.donor-registry-volume.v1"},
+    "dataset": {"type": "string", "minLength": 1},
+    "volume_id": {"type": "string", "minLength": 1},
+    "state": {"enum": ["OPEN", "ROLLOVER", "REBALANCE_REQUIRED", "RESERVE", "SEALED"]},
+    "capacity": {
+      "type": "object",
+      "required": ["handling_limit_bytes", "target_fill_percent", "reserve_percent", "rollover_percent", "rebalance_percent", "rebalance_target_fill_percent"],
+      "properties": {
+        "handling_limit_bytes": {"type": "integer", "minimum": 1},
+        "target_fill_percent": {"const": 70},
+        "reserve_percent": {"const": 30},
+        "rollover_percent": {"const": 90},
+        "rebalance_percent": {"const": 95},
+        "rebalance_target_fill_percent": {"const": 70}
+      },
+      "additionalProperties": true
+    },
+    "entries": {"type": "array", "items": {"type": "object"}}
+  },
+  "additionalProperties": true
+}

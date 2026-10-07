@@ -1,0 +1,63 @@
+{
+  "schema": "fa3.evidence-envelope-contract.v1",
+  "id": "FA3-EVIDENCE-ENVELOPE-001",
+  "title": "Typed Evidence Envelope",
+  "status": "P0_MUST",
+  "capability_count_source": "canonical/FA3-RELEASE-CAPABILITY-BASELINE-001.json",
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "fail_closed": true,
+  "purpose": "NORMALIZE_METADATA_PROVENANCE_INTEGRITY_AND_CLAIM_SCOPE_AROUND_EXISTING_TYPED_RECEIPTS",
+  "envelope_is_registry_authority": false,
+  "envelope_is_evidence_authority": false,
+  "envelope_is_promotion_authority": false,
+  "typed_payload_remains_provider_or_gate_specific": true,
+  "required_top_level_fields": [
+    "schema_id",
+    "schema_version",
+    "evidence_id",
+    "evidence_class",
+    "subject",
+    "canonical_context",
+    "provenance",
+    "integrity",
+    "result",
+    "payload_schema_id",
+    "payload"
+  ],
+  "evidence_classes": [
+    "REFERENCE_CONFORMANCE",
+    "CURRENT_HOST_RUNTIME",
+    "CURRENT_HOST_ADMISSION",
+    "SECURITY_SCAN",
+    "QUALITY",
+    "RELEASE_INTEGRITY"
+  ],
+  "required_canonical_context_fields": [
+    "architecture_release",
+    "release_baseline_id",
+    "release_manifest_digest"
+  ],
+  "required_provenance_fields": [
+    "collector_id",
+    "collector_revision",
+    "generated_at",
+    "artifact_digests"
+  ],
+  "required_result_fields": ["status", "scope", "claims", "non_claims"],
+  "result_statuses": ["PASS", "BLOCKED", "PENDING", "NOT_APPLICABLE", "ERROR"],
+  "current_host_requirements": {
+    "execution_context_required": true,
+    "host_attestation_ref_required": true,
+    "resource_refs_required_when_accelerator_claimed": true
+  },
+  "integrity": {
+    "canonical_payload_serialization": "JSON_SORTED_KEYS_COMPACT_UTF8",
+    "payload_sha256_required": true
+  },
+  "claim_semantics": {
+    "claims_and_non_claims_must_be_disjoint": true,
+    "reference_pass_never_implies_current_host_pass": true,
+    "component_pass_never_implies_global_promotion": true
+  }
+}

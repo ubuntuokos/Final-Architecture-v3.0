@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import argparse
 import json
 from pathlib import Path
 from typing import Any
+
+from fa3_page_cache_prefetch_gate import gate as page_cache_prefetch_gate
+from fa3_sysctl_governance_gate import gate as sysctl_governance_gate
 
 PROFILE = "canonical/profiles/FA3-HOST-RESOURCE-BROKER-001.json"
 CONTRACT = "canonical/contracts/FA3-HOST-RESOURCE-BROKER-CONTRACTS-001.json"
@@ -14,9 +18,10 @@ PROVIDERS = [
     "canonical/providers/FA3-PROVIDER-SYSTEMD-CGROUPV2-001.json",
     "canonical/providers/FA3-PROVIDER-XANMOD-001.json",
     "canonical/providers/FA3-PROVIDER-SCHED-EXT-001.json",
+    "canonical/providers/FA3-PROVIDER-PRELOAD-001.json",
 ]
 GATE_ID = "FA3-GATE-HRB-DETERMINISTIC-LOCALITY-001"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 
 
 def loadj(root: Path, relative: str) -> dict[str, Any]:
@@ -33,6 +38,8 @@ def evaluate(root: Path) -> dict[str, Any]:
     enforcement = loadj(root, ENFORCEMENT)
     decision = loadj(root, DECISION)
     providers = [loadj(root, path) for path in PROVIDERS]
+    page_cache_ref = page_cache_prefetch_gate(root)
+    sysctl_ref = sysctl_governance_gate(root)
 
     invariants = set(contract.get("invariants", []))
     enforced = set(enforcement.get("p0_invariants", []))
@@ -45,7 +52,7 @@ def evaluate(root: Path) -> dict[str, Any]:
     explicitly_not_baseline = " ".join(decision.get("explicitly_not_baseline", [])).lower()
 
     checks = [
-        check("capability-count-stable", profile.get("capability_count") == CAPABILITY_COUNT == contract.get("capability_count") == decision.get("capability_count_after"), "capability count remains 143"),
+        check("capability-count-stable", profile.get("capability_count") == CAPABILITY_COUNT == contract.get("capability_count") and isinstance(decision.get("capability_count_after"), int) and decision.get("capability_count_after") <= CAPABILITY_COUNT, "active profile/contract count follows the release baseline; historical decision does not exceed it"),
         check("no-new-authority", profile.get("new_architectural_authority") is False and decision.get("new_architectural_authority") is False, "no parallel authority introduced"),
         check("hrb-authority-preserved", profile.get("existing_authority_id") == "FA3-AUTH-HOST-RESOURCE-BROKER-001", "HRB remains placement authority"),
         check("contract-linked", "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001" in profile.get("contracts", []), "profile links deterministic locality contracts"),
@@ -72,8 +79,31 @@ def evaluate(root: Path) -> dict[str, Any]:
         check("per-workload-projection-change-control", manager_policy.get("resource_tuning_scope") == "PER_SERVICE_SLICE_OR_SCOPE_FROM_HRB_RECEIPT" and "ResourcePolicyChangeSet" in contracts and "PER_WORKLOAD_SYSTEMD_CGROUP_PROJECTION_REQUIRES_HRB_RECEIPT_SEMANTIC_DIFF_ROLLBACK_AND_EVIDENCE" in invariants, "per-workload projection requires HRB receipt, semantic diff, rollback and evidence"),
         check("xanmod-optional", "FA3-PROVIDER-XANMOD-001" in provider_ids and providers[1].get("status") == "OPTIONAL_REFERENCE_PROVIDER", "XanMod is optional reference"),
         check("sched-ext-experimental", "FA3-PROVIDER-SCHED-EXT-001" in provider_ids and providers[2].get("status") == "EXPERIMENTAL_REFERENCE_PROVIDER", "sched_ext remains experimental"),
+        check("preload-optional", "FA3-PROVIDER-PRELOAD-001" in provider_ids and providers[3].get("status") == "OPTIONAL_REFERENCE_PROVIDER" and providers[3].get("new_architectural_authority") is False, "preload is optional non-authoritative page-cache projection"),
         check("legacy-schedulers-not-baseline", all(x in decision.get("explicitly_not_baseline", []) for x in ["PDS", "BMQ", "MuQSS", "PREEMPT_RT"]), "legacy/RT schedulers are not required baseline"),
-        check("enforcement-complete", enforcement.get("fail_closed") is True and enforcement.get("mandatory_rule_count") == 34 and len(enforcement.get("rules", [])) == 34 and invariants == enforced, "all 30 contract invariants enforced fail-closed"),
+        check("page-cache-prefetch-subgate", page_cache_ref.get("result") == "PASS" and page_cache_ref.get("gateset_id") == "FA3-PAGE-CACHE-PREFETCH-GATESET-001", "provider-neutral page-cache/prefetch subgate passes and is bound below HRB"),
+        check("sysctl-governance-subgate", sysctl_ref.get("result") == "PASS" and sysctl_ref.get("current_host_runtime_promotion_claim") is False, "mandatory sysctl governance child gate passes without current-host promotion claim"),
+        check(
+            "execution-path-binding",
+            {
+                "HRB_ACCELERATOR_ASSIGNMENT_BINDS_COMPATIBLE_EXECUTION_PATH",
+                "PHYSICAL_DEVICE_PRESENCE_IS_NOT_SUFFICIENT_FOR_ACCELERATOR_ADMISSION",
+                "TRANSLATION_BACKEND_REQUIRES_EXPLICIT_WORKLOAD_POLICY",
+                "NO_SILENT_ACCELERATOR_BACKEND_SUBSTITUTION",
+            }.issubset(invariants)
+            and profile.get("accelerator_execution_path_policy",{}).get("assignment_binds_device_and_execution_path") is True
+            and profile.get("accelerator_execution_path_policy",{}).get("translation_requires_explicit_workload_policy") is True
+            and profile.get("accelerator_execution_path_policy",{}).get("silent_backend_substitution") is False,
+            "HRB binds device plus compatible execution path and denies implicit translation/backend substitution",
+        ),
+        check(
+            "enforcement-complete",
+            enforcement.get("fail_closed") is True
+            and enforcement.get("mandatory_rule_count") == len(invariants)
+            and len(enforcement.get("rules", [])) == len(invariants)
+            and invariants == enforced,
+            f"all {len(invariants)} HRB contract invariants are enforced fail-closed",
+        ),
         check("current-host-claim-honest", enforcement.get("current_host_runtime_promotion_claim") is False and "REFERENCE_CONFORMANCE_ONLY" in decision.get("current_host_claim", ""), "no uncollected current-host locality PASS is claimed"),
     ]
     passed = all(c["status"] == "PASS" for c in checks)

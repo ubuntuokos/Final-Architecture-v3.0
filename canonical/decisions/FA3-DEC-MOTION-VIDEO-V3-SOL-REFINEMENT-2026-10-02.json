@@ -1,0 +1,20 @@
+{
+  "schema": "fa3.decision.v1",
+  "id": "FA3-DEC-MOTION-VIDEO-V3-SOL-REFINEMENT-2026-10-02",
+  "date": "2026-10-02",
+  "status": "APPROVED_MATERIALIZATION",
+  "title": "Motion & Video v3 with shared provider-neutral refinement",
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "decisions": [
+    "Retain MiniMax H3 as ACCEPTED_CONDITIONAL_REFERENCE and OPTIONAL_DISABLED_BY_DEFAULT.",
+    "All FA3 applications consume shared Motion & Video Generation capability rather than direct H3 dependencies.",
+    "Add a separate shared Video Refinement contract behind Model Router and HRB.",
+    "Adopt NVlabs Sana SoL-Refiner generator/refiner lifecycle and refinement patterns only; do not import its runtime, weights or vendor kernels.",
+    "CPU reference execution remains mandatory at fabric level; CUDA, ROCm/HIP, Intel XPU and remote backends are optional admitted implementations.",
+    "No silent provider, model, refiner, device, backend or cloud fallback.",
+    "Runtime promotion requires physical Current Host positive, negative and rollback evidence."
+  ],
+  "current_host_runtime_promotion_claim": false
+}

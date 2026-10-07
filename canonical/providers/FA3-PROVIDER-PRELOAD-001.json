@@ -1,0 +1,52 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-PRELOAD-001",
+  "name": "preload speculative page-cache prefetch projection",
+  "status": "OPTIONAL_REFERENCE_PROVIDER",
+  "priority": "P2",
+  "requirement": "MAY",
+  "capability_count": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "parent_profile_id": "FA3-HOST-RESOURCE-BROKER-001",
+  "parent_contract_id": "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001",
+  "role": "replaceable Linux userspace speculative prefetch implementation projected onto filesystem page-cache policy",
+  "authority_boundary": "MUST_NOT_OWN_HRB_ADMISSION_PLACEMENT_RESERVATION_LEASE_MODEL_ROUTING_STORAGE_OR_EVIDENCE",
+  "default_activation": "DISABLED_OR_EXPLICIT_HOST_POLICY_CONTROLLED",
+  "canonicalizes": [],
+  "may_project": [
+    "PageCachePrefetchPolicy",
+    "PrefetchProviderDescriptor",
+    "PrefetchBenchmarkReceipt",
+    "PrefetchRollbackReceipt"
+  ],
+  "configuration_policy": {
+    "kernel_page_cache": "PRIMARY_CACHE_MECHANISM",
+    "numeric_tuning": "HOST_AND_WORKLOAD_BENCHMARK_DERIVED_NOT_CANONICAL_CONSTANTS",
+    "path_selection": "EXPLICIT_ALLOWLIST_WITH_FAIL_CLOSED_CATCH_ALL_DENY_PREFERRED",
+    "virtual_filesystems": "DENY_DEV_PROC_SYS_RUN_AND_OTHER_NON_REGULAR_OR_EPHEMERAL_KERNEL_FILESYSTEMS",
+    "home_directory": "NO_BROAD_HOME_TREE_DEFAULT_ALLOWLIST",
+    "large_model_files": "NO_BLIND_WHOLE_MODEL_PREFETCH",
+    "drop_caches": "PERIODIC_DROP_CACHES_FOR_PERFORMANCE_FORBIDDEN",
+    "storage_sort_strategy": "BENCHMARK_STORAGE_TOPOLOGY_AND_WORKLOAD; NO UNIVERSAL NVME_OR_BLOCK_ORDER_DEFAULT",
+    "disabled_cost": "NEAR_ZERO"
+  },
+  "promotion_requirements": [
+    "immutable package/runtime identity where provider is enabled",
+    "cold-start and warm-start latency separated",
+    "page-cache hit/miss or residency observation",
+    "major-fault and I/O-pressure observation",
+    "memory-pressure and host-survival observation",
+    "representative interactive and AI workload non-regression",
+    "rollback validation",
+    "current-host evidence before production promotion"
+  ],
+  "invariants": [
+    "PREFETCH_PROVIDER_IS_NON_AUTHORITY",
+    "PREFETCH_PROVIDER_OPTIONAL_REPLACEABLE",
+    "PREFETCH_PROVIDER_CANNOT_OVERRIDE_HRB_PLACEMENT",
+    "PREFETCH_PROVIDER_NO_GLOBAL_MAGIC_CONSTANTS",
+    "PREFETCH_PROVIDER_DISABLED_NEAR_ZERO_COST"
+  ],
+  "runtime_status": "REFERENCE_ONLY_NOT_CURRENT_HOST_PROMOTED"
+}

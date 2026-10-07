@@ -1,0 +1,42 @@
+{
+  "schema": "fa3.donor-use-decision.v1",
+  "id": "FA3-DEC-CUDA-COMPAT-ROCM-EXAMPLES-DONOR-USE-2026-10-04",
+  "title": "Approve ROCm Examples test-pattern use for CFA3 CUDA compatibility",
+  "date": "2026-10-04",
+  "status": "APPROVED",
+  "decision": "APPROVED_CAPABILITY_PATTERN",
+  "explicit_user_approval": true,
+  "user_request_ref": "Készitsd el a végleges tervet és implementáld!",
+  "donor_id": "FA3-DONOR-ROCM-EXAMPLES-001",
+  "usage_edge_id": "FA3-USAGE-ROCM-EXAMPLES-CUDA-COMPAT-001",
+  "usage_kind": "ARCHITECTURE_PATTERN",
+  "adoption_scope": "CUDA_HIP_PORTABILITY_TEST_MATRIX_PATTERN",
+  "implementation": "CFA3_NATIVE_NO_CODE_COPY",
+  "donor_registry_snapshot": {
+    "published_main_commit": "b5052f6595a3fdad84ed7a06e6276f8af5a8dcd8",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "1362d75186c6da74e5cf947fdf0b8867d462636a",
+    "donor_registry_sha256": "b8d0eb42ee02885863af375071ffae89033664089ddba3c69682a8d0f7c7cff1",
+    "donor_registry_entry_count": 1427
+  },
+  "boundaries": {
+    "code_copy": false,
+    "runtime_dependency": false,
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "provider_admission": false,
+    "model_admission": false,
+    "resource_authority": false,
+    "architectural_authority": false,
+    "current_host_pass_claim": false,
+    "runtime_promotion": false
+  },
+  "capability_count": 175,
+  "capability_delta": 0,
+  "architectural_authority_delta": 0,
+  "evidence": [
+    "docs/cfa3-native-cuda-compat-final-plan-2026-10-04.md",
+    "canonical/assessments/FA3-CUDA-COMPAT-NATIVE-REUSE-ASSESSMENT-2026-10-04.json",
+    "canonical/FA3-APPLICATION-DONOR-LINKS-001.json"
+  ]
+}

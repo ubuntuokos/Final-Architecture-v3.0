@@ -1,0 +1,16 @@
+name: FA3 Session Vault reference gate
+on:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  reference:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Session Vault tests
+        run: PYTHONPATH=src python -m unittest tests.test_session_vault -v
+      - name: Session Vault gate
+        run: PYTHONPATH=src python src/fa3_session_vault_gate.py

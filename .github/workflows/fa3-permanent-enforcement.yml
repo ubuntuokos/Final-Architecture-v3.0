@@ -3,36 +3,108 @@ name: FA3 Permanent Canonical + Promotion Gate
 on:
   pull_request:
     branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
   push:
     branches: [main]
   workflow_dispatch:
 
 permissions:
   contents: read
+  pull-requests: read
 
 concurrency:
   group: fa3-permanent-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
+  donor-serialization:
+    name: donor-serialization / P0 preflight
+    uses: ./.github/workflows/fa3-donor-serialization.yml
+    permissions:
+      contents: read
+      pull-requests: read
+
   canonical-regression:
     name: canonical-regression / P0
+    needs: donor-serialization
+    if: ${{ always() && (needs.donor-serialization.result != 'success' || needs.donor-serialization.outputs.full_gate_required != 'false') }}
     runs-on: ubuntu-latest
+    env:
+      FA3_CHANGE_BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before || github.sha }}
+      FA3_CHANGE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+      FA3_PUBLISHED_MAIN_SHA: ${{ github.event.pull_request.base.sha || github.event.before || github.sha }}
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - name: Enforce the required donor readiness dependency
+        env:
+          DONOR_PREFLIGHT_RESULT: ${{ needs.donor-serialization.result }}
+        run: |
+          if [ "$DONOR_PREFLIGHT_RESULT" != "success" ]; then
+            echo "::error::Donor registry maintenance, integrity or live GitHub proof blocks canonical admission."
+            exit 2
+          fi
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
           fetch-depth: 0
-      - uses: actions/setup-python@v5
+      - name: Resolve live main and change merge-base for canonical enforcement
+        if: ${{ github.event_name == 'pull_request' }}
+        run: |
+          git fetch --no-tags origin +refs/heads/main:refs/remotes/origin/main
+          LIVE_MAIN="$(git rev-parse refs/remotes/origin/main)"
+          MERGE_BASE="$(git merge-base "$LIVE_MAIN" "$FA3_CHANGE_HEAD_SHA")"
+          test -n "$LIVE_MAIN"
+          test -n "$MERGE_BASE"
+          echo "FA3_PUBLISHED_MAIN_SHA=$LIVE_MAIN" >> "$GITHUB_ENV"
+          echo "FA3_CHANGE_BASE_SHA=$MERGE_BASE" >> "$GITHUB_ENV"
+          echo "Live main: $LIVE_MAIN; change merge-base: $MERGE_BASE"
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: '3.12'
       - name: Prepare gate
-        run: chmod +x bin/fa3-enforce
+        run: chmod +x bin/fa3-enforce bin/fa3-test bin/fa3-prepare-repository
+      - name: Native quality gate syntax check
+        run: python -m py_compile src/fa3_quality_filter.py src/fa3_quality_gate.py
+      - name: Skill Fabric ecosystem syntax check
+        run: python -m py_compile src/fa3_skill_ecosystem.py src/fa3_skill_ecosystem_gate.py src/fa3_skill_fabric_gate.py
       - name: Syntax check
-        run: python -m py_compile src/fa3_enforce.py src/fa3_terax_gate.py src/fa3_kaneo_gate.py src/fa3_kanboard_gate.py src/fa3_buzz_gate.py src/fa3_xcmd_gate.py src/fa3_ai_engineering_gate.py src/fa3_external_api_discovery_gate.py src/fa3_autogpt_gate.py src/fa3_ai_infra_guard_gate.py src/fa3_ai_infra_guard_adapter.py src/fa3_munder_difflin_gate.py src/fa3_munder_difflin_executable_gate.py src/fa3_muse_code_gate.py src/fa3_closed_loop_agent_ops_reference.py src/fa3_loop_engineering_gate.py src/fa3_openhands_gate.py src/fa3_openbmb_gate.py src/fa3_tencentdb_agent_memory_gate.py src/fa3_video_provider_lifecycle_gate.py src/fa3_stability_sgm_gate.py src/fa3_developer_agent_coordination.py src/fa3_developer_agent_coordination_gate.py src/fa3_codex_adapter.py src/fa3_codex_gate.py src/fa3_modular_gate.py src/fa3_inference_portability_gate.py src/fa3_model_manager_gate.py src/fa3_modular_runtime.py src/fa3_modular_current_host_gate.py src/fa3_demucs_gate.py src/fa3_demucs_provider.py src/fa3_demucs_current_host_gate.py src/fa3_acestep_gate.py src/fa3_blackhole_kdenlive.py src/fa3_blackhole_kdenlive_gate.py src/fa3_kdenlive_editorial_gate.py src/fa3_hybrid_editorial_reference.py src/fa3_hybrid_editorial_gate.py src/fa3_marketing_reference.py src/fa3_marketing_gate.py src/fa3_marketingskills_gate.py src/fa3_whisper_stt_provider.py src/fa3_whisper_stt_gate.py src/fa3_cosyvoice_provider.py src/fa3_cosyvoice_gate.py src/fa3_release_projection_gate.py src/fa3_mentor_gate.py src/fa3_presenton_gate.py src/fa3_cpu_thread_budget.py src/fa3_hrb_deterministic_locality_gate.py src/fa3_cpu_numa_threading_gate.py src/fa3_hardware_portability_gate.py evidence/collect-terax-current-host.py evidence/collect-modular-current-host.py evidence/collect-demucs-current-host.py evidence/collect-blackhole-kdenlive-current-host.py evidence/collect-hybrid-editorial-reference-e2e.py evidence/collect-marketing-reference-e2e.py evidence/collect-whisper-stt-current-host.py evidence/collect-cosyvoice-current-host.py evidence/collect-presenton-current-host.py evidence/collect-developer-agent-coordination-e2e.py evidence/collect-codex-current-host.py evidence/collect-ai-infra-guard-current-host.py
+        run: python -m py_compile src/fa3_enforce.py src/fa3_authenticated_approval.py src/fa3_authenticated_approval_gate.py src/fa3_reproducibility_gate.py src/fa3_repository_prepare.py src/fa3_python_namespace_audit.py src/fa3_gate_registry.py src/fa3_governance_status.py tools/fa3_python_namespace_audit.py tools/fa3_approval_tool.py src/fa3_uaf.py src/fa3_uaf_gate.py src/fa3_secret_broker.py src/fa3_secret_broker_gate.py src/fa3_secret_broker_current_host_gate.py src/fa3_terax_gate.py src/fa3_kaneo_gate.py src/fa3_kanboard_gate.py src/fa3_buzz_gate.py src/fa3_xcmd_gate.py src/fa3_ai_engineering_gate.py src/fa3_external_api_discovery_gate.py src/fa3_autogpt_gate.py src/fa3_ai_infra_guard_gate.py src/fa3_ai_infra_guard_adapter.py src/fa3_munder_difflin_gate.py src/fa3_munder_difflin_executable_gate.py src/fa3_muse_code_gate.py src/fa3_closed_loop_agent_ops_reference.py src/fa3_loop_engineering_gate.py src/fa3_openhands_gate.py src/fa3_openyak_gate.py src/fa3_obsidian_knowledge_workspace_gate.py src/fa3_creative_operations_dashboard_gate.py src/fa3_openbmb_gate.py src/fa3_tencentdb_agent_memory_gate.py src/fa3_video_provider_lifecycle_gate.py src/fa3_stability_sgm_gate.py src/fa3_developer_agent_coordination.py src/fa3_developer_agent_coordination_gate.py src/fa3_codex_adapter.py src/fa3_codex_gate.py src/fa3_modular_gate.py src/fa3_inference_portability_gate.py src/fa3_inference_cache_hardening_gate.py src/fa3_inference_portability_reconciliation_gate.py src/fa3_inference_provider_current_host.py src/fa3_inference_provider_current_host_gate.py evidence/collect-inference-provider-current-host.py src/fa3_model_manager_gate.py src/fa3_modular_runtime.py src/fa3_modular_current_host_gate.py src/fa3_demucs_gate.py src/fa3_demucs_provider.py src/fa3_demucs_current_host_gate.py src/fa3_acestep_gate.py src/fa3_blackhole_kdenlive.py src/fa3_blackhole_kdenlive_gate.py src/fa3_kdenlive_editorial_gate.py src/fa3_hybrid_editorial_reference.py src/fa3_hybrid_editorial_gate.py src/fa3_marketing_reference.py src/fa3_marketing_gate.py src/fa3_marketingskills_gate.py src/fa3_whisper_stt_provider.py src/fa3_whisper_stt_gate.py src/fa3_cosyvoice_provider.py src/fa3_cosyvoice_gate.py src/fa3_release_projection_gate.py src/fa3_mentor_gate.py src/fa3_presenton_gate.py src/fa3_pageindex_mcp_adapter.py src/fa3_pageindex_mcp_gate.py src/fa3_hybrid_retrieval.py src/fa3_pageindex_local_provider.py src/fa3_knowledge_hybrid_retrieval_gate.py src/fa3_runtime_hardening.py src/fa3_runtime_hardening_gate.py src/fa3_runtime_hardening_current_host.py src/fa3_runtime_hardening_current_host_gate.py src/fa3_external_rt3d_engine_exclusion_gate.py src/fa3_cap028_agent_execution_current_host.py evidence/collect-runtime-isolation-sandbox-current-host.py evidence/collect-media-gpu-zerocopy-current-host.py evidence/collect-hu-aqc-current-host.py evidence/collect-promotion-shadow-current-host.py evidence/collect-pageindex-mcp-current-host.py src/fa3_cpu_thread_budget.py src/fa3_hrb_deterministic_locality_gate.py src/fa3_cpu_numa_threading_gate.py src/fa3_hardware_portability_gate.py src/fa3_pytorch3d_provider.py src/fa3_pytorch3d_gate.py src/fa3_pytorch3d_runtime_probe.py src/fa3_openfx_interop.py src/fa3_openfx_interop_gate.py src/fa3_os_event_privacy_gate.py evidence/collect-pytorch3d-current-host.py tools/fa3_pytorch3d_global_reconcile.py evidence/collect-terax-current-host.py evidence/collect-modular-current-host.py evidence/collect-demucs-current-host.py evidence/collect-blackhole-kdenlive-current-host.py evidence/collect-hybrid-editorial-reference-e2e.py evidence/collect-marketing-reference-e2e.py evidence/collect-whisper-stt-current-host.py evidence/collect-cosyvoice-current-host.py evidence/collect-presenton-current-host.py evidence/collect-developer-agent-coordination-e2e.py evidence/collect-codex-current-host.py evidence/collect-ai-infra-guard-current-host.py src/fa3_audacity_mcp_gate.py src/fa3_permanent_gate_hardening.py src/fa3_trusted_control_plane_gate.py
+      - name: Reuse Discovery syntax check
+        run: python -m py_compile src/fa3_reuse_catalog.py src/fa3_reuse_resolver.py src/fa3_reuse_assessment.py src/fa3_reuse_gate.py
+      - name: Workload Mode syntax check
+        run: python -m py_compile src/fa3_workload_mode_gate.py apps/workload-mode/integrations/blender/workload_mode_addon.py
+      - name: Workload Mode mandatory core gate
+        run: ./bin/fa3-enforce workload-mode
+      - name: HRB generic admission authorization syntax check
+        run: python -m py_compile libexec/fa3-host-resource-broker-admission.py libexec/fa3-host-resource-broker-admission-root.py src/fa3_host_bootstrap_admission_orchestrator.py evidence/collect-resource-admission-current-host.py src/fa3_resource_admission_smoke.py src/fa3_resource_admission_current_host_gate.py
+      - name: Agency / Agent Definition / External LLM Catalog / Agent Workload / Federation syntax check
+        run: python -m py_compile src/fa3_agency_agents_gate.py src/fa3_agent_definition_gate.py src/fa3_external_llm_catalog.py src/fa3_external_llm_catalog_gate.py src/fa3_agent_workload.py src/fa3_task_scope_closure.py src/fa3_agent_workload_gate.py src/fa3_agent_workload_current_host_gate.py src/fa3_agent_federation.py src/fa3_agent_federation_gate.py src/fa3_supply_chain_admission.py src/fa3_provider_runtime.py src/fa3_upstream_patchset.py src/fa3_hrb_composite_lease.py src/fa3_supply_runtime_hardening_gate.py tools/fa3_supply_chain_scan.py tools/fa3_bind_provider_runtime.py tools/fa3_prepare_upstream_patchset.py src/fa3_supply_runtime_hardening_current_host_gate.py evidence/collect-provider-runtime-current-host.py evidence/collect-hrb-composite-current-host.py evidence/collect-hu-aqc-golden-corpus-current-host.py evidence/collect-agent-workload-runtime-current-host.py
+      - name: GUI current-host closure syntax check
+        run: python -m py_compile src/fa3_gui_current_host.py src/fa3_gui_current_host_gate.py evidence/collect-gui-current-host.py
+      - name: Authenticated approval trust-boundary gate
+        run: ./bin/fa3-enforce authenticated-approval
+      - name: Primary hardware audit gate
+        run: ./bin/fa3-enforce hardware-portability
+      - name: Marketing Agent Native syntax check
+        run: python -m py_compile src/fa3_marketing_decision_fabric.py src/fa3_marketing_uaf.py src/fa3_marketing_agent_native_gate.py src/fa3_marketing_current_host_gate.py
+      - name: Unified Action Fabric P0 gate
+        run: ./bin/fa3-enforce uaf
+      - name: Encrypted Secret Broker P0 gate
+        run: ./bin/fa3-enforce secret-broker
+      - name: Prepare required repository history
+        run: bash bin/fa3-prepare-repository
+      - name: Canonical Python namespace audit
+        run: PYTHONPATH=src python tools/fa3_python_namespace_audit.py
+      - name: Repository reproducibility canonical gate
+        run: ./bin/fa3-enforce reproducibility
+      - name: Canonical mandatory gate registry
+        run: ./bin/fa3-enforce gate-registry
+      - name: Machine governance status projection
+        run: ./bin/fa3-enforce governance-status
       - name: Executable invariant tests
-        run: PYTHONPATH=src python -m unittest discover -s tests -v
+        run: bash bin/fa3-test -v
+      - name: External RT3D engine exclusion gate
+        run: PYTHONPATH=src python src/fa3_external_rt3d_engine_exclusion_gate.py --root .
       - name: Unified post-v3.0.11 release projection gate
         run: ./bin/fa3-enforce release-projection
       - name: Terax immutable reference gate
@@ -63,6 +135,12 @@ jobs:
         run: ./bin/fa3-enforce loop-engineering
       - name: OpenHands developer-agent execution boundary gate
         run: ./bin/fa3-enforce openhands
+      - name: OpenYak desktop-agent workbench boundary gate
+        run: ./bin/fa3-enforce openyak
+      - name: Obsidian human knowledge workspace boundary gate
+        run: ./bin/fa3-enforce obsidian-knowledge-workspace
+      - name: FA3 Creative Operations Dashboard boundary gate
+        run: ./bin/fa3-enforce creative-operations-dashboard
       - name: OpenBMB provider-family boundary and hardware admission gate
         run: ./bin/fa3-enforce openbmb
       - name: TencentDB Agent Memory governance/security boundary gate
@@ -81,7 +159,7 @@ jobs:
         run: ./bin/fa3-enforce modular
       - name: Inference portability compatibility/provider regression gate
         run: ./bin/fa3-enforce inference-portability
-      - name: Model Manager / StabilityMatrix canonical regression gate
+      - name: Model Manager canonical-store regression gate
         run: ./bin/fa3-enforce model-manager
       - name: Modular MAX/Mojo executable runtime conformance
         run: ./bin/fa3-enforce modular-provider
@@ -101,8 +179,34 @@ jobs:
         run: PYTHONPATH=src python evidence/collect-marketing-reference-e2e.py --root .
       - name: Marketing Hungarian-first canonical gate
         run: ./bin/fa3-enforce marketing
+      - name: Marketing Agent Native and bounded advisory gate
+        run: ./bin/fa3-enforce marketing-agent-native
       - name: MarketingSkills skill-package admission regression gate
         run: ./bin/fa3-enforce marketingskills
+      - name: Skill Fabric 1.2 Agent Skills ecosystem gate
+        run: ./bin/fa3-enforce skill-fabric
+      - name: FA3 native anti-slop quality gate
+        run: ./bin/fa3-enforce quality-anti-slop
+      - name: Agency Agents reference-provider normalization gate
+        run: ./bin/fa3-enforce agency-agents
+      - name: Agent Definition admission gate
+        run: ./bin/fa3-enforce agent-definition
+      - name: External LLM Catalog discovery and admission-boundary gate
+        run: ./bin/fa3-enforce external-llm-catalog
+      - name: Provider Execution core syntax check
+        run: python -m py_compile src/fa3_model_router_provider_execution.py src/fa3_model_router_provider_execution_gate.py
+      - name: Credential-aware Model Router provider execution gate
+        run: ./bin/fa3-enforce model-router-provider-execution
+      - name: Agent Workload Runtime canonical and authority-boundary gate
+        run: ./bin/fa3-enforce agent-workload-runtime
+      - name: Agent Federation CAP-070 canonical and evidence-boundary gate
+        run: ./bin/fa3-enforce agent-federation
+      - name: GUI current-host closure materialization gate
+        run: ./bin/fa3-enforce gui-current-host
+      - name: Supply-chain / Provider Runtime / HRB composite hardening gate
+        run: ./bin/fa3-enforce supply-runtime-hardening
+      - name: Supply/runtime/HRB current-host closure stays pending in hosted CI
+        run: ./bin/fa3-enforce supply-runtime-hardening-current-host
       - name: Blackhole Kdenlive integration gate
         run: ./bin/fa3-enforce blackhole-kdenlive
       - name: Whisper STT mandatory provider gate
@@ -117,20 +221,74 @@ jobs:
         run: ./bin/fa3-enforce hrb-deterministic-locality
       - name: CPU NUMA physical-core-first threading gate
         run: ./bin/fa3-enforce cpu-numa-threading
-      - name: Hardware portability and repository hardcoded-assumption gate
-        run: ./bin/fa3-enforce hardware-portability
+      - name: PyTorch3D differentiable 3D source-build and device-safety gate
+        run: ./bin/fa3-enforce pytorch3d
+      - name: OpenFX host/plugin interoperability and native-code admission gate
+        run: ./bin/fa3-enforce openfx-interoperability
+      - name: FA3 OS event/privacy substrate gate
+        run: ./bin/fa3-enforce fa3-os-event-privacy
+      - name: PageIndex MCP provider admission regression gate
+        run: ./bin/fa3-enforce pageindex-mcp
+      - name: Knowledge hierarchical + hybrid retrieval gate
+        run: ./bin/fa3-enforce knowledge-hybrid-retrieval
+      - name: Cross-cutting runtime hardening and shadow execution gate
+        run: ./bin/fa3-enforce runtime-hardening
+      - name: Runtime hardening current-host closure materialization gate
+        run: ./bin/fa3-enforce runtime-hardening-current-host
+      - name: Reuse Discovery mandatory pre-implementation gate
+        run: ./bin/fa3-enforce reuse-discovery
       - name: Presenton provider/deployment/artifact regression gate
         run: ./bin/fa3-enforce presenton
+      - name: Audacity MCP CAP-124 mandatory governance gate
+        run: ./bin/fa3-enforce audacity-mcp
+      - name: Snapshot authority/control-plane inputs
+        run: PYTHONPATH=src python src/fa3_permanent_gate_hardening.py --root . snapshot-authority-inputs
+      - name: Permanent Gate authority/provenance hardening
+        run: PYTHONPATH=src python src/fa3_permanent_gate_hardening.py --root . check
+      - name: Canonical Registry integrity/live graph gate
+        run: PYTHONPATH=src python src/fa3_canonical_registry_integrity.py --root .
       - name: Canonical static enforcement
         run: ./bin/fa3-enforce static
+      - name: Materialize non-authorizing authority trace and provenance binding
+        run: |
+          PYTHONPATH=src python src/fa3_permanent_gate_hardening.py --root . materialize \
+            --base-sha "$FA3_CHANGE_BASE_SHA" \
+            --head-sha "$FA3_CHANGE_HEAD_SHA" \
+            --published-main-sha "$FA3_PUBLISHED_MAIN_SHA" \
+            --primary-result PASS
+      - name: Verify Permanent Gate provenance binding
+        run: PYTHONPATH=src python src/fa3_permanent_gate_hardening.py --root . verify
+      - name: Prove auxiliary non-interference
+        run: PYTHONPATH=src python src/fa3_permanent_gate_hardening.py --root . verify-non-interference
+      - name: Build deterministic preservation package
+        run: PYTHONPATH=src python src/fa3_permanent_gate_hardening.py --root . preserve
+      - name: Verify deterministic preservation package
+        run: PYTHONPATH=src python src/fa3_permanent_gate_hardening.py --root . verify-preservation
       - name: Upload static report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: fa3-static-gate-report
           path: |
             reports/static-gate-report.json
+            reports/permanent-gate-hardening-report.json
+            reports/canonical-registry-integrity-report.json
+            reports/fa3-canonical-registry-graph.json
+            reports/fa3-permanent-gate-authority-input-snapshot.json
+            reports/fa3-permanent-gate-authority-manifest.json
+            reports/fa3-permanent-gate-provenance-binding.json
+            reports/fa3-permanent-gate-preservation.zip
+            reports/reproducibility-gate-report.json
+            reports/gate-registry-gate-report.json
+            reports/governance-status-gate-report.json
+            reports/governance-status-projection.json
+            reports/authenticated-approval-gate-report.json
+            reports/uaf-gate-report.json
+            reports/secret-broker-gate-report.json
+            reports/secret-broker-current-host-gate-report.json
+            reports/external-rt3d-engine-exclusion-gate-report.json
             reports/release-projection-gate-report.json
+            reports/reuse-discovery-gate-report.json
             reports/terax-gate-report.json
             reports/kaneo-gate-report.json
             reports/kanboard-gate-report.json
@@ -145,6 +303,8 @@ jobs:
             reports/muse-code-gate-report.json
             reports/loop-engineering-gate-report.json
             reports/openhands-gate-report.json
+            reports/openyak-gate-report.json
+            reports/obsidian-knowledge-workspace-gate-report.json
             reports/openbmb-gate-report.json
             reports/video-provider-lifecycle-gate-report.json
             reports/stability-sgm-gate-report.json
@@ -154,6 +314,9 @@ jobs:
             reports/codex-gate-report.json
             reports/modular-gate-report.json
             reports/inference-portability-gate-report.json
+            reports/inference-cache-hardening-gate-report.json
+            reports/inference-portability-reconciliation-gate-report.json
+            reports/inference-provider-current-host-materialization-gate-report.json
             reports/model-manager-gate-report.json
             reports/modular-runtime-conformance-report.json
             reports/demucs-gate-report.json
@@ -164,7 +327,16 @@ jobs:
             reports/hybrid-editorial-reference-e2e-report.json
             evidence/receipts/hybrid-editorial-ci-reference-e2e.json
             reports/marketing-gate-report.json
+            reports/marketing-agent-native-gate-report.json
             reports/marketingskills-skill-admission-gate-report.json
+            reports/skill-fabric-gate-report.json
+            reports/skill-ecosystem-gate-report.json
+            reports/quality-anti-slop-gate-report.json
+            reports/agency-agents-gate-report.json
+            reports/agent-definition-gate-report.json
+            reports/external-llm-catalog-gate-report.json
+            reports/agent-workload-runtime-gate-report.json
+            reports/gui-current-host-gate-report.json
             reports/marketing-reference-e2e-report.json
             evidence/receipts/marketing-ci-reference-e2e.json
             reports/blackhole-kdenlive-gate-report.json
@@ -176,6 +348,12 @@ jobs:
             reports/hrb-deterministic-locality-gate-report.json
             reports/cpu-numa-threading-gate-report.json
             reports/hardware-portability-gate-report.json
+            reports/pageindex-mcp-gate-report.json
+            reports/knowledge-hybrid-retrieval-gate-report.json
+            reports/runtime-hardening-gate-report.json
+            reports/runtime-hardening-current-host-gate-report.json
+            reports/pytorch3d-gate-report.json
+            reports/openfx-interoperability-gate-report.json
             reports/presenton-gate-report.json
 
   promotion-safety:
@@ -184,15 +362,15 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
           fetch-depth: 0
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: '3.12'
       - name: Prepare gate
-        run: chmod +x bin/fa3-enforce
+        run: chmod +x bin/fa3-enforce bin/fa3-test bin/fa3-prepare-repository
       - name: Prove runtime promotion cannot bypass evidence
         shell: bash
         run: |
@@ -209,7 +387,7 @@ jobs:
           fi
       - name: Upload promotion reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: fa3-promotion-reports
           path: |
@@ -226,6 +404,8 @@ jobs:
             reports/muse-code-gate-report.json
             reports/loop-engineering-gate-report.json
             reports/openhands-gate-report.json
+            reports/openyak-gate-report.json
+            reports/obsidian-knowledge-workspace-gate-report.json
             reports/openbmb-gate-report.json
             reports/stability-sgm-gate-report.json
             reports/developer-agent-coordination-gate-report.json

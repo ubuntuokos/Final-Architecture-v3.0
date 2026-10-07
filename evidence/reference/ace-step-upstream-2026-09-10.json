@@ -1,0 +1,61 @@
+{
+  "schema": "fa3.ace-step-upstream-reference.v1",
+  "observed_at": "2026-09-10",
+  "repository": "ace-step/ACE-Step-1.5",
+  "latest_formal_release": {
+    "tag": "v0.1.8",
+    "published_at": "2026-05-18T14:04:34Z"
+  },
+  "observed_main_commit": {
+    "sha": "ca1e85fe9430179831e6bc6be790c332190a3866",
+    "observed_only": true,
+    "promotable_as_floating_main": false
+  },
+  "open_upstream": [
+    {
+      "pr": 1309,
+      "state": "OPEN",
+      "head_commit": "86cf3a2be6dafd2b5bd2ece6471a9a227dc6d1d9",
+      "disposition": "OPEN_FIX_CANDIDATE_NOT_PROMOTION_EVIDENCE",
+      "topic": "Flow-Edit morph device mismatch under DiT CPU offload"
+    },
+    {
+      "pr": 1311,
+      "state": "OPEN",
+      "head_commit": "49354c10929b94f75e22268357ee96ada20932e2",
+      "disposition": "OPEN_FIX_CANDIDATE_NOT_PROMOTION_EVIDENCE",
+      "topic": "vLLM LM engine full teardown on service reinit"
+    },
+    {
+      "pr": 1312,
+      "state": "OPEN",
+      "head_commit": "f25fa4015b08840f01a8e9696828120f425b63ab",
+      "disposition": "OPEN_FIX_CANDIDATE_NOT_PROMOTION_EVIDENCE",
+      "topic": "CUDA dtype override and pre-Ampere NaN mitigation"
+    },
+    {
+      "pr": 1319,
+      "state": "OPEN",
+      "head_commit": "ed6e6fdc02655ef62effc8ef154d2f1f7876217a",
+      "disposition": "OPEN_UNRESOLVED_RISK_NOT_PROMOTION_EVIDENCE",
+      "topic": "LoRA plus DiT CPU offload skips decoder device/dtype verification"
+    },
+    {
+      "pr": 1321,
+      "state": "OPEN",
+      "head_commit": "33e2d60145ad7ac6d1645a51fa833aeb8d037973",
+      "disposition": "OPEN_FIX_CANDIDATE_NOT_PROMOTION_EVIDENCE",
+      "topic": "CUDA capability-probe exception handler missing logger import"
+    }
+  ],
+  "risk_observations": [
+    "CUDA capability probing may enter an exception path; that path must not fail due to unrelated logging/control-flow defects.",
+    "Explicit precision selection must be validated against hardware support and included in runtime provenance.",
+    "NaN/Inf detection is a production artifact-integrity boundary, not a warning-only condition.",
+    "CPU offload and LoRA can create device/dtype mismatch risk across model context transitions.",
+    "A proposed upstream optimization that skips consistency verification is not sufficient FA3 production evidence."
+  ],
+  "floating_main_allowed": false,
+  "open_pr_as_promotion_evidence_allowed": false,
+  "current_host_evidence_claimed": false
+}

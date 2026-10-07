@@ -1,0 +1,47 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-SHARED-RAY-PATH-TRACING-APPLICATION-INTENT-2026-10-05",
+  "project_id": "FA3-SHARED-RAY-PATH-TRACING-001",
+  "project_type": "SHARED_RENDERING_CAPABILITY_FABRIC",
+  "title": "Materialize CFA3 Shared Ray/Path Tracing Fabric",
+  "status": "OWNER_APPROVED_STATIC_MATERIALIZATION",
+  "date": "2026-10-05",
+  "goal": "Provide one provider-neutral shared ray/path tracing semantic and compatibility fabric for all relevant CFA3 applications, preserving CPU-only viability and explicit NVIDIA/AMD/Intel paths without creating a new execution authority.",
+  "requirements": [
+    "Bind to existing CAP-127 rather than create a capability.",
+    "Use one shared core across applications; application-local tracing cores are forbidden.",
+    "Preserve a CPU software path and 0..N accelerator topology.",
+    "Never silently select or substitute a GPU/backend.",
+    "Engine Selection remains selection-intent authority; HRB remains device placement/reservation/lease authority.",
+    "Neural denoise routes through Model Router and CAP-163 boundaries.",
+    "Donor use is pattern/reference only with no code copy or runtime dependency.",
+    "Static materialization does not claim Current Host runtime PASS.",
+    "Capability baseline remains 175."
+  ],
+  "capability_count": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "required_capabilities": [
+    "CAP-025",
+    "CAP-083",
+    "CAP-127",
+    "CAP-161",
+    "CAP-163"
+  ],
+  "integration_requirements": [
+    "FA3-ENGINE-SELECTION-FABRIC-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-LICENSE-RIGHTS-001",
+    "FA3-AUTH-OBS-EVIDENCE-001"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_mutation": false,
+    "current_host_runtime_promotion_claim": false
+  },
+  "reuse_discovery_declared": true
+}

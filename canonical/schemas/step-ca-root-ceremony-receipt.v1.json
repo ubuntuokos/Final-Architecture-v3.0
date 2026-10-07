@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.local/schemas/step-ca-root-ceremony-receipt.v1.json",
+  "title": "FA3 step-ca offline root ceremony receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "status",
+    "ceremony_id",
+    "operator_id",
+    "root_private_key_bytes_collected",
+    "root_private_key_exported_online",
+    "root_certificate",
+    "intermediate_certificate",
+    "chain_verification",
+    "completed_at"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.step-ca-root-ceremony-receipt.v1"
+    },
+    "status": {
+      "const": "PASS"
+    },
+    "ceremony_id": {
+      "type": "string",
+      "minLength": 8
+    },
+    "operator_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "medium_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional custody/storage label retained for audit compatibility. It does not imply removable media."
+    },
+    "network_default_route_present": {
+      "type": "boolean",
+      "description": "Observational ceremony-host network state only. Not a PASS or promotion criterion; offline Root refers to key custody and separation from the online issuing runtime."
+    },
+    "root_private_key_bytes_collected": {
+      "const": false
+    },
+    "root_private_key_exported_online": {
+      "const": false
+    },
+    "root_certificate": {
+      "type": "object",
+      "required": [
+        "sha256",
+        "subject",
+        "serial"
+      ],
+      "properties": {
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "subject": {
+          "type": "string"
+        },
+        "serial": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "intermediate_certificate": {
+      "type": "object",
+      "required": [
+        "sha256",
+        "subject",
+        "issuer",
+        "serial"
+      ],
+      "properties": {
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "subject": {
+          "type": "string"
+        },
+        "issuer": {
+          "type": "string"
+        },
+        "serial": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "chain_verification": {
+      "const": "PASS"
+    },
+    "completed_at": {
+      "type": "string"
+    }
+  }
+}

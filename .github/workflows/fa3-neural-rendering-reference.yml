@@ -1,0 +1,54 @@
+name: FA3 Neural Rendering Reference Gate
+on:
+  pull_request:
+    paths:
+      - "canonical/**neural-rendering**"
+      - "canonical/providers/FA3-PROVIDER-OPENDLSS-NR-001.json"
+      - "canonical/profiles/FA3-NEURAL-MEDIA-EXECUTION-001.json"
+      - "canonical/profiles/FA3-WEB-AI-001.json"
+      - "canonical/FA3-UPSTREAM-LOCK-REGISTRY-001.json"
+      - "canonical/enforcement-policy.json"
+      - "canonical/FA3-APPLICATION-DONOR-LINKS-001.json"
+      - "canonical/FA3-ENGINE-REGISTRY-001.json"
+      - "canonical/decisions/FA3-DEC-NEURAL-RENDERING-FULL-INTEGRATION-2026-10-06.json"
+      - "canonical/current-host-impact/FA3-CH-IMPACT-NEURAL-RENDERING-FULL-INTEGRATION-20261006.json"
+      - "docs/CFA3-NEURAL-RENDERING-RECONSTRUCTION-FABRIC-2026-10-06.md"
+      - "canonical/actions/render.neural*.json"
+      - "src/fa3_neural_rendering*.py"
+      - "src/fa3_opendlss_nr_provider.py"
+      - "src/fa3_enforce.py"
+      - "bin/fa3-enforce"
+      - "bin/fa3-opendlss-nr"
+      - "tests/test_neural_rendering*.py"
+      - "tests/test_opendlss_nr_provider.py"
+      - "evidence/evidence-registry.json"
+      - "evidence/reference/neural-rendering-opendlss-nr-reference-2026-09-23.json"
+      - ".github/workflows/fa3-neural-rendering-*.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  reference:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with: {python-version: "3.12"}
+      - name: Neural rendering tests
+        run: |
+          PYTHONPATH=src python -m unittest -v tests.test_neural_rendering tests.test_opendlss_nr_provider tests.test_neural_rendering_current_host_gate tests.test_neural_rendering_gate tests.test_application_donor_index tests.test_ray_path_tracing_gate
+      - name: Neural rendering canonical gate
+        run: |
+          chmod +x bin/fa3-enforce bin/fa3-opendlss-nr
+          ./bin/fa3-enforce neural-rendering
+      - name: Cross-cutting UAF and hardware gates
+        run: |
+          ./bin/fa3-enforce uaf
+          PYTHONPATH=src python src/fa3_hardware_portability_gate.py --root .
+      - name: Shared application and ray/path interoperability
+        run: |
+          PYTHONPATH=src python src/fa3_ray_path_tracing_gate.py --root .
+      - name: Global static enforcement
+        run: ./bin/fa3-enforce static

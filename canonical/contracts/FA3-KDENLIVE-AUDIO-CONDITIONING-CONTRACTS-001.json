@@ -1,0 +1,60 @@
+{
+  "id": "FA3-KDENLIVE-AUDIO-CONDITIONING-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "class": "EDITORIAL_AUDIO_CONDITIONING_PROJECTION_CONTRACT",
+  "capability_count_delta": 0,
+  "architectural_authority_delta": 0,
+  "depends_on": [
+    "FA3-KDENLIVE-EDITORIAL-001",
+    "FA3-SPEECH-ENHANCEMENT-001",
+    "FA3-AUDIO-SEPARATION-001",
+    "FA3-STT-MEDIA-001",
+    "FA3-HYBRID-EDITORIAL-001"
+  ],
+  "request_contract": {
+    "type": "AudioConditioningRequest",
+    "required": ["source_artifact", "operation", "timebase", "output_policy"],
+    "operations": ["dialogue_clean", "mixed_dialogue_restore", "noise_reduction", "speech_bandwidth_restore", "separate_vocals_music", "prepare_clean_audio_for_stt"],
+    "provider_names_forbidden_in_editorial_intent": true,
+    "source_in_place_mutation_forbidden": true
+  },
+  "speech_activity_map": {
+    "type": "SpeechActivityMap",
+    "metadata_only": true,
+    "required": ["source_hash", "analysis_sample_rate_hz", "channels", "segments", "provider_revision", "model_hash", "timebase_mapping"],
+    "preferred_analysis_projection": {"sample_rate_hz": 16000, "channels": 1},
+    "master_audio_mutation_forbidden": true,
+    "state_reset_required_on_discontinuity": true
+  },
+  "processing_invariants": [
+    "VAD_ANALYSIS_PROJECTION_MUST_NOT_REPLACE_MASTER_AUDIO",
+    "GTCRN_INPUT_REQUIRES_EXPLICIT_16KHZ_MONO_PROJECTION",
+    "LAVASR_AFTER_GTCRN_REQUIRES_DENOISE_DISABLED",
+    "NO_IMPLICIT_DOUBLE_DENOISE",
+    "DEMUCS_IS_CONDITIONAL_NOT_HARD_DEPENDENCY",
+    "STT_MUST_WORK_WITHOUT_OPTIONAL_AUDIO_CONDITIONING",
+    "ACCELERATOR_EXECUTION_REQUIRES_HRB_LEASE",
+    "NO_SILENT_EXECUTION_PROVIDER_FALLBACK",
+    "INTERMEDIATE_ARTIFACTS_REQUIRE_HASH_LINEAGE",
+    "OUTPUT_DURATION_AND_TIMEBASE_MUST_BE_VALIDATED",
+    "OUTPUT_MUST_BE_FINITE_AND_CLIPPING_AUDITED",
+    "DIRECT_KDENLIVE_PROJECT_XML_MUTATION_FORBIDDEN",
+    "DERIVED_MEDIA_MUST_BE_VERSIONED_AND_NON_DESTRUCTIVE"
+  ],
+  "default_paths": {
+    "dialogue_clean": ["silero_vad", "gtcrn", "lavasr_bwe"],
+    "mixed_dialogue_restore": ["demucs_if_required", "silero_vad", "gtcrn", "lavasr_bwe", "explicit_remix"],
+    "noise_reduction": ["silero_vad", "gtcrn"],
+    "speech_bandwidth_restore": ["lavasr_bwe"],
+    "separate_vocals_music": ["demucs"],
+    "prepare_clean_audio_for_stt": ["silero_vad", "gtcrn_optional", "stt_media"]
+  },
+  "kdenlive_projection": {
+    "entrypoint": "Media Job or Central MCP client projection",
+    "canonical_timeline_ir": "OpenTimelineIO",
+    "result": "versioned derived media artifact",
+    "human_review_surface": "Kdenlive",
+    "direct_provider_invocation_from_editorial_ui_forbidden": true
+  }
+}

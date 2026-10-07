@@ -1,0 +1,67 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-WORKFLOW-TOPIC-2026-10-03",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "STAGED_PENDING_EXACT_HEAD_GATES",
+  "mode": "APPEND_ONLY_OWNER_EXPLICIT_REFERENCE_INTAKE",
+  "parent_commit": "3cff20ba446c06501b7195da86a7cdd2d3eb8a36",
+  "parent_registry_blob_sha": "4ac6c46935176c0e2027d771557cdec159e4c2bf",
+  "parent_entry_count": 1421,
+  "source_count": 1,
+  "unique_source_key_count": 1,
+  "matched_existing_count": 0,
+  "proposed_entry_count": 1422,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "provider_count_policy": "DYNAMIC_UNCHANGED",
+  "approval_ref": "docs/donor-workflow-topic-2026-10-03.md",
+  "requirements": [
+    "Preserve the exact owner-marked https://github.com/topics/workflow URL as one canonical donor/reference identity.",
+    "The GitHub topic is a discovery index only and does not recursively admit child repositories.",
+    "Existing workflow donors and orchestration references are reconciled by normalized source identity instead of duplicated.",
+    "Temporal remains the sole global durable lifecycle authority; no donor discovered through this topic receives architectural authority from registration.",
+    "Any material reuse requires independent license/provenance, security, Software Coexistence, Hardware Safety where applicable, layer placement and explicit usage-edge review.",
+    "Fixed capability baseline 175, dynamic provider-count policy unchanged and no new architectural authority.",
+    "No automatic fetch, install, code copy, dependency adoption, provider/model selection, runtime activation or Current Host claim."
+  ],
+  "sources": [
+    {
+      "url": "https://github.com/topics/workflow",
+      "normalized_key": "github:topics/workflow",
+      "donor_id": "FA3-DONOR-WORKFLOW-TOPIC-001",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "COLLECTION_INDEX"
+      }
+    }
+  ],
+  "discovery_classes": [
+    "DURABLE_ORCHESTRATION",
+    "TASK_DAG_ORCHESTRATION",
+    "EVENT_SCHEDULING",
+    "VISUAL_WORKFLOW_AUTHORING",
+    "STATE_LIFECYCLE_MODEL",
+    "AUTOMATION_CONNECTOR",
+    "HUMAN_PROCESS_WORKFLOW",
+    "AGENT_AI_WORKFLOW",
+    "BROWSER_WORKFLOW",
+    "CONTAINER_BATCH_WORKFLOW"
+  ],
+  "boundaries": {
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "automatic_code_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "child_repository_auto_registration": false,
+    "usage_edge_created": false,
+    "capability_count_change": false,
+    "authority_change": false,
+    "current_host_pass_claimed": false
+  }
+}

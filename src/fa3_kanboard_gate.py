@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import argparse
 import json
@@ -10,7 +11,7 @@ PROVIDER_ID = "FA3-PROVIDER-KANBOARD-001"
 GATE_ID = "FA3-KANBOARD-GATESET-001"
 DECISION_ID = "FA3-DEC-KANBOARD-2026-08-30"
 REFERENCE_ID = "FA3-KANBOARD-UPSTREAM-REFERENCE-2026-08-30"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 REFERENCE_RELEASE = "v1.2.54"
 REFERENCE_COMMIT = "9ce6a5edc5b646ef15780cb445bc6d2c39d9898f"
 MANDATORY_CONSTRAINT = "Kanboard SHALL NOT become an FA3 identity, authorization, MCP, workflow, event, evidence, secrets, network-egress, artifact-trust or canonical work-item authority."

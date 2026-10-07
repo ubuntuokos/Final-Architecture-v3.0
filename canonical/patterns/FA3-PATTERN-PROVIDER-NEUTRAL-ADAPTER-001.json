@@ -1,0 +1,33 @@
+{
+  "schema": "fa3.reusable-pattern.v1",
+  "id": "FA3-PATTERN-PROVIDER-NEUTRAL-ADAPTER-001",
+  "name": "Provider-Neutral Adapter Boundary",
+  "status": "CANONICAL",
+  "problem_classes": [
+    "adapter",
+    "providers",
+    "integrations",
+    "runtime-adapters",
+    "compatibility-bridges"
+  ],
+  "source_records": [
+    "FA3-UNIFIED-ACTION-FABRIC-001",
+    "FA3-AUTH-MCP-GATEWAY-001"
+  ],
+  "applicability": [
+    "providers",
+    "integrations",
+    "runtime-adapters",
+    "compatibility-bridges"
+  ],
+  "constraints": [
+    "NO_NEW_ARCHITECTURAL_AUTHORITY",
+    "SOURCE_PROVENANCE_REQUIRED",
+    "FA3_POLICY_BOUNDARIES_RETAINED"
+  ],
+  "authority": false,
+  "code_reuse": "PATTERN_REIMPLEMENTATION",
+  "license_implications": "Pattern metadata is FA3-native; any external source code remains subject to its own license/distribution review.",
+  "known_consumers": [],
+  "supersedes": null
+}

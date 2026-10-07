@@ -1,0 +1,82 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-SHARED-TOOL-ACTION-MEDIATION-001",
+  "name": "Shared Tool & Action Mediation",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST_IF_COMPONENT_USED",
+  "canonical_root": false,
+  "provider_neutral": true,
+  "shared_component": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-003",
+    "CAP-007",
+    "CAP-011",
+    "CAP-013",
+    "CAP-051",
+    "CAP-079",
+    "CAP-144",
+    "CAP-145",
+    "CAP-172"
+  ],
+  "contract_family": "FA3-SHARED-TOOL-ACTION-MEDIATION-CONTRACTS-001",
+  "authority_bindings": {
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "secrets": "FA3-SECRET-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "durable_workflow": "AUTH-DURABLE",
+    "human_approval": "AUTH-HUMAN"
+  },
+  "invariants": [
+    "MODEL_OR_AGENT_MAY_REQUEST_ACTION_BUT_IS_NOT_EXECUTION_AUTHORITY",
+    "PLAIN_LANGUAGE_ACTION_MUST_BECOME_TYPED_INTENT_BEFORE_EXECUTION",
+    "DIRECT_SUBPROCESS_SHELL_OR_PROVIDER_EXECUTION_FROM_MODEL_OUTPUT_FORBIDDEN",
+    "MCP_UAF_OR_ADMITTED_TYPED_ACTION_BOUNDARY_REQUIRED",
+    "SECURITY_POLICY_EVALUATED_BEFORE_MUTATING_EXECUTION",
+    "HIGH_RISK_ACTION_REQUIRES_GOVERNED_HUMAN_APPROVAL",
+    "HRB_ADMISSION_REQUIRED_WHEN_HOST_RESOURCES_ARE_CONSUMED",
+    "ISOLATED_WORKLOAD_EXECUTION_REQUIRED",
+    "ACTION_RECEIPT_AND_AUDIT_EVENT_REQUIRED",
+    "SECRET_VALUES_FORBIDDEN_IN_TOOL_ARGUMENTS_WHEN_SECRETREF_IS_AVAILABLE",
+    "PROMPT_INJECTION_CLASSIFIER_IS_ADVISORY_SIGNAL_ONLY",
+    "PROMPT_INJECTION_CLASSIFIER_CANNOT_GRANT_AUTHORIZATION",
+    "NETWORK_DEFAULT_DENY_FOR_AGENT_WORKLOADS",
+    "SILENT_SANDBOX_DOWNGRADE_FORBIDDEN",
+    "NATIVE_DESKTOP_EFFECTS_USE_OBSERVATION_BOUND_COMPUTER_INTERACTION_RUNTIME"
+  ],
+  "gui_projection": [
+    "agents.action-center",
+    "agents.workflows",
+    "governance.security",
+    "system.settings"
+  ],
+  "runtime_materialization": {
+    "new_service": false,
+    "new_daemon": false,
+    "new_port": false,
+    "new_socket": false,
+    "new_package_dependency": false,
+    "provider_activation": false,
+    "model_selection": false,
+    "hardware_mutation": false,
+    "semantics": "COMPOSE_EXISTING_FA3_AUTHORITIES_AND_CAPABILITIES"
+  },
+  "framework_policy": {
+    "upstream_framework_is_authority": false,
+    "hard_runtime_dependency": false,
+    "analysis_patterns_may_be_reexpressed_fa3_native": true
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "execution_profiles": [
+    "FA3-COMPUTER-INTERACTION-RUNTIME-001"
+  ],
+  "native_desktop_interaction": "FA3-COMPUTER-INTERACTION-RUNTIME-001"
+}

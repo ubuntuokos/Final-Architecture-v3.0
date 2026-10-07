@@ -1,0 +1,332 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "id": "FA3-DONOR-PROVIDER-GATEWAY-ASSURANCE-INTAKE-2026-10-01",
+  "date": "2026-10-01",
+  "status": "OWNER_APPROVED_REFERENCE_INTAKE",
+  "authority": false,
+  "capability_count": 175,
+  "registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+  "registry_entry_count_before": 1268,
+  "registry_entry_count_after": 1287,
+  "new_entries": [
+    {
+      "donor_id": "FA3-DONOR-OPEN-FREE-LLM-API-AWESOME-FREELLM-APIS-001",
+      "normalized_key": "github:open-free-llm-api/awesome-freellm-apis",
+      "status": "ACCEPTED_REFERENCE",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_LICENSE_OBSERVED"
+      },
+      "restrictions": [
+        "Broad, frequently refreshed provider/model discovery feed. Reference registration does not make upstream claims canonical or admit providers."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-GUIHUASHAOXIANG-FREELLM-API-KEYHUB-001",
+      "normalized_key": "github:guihuashaoxiang/freellm-api-keyhub",
+      "status": "ACCEPTED_REFERENCE",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "NO_SEPARATE_LICENSE_VERIFIED"
+      },
+      "restrictions": [
+        "Commercial/access metadata reference only. Source copying remains blocked pending license review."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-AMARDEEPLAKSHKAR-AWESOME-FREE-LLM-APIS-001",
+      "normalized_key": "github:amardeeplakshkar/awesome-free-llm-apis",
+      "status": "ACCEPTED_REFERENCE",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "license": {
+        "declared": "CC0-1.0",
+        "status": "UPSTREAM_LICENSE_OBSERVED"
+      },
+      "restrictions": [
+        "Curated permanent-free reference; freshness and live compatibility still require independent FA3 verification."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-0XZR-FREELLMPOOL-001",
+      "normalized_key": "github:0xzr/freellmpool",
+      "status": "ACCEPTED_REFERENCE",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "UPSTREAM_LICENSE_OBSERVED"
+      },
+      "restrictions": [
+        "High-value protocol/health donor. Automatic/silent failover semantics are not adopted; FA3 bounded explicit fallback remains mandatory."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-UNOROUTER-UNOROUTER-001",
+      "normalized_key": "github:unorouter/unorouter",
+      "status": "ACCEPTED_REFERENCE",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "license": {
+        "declared": "AGPL-3.0-only",
+        "status": "UPSTREAM_LICENSE_OBSERVED"
+      },
+      "restrictions": [
+        "Reference for model identity and SSRF-safe remote fetch. Direct code import requires separate AGPL/license review; no runtime admission implied."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-KONGLONG87-FREE-AI-FREE-TOKEN-001",
+      "normalized_key": "github:konglong87/free-ai-free-token",
+      "status": "ACCEPTED_REFERENCE",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "NO_LICENSE_FILE_VERIFIED"
+      },
+      "restrictions": [
+        "Documentation/provenance donor only; not a credential source and not a runtime provider."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-MALDA231125-FREE-LLM-GATEWAY-001",
+      "normalized_key": "github:malda231125/free-llm-gateway",
+      "status": "ACCEPTED_REFERENCE",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "DECLARED_IN_PACKAGE_METADATA_BUT_ROOT_LICENSE_MISSING"
+      },
+      "restrictions": [
+        "Strong quota/catalog donor. Silent provider fallback and in-memory quota degradation are rejected for FA3; source copying blocked until license is clarified."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-FERDIUNAL-LARAVEL-AI-ROUTER-001",
+      "normalized_key": "github:ferdiunal/laravel-ai-router",
+      "status": "ACCEPTED_REFERENCE",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "PACKAGE_METADATA_OBSERVED"
+      },
+      "restrictions": [
+        "Accepted as reference registration while detailed FA3 evaluation remains incomplete. No runtime or code adoption until review is closed."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-CYBERPRADEEP-ZEROKEY-001",
+      "normalized_key": "github:cyberpradeep/zerokey",
+      "status": "ACCEPTED_REFERENCE",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "README_CLAIM_ONLY_NO_LICENSE_FILE_VERIFIED"
+      },
+      "restrictions": [
+        "REFERENCE ONLY. ChatGPT-web provider/runtime, stealth automation and no-sandbox pattern remain rejected for FA3; only generic façade/test patterns may be considered."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-AI-RESOURCE-RADAR-AI-RESOURCE-RADAR-001",
+      "normalized_key": "github:ai-resource-radar/ai-resource-radar",
+      "status": "ACCEPTED_REFERENCE",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "license": {
+        "declared": "MIT",
+        "status": "LICENSE_FILE_VERIFIED"
+      },
+      "restrictions": [
+        "Accepted as reference registration. Detailed FA3 evaluation was interrupted and must be completed before implementation/adoption decisions."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-TYKTECHNOLOGIES-TYK-001",
+      "normalized_key": "github:tyktechnologies/tyk",
+      "status": "ACCEPTED_REFERENCE",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "license": {
+        "declared": "MPL-2.0",
+        "status": "OSS_ROOT_WITH_EE_COMMERCIAL_CARVEOUT"
+      },
+      "restrictions": [
+        "High-value gateway/MCP policy donor. OSS and ee/ scopes must remain license-separated; full Tyk runtime is not an FA3 authority."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-HIGRESS-GROUP-ORGANIZATION-DISCOVERY-INDEX-001",
+      "normalized_key": "github:higress-group",
+      "status": "ACCEPTED_REFERENCE",
+      "donor_modes": [
+        "DISCOVERY_INDEX",
+        "RESEARCH_REFERENCE"
+      ],
+      "license": {
+        "declared": "NOT_APPLICABLE",
+        "status": "ORGANIZATION_INDEX"
+      },
+      "restrictions": [
+        "Organization-level discovery index for Higress ecosystem; individual repository licensing and admission remain separate."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-HIGRESS-GROUP-HIGRESS-001",
+      "normalized_key": "github:higress-group/higress",
+      "status": "ACCEPTED_REFERENCE",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UPSTREAM_LICENSE_OBSERVED"
+      },
+      "restrictions": [
+        "High-value AI gateway donor. Kubernetes/Istio/Redis-style dependencies are not mandatory FA3 baseline dependencies."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-HIGRESS-GROUP-HIROUTE-001",
+      "normalized_key": "github:higress-group/hiroute",
+      "status": "ACCEPTED_REFERENCE",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UPSTREAM_LICENSE_OBSERVED"
+      },
+      "restrictions": [
+        "Primary donor pattern for stage-aware routing and bounded fallback; final route authority remains the FA3 Model Router."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-HIGRESS-GROUP-HIMARKET-001",
+      "normalized_key": "github:higress-group/himarket",
+      "status": "ACCEPTED_REFERENCE",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UPSTREAM_LICENSE_OBSERVED"
+      },
+      "restrictions": [
+        "Marketplace/lifecycle donor only; does not create a new FA3 catalog authority."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-HIGRESS-GROUP-OPENAPI-TO-MCPSERVER-001",
+      "normalized_key": "github:higress-group/openapi-to-mcpserver",
+      "status": "ACCEPTED_REFERENCE",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UPSTREAM_LICENSE_OBSERVED"
+      },
+      "restrictions": [
+        "Reference for adapter-only REST/OpenAPI→MCP projection; Central MCP Gateway remains the trust boundary."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-HIGRESS-GROUP-PLUGIN-SERVER-001",
+      "normalized_key": "github:higress-group/plugin-server",
+      "status": "ACCEPTED_REFERENCE",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UPSTREAM_LICENSE_OBSERVED"
+      },
+      "restrictions": [
+        "High-value plugin supply-chain/provenance donor; activation remains under existing FA3 Plugin & Extension authority."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-HIGRESS-GROUP-WASM-GO-001",
+      "normalized_key": "github:higress-group/wasm-go",
+      "status": "ACCEPTED_REFERENCE",
+      "donor_modes": [
+        "REFERENCE_IMPLEMENTATION",
+        "RESEARCH_REFERENCE"
+      ],
+      "license": {
+        "declared": "Apache-2.0",
+        "status": "UPSTREAM_LICENSE_OBSERVED"
+      },
+      "restrictions": [
+        "Optional plugin execution/reference pattern; not a mandatory runtime dependency."
+      ]
+    },
+    {
+      "donor_id": "FA3-DONOR-TERAFITZSING-FREEPIK-AI-LAB-001",
+      "normalized_key": "github:terafitzsing/freepik-ai-lab",
+      "status": "ACCEPTED_REFERENCE",
+      "donor_modes": [
+        "RESEARCH_REFERENCE"
+      ],
+      "license": {
+        "declared": "UNKNOWN",
+        "status": "NO_LICENSE_VERIFIED"
+      },
+      "restrictions": [
+        "REFERENCE ONLY. Earlier review found insufficient source/build/test/license evidence for runtime or code donor admission."
+      ]
+    }
+  ],
+  "skipped_existing_keys": [],
+  "owner_approval": {
+    "marker": "donornak",
+    "scope": "PREVIOUSLY_SUBMITTED_AND_ANALYZED_CONVERSATION_LINKS",
+    "date": "2026-10-01"
+  },
+  "invariants": {
+    "reference_registration_only": true,
+    "runtime_admission": false,
+    "provider_admission": false,
+    "model_admission": false,
+    "automatic_code_import": false,
+    "automatic_activation": false,
+    "authority_delta": 0,
+    "capability_delta": 0
+  }
+}

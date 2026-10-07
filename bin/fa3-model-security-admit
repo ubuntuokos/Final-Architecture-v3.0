@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT="${FA3_REPO_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+export FA3_MODEL_SECURITY_HOME="${FA3_MODEL_SECURITY_HOME:-/ai-cache/fa3/model-security}"
+PYTHONPATH="$ROOT/src" exec python3 "$ROOT/src/fa3_model_artifact_security_runtime.py" --root "$ROOT" "$@"

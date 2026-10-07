@@ -1,0 +1,28 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-PAGEINDEX-LOCAL-UPSTREAM-REFERENCE-2026-09-18",
+  "repository": "VectifyAI/PageIndex",
+  "commit": "9a8dd6658278fec90347e8ac3388a205305667a3",
+  "license": "MIT",
+  "reviewed_surface": [
+    "PageIndexClient local mode",
+    "Flash indexing",
+    "get_tree",
+    "get_document_structure",
+    "get_page_content",
+    "chat",
+    "OpenAI-compatible backend routing"
+  ],
+  "adopted_patterns": [
+    "hierarchical tree index",
+    "reasoning-based tree retrieval",
+    "traceable source references",
+    "local storage"
+  ],
+  "rejected_as_authority": [
+    "knowledge truth authority",
+    "model routing authority",
+    "MCP authority"
+  ],
+  "fa3_runtime_constraint": "OPENAI_COMPATIBLE_CALLS_MUST_TARGET_LOOPBACK_FA3_MODEL_ROUTER_ONLY"
+}

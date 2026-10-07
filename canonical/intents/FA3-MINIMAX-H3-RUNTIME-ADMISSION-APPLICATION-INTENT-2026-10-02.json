@@ -1,0 +1,69 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-MINIMAX-H3-RUNTIME-ADMISSION-APPLICATION-INTENT-2026-10-02",
+  "project_id": "FA3-MINIMAX-H3-RUNTIME-ADMISSION-001",
+  "project_type": "MATERIAL_EXTENSION",
+  "goal": "Reconcile the active MiniMax H3 runtime-admission artifacts to the fixed FA3 capability baseline 175 without promoting H3, changing authority, or rewriting historical 143-era evidence.",
+  "required_capabilities": [
+    "CAP-146",
+    "CAP-147",
+    "CAP-159",
+    "CAP-160",
+    "CAP-175"
+  ],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "CAPABILITY_BASELINE_RECONCILIATION",
+    "VIDEO_PROVIDER_ADMISSION_GOVERNANCE",
+    "FAIL_CLOSED_RUNTIME_METADATA"
+  ],
+  "input_modalities": [
+    "CANONICAL_METADATA",
+    "VIDEO_GENERATION_IR"
+  ],
+  "output_modalities": [
+    "CANONICAL_ADMISSION_RECORD",
+    "GATE_REPORT"
+  ],
+  "execution_classes": [
+    "STATIC_CANONICAL_GATE",
+    "OPTIONAL_PROVIDER_RUNTIME_SEPARATE"
+  ],
+  "data_classes": [
+    "CANONICAL_METADATA",
+    "NON_SECRET_POLICY"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hrb_authoritative_when_accelerated": true,
+    "display_gpu_automatic_ai_use": false
+  },
+  "namespace_claims": {
+    "namespaced": true,
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "security_requirements": [
+    "MODEL_ROUTER_REMAINS_MODEL_PROVIDER_ROUTING_AUTHORITY",
+    "HRB_REMAINS_RESOURCE_ADMISSION_PLACEMENT_AND_LEASE_AUTHORITY",
+    "HARDWARE_SAFETY_ENVELOPE_REMAINS_NON_BYPASSABLE",
+    "NO_SILENT_PROVIDER_MODEL_DEVICE_OR_CLOUD_FALLBACK"
+  ],
+  "integration_requirements": [
+    "PRESERVE_H3_AS_ACCEPTED_CONDITIONAL_REFERENCE_OPTIONAL_DISABLED_BY_DEFAULT",
+    "PRESERVE_HISTORICAL_143_ERA_DECISIONS_AND_EVIDENCE",
+    "NO_CURRENT_HOST_PASS_FROM_STATIC_RECONCILIATION",
+    "FA3-REUSE-DISCOVERY-001"
+  ],
+  "task_classes": [
+    "video-generation-provider-admission",
+    "capability-baseline-reconciliation"
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-HU-AQC-CURRENT-HOST-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-HU-AQC-001",
+  "intent_id": "FA3-HU-AQC-CURRENT-HOST-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-HU-AQC-CURRENT-HOST-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-HU-AQC-001"
+  ],
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-HU-AQC-001",
+      "use": "EXISTING_CANONICAL_HUNGARIAN_QA_PROFILE"
+    },
+    {
+      "id": "FA3-VOICE-001",
+      "use": "VOICE_SYNTHESIS_AND_CLONING_BOUNDARY"
+    },
+    {
+      "id": "FA3-STT-MEDIA-001",
+      "use": "ASR_BACK_TRANSCRIPTION"
+    },
+    {
+      "id": "FA3-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001",
+      "use": "CURRENT_HOST_EVIDENCE_BOUNDARY"
+    }
+  ],
+  "rejected_candidates": [],
+  "pattern_reuse": [
+    "FA3-PATTERN-PROVIDER-NEUTRAL-ADAPTER-001",
+    "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001"
+  ],
+  "existing_authority_bindings": {
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "gaps": [
+    "HU_AQC_GOLDEN_CORPUS_AND_REAL_CURRENT_HOST_CLOSURE"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false
+  },
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
+  "gap_resolution": [
+    {
+      "gap": "HU_AQC_GOLDEN_CORPUS_AND_REAL_CURRENT_HOST_CLOSURE",
+      "status": "MATERIALIZED_IN_PR_388",
+      "evidence": "FA3-GATE-SUPPLY-RUNTIME-HARDENING-001"
+    }
+  ]
+}

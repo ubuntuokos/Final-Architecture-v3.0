@@ -1,0 +1,77 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-HRB-ADMISSION-AUTHORIZATION-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-HRB-ADMISSION-AUTHORIZATION-001",
+  "intent_id": "FA3-HRB-ADMISSION-AUTHORIZATION-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-HRB-ADMISSION-AUTHORIZATION-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-HOST-RESOURCE-BROKER-001"
+  ],
+  "project_status": "MATERIALIZED_REFERENCE_EXECUTABLE_CURRENT_HOST_PENDING",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-HOST-RESOURCE-BROKER-001",
+      "use": "EXISTING_EXCLUSIVE_RESOURCE_AUTHORITY"
+    },
+    {
+      "id": "FA3-HARDWARE-BASELINE-001",
+      "use": "VENDOR_NEUTRAL_CPU_ONLY_BASELINE"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "DURABLE_EVIDENCE_AUTHORITY"
+    },
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "MANDATORY_REUSE_STAGE"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "CPU_ONLY_FAKE_ACCELERATOR_LEASE",
+      "reason": "LEASE_AND_ADMISSION_AUTHORIZATION_MUST_REMAIN_DISTINCT"
+    },
+    {
+      "id": "COLLECTOR_SELF_AUTHORIZATION",
+      "reason": "COLLECTOR_OR_PROVIDER_MUST_NOT_MINT_HRB_AUTHORIZATION"
+    },
+    {
+      "id": "PARALLEL_RESOURCE_AUTHORITY",
+      "reason": "EXISTING_HRB_AUTHORITY_MUST_BE_REUSED"
+    }
+  ],
+  "pattern_reuse": [
+    "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001"
+  ],
+  "existing_authority_bindings": {
+    "resource_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "hardware_baseline": "FA3-HARDWARE-BASELINE-001",
+    "evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "gaps": [
+    "GENERIC_NON_ACCELERATOR_HRB_ADMISSION_AUTHORIZATION"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false
+  },
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
+  "gap_resolution": [
+    {
+      "gap": "GENERIC_NON_ACCELERATOR_HRB_ADMISSION_AUTHORIZATION",
+      "status": "MATERIALIZED_REFERENCE_EXECUTABLE_CURRENT_HOST_PENDING",
+      "source_branch": "fa3/hrb-generic-admission-authorization-20260925"
+    }
+  ],
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false
+}

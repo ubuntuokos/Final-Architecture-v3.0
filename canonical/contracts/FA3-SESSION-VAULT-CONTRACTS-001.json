@@ -1,0 +1,38 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-SESSION-VAULT-CONTRACTS-001",
+  "name": "FA3 Session Vault Contracts",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-SCS-001",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "SessionVaultDescriptor",
+    "SessionUnlockRequest",
+    "SessionUnlockResult",
+    "SessionLockEvent",
+    "SessionSecretReference",
+    "SessionVaultBackupEvidence",
+    "SessionVaultRestoreEvidence"
+  ],
+  "semantic_boundaries": {
+    "session_vault": "ENCRYPTED_USER_SESSION_STORAGE_AND_UNLOCK_GATE",
+    "identity": "EXISTING_FA3_IDENTITY_AUTHORITY_ONLY",
+    "authorization": "EXISTING_FA3_SECURITY_GOVERNANCE_ONLY",
+    "human_credential_vault": "FA3-HUMAN-CREDENTIAL-VAULT-CONTRACTS-001",
+    "machine_secret_broker": "FA3-SECRET-BROKER-001_UNDER_EXISTING_FA3_SECRETS_AUTHORITY"
+  },
+  "invariants": [
+    "UNLOCK_SECRET_NEVER_IN_COMMAND_LINE",
+    "UNLOCK_SECRET_NEVER_IN_ENVIRONMENT",
+    "UNLOCK_SECRET_NEVER_IN_EVIDENCE",
+    "SESSION_VAULT_NOT_IDENTITY_AUTHORITY",
+    "SESSION_VAULT_NOT_AUTHORIZATION_AUTHORITY",
+    "PASSWORD_MANAGER_INTEGRATION_THROUGH_PROVIDER_NEUTRAL_SECRETREF",
+    "REMOVABLE_MEDIA_OPTIONAL",
+    "ROOT_KEY_IN_VAULT_NEVER_READABLE_BY_FA3_STEP_CA_RUNTIME",
+    "APPLICATION_MACHINE_SECRETS_NOT_STORED_RAW_IN_SESSION_VAULT"
+  ]
+}

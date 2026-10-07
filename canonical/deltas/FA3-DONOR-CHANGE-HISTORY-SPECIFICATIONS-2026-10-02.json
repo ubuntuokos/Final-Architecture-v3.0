@@ -1,0 +1,72 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-CHANGE-HISTORY-SPECIFICATIONS-2026-10-02",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "STAGED_PENDING_EXACT_HEAD_GATES",
+  "mode": "APPEND_ONLY_OWNER_EXPLICIT_REFERENCE_INTAKE",
+  "parent_commit": "9a9768a98e07b4961c460b2e6f3f2e00ad927c93",
+  "parent_registry_blob_sha": "07dc212b4a68bf4848e278d6eb590c70c2aae5a4",
+  "parent_entry_count": 1340,
+  "source_count": 4,
+  "unique_source_key_count": 4,
+  "matched_existing_count": 0,
+  "proposed_entry_count": 1344,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "provider_count_policy": "DYNAMIC_UNCHANGED",
+  "approval_ref": "docs/donor-change-history-specifications-2026-10-02.md",
+  "requirements": [
+    "Preserve the four exact owner-marked specification URLs as distinct canonical donor/reference identities.",
+    "Registration is metadata-only ACCEPTED_REFERENCE; specification status does not import code, create a runtime dependency or confer architectural authority.",
+    "SLSA/in-toto patterns may inform verifiable provenance/attestation; OpenTelemetry may inform structured event semantics; OpenLineage may inform exact lineage-edge semantics.",
+    "Actual CHIF pattern adoption requires explicit canonical usage edges and a fresh Reuse Assessment bound to the then-current published-main donor snapshot.",
+    "License and content-usage rights remain separately reviewed; UNKNOWN reference-page license metadata is not permission to copy source.",
+    "Fixed capability baseline 175, dynamic provider-count policy unchanged and no new architectural authority.",
+    "No automatic code copy, dependency adoption, installation, fetch, provider/model selection, runtime activation or Current Host claim."
+  ],
+  "sources": [
+    {
+      "url": "https://slsa.dev/spec/v1.2/build-provenance",
+      "normalized_key": "https://slsa.dev/spec/v1.2/build-provenance",
+      "donor_id": "FA3-DONOR-SLSA-BUILD-PROVENANCE-001",
+      "kind": "SPECIFICATION",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "url": "https://in-toto.io/docs/specs/",
+      "normalized_key": "https://in-toto.io/docs/specs/",
+      "donor_id": "FA3-DONOR-IN-TOTO-SPECIFICATIONS-001",
+      "kind": "SPECIFICATION",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "url": "https://opentelemetry.io/docs/specs/semconv/general/events/",
+      "normalized_key": "https://opentelemetry.io/docs/specs/semconv/general/events/",
+      "donor_id": "FA3-DONOR-OPENTELEMETRY-EVENT-CONVENTIONS-001",
+      "kind": "SPECIFICATION",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "url": "https://openlineage.io/docs/spec/facets/job-facets/lineage/",
+      "normalized_key": "https://openlineage.io/docs/spec/facets/job-facets/lineage/",
+      "donor_id": "FA3-DONOR-OPENLINEAGE-LINEAGE-FACET-001",
+      "kind": "SPECIFICATION",
+      "status": "ACCEPTED_REFERENCE"
+    }
+  ],
+  "boundaries": {
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "automatic_code_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "mcp_connector_admission": false,
+    "hosted_service_activation": false,
+    "usage_edge_created": false,
+    "capability_count_change": false,
+    "authority_change": false
+  }
+}

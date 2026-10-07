@@ -1,0 +1,59 @@
+name: FA3 Agent Instruction Projection Gate
+
+on:
+  pull_request:
+    paths:
+      - "AGENTS.md"
+      - "**/AGENTS.md"
+      - "canonical/profiles/FA3-AGENT-INSTRUCTIONS-001.json"
+      - "canonical/contracts/FA3-AGENT-INSTRUCTION-CONTRACTS-001.json"
+      - "canonical/FA3-GATE-AGENT-INSTRUCTIONS-001.json"
+      - "canonical/enforcement-policy.json"
+      - "src/fa3_agent_instructions.py"
+      - "src/fa3_agent_instructions_gate.py"
+      - "src/fa3_enforce.py"
+      - "tests/test_agent_instructions_gate.py"
+      - ".github/workflows/fa3-agent-instructions-gate.yml"
+  push:
+    branches:
+      - "main"
+      - "feat/**"
+      - "fix/**"
+    paths:
+      - "AGENTS.md"
+      - "**/AGENTS.md"
+      - "canonical/profiles/FA3-AGENT-INSTRUCTIONS-001.json"
+      - "canonical/contracts/FA3-AGENT-INSTRUCTION-CONTRACTS-001.json"
+      - "canonical/FA3-GATE-AGENT-INSTRUCTIONS-001.json"
+      - "canonical/enforcement-policy.json"
+      - "src/fa3_agent_instructions.py"
+      - "src/fa3_agent_instructions_gate.py"
+      - "src/fa3_enforce.py"
+      - "tests/test_agent_instructions_gate.py"
+      - ".github/workflows/fa3-agent-instructions-gate.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Agent instruction unit tests
+        run: PYTHONPATH=src python3 -m unittest discover -s tests -p 'test_agent_instructions_gate.py' -v
+      - name: Agent instruction fail-closed gate
+        run: PYTHONPATH=src python3 -m fa3_agent_instructions_gate --root .
+      - name: Scope resolver smoke test
+        run: PYTHONPATH=src python3 -m fa3_agent_instructions --root . --target src/fa3_agent_instructions_gate.py --format json
+      - name: Hardware Audit regression gate
+        run: PYTHONPATH=src python3 -m fa3_hardware_portability_gate --root .
+      - name: Diff whitespace check
+        run: git diff --check HEAD^ HEAD

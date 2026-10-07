@@ -1,0 +1,35 @@
+{
+  "schema": "fa3.release-projection.v1",
+  "id": "FA3-RELEASE-PROJECTION-MMG-CONTEXT-IR-2026-09-09",
+  "date": "2026-09-09",
+  "status": "MATERIALIZATION_PROJECTION",
+  "source_decision_id": "FA3-DEC-MMG-CONTEXT-IR-2026-09-08",
+  "profile_id": "FA3-VIDEO-001",
+  "contract_id": "FA3-MMG-CONTEXT-IR-CONTRACTS-001",
+  "gate_id": "FA3-MMG-CONTEXT-IR-GATESET-001",
+  "provider_pattern_source": "FA3-PROVIDER-MINIMAX-H3-001",
+  "projection_semantics": "NO_BASELINE_SEMANTIC_CHANGE_CANONICAL_CONTRACT_HARDENING",
+  "canonical_source_changes": [
+    "canonical/contracts/FA3-MMG-CONTEXT-IR-CONTRACTS-001.json",
+    "canonical/decisions/FA3-DEC-MMG-CONTEXT-IR-2026-09-08.json",
+    "canonical/mmg-context-ir-enforcement.json",
+    "canonical/profiles/FA3-VIDEO-001.json",
+    "canonical/contracts/FA3-VIDEO-CONTRACTS-001.json",
+    "canonical/providers/FA3-PROVIDER-MINIMAX-H3-001.json",
+    "canonical/video-enforcement.json",
+    "tests/test_mmg_context_ir.py"
+  ],
+  "registry_reconciliation": {
+    "model_registry_change_required": false,
+    "provider_family_registry_change_required": false,
+    "reason": "MMG_CONTEXT_IR_IS_A_PROVIDER_NEUTRAL_CONTRACT_LAYER_NOT_A_MODEL_OR_PROVIDER_FAMILY"
+  },
+  "baseline": {
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
+  },
+  "runtime_promotion_claim": false,
+  "current_host_runtime_e2e_required": false,
+  "regression_gate": "tests/test_mmg_context_ir.py"
+}

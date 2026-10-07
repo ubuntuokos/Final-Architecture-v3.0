@@ -1,0 +1,199 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-SHARED-HAIR-GROOM-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-SHARED-HAIR-GROOM-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-015",
+    "CAP-016",
+    "CAP-032",
+    "CAP-163",
+    "CAP-164",
+    "CAP-166"
+  ],
+  "contracts": [
+    "HairAssetDescriptor",
+    "HairRepresentationDescriptor",
+    "HairAttachmentBinding",
+    "HairAcquisitionRequest",
+    "HairReconstructionRequest",
+    "HairReconstructionResult",
+    "HairGroomOperation",
+    "HairGroomHistory",
+    "HairDynamicsRequest",
+    "HairDynamicsResult",
+    "HairAppearanceDescriptor",
+    "HairDccHandoff",
+    "HairRenderHandoff",
+    "HairInterchangeReceipt",
+    "HairProvenanceEnvelope",
+    "HairOperationDenial"
+  ],
+  "hair_asset": {
+    "schema": "fa3.hair-asset.v1",
+    "required_fields": [
+      "asset_id",
+      "version",
+      "representation",
+      "attachment",
+      "geometry_ref",
+      "groom_state",
+      "appearance_ref",
+      "provenance_ref",
+      "rights_ref"
+    ],
+    "representation_modes": [
+      "STRANDS",
+      "GUIDES",
+      "CURVES",
+      "CARDS",
+      "HYBRID"
+    ],
+    "attachment_classes": [
+      "SCALP",
+      "BEARD",
+      "MUSTACHE",
+      "EYEBROW",
+      "EYELASH",
+      "BODY_HAIR",
+      "CUSTOM_SURFACE"
+    ],
+    "geometry_semantics": "FA3-3D-GEOM-001",
+    "stable_identity_separate_from_revision": true,
+    "content_addressed_derivatives": true,
+    "explicit_units_and_coordinate_system": true,
+    "lod_supported": true
+  },
+  "acquisition": {
+    "allowed_inputs": [
+      "SINGLE_IMAGE",
+      "MULTIVIEW_IMAGES",
+      "VIDEO",
+      "EXISTING_GEOMETRY",
+      "STRAND_ASSET",
+      "SCALP_OR_HEAD_GEOMETRY",
+      "TEXT_OR_STYLE_REFERENCE"
+    ],
+    "source_must_be_content_addressed_or_governed_reference": true,
+    "provenance_required": true
+  },
+  "reconstruction": {
+    "request_surface": "CAPABILITY_AND_INPUT_CONSTRAINTS_ONLY",
+    "physical_provider_fields": "FORBIDDEN_CANONICAL",
+    "output": "HairReconstructionResult",
+    "output_must_reference_canonical_hair_asset": true,
+    "silent_fallback": false,
+    "provider_failure": "FAIL_CLOSED_WITH_DIAGNOSTIC"
+  },
+  "grooming": {
+    "allowed_operations": [
+      "grow",
+      "cut",
+      "trim",
+      "comb",
+      "brush",
+      "move",
+      "rotate",
+      "scale",
+      "curl",
+      "straighten",
+      "length",
+      "density",
+      "clump",
+      "frizz",
+      "part",
+      "region_add",
+      "region_remove",
+      "guide_edit",
+      "cards_from_strands"
+    ],
+    "lifecycle": [
+      "PREVIEW",
+      "APPLY",
+      "UNDO",
+      "REDO"
+    ],
+    "non_destructive_history_required": true,
+    "human_and_ai_operations_share_history": true,
+    "provenance_origin_required": true
+  },
+  "dynamics": {
+    "engine_neutral": true,
+    "parameters": [
+      "gravity",
+      "inertia",
+      "bending",
+      "damping",
+      "stiffness",
+      "collision",
+      "strand_interaction",
+      "wind",
+      "external_force"
+    ],
+    "animation_binding_external": true,
+    "physical_engine_selection_external": true
+  },
+  "appearance": {
+    "material_reference_required": true,
+    "supports": [
+      "COLOR",
+      "MELANIN_OR_PIGMENT",
+      "ROUGHNESS",
+      "SPECULAR_RESPONSE",
+      "CUSTOM_SHADER_METADATA"
+    ]
+  },
+  "interchange": {
+    "conversions": [
+      "STRANDS_TO_CURVES",
+      "CURVES_TO_STRANDS_WHEN_SUPPORTED",
+      "STRANDS_TO_CARDS",
+      "HYBRID_PROJECTION"
+    ],
+    "lossy_conversion_requires_fidelity_receipt": true,
+    "native_project_preservation_required": true,
+    "dcc_finalization_authority": "FA3-DCC-RT3D-001"
+  },
+  "execution_policy": {
+    "model_router_required": "WHEN_OPERATION_USES_ROUTED_AI",
+    "hrb_required": "WHEN_OPERATION_EXECUTES_COMPUTE_DEVICE_WORK",
+    "engine_selection_required": "WHEN_OPERATION_REQUIRES_PHYSICAL_ENGINE",
+    "direct_provider_selection": false,
+    "direct_accelerator_selection": false,
+    "silent_local_cloud_or_device_fallback": false
+  },
+  "hardware_policy": {
+    "vendor_neutral": true,
+    "cpu_only_control_path_valid": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "display_gpu_implicit_selection": false,
+    "hardware_mutation": false
+  },
+  "coexistence": {
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false,
+    "shared_upstream_config_mutation": false,
+    "shadow_upstream_executable": false,
+    "new_daemon": false,
+    "new_service": false
+  },
+  "authority_constraints": [
+    "NO_PARALLEL_GEOMETRY_AUTHORITY",
+    "NO_DCC_AUTHORITY",
+    "NO_RENDER_AUTHORITY",
+    "NO_MODEL_OR_PROVIDER_ROUTING_AUTHORITY",
+    "NO_HOST_RESOURCE_OR_DEVICE_ROUTING_AUTHORITY",
+    "NO_WORKFLOW_AUTHORITY",
+    "NO_LICENSE_RIGHTS_AUTHORITY",
+    "NO_SECURITY_OR_EVIDENCE_AUTHORITY"
+  ],
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}

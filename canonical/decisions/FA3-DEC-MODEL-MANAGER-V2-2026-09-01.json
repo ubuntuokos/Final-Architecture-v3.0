@@ -11,7 +11,6 @@
   "extends_gate_id": "FA3-MODEL-MANAGER-GATESET-001",
   "executable_gate_id": "FA3-GATE-MODEL-MANAGER-002",
   "provider_ids": [
-    "FA3-PROVIDER-STABILITY-MATRIX-MODEL-STORE-001",
     "FA3-PROVIDER-HF-MODEL-STORE-001",
     "FA3-PROVIDER-LM-STUDIO-MODEL-001",
     "FA3-PROVIDER-OLLAMA-MODEL-001"
@@ -23,7 +22,7 @@
   ],
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
-  "capability_count_after": 143,
+  "capability_count_after": 175,
   "architectural_authority_model_changed": false,
   "storage_planes": [
     "SOURCE_CACHE",
@@ -58,7 +57,7 @@
   "decisions": [
     "FA3 Model Manager remains a provider-neutral cross-cutting projection and is not a new architectural authority.",
     "FA3-MODEL-REGISTRY-001 defines the canonical provider-neutral model record; registry authority remains FA3-REGISTRY-001.",
-    "StabilityMatrix remains the primary current-host media model-store/provider projection for natively supported model classes.",
+    "FA3 canonical artifact storage is policy-bound and provider-neutral.",
     "Hugging Face is admitted as the primary upstream source/revision/content-addressed cache projection when used.",
     "LM Studio is a strong optional interactive LLM desktop/model-library/runtime projection provider; production promotion requires a local immutable runtime/package pin and E2E evidence.",
     "Ollama is a strong optional LLM packaging/native-store/serving provider; its native store is not canonical model identity authority.",
@@ -67,5 +66,6 @@
     "Model Manager declares resource requirements; Host Resource Broker alone authorizes accelerator admission/placement/lease.",
     "Unknown license, trust, lineage or runtime compatibility blocks promotion.",
     "Floating latest/main cannot constitute production admission evidence."
-  ]
+  ],
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

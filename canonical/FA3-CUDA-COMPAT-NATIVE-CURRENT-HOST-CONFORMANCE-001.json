@@ -1,0 +1,62 @@
+{
+  "schema": "fa3.cuda-compat-native-current-host-conformance.v1",
+  "id": "FA3-CUDA-COMPAT-NATIVE-CURRENT-HOST-CONFORMANCE-001",
+  "status": "PENDING_FRESH_PHYSICAL_CURRENT_HOST_REQUALIFICATION",
+  "subject_id": "FA3-PROVIDER-CFA3-NATIVE-CUDA-COMPAT-001",
+  "capability_count": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "affected_capability_ids": [
+    "CAP-005",
+    "CAP-006",
+    "CAP-056",
+    "CAP-060",
+    "CAP-069",
+    "CAP-078",
+    "CAP-083",
+    "CAP-087",
+    "CAP-137",
+    "CAP-143"
+  ],
+  "structural_alignment_performed": true,
+  "physical_requalification_required": true,
+  "physical_pass_claimed": false,
+  "historical_evidence_reused": false,
+  "runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "provider_admission_claim": false,
+  "external_scale_runtime_dependency": false,
+  "current_host_scope": "EXACT_HEAD_CFA3_NATIVE_CUDA_COMPAT_V2_STRUCTURED_IR_AMD_HIP_INTEL_SYCL_OPENCL_HRB_EXECUTION_BOUNDARY",
+  "required_physical_checks": [
+    "NO_EXTERNAL_SCALE_BINARY_OR_RUNTIME_IS_REQUIRED_OR_LOADED",
+    "AMD_ROCM_HIP_TARGET_DISCOVERY_IS_READ_ONLY_AND_EXACT_DEVICE_BOUND",
+    "INTEL_LEVEL_ZERO_SYCL_TARGET_DISCOVERY_IS_READ_ONLY_AND_EXACT_DEVICE_BOUND",
+    "INTEL_OPENCL_SECONDARY_TARGET_IS_EXPLICIT_AND_DEVICE_BOUND",
+    "STRUCTURED_CUDA_IR_FRONTEND_PRESERVES_SUPPORTED_KERNEL_SEMANTICS",
+    "UNSUPPORTED_CUDA_SOURCE_FEATURES_RUNTIME_SYMBOLS_AND_NVCC_OPTIONS_FAIL_CLOSED_WITH_EXPLICIT_FINDINGS",
+    "AMD_SUPPORTED_SUBSET_CLASSIFICATION_FULL_EQUIVALENCE_MATCHES_REFERENCE_WORKLOAD_RESULTS",
+    "INTEL_SUPPORTED_SUBSET_CLASSIFICATION_FUNCTIONALLY_REDUCED_DISCLOSES_LIMITATIONS",
+    "TRANSLATION_BUILD_AND_RUNTIME_MAP_ARTIFACTS_DO_NOT_AUTHORIZE_EXECUTION",
+    "EXPLICIT_TRANSLATION_ALLOWANCE_REQUIRED",
+    "HRB_LEASE_REQUIRED_BEFORE_GPU_EXECUTION",
+    "REFERENCE_WORKLOAD_CORRECTNESS_PASS_ON_SUPPORTED_AMD_TARGET_HOST",
+    "REFERENCE_WORKLOAD_CORRECTNESS_PASS_ON_SUPPORTED_INTEL_TARGET_HOST",
+    "NVIDIA_NATIVE_CUDA_PATH_IS_NOT_SILENTLY_REPLACED",
+    "ROLLBACK_REMOVES_NATIVE_COMPAT_BACKEND_WITHOUT_HOST_DRIVER_OR_EXTERNAL_TOOLKIT_MUTATION"
+  ],
+  "evidence_requirements": {
+    "positive": true,
+    "negative": true,
+    "rollback": true,
+    "exact_head_binding": true,
+    "supported_amd_target_required_for_amd_positive_execution": true,
+    "supported_intel_target_required_for_intel_positive_execution": true,
+    "synthetic_or_simulated_pass_allowed": false
+  },
+  "authority_preservation": {
+    "host_resource_broker": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_router": "FA3-AUTH-MODEL-ROUTER-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  }
+}

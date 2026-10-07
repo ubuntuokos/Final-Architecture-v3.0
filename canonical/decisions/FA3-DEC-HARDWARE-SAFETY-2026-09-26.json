@@ -1,0 +1,51 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-HARDWARE-SAFETY-2026-09-26",
+  "date": "2026-09-26",
+  "status": "ACCEPTED_MATERIALIZED",
+  "title": "FA3 mandatory hardware safety envelope",
+  "decision": "MANDATORY_FAIL_CLOSED_HARDWARE_SAFETY_ENVELOPE_NO_UNSAFE_HARDWARE_TUNING",
+  "profile_id": "FA3-HARDWARE-BASELINE-001",
+  "contract_id": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+  "gate_id": "FA3-HARDWARE-PORTABILITY-GATESET-001",
+  "capability_count_before": 143,
+  "capability_count_after": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "scope": [
+    "FA3 core runtime",
+    "installers and provisioning",
+    "Host Resource Broker consumers",
+    "CPU and accelerator tuning",
+    "memory and storage tuning",
+    "firmware driver kernel and boot mediated hardware controls"
+  ],
+  "invariants": [
+    "HARDWARE_SAFETY_OVERRIDES_PERFORMANCE_OPTIMIZATION",
+    "FA3_MUST_NOT_SET_HARDWARE_VALUES_OUTSIDE_VENDOR_SUPPORTED_OPERATING_ENVELOPE",
+    "FA3_MUST_NOT_DISABLE_OR_BYPASS_THERMAL_POWER_VOLTAGE_CURRENT_FAN_OR_FIRMWARE_SAFETY_PROTECTIONS",
+    "FA3_MUST_NOT_APPLY_OVERVOLT_OR_OUT_OF_POLICY_OVERCLOCK_OR_UNSAFE_POWER_LIMITS",
+    "UNKNOWN_SAFE_RANGE_MUST_FAIL_CLOSED_WITH_NO_HARDWARE_MUTATION",
+    "EXISTING_USER_HARDWARE_TUNING_MUST_NOT_AUTHORIZE_FA3_TO_INCREASE_OR_EXTEND_TUNING",
+    "HARDWARE_MUTATION_REQUIRES_ATTRIBUTABLE_DEVICE_IDENTITY_SUPPORTED_RANGE_EVIDENCE_AND_POLICY_ADMISSION",
+    "HARDWARE_STRESS_OR_BENCHMARK_ACTIONS_MUST_BE_BOUNDED_AND_MUST_NOT_INTENTIONALLY EXCEED_SUPPORTED_OPERATING_LIMITS"
+  ],
+  "classification": {
+    "supported_vendor_range": "MAY_BE_CONSIDERED_SUBJECT_TO_POLICY_AND_DEVICE_EVIDENCE",
+    "existing_user_configuration": "PRESERVE_OR_REDUCE_ONLY_UNLESS_SEPARATELY_PROVEN_SAFE_AND_EXPLICITLY_ADMITTED",
+    "unsafe_or_out_of_policy": "FORBIDDEN",
+    "unknown_safe_range": "NO_MUTATION_FAIL_CLOSED"
+  },
+  "authority": {
+    "resource_admission_placement_reservation_lease": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "new_hardware_tuning_authority": "FORBIDDEN"
+  },
+  "enforcement": {
+    "installer_override": false,
+    "expert_mode_override": false,
+    "user_override_may_bypass_safety_envelope": false,
+    "fail_closed": true
+  }
+}

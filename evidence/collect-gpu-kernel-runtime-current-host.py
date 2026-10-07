@@ -41,7 +41,7 @@ def lease_uuid(d):
     return None
 
 def main():
-    ap=argparse.ArgumentParser(description="Collect real FA3 portable GPU-kernel-runtime current-host evidence")
+    ap=argparse.ArgumentParser(description="Collect real FA3 NVIDIA/CUDA provider-family GPU-kernel-runtime current-host evidence")
     ap.add_argument("--hrb-lease",required=True)
     ap.add_argument("--benchmark-evidence",required=True)
     ap.add_argument("--rollback-evidence",required=True)
@@ -114,9 +114,13 @@ def main():
     logical=int(cpu.get("CPU(s)","0") or 0)
     numa=int(cpu.get("NUMA node(s)","0") or 0)
     out={
-      "schema":"fa3.gpu-kernel-runtime-current-host-evidence.v2",
+      "schema":"fa3.gpu-kernel-runtime-current-host-evidence.v3",
       "status":"CURRENT_HOST_PRODUCTION_E2E_PASS" if ok else "CURRENT_HOST_E2E_FAIL",
       "synthetic":False,
+      "evidence_scope":"NVIDIA_CUDA_PROVIDER_FAMILY_ONLY_NOT_GENERIC_ACCELERATOR_FABRIC",
+      "compute_backend":"cuda",
+      "backend_class":"native",
+      "framework_backend":"pytorch-cuda",
       "hardware_discovery_revalidated":bool(gpu and arch),
       "cpu_observation":{
         "model":cpu.get("Model name",""),
@@ -131,6 +135,9 @@ def main():
       "hrb_verifier_result":verifier_result,
       "benchmark_evidence_sha256":sha(bp),
       "rollback_evidence_sha256":sha(rp),
+      "accelerator_id":gpu.get("uuid"),
+      "current_topology_binding":gpu.get("pci_bdf"),
+      "accelerator_arch":arch,
       "compute_gpu_uuid":gpu.get("uuid"),
       "compute_gpu_name":gpu.get("name"),
       "compute_gpu_pci_bdf":gpu.get("pci_bdf"),
@@ -143,7 +150,8 @@ def main():
       "benchmark_pass":bench_ok,
       "rollback_pass":rollback_ok,
       "exact_host_tuple_required":False,
-      "current_host_promotion_scope":"COMPONENT_ONLY_GLOBAL_143_CAPABILITY_PROMOTION_SEPARATE"
+      "generic_accelerator_fabric_current_host_claim":False,
+      "current_host_promotion_scope":"CUDA_PROVIDER_COMPONENT_ONLY_GLOBAL_143_CAPABILITY_PROMOTION_SEPARATE"
     }
     p=Path(a.output); p.parent.mkdir(parents=True,exist_ok=True); p.write_text(json.dumps(out,indent=2)+"\n")
     print(json.dumps(out,indent=2))

@@ -1,0 +1,41 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-APIFY-ORG-2026-10-02",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "STAGED_PENDING_EXACT_HEAD_GATES",
+  "mode": "APPEND_ONLY_OWNER_EXPLICIT_REFERENCE_INTAKE",
+  "parent_commit": "bf50877f64c41cfea49c69dc274812370dfcb77b",
+  "parent_registry_blob_sha": "12cbc13cd95c98533603c0746df58c4cfc0b1cfc",
+  "parent_entry_count": 1316,
+  "source_count": 1,
+  "unique_source_key_count": 1,
+  "matched_existing_count": 0,
+  "proposed_entry_count": 1317,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "provider_count_policy": "DYNAMIC_UNCHANGED",
+  "approval_ref": "docs/donor-apify-org-2026-10-02.md",
+  "sources": [
+    {
+      "url": "https://github.com/apify",
+      "normalized_key": "github:apify",
+      "donor_id": "FA3-DONOR-APIFY-ORG-001",
+      "kind": "GITHUB_ORGANIZATION",
+      "status": "ACCEPTED_REFERENCE"
+    }
+  ],
+  "boundaries": {
+    "child_repository_auto_registration": false,
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "automatic_code_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "apify_cloud_activation": false,
+    "actor_store_admission": false,
+    "usage_edge_created": false
+  }
+}

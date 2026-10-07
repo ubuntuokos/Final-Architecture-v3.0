@@ -1,0 +1,24 @@
+{
+  "schema": "fa3.architecture-decision.v1",
+  "id": "FA3-DEC-CUDA-PORTABILITY-SHARED-FUNCTION-2026-10-04",
+  "date": "2026-10-04",
+  "status": "OWNER_DIRECTIVE_MATERIALIZED_STAGED",
+  "decision": "STRONGLY_CUDA_ORIENTED_FUNCTIONS_REQUIRE_TARGET_HARDWARE_PORTABILITY_ASSESSMENT_AND_SHARED_ONLY_PLACEMENT",
+  "owner_directive": [
+    "STRONGLY_CUDA_ORIENTED_COMPONENTS_MUST_BE_CHECKED_FOR_USABLE_ALTERNATIVES_ON_TARGET_HARDWARE",
+    "AMD_AND_INTEL_ALTERNATIVE_PATHS_MUST_BE_EVALUATED_WHEN_RELEVANT_TO_TARGET_HARDWARE",
+    "FUNCTIONAL_RESTRICTIONS_MUST_BE_EXPLICITLY_REPORTED_TO_THE_USER",
+    "STRONGLY_CUDA_ORIENTED_FUNCTION_CORES_MAY_EXIST_ONLY_AS_SHARED_FA3_CFA3_FUNCTIONS",
+    "RULE_APPLIES_TO_DEVELOPMENT_PROCESS_AND_FA3_CFA3_PRODUCT_RUNTIME_UX"
+  ],
+  "policy_id": "FA3-CUDA-PORTABILITY-SHARED-FUNCTION-POLICY-001",
+  "existing_authorities_only": true,
+  "no_cuda_ban": true,
+  "no_forced_false_parity": true,
+  "fail_closed_when_unavailable": true,
+  "capability_count_before": 175,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "current_host_runtime_promotion_claim": false
+}

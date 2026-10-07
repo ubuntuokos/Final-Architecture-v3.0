@@ -1,0 +1,80 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-BROWSER-SOURCE-INDEXES-2026-10-02",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "STAGED_PENDING_EXACT_HEAD_GATES",
+  "mode": "APPEND_ONLY_OWNER_EXPLICIT_REFERENCE_INTAKE",
+  "parent_pr": 601,
+  "source_count": 6,
+  "unique_source_key_count": 6,
+  "matched_existing_parent": [],
+  "expected_new_source_count": 6,
+  "previous_registry_count": 1310,
+  "expected_registry_count": 1316,
+  "requirements": [
+    "Preserve all six exact owner-marked URLs as distinct reference identities",
+    "Mozilla, GoogleChrome and Opera organization pages are discovery indexes only; do not recursively register child repositories",
+    "Firefox-based and Opera topic/filter URLs are discovery indexes only; explicit filtered Opera views remain distinct discovery viewpoints",
+    "Per-repository license/provenance, security, Software Coexistence, Hardware Safety, shared-capability/layer placement and usage-edge review remains mandatory before material reuse",
+    "Metadata-only ACCEPTED_REFERENCE registration; fixed capability baseline 175 and no new architectural authority",
+    "No automatic code copy, dependency adoption, installation, fetch, provider/model selection, runtime activation, cross-repository write or current-host claim"
+  ],
+  "automatic_dependency": false,
+  "automatic_fetch": false,
+  "automatic_install": false,
+  "automatic_code_import": false,
+  "automatic_provider_admission": false,
+  "automatic_activation": false,
+  "authority": false,
+  "capability_delta": 0,
+  "sources": [
+    {
+      "normalized_source_key": "github:mozilla",
+      "urls": [
+        "https://github.com/mozilla"
+      ],
+      "kind": "GITHUB_ORGANIZATION",
+      "donor_id": "FA3-DONOR-MOZILLA-ORG-001"
+    },
+    {
+      "normalized_source_key": "github:topics/firefox-based",
+      "urls": [
+        "https://github.com/topics/firefox-based"
+      ],
+      "kind": "GITHUB_TOPIC",
+      "donor_id": "FA3-DONOR-FIREFOX-BASED-TOPIC-001"
+    },
+    {
+      "normalized_source_key": "github:googlechrome",
+      "urls": [
+        "https://github.com/googlechrome"
+      ],
+      "kind": "GITHUB_ORGANIZATION",
+      "donor_id": "FA3-DONOR-GOOGLECHROME-ORG-001"
+    },
+    {
+      "normalized_source_key": "github:operasoftware",
+      "urls": [
+        "https://github.com/operasoftware"
+      ],
+      "kind": "GITHUB_ORGANIZATION",
+      "donor_id": "FA3-DONOR-OPERASOFTWARE-ORG-001"
+    },
+    {
+      "normalized_source_key": "github:topics/opera?o=asc&s=stars",
+      "urls": [
+        "https://github.com/topics/opera?o=asc&s=stars"
+      ],
+      "kind": "GITHUB_TOPIC",
+      "donor_id": "FA3-DONOR-OPERA-STARS-ASC-TOPIC-001"
+    },
+    {
+      "normalized_source_key": "github:topics/opera?l=c%2b%2b&o=asc&s=forks",
+      "urls": [
+        "https://github.com/topics/opera?l=c%2B%2B&o=asc&s=forks"
+      ],
+      "kind": "GITHUB_TOPIC",
+      "donor_id": "FA3-DONOR-OPERA-CPP-FORKS-ASC-TOPIC-001"
+    }
+  ]
+}

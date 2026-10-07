@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "FA3-DONOR-REGISTRY-V2-ACTIVITY-SCHEMA-001",
+  "title": "FA3 donor growth observation",
+  "type": "object",
+  "required": ["donor_id", "observed_at", "source_refs"],
+  "properties": {
+    "donor_id": {"type": "string", "minLength": 1},
+    "observed_at": {"type": "string", "format": "date"},
+    "source_refs": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "commits_90d": {"type": "integer", "minimum": 0},
+    "releases_12m": {"type": "integer", "minimum": 0},
+    "registry_changes_90d": {"type": "integer", "minimum": 0},
+    "bursty": {"type": "boolean"},
+    "registry_bursty": {"type": "boolean"},
+    "notes": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

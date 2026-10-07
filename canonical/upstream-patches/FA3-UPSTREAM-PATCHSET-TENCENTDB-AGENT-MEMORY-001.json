@@ -1,0 +1,33 @@
+{
+  "schema": "fa3.upstream-patch-set.v1",
+  "id": "FA3-UPSTREAM-PATCHSET-TENCENTDB-AGENT-MEMORY-001",
+  "provider_id": "FA3-PROVIDER-TENCENTDB-AGENT-MEMORY-001",
+  "disposition": "REFERENCE_ONLY",
+  "upstream_repository": "TencentCloud/TencentDB-Agent-Memory",
+  "upstream_commit": "3efcd317b84146d6a08518ac0f7ee7c8a8d200ec",
+  "runtime_admission": false,
+  "reason": "SECURITY_AND_LICENSE_BLOCKERS_PREVENT_PATCHED_VENDOR_ADMISSION",
+  "security_disposition": "BLOCKED_PENDING_PATCHED_VENDOR_REVIEW",
+  "security_findings": [
+    "RATE_LIMIT_ADMIN_HANDLERS_LACK_ADMIN_AUTH_CHECK",
+    "EMPTY_ADMIN_API_KEY_RETURNS_OK",
+    "GIT_FETCH_SSRF_FILTER_HOSTNAME_REGEX_ONLY_NO_DNS_RESOLUTION",
+    "KNOWLEDGE_SSRF_CHECK_CAN_BE_DISABLED"
+  ],
+  "required_patch_objectives": [
+    "ADMIN_ENDPOINTS_REQUIRE_NONEMPTY_ADMIN_CREDENTIAL",
+    "EMPTY_ADMIN_KEY_FAILS_CLOSED",
+    "RATE_LIMIT_FAILURE_POLICY_EXPLICIT_AND_BOUNDED",
+    "GIT_SOURCE_SSRF_REQUIRES_DNS_RESOLUTION_AND_PRIVATE_RESERVED_ADDRESS_DENY",
+    "SSRF_PROTECTION_CANNOT_BE_DISABLED_IN_FA3_ADMITTED_RUNTIME"
+  ],
+  "license_disposition": {
+    "commercial_compatible": false,
+    "redistribution_compatible": false,
+    "conflicts": [
+      "ROOT_MIT_VS_README_DOCKER_PROPRIETARY"
+    ],
+    "issue_ref": "#1073"
+  },
+  "promotion_claim": false
+}

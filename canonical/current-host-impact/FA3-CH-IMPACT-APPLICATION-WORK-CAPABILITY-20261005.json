@@ -1,0 +1,32 @@
+{
+  "schema": "fa3.current-host-structural-impact.v1",
+  "id": "FA3-CH-IMPACT-APPLICATION-WORK-CAPABILITY-20261005",
+  "date": "2026-10-05",
+  "status": "NO_RUNTIME_IMPACT",
+  "capability_count": 175,
+  "structural_changes": [
+    ".github/workflows/fa3-application-work-capability.yml",
+    "canonical/FA3-APPLICATION-WORK-CAPABILITY-CONSUMER-RECONCILIATION-001.json",
+    "canonical/FA3-APPLICATION-WORK-CAPABILITY-OWNER-MAP-001.json",
+    "canonical/assessments/CFA3-APPLICATION-WORK-CAPABILITY-REUSE-ASSESSMENT-2026-10-05.json",
+    "canonical/contracts/FA3-AGENT-APPLICATION-BLUEPRINT-EXTENSION-CONTRACTS-001.json",
+    "canonical/contracts/FA3-APPLICATION-OPERATION-HANDOFF-CONTRACTS-001.json",
+    "canonical/contracts/FA3-APPLICATION-RUNTIME-LIFECYCLE-CONTRACTS-001.json",
+    "canonical/contracts/FA3-CAPABILITY-GRANT-SCOPE-CONTRACTS-001.json",
+    "canonical/contracts/FA3-TASK-CAPSULE-CONTRACTS-001.json",
+    "canonical/contracts/FA3-WORK-CONTEXT-CONTRACTS-001.json",
+    "canonical/contracts/FA3-WORK-MANAGEMENT-SEMANTIC-CONTRACTS-001.json",
+    "canonical/intents/CFA3-APPLICATION-WORK-CAPABILITY-APPLICATION-INTENT-2026-10-05.json",
+    "src/fa3_application_runtime_lifecycle.py",
+    "src/fa3_application_work_capability_gate.py",
+    "src/fa3_capability_grant_scope.py"
+  ],
+  "current_host_changes": [],
+  "physical_requalification_required": false,
+  "physical_requalification_dispatched": false,
+  "historical_evidence_reused": false,
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "rationale": "The materialization adds backward-compatible CFA3 application/work/capability contracts, semantic helpers, static gates and Control Center projections. It does not change host-resource control, hardware handling, provider admission, executable host runtime selection or any physical Current Host execution path, and it makes no Current Host runtime PASS or promotion claim. Therefore fresh physical requalification is not required for this changeset.",
+  "current_host_status": "NO_RUNTIME_IMPACT"
+}

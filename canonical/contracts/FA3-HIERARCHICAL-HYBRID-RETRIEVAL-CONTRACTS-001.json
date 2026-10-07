@@ -1,0 +1,153 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-HIERARCHICAL-HYBRID-RETRIEVAL-CONTRACTS-001",
+  "parent_profile": "FA3-KNOWLEDGE-001",
+  "subprofile": "FA3-HIERARCHICAL-HYBRID-RETRIEVAL-001",
+  "provider_neutral": true,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "capability_count": 143,
+  "contracts": {
+    "StructuralIndex": {
+      "required": [
+        "source_id",
+        "root_nodes",
+        "source_sha256",
+        "created_at"
+      ],
+      "derived": true
+    },
+    "HierarchicalNode": {
+      "required": [
+        "node_id",
+        "title",
+        "parent_id",
+        "depth",
+        "source_regions"
+      ],
+      "optional": [
+        "summary",
+        "children",
+        "metadata"
+      ]
+    },
+    "MediaSegment": {
+      "required": [
+        "segment_id",
+        "media_type",
+        "artifact_ref"
+      ],
+      "optional": [
+        "start_ms",
+        "end_ms",
+        "source_regions",
+        "derived_text"
+      ]
+    },
+    "TemporalSpan": {
+      "required": [
+        "start_ms",
+        "end_ms"
+      ],
+      "constraint": "end_ms>=start_ms"
+    },
+    "CrossModalRelation": {
+      "required": [
+        "relation_id",
+        "from_ref",
+        "to_ref",
+        "relation_type",
+        "evidence_refs"
+      ]
+    },
+    "SourceRegion": {
+      "required": [
+        "artifact_ref",
+        "locator"
+      ],
+      "locator_examples": [
+        "page:12",
+        "bbox:x,y,w,h",
+        "time:1200-4100",
+        "sheet:Sheet1!A1:D20"
+      ]
+    },
+    "EvidenceLink": {
+      "required": [
+        "source_ref",
+        "source_sha256",
+        "locator",
+        "derivation"
+      ]
+    },
+    "RetrievalPlan": {
+      "required": [
+        "plan_id",
+        "query",
+        "stages",
+        "strategy_order",
+        "source_scope",
+        "authority_snapshot"
+      ],
+      "forbids": [
+        "provider_secret",
+        "inline_credential"
+      ]
+    },
+    "RetrievalCandidate": {
+      "required": [
+        "candidate_id",
+        "source_id",
+        "locator",
+        "score",
+        "strategy",
+        "evidence_refs"
+      ]
+    },
+    "RetrievalTrace": {
+      "required": [
+        "trace_id",
+        "plan_id",
+        "stages",
+        "candidates",
+        "provider_receipts",
+        "evidence_refs"
+      ],
+      "append_only": true
+    },
+    "FusionReceipt": {
+      "required": [
+        "fusion_id",
+        "input_candidate_ids",
+        "output_candidate_ids",
+        "deduplication",
+        "ranking_policy"
+      ]
+    },
+    "ContextPassport": {
+      "required": [
+        "passport_id",
+        "trace_id",
+        "source_refs",
+        "evidence_refs",
+        "content_sha256"
+      ],
+      "derived": true,
+      "rebuildable": true
+    }
+  },
+  "strategy_rules": {
+    "hierarchical": "MUST_BE_AVAILABLE",
+    "lexical": "MUST_BE_AVAILABLE_OR_EXPLICITLY_UNAVAILABLE",
+    "vector": "OPTIONAL",
+    "tree_reasoning": "MUST_BE_PROVIDER_ROUTED",
+    "rerank": "PROVIDER_NEUTRAL",
+    "fusion": "MUST_PRESERVE_EVIDENCE_LINKS"
+  },
+  "media_rules": {
+    "image": "DERIVE_SourceRegion_AND_CrossModalRelation",
+    "video": "DERIVE_MediaSegment_AND_TemporalSpan",
+    "audio": "DERIVE_TRANSCRIPT_OR_MediaSegment_AND_TemporalSpan",
+    "binary_storage": "OUTSIDE_KNOWLEDGE_INDEX"
+  }
+}

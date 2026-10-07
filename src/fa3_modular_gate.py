@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import argparse
 import json
@@ -14,7 +15,7 @@ REFERENCE_ID = "FA3-MODULAR-UPSTREAM-REFERENCE-2026-08-30"
 GATE_ID = "FA3-MODULAR-GATESET-001"
 RUNTIME_ID = "FA3-MODULAR-RUNTIME-CONFORMANCE-001"
 MODEL_ALLOWLIST_ID = "FA3-MODULAR-MODEL-ALLOWLIST-001"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 UPSTREAM_COMMIT = "f08ac164e2743513f60e46621de6dc4a5a5a30e7"
 
 RULES = (

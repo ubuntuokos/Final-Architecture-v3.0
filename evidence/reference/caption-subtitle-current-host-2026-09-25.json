@@ -1,0 +1,68 @@
+{
+  "schema": "fa3.reference-evidence.v1",
+  "id": "FA3-CAPTION-SUBTITLE-CURRENT-HOST-2026-09-25",
+  "date": "2026-09-25",
+  "subject_id": "FA3-CAPTION-SUBTITLE-001",
+  "component": "CAPTION_SUBTITLE_APPLICATION_AND_NATIVE_UAF_PROVIDER",
+  "status": "PASS",
+  "evidence_class": "CURRENT_HOST_COMPONENT_RUNTIME",
+  "evidence_level": "CURRENT_HOST_APPLICATION_E2E_PASS",
+  "validated_implementation_commit": "aac58ecfa5cb4dd2b8450794e270a19d885b1bb7",
+  "github_actions": {
+    "workflow": "FA3 Caption Subtitle Current-Host",
+    "run_id": 36169445510,
+    "job_id": 108185121642,
+    "event": "push",
+    "conclusion": "success",
+    "artifact_id": 10879342518,
+    "artifact_name": "fa3-caption-subtitle-current-host"
+  },
+  "proven": [
+    "self-hosted fa3-current-host runner identity bound",
+    "repository identity bound to ubuntuokos/Final-Architecture-v3.0",
+    "tested Git source commit exactly matched expected workflow source commit",
+    "generic CPU discovery available with no accelerator requirement",
+    "standalone Caption and Narration launchers executable",
+    "focused local loopback Subtitle Studio served",
+    "subtitle parse endpoint executed",
+    "caption QC endpoint executed",
+    "narration planning delegated to FA3-VOICE-001 without application provider selection",
+    "FA3 Native Caption provider executed through Unified Action Fabric",
+    "UAF execution evidence emitted"
+  ],
+  "not_proven": [
+    "physical Qt Control Center GUI current-host requalification after Caption/Narration QML changes",
+    "FA3 Voice provider audio synthesis current-host execution",
+    "voice cloning production admission",
+    "hardsub OCR provider execution or admission",
+    "global FA3 runtime promotion"
+  ],
+  "authority_effect": {
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143,
+    "global_promotion_claim": false,
+    "provider_selection_authority": false
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_required": false,
+    "accelerator_cardinality": "0..N",
+    "vendor_pin": false
+  },
+  "receipt": {
+    "schema": "fa3.caption-subtitle-current-host-evidence.v1",
+    "result": "PASS",
+    "tested_source_commit": "aac58ecfa5cb4dd2b8450794e270a19d885b1bb7",
+    "runner_class": "fa3-current-host",
+    "repository": "ubuntuokos/Final-Architecture-v3.0",
+    "caption_runtime_executed": true,
+    "uaf_native_provider_executed": true,
+    "voice_provider_audio_executed": false,
+    "hardsub_ocr_provider_executed": false,
+    "global_promotion_claim": false,
+    "case_count": 11,
+    "failed_cases": 0
+  }
+}

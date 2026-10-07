@@ -1,0 +1,199 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-CHARACTER-ANIMATION-2D3D-2026-10-02",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "STAGED_PENDING_EXACT_HEAD_GATES",
+  "mode": "OWNER_EXPLICIT_REFERENCE_INTAKE_WITH_IN_PLACE_RECONCILIATION",
+  "parent_commit": "3db848db0018f13f422635cbdac4314f49ebda34",
+  "parent_registry_blob_sha": "c29638de9ac73f133a817cc239eba0d3837daac6",
+  "parent_entry_count": 1317,
+  "source_count": 20,
+  "unique_source_key_count": 20,
+  "matched_existing_count": 4,
+  "new_record_count": 16,
+  "enriched_existing_count": 3,
+  "normalized_existing_count": 1,
+  "proposed_entry_count": 1333,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "provider_count_policy": "DYNAMIC_UNCHANGED",
+  "approval_ref": "docs/donor-character-animation-2d3d-2026-10-02.md",
+  "sources": [
+    {
+      "url": "https://github.com/tahoma2d/tahoma2d",
+      "normalized_key": "github:tahoma2d/tahoma2d",
+      "donor_id": "FA3-DONOR-TAHOMA2D-001",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "action": "CREATE"
+    },
+    {
+      "url": "https://github.com/Inochi2D/inochi2d",
+      "normalized_key": "github:inochi2d/inochi2d",
+      "donor_id": "FA3-DONOR-INOCHI2D-RUNTIME-001",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "action": "CREATE"
+    },
+    {
+      "url": "https://github.com/Inochi2D/inochi-creator",
+      "normalized_key": "github:inochi2d/inochi-creator",
+      "donor_id": "FA3-DONOR-INOCHI-CREATOR-001",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "action": "CREATE"
+    },
+    {
+      "url": "https://github.com/MangoLion/stretchystudio",
+      "normalized_key": "github:mangolion/stretchystudio",
+      "donor_id": "FA3-DONOR-STRETCHY-STUDIO-001",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "action": "ENRICH_PROMOTE"
+    },
+    {
+      "url": "https://github.com/shitagaki-lab/see-through",
+      "normalized_key": "github:shitagaki-lab/see-through",
+      "donor_id": "FA3-DONOR-SEE-THROUGH-001",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "action": "CREATE"
+    },
+    {
+      "url": "https://github.com/rive-app/rive-runtime",
+      "normalized_key": "github:rive-app/rive-runtime",
+      "donor_id": "FA3-DONOR-RIVE-RUNTIME-001",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "action": "CREATE"
+    },
+    {
+      "url": "https://github.com/guillaumeblanc/ozz-animation",
+      "normalized_key": "github:guillaumeblanc/ozz-animation",
+      "donor_id": "FA3-DONOR-OZZ-ANIMATION-001",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "action": "ENRICH_PROMOTE"
+    },
+    {
+      "url": "https://github.com/nfrechette/acl",
+      "normalized_key": "github:nfrechette/acl",
+      "donor_id": "FA3-DONOR-ANIMATION-COMPRESSION-LIBRARY-ACL-001",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "action": "ENRICH_PROMOTE"
+    },
+    {
+      "url": "https://github.com/o3de/o3de",
+      "normalized_key": "github:o3de/o3de",
+      "donor_id": "FA3-DONOR-O3DE-EMOTIONFX-001",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "action": "CREATE"
+    },
+    {
+      "url": "https://github.com/vrm-c/vrm-specification",
+      "normalized_key": "github:vrm-c/vrm-specification",
+      "donor_id": "FA3-DONOR-VRM-SPECIFICATION-001",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "action": "CREATE"
+    },
+    {
+      "url": "https://github.com/vrm-c/UniVRM",
+      "normalized_key": "github:vrm-c/univrm",
+      "donor_id": "FA3-DONOR-UNIVRM-001",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "action": "CREATE"
+    },
+    {
+      "url": "https://github.com/emilianavt/OpenSeeFace",
+      "normalized_key": "github:emilianavt/openseeface",
+      "donor_id": "FA3-DONOR-OPENSEEFACE-001",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "action": "NORMALIZE_IN_PLACE"
+    },
+    {
+      "url": "https://github.com/google-ai-edge/mediapipe",
+      "normalized_key": "github:google-ai-edge/mediapipe",
+      "donor_id": "FA3-DONOR-MEDIAPIPE-001",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "action": "CREATE"
+    },
+    {
+      "url": "https://github.com/open-mmlab/mmpose",
+      "normalized_key": "github:open-mmlab/mmpose",
+      "donor_id": "FA3-DONOR-MMPOSE-001",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "action": "CREATE"
+    },
+    {
+      "url": "https://github.com/perfanalytics/pose2sim",
+      "normalized_key": "github:perfanalytics/pose2sim",
+      "donor_id": "FA3-DONOR-POSE2SIM-001",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "action": "CREATE"
+    },
+    {
+      "url": "https://github.com/phongdaot/MocapAnything",
+      "normalized_key": "github:phongdaot/mocapanything",
+      "donor_id": "FA3-DONOR-MOCAPANYTHING-001",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "action": "CREATE"
+    },
+    {
+      "url": "https://github.com/zzysteve/SATA",
+      "normalized_key": "github:zzysteve/sata",
+      "donor_id": "FA3-DONOR-SATA-001",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "action": "CREATE"
+    },
+    {
+      "url": "https://github.com/facebookresearch/AnimatedDrawings",
+      "normalized_key": "github:facebookresearch/animateddrawings",
+      "donor_id": "FA3-DONOR-ANIMATED-DRAWINGS-001",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "action": "CREATE"
+    },
+    {
+      "url": "https://github.com/ubisoft/ubisoft-laforge-ZeroEGGS",
+      "normalized_key": "github:ubisoft/ubisoft-laforge-zeroeggs",
+      "donor_id": "FA3-DONOR-UBISOFT-ZEROEGGS-001",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "action": "CREATE"
+    },
+    {
+      "url": "https://github.com/zju3dv/EasyMocap",
+      "normalized_key": "github:zju3dv/easymocap",
+      "donor_id": "FA3-DONOR-EASYMOCAP-001",
+      "kind": "GITHUB",
+      "status": "ACCEPTED_REFERENCE",
+      "action": "CREATE"
+    }
+  ],
+  "boundaries": {
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "automatic_code_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "application_created": false,
+    "runtime_admission": false,
+    "model_admission": false,
+    "dataset_admission": false,
+    "usage_edge_created": false,
+    "current_host_pass_claimed": false
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-OS-POLICY-001",
+  "name": "FA3 OS Activity Privacy & Capture Policy",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "profile_type": "PRIVACY_AND_CAPTURE_POLICY_SUBPROFILE",
+  "relationship": "SUBPROFILE-OF",
+  "parent_profile": "FA3-OS-001",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "fail_closed": true,
+  "policy_gate_position": "BEFORE_DURABLE_PERSISTENCE",
+  "default_capture": {
+    "keylogging": "DENY",
+    "generic_clipboard": "DENY",
+    "continuous_screenshots": "DENY",
+    "generic_screen_capture": "DENY",
+    "terminal": "METADATA_ONLY",
+    "password_managers": "DENY",
+    "credential_and_secret_paths": "DENY",
+    "browser_content": "SELECTIVE_OPT_IN",
+    "file_content": "REFERENCE_OR_HASH_ONLY_UNLESS_EXPLICIT_OPT_IN"
+  },
+  "required_controls": [
+    "GLOBAL_PAUSE",
+    "APPLICATION_ALLOW_DENY",
+    "PATH_ALLOW_DENY",
+    "PROJECT_ALLOW_DENY",
+    "RETENTION_POLICY",
+    "EXPORT",
+    "SELECTIVE_ERASURE",
+    "SENSITIVITY_CLASSIFICATION",
+    "CAPTURE_EXPLANATION"
+  ],
+  "sensitive_data_rules": {
+    "redaction_before_persistence": true,
+    "credentials_must_not_be_persisted": true,
+    "secrets_must_not_be_persisted": true,
+    "raw_content_default": "DENY",
+    "terminal_content_default": "DENY"
+  },
+  "context_retrieval": {
+    "policy_filter_required": true,
+    "audit_required": true,
+    "minimum_audit_fields": ["request_id", "actor", "purpose", "policy_id", "source_event_refs", "timestamp"]
+  },
+  "selective_erasure": {
+    "supported_scopes": ["time_range", "project", "application", "source", "sensitivity_class", "artifact"],
+    "canonical_history_semantics": "APPEND_ONLY_COMPATIBLE",
+    "historical_event_rewrite": false,
+    "permitted_actions": [
+      "erase_referenced_sensitive_payload",
+      "erase_derived_embeddings",
+      "erase_derived_summaries",
+      "erase_semantic_indexes",
+      "append_non_sensitive_tombstone_or_superseding_event"
+    ],
+    "forbidden_actions": [
+      "silent_mutation_of_committed_journal_event",
+      "retention_of_deleted_sensitive_content_in_derived_index",
+      "reconstruction_of_erased_content_from_non_authorized_cache"
+    ],
+    "postcondition": "Erased sensitive content MUST be unrecoverable through FA3 OS retrieval surfaces while minimal non-sensitive audit continuity MAY remain in FA3-JOURNAL-001."
+  },
+  "invariants": [
+    "KEYLOGGING_DENIED",
+    "CLIPBOARD_AND_SCREEN_CAPTURE_DENIED_BY_DEFAULT",
+    "TERMINAL_METADATA_ONLY_BY_DEFAULT",
+    "PASSWORD_MANAGER_AND_SECRET_PATH_CAPTURE_DENIED",
+    "REDACTION_BEFORE_PERSISTENCE",
+    "SELECTIVE_ERASURE_APPEND_ONLY_COMPATIBLE",
+    "CONTEXT_RETRIEVAL_POLICY_FILTERED_AND_AUDITED",
+    "NO_NEW_CAPABILITY_OR_AUTHORITY"
+  ]
+}

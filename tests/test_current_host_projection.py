@@ -1,4 +1,5 @@
 from pathlib import Path
+from fa3_release_baseline import load_active_release_baseline
 import json
 import unittest
 
@@ -23,9 +24,51 @@ class CurrentHostProjectionTests(unittest.TestCase):
         self.assertFalse(manifest["automatic_promotion"])
         self.assertTrue(manifest["promotion"]["explicit_only"])
         self.assertFalse(manifest["promotion"]["global_promotion_claim_from_collection"])
-        self.assertEqual(manifest["capability_count"], 143)
+        self.assertEqual(manifest["capability_count"], load_active_release_baseline(ROOT).capability_count)
         self.assertEqual(manifest["new_capabilities"], 0)
         self.assertEqual(manifest["new_architectural_authorities"], 0)
+
+    def test_resource_admission_surface_is_registered_without_new_authority(self):
+        manifest = json.loads((ROOT / "fa3-current-host/manifest.json").read_text(encoding="utf-8"))
+        surfaces = {item.get("name"): item for item in manifest["registered_current_host_surfaces"]}
+        resource = surfaces.get("resource-admission")
+        self.assertIsNotNone(resource)
+        self.assertEqual(resource["collector"], "evidence/collect-resource-admission-current-host.py")
+        self.assertEqual(resource["gate"], "resource-admission-current-host")
+        self.assertEqual(
+            resource["activation"],
+            "WORKLOAD_SPECIFIC_CURRENT_SCOPE_BOUND_HRB_AUTHORIZATION_AND_CONDITIONAL_ACCELERATOR_LEASE",
+        )
+        self.assertTrue(resource["hardware_audit"]["vendor_neutral"])
+        self.assertTrue(resource["hardware_audit"]["cpu_only_viable"])
+        self.assertEqual(resource["hardware_audit"]["accelerator_cardinality"], "0..N")
+        self.assertEqual(resource["cpu_only_authorization_schema"], "fa3.hrb-admission-authorization.v1")
+        self.assertTrue(resource["accelerator_lease_conditional"])
+        self.assertEqual(resource["machine_model_pin"], "FORBIDDEN")
+        self.assertFalse(resource["global_promotion_claim"])
+
+
+    def test_active_175_525_closure_contract_is_bound(self):
+        manifest = json.loads((ROOT / "fa3-current-host/manifest.json").read_text(encoding="utf-8"))
+        closure = manifest["active_closure"]
+        self.assertEqual(175, closure["capability_count"])
+        self.assertEqual(525, closure["obligation_count"])
+        self.assertEqual("POSITIVE_NEGATIVE_ROLLBACK_PER_CAPABILITY", closure["obligation_model"])
+        self.assertTrue(closure["hardware_safety_preflight_mandatory"])
+        self.assertTrue(closure["software_coexistence_cap175_mandatory"])
+        self.assertFalse(closure["historical_143_429_evidence_auto_inheritance"])
+        self.assertTrue(closure["physical_requalification_required_for_active_release"])
+        self.assertFalse(closure["global_promotion_claim"])
+        required = set(manifest["required_repository_paths"])
+        for path in (
+            "canonical/FA3-CURRENT-HOST-STRUCTURAL-CHANGE-POLICY-001.json",
+            "canonical/current-host-capability-proof-recipes.json",
+            "src/fa3_full_current_host_preflight.py",
+            "src/fa3_current_host_batch_planner.py",
+            "src/fa3_current_host_batch_integrity.py",
+            "src/fa3_current_host_structural_impact_gate.py",
+        ):
+            self.assertIn(path, required)
 
 
 if __name__ == "__main__":

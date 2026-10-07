@@ -17,7 +17,7 @@
   "architectural_authority": false,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "activation_mode": "DISABLED_UNTIL_EXPLICIT_ADMISSION",
   "runtime_activation_requires_current_host_conformance": true,
   "current_host_runtime_evidence": false,
@@ -31,5 +31,6 @@
   "operation": "RGB_TO_BACK_TO_FRONT_EDITABLE_RGBA_LAYER_STACK",
   "deterministic_seed_and_provenance_required": true,
   "current_host_route": "REMOTE_DISTRIBUTED_FIRST",
-  "reason": "Upstream reference base model is ~40GB bf16 and recommends 80GB-class GPU; current 12GB-class compute GPU is not local default."
+  "reason": "Upstream reference base model is ~40GB bf16 and recommends 80GB-class GPU; current 12GB-class compute GPU is not local default.",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }

@@ -1,0 +1,58 @@
+name: FA3 Workload Mode Current Host
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'apps/workload-mode/**'
+      - 'deployment/workload-mode/**'
+      - 'evidence/collect-workload-mode-current-host.py'
+      - 'src/fa3_workload_mode_current_host_gate.py'
+      - 'tests/test_workload_mode_current_host_gate.py'
+      - '.github/workflows/fa3-workload-mode-current-host.yml'
+permissions: {contents: read}
+concurrency:
+  group: fa3-workload-mode-current-host-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  materialization-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false, fetch-depth: 0}
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with: {python-version: '3.12'}
+      - name: Validate scoped current-host gate logic
+        run: |
+          python -m py_compile evidence/collect-workload-mode-current-host.py src/fa3_workload_mode_current_host_gate.py
+          PYTHONPATH=src python -m unittest -v tests.test_workload_mode_current_host_gate
+  current-host:
+    needs: materialization-regression
+    if: ${{ always() && github.event_name == 'workflow_dispatch' }}
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 30
+    env:
+      FA3_EXPECTED_SOURCE_SHA: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Assert exact non-root source and hardware safety preflight
+        run: |
+          set -euo pipefail
+          test "$(id -u)" -ne 0
+          test "$(git rev-parse HEAD)" = "$FA3_EXPECTED_SOURCE_SHA"
+          ./bin/fa3-enforce hardware-portability
+      - name: Install same-source mandatory Workload Mode
+        run: deployment/workload-mode/install.sh --fa3-required
+      - name: Collect scoped physical runtime receipt
+        run: python3 evidence/collect-workload-mode-current-host.py --root . --output reports/workload-mode-current-host/receipt.json
+      - name: Validate scoped receipt fail-closed
+        run: python3 src/fa3_workload_mode_current_host_gate.py --receipt reports/workload-mode-current-host/receipt.json --expected-source-sha "$FA3_EXPECTED_SOURCE_SHA" --json
+      - name: Upload scoped current-host evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with: {name: fa3-workload-mode-current-host-evidence, path: reports/workload-mode-current-host/, if-no-files-found: error}

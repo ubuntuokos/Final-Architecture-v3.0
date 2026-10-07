@@ -1,0 +1,61 @@
+{
+  "schema": "fa3.architecture-decision.v1",
+  "id": "FA3-DEC-NEURAL-RENDERING-FULL-INTEGRATION-2026-10-06",
+  "status": "OWNER_APPROVED_MATERIALIZATION",
+  "date": "2026-10-06",
+  "title": "Materialize one CFA3-wide Neural Rendering & Reconstruction Fabric",
+  "owner_approval_basis": "User approved the final donor-aware plan and explicitly requested implementation through full closure.",
+  "decision": "Expand the existing provider-neutral FA3 Neural Rendering & Temporal Reconstruction Fabric into the shared CFA3 Neural Rendering & Reconstruction Fabric for all current and future capability-compatible applications. Reuse existing Engine Selection, Shared Ray/Path Tracing, Render Dispatch, External Render Service, HRB, Model Router, Web-AI, geometry, evidence and plugin/extension boundaries. Add a common frame-surface contract, explicit feature classes and an explicit CPU software execution class. Preserve replaceable providers; OpenDLSS-NR remains conditional, while NVIDIA DLSS, AMD FSR and Intel XeSS remain provider slots only until separately admitted. Frame generation is presentation-only and is forbidden from canonical final/master timelines.",
+  "invariants": {
+    "capability_baseline": 175,
+    "capability_delta": 0,
+    "architectural_authority_delta": 0,
+    "donor_registry_modified": false,
+    "donor_usage_edges_created": 0,
+    "pending_or_unmerged_donors_consumed": false,
+    "code_imported": false,
+    "runtime_dependencies_added": false,
+    "runtime_activation_by_this_change": false,
+    "provider_model_or_driver_admission": false,
+    "physical_current_host_pass_claimed": false
+  },
+  "provider_policy": {
+    "canonical_authority": "FA3-NEURAL-RENDERING-001",
+    "architectural_authority": false,
+    "provider_neutral": true,
+    "planned_provider_slots": [
+      "CFA3_NATIVE_CPU",
+      "OPENDLSS_NR",
+      "NVIDIA_DLSS",
+      "AMD_FSR",
+      "INTEL_XESS",
+      "BROWSER_WEBGPU"
+    ],
+    "provider_slot_is_admission": false,
+    "exact_requested_provider_substitution_forbidden": true,
+    "silent_fallback": false
+  },
+  "interoperability": {
+    "engine_selection": "FA3-ENGINE-SELECTION-FABRIC-001",
+    "ray_path_tracing": "FA3-SHARED-RAY-PATH-TRACING-001",
+    "render_dispatch": "CAP-161",
+    "external_render_service": "CAP-162",
+    "neural_rendering": "CAP-163",
+    "host_resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_route_authority": "FA3-AUTH-MODEL-ROUTER-001",
+    "geometry_authority": "FA3-3D-GEOM-001",
+    "evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "output_policy": {
+    "frame_generation_preview_only": true,
+    "canonical_final_timeline_must_remain_frame_accurate": true,
+    "frame_generation_forbidden_output_classes": [
+      "FINAL_MASTER",
+      "ARCHIVAL_MASTER",
+      "EXR_SEQUENCE",
+      "VFX_HANDOFF"
+    ]
+  },
+  "runtime_effect": "STATIC_SHARED_FABRIC_CONTRACT_RESOLVER_AND_APPLICATION_BINDING_ONLY_NO_PROVIDER_OR_HARDWARE_EXECUTION",
+  "current_host_effect": "NO_RUNTIME_IMPACT"
+}

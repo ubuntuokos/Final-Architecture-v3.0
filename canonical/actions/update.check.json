@@ -1,0 +1,122 @@
+{
+  "schema": "fa3.uaf.action-contract.v1",
+  "id": "update.check",
+  "version": "1.0.0",
+  "description": "Discover available updates and compatibility state without activating updates.",
+  "input_schema": {
+    "type": "object",
+    "required": [
+      "operation_id"
+    ],
+    "properties": {
+      "operation_id": {
+        "type": "string",
+        "minLength": 1
+      },
+      "component_ids": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "restart_choice": {
+        "type": "string",
+        "enum": [
+          "RESTART_NOW",
+          "WHEN_IDLE_SAFE",
+          "SCHEDULE",
+          "LATER"
+        ]
+      },
+      "schedule": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "reason": {
+        "type": "string"
+      },
+      "context_refs": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "evidence_refs"
+    ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "draft_ref": {
+        "type": "string"
+      },
+      "plan_ref": {
+        "type": "string"
+      },
+      "evidence_refs": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "semantics": {
+    "mutating": false,
+    "idempotent": true,
+    "retry_safe": true,
+    "long_running": false
+  },
+  "exposure": {
+    "gui": true,
+    "agent": true,
+    "cli": true,
+    "mcp": true,
+    "a2a": true,
+    "automation": true,
+    "http": false
+  },
+  "security": {
+    "authentication": "required",
+    "authorization": "required",
+    "approval": "policy",
+    "audit": "required"
+  },
+  "resources": {
+    "hrb_required": false,
+    "cpu": {
+      "physical_cores": {
+        "minimum": 0
+      },
+      "logical_processors": null
+    },
+    "accelerator": {
+      "required": false,
+      "cardinality": "0..N"
+    },
+    "memory": {
+      "admission": "provider-declared"
+    }
+  },
+  "provider": {
+    "selection": "policy-bounded-capability-match",
+    "preferred_role": "FA3-UPDATE-FABRIC-001"
+  },
+  "evidence": {
+    "required": true,
+    "decision_receipt_required": false
+  }
+}

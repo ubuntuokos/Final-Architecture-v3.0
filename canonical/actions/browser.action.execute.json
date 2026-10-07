@@ -1,0 +1,74 @@
+{
+  "schema": "fa3.uaf.action-contract.v1",
+  "id": "browser.action.execute",
+  "version": "1.0.0",
+  "description": "Execute one pre-observed, bounded, revalidated browser action through an admitted browser execution provider.",
+  "input_schema": {
+    "type": "object",
+    "required": [
+      "binding_ref"
+    ],
+    "properties": {
+      "binding_ref": {
+        "type": "string",
+        "minLength": 1
+      },
+      "expected_postconditions": {
+        "type": "array",
+        "items": {
+          "type": "object"
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "execution_receipt_ref"
+    ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "execution_receipt_ref": {
+        "type": "string",
+        "minLength": 1
+      },
+      "verification_ref": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false
+  },
+  "semantics": {
+    "mutating": true,
+    "idempotent": false,
+    "blind_retry": "DENY",
+    "stale_observation_execution": "DENY"
+  },
+  "exposure": {
+    "cli": false,
+    "mcp": true
+  },
+  "security": {
+    "authentication": "required",
+    "authorization": "required",
+    "approval": "conditional",
+    "page_content_trust": "UNTRUSTED_EXTERNAL_CONTENT"
+  },
+  "resources": {
+    "hrb_required": true,
+    "accelerator_required": false
+  },
+  "provider": {
+    "selection": "capability-match",
+    "architectural_authority": false,
+    "browser_runtime_is_execution_domain_not_authority": true
+  },
+  "evidence": {
+    "required": true,
+    "independent_outcome_verification": true
+  }
+}

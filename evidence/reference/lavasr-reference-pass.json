@@ -1,0 +1,46 @@
+{
+  "schema": "fa3.reference-evidence.v1",
+  "id": "FA3-EVIDENCE-LAVASR-REFERENCE-PASS-2026-09-09",
+  "date": "2026-09-09",
+  "gate_set_id": "FA3-LAVASR-GATESET-001",
+  "provider_id": "FA3-PROVIDER-LAVASR-001",
+  "status": "PASS",
+  "evidence_scope": "CANONICAL_STATIC_AND_EXECUTABLE_POLICY_REFERENCE_ONLY",
+  "rules_checked": 40,
+  "verified_workflow": {
+    "repository": "ubuntuokos/Final-Architecture-v3.0",
+    "workflow": "LavaSR reference gate",
+    "run_id": 34408410798,
+    "run_number": 1,
+    "validated_head_sha": "bc36ac01267105a2a4aefdf09fc6d6bf3a59cae7",
+    "conclusion": "success"
+  },
+  "verified_steps": [
+    "JSON parse",
+    "Python and shell syntax",
+    "LavaSR canonical and executable policy gate",
+    "LavaSR positive and negative regressions",
+    "Assert no document-only runtime promotion"
+  ],
+  "positive_regressions": [
+    "canonical cross-record closure",
+    "CPU explicit execution-provider selection",
+    "16 kHz mono native audio contract",
+    "explicit 8 kHz and 48 kHz resample projections",
+    "explicit cascaded-denoise policy"
+  ],
+  "negative_regressions": [
+    "authority claim rejected",
+    "runtime promotion claim rejected",
+    "ONNX asset hash drift rejected",
+    "implicit double-denoise policy drift rejected",
+    "silent execution-provider fallback rejected",
+    "accelerator without HRB rejected",
+    "non-native sample rate without projection rejected",
+    "out-of-range sample rate rejected",
+    "non-mono input without projection rejected",
+    "dangerous serialized checkpoint rejected"
+  ],
+  "current_host_runtime_evidence": false,
+  "production_promotion": false
+}

@@ -1,0 +1,57 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-KHRONOS-REUSE-SOURCE-2026-09-28",
+  "date": "2026-09-28",
+  "status": "CANONICAL",
+  "title": "Mandatory Khronos Open Standards source review for FA3 application reuse discovery",
+  "decision": "STRENGTHEN_EXISTING_REUSE_DISCOVERY_WITH_MANDATORY_KHRONOS_SOURCE_REVIEW",
+  "reuse_discovery_profile_id": "FA3-REUSE-DISCOVERY-001",
+  "catalog_id": "FA3-REUSE-CATALOG-001",
+  "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+  "mandatory_review_scope": "ALL_NEW_OR_MATERIALLY_MODIFIED_FA3_APPLICATION_INTENTS",
+  "sources": [
+    "canonical/profiles/FA3-KHRONOS-OPEN-STANDARDS-001.json",
+    "canonical/FA3-KHRONOS-ADAPTER-REGISTRY-001.json",
+    "canonical/integrations/FA3-KHRONOS-OPEN-STANDARDS-INTEGRATION-001.json"
+  ],
+  "source_roles": [
+    "RUNTIME_PROVIDER_SOURCE",
+    "INTERCHANGE_STANDARD_SOURCE",
+    "DESIGN_PATTERN_INSTRUCTION_SOURCE"
+  ],
+  "allowed_review_dispositions": [
+    "MATCHED",
+    "REVIEWED_NO_MATCH"
+  ],
+  "automatic_selection": false,
+  "automatic_activation": false,
+  "authority": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 175,
+  "invariants": [
+    "KHRONOS_REVIEW_IS_MANDATORY_BUT_KHRONOS_SELECTION_IS_NOT",
+    "KHRONOS_COMPONENTS_NEVER_BECOME_FA3_ARCHITECTURAL_AUTHORITIES",
+    "MATCH_ONLY_NON_AUTHORITATIVE_SELECTION",
+    "REVIEWED_NO_MATCH_IS_A_VALID_EXPLICIT_DISPOSITION",
+    "NORMAL_FA3_ADMISSION_REMAINS_REQUIRED",
+    "HRB_REMAINS_SOLE_HOST_RESOURCE_AUTHORITY",
+    "CPU_ONLY_FA3_CONFORMANCE_REMAINS_VALID",
+    "NO_RUNTIME_OR_CURRENT_HOST_PROMOTION_FROM_REUSE_DISCOVERY"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "hardware_parameter_mutation": false
+  },
+  "rollout": {
+    "adoption_marker": "FIRST_COMMIT_CONTAINING_THIS_DECISION",
+    "future_application_intents": "PASS_REUSE_ASSESSMENT_MUST_RECORD_KHRONOS_SOURCE_FAMILY_REVIEW",
+    "existing_application_intents": "REVIEW_REQUIRED_ON_NEXT_MATERIAL_CHANGE"
+  },
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false
+}

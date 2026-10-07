@@ -1,0 +1,62 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-SCS-AUTOMATED-ADMISSION-REUSE-ASSESSMENT-001",
+  "project_id": "FA3-SCS-001",
+  "intent_id": "FA3-SCS-AUTOMATED-ADMISSION-APPLICATION-INTENT-001",
+  "intent_path": "canonical/intents/FA3-SCS-AUTOMATED-ADMISSION-APPLICATION-INTENT-001.json",
+  "covered_ids": [
+    "FA3-SCS-001"
+  ],
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-SCS-CONTRACTS-001",
+      "use": "EXTEND_EXISTING_SUPPLY_CHAIN_CONTRACT_FAMILY"
+    },
+    {
+      "id": "FA3-DISTRIBUTION-COMPLIANCE-001",
+      "use": "COMMERCIAL_AND_REDISTRIBUTION_POLICY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "ATTESTATION_EVIDENCE_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-SECURITY-GOV-001",
+      "use": "SECURITY_GOVERNANCE_AUTHORITY"
+    }
+  ],
+  "rejected_candidates": [],
+  "pattern_reuse": [
+    "FA3-PATTERN-PROVIDER-NEUTRAL-ADAPTER-001",
+    "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001"
+  ],
+  "existing_authority_bindings": {
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "gaps": [
+    "AUTOMATED_SUPPLY_CHAIN_ADMISSION"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false
+  },
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
+  "gap_resolution": [
+    {
+      "gap": "AUTOMATED_SUPPLY_CHAIN_ADMISSION",
+      "status": "MATERIALIZED_IN_PR_388",
+      "evidence": "FA3-GATE-SUPPLY-RUNTIME-HARDENING-001"
+    }
+  ]
+}

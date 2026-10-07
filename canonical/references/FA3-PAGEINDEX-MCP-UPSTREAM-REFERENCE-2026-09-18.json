@@ -1,0 +1,37 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-PAGEINDEX-MCP-UPSTREAM-REFERENCE-2026-09-18",
+  "provider_id": "FA3-PROVIDER-PAGEINDEX-MCP-001",
+  "repository": "https://github.com/VectifyAI/pageindex-mcp",
+  "license": "MIT",
+  "release": "v1.8.2",
+  "release_date": "2026-07-25",
+  "commit": "bda946b4b6fffaaf6926aa8809bc62e0098f30e8",
+  "package": "@pageindex/mcp@1.8.2",
+  "package_mcp_name": "io.github.VectifyAI/pageindex-mcp",
+  "mcp_sdk": "^1.17.3",
+  "node_engine": ">=20.8.1",
+  "declared_transports": [
+    "stdio"
+  ],
+  "mcpb_asset": "pageindex-mcp-1.8.2.mcpb",
+  "mcpb_sha256": "972705b6991a5291112db368fafccf2ce89926a8a0318601cba89bff4adc5de2",
+  "server_json_sha256": "064198f79f289af37b22126dc0740e80a0e7f37d453e243c33b7113acfb58ed1",
+  "observed_design": {
+    "local_tool": "process_document",
+    "remote_tool_proxy": true,
+    "remote_transport_preference": "StreamableHTTP_then_SSE",
+    "remote_endpoint": "https://app.pageindex.ai/mcp",
+    "oauth": "OAuth_2_1_file_backed_by_upstream",
+    "upstream_token_path": "~/.pageindex-mcp/oauth-tokens.json",
+    "local_pdf_upload": true,
+    "max_pdf_bytes": 104857600
+  },
+  "fa3_interpretation": "REFERENCE_AND_OPTIONAL_PROVIDER_ONLY_NO_AUTHORITY",
+  "cloud_contract_reference": {
+    "repository": "https://github.com/VectifyAI/PageIndex",
+    "commit": "18eb5c9b3c31d305c022974aa194a7047950228b",
+    "path": "tests/data/cloud_mcp_contract.json",
+    "retrieval_identity": "doc_name_plus_optional_folder_id"
+  }
+}

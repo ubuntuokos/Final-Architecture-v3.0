@@ -1,0 +1,53 @@
+{
+  "schema": "fa3.decision-fabric-assessment.v1",
+  "project_id": "FA3-LANGUAGE-FABRIC-AND-LLM-GATEWAY-2026-09-23",
+  "covered_ids": [
+    "FA3-LANGUAGE-ADMISSION-001",
+    "FA3-LANGUAGE-FABRIC-001",
+    "FA3-LANGUAGE-POLICY-001",
+    "FA3-LLM-GATEWAY-001"
+  ],
+  "assessment": "RECOMMENDED",
+  "rationale": "Language mediation contains bounded semantic checkpoints such as confidence classification and semantic validation, while language policy, provider admission and the central Model Router remain authoritative and deterministic where possible.",
+  "decision_points": [
+    {
+      "id": "language-confidence",
+      "purpose": "classify ambiguous language detection or mediation confidence after deterministic detection signals",
+      "contract": "SCORE",
+      "candidate_source": "FA3-LANGUAGE-FABRIC-001",
+      "final_policy_owner": "FA3-LANGUAGE-FABRIC-001",
+      "failure_policy": "EXISTING_BEHAVIOR"
+    },
+    {
+      "id": "semantic-validation-signal",
+      "purpose": "provide a bounded semantic validation signal for a derived translation/adaptation without changing source authority",
+      "contract": "BOOLEAN",
+      "candidate_source": "FA3-LANGUAGE-BRIDGE-001",
+      "final_policy_owner": "FA3-LANGUAGE-FABRIC-001",
+      "failure_policy": "FAIL_CLOSED"
+    }
+  ],
+  "not_delegated": [
+    "language policy authority",
+    "provider admission",
+    "model routing authority",
+    "source-text authority",
+    "private model language creation"
+  ],
+  "project_radar_checked": true,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "global_accelerator_requirement": false
+  },
+  "security_boundary": {
+    "may_grant_permission": false,
+    "may_expand_candidate_set": false,
+    "may_create_agent": false,
+    "may_admit_model": false,
+    "may_admit_provider": false
+  },
+  "shadow_mode_required": true,
+  "capability_delta": 0,
+  "authority_delta": 0
+}

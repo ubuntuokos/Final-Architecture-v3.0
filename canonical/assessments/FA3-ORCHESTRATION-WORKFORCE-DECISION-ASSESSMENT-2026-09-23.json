@@ -1,0 +1,59 @@
+{
+  "schema": "fa3.decision-fabric-assessment.v1",
+  "project_id": "FA3-ORCHESTRATION-WORKFORCE-RECONCILIATION-2026-09-23",
+  "covered_ids": [
+    "FA3-ORCHESTRATION-WORKFORCE-001",
+    "FA3-PROVIDER-CREWAI-001",
+    "FA3-PROVIDER-CONDUCTOR-001",
+    "FA3-PROVIDER-OPEN-MULTI-AGENT-001",
+    "FA3-PROVIDER-LANGGRAPH-001",
+    "FA3-PROVIDER-KESTRA-001",
+    "FA3-PROVIDER-PIPECAT-001",
+    "FA3-PROVIDER-N8N-001",
+    "FA3-PROVIDER-HAYSTACK-001"
+  ],
+  "assessment": "REQUIRED",
+  "rationale": "The workforce already has deterministic hard eligibility and ranking. Decision Fabric is useful only as a bounded advisory reranker over the exact eligible specialist set; it must not add specialists, authorize execution, admit providers, expand AI participants, route models or acquire resources.",
+  "decision_points": [
+    {
+      "id": "orchestration-specialist-advisory-ranking",
+      "purpose": "advise ranking among already-eligible workforce specialists after all deterministic policy, authority, anti-capability and runtime-admission filters",
+      "contract": "SELECT_ONE",
+      "candidate_source": "FA3-ORCHESTRATION-WORKFORCE-REGISTRY-001 deterministic eligible specialist set",
+      "final_policy_owner": "FA3-ORCHESTRATION-WORKFORCE-001 deterministic policy + AUTH-HUMAN escalation",
+      "failure_policy": "EXISTING_BEHAVIOR"
+    }
+  ],
+  "not_delegated": [
+    "candidate-set construction or expansion",
+    "execution authorization",
+    "provider admission",
+    "model/provider/runtime routing",
+    "AI participant-set expansion",
+    "hardware discovery authority",
+    "HRB resource leasing",
+    "security or approval authority",
+    "evidence promotion"
+  ],
+  "project_radar_checked": true,
+  "project_radar_review": {
+    "scope": "current FA3 external-project radar and Jev-derived catalog patterns",
+    "result": "NO_CHANGE_TO_SELECTED_SPECIALIST_PROVIDER_SET_REQUIRED",
+    "note": "Radar review informs advisory-pattern integration only; it does not promote or admit any workforce provider."
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "global_accelerator_requirement": false
+  },
+  "security_boundary": {
+    "may_grant_permission": false,
+    "may_expand_candidate_set": false,
+    "may_create_agent": false,
+    "may_admit_model": false,
+    "may_admit_provider": false
+  },
+  "shadow_mode_required": true,
+  "capability_delta": 0,
+  "authority_delta": 0
+}

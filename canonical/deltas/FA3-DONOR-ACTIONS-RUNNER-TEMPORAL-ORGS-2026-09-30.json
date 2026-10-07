@@ -1,0 +1,92 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-ACTIONS-RUNNER-TEMPORAL-ORGS-2026-09-30",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "STAGED_PENDING_EXACT_HEAD_GATES",
+  "mode": "APPEND_ONLY_OWNER_EXPLICIT_REFERENCE_INTAKE",
+  "parent_commit": "653b1d0ba10fe8f584e66d0e3b7c054f8ec3ef71",
+  "source_count": 5,
+  "unique_source_key_count": 5,
+  "matched_existing_parent": [],
+  "expected_new_source_count": 5,
+  "previous_registry_count": 1216,
+  "expected_registry_count": 1221,
+  "requirements": [
+    "All five explicit owner-marked URLs preserved exactly",
+    "Only actions/runner is a concrete repository; four organization listings are discovery indexes, not child-repository admission",
+    "Preserve existing actions/runner-images and temporalio/sdk-python candidate identities and statuses",
+    "No dependency, source copy, install, provider/model admission, current-host PASS, or second workflow authority"
+  ],
+  "automatic_dependency": false,
+  "automatic_fetch": false,
+  "automatic_install": false,
+  "automatic_code_import": false,
+  "automatic_provider_admission": false,
+  "automatic_activation": false,
+  "authority": false,
+  "capability_delta": 0,
+  "sources": [
+    {
+      "normalized_source_key": "github:actions/runner",
+      "urls": [
+        "https://github.com/actions/runner"
+      ],
+      "domain": "CI_CD_RUNNER",
+      "kind": "GITHUB"
+    },
+    {
+      "normalized_source_key": "github:actions",
+      "urls": [
+        "https://github.com/actions"
+      ],
+      "domain": "CI_CD_DISCOVERY",
+      "kind": "GITHUB_ORGANIZATION"
+    },
+    {
+      "normalized_source_key": "github:temporalio",
+      "urls": [
+        "https://github.com/temporalio"
+      ],
+      "domain": "DURABLE_WORKFLOW_DISCOVERY",
+      "kind": "GITHUB_ORGANIZATION"
+    },
+    {
+      "normalized_source_key": "github:temporal-community",
+      "urls": [
+        "https://github.com/temporal-community"
+      ],
+      "domain": "COMMUNITY_WORKFLOW_DISCOVERY",
+      "kind": "GITHUB_ORGANIZATION"
+    },
+    {
+      "normalized_source_key": "github:temporal-sa",
+      "urls": [
+        "https://github.com/temporal-sa"
+      ],
+      "domain": "WORKFLOW_DESIGN_PATTERN_DISCOVERY",
+      "kind": "GITHUB_ORGANIZATION"
+    }
+  ],
+  "new_ids": [
+    {
+      "id": "FA3-DONOR-ACTIONS-RUNNER-001",
+      "key": "github:actions/runner"
+    },
+    {
+      "id": "FA3-DONOR-ACTIONS-ORG-001",
+      "key": "github:actions"
+    },
+    {
+      "id": "FA3-DONOR-TEMPORALIO-ORG-001",
+      "key": "github:temporalio"
+    },
+    {
+      "id": "FA3-DONOR-TEMPORAL-COMMUNITY-ORG-001",
+      "key": "github:temporal-community"
+    },
+    {
+      "id": "FA3-DONOR-TEMPORAL-SA-ORG-001",
+      "key": "github:temporal-sa"
+    }
+  ]
+}

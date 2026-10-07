@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import argparse
 import json
@@ -16,7 +17,7 @@ ADAPTER_ID = "FA3-AI-INFRA-GUARD-ADAPTER-001"
 ADMISSION_ID = "FA3-AI-INFRA-GUARD-RUNTIME-ADMISSION-001"
 ADMISSION_PATH = "canonical/ai-infra-guard-runtime-admission.json"
 CURRENT_HOST_RECEIPT_PATH = "evidence/receipts/ai-infra-guard-current-host.json"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 REFERENCE_RELEASE = "v4.6.0"
 REFERENCE_COMMIT = "e8931cc68001b66ad024fd87ef07394e9e96524a"
 MANDATORY_CONSTRAINT = "AI-Infra-Guard SHALL NOT become an FA3 identity, authorization, MCP/capability-gateway, model-routing, host-resource, evidence/provenance, secrets, network-egress, artifact-trust, promotion or canonical-registry authority."
@@ -223,7 +224,7 @@ def reference_check(root: Path) -> dict[str, Any]:
         and decision.get("provider_id") == PROVIDER_ID and decision.get("profile_id") == PROFILE_ID
         and decision.get("contract_id") == CONTRACT_ID and decision.get("gate_id") == GATE_ID
         and decision.get("new_capabilities") == 0 and decision.get("new_architectural_authorities") == 0
-        and decision.get("capability_count_after") == CAPABILITY_COUNT
+        and isinstance(decision.get("capability_count_after"), int) and decision.get("capability_count_after") <= CAPABILITY_COUNT
         and decision.get("mandatory_canonical_rules") == P0_INVARIANTS
         and decision.get("mandatory_constraint") == MANDATORY_CONSTRAINT
     ):

@@ -1,0 +1,74 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-SHARED-MULTIMODAL-SOURCE-001",
+  "name": "Shared Multimodal Source",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST_IF_COMPONENT_USED",
+  "canonical_root": false,
+  "provider_neutral": true,
+  "shared_component": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-017",
+    "CAP-037",
+    "CAP-066",
+    "CAP-084",
+    "CAP-085",
+    "CAP-086",
+    "CAP-088",
+    "CAP-115",
+    "CAP-116",
+    "CAP-167",
+    "CAP-168"
+  ],
+  "contract_family": "FA3-SHARED-MULTIMODAL-SOURCE-CONTRACTS-001",
+  "authority_bindings": {
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "human_review": "AUTH-HUMAN"
+  },
+  "invariants": [
+    "ORIGINAL_MEDIA_ASSET_PRESERVED",
+    "DERIVED_REPRESENTATIONS_DISTINCT_FROM_ORIGINAL",
+    "IMAGE_AUDIO_VIDEO_TEXT_SHARE_ONE_SOURCE_ENVELOPE",
+    "AUDIO_NATIVE_MODEL_PATH_AND_TRANSCRIPTION_PATH_ARE_INDEPENDENT",
+    "TRANSCRIPT_IS_DERIVED_REPRESENTATION_NOT_AUDIO_IDENTITY",
+    "VIDEO_ANALYSIS_REQUIRES_TEMPORAL_MODEL",
+    "SINGLE_MIDPOINT_FRAME_CANNOT_CLAIM_VIDEO_UNDERSTANDING",
+    "FIXED_FIVE_FRAME_OR_ONE_PER_MINUTE_POLICY_FORBIDDEN_AS_CANONICAL_DEFAULT",
+    "SCENE_SHOT_CHANGE_AWARE_KEYFRAME_SELECTION_SUPPORTED",
+    "OCR_TRANSCRIPT_TRACKING_AND_VISUAL_EVENTS_CAN_SHARE_TIMELINE",
+    "BASE64_IS_ENCODING_NOT_COMPRESSION_SEMANTICS",
+    "ACCELERATOR_OPTIONAL_AND_HRB_GOVERNED",
+    "CPU_ONLY_PATH_REMAINS_ARCHITECTURALLY_VALID"
+  ],
+  "gui_projection": [
+    "create.ai-studio",
+    "create.knowledge",
+    "governance.security"
+  ],
+  "runtime_materialization": {
+    "new_service": false,
+    "new_daemon": false,
+    "new_port": false,
+    "new_socket": false,
+    "new_package_dependency": false,
+    "provider_activation": false,
+    "model_selection": false,
+    "hardware_mutation": false,
+    "semantics": "COMPOSE_EXISTING_FA3_AUTHORITIES_AND_CAPABILITIES"
+  },
+  "framework_policy": {
+    "upstream_framework_is_authority": false,
+    "hard_runtime_dependency": false,
+    "analysis_patterns_may_be_reexpressed_fa3_native": true
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}

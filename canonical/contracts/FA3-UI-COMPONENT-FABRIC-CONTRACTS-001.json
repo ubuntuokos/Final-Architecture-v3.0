@@ -1,0 +1,83 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-UI-COMPONENT-FABRIC-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "provider_neutral": true,
+  "profile": "FA3-UI-COMPONENT-FABRIC-001",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_projection": ["CAP-057"],
+  "contracts": [
+    "UiPatternSourceDescriptor",
+    "UiPatternIntakeRecord",
+    "UiComponentDescriptor",
+    "UiDesignTokenBinding",
+    "UiAccessibilityAdmissionResult",
+    "UiSecurityAdmissionResult",
+    "UiVisualRegressionReceipt",
+    "UiProvenanceRecord",
+    "UiLicenseRecord"
+  ],
+  "source_intake": {
+    "external_source_is_untrusted_by_default": true,
+    "pinned_revision_required": true,
+    "license_identification_required": true,
+    "automatic_production_import": "FORBIDDEN",
+    "raw_copy_paste_to_production": "FORBIDDEN",
+    "manual_pattern_adaptation": "ALLOWED_AFTER_REVIEW",
+    "script_elements": "FORBIDDEN",
+    "inline_event_handlers": "FORBIDDEN",
+    "javascript_urls": "FORBIDDEN",
+    "iframes": "FORBIDDEN",
+    "remote_executable_resources": "FORBIDDEN",
+    "tracking_or_analytics_resources": "FORBIDDEN",
+    "remote_fonts_in_production_component": "FORBIDDEN",
+    "remote_images_or_media": "REQUIRE_SEPARATE_ASSET_ADMISSION"
+  },
+  "normalization": {
+    "hardcoded_colors_to_fa3_tokens": true,
+    "hardcoded_typography_to_fa3_tokens": true,
+    "spacing_radius_shadow_and_motion_to_fa3_tokens": true,
+    "class_or_id_collision_prevention_required": true,
+    "global_css_side_effects_forbidden": true,
+    "upstream_branding_not_canonical": true
+  },
+  "theme_contract": {
+    "system": "REQUIRED",
+    "light": "REQUIRED",
+    "dark": "REQUIRED",
+    "high_contrast": "REQUIRED_WHERE_PLATFORM_SUPPORT_EXISTS",
+    "reduced_motion": "REQUIRED_FOR_ANIMATED_COMPONENTS"
+  },
+  "accessibility": {
+    "semantic_native_control_preferred": true,
+    "keyboard_operation_required_for_interactive_controls": true,
+    "visible_focus_required": true,
+    "accessible_name_required_when_visual_label_is_absent": true,
+    "aria_must_not_replace_native_semantics_when_native_semantics_exist": true,
+    "contrast_review_required": true,
+    "reduced_motion_fallback_required_for_animation": true
+  },
+  "security": {
+    "component_may_not_execute_commands": true,
+    "component_may_not_access_secrets": true,
+    "component_may_not_bypass_existing_authorization": true,
+    "component_may_not_write_canonical_repository": true,
+    "component_may_not_create_network_dependency": true,
+    "component_may_not_claim_connected_or_pass_state_without_evidence": true
+  },
+  "performance": {
+    "unbounded_continuous_animation": "FORBIDDEN",
+    "expensive_visual_effects_require_review": true,
+    "decorative_ui_may_not_compete_with_ai_workloads_for_dedicated_compute": true,
+    "network_runtime_dependency": "FORBIDDEN"
+  },
+  "promotion": {
+    "all_acceptance_checks_must_pass": true,
+    "fail_closed": true,
+    "reference_source_never_promotes_automatically": true,
+    "component_requires_native_fa3_identity_before_production_use": true
+  }
+}

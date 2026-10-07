@@ -1,0 +1,63 @@
+name: FA3 extension quality lock validation
+
+on:
+  pull_request:
+    paths:
+      - 'canonical/FA3-EXTENSION-BOUNDARY-001.json'
+      - 'canonical/FA3-VOICE-QUALITY-ROUTING-001.json'
+      - 'canonical/FA3-UPSTREAM-LOCK-REGISTRY-001.json'
+      - 'canonical/contracts/FA3-AUDIO-PREFLIGHT-CONTRACTS-001.json'
+      - 'canonical/decisions/FA3-DEC-QUALITY-EXTENSIONS-PINNING-VALIDATION-2026-09-14.json'
+      - 'src/fa3_extension_boundary_gate.py'
+      - 'src/fa3_voice_quality_router.py'
+      - 'src/fa3_upstream_lock_gate.py'
+      - 'src/fa3_audio_preflight_gate.py'
+      - 'src/fa3_quality_extension_lock_gate.py'
+      - 'bin/fa3-enforce'
+      - 'bin/fa3-whisper-bootstrap.sh'
+      - 'bin/fa3-demucs-bootstrap.sh'
+      - 'tests/test_extension_boundary.py'
+      - 'tests/test_voice_quality_router.py'
+      - 'tests/test_upstream_lock_gate.py'
+      - 'tests/test_audio_preflight_gate.py'
+      - 'tests/test_managed_lock_bootstraps.py'
+      - 'tests/test_quality_extension_integration.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --upgrade pytest
+      - name: Syntax check
+        run: |
+          python -m py_compile \
+            src/fa3_extension_boundary_gate.py \
+            src/fa3_voice_quality_router.py \
+            src/fa3_upstream_lock_gate.py \
+            src/fa3_audio_preflight_gate.py \
+            src/fa3_quality_extension_lock_gate.py
+      - name: Unified fail-closed gate
+        run: ./bin/fa3-enforce quality-extension-lock
+      - name: Focused regression tests
+        run: |
+          python -m pytest -q \
+            tests/test_extension_boundary.py \
+            tests/test_voice_quality_router.py \
+            tests/test_upstream_lock_gate.py \
+            tests/test_audio_preflight_gate.py \
+            tests/test_managed_lock_bootstraps.py \
+            tests/test_quality_extension_integration.py
+      - name: Upload bundle report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-quality-extension-lock-report
+          path: reports/quality-extension-lock-gate-report.json

@@ -1,0 +1,66 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-CREATIVE-PROJECT-WORKFLOW-FLOVA-PATTERNS-2026-09-26",
+  "date": "2026-09-26",
+  "status": "CANONICAL_IMPLEMENTED_STATIC_RUNTIME_PROMOTION_NOT_CLAIMED",
+  "subject": "FA3-native creative project workflow derived from useful Flova interaction patterns",
+  "decision": "MATERIALIZE_SELECTED_FLOVA_WORKFLOW_PATTERNS_IN_EXISTING_FA3_SKILL_VIDEO_CONTEXT_AND_EDITORIAL_LAYERS",
+  "profile_id": "FA3-VIDEO-001",
+  "contract_id": "FA3-CREATIVE-PROJECT-WORKFLOW-CONTRACTS-001",
+  "gate_id": "FA3-CREATIVE-PROJECT-WORKFLOW-GATESET-001",
+  "skill_id": "fa3-creative-project-workflow",
+  "capability_bindings": [
+    "CAP-014",
+    "CAP-041",
+    "CAP-111",
+    "CAP-159",
+    "CAP-166",
+    "CAP-168",
+    "CAP-170",
+    "CAP-171",
+    "CAP-172"
+  ],
+  "accepted": [
+    "project-scoped editable specification and provenance-aware document context",
+    "reusable task-scoped creative workflow skill under Skill Fabric",
+    "explicit storyboard-shot-media relationship graph",
+    "dependency-aware scoped revision preserving unaffected nodes",
+    "human approval boundary for locked or previously approved affected nodes",
+    "OTIO or FA3 Video Editor command-surface editorial projection",
+    "provider-neutral generation through UAF, Model Router and HRB",
+    "native-project preservation and round-trip interchange"
+  ],
+  "rejected": [
+    "Flova runtime, service, account or credential as an FA3 dependency",
+    "Flova or a creative skill as model/provider/resource/execution authority",
+    "global project corpus injection",
+    "silent full-project regeneration",
+    "direct native editor project mutation outside admitted editorial surfaces",
+    "document-only or reference-only current-host runtime promotion"
+  ],
+  "source_pattern_policy": {
+    "source": "Flova public documentation",
+    "classification": "REFERENCE_ONLY_PATTERN_SOURCE",
+    "code_copied": false,
+    "skill_content_copied": false,
+    "runtime_dependency": false,
+    "provider_dependency": false
+  },
+  "authority_effect": {
+    "new_capability": false,
+    "new_architectural_authority": false,
+    "capability_count_after": 175
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_planning_viable": true,
+    "accelerator_cardinality": "0..N",
+    "hrb_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "hardware_safety_envelope_required_for_parameter_mutation": true
+  },
+  "current_host": {
+    "runtime_promotion_claim": false,
+    "production_provider_admission_claim": false,
+    "global_promotion_claim": false
+  }
+}
