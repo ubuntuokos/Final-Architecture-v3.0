@@ -1,0 +1,109 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-SHARED-SEMANTIC-ONTOLOGY-001",
+  "name": "Shared Semantic, Ontology & Operational Knowledge Fabric",
+  "version": "1.0.0",
+  "status": "OWNER_APPROVED_MATERIALIZATION",
+  "priority": "P0",
+  "requirement": "MUST_IF_SEMANTIC_ONTOLOGY_COMPONENT_USED",
+  "canonical_root": false,
+  "provider_neutral": true,
+  "shared_component": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capability_bindings": [
+    "CAP-010",
+    "CAP-021",
+    "CAP-102",
+    "CAP-153",
+    "CAP-154",
+    "CAP-155",
+    "CAP-156"
+  ],
+  "contract_family": "FA3-SHARED-SEMANTIC-ONTOLOGY-CONTRACTS-001",
+  "sdk_contract_family": "FA3-SDK-SEMANTIC-ONTOLOGY-CONTRACTS-001",
+  "gui_contract_family": "FA3-SEMANTIC-STUDIO-GUI-CONTRACTS-001",
+  "reuses": [
+    "FA3-SHARED-KNOWLEDGE-RETRIEVAL-001",
+    "FA3-SHARED-KNOWLEDGE-RETRIEVAL-CONTRACTS-001"
+  ],
+  "authority_bindings": {
+    "knowledge": "FA3-KNOWLEDGE-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "planes": {
+    "development": [
+      "INGESTION",
+      "DOMAIN_PROFILING",
+      "TAXONOMY",
+      "SEMANTIC_EXTRACTION",
+      "ONTOLOGY_SYNTHESIS",
+      "AUTHORING",
+      "DESIGN_PATTERNS",
+      "COMPETENCY_QUESTIONS",
+      "QUALITY_EVALUATION"
+    ],
+    "management": [
+      "VERSIONING",
+      "DIFF",
+      "MIGRATION",
+      "LIFECYCLE",
+      "CATALOGUE",
+      "PROVENANCE",
+      "PUBLISHING"
+    ],
+    "runtime": [
+      "QUERY",
+      "REASONING",
+      "VALIDATION",
+      "PROOF",
+      "IDENTITY_RESOLUTION",
+      "ALIGNMENT",
+      "RAG_SEMANTICS"
+    ],
+    "operational": [
+      "TYPED_ACTIONS",
+      "STATE_OWNERSHIP",
+      "WRITEBACK_CONTRACTS",
+      "AUDIT"
+    ]
+  },
+  "invariants": [
+    "AI_OUTPUT_IS_PROPOSAL_NOT_CANONICAL_TRUTH",
+    "NO_DIRECT_AI_TO_CANONICAL_WRITE",
+    "NO_SILENT_IDENTITY_MERGE",
+    "CLOSE_MATCH_NEVER_ENTERS_IDENTITY_CLOSURE",
+    "PROVENANCE_REQUIRED_FOR_CANONICAL_ASSERTION",
+    "SOURCE_IDENTITY_AND_REVISION_PRESERVED",
+    "MODEL_SELECTION_ONLY_VIA_MODEL_ROUTER",
+    "NO_SILENT_LOCAL_TO_CLOUD_FALLBACK",
+    "CPU_ONLY_PATH_REQUIRED",
+    "DONOR_REFERENCE_IS_NOT_RUNTIME_ADMISSION",
+    "DISCOVERY_INDEX_CHILDREN_ARE_NOT_AUTOMATIC_DONORS",
+    "FORMAL_VALIDATION_PRECEDES_CANONICAL_PUBLISH",
+    "SEMANTIC_STORAGE_IMPLEMENTATION_IS_NOT_ARCHITECTURAL_AUTHORITY"
+  ],
+  "application_integration": {
+    "contract_first": true,
+    "direct_provider_calls_forbidden": true,
+    "semantic_manifest_required_for_consumers": true,
+    "future_applications_supported": true
+  },
+  "runtime_materialization": {
+    "new_service": false,
+    "new_daemon": false,
+    "new_port": false,
+    "new_socket": false,
+    "new_package_dependency": false,
+    "provider_activation": false,
+    "model_selection": false,
+    "hardware_mutation": false,
+    "semantics": "STATIC_CONTRACT_AND_SDK_FOUNDATION_ONLY"
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}
