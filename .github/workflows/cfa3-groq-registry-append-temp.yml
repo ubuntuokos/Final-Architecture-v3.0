@@ -1,0 +1,159 @@
+name: TEMP CFA3 Groq donor registry append
+on:
+  push:
+    branches:
+      - cfa3/donor-agentscope-embabel-batch-finalizer-20261006
+    paths:
+      - .github/workflows/cfa3-groq-registry-append-temp.yml
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  append:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      EXPECTED_MAIN: c2e2ab2aa1c34ef555e2324e9b67af9d8723f76a
+      EXPECTED_REGISTRY_BLOB: b1bbf84a1bf7049c4be9b10132ab2680b875eac5
+      SOURCE_PR: "738"
+      SOURCE_HEAD: 26b780f32a61645079af192796591c57bdfc63f6
+      TARGET_BRANCH: cfa3/donor-agentscope-embabel-batch-finalizer-20261006
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: cfa3/donor-agentscope-embabel-batch-finalizer-20261006
+          fetch-depth: 0
+
+      - name: Exact-state preflight
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin +refs/heads/main:refs/remotes/origin/main
+          test "$(git rev-parse refs/remotes/origin/main)" = "$EXPECTED_MAIN"
+          test "$(git hash-object canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json)" = "$EXPECTED_REGISTRY_BLOB"
+          python3 - <<'PY'
+          import json, os, urllib.request
+          repo=os.environ["GITHUB_REPOSITORY"]
+          pr=os.environ["SOURCE_PR"]
+          req=urllib.request.Request(
+              f"https://api.github.com/repos/{repo}/pulls/{pr}",
+              headers={
+                  "Authorization": f"Bearer {os.environ['GH_TOKEN']}",
+                  "Accept": "application/vnd.github+json",
+                  "X-GitHub-Api-Version": "2022-11-28",
+              },
+          )
+          with urllib.request.urlopen(req, timeout=30) as r:
+              data=json.load(r)
+          assert data["state"] == "open", data["state"]
+          assert data["head"]["sha"] == os.environ["SOURCE_HEAD"], data["head"]["sha"]
+          PY
+
+      - name: Append exact Groq donor identities
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          path=Path("canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json")
+          d=json.loads(path.read_text(encoding="utf-8"))
+          assert len(d["entries"]) == 1830, len(d["entries"])
+
+          source_head="26b780f32a61645079af192796591c57bdfc63f6"
+          wanted=[
+              "github:groq",
+              "github:topics/groq-cloud?o=asc&s=updated",
+              "github:topics/groq-ai",
+              "github:topics/groq-api?l=go",
+              "github:topics/groq-ai-real-time",
+          ]
+          have={e.get("source",{}).get("normalized_key") for e in d["entries"]}
+          assert not (set(wanted) & have), sorted(set(wanted) & have)
+
+          def entry(donor_id,name,kind,locator,key,modes,targets):
+              return {
+                  "donor_id": donor_id,
+                  "name": name,
+                  "source": {"kind": kind, "locator": locator, "normalized_key": key},
+                  "status": "ACCEPTED_REFERENCE",
+                  "submission_review": {
+                      "basis": "OWNER_EXPLICIT_DONORNAK_MARKER",
+                      "scope": "REFERENCE_REGISTRATION_ONLY",
+                      "second_registry_approval_required": False,
+                  },
+                  "discovered_from": ["owner-explicit-donornak-2026-10-06-groq-reference-sources"],
+                  "first_seen": "2026-10-06",
+                  "last_seen": "2026-10-06",
+                  "donor_modes": modes,
+                  "capability_hints": [],
+                  "domain_hints": ["ai-inference", "provider-integration"],
+                  "problem_hints": [],
+                  "target_hints": targets,
+                  "tags": [
+                      "2026-10-06-intake",
+                      "explicit-owner-donornak",
+                      "metadata-only",
+                      "rolling-batch",
+                      "runtime-admission-separate",
+                  ],
+                  "license": {"declared": "UNKNOWN", "status": "SOURCE_SPECIFIC_REVIEW_REQUIRED"},
+                  "code_reuse_policy": "SOURCE_COPY_BLOCKED_PENDING_LICENSE_PROVENANCE_SECURITY_AND_COEXISTENCE_REVIEW",
+                  "discoverable_for_planning": True,
+                  "authority": False,
+                  "automatic_selection": False,
+                  "automatic_fetch": False,
+                  "automatic_install": False,
+                  "automatic_activation": False,
+                  "automatic_dependency": False,
+                  "automatic_code_import": False,
+                  "automatic_provider_admission": False,
+                  "automatic_model_selection": False,
+                  "intake_provenance": {
+                      "source_pr": 738,
+                      "source_pr_head": source_head,
+                      "delta_id": "CFA3-DONOR-GROQ-REFERENCE-SOURCES-2026-10-06",
+                      "consolidated_on": "2026-10-06",
+                  },
+                  "notes": [
+                      "Owner explicitly marked all submitted Groq source links donornak on 2026-10-06; registration is reference metadata only.",
+                      "Five-level representative dependency/reference lineage was analyzed in the source intake; child repositories remain non-admitted.",
+                      "No child source, runtime, provider, model, service or dependency is automatically admitted.",
+                  ],
+              }
+
+          d["entries"].extend([
+              entry("FA3-DONOR-GROQ-ORGANIZATION-001","Groq GitHub organization","GITHUB_ORGANIZATION","https://github.com/groq","github:groq",["OFFICIAL_GROQ_ECOSYSTEM_DISCOVERY_REFERENCE","RESEARCH_REFERENCE"],["FA3-AUTH-MODEL-ROUTER-001 provider discovery","FA3-LLM-GATEWAY-001 provider adaptation","CFA3 MCP / tool interoperability","CFA3 batch and low-latency inference patterns"]),
+              entry("FA3-DONOR-GITHUB-GROQ-CLOUD-TOPIC-UPDATED-ASC-001","GitHub groq-cloud topic — updated ascending","GITHUB_TOPIC","https://github.com/topics/groq-cloud?o=asc&s=updated","github:topics/groq-cloud?o=asc&s=updated",["GROQ_CLOUD_APPLICATION_INTEGRATION_DISCOVERY_REFERENCE","DYNAMIC_DISCOVERY_INDEX_REFERENCE"],["CFA3 local-plus-cloud execution patterns","CFA3 RAG / document intelligence","CFA3 MCP integration","CFA3 agent orchestration"]),
+              entry("FA3-DONOR-GITHUB-GROQ-AI-TOPIC-001","GitHub groq-ai topic","GITHUB_TOPIC","https://github.com/topics/groq-ai","github:topics/groq-ai",["GROQ_AGENT_MCP_MULTI_PROVIDER_DISCOVERY_REFERENCE","DYNAMIC_DISCOVERY_INDEX_REFERENCE"],["CFA3 Agent Skills / Agent Operations","CFA3 MCP / A2A interoperability","CFA3 provider and model selection UX","CFA3 tool and integration registries"]),
+              entry("FA3-DONOR-GITHUB-GROQ-API-TOPIC-GO-001","GitHub groq-api topic — Go filter","GITHUB_TOPIC","https://github.com/topics/groq-api?l=go","github:topics/groq-api?l=go",["GROQ_GO_PROVIDER_GATEWAY_DISCOVERY_REFERENCE","DYNAMIC_DISCOVERY_INDEX_REFERENCE"],["FA3-LLM-GATEWAY-001 Go implementation patterns","CFA3 Groq provider adapter","CFA3 streaming / batch / backpressure","CFA3 observability and async worker patterns"]),
+              entry("FA3-DONOR-GITHUB-GROQ-AI-REAL-TIME-TOPIC-001","GitHub groq-ai-real-time topic","GITHUB_TOPIC","https://github.com/topics/groq-ai-real-time","github:topics/groq-ai-real-time",["GROQ_REALTIME_INTERACTION_DISCOVERY_REFERENCE","DYNAMIC_DISCOVERY_INDEX_REFERENCE"],["CFA3 Shared Realtime Interaction Fabric","CFA3 collaboration transport","CFA3 AI streaming transport","CFA3 realtime application integration"]),
+          ])
+
+          keys=[e["source"]["normalized_key"] for e in d["entries"]]
+          ids=[e["donor_id"] for e in d["entries"]]
+          assert len(d["entries"]) == 1835
+          assert len(keys) == len(set(keys))
+          assert len(ids) == len(set(ids))
+          assert {e["source"]["normalized_key"] for e in d["entries"] if e["source"]["normalized_key"] in wanted} == set(wanted)
+          path.write_text(json.dumps(d,separators=(",",":"))+"\n",encoding="utf-8")
+          PY
+          test "$(python3 - <<'PY'
+          import json
+          d=json.load(open("canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"))
+          print(len(d["entries"]))
+          PY
+          )" = "1835"
+
+      - name: Commit canonical registry append
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json
+          git diff --cached --quiet && { echo "No registry change"; exit 2; }
+          git commit -m "donors: materialize five Groq reference sources"
+          git push origin "HEAD:refs/heads/$TARGET_BRANCH"
