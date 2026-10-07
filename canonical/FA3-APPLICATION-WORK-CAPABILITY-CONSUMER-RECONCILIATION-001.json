@@ -13,9 +13,9 @@
     "application_links": "FA3-APPLICATION-DONOR-LINKS-001",
     "ai_studio_catalog": "FA3-AI-STUDIO-APP-CATALOG-001",
     "application_installation_registry": "FA3-APPLICATION-INSTALLATION-REGISTRY-001",
-    "source_record_count": 46,
-    "normalized_consumer_count": 25,
-    "current_scope_count": 25,
+    "source_record_count": 102,
+    "normalized_consumer_count": 52,
+    "current_scope_count": 52,
     "pending_future_inventory_expansion_must_be_reconciled": true,
     "normalization_rules": [
       {
@@ -555,6 +555,573 @@
         "PHYSICAL_PERFORMANCE_TUNING_REMAINS_CURRENT_HOST_EVIDENCE_GATED"
       ],
       "current_host_impact": "NO_RUNTIME_IMPACT_COMPATIBILITY_RECORD_ONLY"
+    },
+    {
+      "application_id": "fa3.animation-motion-studio",
+      "name": "CFA3 Motion Designer / Animation Studio",
+      "kind": "INTERNAL_APPLICATION",
+      "inventory_state": "PLANNED",
+      "disposition": "SHARED_CAPABILITY_BINDING",
+      "applicable_bindings": [
+        "WORK_MANAGEMENT",
+        "WORK_CONTEXT",
+        "APPLICATION_LIFECYCLE",
+        "INTER_APP_HANDOFF"
+      ],
+      "requirements": [
+        "PRESERVE_NATIVE_PROJECT_DATA",
+        "USE_CANONICAL_WORK_CONTEXT_REFERENCES_WHERE_APPLICABLE",
+        "DO_NOT_CREATE_PARALLEL_WORK_OR_PERMISSION_AUTHORITY",
+        "RUNTIME_LIFECYCLE_SUPPORT_DECLARATION_REQUIRED_BEFORE_RUNTIME_PROMOTION",
+        "INTER_APP_EFFECTFUL_HANDOFF_MUST_USE_TYPED_UAF_AND_SCOPED_GRANT"
+      ],
+      "current_host_impact": "STRUCTURAL_REASSESSMENT_REQUIRED"
+    },
+    {
+      "application_id": "fa3.choreography-studio",
+      "name": "Choreography Studio",
+      "kind": "INTERNAL_APPLICATION",
+      "inventory_state": "PLANNED",
+      "disposition": "SHARED_CAPABILITY_BINDING",
+      "applicable_bindings": [
+        "WORK_MANAGEMENT",
+        "WORK_CONTEXT",
+        "APPLICATION_LIFECYCLE",
+        "INTER_APP_HANDOFF"
+      ],
+      "requirements": [
+        "PRESERVE_NATIVE_PROJECT_DATA",
+        "USE_CANONICAL_WORK_CONTEXT_REFERENCES_WHERE_APPLICABLE",
+        "DO_NOT_CREATE_PARALLEL_WORK_OR_PERMISSION_AUTHORITY",
+        "RUNTIME_LIFECYCLE_SUPPORT_DECLARATION_REQUIRED_BEFORE_RUNTIME_PROMOTION",
+        "INTER_APP_EFFECTFUL_HANDOFF_MUST_USE_TYPED_UAF_AND_SCOPED_GRANT"
+      ],
+      "current_host_impact": "STRUCTURAL_REASSESSMENT_REQUIRED"
+    },
+    {
+      "application_id": "fa3.coach",
+      "name": "FA3 Coach",
+      "kind": "INTERNAL_APPLICATION",
+      "inventory_state": "IN_PROGRESS",
+      "disposition": "SHARED_CAPABILITY_BINDING",
+      "applicable_bindings": [
+        "WORK_MANAGEMENT",
+        "WORK_CONTEXT",
+        "APPLICATION_LIFECYCLE",
+        "INTER_APP_HANDOFF"
+      ],
+      "requirements": [
+        "PRESERVE_NATIVE_PROJECT_DATA",
+        "USE_CANONICAL_WORK_CONTEXT_REFERENCES_WHERE_APPLICABLE",
+        "DO_NOT_CREATE_PARALLEL_WORK_OR_PERMISSION_AUTHORITY",
+        "RUNTIME_LIFECYCLE_SUPPORT_DECLARATION_REQUIRED_BEFORE_RUNTIME_PROMOTION",
+        "INTER_APP_EFFECTFUL_HANDOFF_MUST_USE_TYPED_UAF_AND_SCOPED_GRANT"
+      ],
+      "current_host_impact": "STRUCTURAL_REASSESSMENT_REQUIRED"
+    },
+    {
+      "application_id": "fa3.credits-titles",
+      "name": "Credits / Titles",
+      "kind": "INTERNAL_APPLICATION",
+      "inventory_state": "PLANNED",
+      "disposition": "SHARED_CAPABILITY_BINDING",
+      "applicable_bindings": [
+        "WORK_MANAGEMENT",
+        "WORK_CONTEXT",
+        "APPLICATION_LIFECYCLE",
+        "INTER_APP_HANDOFF"
+      ],
+      "requirements": [
+        "PRESERVE_NATIVE_PROJECT_DATA",
+        "USE_CANONICAL_WORK_CONTEXT_REFERENCES_WHERE_APPLICABLE",
+        "DO_NOT_CREATE_PARALLEL_WORK_OR_PERMISSION_AUTHORITY",
+        "RUNTIME_LIFECYCLE_SUPPORT_DECLARATION_REQUIRED_BEFORE_RUNTIME_PROMOTION",
+        "INTER_APP_EFFECTFUL_HANDOFF_MUST_USE_TYPED_UAF_AND_SCOPED_GRANT"
+      ],
+      "current_host_impact": "STRUCTURAL_REASSESSMENT_REQUIRED"
+    },
+    {
+      "application_id": "fa3.digital-human-studio",
+      "name": "Digital Human Studio",
+      "kind": "INTERNAL_APPLICATION",
+      "inventory_state": "PLANNED",
+      "disposition": "SHARED_CAPABILITY_BINDING",
+      "applicable_bindings": [
+        "WORK_MANAGEMENT",
+        "WORK_CONTEXT",
+        "APPLICATION_LIFECYCLE",
+        "INTER_APP_HANDOFF"
+      ],
+      "requirements": [
+        "PRESERVE_NATIVE_PROJECT_DATA",
+        "USE_CANONICAL_WORK_CONTEXT_REFERENCES_WHERE_APPLICABLE",
+        "DO_NOT_CREATE_PARALLEL_WORK_OR_PERMISSION_AUTHORITY",
+        "RUNTIME_LIFECYCLE_SUPPORT_DECLARATION_REQUIRED_BEFORE_RUNTIME_PROMOTION",
+        "INTER_APP_EFFECTFUL_HANDOFF_MUST_USE_TYPED_UAF_AND_SCOPED_GRANT"
+      ],
+      "current_host_impact": "STRUCTURAL_REASSESSMENT_REQUIRED"
+    },
+    {
+      "application_id": "fa3.email-contact-manager",
+      "name": "Email & Contact Manager",
+      "kind": "INTERNAL_APPLICATION",
+      "inventory_state": "PLANNED",
+      "disposition": "SHARED_CAPABILITY_BINDING",
+      "applicable_bindings": [
+        "WORK_MANAGEMENT",
+        "WORK_CONTEXT",
+        "APPLICATION_LIFECYCLE",
+        "INTER_APP_HANDOFF"
+      ],
+      "requirements": [
+        "PRESERVE_NATIVE_PROJECT_DATA",
+        "USE_CANONICAL_WORK_CONTEXT_REFERENCES_WHERE_APPLICABLE",
+        "DO_NOT_CREATE_PARALLEL_WORK_OR_PERMISSION_AUTHORITY",
+        "RUNTIME_LIFECYCLE_SUPPORT_DECLARATION_REQUIRED_BEFORE_RUNTIME_PROMOTION",
+        "INTER_APP_EFFECTFUL_HANDOFF_MUST_USE_TYPED_UAF_AND_SCOPED_GRANT"
+      ],
+      "current_host_impact": "STRUCTURAL_REASSESSMENT_REQUIRED"
+    },
+    {
+      "application_id": "fa3.game-creation-studio",
+      "name": "Game Creation Studio",
+      "kind": "INTERNAL_APPLICATION",
+      "inventory_state": "IN_PROGRESS",
+      "disposition": "SHARED_CAPABILITY_BINDING",
+      "applicable_bindings": [
+        "WORK_MANAGEMENT",
+        "WORK_CONTEXT",
+        "APPLICATION_LIFECYCLE",
+        "INTER_APP_HANDOFF"
+      ],
+      "requirements": [
+        "PRESERVE_NATIVE_PROJECT_DATA",
+        "USE_CANONICAL_WORK_CONTEXT_REFERENCES_WHERE_APPLICABLE",
+        "DO_NOT_CREATE_PARALLEL_WORK_OR_PERMISSION_AUTHORITY",
+        "RUNTIME_LIFECYCLE_SUPPORT_DECLARATION_REQUIRED_BEFORE_RUNTIME_PROMOTION",
+        "INTER_APP_EFFECTFUL_HANDOFF_MUST_USE_TYPED_UAF_AND_SCOPED_GRANT"
+      ],
+      "current_host_impact": "STRUCTURAL_REASSESSMENT_REQUIRED"
+    },
+    {
+      "application_id": "fa3.humanizer",
+      "name": "FA3 Humanizer",
+      "kind": "INTERNAL_APPLICATION",
+      "inventory_state": "IN_PROGRESS",
+      "disposition": "SHARED_CAPABILITY_BINDING",
+      "applicable_bindings": [
+        "WORK_MANAGEMENT",
+        "WORK_CONTEXT",
+        "APPLICATION_LIFECYCLE",
+        "INTER_APP_HANDOFF"
+      ],
+      "requirements": [
+        "PRESERVE_NATIVE_PROJECT_DATA",
+        "USE_CANONICAL_WORK_CONTEXT_REFERENCES_WHERE_APPLICABLE",
+        "DO_NOT_CREATE_PARALLEL_WORK_OR_PERMISSION_AUTHORITY",
+        "RUNTIME_LIFECYCLE_SUPPORT_DECLARATION_REQUIRED_BEFORE_RUNTIME_PROMOTION",
+        "INTER_APP_EFFECTFUL_HANDOFF_MUST_USE_TYPED_UAF_AND_SCOPED_GRANT"
+      ],
+      "current_host_impact": "STRUCTURAL_REASSESSMENT_REQUIRED"
+    },
+    {
+      "application_id": "fa3.live-broadcast-studio",
+      "name": "Live / Broadcast Studio",
+      "kind": "INTERNAL_APPLICATION",
+      "inventory_state": "PLANNED",
+      "disposition": "SHARED_CAPABILITY_BINDING",
+      "applicable_bindings": [
+        "WORK_MANAGEMENT",
+        "WORK_CONTEXT",
+        "APPLICATION_LIFECYCLE",
+        "INTER_APP_HANDOFF"
+      ],
+      "requirements": [
+        "PRESERVE_NATIVE_PROJECT_DATA",
+        "USE_CANONICAL_WORK_CONTEXT_REFERENCES_WHERE_APPLICABLE",
+        "DO_NOT_CREATE_PARALLEL_WORK_OR_PERMISSION_AUTHORITY",
+        "RUNTIME_LIFECYCLE_SUPPORT_DECLARATION_REQUIRED_BEFORE_RUNTIME_PROMOTION",
+        "INTER_APP_EFFECTFUL_HANDOFF_MUST_USE_TYPED_UAF_AND_SCOPED_GRANT"
+      ],
+      "current_host_impact": "STRUCTURAL_REASSESSMENT_REQUIRED"
+    },
+    {
+      "application_id": "fa3.meeting-manager",
+      "name": "Meeting Manager",
+      "kind": "INTERNAL_APPLICATION",
+      "inventory_state": "PLANNED",
+      "disposition": "SHARED_CAPABILITY_BINDING",
+      "applicable_bindings": [
+        "WORK_MANAGEMENT",
+        "WORK_CONTEXT",
+        "APPLICATION_LIFECYCLE",
+        "INTER_APP_HANDOFF"
+      ],
+      "requirements": [
+        "PRESERVE_NATIVE_PROJECT_DATA",
+        "USE_CANONICAL_WORK_CONTEXT_REFERENCES_WHERE_APPLICABLE",
+        "DO_NOT_CREATE_PARALLEL_WORK_OR_PERMISSION_AUTHORITY",
+        "RUNTIME_LIFECYCLE_SUPPORT_DECLARATION_REQUIRED_BEFORE_RUNTIME_PROMOTION",
+        "INTER_APP_EFFECTFUL_HANDOFF_MUST_USE_TYPED_UAF_AND_SCOPED_GRANT"
+      ],
+      "current_host_impact": "STRUCTURAL_REASSESSMENT_REQUIRED"
+    },
+    {
+      "application_id": "fa3.mind-map-studio",
+      "name": "Mind Map Studio",
+      "kind": "INTERNAL_APPLICATION",
+      "inventory_state": "IN_PROGRESS",
+      "disposition": "SHARED_CAPABILITY_BINDING",
+      "applicable_bindings": [
+        "WORK_MANAGEMENT",
+        "WORK_CONTEXT",
+        "APPLICATION_LIFECYCLE",
+        "INTER_APP_HANDOFF"
+      ],
+      "requirements": [
+        "PRESERVE_NATIVE_PROJECT_DATA",
+        "USE_CANONICAL_WORK_CONTEXT_REFERENCES_WHERE_APPLICABLE",
+        "DO_NOT_CREATE_PARALLEL_WORK_OR_PERMISSION_AUTHORITY",
+        "RUNTIME_LIFECYCLE_SUPPORT_DECLARATION_REQUIRED_BEFORE_RUNTIME_PROMOTION",
+        "INTER_APP_EFFECTFUL_HANDOFF_MUST_USE_TYPED_UAF_AND_SCOPED_GRANT"
+      ],
+      "current_host_impact": "STRUCTURAL_REASSESSMENT_REQUIRED"
+    },
+    {
+      "application_id": "fa3.narration-studio",
+      "name": "Narration Studio",
+      "kind": "INTERNAL_APPLICATION",
+      "inventory_state": "EXISTING",
+      "disposition": "SHARED_CAPABILITY_BINDING",
+      "applicable_bindings": [
+        "WORK_MANAGEMENT",
+        "WORK_CONTEXT",
+        "APPLICATION_LIFECYCLE",
+        "INTER_APP_HANDOFF"
+      ],
+      "requirements": [
+        "PRESERVE_NATIVE_PROJECT_DATA",
+        "USE_CANONICAL_WORK_CONTEXT_REFERENCES_WHERE_APPLICABLE",
+        "DO_NOT_CREATE_PARALLEL_WORK_OR_PERMISSION_AUTHORITY",
+        "RUNTIME_LIFECYCLE_SUPPORT_DECLARATION_REQUIRED_BEFORE_RUNTIME_PROMOTION",
+        "INTER_APP_EFFECTFUL_HANDOFF_MUST_USE_TYPED_UAF_AND_SCOPED_GRANT"
+      ],
+      "current_host_impact": "STRUCTURAL_REASSESSMENT_REQUIRED"
+    },
+    {
+      "application_id": "fa3.office",
+      "name": "FA3 Office",
+      "kind": "INTERNAL_APPLICATION",
+      "inventory_state": "IN_PROGRESS",
+      "disposition": "SHARED_CAPABILITY_BINDING",
+      "applicable_bindings": [
+        "WORK_MANAGEMENT",
+        "WORK_CONTEXT",
+        "APPLICATION_LIFECYCLE",
+        "INTER_APP_HANDOFF"
+      ],
+      "requirements": [
+        "PRESERVE_NATIVE_PROJECT_DATA",
+        "USE_CANONICAL_WORK_CONTEXT_REFERENCES_WHERE_APPLICABLE",
+        "DO_NOT_CREATE_PARALLEL_WORK_OR_PERMISSION_AUTHORITY",
+        "RUNTIME_LIFECYCLE_SUPPORT_DECLARATION_REQUIRED_BEFORE_RUNTIME_PROMOTION",
+        "INTER_APP_EFFECTFUL_HANDOFF_MUST_USE_TYPED_UAF_AND_SCOPED_GRANT"
+      ],
+      "current_host_impact": "STRUCTURAL_REASSESSMENT_REQUIRED"
+    },
+    {
+      "application_id": "fa3.photo-image-studio",
+      "name": "Photo & Image Studio",
+      "kind": "INTERNAL_APPLICATION",
+      "inventory_state": "PLANNED",
+      "disposition": "SHARED_CAPABILITY_BINDING",
+      "applicable_bindings": [
+        "WORK_MANAGEMENT",
+        "WORK_CONTEXT",
+        "APPLICATION_LIFECYCLE",
+        "INTER_APP_HANDOFF"
+      ],
+      "requirements": [
+        "PRESERVE_NATIVE_PROJECT_DATA",
+        "USE_CANONICAL_WORK_CONTEXT_REFERENCES_WHERE_APPLICABLE",
+        "DO_NOT_CREATE_PARALLEL_WORK_OR_PERMISSION_AUTHORITY",
+        "RUNTIME_LIFECYCLE_SUPPORT_DECLARATION_REQUIRED_BEFORE_RUNTIME_PROMOTION",
+        "INTER_APP_EFFECTFUL_HANDOFF_MUST_USE_TYPED_UAF_AND_SCOPED_GRANT"
+      ],
+      "current_host_impact": "STRUCTURAL_REASSESSMENT_REQUIRED"
+    },
+    {
+      "application_id": "fa3.production-studio",
+      "name": "Production Studio",
+      "kind": "INTERNAL_APPLICATION",
+      "inventory_state": "PLANNED",
+      "disposition": "SHARED_CAPABILITY_BINDING",
+      "applicable_bindings": [
+        "WORK_MANAGEMENT",
+        "WORK_CONTEXT",
+        "APPLICATION_LIFECYCLE",
+        "INTER_APP_HANDOFF"
+      ],
+      "requirements": [
+        "PRESERVE_NATIVE_PROJECT_DATA",
+        "USE_CANONICAL_WORK_CONTEXT_REFERENCES_WHERE_APPLICABLE",
+        "DO_NOT_CREATE_PARALLEL_WORK_OR_PERMISSION_AUTHORITY",
+        "RUNTIME_LIFECYCLE_SUPPORT_DECLARATION_REQUIRED_BEFORE_RUNTIME_PROMOTION",
+        "INTER_APP_EFFECTFUL_HANDOFF_MUST_USE_TYPED_UAF_AND_SCOPED_GRANT"
+      ],
+      "current_host_impact": "STRUCTURAL_REASSESSMENT_REQUIRED"
+    },
+    {
+      "application_id": "fa3.render-manager",
+      "name": "Render Manager",
+      "kind": "INTERNAL_APPLICATION",
+      "inventory_state": "PLANNED",
+      "disposition": "SHARED_CAPABILITY_BINDING",
+      "applicable_bindings": [
+        "WORK_MANAGEMENT",
+        "WORK_CONTEXT",
+        "APPLICATION_LIFECYCLE",
+        "INTER_APP_HANDOFF"
+      ],
+      "requirements": [
+        "PRESERVE_NATIVE_PROJECT_DATA",
+        "USE_CANONICAL_WORK_CONTEXT_REFERENCES_WHERE_APPLICABLE",
+        "DO_NOT_CREATE_PARALLEL_WORK_OR_PERMISSION_AUTHORITY",
+        "RUNTIME_LIFECYCLE_SUPPORT_DECLARATION_REQUIRED_BEFORE_RUNTIME_PROMOTION",
+        "INTER_APP_EFFECTFUL_HANDOFF_MUST_USE_TYPED_UAF_AND_SCOPED_GRANT"
+      ],
+      "current_host_impact": "STRUCTURAL_REASSESSMENT_REQUIRED"
+    },
+    {
+      "application_id": "fa3.review-studio",
+      "name": "Review / Approval Studio",
+      "kind": "INTERNAL_APPLICATION",
+      "inventory_state": "PLANNED",
+      "disposition": "SHARED_CAPABILITY_BINDING",
+      "applicable_bindings": [
+        "WORK_MANAGEMENT",
+        "WORK_CONTEXT",
+        "APPLICATION_LIFECYCLE",
+        "INTER_APP_HANDOFF"
+      ],
+      "requirements": [
+        "PRESERVE_NATIVE_PROJECT_DATA",
+        "USE_CANONICAL_WORK_CONTEXT_REFERENCES_WHERE_APPLICABLE",
+        "DO_NOT_CREATE_PARALLEL_WORK_OR_PERMISSION_AUTHORITY",
+        "RUNTIME_LIFECYCLE_SUPPORT_DECLARATION_REQUIRED_BEFORE_RUNTIME_PROMOTION",
+        "INTER_APP_EFFECTFUL_HANDOFF_MUST_USE_TYPED_UAF_AND_SCOPED_GRANT"
+      ],
+      "current_host_impact": "STRUCTURAL_REASSESSMENT_REQUIRED"
+    },
+    {
+      "application_id": "fa3.scene-shot-designer",
+      "name": "Scene / Shot Designer",
+      "kind": "INTERNAL_APPLICATION",
+      "inventory_state": "PLANNED",
+      "disposition": "SHARED_CAPABILITY_BINDING",
+      "applicable_bindings": [
+        "WORK_MANAGEMENT",
+        "WORK_CONTEXT",
+        "APPLICATION_LIFECYCLE",
+        "INTER_APP_HANDOFF"
+      ],
+      "requirements": [
+        "PRESERVE_NATIVE_PROJECT_DATA",
+        "USE_CANONICAL_WORK_CONTEXT_REFERENCES_WHERE_APPLICABLE",
+        "DO_NOT_CREATE_PARALLEL_WORK_OR_PERMISSION_AUTHORITY",
+        "RUNTIME_LIFECYCLE_SUPPORT_DECLARATION_REQUIRED_BEFORE_RUNTIME_PROMOTION",
+        "INTER_APP_EFFECTFUL_HANDOFF_MUST_USE_TYPED_UAF_AND_SCOPED_GRANT"
+      ],
+      "current_host_impact": "STRUCTURAL_REASSESSMENT_REQUIRED"
+    },
+    {
+      "application_id": "fa3.spatial-reconstruction",
+      "name": "Spatial / Reconstruction Studio",
+      "kind": "INTERNAL_APPLICATION",
+      "inventory_state": "PLANNED",
+      "disposition": "SHARED_CAPABILITY_BINDING",
+      "applicable_bindings": [
+        "WORK_MANAGEMENT",
+        "WORK_CONTEXT",
+        "APPLICATION_LIFECYCLE",
+        "INTER_APP_HANDOFF"
+      ],
+      "requirements": [
+        "PRESERVE_NATIVE_PROJECT_DATA",
+        "USE_CANONICAL_WORK_CONTEXT_REFERENCES_WHERE_APPLICABLE",
+        "DO_NOT_CREATE_PARALLEL_WORK_OR_PERMISSION_AUTHORITY",
+        "RUNTIME_LIFECYCLE_SUPPORT_DECLARATION_REQUIRED_BEFORE_RUNTIME_PROMOTION",
+        "INTER_APP_EFFECTFUL_HANDOFF_MUST_USE_TYPED_UAF_AND_SCOPED_GRANT"
+      ],
+      "current_host_impact": "STRUCTURAL_REASSESSMENT_REQUIRED"
+    },
+    {
+      "application_id": "fa3.subtitle-studio",
+      "name": "Subtitle Studio",
+      "kind": "INTERNAL_APPLICATION",
+      "inventory_state": "EXISTING",
+      "disposition": "SHARED_CAPABILITY_BINDING",
+      "applicable_bindings": [
+        "WORK_MANAGEMENT",
+        "WORK_CONTEXT",
+        "APPLICATION_LIFECYCLE",
+        "INTER_APP_HANDOFF"
+      ],
+      "requirements": [
+        "PRESERVE_NATIVE_PROJECT_DATA",
+        "USE_CANONICAL_WORK_CONTEXT_REFERENCES_WHERE_APPLICABLE",
+        "DO_NOT_CREATE_PARALLEL_WORK_OR_PERMISSION_AUTHORITY",
+        "RUNTIME_LIFECYCLE_SUPPORT_DECLARATION_REQUIRED_BEFORE_RUNTIME_PROMOTION",
+        "INTER_APP_EFFECTFUL_HANDOFF_MUST_USE_TYPED_UAF_AND_SCOPED_GRANT"
+      ],
+      "current_host_impact": "STRUCTURAL_REASSESSMENT_REQUIRED"
+    },
+    {
+      "application_id": "fa3.threed-dcc-studio",
+      "name": "3D / DCC Studio",
+      "kind": "INTERNAL_APPLICATION",
+      "inventory_state": "PLANNED",
+      "disposition": "SHARED_CAPABILITY_BINDING",
+      "applicable_bindings": [
+        "WORK_MANAGEMENT",
+        "WORK_CONTEXT",
+        "APPLICATION_LIFECYCLE",
+        "INTER_APP_HANDOFF"
+      ],
+      "requirements": [
+        "PRESERVE_NATIVE_PROJECT_DATA",
+        "USE_CANONICAL_WORK_CONTEXT_REFERENCES_WHERE_APPLICABLE",
+        "DO_NOT_CREATE_PARALLEL_WORK_OR_PERMISSION_AUTHORITY",
+        "RUNTIME_LIFECYCLE_SUPPORT_DECLARATION_REQUIRED_BEFORE_RUNTIME_PROMOTION",
+        "INTER_APP_EFFECTFUL_HANDOFF_MUST_USE_TYPED_UAF_AND_SCOPED_GRANT"
+      ],
+      "current_host_impact": "STRUCTURAL_REASSESSMENT_REQUIRED"
+    },
+    {
+      "application_id": "fa3.unified-messenger",
+      "name": "Unified Messenger",
+      "kind": "INTERNAL_APPLICATION",
+      "inventory_state": "PLANNED",
+      "disposition": "SHARED_CAPABILITY_BINDING",
+      "applicable_bindings": [
+        "WORK_MANAGEMENT",
+        "WORK_CONTEXT",
+        "APPLICATION_LIFECYCLE",
+        "INTER_APP_HANDOFF"
+      ],
+      "requirements": [
+        "PRESERVE_NATIVE_PROJECT_DATA",
+        "USE_CANONICAL_WORK_CONTEXT_REFERENCES_WHERE_APPLICABLE",
+        "DO_NOT_CREATE_PARALLEL_WORK_OR_PERMISSION_AUTHORITY",
+        "RUNTIME_LIFECYCLE_SUPPORT_DECLARATION_REQUIRED_BEFORE_RUNTIME_PROMOTION",
+        "INTER_APP_EFFECTFUL_HANDOFF_MUST_USE_TYPED_UAF_AND_SCOPED_GRANT"
+      ],
+      "current_host_impact": "STRUCTURAL_REASSESSMENT_REQUIRED"
+    },
+    {
+      "application_id": "fa3.vector-studio",
+      "name": "Vector Studio",
+      "kind": "INTERNAL_APPLICATION",
+      "inventory_state": "PLANNED",
+      "disposition": "SHARED_CAPABILITY_BINDING",
+      "applicable_bindings": [
+        "WORK_MANAGEMENT",
+        "WORK_CONTEXT",
+        "APPLICATION_LIFECYCLE",
+        "INTER_APP_HANDOFF"
+      ],
+      "requirements": [
+        "PRESERVE_NATIVE_PROJECT_DATA",
+        "USE_CANONICAL_WORK_CONTEXT_REFERENCES_WHERE_APPLICABLE",
+        "DO_NOT_CREATE_PARALLEL_WORK_OR_PERMISSION_AUTHORITY",
+        "RUNTIME_LIFECYCLE_SUPPORT_DECLARATION_REQUIRED_BEFORE_RUNTIME_PROMOTION",
+        "INTER_APP_EFFECTFUL_HANDOFF_MUST_USE_TYPED_UAF_AND_SCOPED_GRANT"
+      ],
+      "current_host_impact": "STRUCTURAL_REASSESSMENT_REQUIRED"
+    },
+    {
+      "application_id": "fa3.vfx-studio",
+      "name": "VFX Studio",
+      "kind": "INTERNAL_APPLICATION",
+      "inventory_state": "PLANNED",
+      "disposition": "SHARED_CAPABILITY_BINDING",
+      "applicable_bindings": [
+        "WORK_MANAGEMENT",
+        "WORK_CONTEXT",
+        "APPLICATION_LIFECYCLE",
+        "INTER_APP_HANDOFF"
+      ],
+      "requirements": [
+        "PRESERVE_NATIVE_PROJECT_DATA",
+        "USE_CANONICAL_WORK_CONTEXT_REFERENCES_WHERE_APPLICABLE",
+        "DO_NOT_CREATE_PARALLEL_WORK_OR_PERMISSION_AUTHORITY",
+        "RUNTIME_LIFECYCLE_SUPPORT_DECLARATION_REQUIRED_BEFORE_RUNTIME_PROMOTION",
+        "INTER_APP_EFFECTFUL_HANDOFF_MUST_USE_TYPED_UAF_AND_SCOPED_GRANT"
+      ],
+      "current_host_impact": "STRUCTURAL_REASSESSMENT_REQUIRED"
+    },
+    {
+      "application_id": "fa3.world-environment-studio",
+      "name": "World & Environment Studio",
+      "kind": "INTERNAL_APPLICATION",
+      "inventory_state": "PLANNED",
+      "disposition": "SHARED_CAPABILITY_BINDING",
+      "applicable_bindings": [
+        "WORK_MANAGEMENT",
+        "WORK_CONTEXT",
+        "APPLICATION_LIFECYCLE",
+        "INTER_APP_HANDOFF"
+      ],
+      "requirements": [
+        "PRESERVE_NATIVE_PROJECT_DATA",
+        "USE_CANONICAL_WORK_CONTEXT_REFERENCES_WHERE_APPLICABLE",
+        "DO_NOT_CREATE_PARALLEL_WORK_OR_PERMISSION_AUTHORITY",
+        "RUNTIME_LIFECYCLE_SUPPORT_DECLARATION_REQUIRED_BEFORE_RUNTIME_PROMOTION",
+        "INTER_APP_EFFECTFUL_HANDOFF_MUST_USE_TYPED_UAF_AND_SCOPED_GRANT"
+      ],
+      "current_host_impact": "STRUCTURAL_REASSESSMENT_REQUIRED"
+    },
+    {
+      "application_id": "fa3.opencut",
+      "name": "CFA3 OpenCut Fast Editor",
+      "kind": "INTERNAL_APPLICATION",
+      "inventory_state": "PLANNED",
+      "disposition": "SHARED_CAPABILITY_BINDING",
+      "applicable_bindings": [
+        "WORK_MANAGEMENT",
+        "WORK_CONTEXT",
+        "APPLICATION_LIFECYCLE",
+        "INTER_APP_HANDOFF"
+      ],
+      "requirements": [
+        "PRESERVE_NATIVE_PROJECT_DATA",
+        "USE_CANONICAL_WORK_CONTEXT_REFERENCES_WHERE_APPLICABLE",
+        "DO_NOT_CREATE_PARALLEL_WORK_OR_PERMISSION_AUTHORITY",
+        "RUNTIME_LIFECYCLE_SUPPORT_DECLARATION_REQUIRED_BEFORE_RUNTIME_PROMOTION",
+        "INTER_APP_EFFECTFUL_HANDOFF_MUST_USE_TYPED_UAF_AND_SCOPED_GRANT"
+      ],
+      "current_host_impact": "STRUCTURAL_REASSESSMENT_REQUIRED"
+    },
+    {
+      "application_id": "fa3.openvid-shared",
+      "name": "CFA3 OpenVid Shared Composer",
+      "kind": "INTERNAL_APPLICATION",
+      "inventory_state": "PLANNED",
+      "disposition": "SHARED_CAPABILITY_BINDING",
+      "applicable_bindings": [
+        "WORK_MANAGEMENT",
+        "WORK_CONTEXT",
+        "APPLICATION_LIFECYCLE",
+        "INTER_APP_HANDOFF"
+      ],
+      "requirements": [
+        "PRESERVE_NATIVE_PROJECT_DATA",
+        "USE_CANONICAL_WORK_CONTEXT_REFERENCES_WHERE_APPLICABLE",
+        "DO_NOT_CREATE_PARALLEL_WORK_OR_PERMISSION_AUTHORITY",
+        "RUNTIME_LIFECYCLE_SUPPORT_DECLARATION_REQUIRED_BEFORE_RUNTIME_PROMOTION",
+        "INTER_APP_EFFECTFUL_HANDOFF_MUST_USE_TYPED_UAF_AND_SCOPED_GRANT"
+      ],
+      "current_host_impact": "STRUCTURAL_REASSESSMENT_REQUIRED"
     }
   ],
   "continuous_rule": {
@@ -580,28 +1147,128 @@
   "source_coverage": {
     "FA3-APPLICATION-DONOR-LINKS-001": [
       {
-        "source_id": "fa3.video-editor",
-        "consumer_id": "fa3.video-editor"
+        "source_id": "fa3.ai-module-factory",
+        "consumer_id": "fa3.ai-module-factory"
       },
       {
-        "source_id": "fa3.quickclip",
-        "consumer_id": "fa3.quickclip"
-      },
-      {
-        "source_id": "fa3.story-screenplay",
-        "consumer_id": "fa3.story-screenplay"
-      },
-      {
-        "source_id": "fa3.music-studio",
-        "consumer_id": "fa3.music-studio"
+        "source_id": "fa3.animation-motion-studio",
+        "consumer_id": "fa3.animation-motion-studio"
       },
       {
         "source_id": "fa3.character-studio",
         "consumer_id": "fa3.character-studio"
       },
       {
-        "source_id": "fa3.ai-module-factory",
-        "consumer_id": "fa3.ai-module-factory"
+        "source_id": "fa3.choreography-studio",
+        "consumer_id": "fa3.choreography-studio"
+      },
+      {
+        "source_id": "fa3.coach",
+        "consumer_id": "fa3.coach"
+      },
+      {
+        "source_id": "fa3.credits-titles",
+        "consumer_id": "fa3.credits-titles"
+      },
+      {
+        "source_id": "fa3.digital-human-studio",
+        "consumer_id": "fa3.digital-human-studio"
+      },
+      {
+        "source_id": "fa3.email-contact-manager",
+        "consumer_id": "fa3.email-contact-manager"
+      },
+      {
+        "source_id": "fa3.game-creation-studio",
+        "consumer_id": "fa3.game-creation-studio"
+      },
+      {
+        "source_id": "fa3.humanizer",
+        "consumer_id": "fa3.humanizer"
+      },
+      {
+        "source_id": "fa3.live-broadcast-studio",
+        "consumer_id": "fa3.live-broadcast-studio"
+      },
+      {
+        "source_id": "fa3.meeting-manager",
+        "consumer_id": "fa3.meeting-manager"
+      },
+      {
+        "source_id": "fa3.mind-map-studio",
+        "consumer_id": "fa3.mind-map-studio"
+      },
+      {
+        "source_id": "fa3.music-studio",
+        "consumer_id": "fa3.music-studio"
+      },
+      {
+        "source_id": "fa3.narration-studio",
+        "consumer_id": "fa3.narration-studio"
+      },
+      {
+        "source_id": "fa3.office",
+        "consumer_id": "fa3.office"
+      },
+      {
+        "source_id": "fa3.photo-image-studio",
+        "consumer_id": "fa3.photo-image-studio"
+      },
+      {
+        "source_id": "fa3.production-studio",
+        "consumer_id": "fa3.production-studio"
+      },
+      {
+        "source_id": "fa3.quickclip",
+        "consumer_id": "fa3.quickclip"
+      },
+      {
+        "source_id": "fa3.render-manager",
+        "consumer_id": "fa3.render-manager"
+      },
+      {
+        "source_id": "fa3.review-studio",
+        "consumer_id": "fa3.review-studio"
+      },
+      {
+        "source_id": "fa3.scene-shot-designer",
+        "consumer_id": "fa3.scene-shot-designer"
+      },
+      {
+        "source_id": "fa3.spatial-reconstruction",
+        "consumer_id": "fa3.spatial-reconstruction"
+      },
+      {
+        "source_id": "fa3.story-screenplay",
+        "consumer_id": "fa3.story-screenplay"
+      },
+      {
+        "source_id": "fa3.subtitle-studio",
+        "consumer_id": "fa3.subtitle-studio"
+      },
+      {
+        "source_id": "fa3.threed-dcc-studio",
+        "consumer_id": "fa3.threed-dcc-studio"
+      },
+      {
+        "source_id": "fa3.unified-messenger",
+        "consumer_id": "fa3.unified-messenger"
+      },
+      {
+        "source_id": "fa3.vector-studio",
+        "consumer_id": "fa3.vector-studio"
+      },
+      {
+        "source_id": "fa3.vfx-studio",
+        "consumer_id": "fa3.vfx-studio"
+      },
+      {
+        "source_id": "fa3.video-editor",
+        "consumer_id": "fa3.video-editor"
+      },
+      {
+        "source_id": "fa3.world-environment-studio",
+        "consumer_id": "fa3.world-environment-studio"
       },
       {
         "source_id": "reference.krita",
@@ -610,6 +1277,14 @@
       {
         "source_id": "reference.ardour",
         "consumer_id": "reference.ardour"
+      },
+      {
+        "source_id": "fa3.opencut",
+        "consumer_id": "fa3.opencut"
+      },
+      {
+        "source_id": "fa3.openvid-shared",
+        "consumer_id": "fa3.openvid-shared"
       }
     ],
     "FA3-AI-STUDIO-APP-CATALOG-001": [
@@ -770,6 +1445,122 @@
       {
         "source_id": "reference.ardour",
         "consumer_id": "reference.ardour"
+      },
+      {
+        "source_id": "fa3.control-center",
+        "consumer_id": "fa3.control-center"
+      },
+      {
+        "source_id": "fa3.workload-mode",
+        "consumer_id": "fa3.workload-mode"
+      },
+      {
+        "source_id": "fa3.photo-image-studio",
+        "consumer_id": "fa3.photo-image-studio"
+      },
+      {
+        "source_id": "fa3.vector-studio",
+        "consumer_id": "fa3.vector-studio"
+      },
+      {
+        "source_id": "fa3.scene-shot-designer",
+        "consumer_id": "fa3.scene-shot-designer"
+      },
+      {
+        "source_id": "fa3.world-environment-studio",
+        "consumer_id": "fa3.world-environment-studio"
+      },
+      {
+        "source_id": "fa3.choreography-studio",
+        "consumer_id": "fa3.choreography-studio"
+      },
+      {
+        "source_id": "fa3.vfx-studio",
+        "consumer_id": "fa3.vfx-studio"
+      },
+      {
+        "source_id": "fa3.production-studio",
+        "consumer_id": "fa3.production-studio"
+      },
+      {
+        "source_id": "fa3.subtitle-studio",
+        "consumer_id": "fa3.subtitle-studio"
+      },
+      {
+        "source_id": "fa3.narration-studio",
+        "consumer_id": "fa3.narration-studio"
+      },
+      {
+        "source_id": "fa3.digital-human-studio",
+        "consumer_id": "fa3.digital-human-studio"
+      },
+      {
+        "source_id": "fa3.animation-motion-studio",
+        "consumer_id": "fa3.animation-motion-studio"
+      },
+      {
+        "source_id": "fa3.live-broadcast-studio",
+        "consumer_id": "fa3.live-broadcast-studio"
+      },
+      {
+        "source_id": "fa3.review-studio",
+        "consumer_id": "fa3.review-studio"
+      },
+      {
+        "source_id": "fa3.credits-titles",
+        "consumer_id": "fa3.credits-titles"
+      },
+      {
+        "source_id": "fa3.spatial-reconstruction",
+        "consumer_id": "fa3.spatial-reconstruction"
+      },
+      {
+        "source_id": "fa3.render-manager",
+        "consumer_id": "fa3.render-manager"
+      },
+      {
+        "source_id": "fa3.threed-dcc-studio",
+        "consumer_id": "fa3.threed-dcc-studio"
+      },
+      {
+        "source_id": "fa3.game-creation-studio",
+        "consumer_id": "fa3.game-creation-studio"
+      },
+      {
+        "source_id": "fa3.mind-map-studio",
+        "consumer_id": "fa3.mind-map-studio"
+      },
+      {
+        "source_id": "fa3.coach",
+        "consumer_id": "fa3.coach"
+      },
+      {
+        "source_id": "fa3.humanizer",
+        "consumer_id": "fa3.humanizer"
+      },
+      {
+        "source_id": "fa3.office",
+        "consumer_id": "fa3.office"
+      },
+      {
+        "source_id": "fa3.email-contact-manager",
+        "consumer_id": "fa3.email-contact-manager"
+      },
+      {
+        "source_id": "fa3.unified-messenger",
+        "consumer_id": "fa3.unified-messenger"
+      },
+      {
+        "source_id": "fa3.meeting-manager",
+        "consumer_id": "fa3.meeting-manager"
+      },
+      {
+        "source_id": "fa3.opencut",
+        "consumer_id": "fa3.opencut"
+      },
+      {
+        "source_id": "fa3.openvid-shared",
+        "consumer_id": "fa3.openvid-shared"
       }
     ]
   }
