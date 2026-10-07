@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "FA3 Operating Level Model",
+  "type": "object",
+  "required": [
+    "schema",
+    "id",
+    "order",
+    "levels",
+    "operational_requirements",
+    "rules"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.operating-level-model.v1"
+    },
+    "id": {
+      "const": "FA3-OPERATING-LEVEL-MODEL-001"
+    },
+    "order": {
+      "const": [
+        "MINIMAL",
+        "PERSONAL",
+        "PROFESSIONAL",
+        "STUDIO",
+        "BUSINESS",
+        "ENTERPRISE"
+      ]
+    },
+    "operational_requirements": {
+      "type": "object",
+      "additionalProperties": {
+        "enum": [
+          "MINIMAL",
+          "PERSONAL",
+          "PROFESSIONAL",
+          "STUDIO",
+          "BUSINESS",
+          "ENTERPRISE"
+        ]
+      },
+      "minProperties": 1
+    }
+  }
+}

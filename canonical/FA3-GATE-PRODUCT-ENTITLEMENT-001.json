@@ -1,0 +1,24 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-PRODUCT-ENTITLEMENT-001",
+  "name": "Product entitlement and operating-level conformance",
+  "status": "MANDATORY_REFERENCE_SUBGATE",
+  "fail_closed": true,
+  "capability_count": 175,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "executable": "src/fa3_application_portfolio.py",
+  "blocks_on": [
+    "APPLICATION_BELOW_MINIMUM_OPERATING_LEVEL",
+    "BUNDLE_REQUIRED_FOR_INDIVIDUAL_APP",
+    "DEPENDENCY_GRANTS_UNRELATED_APP",
+    "AUTHORITY_BYPASS",
+    "SILENT_FALLBACK",
+    "MISSING_DEPENDENCY_DECLARATION",
+    "DEPENDENCY_PROJECTION_DRIFT",
+    "BUNDLE_MEMBERSHIP_DRIFT"
+  ],
+  "runtime_promotion_claim": false,
+  "parent_gateset_id": "FA3-PRODUCT-ENTITLEMENT-GATESET-001",
+  "enforcement_id": "FA3-PRODUCT-ENTITLEMENT-GATESET-001"
+}

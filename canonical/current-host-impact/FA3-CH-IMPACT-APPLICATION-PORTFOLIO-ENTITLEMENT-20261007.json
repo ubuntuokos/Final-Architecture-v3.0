@@ -1,0 +1,35 @@
+{
+  "schema": "fa3.current-host-structural-impact.v1",
+  "id": "FA3-CH-IMPACT-APPLICATION-PORTFOLIO-ENTITLEMENT-20261007",
+  "status": "RECONCILED",
+  "subject_id": "FA3-APPLICATION-PORTFOLIO-001",
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "structural_changes": [
+    ".github/workflows/fa3-application-portfolio.yml",
+    "canonical/FA3-ENTITLEMENT-POLICY-001.json",
+    "canonical/FA3-GATE-APPLICATION-PORTFOLIO-001.json",
+    "canonical/FA3-GATE-APPLICATION-PORTFOLIO-DRIFT-001.json",
+    "canonical/FA3-GATE-OPERATING-LEVEL-DEPENDENCY-001.json",
+    "canonical/FA3-GATE-PRODUCT-ENTITLEMENT-001.json",
+    "canonical/FA3-GATE-REGISTRY-001.json",
+    "canonical/decisions/FA3-DEC-APPLICATION-PORTFOLIO-ENTITLEMENT-2026-10-03.json",
+    "canonical/enforcement-policy.json",
+    "canonical/schemas/FA3-ENTITLEMENT-POLICY-SCHEMA-001.json",
+    "src/fa3_enforce.py",
+    "src/fa3_product_entitlement_gate.py"
+  ],
+  "current_host_changes": [
+    "canonical/FA3-PRODUCT-ENTITLEMENT-CURRENT-HOST-CONFORMANCE-001.json"
+  ],
+  "physical_requalification_required": true,
+  "physical_requalification_scope": "CONTROL_CENTER_PRODUCT_ENTITLEMENT_MY_FA3_EXACT_HEAD",
+  "affected_capability_ids": [],
+  "historical_evidence_reused": false,
+  "current_host_status": "PENDING_FRESH_PHYSICAL_GUI_REQUALIFICATION",
+  "runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "proof_model_change": false,
+  "rationale": "The reconciliation adds Product Entitlement governance/gates and an executable My FA3 Control Center projection while preserving the 175-capability baseline and all existing authorities. A dedicated Current Host companion records that prior GUI evidence is not inherited; fresh exact-head physical GUI evidence is required before runtime admission. No Current Host PASS or global promotion is claimed by this PR."
+}
