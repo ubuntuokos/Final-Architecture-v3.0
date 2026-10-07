@@ -90,6 +90,7 @@ from fa3_hair_groom_gate import gate as hair_groom_gate
 from fa3_cuda_compat_gate import gate as cuda_compat_native_gate
 from fa3_ray_path_tracing_gate import gate as ray_path_tracing_gate
 from cfa3_development_ai_behavior_gate import gate as cfa3_development_ai_behavior_gate
+from cfa3_retroactive_redesign_compliance_gate import gate as cfa3_retroactive_redesign_compliance_gate
 from fa3_khronos_open_standards_gate import gate as khronos_open_standards_gate
 from fa3_audacity_mcp_gate import gate as audacity_mcp_gate
 from fa3_agent_instructions_gate import gate as agent_instructions_gate
@@ -243,6 +244,9 @@ def static_check(root:Path):
     cfa3_development_ai_behavior_ref=cfa3_development_ai_behavior_gate(root)
     if cfa3_development_ai_behavior_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-153","CFA3 development and AI behavior mandatory governance gate failed",cfa3_development_ai_behavior_gate=cfa3_development_ai_behavior_ref))
+    cfa3_retroactive_redesign_ref=cfa3_retroactive_redesign_compliance_gate(root)
+    if cfa3_retroactive_redesign_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-156","CFA3 retroactive redesign compliance mandatory governance gate failed",cfa3_retroactive_redesign_compliance_gate=cfa3_retroactive_redesign_ref))
     agent_instructions_ref=agent_instructions_gate(root)
     if agent_instructions_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-114","Repository agent-instruction projection governance gate failed",agent_instructions_gate=agent_instructions_ref))

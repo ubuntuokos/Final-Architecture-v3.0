@@ -320,5 +320,17 @@
     "host_resource_broker_remains_resource_authority": true,
     "model_router_remains_model_routing_authority": true,
     "behavior_preflight_is_effect_authority": false
+  },
+  "composed_development_policies": [
+    "CFA3-RETROACTIVE-REDESIGN-COMPLIANCE-POLICY-001"
+  ],
+  "retroactive_redesign_compliance": {
+    "policy_id": "CFA3-RETROACTIVE-REDESIGN-COMPLIANCE-POLICY-001",
+    "mandatory": true,
+    "legacy_source_recovery_required": true,
+    "temporary_planning_use_allowed": true,
+    "finalization_requires_canonical_donors": true,
+    "current_rule_delta_required": true,
+    "fail_closed": true
   }
 }
