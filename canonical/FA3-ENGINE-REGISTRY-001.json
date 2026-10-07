@@ -371,6 +371,62 @@
       "automatic_backend_selection": false,
       "silent_fallback": false,
       "current_host_runtime_promotion_claim": false
+    },
+    {
+      "engine_id": "FA3-ENGINE-HYPERFRAMES-001",
+      "name": "HyperFrames",
+      "implementation_kind": "DONOR_DERIVED_ADAPTER_ENGINE",
+      "engine_classes": [
+        "MEDIA_COMPOSITION",
+        "COMPOSITING",
+        "RENDER"
+      ],
+      "capability_projection": [
+        "CAP-113",
+        "CAP-121",
+        "CAP-126"
+      ],
+      "execution_modes": [
+        "LOCAL"
+      ],
+      "status": "STATIC_ADAPTER_MATERIALIZED_RUNTIME_ADMISSION_SEPARATE",
+      "health_state": "CURRENT_HOST_NOT_ADMITTED",
+      "architectural_authority": false,
+      "permanent_parallel_option": true,
+      "replacement_target": false,
+      "donor_id": "FA3-DONOR-HYPERFRAMES-001",
+      "usage_edge": "FA3-USAGE-HYPERFRAMES-MLT-EXTENDED-MEDIA-001",
+      "current_host_runtime_promotion_claim": false
+    },
+    {
+      "engine_id": "FA3-ENGINE-HEYGEN-001",
+      "name": "HeyGen",
+      "implementation_kind": "CANONICAL_PROVIDER",
+      "engine_classes": [
+        "VIDEO_GENERATION",
+        "DIGITAL_HUMAN",
+        "LIP_SYNC",
+        "DUBBING",
+        "TRANSLATION"
+      ],
+      "capability_projection": [
+        "CAP-043",
+        "CAP-159",
+        "CAP-160",
+        "CAP-164",
+        "CAP-168"
+      ],
+      "execution_modes": [
+        "REMOTE",
+        "CLOUD"
+      ],
+      "status": "STATIC_PROVIDER_PROJECTION_RUNTIME_NOT_ADMITTED",
+      "health_state": "CURRENT_HOST_NOT_ADMITTED",
+      "architectural_authority": false,
+      "provider_record": "FA3-PROVIDER-HEYGEN-001",
+      "model_router_bound": true,
+      "permanent_parallel_option": true,
+      "current_host_runtime_promotion_claim": false
     }
   ],
   "custom_engine_policy": {

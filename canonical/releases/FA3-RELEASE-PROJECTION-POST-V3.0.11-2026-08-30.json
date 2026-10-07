@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "8e22c9cc814e6f294a74f7b54e71e5605fbf30db",
-    "pre_projection_root_tree_sha": "1b48a3efcbb93cd178711854d68cf01c243c8008",
-    "pre_projection_canonical_tree_sha": "3e71cbe50d5ae43991d1546761e1810138992db8",
-    "commits_ahead_of_v3_0_11_conformance_commit": 3536,
-    "total_post_baseline_commits": 3536,
-    "delta_file_count": 3151,
-    "delta_added_files": 3145,
+    "pre_projection_head_sha": "8cb3f0000de34a2d2b3254ef0ab3931c5d7da3c4",
+    "pre_projection_root_tree_sha": "0565d494882fbacf6c5f11c027445d2a9e9fda73",
+    "pre_projection_canonical_tree_sha": "b7e244361c50f8c6edd3bcfb5605bb29a1209ede",
+    "commits_ahead_of_v3_0_11_conformance_commit": 3576,
+    "total_post_baseline_commits": 3576,
+    "delta_file_count": 3168,
+    "delta_added_files": 3162,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,11 +46,11 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1494,
+    "canonical_files_in_post_baseline_delta": 1506,
     "evidence_files_in_post_baseline_delta": 172,
-    "source_files_in_post_baseline_delta": 401,
-    "test_files_in_post_baseline_delta": 377,
-    "workflow_files_in_post_baseline_delta": 147,
+    "source_files_in_post_baseline_delta": 403,
+    "test_files_in_post_baseline_delta": 378,
+    "workflow_files_in_post_baseline_delta": 148,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENCY-AGENTS-001.json",
@@ -92,6 +92,7 @@
       "canonical/providers/FA3-PROVIDER-GTCRN-001.json",
       "canonical/providers/FA3-PROVIDER-HAYSTACK-001.json",
       "canonical/providers/FA3-PROVIDER-HELIOS-001.json",
+      "canonical/providers/FA3-PROVIDER-HEYGEN-001.json",
       "canonical/providers/FA3-PROVIDER-HF-MODEL-STORE-001.json",
       "canonical/providers/FA3-PROVIDER-IDEATION-ADVISORY-LOCAL-001.json",
       "canonical/providers/FA3-PROVIDER-INSPECTOR-LOCAL-001.json",
@@ -223,6 +224,7 @@
       "canonical/profiles/FA3-DESKTOP-001.json",
       "canonical/profiles/FA3-DESKTOP-AGENT-WORKBENCH-001.json",
       "canonical/profiles/FA3-DIFFERENTIABLE-3D-001.json",
+      "canonical/profiles/FA3-DIGITAL-HUMAN-PROVIDER-FABRIC-001.json",
       "canonical/profiles/FA3-DISTRIBUTION-COMPLIANCE-001.json",
       "canonical/profiles/FA3-ENGINE-SELECTION-FABRIC-001.json",
       "canonical/profiles/FA3-EXTERNAL-API-DISCOVERY-001.json",
@@ -260,6 +262,7 @@
       "canonical/profiles/FA3-MEDIA-GPU-ZEROCOPY-001.json",
       "canonical/profiles/FA3-MENTOR-001.json",
       "canonical/profiles/FA3-MESH-GEN-001.json",
+      "canonical/profiles/FA3-MLT-EXTENDED-MEDIA-SERVICE-001.json",
       "canonical/profiles/FA3-MODEL-ARTIFACT-SECURITY-001.json",
       "canonical/profiles/FA3-MODEL-MANAGER-001.json",
       "canonical/profiles/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-001.json",
@@ -366,6 +369,7 @@
       "canonical/contracts/FA3-DESKTOP-CONTRACTS-001.json",
       "canonical/contracts/FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001.json",
       "canonical/contracts/FA3-DIFFERENTIABLE-3D-CONTRACTS-001.json",
+      "canonical/contracts/FA3-DIGITAL-HUMAN-PROVIDER-CONTRACTS-001.json",
       "canonical/contracts/FA3-DISTRIBUTION-COMPLIANCE-CONTRACTS-001.json",
       "canonical/contracts/FA3-DONOR-CHAT-INGEST-001.json",
       "canonical/contracts/FA3-DURABLE-REPLAYABLE-MULTI-AGENT-EXECUTION-CONTRACTS-001.json",
@@ -413,6 +417,7 @@
       "canonical/contracts/FA3-MCP-GATEWAY-CONTRACTS-001.json",
       "canonical/contracts/FA3-MENTOR-CONTRACTS-001.json",
       "canonical/contracts/FA3-MINIMAX-H3-ADAPTER-CONTRACTS-001.json",
+      "canonical/contracts/FA3-MLT-EXTENDED-MEDIA-SERVICE-CONTRACTS-001.json",
       "canonical/contracts/FA3-MMG-CONTEXT-IR-CONTRACTS-001.json",
       "canonical/contracts/FA3-MODEL-ARTIFACT-SECURITY-CONTRACTS-001.json",
       "canonical/contracts/FA3-MODEL-CAPABILITY-DESCRIPTOR-001.schema.json",
@@ -577,6 +582,7 @@
       "canonical/decisions/FA3-DEC-HUMAN-MOTION-CURRENT-HOST-2026-09-12.json",
       "canonical/decisions/FA3-DEC-HUMAN-MOTION-HARDWARE-CONFORMANCE-2026-09-12.json",
       "canonical/decisions/FA3-DEC-HYBRID-EDITORIAL-2026-08-31.json",
+      "canonical/decisions/FA3-DEC-HYPERFRAMES-MLT-DONOR-USE-2026-10-03.json",
       "canonical/decisions/FA3-DEC-IDEATION-ADVISORY-2026-09-12.json",
       "canonical/decisions/FA3-DEC-IMPLEMENTATION-PLAN-DONOR-EXCEPTION-2026-10-04.json",
       "canonical/decisions/FA3-DEC-INFERENCE-CACHE-HARDENING-2026-09-07.json",
@@ -613,6 +619,7 @@
       "canonical/decisions/FA3-DEC-MINIMAX-H3-PROJECTION-2026-08-30.json",
       "canonical/decisions/FA3-DEC-MINIMAX-H3-RUNTIME-ADMISSION-2026-09-07.json",
       "canonical/decisions/FA3-DEC-MINIMAX-H3-SERVICE-ACCESS-2026-09-07.json",
+      "canonical/decisions/FA3-DEC-MLT-HEYGEN-EXTENDED-MEDIA-2026-10-03.json",
       "canonical/decisions/FA3-DEC-MMG-CONTEXT-IR-2026-09-08.json",
       "canonical/decisions/FA3-DEC-MMG-CONTEXT-IR-REFERENCE-2026-09-09.json",
       "canonical/decisions/FA3-DEC-MODEL-ARTIFACT-SECURITY-2026-09-07.json",
@@ -1112,7 +1119,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 3141,
+  "manifest_entry_count": 3158,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1557,6 +1564,11 @@
     {
       "path": ".github/workflows/fa3-minimax-h3-current-host.yml",
       "git_blob_sha": "4308922dbbb2151767992f4eb79d5a9b26c11028",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-mlt-heygen-extended-media.yml",
+      "git_blob_sha": "4e2464ca2aaa99fe798ab61c9ba9b5af046eb37f",
       "baseline_delta_status": "added"
     },
     {
@@ -3615,6 +3627,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/FA3-MLT-HEYGEN-DECISION-ASSESSMENT-2026-10-03.json",
+      "git_blob_sha": "8a9fbcb3592b6a38a8e2447e868c6c81fc7f9809",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/assessments/FA3-MLT-HEYGEN-REUSE-ASSESSMENT-2026-10-03.json",
+      "git_blob_sha": "bbdc677109e0f28541aba6e8bf492cbfd7dbd316",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/assessments/FA3-MODEL-MANAGER-NATIVE-STORAGE-REUSE-ASSESSMENT-001.json",
       "git_blob_sha": "a3f3be060f44a1cdcd846bef73f076c1b41ade47",
       "baseline_delta_status": "added"
@@ -4205,6 +4227,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/contracts/FA3-DIGITAL-HUMAN-PROVIDER-CONTRACTS-001.json",
+      "git_blob_sha": "a332a7a9a9770b099a87eedb40d93a9d51cf2791",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-DISTRIBUTION-COMPLIANCE-CONTRACTS-001.json",
       "git_blob_sha": "f5c22f0c89e7288f824873af23371e82f8314e12",
       "baseline_delta_status": "added"
@@ -4437,6 +4464,11 @@
     {
       "path": "canonical/contracts/FA3-MINIMAX-H3-ADAPTER-CONTRACTS-001.json",
       "git_blob_sha": "4ab889d9ec79a76ecb609dc513afb7fd1617d14c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-MLT-EXTENDED-MEDIA-SERVICE-CONTRACTS-001.json",
+      "git_blob_sha": "31e8e9b612e673580c4342c0cf8edae84b139f13",
       "baseline_delta_status": "added"
     },
     {
@@ -4902,6 +4934,11 @@
     {
       "path": "canonical/current-host-impact/CFA3-DONOR-INTAKE-BATCH-ACCELERATION-CURRENT-HOST-IMPACT-2026-10-04.json",
       "git_blob_sha": "1fbe2e8494c5838e0bdc3c55c7007c1e729eaa26",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/current-host-impact/CFA3-MLT-HEYGEN-EXTENDED-MEDIA-CURRENT-HOST-IMPACT-2026-10-07.json",
+      "git_blob_sha": "c3106b3456bb370902da95487be03011480ce6fe",
       "baseline_delta_status": "added"
     },
     {
@@ -5420,6 +5457,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-HYPERFRAMES-MLT-DONOR-USE-2026-10-03.json",
+      "git_blob_sha": "0d41a7c41b0bab74a6721e33a3fa0804a839bb25",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-IDEATION-ADVISORY-2026-09-12.json",
       "git_blob_sha": "c7b8702bd39f4a1c3935f37fb5972851122d9778",
       "baseline_delta_status": "added"
@@ -5597,6 +5639,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-MINIMAX-H3-SERVICE-ACCESS-2026-09-07.json",
       "git_blob_sha": "162622a1e55cea2efe05bb3a8253862f25d00993",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-MLT-HEYGEN-EXTENDED-MEDIA-2026-10-03.json",
+      "git_blob_sha": "f732658e1c13bb47e97451f6e892affd481f8f3e",
       "baseline_delta_status": "added"
     },
     {
@@ -6251,12 +6298,12 @@
     },
     {
       "path": "canonical/distribution-manifest.json",
-      "git_blob_sha": "fba72c95ae65d56032dd13b309f3ac86bcf4c36d",
+      "git_blob_sha": "771870e9aba73d347e141801647e21dc97055af2",
       "baseline_delta_status": "added"
     },
     {
       "path": "canonical/distribution-registry.json",
-      "git_blob_sha": "91949f7355e1ad0363a7dc0ce71162773870ae00",
+      "git_blob_sha": "450bee0edbc2f6d4f4b52a168aa306239b31a16b",
       "baseline_delta_status": "added"
     },
     {
@@ -6376,7 +6423,7 @@
     },
     {
       "path": "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
-      "git_blob_sha": "12bb96fe4578f74eee59057fcc4b4d42ba29c3cb",
+      "git_blob_sha": "a2f310ff88d87f39b67c4853e61c539801f82838",
       "baseline_delta_status": "added"
     },
     {
@@ -6541,7 +6588,7 @@
     },
     {
       "path": "canonical/FA3-ENGINE-REGISTRY-001.json",
-      "git_blob_sha": "f7c508830be0d15ceecac99d2fdfb49999486e10",
+      "git_blob_sha": "ceb97093f5d67bd1a1ac84758796d9884e18ee48",
       "baseline_delta_status": "added"
     },
     {
@@ -7855,6 +7902,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/intents/FA3-MLT-HEYGEN-APPLICATION-INTENT-2026-10-03.json",
+      "git_blob_sha": "ab593b83feb7ba0e98557a689b6a8ef2f7c448f2",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/intents/FA3-MODEL-MANAGER-NATIVE-STORAGE-APPLICATION-INTENT-001.json",
       "git_blob_sha": "45bb0ff9428ffdfb7df0304477247944256a38de",
       "baseline_delta_status": "added"
@@ -8127,6 +8179,11 @@
     {
       "path": "canonical/minimax-h3-runtime-admission-enforcement.json",
       "git_blob_sha": "ce8fcf7a168d2f9b92d1ebf59b37aa2f69100cc4",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/mlt-heygen-enforcement.json",
+      "git_blob_sha": "ded9dfc1218b0fda17ca4066447a82449263dbcd",
       "baseline_delta_status": "added"
     },
     {
@@ -8480,13 +8537,18 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/profiles/FA3-DIGITAL-HUMAN-PROVIDER-FABRIC-001.json",
+      "git_blob_sha": "35bceb7195be7ea95cd6b112a33f270ea31d045f",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/profiles/FA3-DISTRIBUTION-COMPLIANCE-001.json",
       "git_blob_sha": "e2cdb72f163a363c306a37cb2ec0ef21e6fb5eec",
       "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-ENGINE-SELECTION-FABRIC-001.json",
-      "git_blob_sha": "3a0a29d96ce8219bf6c08a3bc7af86319d8117ae",
+      "git_blob_sha": "148bb6f41206b0ab498cb161b8757f5d557ede09",
       "baseline_delta_status": "added"
     },
     {
@@ -8662,6 +8724,11 @@
     {
       "path": "canonical/profiles/FA3-MESH-GEN-001.json",
       "git_blob_sha": "a43b095878f212c77ef4c6c0b338ffcaa632e97d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-MLT-EXTENDED-MEDIA-SERVICE-001.json",
+      "git_blob_sha": "cb660c118ce9426c9bbc2525287e25e225b73770",
       "baseline_delta_status": "added"
     },
     {
@@ -9082,6 +9149,11 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-HELIOS-001.json",
       "git_blob_sha": "b9a8381e7e30de3828df860ba89c75549cc476a8",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-HEYGEN-001.json",
+      "git_blob_sha": "3562f0ad0842b555d60b614e6e96cae6f93e1bf1",
       "baseline_delta_status": "added"
     },
     {
@@ -11422,6 +11494,11 @@
     {
       "path": "docs/metric-3d-provider-fabric.md",
       "git_blob_sha": "8fc5f9146091f38db5e3c6b79edfe03e54ba79da",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/mlt-heygen-extended-media.md",
+      "git_blob_sha": "8a8d8c1614bed179ab8ff9e97ba0cf59a99747c7",
       "baseline_delta_status": "added"
     },
     {
@@ -14045,6 +14122,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_mlt_extended_media.py",
+      "git_blob_sha": "731818341e7de8558ccfae7261c35a4f219bec1c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_mlt_heygen_gate.py",
+      "git_blob_sha": "727bd8f52f3fa4c45db306064a6c65a94fed42f1",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_mmg_context_ir_gate.py",
       "git_blob_sha": "c951f26e14242926cbc5e5e52e77f2b284891784",
       "baseline_delta_status": "added"
@@ -16105,6 +16192,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_mlt_heygen_extended_media.py",
+      "git_blob_sha": "bb84ed104eb64a0459a47cd19c8463dc6c90ce9d",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_mmg_context_ir_gate.py",
       "git_blob_sha": "5398a2471d04acf23250fe498629745eda0b4456",
       "baseline_delta_status": "added"
@@ -17251,7 +17343,7 @@
     "reference_evidence_path": "evidence/reference/model-manager-v2-ci-2026-09-01.json",
     "reference_evidence_source_commit": "7c7a0b9ac9168efee2dd4b52485a5fb647be4c39"
   },
-  "last_regenerated_at": "2026-10-06",
+  "last_regenerated_at": "2026-10-07",
   "model_manager_current_host_reconciliation": {
     "decision_id": "FA3-DEC-MODEL-MANAGER-CURRENT-HOST-2026-09-01",
     "profile_id": "FA3-MODEL-MANAGER-001",
@@ -18944,5 +19036,37 @@
     "new_architectural_authorities": 0,
     "capability_count_after": 175,
     "reconciliation_status": "CANONICAL_SHARED_FABRIC_STATIC_MATERIALIZED_RUNTIME_BACKEND_ADMISSION_SEPARATE"
+  },
+  "mlt_heygen_extended_media_reconciliation": {
+    "profile_ids": [
+      "FA3-MLT-EXTENDED-MEDIA-SERVICE-001",
+      "FA3-DIGITAL-HUMAN-PROVIDER-FABRIC-001"
+    ],
+    "contract_ids": [
+      "FA3-MLT-EXTENDED-MEDIA-SERVICE-CONTRACTS-001",
+      "FA3-DIGITAL-HUMAN-PROVIDER-CONTRACTS-001"
+    ],
+    "provider_id": "FA3-PROVIDER-HEYGEN-001",
+    "donor_id": "FA3-DONOR-HYPERFRAMES-001",
+    "donor_usage_edge_id": "FA3-USAGE-HYPERFRAMES-MLT-EXTENDED-MEDIA-001",
+    "decision_id": "FA3-DEC-MLT-HEYGEN-EXTENDED-MEDIA-2026-10-03",
+    "reuse_assessment_id": "FA3-MLT-HEYGEN-REUSE-ASSESSMENT-2026-10-03",
+    "decision_fabric_assessment_id": "FA3-MLT-HEYGEN-DECISION-ASSESSMENT-2026-10-03",
+    "engine_ids": [
+      "FA3-ENGINE-MLT-001",
+      "FA3-ENGINE-HYPERFRAMES-001",
+      "FA3-ENGINE-HEYGEN-001",
+      "FA3-ENGINE-FA3-MEDIA-COMPOSITION-NATIVE-001"
+    ],
+    "mlt_permanent_parallel_option": true,
+    "fa3_native_replacement_of_mlt": false,
+    "heygen_runtime_admitted": false,
+    "hyperframes_runtime_admitted": false,
+    "current_host_runtime_promotion_claim": false,
+    "global_promotion_claim": false,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 175,
+    "reconciliation_status": "STATIC_CANONICAL_MATERIALIZED_PROVIDER_AND_PHYSICAL_CURRENT_HOST_RUNTIME_ADMISSION_SEPARATE"
   }
 }

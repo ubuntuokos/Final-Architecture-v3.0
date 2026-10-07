@@ -1,0 +1,21 @@
+{
+  "schema": "fa3.current-host-structural-impact.v1",
+  "id": "CFA3-MLT-HEYGEN-EXTENDED-MEDIA-CURRENT-HOST-IMPACT-2026-10-07",
+  "status": "NO_RUNTIME_IMPACT",
+  "structural_changes": [
+    ".github/workflows/fa3-mlt-heygen-extended-media.yml",
+    "canonical/assessments/FA3-MLT-HEYGEN-DECISION-ASSESSMENT-2026-10-03.json",
+    "canonical/contracts/FA3-DIGITAL-HUMAN-PROVIDER-CONTRACTS-001.json",
+    "canonical/contracts/FA3-MLT-EXTENDED-MEDIA-SERVICE-CONTRACTS-001.json",
+    "canonical/decisions/FA3-DEC-HYPERFRAMES-MLT-DONOR-USE-2026-10-03.json",
+    "canonical/decisions/FA3-DEC-MLT-HEYGEN-EXTENDED-MEDIA-2026-10-03.json",
+    "canonical/mlt-heygen-enforcement.json",
+    "canonical/profiles/FA3-DIGITAL-HUMAN-PROVIDER-FABRIC-001.json",
+    "canonical/providers/FA3-PROVIDER-HEYGEN-001.json",
+    "src/fa3_mlt_heygen_gate.py"
+  ],
+  "current_host_changes": [],
+  "physical_requalification_required": false,
+  "historical_evidence_reused": false,
+  "rationale": "This PR materializes static MLT extended-media and provider-neutral digital-human contracts, a non-admitted HeyGen provider projection, a HyperFrames architecture-pattern usage edge, registry/distribution bindings, static planning/runtime-denial helpers, tests and CI gates. It does not admit or activate a provider/model/runtime, add a host service, mutate host packages or environment, open a port/socket, consume hardware or HRB resources, alter Current Host execution/evidence semantics, or claim Current Host/runtime promotion. Therefore the structural change requires documentation and fail-closed coverage but no physical Current Host requalification."
+}

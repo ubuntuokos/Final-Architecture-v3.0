@@ -1,0 +1,52 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-DIGITAL-HUMAN-PROVIDER-FABRIC-001",
+  "name": "Provider-Neutral Digital Human, Lip Sync, Dubbing & Translation Fabric",
+  "version": "1.0.0",
+  "status": "CANONICAL_STATIC_MATERIALIZED_RUNTIME_ADMISSION_SEPARATE",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "capabilities": [
+    "CAP-043",
+    "CAP-159",
+    "CAP-160",
+    "CAP-164",
+    "CAP-168"
+  ],
+  "contracts": [
+    "FA3-DIGITAL-HUMAN-PROVIDER-CONTRACTS-001"
+  ],
+  "providers": [
+    "FA3-PROVIDER-HEYGEN-001"
+  ],
+  "dependencies": [
+    "FA3-VIDEO-001",
+    "FA3-VOICE-001",
+    "FA3-ENGINE-SELECTION-FABRIC-001"
+  ],
+  "authority_boundaries": {
+    "provider_model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "voice_identity": "FA3-VOICE-001",
+    "human_approval": "FA3-AUTH-HUMAN",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "secrets": "FA3-AUTH-SECRETS-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "license_rights": "FA3-LICENSE-RIGHTS-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "invariants": [
+    "PROVIDER_SYNTAX_IS_NOT_CANONICAL",
+    "FACE_VOICE_LIKENESS_AVATAR_MOTION_RIGHTS_FAIL_CLOSED",
+    "CLOUD_EXECUTION_REQUIRES_EXPLICIT_USER_APPROVAL",
+    "RAW_PROVIDER_SECRETS_FORBIDDEN_IN_PROJECTS_LOGS_AND_UI_STATE",
+    "PROVIDER_OUTPUT_IS_DERIVED_MEDIA_NOT_EDITORIAL_AUTHORITY",
+    "NO_SILENT_PROVIDER_FALLBACK",
+    "LIVE_AVATAR_STREAMING_IS_REALTIME_FABRIC_SCOPE_NOT_MLT_SESSION_AUTHORITY"
+  ],
+  "current_host_runtime_promotion_claim": false,
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+}

@@ -1,0 +1,58 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-DIGITAL-HUMAN-PROVIDER-CONTRACTS-001",
+  "profile": "FA3-DIGITAL-HUMAN-PROVIDER-FABRIC-001",
+  "provider_neutral": true,
+  "capability_count": 175,
+  "contracts": [
+    "DigitalHumanIdentity",
+    "DigitalHumanLook",
+    "DigitalHumanPerformanceRequest",
+    "DigitalHumanGenerationRequest",
+    "DigitalHumanGenerationResult",
+    "PresenterScene",
+    "PresenterPerformance",
+    "LipSyncRequest",
+    "LipSyncResult",
+    "DubbingRequest",
+    "DubbingResult",
+    "VideoTranslationRequest",
+    "VideoTranslationResult",
+    "VoiceIdentityRef",
+    "GeneratedMediaArtifact",
+    "GeneratedMediaReceipt",
+    "ProviderProjectionLossReport"
+  ],
+  "request_requirements": {
+    "request_id": true,
+    "explicit_provider_preference": true,
+    "provider_selection_delegates_to_model_router": true,
+    "voice_identity_ref_separate_from_dialogue": true,
+    "face_likeness_voice_avatar_motion_rights_refs": true,
+    "consent_purpose_scope": true,
+    "output_editability_intent": true,
+    "cloud_execution_approval_when_remote": true,
+    "idempotency_key": true
+  },
+  "result_requirements": {
+    "provider_id": true,
+    "provider_job_identity_when_remote": true,
+    "source_request_hash": true,
+    "result_artifact_hash": true,
+    "media_metadata": true,
+    "provider_projection_loss_report": true,
+    "rights_decision": true,
+    "provenance": true,
+    "qc_evidence": true
+  },
+  "rules": [
+    "PROVIDER_NATIVE_REQUEST_SCHEMA_MUST_NOT_BECOME_CANONICAL_IR",
+    "HARD_PROJECTION_LOSS_FAILS_CLOSED",
+    "REMOTE_PROVIDER_JOB_MUST_BE_CANCELLABLE_WHERE_PROVIDER_SUPPORTS_CANCELLATION",
+    "RETRY_MUST_PRESERVE_IDEMPOTENCY",
+    "NO_RAW_CREDENTIAL_IN_REQUEST_OR_RECEIPT",
+    "GENERATED_MEDIA_DOES_NOT_OWN_EDITORIAL_TIMELINE",
+    "LIVE_STREAM_RESULT_MUST_BE_RECORDED_AS_EXPLICIT_MEDIA_ARTIFACT_BEFORE_OFFLINE_MLT_EDITING"
+  ],
+  "authority": false
+}

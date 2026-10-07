@@ -1,0 +1,28 @@
+{
+  "schema": "fa3.donor-use-decision.v1",
+  "id": "FA3-DEC-HYPERFRAMES-MLT-DONOR-USE-2026-10-03",
+  "date": "2026-10-03",
+  "decision": "ACCEPT",
+  "owner_approval": "EXPLICIT_CHAT_APPROVAL_2026-10-03",
+  "scope": {
+    "donor_id": "FA3-DONOR-HYPERFRAMES-001",
+    "usage_edge_id": "FA3-USAGE-HYPERFRAMES-MLT-EXTENDED-MEDIA-001",
+    "usage_kind": "ARCHITECTURE_PATTERN",
+    "primary_consumer": "FA3-MLT-EXTENDED-MEDIA-SERVICE-001"
+  },
+  "selected_patterns": [
+    "DETERMINISTIC_WEB_TO_VIDEO_RENDER_PIPELINE",
+    "EDITABLE_SOURCE_PRESERVED_ALONGSIDE_RENDERED_ARTIFACT",
+    "SEEKABLE_FRAME_OR_MATERIALIZED_ASSET_ADAPTER_BOUNDARY"
+  ],
+  "boundaries": {
+    "code_copy": false,
+    "runtime_dependency": false,
+    "provider_admission": false,
+    "automatic_activation": false,
+    "donor_becomes_authority": false
+  },
+  "capability_count": 175,
+  "capability_delta": 0,
+  "architectural_authority_delta": 0
+}
