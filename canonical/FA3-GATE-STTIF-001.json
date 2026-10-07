@@ -1,0 +1,18 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-STTIF-001",
+  "gateset_id": "FA3-STTIF-GATESET-001",
+  "profile_id": "FA3-STTIF-001",
+  "contract_id": "FA3-STTIF-CONTRACTS-001",
+  "decision_id": "FA3-DEC-STTIF-LTX-TILED-FUSION-2026-10-01",
+  "mode": "STATIC_CANONICAL_NATIVE_CONTROL_PLANE",
+  "fail_closed": true,
+  "executable": "PYTHONPATH=src python src/fa3_sttif_gate.py --root .",
+  "global_command": "./bin/fa3-enforce sttif",
+  "current_host_gate": null,
+  "production_external_provider_admission_requires": "SEPARATE_LICENSE_RIGHTS_MODEL_PROVIDER_RESOURCE_RUNTIME_AND_PHYSICAL_CURRENT_HOST_EVIDENCE",
+  "static_pass_promotes_provider_runtime": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count": 175
+}

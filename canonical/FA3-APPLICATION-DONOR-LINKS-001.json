@@ -821,6 +821,53 @@
         "EDITING"
       ],
       "future_application_binding": "AUTO_DISCOVER_CAPABILITY_COMPATIBLE_SURFACE_BUT_NEVER_AUTO_ACTIVATE_PROVIDER"
+    },
+    {
+      "id": "FA3-SHARED-STTIF-001",
+      "owner_layer": "Unified AI Gateway, Model & Memory; Creative Design, Film, DCC & Documents",
+      "consumer_applications": [
+        "fa3.video-editor",
+        "fa3.quickclip",
+        "fa3.character-studio",
+        "studio.comfyui",
+        "studio.invokeai",
+        "studio.kdenlive",
+        "studio.natron",
+        "studio.gaffer",
+        "studio.bforartists"
+      ],
+      "status": "MATERIALIZED_STATIC",
+      "authority": false,
+      "local_ui_adapter_only": true,
+      "retrospective_review_required": true,
+      "manual_update_required": true,
+      "capability_loss_allowed": false,
+      "current_host_alignment_required_for_structural_change": true,
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT"
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-STTIF-001"
+        ],
+        "contract_ids": [
+          "FA3-STTIF-CONTRACTS-001"
+        ],
+        "authority_ids": [
+          "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+          "FA3-AUTH-MODEL-ROUTER-001",
+          "FA3-AUTH-OBS-EVIDENCE-001"
+        ],
+        "shared_module_ids": [
+          "FA3-SHARED-STTIF-001"
+        ]
+      },
+      "pattern_catalogue_refs": [
+        "FA3-LTX25-TILED-FUSION-UPSTREAM-REFERENCE-2026-10-01"
+      ],
+      "gui_surface_ids": [
+        "create.ai-studio"
+      ]
     }
   ],
   "governance_decisions": [
@@ -1928,6 +1975,168 @@
           "canonical/decisions/FA3-DEC-NVIDIA-RTX-RAY-PATH-TRACING-001-2026-10-05.json"
         ]
       }
+    },
+    {
+      "application_id": "fa3.video-editor",
+      "usage_kind": "REFERENCE_BINDING",
+      "status": "ACTIVE",
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-STTIF-001"
+        ],
+        "contract_ids": [
+          "FA3-STTIF-CONTRACTS-001"
+        ],
+        "authority_ids": [
+          "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+          "FA3-AUTH-MODEL-ROUTER-001",
+          "FA3-AUTH-OBS-EVIDENCE-001"
+        ],
+        "shared_module_ids": [
+          "FA3-SHARED-STTIF-001"
+        ]
+      },
+      "consumers": [
+        {
+          "kind": "SHARED_MODULE",
+          "id": "FA3-SHARED-STTIF-001",
+          "relationship": "DIRECT"
+        },
+        {
+          "kind": "PROFILE",
+          "id": "FA3-STTIF-001",
+          "relationship": "DIRECT"
+        },
+        {
+          "kind": "APPLICATION",
+          "id": "fa3.video-editor",
+          "relationship": "INDIRECT_SHARED"
+        },
+        {
+          "kind": "APPLICATION",
+          "id": "fa3.quickclip",
+          "relationship": "INDIRECT_SHARED"
+        },
+        {
+          "kind": "GUI_SURFACE",
+          "id": "create.ai-studio",
+          "relationship": "INDIRECT_SHARED"
+        }
+      ],
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT"
+      },
+      "id": "FA3-USAGE-LTX2-STTIF-001",
+      "donor_id": "FA3-DONOR-LTX2-001",
+      "donor_capability_key": "optional-video-model-constraint-and-provider-adapter-reference"
+    },
+    {
+      "application_id": "fa3.video-editor",
+      "usage_kind": "WORKFLOW_PATTERN",
+      "status": "ACTIVE",
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-STTIF-001"
+        ],
+        "contract_ids": [
+          "FA3-STTIF-CONTRACTS-001"
+        ],
+        "authority_ids": [
+          "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+          "FA3-AUTH-MODEL-ROUTER-001",
+          "FA3-AUTH-OBS-EVIDENCE-001"
+        ],
+        "shared_module_ids": [
+          "FA3-SHARED-STTIF-001"
+        ]
+      },
+      "consumers": [
+        {
+          "kind": "SHARED_MODULE",
+          "id": "FA3-SHARED-STTIF-001",
+          "relationship": "DIRECT"
+        },
+        {
+          "kind": "PROFILE",
+          "id": "FA3-STTIF-001",
+          "relationship": "DIRECT"
+        },
+        {
+          "kind": "APPLICATION",
+          "id": "fa3.video-editor",
+          "relationship": "INDIRECT_SHARED"
+        },
+        {
+          "kind": "APPLICATION",
+          "id": "fa3.quickclip",
+          "relationship": "INDIRECT_SHARED"
+        },
+        {
+          "kind": "GUI_SURFACE",
+          "id": "create.ai-studio",
+          "relationship": "INDIRECT_SHARED"
+        }
+      ],
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT"
+      },
+      "id": "FA3-USAGE-COMFYUI-LTXVIDEO-STTIF-001",
+      "donor_id": "FA3-DONOR-COMFYUI-LTXVIDEO-001",
+      "donor_capability_key": "spatial-temporal-tiled-inference-workflow-pattern"
+    },
+    {
+      "application_id": "fa3.video-editor",
+      "usage_kind": "ALGORITHM_PATTERN",
+      "status": "ACTIVE",
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-STTIF-001"
+        ],
+        "contract_ids": [
+          "FA3-STTIF-CONTRACTS-001"
+        ],
+        "authority_ids": [
+          "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+          "FA3-AUTH-MODEL-ROUTER-001",
+          "FA3-AUTH-OBS-EVIDENCE-001"
+        ],
+        "shared_module_ids": [
+          "FA3-SHARED-STTIF-001"
+        ]
+      },
+      "consumers": [
+        {
+          "kind": "SHARED_MODULE",
+          "id": "FA3-SHARED-STTIF-001",
+          "relationship": "DIRECT"
+        },
+        {
+          "kind": "PROFILE",
+          "id": "FA3-STTIF-001",
+          "relationship": "DIRECT"
+        },
+        {
+          "kind": "APPLICATION",
+          "id": "fa3.video-editor",
+          "relationship": "INDIRECT_SHARED"
+        },
+        {
+          "kind": "APPLICATION",
+          "id": "fa3.quickclip",
+          "relationship": "INDIRECT_SHARED"
+        },
+        {
+          "kind": "GUI_SURFACE",
+          "id": "create.ai-studio",
+          "relationship": "INDIRECT_SHARED"
+        }
+      ],
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT"
+      },
+      "id": "FA3-USAGE-LTX-TILED-FUSION-STTIF-001",
+      "donor_id": "FA3-DONOR-LTX-TILED-FUSION-DOC-001",
+      "donor_capability_key": "shared-canvas-noise-overlap-fusion-algorithm-pattern"
     }
   ],
   "donor_usage_contract": {

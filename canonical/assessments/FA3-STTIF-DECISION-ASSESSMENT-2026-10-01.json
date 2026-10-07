@@ -1,0 +1,41 @@
+{
+  "schema": "fa3.decision-fabric-assessment.v1",
+  "project_id": "FA3-STTIF-DECISION-ASSESSMENT-2026-10-01",
+  "covered_ids": [
+    "FA3-STTIF-001"
+  ],
+  "assessment": "NOT_APPLICABLE",
+  "rationale": "STTIF is a deterministic provider-neutral spatial/temporal inference planning and validation control plane. Tile/window coverage, model shape constraints, sampler compatibility, resource budgets, hardware placement, provider/model selection, license rights and runtime promotion remain governed by deterministic contracts, HRB, Model Router and explicit admission gates; Decision Fabric must not override or rank these safety and compatibility constraints.",
+  "decision_points": [],
+  "not_delegated": [
+    "spatial tile or temporal window validity",
+    "model shape and alignment constraints",
+    "sampler compatibility",
+    "provider or model selection",
+    "physical device placement or HRB resource authority",
+    "license and rights admission",
+    "runtime or current-host promotion",
+    "silent fallback or candidate-set expansion"
+  ],
+  "project_radar_checked": true,
+  "project_radar_review": {
+    "scope": "FA3 STTIF against Decision Fabric, HRB, Model Router, Hardware Safety, Software Coexistence and runtime admission boundaries",
+    "result": "NO_DECISION_FABRIC_DECISION_POINT",
+    "note": "STTIF remains deterministic and fail-closed; later application-level creative ranking may use its existing owning fabric only after deterministic eligibility."
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "global_accelerator_requirement": false
+  },
+  "security_boundary": {
+    "may_grant_permission": false,
+    "may_expand_candidate_set": false,
+    "may_create_agent": false,
+    "may_admit_model": false,
+    "may_admit_provider": false
+  },
+  "shadow_mode_required": false,
+  "capability_delta": 0,
+  "authority_delta": 0
+}

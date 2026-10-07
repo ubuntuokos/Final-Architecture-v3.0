@@ -1,0 +1,27 @@
+{
+  "schema": "fa3.current-host-structural-impact.v1",
+  "id": "FA3-CH-IMPACT-STTIF-20261001",
+  "date": "2026-10-01",
+  "status": "NO_RUNTIME_IMPACT",
+  "capability_count": 175,
+  "structural_changes": [
+    "canonical/profiles/FA3-STTIF-001.json",
+    "canonical/contracts/FA3-STTIF-CONTRACTS-001.json",
+    "canonical/decisions/FA3-DEC-STTIF-LTX-TILED-FUSION-2026-10-01.json",
+    "src/fa3_sttif.py",
+    "src/fa3_sttif_gate.py",
+    "canonical/FA3-APPLICATION-DONOR-LINKS-001.json"
+  ],
+  "current_host_changes": [],
+  "physical_requalification_required": false,
+  "historical_evidence_reused": false,
+  "current_host_status": "UNCHANGED_BY_STATIC_COMPOSITION",
+  "global_promotion_claim": false,
+  "affected_capabilities": [
+    "CAP-159",
+    "CAP-160",
+    "CAP-161",
+    "CAP-163"
+  ],
+  "rationale": "STTIF adds deterministic FA3-native planning/validation and static shared bindings only. It does not install or execute a provider/model, open a network route, change device placement, mutate hardware, add a service, or claim physical runtime evidence. Future external/model execution remains separately gated and requires physical Current Host evidence where applicable."
+}

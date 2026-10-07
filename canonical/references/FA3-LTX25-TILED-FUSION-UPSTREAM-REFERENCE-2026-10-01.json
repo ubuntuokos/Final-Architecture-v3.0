@@ -1,0 +1,57 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-LTX25-TILED-FUSION-UPSTREAM-REFERENCE-2026-10-01",
+  "status": "REFERENCE_ONLY",
+  "observed_at": "2026-10-01",
+  "sources": [
+    {
+      "id": "LTX2",
+      "repository": "https://github.com/Lightricks/LTX-2",
+      "revision": "2d6e71c88be37b55a2dd698c2dff447edfbe5898",
+      "role": "MODEL_AND_ARCHITECTURE_REFERENCE"
+    },
+    {
+      "id": "COMFYUI_LTXVIDEO",
+      "repository": "https://github.com/Lightricks/ComfyUI-LTXVideo",
+      "revision": "bf2ca0264f706db64cb8931155695ca481fc9d91",
+      "role": "WORKFLOW_AND_TILED_INFERENCE_REFERENCE"
+    },
+    {
+      "id": "TILED_FUSION_DOC",
+      "locator": "https://github.com/Lightricks/ComfyUI-LTXVideo/blob/bf2ca0264f706db64cb8931155695ca481fc9d91/tiled_fusion_sampler.md",
+      "revision": "bf2ca0264f706db64cb8931155695ca481fc9d91",
+      "role": "ALGORITHM_DOCUMENTATION_REFERENCE"
+    }
+  ],
+  "observed_patterns": {
+    "shared_logical_latent_canvas": true,
+    "shared_noise_trajectory": true,
+    "overlapping_spatial_tiles": true,
+    "per_step_fusion": true,
+    "temporal_windowing": true,
+    "ltx_reference_only_constraints": {
+      "spatial_alignment": 32,
+      "suggested_overlap_fraction": 0.5,
+      "typical_temporal_window_frames": 97,
+      "temporal_shape_rule": "8n+1",
+      "documented_discrete_sampler_examples": [
+        "euler",
+        "heun",
+        "dpm_2"
+      ]
+    }
+  },
+  "fa3_interpretation": {
+    "ltx_specific_values_are_global_defaults": false,
+    "provider_constraints_must_be_typed": true,
+    "independent_fa3_implementation": true,
+    "copied_source_code": false,
+    "copied_model_artifacts": false,
+    "runtime_admission": false,
+    "current_host_promotion": false
+  },
+  "distribution_class": "REFERENCE_ONLY",
+  "release_bundle_status": "EXCLUDED",
+  "product_bundle_allowed": false,
+  "runtime_dependency": false
+}
