@@ -110,11 +110,13 @@
     },
     {
       "application_id": "fa3.animation-motion-studio",
-      "name": "Animation / Character Motion Studio",
+      "name": "CFA3 Motion Designer / Animation Studio",
       "kind": "INTERNAL_APPLICATION",
       "lifecycle": "PLANNED",
       "aliases": [
-        "Animation / Character Motion Studio"
+        "Animation / Character Motion Studio",
+        "Motion Designer",
+        "CFA3 Motion Designer"
       ]
     },
     {
@@ -413,6 +415,30 @@
         "Audio Fabric",
         "Music Studio"
       ]
+    },
+    {
+      "application_id": "fa3.opencut",
+      "name": "CFA3 OpenCut Fast Editor",
+      "kind": "COMPANION_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "OpenCut",
+        "Fast Edit",
+        "Quick Edit",
+        "QuickClip-style editor"
+      ]
+    },
+    {
+      "application_id": "fa3.openvid-shared",
+      "name": "CFA3 OpenVid Shared Composer",
+      "kind": "INTERNAL_APPLICATION",
+      "lifecycle": "PLANNED",
+      "aliases": [
+        "OpenVid",
+        "OpenVid Shared",
+        "Fast Compose",
+        "OpenVid Composer"
+      ]
     }
   ],
   "relationships": [
@@ -585,6 +611,89 @@
         "workflow provenance"
       ],
       "integration_boundary": "Read-only approved artifact references and correction/workflow evidence; source project remains authoritative; License & Rights and consent fail closed before module use.",
+      "status": "PROPOSED",
+      "human_approval_required": true
+    },
+    {
+      "id": "FA3-APP-LINK-OPENCUT-OPENVID",
+      "from_application": "fa3.opencut",
+      "to_application": "fa3.openvid-shared",
+      "offered_artifacts": [
+        "selected clip range",
+        "canvas intent",
+        "overlay intent",
+        "composition reference"
+      ],
+      "integration_boundary": "OpenVid Composer plugin/embedded workspace; OpenCut remains fast-edit project owner; editable composition reference preferred over flattening.",
+      "status": "PROPOSED",
+      "human_approval_required": true
+    },
+    {
+      "id": "FA3-APP-LINK-OPENVID-OPENCUT",
+      "from_application": "fa3.openvid-shared",
+      "to_application": "fa3.opencut",
+      "offered_artifacts": [
+        ".fa3openvid composition reference",
+        "preview artifact",
+        "render intent"
+      ],
+      "integration_boundary": "Return editable composition reference to OpenCut; flatten only on explicit user request.",
+      "status": "PROPOSED",
+      "human_approval_required": true
+    },
+    {
+      "id": "FA3-APP-LINK-OPENVID-MOTION-DESIGNER",
+      "from_application": "fa3.openvid-shared",
+      "to_application": "fa3.animation-motion-studio",
+      "offered_artifacts": [
+        "composition graph",
+        "selected layers",
+        "camera/motion intent"
+      ],
+      "integration_boundary": "Advanced Motion handoff; Motion Designer owns advanced motion semantics while OpenVid keeps composition ownership.",
+      "status": "PROPOSED",
+      "human_approval_required": true
+    },
+    {
+      "id": "FA3-APP-LINK-MOTION-DESIGNER-OPENVID",
+      "from_application": "fa3.animation-motion-studio",
+      "to_application": "fa3.openvid-shared",
+      "offered_artifacts": [
+        "motion composition reference",
+        "motion preset reference",
+        "renderable motion graph"
+      ],
+      "integration_boundary": "Round-trip reference; no silent flattening and no transfer of project authority.",
+      "status": "PROPOSED",
+      "human_approval_required": true
+    },
+    {
+      "id": "FA3-APP-LINK-OPENCUT-EDITOR",
+      "from_application": "fa3.opencut",
+      "to_application": "fa3.video-editor",
+      "offered_artifacts": [
+        "approved fast-edit sequence",
+        "clip decisions",
+        "captions",
+        "audio",
+        "composition references",
+        "provenance"
+      ],
+      "integration_boundary": "Explicit editable handoff into project.fa3video; CFA3 Video Editor remains sole full NLE.",
+      "status": "PROPOSED",
+      "human_approval_required": true
+    },
+    {
+      "id": "FA3-APP-LINK-EDITOR-OPENCUT",
+      "from_application": "fa3.video-editor",
+      "to_application": "fa3.opencut",
+      "offered_artifacts": [
+        "approved sequence",
+        "clip selection",
+        "aspect-ratio intent",
+        "fast-edit variant request"
+      ],
+      "integration_boundary": "Create fast-edit variant without mutating project.fa3video authority.",
       "status": "PROPOSED",
       "human_approval_required": true
     }
