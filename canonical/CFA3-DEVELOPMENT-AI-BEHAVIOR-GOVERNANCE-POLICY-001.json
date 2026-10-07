@@ -322,7 +322,8 @@
     "behavior_preflight_is_effect_authority": false
   },
   "composed_development_policies": [
-    "CFA3-RETROACTIVE-REDESIGN-COMPLIANCE-POLICY-001"
+    "CFA3-RETROACTIVE-REDESIGN-COMPLIANCE-POLICY-001",
+    "CFA3-FACTUAL-READBACK-CONTINUITY-POLICY-001"
   ],
   "retroactive_redesign_compliance": {
     "policy_id": "CFA3-RETROACTIVE-REDESIGN-COMPLIANCE-POLICY-001",
@@ -331,6 +332,19 @@
     "temporary_planning_use_allowed": true,
     "finalization_requires_canonical_donors": true,
     "current_rule_delta_required": true,
+    "fail_closed": true
+  },
+  "factual_readback_continuity": {
+    "policy_id": "CFA3-FACTUAL-READBACK-CONTINUITY-POLICY-001",
+    "mandatory": true,
+    "memory_role": "DISCOVERY_HINT_ONLY",
+    "factual_readback_required_for_prior_state": true,
+    "reanalysis_required": true,
+    "current_state_verification_required": true,
+    "unresolved_contradiction_result": "BLOCKER_STOP",
+    "unknown_fact_result": "BLOCKER_STOP",
+    "guard": "src/cfa3_factual_readback_guard.py",
+    "application_projection": "FA3-FACTUAL-READBACK-CONTROL-CENTER-BINDING-001",
     "fail_closed": true
   }
 }
