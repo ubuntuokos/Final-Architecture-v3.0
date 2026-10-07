@@ -3,44 +3,166 @@
   "id": "FA3-DEC-OPENCUT-PROGRAMMABLE-EDITOR-2026-09-01",
   "date": "2026-09-01",
   "status": "CANONICAL_CLOSED",
-  "subject": "OpenCut programmable editor reference provider and provider-neutral timeline automation baseline",
-  "decision": "IMPLEMENT_PROVIDER_NEUTRAL_CONTRACT_AND_REQUIRED_REFERENCE_ADAPTER_WITH_RUNTIME_ADMISSION_DEFERRED",
+  "subject": "CFA3 OpenCut standalone and embedded FAST EDIT / QuickClip with shared programmable editing fabric",
+  "decision": "CFA3_NATIVE_OPENCUT_FAST_EDIT_APPLICATION_SHARED_PROGRAMMABLE_VIDEO_EDITING_FABRIC",
   "profile_id": "FA3-PROGRAMMABLE-VIDEO-EDITING-001",
   "contract_id": "FA3-VIDEO-TIMELINE-PROVIDER-CONTRACTS-001",
   "provider_id": "FA3-PROVIDER-OPENCUT-001",
   "gate_id": "FA3-OPENCUT-GATESET-001",
   "capability_projection": [
     "CAP-121",
-    "CAP-126"
+    "CAP-126",
+    "CAP-171"
   ],
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
   "capability_count_after": 175,
-  "canonical_timeline_ir": "OpenTimelineIO",
-  "provider_disposition": "REQ_ADAPTER_PLUS_REFERENCE_NOT_HARD_DEPENDENCY_NOT_EXCLUSIVE_NLE",
+  "canonical_timeline_ir": "CFA3_NATIVE_PROJECT_STATE",
+  "provider_disposition": "UPSTREAM_REFERENCE_ONLY_OPTIONAL_ADAPTER_NOT_RUNTIME_AUTHORITY",
   "runtime_activation_status": "NOT_ADMITTED_UPSTREAM_INTERFACES_UNSTABLE",
   "mandatory_rules": [
-    "PROGRAMMABLE_VIDEO_EDITING_PROFILE_REQUIRED",
-    "OPENCUT_REQ_ADAPTER_PLUS_REFERENCE_NOT_HARD_DEPENDENCY",
+    "SHARED_PROGRAMMABLE_VIDEO_EDITING_FABRIC_REQUIRED",
+    "OPENCUT_CFA3_NATIVE_FAST_EDIT_QUICKCLIP_NO_FULL_NLE",
     "EDITOR_API_CANONICAL_ADAPTER_BOUNDARY_WHEN_STABLE",
     "OPENCUT_MCP_BEHIND_CENTRAL_MCP_GATEWAY",
     "HEADLESS_EDITING_AND_RENDERING_REQUIRED",
     "PLUGIN_FIRST_TYPED_VERSIONED_CAPABILITY_DESCRIPTORS",
-    "PLATFORM_INDEPENDENT_CORE_NOT_UI_AS_AUTOMATION_BOUNDARY",
-    "COMMON_VIDEO_TIMELINE_PROVIDER_CONTRACT",
+    "OPENCUT_STANDALONE_AND_WEBDESIGN_EMBEDDED_SHARED_CORE",
+    "OTIO_INTERCHANGE_ONLY_CFA3_PROJECT_STATE_AUTHORITY",
     "STRUCTURED_VALIDATABLE_TIMELINE_OPERATIONS_NO_PRIMARY_UI_AUTOMATION",
     "DESTRUCTIVE_MUTATION_DRY_RUN_PROVENANCE_AUDIT_AND_HITL",
-    "KDENLIVE_REMAINS_PRIMARY_HUMAN_FINISHING_NLE",
-    "OPENMONTAGE_REMAINS_HIGHER_LEVEL_AGENTIC_PIPELINE_PROVIDER",
+    "CFA3_VIDEO_EDITOR_SOLE_FULL_NLE_KDENLIVE_OPTIONAL_EXTERNAL_COMPATIBILITY",
+    "MOTION_DESIGNER_OWNS_ADVANCED_MOTION_OPENCUT_NO_DUPLICATE_ENGINE",
     "TEMPORAL_NATS_VALKEY_AUTHORITIES_UNCHANGED",
-    "FFMPEG_GPU_ISOLATION_HASH_AND_RENDER_PROVENANCE_REQUIRED",
+    "SHARED_FFMPEG_MLT_NATIVE_EXECUTION_GPU_ISOLATION_HASH_PROVENANCE_REQUIRED",
     "IMMUTABLE_PIN_LOCK_COMPATIBILITY_MATRIX_AND_ADAPTER_ISOLATION_REQUIRED"
   ],
   "rationale": [
-    "CAP-121 already names OpenCut and libopenshot as REQ-ADAPTER + REF providers, so this change materializes an existing baseline rather than adding a capability.",
-    "OpenCut's declared Editor API, plugins, Rust core, MCP, headless and scripting direction aligns strongly with FA3's programmable editorial surface.",
-    "The upstream rewrite does not yet expose stable versions of those interfaces; production admission is therefore fail-closed and requires a future immutable adapter/current-host evidence package.",
-    "Kdenlive, OpenMontage, Temporal, NATS JetStream, Valkey, Central MCP and Host Resource Broker boundaries remain unchanged."
+    "One active OpenCut architecture decision: CFA3-native FAST EDIT / QuickClip with standalone and Webdesign-embedded surfaces, not a full NLE.",
+    "Shared Programmable Video Editing Fabric serves Video Editor, OpenCut, OpenVid Shared, QuickClip and adapters without a separate editing/motion authority.",
+    "OpenTimelineIO is interchange only; CFA3-native application project state remains authoritative, and the CFA3 Video Editor alone provides full NLE.",
+    "OpenCut upstream is an optional architectural/API/plugin/headless/scripting/MCP/UI-independent reference with runtime admission still fail-closed.",
+    "Historical 2026-09-01 decision is embedded without alteration in historical_decision; historical CI evidence remains immutable.",
+    "Shared MLT or CFA3 Native Media Composition execution uses CFA3-wide shared FFmpeg; fixed capability baseline stays 175."
   ],
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "historical_decision": {
+    "classification": "SUPERSEDED_ARCHITECTURAL_CONTENT_PRESERVED",
+    "original": {
+      "schema": "fa3.decision-record.v1",
+      "id": "FA3-DEC-OPENCUT-PROGRAMMABLE-EDITOR-2026-09-01",
+      "date": "2026-09-01",
+      "status": "CANONICAL_CLOSED",
+      "subject": "OpenCut programmable editor reference provider and provider-neutral timeline automation baseline",
+      "decision": "IMPLEMENT_PROVIDER_NEUTRAL_CONTRACT_AND_REQUIRED_REFERENCE_ADAPTER_WITH_RUNTIME_ADMISSION_DEFERRED",
+      "profile_id": "FA3-PROGRAMMABLE-VIDEO-EDITING-001",
+      "contract_id": "FA3-VIDEO-TIMELINE-PROVIDER-CONTRACTS-001",
+      "provider_id": "FA3-PROVIDER-OPENCUT-001",
+      "gate_id": "FA3-OPENCUT-GATESET-001",
+      "capability_projection": [
+        "CAP-121",
+        "CAP-126"
+      ],
+      "new_capabilities": 0,
+      "new_architectural_authorities": 0,
+      "capability_count_after": 175,
+      "canonical_timeline_ir": "OpenTimelineIO",
+      "provider_disposition": "REQ_ADAPTER_PLUS_REFERENCE_NOT_HARD_DEPENDENCY_NOT_EXCLUSIVE_NLE",
+      "runtime_activation_status": "NOT_ADMITTED_UPSTREAM_INTERFACES_UNSTABLE",
+      "mandatory_rules": [
+        "PROGRAMMABLE_VIDEO_EDITING_PROFILE_REQUIRED",
+        "OPENCUT_REQ_ADAPTER_PLUS_REFERENCE_NOT_HARD_DEPENDENCY",
+        "EDITOR_API_CANONICAL_ADAPTER_BOUNDARY_WHEN_STABLE",
+        "OPENCUT_MCP_BEHIND_CENTRAL_MCP_GATEWAY",
+        "HEADLESS_EDITING_AND_RENDERING_REQUIRED",
+        "PLUGIN_FIRST_TYPED_VERSIONED_CAPABILITY_DESCRIPTORS",
+        "PLATFORM_INDEPENDENT_CORE_NOT_UI_AS_AUTOMATION_BOUNDARY",
+        "COMMON_VIDEO_TIMELINE_PROVIDER_CONTRACT",
+        "STRUCTURED_VALIDATABLE_TIMELINE_OPERATIONS_NO_PRIMARY_UI_AUTOMATION",
+        "DESTRUCTIVE_MUTATION_DRY_RUN_PROVENANCE_AUDIT_AND_HITL",
+        "KDENLIVE_REMAINS_PRIMARY_HUMAN_FINISHING_NLE",
+        "OPENMONTAGE_REMAINS_HIGHER_LEVEL_AGENTIC_PIPELINE_PROVIDER",
+        "TEMPORAL_NATS_VALKEY_AUTHORITIES_UNCHANGED",
+        "FFMPEG_GPU_ISOLATION_HASH_AND_RENDER_PROVENANCE_REQUIRED",
+        "IMMUTABLE_PIN_LOCK_COMPATIBILITY_MATRIX_AND_ADAPTER_ISOLATION_REQUIRED"
+      ],
+      "rationale": [
+        "CAP-121 already names OpenCut and libopenshot as REQ-ADAPTER + REF providers, so this change materializes an existing baseline rather than adding a capability.",
+        "OpenCut's declared Editor API, plugins, Rust core, MCP, headless and scripting direction aligns strongly with FA3's programmable editorial surface.",
+        "The upstream rewrite does not yet expose stable versions of those interfaces; production admission is therefore fail-closed and requires a future immutable adapter/current-host evidence package.",
+        "Kdenlive, OpenMontage, Temporal, NATS JetStream, Valkey, Central MCP and Host Resource Broker boundaries remain unchanged."
+      ],
+      "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+    },
+    "superseded_date": "2026-10-08"
+  },
+  "effective_revision_date": "2026-10-08",
+  "provider_capability_projection": [
+    "CAP-121",
+    "CAP-126"
+  ],
+  "timeline_interchange_ir": "OpenTimelineIO",
+  "opencut_application": {
+    "id": "CFA3-OPENCUT-FAST-EDIT",
+    "role": "FAST_EDIT_QUICKCLIP",
+    "delivery_modes": [
+      "STANDALONE",
+      "WEBDESIGN_EMBEDDED"
+    ],
+    "project_format": ".fa3clip",
+    "editable_timeline": true,
+    "professional_nle": false,
+    "advanced_motion_engine": false,
+    "shared_motion_designer": "OPTIONAL_ADVANCED_MOTION_HANDOFF",
+    "openvid_composer": "OPTIONAL_EDITABLE_PLUGIN_WORKSPACE_CONSUMER_PENDING_69",
+    "webdesign_output": "WEB_OPTIMIZED_VIDEO_ASSET_BACK_TO_WEBDESIGN",
+    "web_video_mode": {
+      "formats": [
+        "MP4/H.264",
+        "WebM/VP9",
+        "AV1_WHEN_AVAILABLE"
+      ],
+      "outputs": [
+        "poster",
+        "thumbnail",
+        "responsive_variants"
+      ],
+      "edits": [
+        "crop_reframe",
+        "loop",
+        "playback_speed",
+        "hero_background_optimization",
+        "web_size_optimization"
+      ]
+    },
+    "gui": {
+      "cfa3_look": true,
+      "global_workload_mode_indicator": true
+    }
+  },
+  "execution_architecture": {
+    "route": [
+      "APPLICATION_CONSUMERS",
+      "CFA3_PROGRAMMABLE_VIDEO_EDITING_FABRIC",
+      "ENGINE_SELECTION",
+      "MLT_OR_CFA3_NATIVE_MEDIA_COMPOSITION",
+      "SHARED_FFMPEG"
+    ],
+    "engines": [
+      "MLT",
+      "CFA3 Native Media Composition"
+    ],
+    "shared_ffmpeg": true,
+    "otio_role": "INTERCHANGE_ONLY"
+  },
+  "editorial_authority": {
+    "full_nle": "CFA3 Video Editor",
+    "full_nle_project": "project.fa3video",
+    "external_compatibility": [
+      "Kdenlive"
+    ],
+    "motion_authority": "Shared Motion Designer",
+    "quickclip_workflow": "QuickClip recipes, shots, automation, batch, approvals; no generic composer core",
+    "openvid_composer": "Optional editable composition plugin via #69"
+  }
 }

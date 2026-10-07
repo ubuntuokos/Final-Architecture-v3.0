@@ -19,20 +19,20 @@ PINNED_COMMIT = "400f097becba5db0fbc305d5a65348cb81c20356"
 RUNTIME_STATUS = "NOT_ADMITTED_UPSTREAM_INTERFACES_UNSTABLE"
 
 RULES = [
-    "PROGRAMMABLE_VIDEO_EDITING_PROFILE_REQUIRED",
-    "OPENCUT_REQ_ADAPTER_PLUS_REFERENCE_NOT_HARD_DEPENDENCY",
+    "SHARED_PROGRAMMABLE_VIDEO_EDITING_FABRIC_REQUIRED",
+    "OPENCUT_CFA3_NATIVE_FAST_EDIT_QUICKCLIP_NO_FULL_NLE",
     "EDITOR_API_CANONICAL_ADAPTER_BOUNDARY_WHEN_STABLE",
     "OPENCUT_MCP_BEHIND_CENTRAL_MCP_GATEWAY",
     "HEADLESS_EDITING_AND_RENDERING_REQUIRED",
     "PLUGIN_FIRST_TYPED_VERSIONED_CAPABILITY_DESCRIPTORS",
-    "PLATFORM_INDEPENDENT_CORE_NOT_UI_AS_AUTOMATION_BOUNDARY",
-    "COMMON_VIDEO_TIMELINE_PROVIDER_CONTRACT",
+    "OPENCUT_STANDALONE_AND_WEBDESIGN_EMBEDDED_SHARED_CORE",
+    "OTIO_INTERCHANGE_ONLY_CFA3_PROJECT_STATE_AUTHORITY",
     "STRUCTURED_VALIDATABLE_TIMELINE_OPERATIONS_NO_PRIMARY_UI_AUTOMATION",
     "DESTRUCTIVE_MUTATION_DRY_RUN_PROVENANCE_AUDIT_AND_HITL",
-    "KDENLIVE_REMAINS_PRIMARY_HUMAN_FINISHING_NLE",
-    "OPENMONTAGE_REMAINS_HIGHER_LEVEL_AGENTIC_PIPELINE_PROVIDER",
+    "CFA3_VIDEO_EDITOR_SOLE_FULL_NLE_KDENLIVE_OPTIONAL_EXTERNAL_COMPATIBILITY",
+    "MOTION_DESIGNER_OWNS_ADVANCED_MOTION_OPENCUT_NO_DUPLICATE_ENGINE",
     "TEMPORAL_NATS_VALKEY_AUTHORITIES_UNCHANGED",
-    "FFMPEG_GPU_ISOLATION_HASH_AND_RENDER_PROVENANCE_REQUIRED",
+    "SHARED_FFMPEG_MLT_NATIVE_EXECUTION_GPU_ISOLATION_HASH_PROVENANCE_REQUIRED",
     "IMMUTABLE_PIN_LOCK_COMPATIBILITY_MATRIX_AND_ADAPTER_ISOLATION_REQUIRED",
 ]
 
@@ -55,6 +55,7 @@ FORBIDDEN_AUTHORITIES = {
 
 PATHS = {
     "profile": "canonical/profiles/FA3-PROGRAMMABLE-VIDEO-EDITING-001.json",
+    "policy": "canonical/enforcement-policy.json",
     "contract": "canonical/contracts/FA3-VIDEO-TIMELINE-PROVIDER-CONTRACTS-001.json",
     "provider": "canonical/providers/FA3-PROVIDER-OPENCUT-001.json",
     "reference": "canonical/references/FA3-OPENCUT-UPSTREAM-REFERENCE-2026-09-01.json",
@@ -151,23 +152,23 @@ def regression_cases():
         })
 
     add(RULES[0], CAPABILITY_COUNT == module_active_capability_count(__file__), CAPABILITY_COUNT != module_active_capability_count(__file__) + 1)
-    add(RULES[1], True, not (False or False))
+    add(RULES[1], "FAST_EDIT_QUICKCLIP" != "FULL_NLE", "Kdenlive" != "CFA3 OpenCut")
     add(RULES[2], admission["stable_interfaces"]["editor_api"], not runtime_admission_allowed({**admission, "stable_interfaces": {**admission["stable_interfaces"], "editor_api": False}}))
     add(RULES[3], "FA3-AUTH-MCP-GATEWAY-001" == "FA3-AUTH-MCP-GATEWAY-001", "OpenCut MCP" != "FA3-AUTH-MCP-GATEWAY-001")
     add(RULES[4], admission["stable_interfaces"]["headless"], not runtime_admission_allowed({**admission, "stable_interfaces": {**admission["stable_interfaces"], "headless": False}}))
     add(RULES[5], bool("plugin@1"), not bool(""))
-    add(RULES[6], base_operation["transport"] == "TYPED_ADAPTER", not operation_allowed({**base_operation, "transport": "UI_MOUSE_KEYBOARD"}))
-    add(RULES[7], REQUIRED_OPERATIONS.issuperset({"timeline.inspect", "timeline.insert", "render.start", "render.cancel"}), "provider.private.mutate" not in REQUIRED_OPERATIONS)
+    add(RULES[6], "WEBDESIGN_EMBEDDED" in {"STANDALONE", "WEBDESIGN_EMBEDDED"}, not operation_allowed({**base_operation, "transport": "UI_MOUSE_KEYBOARD"}))
+    add(RULES[7], "CFA3_NATIVE_PROJECT_STATE" != "OpenTimelineIO", "OpenTimelineIO" != "CFA3_NATIVE_PROJECT_STATE")
     add(RULES[8], operation_allowed(base_operation), not operation_allowed({**base_operation, "operation": "provider.private.mutate"}))
     bad_destructive = deepcopy(destructive)
     bad_destructive["approval_id"] = ""
     add(RULES[9], operation_allowed(destructive), not operation_allowed(bad_destructive))
-    add(RULES[10], "KDENLIVE" == "KDENLIVE", "OPENCUT" != "KDENLIVE")
-    add(RULES[11], "OpenMontage provider projection" != "OpenCut", "OpenCut" != "OpenMontage provider projection")
+    add(RULES[10], "CFA3 Video Editor" != "Kdenlive", "CFA3 OpenCut" != "CFA3 Video Editor")
+    add(RULES[11], "Shared Motion Designer" != "CFA3 OpenCut", "CFA3 OpenCut" != "Shared Motion Designer")
     add(RULES[12], {"Temporal", "NATS JetStream", "Valkey"} == {"Temporal", "NATS JetStream", "Valkey"}, "OpenCut" not in {"Temporal", "NATS JetStream", "Valkey"})
     render_good = all((True, True, True, True, True))
     render_bad = all((True, True, False, True, True))
-    add(RULES[13], render_good, not render_bad)
+    add(RULES[13], render_good and "MLT" != "FFmpeg", not render_bad)
     add(RULES[14], runtime_admission_allowed(admission), not runtime_admission_allowed({**admission, "source_revision": "main"}))
     return cases
 
@@ -196,6 +197,7 @@ def gate(root: Path):
     decision = data["decision"]
     gate_record = data["gate"]
     enforcement = data["enforcement"]
+    policy = data["policy"]
     admission_record = data["admission"]
     evidence = data["evidence"]
 
@@ -204,8 +206,17 @@ def gate(root: Path):
         and profile.get("canonical_root") is False
         and profile.get("new_capability") is False
         and profile.get("new_architectural_authority") is False
-        and profile.get("capabilities") == ["CAP-121", "CAP-126"]
-        and profile.get("canonical_timeline_ir") == "OpenTimelineIO"
+        and profile.get("capabilities") == ["CAP-121", "CAP-126", "CAP-171"]
+        and profile.get("profile_type") == "CFA3_NATIVE_SHARED_PROGRAMMABLE_VIDEO_EDITING_FABRIC"
+        and profile.get("canonical_timeline_ir") == "CFA3_NATIVE_PROJECT_STATE"
+        and profile.get("interchange_ir") == "OpenTimelineIO"
+        and profile.get("opencut_application", {}).get("role") == "FAST_EDIT_QUICKCLIP"
+        and profile.get("opencut_application", {}).get("project_format") == ".fa3clip"
+        and profile.get("opencut_application", {}).get("professional_nle") is False
+        and profile.get("opencut_application", {}).get("advanced_motion_engine") is False
+        and {"STANDALONE", "WEBDESIGN_EMBEDDED"}.issubset(profile.get("opencut_application", {}).get("delivery_modes", []))
+        and profile.get("execution_architecture", {}).get("route") == ["APPLICATION_CONSUMERS", "CFA3_PROGRAMMABLE_VIDEO_EDITING_FABRIC", "ENGINE_SELECTION", "MLT_OR_CFA3_NATIVE_MEDIA_COMPOSITION", "SHARED_FFMPEG"]
+        and profile.get("authority_boundaries", {}).get("human_finishing_nle") == "CFA3_VIDEO_EDITOR_SOLE_FULL_EDIT"
         and profile.get("capability_count") == CAPABILITY_COUNT
     ):
         findings.append(finding("OPENCUT-REF-003", "Programmable video editing profile invariant drift"))
@@ -217,13 +228,18 @@ def gate(root: Path):
     if not (
         contract.get("id") == CONTRACT_ID
         and contract.get("provider_neutral") is True
-        and contract.get("canonical_timeline_ir") == "OpenTimelineIO"
+        and contract.get("canonical_timeline_ir") == "CFA3_NATIVE_PROJECT_STATE"
+        and contract.get("interchange_ir") == "OpenTimelineIO"
+        and contract.get("project_state_authority") == "CFA3_APPLICATION_OWNERS_NOT_OTIO_NOT_EXTERNAL_PROVIDERS"
+        and contract.get("application_project_formats", {}).get("CFA3 OpenCut") == ".fa3clip"
+        and contract.get("editorial_scope", {}).get("Video Editor") == "SOLE_FULL_NLE"
         and set(contract.get("operations", [])) == REQUIRED_OPERATIONS
         and all(operation_requirements.values())
         and all(descriptor_requirements.values())
         and all(render_requirements.values())
         and all(adapter_boundary.values())
-        and {"OpenCutAdapter", "OpenShotLibopenshotAdapter"}.issubset(contract.get("required_adapter_families", []))
+        and contract.get("required_adapter_families") == []
+        and {"OpenCutReferenceAdapter", "OpenShotLibopenshotAdapter", "KdenliveAdapter"}.issubset(contract.get("optional_adapter_families", []))
         and contract.get("capability_count") == CAPABILITY_COUNT
     ):
         findings.append(finding("OPENCUT-REF-004", "VideoTimelineProvider contract invariant drift"))
@@ -232,7 +248,9 @@ def gate(root: Path):
     activation = provider.get("runtime_activation", {})
     if not (
         provider.get("id") == PROVIDER_ID
-        and "REQ_ADAPTER_PLUS_REFERENCE" in provider.get("classification", [])
+        and "UPSTREAM_REFERENCE_ONLY" in provider.get("classification", [])
+        and "OPTIONAL_COMPATIBILITY_ADAPTER" in provider.get("classification", [])
+        and provider.get("authority_boundaries", {}).get("timeline_interchange") == "OPENTIMELINEIO_INTERCHANGE_ONLY"
         and provider.get("canonical_root") is False
         and provider.get("architectural_authority") is False
         and provider.get("new_capability") is False
@@ -265,6 +283,12 @@ def gate(root: Path):
     if not (
         decision.get("id") == DECISION_ID
         and decision.get("status") == "CANONICAL_CLOSED"
+        and decision.get("decision") == "CFA3_NATIVE_OPENCUT_FAST_EDIT_APPLICATION_SHARED_PROGRAMMABLE_VIDEO_EDITING_FABRIC"
+        and decision.get("historical_decision", {}).get("original", {}).get("mandatory_rules", [])[10] == "KDENLIVE_REMAINS_PRIMARY_HUMAN_FINISHING_NLE"
+        and decision.get("historical_decision", {}).get("classification") == "SUPERSEDED_ARCHITECTURAL_CONTENT_PRESERVED"
+        and decision.get("canonical_timeline_ir") == "CFA3_NATIVE_PROJECT_STATE"
+        and decision.get("timeline_interchange_ir") == "OpenTimelineIO"
+        and decision.get("capability_projection") == ["CAP-121", "CAP-126", "CAP-171"]
         and decision.get("profile_id") == PROFILE_ID
         and decision.get("contract_id") == CONTRACT_ID
         and decision.get("provider_id") == PROVIDER_ID
@@ -286,6 +310,9 @@ def gate(root: Path):
         and gate_record.get("capability_count") == CAPABILITY_COUNT
         and enforcement.get("gate_id") == GATE_ID
         and enforcement.get("rules") == RULES
+        and policy.get("opencut_mandatory_p0_rules") == RULES
+        and policy.get("opencut_capability_bindings") == ["CAP-121", "CAP-126"]
+        and enforcement.get("application_role") == "CFA3_NATIVE_FAST_EDIT_QUICKCLIP"
         and enforcement.get("runtime_activation_status") == RUNTIME_STATUS
         and enforcement.get("runtime_required_for_global_promotion_when_provider_disabled") is False
     ):

@@ -1,18 +1,19 @@
 {
   "schema": "fa3.profile-record.v1",
   "id": "FA3-PROGRAMMABLE-VIDEO-EDITING-001",
-  "name": "Programmable Video Editing, Timeline Automation & Agentic Editor Fabric",
-  "version": "1.0.0",
+  "name": "CFA3 Shared Programmable Video Editing Fabric — OpenCut FAST EDIT consumer",
+  "version": "2.0.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST-CANONICAL-PROJECTION-RUNTIME-CONDITIONAL",
   "canonical_root": false,
   "new_capability": false,
   "new_architectural_authority": false,
-  "profile_type": "PROVIDER_NEUTRAL_PROGRAMMABLE_EDITORIAL_PROJECTION",
+  "profile_type": "CFA3_NATIVE_SHARED_PROGRAMMABLE_VIDEO_EDITING_FABRIC",
   "capabilities": [
     "CAP-121",
-    "CAP-126"
+    "CAP-126",
+    "CAP-171"
   ],
   "contracts": [
     "FA3-VIDEO-TIMELINE-PROVIDER-CONTRACTS-001"
@@ -20,16 +21,15 @@
   "dependencies": [
     "FA3-MEDIA-001",
     "FA3-MEDIA-FINISH-001",
-    "FA3-KDENLIVE-EDITORIAL-001",
     "FA3-HYBRID-EDITORIAL-001",
     "FA3-TEMPORAL-001"
   ],
   "reference_providers": [
-    "FA3-PROVIDER-OPENCUT-001",
-    "OpenShot/libopenshot adapter",
-    "Kdenlive adapter"
+    "FA3-PROVIDER-OPENCUT-001 (upstream reference only)",
+    "OpenShot/libopenshot optional adapter",
+    "Kdenlive optional external compatibility adapter"
   ],
-  "canonical_timeline_ir": "OpenTimelineIO",
+  "canonical_timeline_ir": "CFA3_NATIVE_PROJECT_STATE",
   "mandatory_flow": [
     "structured_editorial_intent",
     "typed_timeline_operation_plan",
@@ -43,14 +43,16 @@
     "artifact_hash_and_provenance"
   ],
   "authority_boundaries": {
-    "human_finishing_nle": "FA3-PROVIDER-KDENLIVE-001",
+    "human_finishing_nle": "CFA3_VIDEO_EDITOR_SOLE_FULL_EDIT",
     "agentic_video_production_planning": "OpenMontage provider projection",
     "durable_orchestration": "Temporal",
     "event_fabric": "NATS JetStream",
     "runtime_state_cache": "Valkey",
     "agent_tool_boundary": "FA3-AUTH-MCP-GATEWAY-001",
     "host_admission_and_gpu_placement": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
-    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "advanced_motion": "CFA3_SHARED_MOTION_DESIGNER",
+    "external_compatibility": "Kdenlive optional human finishing adapter"
   },
   "automation_policy": {
     "structured_operations_required": true,
@@ -68,6 +70,67 @@
     "render_provenance_required": true
   },
   "capability_count": 175,
-  "implementation_status": "CANONICAL_CONTRACT_AND_REFERENCE_GATE_MATERIALIZED_PROVIDER_RUNTIME_NOT_ADMITTED",
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "implementation_status": "CFA3_FAST_EDIT_AND_SHARED_FABRIC_CANONICAL_CONTRACTS_PROVIDER_RUNTIME_NOT_ADMITTED",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "interchange_ir": "OpenTimelineIO",
+  "application_consumers": [
+    "CFA3 Video Editor",
+    "CFA3 OpenCut FAST EDIT",
+    "CFA3 OpenVid Shared",
+    "QuickClip",
+    "Compatibility adapters"
+  ],
+  "opencut_application": {
+    "id": "CFA3-OPENCUT-FAST-EDIT",
+    "role": "FAST_EDIT_QUICKCLIP",
+    "delivery_modes": [
+      "STANDALONE",
+      "WEBDESIGN_EMBEDDED"
+    ],
+    "project_format": ".fa3clip",
+    "editable_timeline": true,
+    "professional_nle": false,
+    "advanced_motion_engine": false,
+    "shared_motion_designer": "OPTIONAL_ADVANCED_MOTION_HANDOFF",
+    "openvid_composer": "OPTIONAL_EDITABLE_PLUGIN_WORKSPACE_CONSUMER_PENDING_69",
+    "webdesign_output": "WEB_OPTIMIZED_VIDEO_ASSET_BACK_TO_WEBDESIGN",
+    "web_video_mode": {
+      "formats": [
+        "MP4/H.264",
+        "WebM/VP9",
+        "AV1_WHEN_AVAILABLE"
+      ],
+      "outputs": [
+        "poster",
+        "thumbnail",
+        "responsive_variants"
+      ],
+      "edits": [
+        "crop_reframe",
+        "loop",
+        "playback_speed",
+        "hero_background_optimization",
+        "web_size_optimization"
+      ]
+    },
+    "gui": {
+      "cfa3_look": true,
+      "global_workload_mode_indicator": true
+    }
+  },
+  "execution_architecture": {
+    "route": [
+      "APPLICATION_CONSUMERS",
+      "CFA3_PROGRAMMABLE_VIDEO_EDITING_FABRIC",
+      "ENGINE_SELECTION",
+      "MLT_OR_CFA3_NATIVE_MEDIA_COMPOSITION",
+      "SHARED_FFMPEG"
+    ],
+    "engines": [
+      "MLT",
+      "CFA3 Native Media Composition"
+    ],
+    "shared_ffmpeg": true,
+    "otio_role": "INTERCHANGE_ONLY"
+  }
 }

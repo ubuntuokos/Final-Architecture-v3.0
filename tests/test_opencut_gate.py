@@ -100,6 +100,53 @@ class OpenCutGateTests(unittest.TestCase):
             self.assertEqual("FAIL", report["result"])
             self.assertTrue(any(item["code"] == "OPENCUT-REF-006" for item in report["findings"]))
 
+    def test_cfa3_native_fast_edit_scope_and_otio_interchange(self):
+        profile = json.loads((ROOT / PATHS["profile"]).read_text(encoding="utf-8"))
+        contract = json.loads((ROOT / PATHS["contract"]).read_text(encoding="utf-8"))
+        decision = json.loads((ROOT / PATHS["decision"]).read_text(encoding="utf-8"))
+        provider = json.loads((ROOT / PATHS["provider"]).read_text(encoding="utf-8"))
+        policy = json.loads((ROOT / PATHS["policy"]).read_text(encoding="utf-8"))
+        enforcement = json.loads((ROOT / PATHS["enforcement"]).read_text(encoding="utf-8"))
+        app = profile["opencut_application"]
+        self.assertEqual("FAST_EDIT_QUICKCLIP", app["role"])
+        self.assertEqual(".fa3clip", app["project_format"])
+        self.assertEqual(["STANDALONE", "WEBDESIGN_EMBEDDED"], app["delivery_modes"])
+        self.assertFalse(app["professional_nle"])
+        self.assertFalse(app["advanced_motion_engine"])
+        self.assertEqual("CFA3_NATIVE_PROJECT_STATE", contract["canonical_timeline_ir"])
+        self.assertEqual("OpenTimelineIO", contract["interchange_ir"])
+        self.assertEqual([], contract["required_adapter_families"])
+        self.assertIn("KdenliveAdapter", contract["optional_adapter_families"])
+        self.assertEqual("CFA3_VIDEO_EDITOR_SOLE_FULL_EDIT", profile["authority_boundaries"]["human_finishing_nle"])
+        self.assertEqual("UPSTREAM_REFERENCE_ONLY", provider["classification"][0])
+        self.assertEqual(enforcement["rules"], policy["opencut_mandatory_p0_rules"])
+        self.assertEqual("CFA3_NATIVE_OPENCUT_FAST_EDIT_APPLICATION_SHARED_PROGRAMMABLE_VIDEO_EDITING_FABRIC", decision["decision"])
+        self.assertEqual("KDENLIVE_REMAINS_PRIMARY_HUMAN_FINISHING_NLE", decision["historical_decision"]["original"]["mandatory_rules"][10])
+
+    def test_old_full_nle_authority_rule_cannot_be_restored(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            dst = Path(tmp) / "repo"
+            shutil.copytree(ROOT, dst, ignore=shutil.ignore_patterns(".git", "reports", "__pycache__"))
+            path = dst / PATHS["policy"]
+            obj = json.loads(path.read_text(encoding="utf-8"))
+            obj["opencut_mandatory_p0_rules"][10] = "KDENLIVE_REMAINS_PRIMARY_HUMAN_FINISHING_NLE"
+            path.write_text(json.dumps(obj, indent=2) + "\n", encoding="utf-8")
+            report = gate(dst)
+            self.assertEqual("FAIL", report["result"])
+            self.assertTrue(any(item["code"] == "OPENCUT-REF-008" for item in report["findings"]))
+
+    def test_otio_as_project_authority_fails_closed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            dst = Path(tmp) / "repo"
+            shutil.copytree(ROOT, dst, ignore=shutil.ignore_patterns(".git", "reports", "__pycache__"))
+            path = dst / PATHS["contract"]
+            obj = json.loads(path.read_text(encoding="utf-8"))
+            obj["canonical_timeline_ir"] = "OpenTimelineIO"
+            path.write_text(json.dumps(obj, indent=2) + "\n", encoding="utf-8")
+            report = gate(dst)
+            self.assertEqual("FAIL", report["result"])
+            self.assertTrue(any(item["code"] == "OPENCUT-REF-004" for item in report["findings"]))
+
 
 if __name__ == "__main__":
     unittest.main()

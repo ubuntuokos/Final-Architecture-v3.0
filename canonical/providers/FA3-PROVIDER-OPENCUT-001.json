@@ -2,12 +2,11 @@
   "schema": "fa3.provider-record.v1",
   "id": "FA3-PROVIDER-OPENCUT-001",
   "name": "OpenCut",
-  "status": "REQUIRED_SUPPORTED_REFERENCE_ADAPTER_RUNTIME_NOT_ADMITTED",
+  "status": "UPSTREAM_REFERENCE_OPTIONAL_ADAPTER_RUNTIME_NOT_ADMITTED",
   "classification": [
-    "REQ_ADAPTER_PLUS_REFERENCE",
-    "PROGRAMMABLE_LOCAL_FIRST_EDITOR_REFERENCE",
-    "HUMAN_FACING_BROWSER_DESKTOP_EDITOR_PROVIDER",
-    "FUTURE_AGENT_NATIVE_EDITOR_BACKEND_CANDIDATE",
+    "UPSTREAM_REFERENCE_ONLY",
+    "OPTIONAL_COMPATIBILITY_ADAPTER",
+    "PLATFORM_INDEPENDENT_EDITOR_PATTERNS",
     "REPLACEABLE_PROVIDER"
   ],
   "profile": "FA3-PROGRAMMABLE-VIDEO-EDITING-001",
@@ -49,14 +48,14 @@
     "provider_runtime_required_for_global_promotion_when_disabled": false
   },
   "authority_boundaries": {
-    "human_finishing_authority": "KDENLIVE_REMAINS_PRIMARY_HUMAN_FINISHING_NLE",
+    "human_finishing_authority": "CFA3_VIDEO_EDITOR_SOLE_FULL_EDIT_KDENLIVE_OPTIONAL_EXTERNAL_ADAPTER",
     "agentic_pipeline_role": "OPENMONTAGE_REMAINS_HIGHER_LEVEL_PRODUCTION_PLANNING_PROVIDER",
     "durable_orchestration": "TEMPORAL_REMAINS_AUTHORITY",
     "event_fabric": "NATS_JETSTREAM_REMAINS_AUTHORITY",
     "runtime_state_cache": "VALKEY_REMAINS_AUTHORITY",
     "mcp_gateway": "FA3_CENTRAL_MCP_GATEWAY_REMAINS_AUTHORITY",
     "host_resources": "FA3_HOST_RESOURCE_BROKER_REMAINS_AUTHORITY",
-    "timeline_interchange": "OPENTIMELINEIO_REMAINS_CANONICAL_IR"
+    "timeline_interchange": "OPENTIMELINEIO_INTERCHANGE_ONLY"
   },
   "forbidden_authorities": [
     "IDENTITY_AUTHORITY",
@@ -70,6 +69,6 @@
     "ARTIFACT_REGISTRY_AUTHORITY",
     "FINAL_HUMAN_EDITORIAL_AUTHORITY"
   ],
-  "normative_constraint": "OpenCut SHALL remain a replaceable provider adapter behind FA3 contracts and SHALL NOT become an identity, authorization, global MCP, workflow, event, cache, host-resource, evidence, artifact-registry or final-human-editorial authority.",
+  "normative_constraint": "OpenCut upstream is a reference for architecture, API, plugin, headless, scripting, MCP and UI-independent core patterns, not a required runtime dependency, SDK workstream, NLE or architectural authority. The CFA3-native OpenCut FAST EDIT application is separate from the upstream provider; no runtime admission is implied.",
   "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
 }
