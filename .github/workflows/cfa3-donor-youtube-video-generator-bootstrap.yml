@@ -1,0 +1,73 @@
+name: CFA3 temporary donor writer — youtubeVideoGenerator
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, reopened]
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  materialize:
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref == 'cfa3/donor-youtube-video-generator-20261007' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+      - name: Exact published-main guard
+        run: |
+          git fetch --no-tags origin +refs/heads/main:refs/remotes/origin/main
+          test "$(git rev-parse refs/remotes/origin/main)" = "fe8964026d9db75e8f573bfbde358c56f213102a"
+      - name: Materialize through canonical donor writer
+        run: |
+          chmod +x bin/fa3-donor-capture
+          ./bin/fa3-donor-capture             --owner-submitted-link             --owner-donor-command donornak             --name "MohamedElaassal YouTube Video Generator"             --source-kind GITHUB_REPOSITORY             --source "https://github.com/MohamedElaassal/youtubeVideoGenerator"             --date 2026-10-07             --tag explicit-owner-donornak             --tag metadata-only             --tag video-workflow             --tag youtube-publishing             --tag ffmpeg             --tag n8n             --capability automated-content-production             --capability media-composition-workflow             --capability publishing-connector-pattern             --domain creative-media             --domain workflow-automation             --target "CFA3 Creative / Media"             --target "Shared Publishing/Distribution Connector"             --target "Shared Voice/Speech Fabric"             --target "Shared Media/Render Fabric"             --note "Reviewed upstream master head 2d56dddd540d5a4844617b0f1e19490037c599ed; donor registration is metadata/reference only and creates no runtime/provider/model/dependency/usage-edge admission."
+      - name: Bind exact upstream license observation through canonical atomic writer
+        env:
+          PYTHONPATH: src
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from fa3_donor_registry import REGISTRY_REL, _load, _atomic_write
+          root=Path(".").resolve()
+          path=root/REGISTRY_REL
+          reg=_load(path)
+          key="github:mohamedelaassal/youtubevideogenerator"
+          row=next((x for x in reg["entries"] if x.get("source",{}).get("normalized_key")==key),None)
+          if row is None:
+              raise SystemExit("canonical donor writer did not create expected identity")
+          if row.get("donor_id")!="FA3-DONOR-MOHAMEDELAASSAL-YOUTUBE-VIDEO-GENERATOR-001":
+              raise SystemExit("unexpected donor identity")
+          row["license"]={"declared":"MIT","status":"UPSTREAM_REPOSITORY_DECLARED"}
+          row["code_reuse_policy"]="SOURCE_COPY_BLOCKED_PENDING_LICENSE_AND_ADMISSION_REVIEW"
+          _atomic_write(path,reg)
+          PY
+      - name: Source-specific deterministic regression
+        env:
+          PYTHONPATH: src
+        run: python3 -m unittest tests.test_donor_youtube_video_generator_20261007 -v
+      - name: Commit generated canonical registry and remove temporary helper
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/cfa3-donor-youtube-video-generator-bootstrap.yml
+          git add canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json
+          git commit -m "Donor intake: materialize youtubeVideoGenerator canonical reference"
+      - name: Reconcile unified release projection from committed snapshot
+        env:
+          PYTHONPATH: src
+        run: |
+          python3 scripts/fa3_reconcile_release_projection.py
+          git add canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
+          git commit -m "[projection] reconcile youtubeVideoGenerator donor intake"
+      - name: Push generated finalizer commits
+        run: git push origin "HEAD:cfa3/donor-youtube-video-generator-20261007"
