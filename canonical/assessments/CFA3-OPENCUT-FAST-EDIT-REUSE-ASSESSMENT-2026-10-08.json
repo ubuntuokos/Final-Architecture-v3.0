@@ -1,0 +1,120 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "CFA3-OPENCUT-FAST-EDIT-REUSE-ASSESSMENT-2026-10-08",
+  "project_id": "FA3-PROGRAMMABLE-VIDEO-EDITING-001",
+  "intent_id": "CFA3-OPENCUT-FAST-EDIT-APPLICATION-INTENT-2026-10-08",
+  "intent_path": "canonical/intents/CFA3-OPENCUT-FAST-EDIT-APPLICATION-INTENT-2026-10-08.json",
+  "covered_ids": [
+    "FA3-PROGRAMMABLE-VIDEO-EDITING-001",
+    "FA3-PROVIDER-OPENCUT-001",
+    "FA3-VIDEO-TIMELINE-PROVIDER-CONTRACTS-001",
+    "CFA3-OPENCUT-FAST-EDIT"
+  ],
+  "project_status": "OWNER_APPROVED_STATIC_ARCHITECTURE_CONSOLIDATION",
+  "result": "PASS",
+  "assessment_provenance": {
+    "type": "OWNER_APPROVED_EXISTING_CANONICAL_REUSE_REVIEW",
+    "reviewed_on": "2026-10-08",
+    "planning_basis": "263470a38906a56783bbcc33eda4e34b638d2f25",
+    "owner_approved_materialization": true
+  },
+  "selected_reuse": [
+    {
+      "id": "FA3-PROGRAMMABLE-VIDEO-EDITING-001",
+      "use": "SHARED_CFA3_NATIVE_EDITING_FABRIC"
+    },
+    {
+      "id": "FA3-VIDEO-TIMELINE-PROVIDER-CONTRACTS-001",
+      "use": "EXISTING_TYPED_TIMELINE_AND_PROVIDER_NEUTRAL_CONTRACT"
+    },
+    {
+      "id": "FA3-PROVIDER-OPENCUT-001",
+      "use": "UPSTREAM_REFERENCE_ONLY_OPTIONAL_ADAPTER_NOT_RUNTIME"
+    },
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "REUSE_AND_COEXISTENCE_GOVERNANCE"
+    },
+    {
+      "id": "FA3-AUTH-MCP-GATEWAY-001",
+      "use": "EXISTING_GLOBAL_MCP_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "EXISTING_HOST_RESOURCE_AUTHORITY"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "SECOND_NLE",
+      "reason": "CFA3_VIDEO_EDITOR_SOLE_FULL_EDIT"
+    },
+    {
+      "id": "OPENCUT_RUNTIME_HARD_DEPENDENCY",
+      "reason": "UNADMITTED_UPSTREAM"
+    },
+    {
+      "id": "DUPLICATE_MOTION_CORE",
+      "reason": "SHARED_MOTION_DESIGNER_AUTHORITY"
+    },
+    {
+      "id": "OTIO_PROJECT_STATE",
+      "reason": "INTERCHANGE_ONLY"
+    }
+  ],
+  "gaps": [
+    "CFA3_NATIVE_APPLICATION_GUI_AND_RUNTIME_NOT_CLAIMED_MATERIALIZED",
+    "UPSTREAM_PROVIDER_RUNTIME_ADMISSION_SEPARATE",
+    "OPENVID_CONSUMER_DEFERRED_TO_69"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_baseline_preserved": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hrb_bound": true
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_hijack": false
+  },
+  "donor_planning_snapshot": {
+    "published_main_commit": "263470a38906a56783bbcc33eda4e34b638d2f25",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "062b7b27aeeaf74819ac315f30c5cbde4ed2c95b",
+    "donor_registry_sha256": "4798642f9a8dd6dd9181eadb31b28f4071c9d45251b9b659d22e005c21cd4e4f",
+    "donor_registry_entry_count": 1919
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "retrospective_consumer_impact_reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "shared_component_ids": [
+      "FA3-PROGRAMMABLE-VIDEO-EDITING-001",
+      "FA3-VIDEO-TIMELINE-PROVIDER-CONTRACTS-001"
+    ],
+    "consumer_scope": [
+      "PLANNED:CFA3 OpenCut standalone",
+      "PLANNED:Webdesign embedded",
+      "PLANNED:OpenVid Shared",
+      "PLANNED:CFA3 Video Editor",
+      "PLANNED:QuickClip",
+      "EXISTING:provider adapters"
+    ],
+    "local_duplicate_created": false
+  },
+  "pending_or_unmerged_donors_consumed": false,
+  "donor_adoption_authorized": false,
+  "adoption_authorized": false,
+  "donor_usage_edges_created": 0,
+  "implementation_readiness": "STATIC_CONTRACT_GATE_ONLY_RUNTIME_NOT_ADMITTED",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}

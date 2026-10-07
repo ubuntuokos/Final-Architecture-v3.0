@@ -1,0 +1,20 @@
+{
+  "schema": "fa3.current-host-structural-impact.v1",
+  "id": "CFA3-CH-IMPACT-OPENCUT-FAST-EDIT-20261008",
+  "date": "2026-10-08",
+  "status": "NO_RUNTIME_IMPACT",
+  "capability_count": 175,
+  "structural_changes": [
+    "canonical/contracts/FA3-VIDEO-TIMELINE-PROVIDER-CONTRACTS-001.json",
+    "canonical/decisions/FA3-DEC-OPENCUT-PROGRAMMABLE-EDITOR-2026-09-01.json",
+    "canonical/enforcement-policy.json",
+    "canonical/opencut-enforcement.json",
+    "canonical/providers/FA3-PROVIDER-OPENCUT-001.json",
+    "src/fa3_opencut_gate.py"
+  ],
+  "current_host_changes": [],
+  "physical_requalification_required": false,
+  "historical_evidence_reused": false,
+  "global_promotion_claim": false,
+  "rationale": "This #45 change updates CFA3-owned OpenCut FAST EDIT application architecture contracts, static policy and verification without activating any executable runtime/provider binary. Upstream OpenCut remains NOT_ADMITTED_UPSTREAM_INTERFACES_UNSTABLE. There is no changed live hardware discovery, driver, installed application, CPU/GPU lease, physical capability proof, Model Router or deployed service. Historical Current Host evidence is neither inherited nor relabeled; real future runtime materialization must separately qualify. Therefore there is no Current Host runtime impact from this canonical/static integration."
+}

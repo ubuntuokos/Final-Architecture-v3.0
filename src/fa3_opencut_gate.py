@@ -15,6 +15,8 @@ DECISION_ID = "FA3-DEC-OPENCUT-PROGRAMMABLE-EDITOR-2026-09-01"
 GATE_ID = "FA3-OPENCUT-GATESET-001"
 REFERENCE_ID = "FA3-OPENCUT-UPSTREAM-REFERENCE-2026-09-01"
 EVIDENCE_ID = "FA3-EVID-OPENCUT-CI-2026-09-01"
+IMPACT_ID = "CFA3-CH-IMPACT-OPENCUT-FAST-EDIT-20261008"
+IMPACT_PATH = "canonical/current-host-impact/CFA3-CH-IMPACT-OPENCUT-FAST-EDIT-20261008.json"
 PINNED_COMMIT = "400f097becba5db0fbc305d5a65348cb81c20356"
 RUNTIME_STATUS = "NOT_ADMITTED_UPSTREAM_INTERFACES_UNSTABLE"
 
@@ -64,6 +66,7 @@ PATHS = {
     "enforcement": "canonical/opencut-enforcement.json",
     "admission": "canonical/opencut-runtime-admission.json",
     "evidence": "evidence/reference/opencut-ci-2026-09-01.json",
+    "impact": IMPACT_PATH,
 }
 
 
@@ -200,6 +203,7 @@ def gate(root: Path):
     policy = data["policy"]
     admission_record = data["admission"]
     evidence = data["evidence"]
+    impact = data["impact"]
 
     if not (
         profile.get("id") == PROFILE_ID
@@ -344,6 +348,31 @@ def gate(root: Path):
         and evidence.get("runtime_activation_status") == RUNTIME_STATUS
     ):
         findings.append(finding("OPENCUT-REF-009", "OpenCut CI/reference evidence invariant drift"))
+
+    if not (
+        impact.get("schema") == "fa3.current-host-structural-impact.v1"
+        and impact.get("id") == IMPACT_ID
+        and impact.get("status") == "NO_RUNTIME_IMPACT"
+        and impact.get("physical_requalification_required") is False
+        and impact.get("historical_evidence_reused") is False
+        and impact.get("current_host_changes") == []
+        and set(impact.get("structural_changes", [])) == {
+            "canonical/contracts/FA3-VIDEO-TIMELINE-PROVIDER-CONTRACTS-001.json",
+            "canonical/decisions/FA3-DEC-OPENCUT-PROGRAMMABLE-EDITOR-2026-09-01.json",
+            "canonical/enforcement-policy.json",
+            "canonical/opencut-enforcement.json",
+            "canonical/providers/FA3-PROVIDER-OPENCUT-001.json",
+            "src/fa3_opencut_gate.py",
+        }
+        and decision.get("current_host_impact_record") == IMPACT_PATH
+        and contract.get("current_host_impact_record") == IMPACT_PATH
+        and provider.get("current_host_impact_record") == IMPACT_PATH
+        and enforcement.get("current_host_impact_record") == IMPACT_PATH
+        and policy.get("opencut_current_host_impact_record_path") == IMPACT_PATH
+        and provider.get("runtime_activation", {}).get("status") == RUNTIME_STATUS
+        and impact.get("global_promotion_claim") is False
+    ):
+        findings.append(finding("OPENCUT-REF-012", "Current Host structural-impact record/authority or reference-only non-promotion invariant drift"))
 
     regressions = regression_cases()
     failed = [case["rule"] for case in regressions if case["result"] != "PASS"]
