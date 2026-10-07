@@ -5,6 +5,7 @@ import sys
 from pathlib import Path
 
 from fa3_release_baseline import module_active_capability_count
+from fa3_engine_selector_gate import donor_snapshot_findings
 
 ROOT = Path(__file__).resolve().parents[1]
 CAP = module_active_capability_count(__file__)
@@ -57,8 +58,8 @@ def gate():
             findings.append("HyperFrames static pattern boundary drift")
     if assess.get("pending_or_unmerged_donors_consumed") is not False:
         findings.append("pending donor consumed")
-    if assess.get("donor_planning_snapshot",{}).get("donor_registry_entry_count") != 1357:
-        findings.append("planning snapshot donor count drift")
+    for finding in donor_snapshot_findings(ROOT, assess.get("donor_planning_snapshot", {})):
+        findings.append(f"planning snapshot drift: {finding}")
     if assess.get("new_capabilities") != 0 or assess.get("new_architectural_authorities") != 0:
         findings.append("capability/authority delta drift")
     if enforce.get("current_host_runtime_promotion_claim") is not False:
