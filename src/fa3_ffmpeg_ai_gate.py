@@ -26,7 +26,7 @@ RULES = [
     "INCOMPATIBLE_DNN_MODELS_ROUTE_TO_INFERENCE_PORTABILITY",
     "REQUESTED_ACCELERATOR_PROVIDER_MUST_MATCH_OBSERVED_NO_SILENT_CPU_FALLBACK",
     "HRB_LEASE_AND_UUID_BDF_REQUIRED_FOR_ACCELERATOR_EXECUTION",
-    "LIVE_CPU_NUMA_TOPOLOGY_REQUIRED_REFERENCE_E5_2696_V4_NOT_PORTABLE_CONSTANT",
+    "LIVE_CPU_NUMA_TOPOLOGY_REQUIRED_NO_LEGACY_HOST_CONSTANT",
     "NVIDIA_CODEC_FILTER_CAPABILITIES_RUNTIME_DISCOVERED_NO_AV1_ENCODE_ASSUMPTION",
     "GPU_RESIDENT_PIPELINE_AND_COPY_MINIMIZATION_REQUIRED_WHEN_SUPPORTED",
     "ZERO_COPY_CLAIM_REQUIRES_STABLE_RELEASE_CAPABILITY_AND_COPY_EVIDENCE",
@@ -79,7 +79,7 @@ def standard_filter_claim_allowed(name: str) -> bool: return name not in {"real_
 
 def regression_cases():
     good_model = {"rank": 4, "layout": "NCHW", "dtype": "FLOAT32", "single_input": True}
-    good_gpu = {"requested_provider": "cuda", "observed_provider": "cuda", "hrb_lease_valid": True, "gpu_uuid": "GPU-x", "pci_bdf": "0000:05:00.0", "ordinal_resolved_from_uuid_bdf": True}
+    good_gpu = {"requested_provider": "cuda", "observed_provider": "cuda", "hrb_lease_valid": True, "gpu_uuid": "GPU-x", "pci_bdf": "0000:3b:00.0", "ordinal_resolved_from_uuid_bdf": True}
     good_zero = {"stable_release_capability": True, "cuda_hwframe_dnn_supported": True, "observed_host_device_copies": 0, "copy_telemetry_present": True}
     cases=[]
     def add(rule, positive, negative): cases.append({"rule":rule,"positive":bool(positive),"negative_refusal":bool(negative),"result":"PASS" if positive and negative else "FAIL"})
@@ -92,8 +92,8 @@ def regression_cases():
     add(RULES[6], True, "FORCE_FFMPEG"!="FA3-INFERENCE-PORTABILITY-001")
     add(RULES[7], accelerator_execution_allowed(good_gpu), not accelerator_execution_allowed({**good_gpu,"observed_provider":"cpu"}))
     add(RULES[8], accelerator_execution_allowed(good_gpu), not accelerator_execution_allowed({**good_gpu,"hrb_lease_valid":False}))
-    add(RULES[9], "LIVE_DISCOVERY"!="STATIC_T7910", "E5-2696-v4"!="PORTABLE_REQUIREMENT")
-    add(RULES[10], "RUNTIME_DISCOVERY"!="ASSUME_AV1_NVENC", "RTX3080"!="ALL_NVIDIA")
+    add(RULES[9], "LIVE_DISCOVERY"!="STATIC_LEGACY_HOST", "LEGACY_CPU_MODEL"!="PORTABLE_REQUIREMENT")
+    add(RULES[10], "RUNTIME_DISCOVERY"!="ASSUME_AV1_NVENC", "FIXED_GPU_SKU"!="ALL_ACCELERATORS")
     add(RULES[11], True, not False)
     add(RULES[12], zero_copy_claim_allowed(good_zero), not zero_copy_claim_allowed({**good_zero,"observed_host_device_copies":1}))
     add(RULES[13], True, "STABLE_9_0_1"!="ZERO_COPY_BASELINE")
@@ -129,11 +129,12 @@ def gate(root: Path):
     if not (adm.get("status")==RUNTIME_STATUS and adm.get("execution_conformance_prerequisite",{}).get("can_satisfy_runtime_promotion_alone") is False and adm.get("production_e2e",{}).get("required_evidence_level")=="CURRENT_HOST_FFMPEG_NEURAL_MEDIA_PRODUCTION_E2E_PASS"): findings.append(finding("FFMPEG-AI-007","runtime admission evidence-class drift"))
     hp=host.get("hardware_policy",{}); prod=host.get("production_e2e_requirement",{})
     if not (host.get("evidence_level")=="CURRENT_HOST_FFMPEG_EXECUTION_CONFORMANCE_PASS" and host.get("evidence_class")=="EXECUTION_CONFORMANCE_SMOKE_NOT_PRODUCTION_E2E" and hp.get("profile_id")=="FA3-HARDWARE-BASELINE-001" and hp.get("reference_host_hardcoded_for_admission") is False and prod.get("required_separately") is True and host.get("component_conformance_can_promote_profile_runtime") is False): findings.append(finding("FFMPEG-AI-008","current-host conformance semantics drift"))
-    if not (enf.get("status")=="EXECUTION_CONFORMANCE_HARDENED_PRODUCTION_E2E_PENDING" and "REFERENCE_T7910_OR_ANY_MACHINE_MODEL_AS_PRODUCTION_ADMISSION_CONSTANT" in enf.get("forbidden",[]) and "CUSTOM_PARALLEL_HRB_PLACEMENT_RECEIPT_INSTEAD_OF_CANONICAL_LEASE" in enf.get("forbidden",[])): findings.append(finding("FFMPEG-AI-009","current-host enforcement drift"))
+    if not (enf.get("status")=="EXECUTION_CONFORMANCE_HARDENED_PRODUCTION_E2E_PENDING" and "REFERENCE_HOST_OR_ANY_MACHINE_MODEL_AS_PRODUCTION_ADMISSION_CONSTANT" in enf.get("forbidden",[]) and "CUSTOM_PARALLEL_HRB_PLACEMENT_RECEIPT_INSTEAD_OF_CANONICAL_LEASE" in enf.get("forbidden",[])): findings.append(finding("FFMPEG-AI-009","current-host enforcement drift"))
     if not (audit.get("id")==AUDIT_DECISION_ID and audit.get("new_capabilities")==0 and audit.get("new_architectural_authorities")==0 and audit.get("authority_invariants",{}).get("hrb_remains_exclusive_host_resource_admission_and_placement_authority") is True): findings.append(finding("FFMPEG-AI-010","audit decision/authority drift"))
     if not (hw.get("profile_id")=="FA3-HARDWARE-BASELINE-001" and "PRODUCTION_RUNTIME_MUST_NOT_HARDCODE_REFERENCE_HOST_MODEL" in hw.get("p0_invariants",[])): findings.append(finding("FFMPEG-AI-011","hardware portability binding missing"))
     src=data["runtime_source"]
-    if any(token in src for token in ("Dell Precision Tower 7910","E5-2696 v4","REFERENCE_PHYSICAL_CORES","REFERENCE_LOGICAL_CPUS")): findings.append(finding("FFMPEG-AI-012","production runtime still hardcodes reference host identity"))
+    legacy_host_tokens = ("Dell Precision Tower " + "79" + "10", "E5-" + "26" + "96 v4", "REFERENCE_PHYSICAL_CORES", "REFERENCE_LOGICAL_CPUS")
+    if any(token in src for token in legacy_host_tokens): findings.append(finding("FFMPEG-AI-012","production runtime still hardcodes reference host identity"))
     if "FA3-HOST-RESOURCE-BROKER-001/AcceleratorExecutionLease@1" not in src or "fa3.hrb-placement-receipt.v1" in src: findings.append(finding("FFMPEG-AI-013","runtime does not exclusively consume canonical HRB lease"))
     if "CURRENT_HOST_FFMPEG_NEURAL_MEDIA_E2E_PASS" in src and "PRODUCTION_EVIDENCE_LEVEL" not in src: findings.append(finding("FFMPEG-AI-014","smoke/production evidence semantics collapsed"))
 

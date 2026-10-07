@@ -366,12 +366,12 @@ def validate_current_host_receipt(receipt: dict[str, Any]) -> list[dict[str, Any
 def make_reference_receipt() -> dict[str, Any]:
     """Synthetic unit-test fixture only; gate must reject it as current-host evidence."""
     now = int(time.time())
-    gpu = {"index": 1, "uuid": "GPU-test", "pci_bdf": "0000:05:00.0", "name": "NVIDIA GeForce RTX 3080"}
+    gpu = {"index": 1, "uuid": "GPU-test", "pci_bdf": "0000:3b:00.0", "name": "NVIDIA accelerator fixture"}
     lease = {
         "schema": HRB_LEASE_SCHEMA, "lease_id": "lease-test", "issuer": HRB_PROFILE_ID,
         "accelerator_uuid": "GPU-test", "memory_max_bytes": 1024, "expires_epoch": now + 3600,
         "issued_epoch": now - 1, "purpose": "FA3 FFmpeg neural-media smoke", "host": "fixture",
-        "status": "ACTIVE", "nonce": "fixture", "placement": {"pci_bus_id": "0000:05:00.0", "numa_node": 0},
+        "status": "ACTIVE", "nonce": "fixture", "placement": {"pci_bus_id": "0000:3b:00.0", "numa_node": 0},
         "enforcement": {"mode": "fixture"}, "signature": {"alg": "HMAC-SHA256", "key_id": "host-local-v1", "value": "1" * 64},
     }
     lease_hash = digest_json(lease)
@@ -388,7 +388,7 @@ def make_reference_receipt() -> dict[str, Any]:
         "ffmpeg_feature_manifest": feature, "ffmpeg_build_trust": trust, "live_gpus": [gpu], "hrb_accelerator_lease": lease, "hrb_broker_validation": broker,
         "accelerator_resolution": {"canonical_identity": "UUID_PLUS_PCI_BDF", "ordinal_is_ephemeral": True, "runtime_index_resolved_from_uuid_bdf": True, "runtime_index": 1},
         "onnx_cuda_dnn": {"status": "PASS", "requested_provider": "cuda", "observed_provider": "cuda", "silent_cpu_fallback_observed": False, "identity_model_generated_locally": True, "model_is_smoke_fixture_not_production_model": True, "model_sha256": "c"*64, "model_contract": "4D_NCHW_FLOAT32_SINGLE_INPUT", "cpu_framemd5_sha256": "0"*64, "cuda_framemd5_sha256": "0"*64},
-        "gpu_media_e2e": {"status": "PASS", "hardware_decode_requested": True, "hardware_decode_observed": True, "cuda_filter_requested": True, "cuda_filter_observed": True, "nvenc_encode_requested": True, "nvenc_encode_observed": True, "gpu_uuid": "GPU-test", "pci_bdf": "0000:05:00.0", "source_sha256": "b"*64, "output_sha256": "d"*64},
+        "gpu_media_e2e": {"status": "PASS", "hardware_decode_requested": True, "hardware_decode_observed": True, "cuda_filter_requested": True, "cuda_filter_observed": True, "nvenc_encode_requested": True, "nvenc_encode_observed": True, "gpu_uuid": "GPU-test", "pci_bdf": "0000:3b:00.0", "source_sha256": "b"*64, "output_sha256": "d"*64},
         "copy_boundary_evidence": {"zero_copy_claimed": False, "stable_ffmpeg_dnn_cuda_hwframe_baseline": False, "dnn_cpu_gpu_transfer_expected": True, "gpu_media_pipeline_hwdownload_present": False, "gpu_media_pipeline_hwupload_present": False},
         "quality": {"status": "PASS", "threshold_policy": "DETERMINISTIC_SMOKE_FIXTURE_NOT_PRODUCTION_QUALITY_POLICY", "vmaf": 95.0, "ssim": 0.99, "psnr_db": 40.0, "av_duration_delta_seconds": 0.01, "timestamps_monotonic": True, "color_primaries": "bt709", "color_transfer": "bt709", "color_space": "bt709", "hdr_expected": False, "hdr_absence_validated": True},
         "media_validation": {"status": "PASS", "container_mp4_validated": True, "video_codec": "h264", "audio_codec": "aac", "video_stream_count": 1, "audio_stream_count": 1, "width": 320, "height": 180, "audio_sample_rate": "48000"},
@@ -396,5 +396,5 @@ def make_reference_receipt() -> dict[str, Any]:
         "rollback": {"status": "PASS", "persistent_environment_mutation": False, "persistent_system_configuration_mutation": False, "network_model_fetch_performed": False, "temporary_workspace_cleanable": True, "failure_injection_cleanup_pass": True},
         "provenance": {"chain_material": chain, "chain_sha256": digest_json(chain)},
         "vs_mlrt_runtime": "DISABLED_CONDITIONAL_PROVIDER_NOT_REQUIRED_FOR_FFMPEG_PRIMARY_CONFORMANCE",
-        "new_capabilities": 0, "new_architectural_authorities": 0, "capability_count_after": 143, "global_promotion_claim": False,
+        "new_capabilities": 0, "new_architectural_authorities": 0, "capability_count_after": CAPABILITY_COUNT, "global_promotion_claim": False,
     }

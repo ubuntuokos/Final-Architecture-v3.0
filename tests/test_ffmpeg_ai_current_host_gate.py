@@ -27,7 +27,7 @@ class FFmpegAICurrentHostTests(unittest.TestCase):
         self.assertTrue(any(x["code"] == "FFMPEG-AI-HOST-015" for x in report["findings"]))
         self.assertFalse(report["production_e2e_satisfied"])
 
-    def test_hardware_gate_is_portable_not_t7910_pinned(self):
+    def test_hardware_gate_is_portable_not_legacy_host_pinned(self):
         r = make_reference_receipt(); hw = r["hardware"]
         self.assertTrue(hardware_snapshot_valid(hw))
         hw["observed_machine_identity_non_normative"] = {"vendor": "Any", "product": "Any qualifying host"}
@@ -52,8 +52,8 @@ class FFmpegAICurrentHostTests(unittest.TestCase):
         self.assertIsNone(resolved_runtime_index({}, r["live_gpus"], r["hrb_broker_validation"]))
 
     def test_extended_nvidia_pci_domain_normalizes_to_canonical_bdf(self):
-        self.assertEqual("0000:05:00.0", normalize_bdf("00000000:05:00.0"))
-        self.assertEqual("0000:a5:00.0", normalize_bdf("A5:00.0"))
+        self.assertEqual("0000:3b:00.0", normalize_bdf("00000000:3b:00.0"))
+        self.assertEqual("0000:65:00.0", normalize_bdf("65:00.0"))
 
     def test_silent_cuda_cpu_fallback_is_denied(self):
         self.assertEqual("FALLBACK_CPU", observed_onnx_provider("Failed to enable CUDA. Falling back to CPU"))

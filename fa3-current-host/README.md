@@ -134,5 +134,4 @@ The CPU-only media path remains valid without an accelerator lease. The optional
 
 FFmpeg build trust v2 is a provider-specific projection of the shared `FA3-SCS-001` supply-chain authority. It binds stable immutable identity, observed FFmpeg version, signature-verifier identity, artifact/binary digest, SBOM and provenance-attestation digest. Historical Current Host evidence is not inherited.
 
-By explicit owner order for PR #68, historical source-link donor registration and CFA3 SDK registration are deferred until after successful PR #68 closure. PR #68 itself does not mutate the donor registry or SDK.
-
+By explicit owner order for PR #68, the historical conversation source links used by this legacy workstream are grandfathered references. PR #68 creates no donor-registration, SDK-registration, or post-closure follow-up task.

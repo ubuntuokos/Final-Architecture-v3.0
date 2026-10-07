@@ -7,7 +7,7 @@
   "supersedes_in_part": "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03",
   "decision": "HARDEN_EXISTING_CURRENT_HOST_CLOSURE_NO_NEW_AUTHORITY",
   "findings_corrected": [
-    "reference T7910 CPU/machine tuple was incorrectly enforced by production runtime instead of being non-normative evidence",
+    "legacy reference CPU/machine tuple was incorrectly enforced by production runtime instead of being non-normative evidence",
     "custom fa3.hrb-placement-receipt.v1 was weaker than the canonical AcceleratorExecutionLease@1 plus broker validation already used by FA3",
     "GPU media fields proved command intent for decoder/filter/encoder rather than observed runtime execution",
     "synthetic Identity ONNX plus synthetic A/V smoke was labelled too broadly as neural-media E2E PASS",
@@ -49,10 +49,12 @@
     "cpu_only_path_required": true,
     "accelerator_path_optional": true
   },
-  "legacy_source_followup": {
-    "owner_order": "DONOR_AND_SDK_CANONICALIZATION_ONLY_AFTER_PR68_SUCCESSFUL_CLOSURE",
-    "donor_registry_mutated_by_pr68": false,
-    "sdk_mutated_by_pr68": false,
+  "legacy_source_policy": {
+    "disposition": "PR68_LEGACY_SOURCE_GRANDFATHERED",
+    "historical_conversation_links_may_be_used_for_pr68": true,
+    "donor_registration_required": false,
+    "sdk_registration_required": false,
+    "post_closure_followup_required": false,
     "owner_exception_ref": "canonical/exceptions/CFA3-PR68-LEGACY-SOURCE-ORDER-2026-10-07.json"
   }
 }

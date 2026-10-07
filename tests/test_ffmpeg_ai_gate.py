@@ -38,7 +38,7 @@ class FFmpegAIGateTests(unittest.TestCase):
         self.assertFalse(model_admission_allowed({**good, "single_input": False}))
 
     def test_requested_cuda_cannot_silently_become_cpu(self):
-        good = {"requested_provider": "cuda", "observed_provider": "cuda", "hrb_lease_valid": True, "gpu_uuid": "GPU-uuid", "pci_bdf": "0000:05:00.0", "ordinal_resolved_from_uuid_bdf": True}
+        good = {"requested_provider": "cuda", "observed_provider": "cuda", "hrb_lease_valid": True, "gpu_uuid": "GPU-uuid", "pci_bdf": "0000:3b:00.0", "ordinal_resolved_from_uuid_bdf": True}
         self.assertTrue(accelerator_execution_allowed(good))
         self.assertFalse(accelerator_execution_allowed({**good, "observed_provider": "cpu"}))
         self.assertFalse(accelerator_execution_allowed({**good, "hrb_lease_valid": False}))

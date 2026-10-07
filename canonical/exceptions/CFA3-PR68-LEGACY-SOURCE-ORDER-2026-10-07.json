@@ -1,23 +1,19 @@
 {
   "schema": "fa3.owner-exception.v1",
   "id": "CFA3-PR68-LEGACY-SOURCE-ORDER-2026-10-07",
-  "status": "ACTIVE_CONVERSATION_BOUNDED_PR68_ORDERING_EXCEPTION",
+  "status": "ACTIVE_CONVERSATION_BOUNDED_PR68_LEGACY_SOURCE_GRANDFATHERING",
   "owner": "ubuntuokos",
-  "owner_instruction": "FFmpeg must be a shared CFA3 element. Historical conversation links may be used for the PR #68 modernization; add those links to donor and CFA3 SDK only after PR #68 has successfully closed.",
+  "owner_instruction": "Historical conversation links used by PR #68 are grandfathered legacy references. No donor or CFA3 SDK registration task is created from PR #68.",
   "recorded_date": "2026-10-07",
   "repository": "ubuntuokos/Final-Architecture-v3.0",
   "pull_request": 68,
-  "scope": "ALLOW_PR68_MODERNIZATION_AND_CLOSURE_BEFORE_OWNER_ORDERED_POST_CLOSURE_DONOR_AND_SDK_CANONICALIZATION",
+  "scope": "PR68_LEGACY_SOURCE_GRANDFATHERING_NO_DONOR_OR_SDK_FOLLOWUP",
   "overridden_rule_scope": [
     "CFA3-RETROACTIVE-REDESIGN-COMPLIANCE-POLICY-001:FINALIZATION_REQUIRES_CANONICAL_DONORS_FOR_THIS_PR68_ORDERING_ONLY"
   ],
   "conversation_bounded": true,
   "expiry": "PR68_SUCCESSFULLY_CLOSED_OR_EXPLICIT_OWNER_REVOCATION",
-  "required_post_closure_actions": [
-    "Recover the historical conversation source links used for #68.",
-    "Register eligible recovered links in the canonical Donor & Reference Registry.",
-    "Register SDK-suitable recovered links/components in the CFA3 SDK input/design system."
-  ],
+  "required_post_closure_actions": [],
   "invariants": {
     "donor_registry_mutation_in_pr68": false,
     "sdk_mutation_in_pr68": false,
@@ -25,6 +21,9 @@
     "new_architectural_authority": false,
     "capability_baseline": 175,
     "current_host_physical_pass_claim": false,
-    "historical_current_host_evidence_reuse": false
+    "historical_current_host_evidence_reuse": false,
+    "donor_registration_required": false,
+    "sdk_registration_required": false,
+    "post_closure_donor_sdk_followup_required": false
   }
 }
