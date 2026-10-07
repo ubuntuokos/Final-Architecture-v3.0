@@ -1,0 +1,145 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "FA3-DONOR-MOHAMEDELAASSAL-YOUTUBE-VIDEO-GENERATOR-2026-10-07",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "STAGED_PENDING_EXACT_HEAD_GATES",
+  "mode": "APPEND_ONLY_OWNER_EXPLICIT_REFERENCE_INTAKE",
+  "parent_commit": "fe8964026d9db75e8f573bfbde358c56f213102a",
+  "parent_registry_blob_sha": "062b7b27aeeaf74819ac315f30c5cbde4ed2c95b",
+  "parent_entry_count": 1919,
+  "proposed_entry_count": 1920,
+  "source_count": 1,
+  "unique_source_key_count": 1,
+  "matched_existing_count": 0,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "usage_edge_delta": 0,
+  "authorization": {
+    "owner_command": "donornak",
+    "explicit_user_approval": true,
+    "date": "2026-10-07",
+    "scope": "REFERENCE_REGISTRATION_ONLY"
+  },
+  "source": {
+    "url": "https://github.com/MohamedElaassal/youtubeVideoGenerator",
+    "normalized_key": "github:mohamedelaassal/youtubevideogenerator",
+    "donor_id": "FA3-DONOR-MOHAMEDELAASSAL-YOUTUBE-VIDEO-GENERATOR-001",
+    "kind": "GITHUB_REPOSITORY",
+    "status": "ACCEPTED_REFERENCE",
+    "upstream_head": "2d56dddd540d5a4844617b0f1e19490037c599ed",
+    "upstream_default_branch": "master",
+    "license_observation": "MIT"
+  },
+  "five_level_lineage": {
+    "max_reference_depth_policy": 5,
+    "analysis_depth_applied": 5,
+    "child_auto_admission": false,
+    "deterministic_dependency_chain": [
+      {
+        "level": "L0",
+        "source": "github:mohamedelaassal/youtubevideogenerator",
+        "evidence": "root donor repository"
+      },
+      {
+        "level": "L1",
+        "source": "github:googleapis/google-api-php-client",
+        "package": "google/apiclient",
+        "version": "v2.18.3",
+        "revision": "4eee42d201eff054428a4836ec132944d271f051"
+      },
+      {
+        "level": "L2",
+        "source": "github:googleapis/google-auth-library-php",
+        "package": "google/auth",
+        "version": "v1.47.1",
+        "revision": "d7a0a215ec42ca0c8cb40e9ae0c5960aa9a024b7"
+      },
+      {
+        "level": "L3",
+        "source": "github:guzzle/guzzle",
+        "package": "guzzlehttp/guzzle",
+        "version": "7.9.3",
+        "revision": "7b2f29fe81dc4da0ca0ea7d42107a0845946ea77"
+      },
+      {
+        "level": "L4",
+        "source": "github:guzzle/psr7",
+        "package": "guzzlehttp/psr7",
+        "version": "2.7.1",
+        "revision": "c2270caaabe631b3b44c85f99e5a04bbb8060d16"
+      },
+      {
+        "level": "L5",
+        "source": "github:php-fig/http-message",
+        "package": "psr/http-message",
+        "version": "2.0",
+        "revision": "402d35bcb92c70c026d1a6a9883f06b2ead23d71"
+      }
+    ],
+    "direct_reference_families": [
+      "n8n workflow automation",
+      "FFmpeg media processing",
+      "Laravel 12 / PHP 8.2",
+      "Google API PHP Client / YouTube Data API",
+      "Google Gemini API",
+      "gTTS",
+      "Pixabay API",
+      "Unsplash API",
+      "Vue 3 / Inertia",
+      "Docker Compose",
+      "MySQL 8",
+      "Redis 7"
+    ],
+    "high_access_priority": [
+      "google/apiclient SDK",
+      "YouTube API integration",
+      "FFmpeg media backend",
+      "n8n workflow patterns"
+    ],
+    "observed_non_admitted_references": [
+      "googleapis/google-api-php-client",
+      "googleapis/google-auth-library-php",
+      "guzzle/guzzle",
+      "guzzle/psr7",
+      "php-fig/http-message",
+      "laravel/framework",
+      "laravel/socialite",
+      "inertiajs/inertia-laravel",
+      "gTTS",
+      "n8n",
+      "FFmpeg",
+      "Gemini API",
+      "Pixabay API",
+      "Unsplash API",
+      "YouTube Data API"
+    ]
+  },
+  "risk_observations": [
+    "docker-compose.yml contains development-grade fixed credentials/defaults; these are reference-only and must not be adopted into CFA3.",
+    ".env.example and n8n workflow configuration demonstrate direct secret/config handling; CFA3 Secret Broker boundaries remain mandatory.",
+    "The n8n video-generation workflow uses executeCommand with generated/script-derived text and shell execution; direct command composition is not admissible CFA3 execution design.",
+    "Direct remote provider/API calls in workflows do not bypass Model Router, provider admission, network authorization, License & Rights, or Secret Broker.",
+    "Fixed-duration waiting in autopilot is a reference pattern only; CFA3 Temporal durable lifecycle remains authoritative."
+  ],
+  "intended_reference_value": [
+    "end-to-end automated content-production workflow",
+    "script -> media acquisition -> TTS -> composition -> publishing orchestration",
+    "YouTube publishing connector patterns",
+    "autopilot/scheduled content workflow",
+    "progress-state and job-status patterns"
+  ],
+  "boundaries": {
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "automatic_code_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "child_source_auto_admission": false,
+    "usage_edge_created": false,
+    "runtime_change": false,
+    "current_host_pass_claimed": false
+  }
+}
