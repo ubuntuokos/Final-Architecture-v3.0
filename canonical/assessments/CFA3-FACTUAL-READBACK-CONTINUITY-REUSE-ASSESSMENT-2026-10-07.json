@@ -1,0 +1,105 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "CFA3-FACTUAL-READBACK-CONTINUITY-REUSE-ASSESSMENT-2026-10-07",
+  "project_id": "CFA3-FACTUAL-READBACK-CONTINUITY-POLICY-001",
+  "intent_id": "CFA3-FACTUAL-READBACK-CONTINUITY-POLICY-001",
+  "intent_path": "canonical/CFA3-FACTUAL-READBACK-CONTINUITY-POLICY-001.json",
+  "covered_ids": [
+    "CFA3-FACTUAL-READBACK-CONTINUITY-POLICY-001",
+    "CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001",
+    "FA3-FACTUAL-READBACK-CONTROL-CENTER-BINDING-001"
+  ],
+  "project_status": "OWNER_APPROVED_GOVERNANCE_AND_CONTROL_CENTER_PROJECTION",
+  "result": "PASS",
+  "reuse_disposition": "REUSE_EXISTING_CFA3_GOVERNANCE_CONTROL_CENTER_AND_REUSE_DISCOVERY_NO_EXTERNAL_DONOR_REQUIRED",
+  "assessment_provenance": {
+    "type": "OWNER_APPROVED_REUSE_REASSESSMENT",
+    "reviewed_on": "2026-10-07",
+    "planning_basis": "PUBLISHED_MAIN_DONOR_REGISTRY_ONLY",
+    "published_main_commit": "61ea39772a1eb7ac8d11b05303895cab5dfbb022",
+    "owner_approved_plan": true,
+    "owner_approved_materialization": true
+  },
+  "selected_reuse": [
+    {
+      "id": "CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001",
+      "use": "EXISTING_SHARED_DEVELOPMENT_AND_AI_BEHAVIOR_GOVERNANCE_PARENT"
+    },
+    {
+      "id": "FA3 Control Center",
+      "use": "EXISTING_GOVERNANCE_UI_HOST_FOR_READ_ONLY_FACTUAL_READBACK_PROJECTION"
+    },
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "EXISTING_PUBLISHED_MAIN_REUSE_AND_DONOR_PLANNING_GATE"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "NEW_EXECUTION_SECURITY_OR_EFFECT_AUTHORITY",
+      "reason": "FACTUAL_READBACK_IS_PREFLIGHT_GOVERNANCE_AND_MUST_NOT_DUPLICATE_EXISTING_AUTHORITIES"
+    },
+    {
+      "id": "APPLICATION_LOCAL_FACTUAL_READBACK_AUTHORITY",
+      "reason": "THE GOVERNANCE RULE IS CROSS_APPLICATION_AND_REMAINS_SHARED; CONTROL_CENTER_IS_ONLY_A_READ_ONLY_PROJECTION"
+    },
+    {
+      "id": "EXTERNAL_DONOR_RUNTIME_DEPENDENCY",
+      "reason": "PUBLISHED_MAIN_REUSE REVIEW FOUND NO REQUIRED_EXTERNAL_DONOR_FOR_FACTUAL_READBACK_GOVERNANCE_OR_ITS_READ_ONLY_CONTROL_CENTER_PROJECTION"
+    }
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "runtime_hardware_change": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_hijack": false,
+    "second_execution_authority_created": false
+  },
+  "mandatory_source_reviews": [],
+  "donor_planning_snapshot": {
+    "published_main_commit": "61ea39772a1eb7ac8d11b05303895cab5dfbb022",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "062b7b27aeeaf74819ac315f30c5cbde4ed2c95b",
+    "donor_registry_sha256": "4798642f9a8dd6dd9181eadb31b28f4071c9d45251b9b659d22e005c21cd4e4f",
+    "donor_registry_entry_count": 1919
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "retrospective_consumer_impact_reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "rationale": "Factual readback continuity is cross-application development governance. The shared policy and fail-closed guard remain centralized; FactualReadbackPage is a read-only Control Center projection and does not create an application-local authority or duplicate the shared governance logic.",
+    "shared_component_ids": [
+      "CFA3-FACTUAL-READBACK-CONTINUITY-POLICY-001",
+      "src/cfa3_factual_readback_guard.py",
+      "CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001"
+    ],
+    "consumer_scope": [
+      "CFA3 development process",
+      "CFA3 AI models",
+      "CFA3 agents",
+      "CFA3 orchestrators",
+      "FA3 Control Center",
+      "current and future CFA3 applications"
+    ],
+    "local_duplicate_created": false
+  },
+  "pending_or_unmerged_donors_consumed": false,
+  "donor_usage_edges_created": 0,
+  "donor_adoption_authorized": false,
+  "adoption_authorized": false,
+  "implementation_readiness": "READY_FOR_GOVERNANCE_FINALIZATION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}
