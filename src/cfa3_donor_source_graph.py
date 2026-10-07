@@ -31,10 +31,10 @@ REFERENCE_RELATIONS = {
     "TOPIC_INDEX", "DISCOVERY_INDEX", "EXAMPLE", "SAMPLE", "RELATED_PROJECT",
 }
 UNKNOWN_RIGHTS = {"NOASSERTION", "NONE", "UNKNOWN", ""}
-URL_RE = re.compile(r"https?://[^\\s<>\\]\\[()\\\"']+", re.I)
-GITHUB_REPO_RE = re.compile(r"^https?://github\\.com/([^/]+)/([^/#?]+?)(?:\\.git)?/?$", re.I)
-GITHUB_ORG_RE = re.compile(r"^https?://github\\.com/([^/]+)/?$", re.I)
-GITHUB_TOPIC_RE = re.compile(r"^https?://github\\.com/topics/([^/?#]+)/?$", re.I)
+URL_RE = re.compile(r"""https?://[^\s<>\]\[()"']+""", re.I)
+GITHUB_REPO_RE = re.compile(r"^https?://github\.com/([^/]+)/([^/#?]+?)(?:\.git)?/?$", re.I)
+GITHUB_ORG_RE = re.compile(r"^https?://github\.com/([^/]+)/?$", re.I)
+GITHUB_TOPIC_RE = re.compile(r"^https?://github\.com/topics/([^/?#]+)/?$", re.I)
 
 RELATION_PATTERNS: list[tuple[str, tuple[str, ...]]] = [
     ("AGENT_SDK", ("agent sdk", "agents sdk")),
