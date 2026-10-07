@@ -11,7 +11,7 @@ This document records the single canonical donor-registry writer for the approve
 - PR #735 exact source head: `29973baabe6cd8b09b5b537dc52b83c63cd4efb5` — 6 OptiScaler / neural-rendering reference identities\n- PR #738 exact source head: `26b780f32a61645079af192796591c57bdfc63f6` — 5 Groq organization/topic reference identities
 - published parent registry blob: `2bb6a74dd415b6374e4a6d5adce1bc9265229b63`
 - published parent registry count: **1792**
-- resulting registry blob: `f09d9fa51d359df2ff7b67c192926562044c5365`
+- resulting registry blob: `4b4c0b1b394d7d22771873e19fde8bf4ac012e85`
 - resulting registry count: **1835**
 - capability baseline: **175**
 - capability delta: **0**
