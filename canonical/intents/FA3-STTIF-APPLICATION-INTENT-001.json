@@ -1,0 +1,78 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-STTIF-APPLICATION-INTENT-001",
+  "project_id": "FA3-STTIF-001",
+  "project_type": "PROFILE",
+  "goal": "Provide FA3-native provider-neutral spatial and temporal tiled inference planning, shared latent/noise coordination semantics, overlap fusion planning, sampler compatibility validation and reproducible execution-plan receipts for high-resolution and long-form media processing without creating a second model, resource, render or video-generation authority.",
+  "required_capabilities": [
+    "inference.tiled.plan",
+    "inference.tiled.validate"
+  ],
+  "optional_capabilities": [
+    "inference.tiled.execute-via-admitted-provider"
+  ],
+  "problem_classes": [
+    "high-resolution-inference",
+    "long-video-inference",
+    "spatial-tiling",
+    "temporal-windowing",
+    "memory-bounded-media-inference",
+    "overlap-fusion"
+  ],
+  "input_modalities": [
+    "IMAGE",
+    "VIDEO",
+    "LATENT",
+    "MODEL_CONSTRAINT_DESCRIPTOR",
+    "RESOURCE_BUDGET"
+  ],
+  "output_modalities": [
+    "TILED_INFERENCE_PLAN",
+    "SPATIAL_TILE_PLAN",
+    "TEMPORAL_WINDOW_PLAN",
+    "INFERENCE_RECEIPT"
+  ],
+  "execution_classes": [
+    "CPU_ONLY_CONTROL_PLANE",
+    "OPTIONAL_ADMITTED_MODEL_RUNTIME"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_parameter_mutation": false,
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_specific_requirements_are_scoped": true
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-sttif",
+    "service_prefix": "fa3-sttif",
+    "config_root": "$XDG_CONFIG_HOME/fa3/sttif",
+    "cache_root": "$XDG_CACHE_HOME/fa3/sttif",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/sttif",
+    "data_root": "$XDG_DATA_HOME/fa3/sttif",
+    "socket_namespace": "fa3/sttif",
+    "desktop_prefix": "org.fa3.sttif",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "security_requirements": [
+    "NO_SILENT_PROVIDER_MODEL_DEVICE_SAMPLER_OR_CLOUD_FALLBACK",
+    "MODEL_AND_PROVIDER_ADMISSION_REMAIN_SEPARATE",
+    "LICENSE_RIGHTS_GATE_BEFORE_EXTERNAL_CODE_OR_MODEL_USE",
+    "HARDWARE_SAFETY_ENVELOPE_AND_HRB_REMAIN_AUTHORITATIVE"
+  ],
+  "integration_requirements": [
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-AUTH-OBS-EVIDENCE-001",
+    "FA3-UNIFIED-ACTION-FABRIC-001",
+    "FA3-LICENSE-RIGHTS-POLICY-001",
+    "FA3-REUSE-DISCOVERY-001"
+  ]
+}
