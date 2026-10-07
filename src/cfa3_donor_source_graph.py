@@ -228,6 +228,25 @@ def registry_identity_map(registry: dict[str, Any]) -> dict[str, dict[str, Any]]
             out[key] = row
     return out
 
+def root_queue_priority(row: dict[str, Any]) -> int:
+    source = row.get("source", {}) if isinstance(row.get("source"), dict) else {}
+    text = " ".join(
+        [str(row.get("name", "")), str(source.get("kind", ""))]
+        + [str(x) for key in ("tags", "capability_hints", "domain_hints", "target_hints") for x in (row.get(key, []) if isinstance(row.get(key), list) else [])]
+    ).casefold()
+    if any(token in text for token in ("sdk", "skill", "codec", "plugin", "agent", "toolkit", "framework")):
+        return 0
+    if (
+        source.get("kind") in {"GITHUB_TOPIC", "GITHUB_ORGANIZATION", "GITHUB_PROFILE", "DISCOVERY_INDEX", "RESEARCH_DISCOVERY_INDEX", "GITHUB_CATALOG", "GIST", "GITHUB_ORG"}
+        or bool(source.get("discovery_urls"))
+        or bool(row.get("upstream_repository_references"))
+        or any(token in text for token in ("discovery", "catalog", "index", "awesome", "ecosystem"))
+    ):
+        return 1
+    if str(source.get("kind", "")).startswith("GITHUB"):
+        return 2
+    return 3
+
 def seed_graph(registry: dict[str, Any]) -> dict[str, Any]:
     identities = registry_identity_map(registry)
     nodes: dict[str, dict[str, Any]] = {}
@@ -253,7 +272,8 @@ def seed_graph(registry: dict[str, Any]) -> dict[str, Any]:
             },
         }
         if isinstance(locator, str) and locator.startswith(("http://", "https://")) and _safe_public_http_url(locator):
-            queue.append({"normalized_key": key, "url": locator, "depth": 0, "root_donor_id": row.get("donor_id")})
+            queue.append({"normalized_key": key, "url": locator, "depth": 0, "root_donor_id": row.get("donor_id"), "priority": root_queue_priority(row)})
+    queue.sort(key=lambda item: (item["priority"], item["normalized_key"]))
     return {
         "schema": "cfa3.donor-source-graph.v1",
         "authority": False,

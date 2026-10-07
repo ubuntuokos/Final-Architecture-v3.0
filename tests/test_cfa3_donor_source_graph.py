@@ -14,6 +14,14 @@ class SourceGraphTests(unittest.TestCase):
             {"donor_id": "D-B", "status": "CANDIDATE", "source": {"normalized_key": "github:b/existing", "locator": "https://github.com/b/existing", "kind": "GITHUB"}},
         ]}
 
+    def test_fast_source_classes_enter_root_queue_first(self):
+        registry = {"entries": [
+            {"donor_id": "D-Z", "name": "ordinary", "status": "CANDIDATE", "source": {"normalized_key": "https://z.example/", "locator": "https://z.example/", "kind": "WEBSITE"}},
+            {"donor_id": "D-SDK", "name": "Agent SDK", "status": "ACCEPTED_REFERENCE", "source": {"normalized_key": "github:x/sdk", "locator": "https://github.com/x/sdk", "kind": "GITHUB"}, "tags": ["sdk", "agent"]},
+        ]}
+        value = graph.seed_graph(registry)
+        self.assertEqual(value["queue"][0]["root_donor_id"], "D-SDK")
+
     def test_depth_is_provenance_not_ranking(self):
         value = graph.seed_graph(self.registry()); value.pop("queue")
         graph.add_discovery(value, parent_key="github:a/root", child_url="https://github.com/x/sdk", depth=5, relation_type="SDK", root_donor_id="D-A", evidence={"ref": "x"})
