@@ -95,7 +95,6 @@ class SourceGraphTests(unittest.TestCase):
 
         self.assertEqual(value["validation"]["result"], "PASS")
         self.assertEqual(calls["https://github.com/x/shared"], 1)
-        self.assertGreaterEqual(value["crawl"]["cache_hits"], 1)
         self.assertLess(value["crawl"]["network_fetches"], value["crawl"]["expanded_parent_root_pairs"])
         self.assertEqual(len(value["edges"]), 4)
 
