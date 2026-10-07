@@ -1,0 +1,694 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "CFA3-DONOR-MISSING-BASELINE-SOURCES-2026-10-07",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "STAGED_PENDING_ROLLING_BATCH_APPEND",
+  "mode": "EXACT_OWNER_AUTHORIZED_REFERENCE_REGISTRATION",
+  "parent_main": "c2e2ab2aa1c34ef555e2324e9b67af9d8723f76a",
+  "parent_registry_blob_sha": "2bb6a74dd415b6374e4a6d5adce1bc9265229b63",
+  "parent_entry_count": 1792,
+  "authorization": {
+    "owner_command": "donornak",
+    "exact_owner_message_marker": "Azok a linkek amik eddig nem kerültek be a donor bázisba és a CFA3 Donor Baseline — exact-state lezárási jelentésben szerepelnek hiányként donornak vedd fel.",
+    "execution_command": "a felvétel után ... ezek a donorok is bekerüljenek a jelenleg futó donor felvétel lezárási folyamatába",
+    "explicit_user_approval": true,
+    "scope": "ALL_TWENTY_EXACT_SOURCES_MARKED_MISSING_IN_THE_APPROVED_EXACT_STATE_CLOSURE_REPORT",
+    "conversation_lineage_ref": "chat:cfa3-donor-baseline-exact-state-closure:2026-10-07"
+  },
+  "submitted_url_count": 20,
+  "submitted_urls": [
+    "https://github.com/deepseek-ai",
+    "https://github.com/topics/deepseek",
+    "https://github.com/topics/deepseek-v3",
+    "https://github.com/topics/deepseek-harness",
+    "https://github.com/esengine",
+    "https://github.com/topics/deepseek-tui",
+    "https://deepseekcoder.github.io/",
+    "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash",
+    "https://github.com/dazeb/openclaw-deepseek-integration",
+    "https://github.com/huggingface/open-r1",
+    "https://github.com/doxdk/deepseek-desktop",
+    "https://github.com/starryrbs/awesome-ai-tools",
+    "https://github.com/topics/tileset-generator",
+    "https://github.com/meetpateltech/ai-infinity",
+    "https://github.com/tile-ai",
+    "https://github.com/tesslio/spec-driven-development-tile",
+    "https://github.com/topics/tilemap-editor",
+    "https://atlas.design/",
+    "https://github.com/TheOrcDev/videorc",
+    "https://vivago.ai/agent/home"
+  ],
+  "unique_source_count": 20,
+  "new_source_count": 20,
+  "canonical_identities": [
+    {
+      "source": "https://github.com/deepseek-ai",
+      "normalized_key": "github:deepseek-ai",
+      "donor_id": "FA3-DONOR-DEEPSEEK-AI-ORG-001",
+      "name": "DeepSeek GitHub organization",
+      "kind": "GITHUB_ORGANIZATION",
+      "mode": "OFFICIAL_DEEPSEEK_MODEL_AGENT_KERNEL_AND_INFRASTRUCTURE_DISCOVERY_INDEX",
+      "group": "DEEPSEEK_MODEL_AGENT_AND_INFRASTRUCTURE_REFERENCES",
+      "license_observation": "ORGANIZATION_INDEX_HAS_NO_SINGLE_CODE_LICENSE_CHILD_REVIEW_REQUIRED",
+      "target_hints": [
+        "CFA3 Model/Provider research",
+        "CFA3 Agent/Skill Fabric reference",
+        "CFA3 Hardware-Adaptive AI",
+        "CFA3 inference/training portability"
+      ],
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "source": "https://github.com/topics/deepseek",
+      "normalized_key": "github:topics/deepseek",
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-DEEPSEEK-001",
+      "name": "GitHub deepseek topic",
+      "kind": "GITHUB_TOPIC",
+      "mode": "DEEPSEEK_ECOSYSTEM_DISCOVERY_INDEX",
+      "group": "DEEPSEEK_COMMUNITY_ECOSYSTEM_REFERENCES",
+      "license_observation": "TOPIC_INDEX_NO_CODE_LICENSE_CHILD_REVIEW_REQUIRED",
+      "target_hints": [
+        "provider adapters",
+        "local AI clients",
+        "DeepSeek integrations",
+        "model/tool discovery"
+      ],
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "source": "https://github.com/topics/deepseek-v3",
+      "normalized_key": "github:topics/deepseek-v3",
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-DEEPSEEK-V3-001",
+      "name": "GitHub deepseek-v3 topic",
+      "kind": "GITHUB_TOPIC",
+      "mode": "DEEPSEEK_V3_MODEL_AND_RUNTIME_DISCOVERY_INDEX",
+      "group": "DEEPSEEK_MODEL_RUNTIME_REFERENCES",
+      "license_observation": "TOPIC_INDEX_NO_CODE_LICENSE_CHILD_REVIEW_REQUIRED",
+      "target_hints": [
+        "Model Router capability descriptors",
+        "reasoning/context compatibility",
+        "local inference portability",
+        "hardware-adaptive model planning"
+      ],
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "source": "https://github.com/topics/deepseek-harness",
+      "normalized_key": "github:topics/deepseek-harness",
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-DEEPSEEK-HARNESS-001",
+      "name": "GitHub deepseek-harness topic",
+      "kind": "GITHUB_TOPIC",
+      "mode": "AGENT_HARNESS_PLUGIN_ECOSYSTEM_DISCOVERY_INDEX",
+      "group": "DEEPSEEK_HARNESS_AGENT_PLUGIN_REFERENCES",
+      "license_observation": "TOPIC_INDEX_NO_CODE_LICENSE_CHILD_REVIEW_REQUIRED",
+      "target_hints": [
+        "Agent Skills",
+        "plugin/extension fabric",
+        "context observability",
+        "agent desktop/CLI patterns"
+      ],
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "source": "https://github.com/esengine",
+      "normalized_key": "github:esengine",
+      "donor_id": "FA3-DONOR-ESENGINE-GITHUB-PROFILE-001",
+      "name": "esengine GitHub profile",
+      "kind": "GITHUB_PROFILE",
+      "mode": "TYPESCRIPT_GAME_FRAMEWORK_AND_ECS_DISCOVERY_INDEX",
+      "group": "GAME_FRAMEWORK_ECS_AND_TOOLING_REFERENCES",
+      "license_observation": "PROFILE_INDEX_NO_SINGLE_CODE_LICENSE_CHILD_REVIEW_REQUIRED",
+      "target_hints": [
+        "CFA3 game-creation shared layer",
+        "ECS patterns",
+        "network/physics modularity",
+        "TypeScript engine interoperability"
+      ],
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "source": "https://github.com/topics/deepseek-tui",
+      "normalized_key": "github:topics/deepseek-tui",
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-DEEPSEEK-TUI-001",
+      "name": "GitHub deepseek-tui topic",
+      "kind": "GITHUB_TOPIC",
+      "mode": "DEEPSEEK_TERMINAL_UI_DISCOVERY_INDEX",
+      "group": "DEEPSEEK_TUI_AND_AGENT_INTERACTION_REFERENCES",
+      "license_observation": "TOPIC_INDEX_NO_CODE_LICENSE_CHILD_REVIEW_REQUIRED",
+      "target_hints": [
+        "CLI/TUI interaction",
+        "session/context presentation",
+        "agent command surfaces",
+        "terminal accessibility"
+      ],
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "source": "https://deepseekcoder.github.io/",
+      "normalized_key": "https://deepseekcoder.github.io/",
+      "donor_id": "FA3-DONOR-DEEPSEEK-CODER-OFFICIAL-SITE-001",
+      "name": "DeepSeek Coder official site",
+      "kind": "WEBSITE_REFERENCE",
+      "mode": "OFFICIAL_CODE_MODEL_ARCHITECTURE_AND_EVALUATION_REFERENCE",
+      "group": "DEEPSEEK_CODE_MODEL_REFERENCES",
+      "license_observation": "WEBSITE_REFERENCE_RIGHTS_AND_MODEL_LICENSE_REQUIRE_EXACT_REVIEW_AT_USE",
+      "target_hints": [
+        "CFA3 coding assistants",
+        "code model evaluation",
+        "context/infilling patterns",
+        "hardware-aware model selection"
+      ],
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash",
+      "normalized_key": "huggingface:deepseek-ai/deepseek-v4.1-flash",
+      "donor_id": "FA3-DONOR-DEEPSEEK-V4-1-FLASH-HF-001",
+      "name": "DeepSeek V4.1 Flash Hugging Face model",
+      "kind": "HUGGINGFACE_MODEL",
+      "mode": "DEEPSEEK_MULTIMODAL_MODEL_CARD_AND_INFERENCE_REFERENCE",
+      "group": "DEEPSEEK_MODEL_CARD_AND_HARDWARE_ADAPTATION_REFERENCES",
+      "license_observation": "MODEL_CARD_DECLARES_MIT_EXACT_WEIGHT_AND_DEPENDENCY_RIGHTS_REVIEW_REQUIRED_BEFORE_ADMISSION",
+      "target_hints": [
+        "Model Manager",
+        "Model Router descriptors",
+        "multimodal capability discovery",
+        "hardware-adaptive recommendations"
+      ],
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "source": "https://github.com/dazeb/openclaw-deepseek-integration",
+      "normalized_key": "github:dazeb/openclaw-deepseek-integration",
+      "donor_id": "FA3-DONOR-DAZEB-OPENCLAW-DEEPSEEK-INTEGRATION-001",
+      "name": "dazeb/openclaw-deepseek-integration",
+      "kind": "GITHUB_REPOSITORY",
+      "mode": "DEEPSEEK_OPENAI_COMPAT_PROVIDER_CONFIGURATION_REFERENCE",
+      "group": "DEEPSEEK_PROVIDER_ADAPTER_REFERENCES",
+      "license_observation": "UPSTREAM_README_DECLARES_MIT_EXACT_LICENSE_AND_DEPENDENCY_REVIEW_REQUIRED",
+      "target_hints": [
+        "Provider Compatibility Adapter",
+        "secret reference patterns",
+        "OpenAI-compatible translation",
+        "provider health/config UI"
+      ],
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "source": "https://github.com/huggingface/open-r1",
+      "normalized_key": "github:huggingface/open-r1",
+      "donor_id": "FA3-DONOR-HUGGINGFACE-OPEN-R1-001",
+      "name": "Hugging Face Open R1",
+      "kind": "GITHUB_REPOSITORY",
+      "mode": "R1_TRAINING_EVALUATION_AND_DATA_GENERATION_REFERENCE",
+      "group": "REASONING_TRAINING_AND_EVALUATION_REFERENCES",
+      "license_observation": "APACHE_2_0_CODE_DECLARATION_OBSERVED; UPSTREAM_README_STATES_PROJECT_NO_LONGER_MAINTAINED; CURRENT_TRL_PATH_REQUIRES_FRESH_REVIEW",
+      "target_hints": [
+        "reasoning evaluation",
+        "SFT/GRPO reference",
+        "synthetic data generation",
+        "training/evaluation pipeline design"
+      ],
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "source": "https://github.com/doxdk/deepseek-desktop",
+      "normalized_key": "github:doxdk/deepseek-desktop",
+      "donor_id": "FA3-DONOR-DOXDK-DEEPSEEK-DESKTOP-001",
+      "name": "doxdk/deepseek-desktop",
+      "kind": "GITHUB_REPOSITORY",
+      "mode": "DEEPSEEK_DESKTOP_WRAPPER_UX_REFERENCE",
+      "group": "DEEPSEEK_DESKTOP_CLIENT_REFERENCES",
+      "license_observation": "LICENSE_AND_README_DECLARE_MIT_WHILE_PACKAGE_METADATA_DECLARES_ISC; RIGHTS_CONFLICT_REQUIRES_FAIL_CLOSED_REVIEW_BEFORE_MATERIAL_REUSE",
+      "target_hints": [
+        "desktop chat shell patterns",
+        "local storage/cookie boundary review",
+        "Electron packaging reference",
+        "cross-platform UI reference"
+      ],
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "source": "https://github.com/starryrbs/awesome-ai-tools",
+      "normalized_key": "github:starryrbs/awesome-ai-tools",
+      "donor_id": "FA3-DONOR-STARRYRBS-AWESOME-AI-TOOLS-001",
+      "name": "starryrbs/awesome-ai-tools",
+      "kind": "GITHUB_REPOSITORY",
+      "mode": "AI_TOOL_CATALOG_DISCOVERY_INDEX",
+      "group": "AI_TOOL_AND_SERVICE_DISCOVERY_REFERENCES",
+      "license_observation": "MIT_REPOSITORY_LIST_CONTENT_AND_LINKED_CHILD_RIGHTS_REQUIRE_INDEPENDENT_REVIEW",
+      "target_hints": [
+        "Donor discovery",
+        "tool taxonomy",
+        "creative AI discovery",
+        "service/reference refresh"
+      ],
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "source": "https://github.com/topics/tileset-generator",
+      "normalized_key": "github:topics/tileset-generator",
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-TILESET-GENERATOR-001",
+      "name": "GitHub tileset-generator topic",
+      "kind": "GITHUB_TOPIC",
+      "mode": "TILESET_GENERATION_AND_EDITOR_DISCOVERY_INDEX",
+      "group": "GAME_ASSET_TILESET_REFERENCES",
+      "license_observation": "TOPIC_INDEX_NO_CODE_LICENSE_CHILD_REVIEW_REQUIRED",
+      "target_hints": [
+        "2D game asset tools",
+        "tileset generation",
+        "pixel-art workflows",
+        "game-creation editor integration"
+      ],
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "source": "https://github.com/meetpateltech/ai-infinity",
+      "normalized_key": "github:meetpateltech/ai-infinity",
+      "donor_id": "FA3-DONOR-MEETPATELTECH-AI-INFINITY-001",
+      "name": "meetpateltech/AI-Infinity",
+      "kind": "GITHUB_REPOSITORY",
+      "mode": "LARGE_AI_TOOL_CATALOG_DISCOVERY_REFERENCE",
+      "group": "AI_TOOL_DISCOVERY_AND_CLASSIFICATION_REFERENCES",
+      "license_observation": "CATALOG_AND_LINKED_SERVICE_RIGHTS_REQUIRE_INDEPENDENT_REVIEW_BEFORE_MATERIAL_USE",
+      "target_hints": [
+        "Donor discovery",
+        "AI tool taxonomy",
+        "category mapping",
+        "periodic external reference refresh"
+      ],
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "source": "https://github.com/tile-ai",
+      "normalized_key": "github:tile-ai",
+      "donor_id": "FA3-DONOR-TILE-AI-ORG-001",
+      "name": "Tile-AI GitHub organization",
+      "kind": "GITHUB_ORGANIZATION",
+      "mode": "TILELANG_TILEOPS_MULTIBACKEND_KERNEL_DISCOVERY_INDEX",
+      "group": "GPU_CPU_NPU_KERNEL_AND_COMPILER_REFERENCES",
+      "license_observation": "ORGANIZATION_INDEX_NO_SINGLE_CODE_LICENSE_CHILD_REVIEW_REQUIRED",
+      "target_hints": [
+        "CUDA Compatibility Fabric",
+        "cross-vendor compute",
+        "kernel DSL/compiler patterns",
+        "GPU/CPU/NPU hardware adaptation"
+      ],
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "source": "https://github.com/tesslio/spec-driven-development-tile",
+      "normalized_key": "github:tesslio/spec-driven-development-tile",
+      "donor_id": "FA3-DONOR-TESSLIO-SPEC-DRIVEN-DEVELOPMENT-TILE-001",
+      "name": "tesslio/spec-driven-development-tile",
+      "kind": "GITHUB_REPOSITORY",
+      "mode": "SPEC_DRIVEN_AGENT_WORKFLOW_REFERENCE",
+      "group": "AGENT_DEVELOPMENT_GOVERNANCE_REFERENCES",
+      "license_observation": "MIT_LICENSE_OBSERVED_EXACT_TILE_DEPENDENCY_REVIEW_REQUIRED_BEFORE_MATERIAL_REUSE",
+      "target_hints": [
+        "CFA3 development governance",
+        "task approval workflow",
+        "spec verification",
+        "agent skill/rule packaging"
+      ],
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "source": "https://github.com/topics/tilemap-editor",
+      "normalized_key": "github:topics/tilemap-editor",
+      "donor_id": "FA3-DONOR-GITHUB-TOPIC-TILEMAP-EDITOR-001",
+      "name": "GitHub tilemap-editor topic",
+      "kind": "GITHUB_TOPIC",
+      "mode": "TILEMAP_AND_LEVEL_EDITOR_DISCOVERY_INDEX",
+      "group": "GAME_LEVEL_AND_TILEMAP_EDITOR_REFERENCES",
+      "license_observation": "TOPIC_INDEX_NO_CODE_LICENSE_CHILD_REVIEW_REQUIRED",
+      "target_hints": [
+        "2D level editor",
+        "tilemap workflows",
+        "sprite/tile asset pipeline",
+        "game-creation UX"
+      ],
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "source": "https://atlas.design/",
+      "normalized_key": "https://atlas.design/",
+      "donor_id": "FA3-DONOR-ATLAS-DESIGN-001",
+      "name": "Atlas AI Studio",
+      "kind": "WEB_SERVICE_REFERENCE",
+      "mode": "AI_3D_ASSET_PIPELINE_AND_AGENT_WORKFLOW_REFERENCE",
+      "group": "AI_3D_ASSET_AND_CREATIVE_PIPELINE_REFERENCES",
+      "license_observation": "SERVICE_REFERENCE_NO_CODE_LICENSE_INHERITANCE; TERMS_ASSET_MODEL_AND_API_RIGHTS_REQUIRE_EXACT_REVIEW_AT_USE",
+      "target_hints": [
+        "3D asset pipeline",
+        "retopology/PBR/rig/LOD workflow",
+        "Blender bridge",
+        "engine-ready provenance"
+      ],
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "source": "https://github.com/TheOrcDev/videorc",
+      "normalized_key": "github:theorcdev/videorc",
+      "donor_id": "FA3-DONOR-THEORCDEV-VIDEORC-001",
+      "name": "TheOrcDev/videorc",
+      "kind": "GITHUB_REPOSITORY",
+      "mode": "AI_NATIVE_RECORDING_STREAMING_STUDIO_REFERENCE",
+      "group": "VIDEO_CAPTURE_STREAMING_AND_AI_PRODUCER_REFERENCES",
+      "license_observation": "AGPL_3_0_ONLY_OBSERVED; MATERIAL_CODE_REUSE_REQUIRES_LICENSE_RIGHTS_AUTHORITY_REVIEW",
+      "target_hints": [
+        "Capture & Inbox Fabric",
+        "recording/streaming pipeline",
+        "live captions",
+        "local/cloud AI boundary",
+        "cross-platform packaging"
+      ],
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "source": "https://vivago.ai/agent/home",
+      "normalized_key": "https://vivago.ai/agent/home",
+      "donor_id": "FA3-DONOR-VIVAGO-AI-AGENT-HOME-001",
+      "name": "VivaGo AI Agent",
+      "kind": "WEB_SERVICE_REFERENCE",
+      "mode": "MULTIMODAL_CREATIVE_AGENT_AND_SKILLHUB_REFERENCE",
+      "group": "CREATIVE_AGENT_IMAGE_VIDEO_WORKFLOW_REFERENCES",
+      "license_observation": "SERVICE_REFERENCE_NO_CODE_LICENSE_INHERITANCE; TERMS_MODEL_ASSET_AND_API_RIGHTS_REQUIRE_EXACT_REVIEW_AT_USE",
+      "target_hints": [
+        "creative agent UX",
+        "SkillHub-style capability discovery",
+        "image/video workflow",
+        "asset/project orchestration"
+      ],
+      "status": "ACCEPTED_REFERENCE"
+    }
+  ],
+  "upstream_review": {
+    "reviewed_at": "2026-10-07",
+    "exact_repository_heads": {
+      "github:huggingface/open-r1": "5b6ff22b3fb7aa069c54866e517f39dfc3160e09",
+      "github:dazeb/openclaw-deepseek-integration": "b4adbdab3ecf5f1e77c66382015fbd2ecb95cb85",
+      "github:doxdk/deepseek-desktop": "b2671ed312891ccc30d369764137e49e9d06d612",
+      "github:starryrbs/awesome-ai-tools": "9bde9809c33e8d492f338754793eb00ad91c09c9",
+      "github:meetpateltech/ai-infinity": "070fe5e69ec18da6446f556a241c6fa62ce47894",
+      "github:tesslio/spec-driven-development-tile": "b8fdff700a5df98386d82d29f1ef3dc783092daf",
+      "github:theorcdev/videorc": "cdd2f9421bbd055a36973bcfe222b6c44db87bec"
+    },
+    "dynamic_indexes_and_web_services": "REVIEWED_AS_CURRENT_DISCOVERY_OR_SERVICE_REFERENCES; NO_IMMUTABLE_CHILD_SNAPSHOT_OR_RUNTIME_ADMISSION"
+  },
+  "lineage_observations": {
+    "max_reference_depth_policy": 5,
+    "analysis_depth_applied": 5,
+    "child_auto_admission": false,
+    "source_lineage_coverage": [
+      {
+        "source": "https://github.com/deepseek-ai",
+        "chain_type": "OFFICIAL_DEEPSEEK_ECOSYSTEM",
+        "depth": 5,
+        "nodes": [
+          "https://github.com/deepseek-ai",
+          "deepseek-ai/deepseek-harness + DeepGEMM/DeepEP/DeepSeek model repositories",
+          "model/agent/kernel/infrastructure patterns",
+          "CFA3 Model/Agent/Hardware-Adaptive shared layers",
+          "independent License/Rights + Security + HRB/Model Router/provider admission at material use"
+        ]
+      },
+      {
+        "source": "https://github.com/topics/deepseek",
+        "chain_type": "DEEPSEEK_TOPIC_DISCOVERY",
+        "depth": 5,
+        "nodes": [
+          "https://github.com/topics/deepseek",
+          "community and official DeepSeek-linked repositories",
+          "client/provider/model/tool integration patterns",
+          "CFA3 donor discovery and provider compatibility mapping",
+          "child source remains non-admitted until independent review"
+        ]
+      },
+      {
+        "source": "https://github.com/topics/deepseek-v3",
+        "chain_type": "DEEPSEEK_V3_TOPIC_DISCOVERY",
+        "depth": 5,
+        "nodes": [
+          "https://github.com/topics/deepseek-v3",
+          "DeepSeek-V3 ecosystem implementations and adapters",
+          "context/reasoning/inference compatibility patterns",
+          "CFA3 Model Router descriptors and local model planning",
+          "model/runtime admission remains separate and fail-closed"
+        ]
+      },
+      {
+        "source": "https://github.com/topics/deepseek-harness",
+        "chain_type": "DEEPSEEK_HARNESS_ECOSYSTEM",
+        "depth": 5,
+        "nodes": [
+          "https://github.com/topics/deepseek-harness",
+          "deepseek-ai/deepseek-harness and plugin ecosystem",
+          "plugin-first agent harness / context / skill patterns",
+          "CFA3 Agent Skills + Plugin & Extension Fabric",
+          "no child plugin/runtime admission without independent source review"
+        ]
+      },
+      {
+        "source": "https://github.com/esengine",
+        "chain_type": "ESENGINE_GAME_FRAMEWORK",
+        "depth": 5,
+        "nodes": [
+          "https://github.com/esengine",
+          "ESEngine modular TypeScript ECS/game modules",
+          "ECS + AI/network/physics modular patterns",
+          "CFA3 game-creation shared framework and engine interoperability",
+          "child repositories require exact license/security/coexistence review"
+        ]
+      },
+      {
+        "source": "https://github.com/topics/deepseek-tui",
+        "chain_type": "DEEPSEEK_TUI_DISCOVERY",
+        "depth": 5,
+        "nodes": [
+          "https://github.com/topics/deepseek-tui",
+          "DeepSeek TUI/terminal client repositories",
+          "terminal event/session/context interaction patterns",
+          "CFA3 CLI/TUI and agent command surfaces",
+          "child source and executable admission remain separate"
+        ]
+      },
+      {
+        "source": "https://deepseekcoder.github.io/",
+        "chain_type": "DEEPSEEK_CODER_REFERENCE",
+        "depth": 5,
+        "nodes": [
+          "https://deepseekcoder.github.io/",
+          "DeepSeek-Coder model/research links",
+          "repo-level code corpus + infilling + instruction tuning concepts",
+          "CFA3 coding model evaluation and task-specific model planning",
+          "weights/runtime/provider use requires independent rights/model admission"
+        ]
+      },
+      {
+        "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash",
+        "chain_type": "DEEPSEEK_V4_1_FLASH_MODEL_CARD",
+        "depth": 5,
+        "nodes": [
+          "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash",
+          "Transformers/model-card inference guidance",
+          "multimodal image-text-to-text capability metadata",
+          "CFA3 Model Manager/Router capability and hardware fit descriptors",
+          "model weight/runtime execution requires separate model/provider/HRB admission"
+        ]
+      },
+      {
+        "source": "https://github.com/dazeb/openclaw-deepseek-integration",
+        "chain_type": "OPENCLAW_DEEPSEEK_PROVIDER_ADAPTER",
+        "depth": 5,
+        "nodes": [
+          "https://github.com/dazeb/openclaw-deepseek-integration",
+          "OpenAI-compatible DeepSeek provider configuration",
+          "auth reference + model descriptors + compatibility mapping",
+          "CFA3 Provider Compatibility Adapter behind Model Router",
+          "raw credentials/code/runtime are not admitted by donor registration"
+        ]
+      },
+      {
+        "source": "https://github.com/huggingface/open-r1",
+        "chain_type": "OPEN_R1_TRAINING_REFERENCE",
+        "depth": 5,
+        "nodes": [
+          "https://github.com/huggingface/open-r1",
+          "TRL/Transformers/Datasets plus DeepSeek-R1 report lineage",
+          "SFT/GRPO/evaluation/synthetic-data patterns",
+          "CFA3 reasoning evaluation/training research layer",
+          "obsolete/unmaintained code paths require fresh current-source review before any use"
+        ]
+      },
+      {
+        "source": "https://github.com/doxdk/deepseek-desktop",
+        "chain_type": "DEEPSEEK_DESKTOP_REFERENCE",
+        "depth": 5,
+        "nodes": [
+          "https://github.com/doxdk/deepseek-desktop",
+          "Electron shell + localStorage/cookies + desktop packaging",
+          "desktop wrapper/session persistence patterns",
+          "CFA3 desktop chat/application UX and secure storage comparison",
+          "license conflict + cookie/session/security review blocks direct material reuse"
+        ]
+      },
+      {
+        "source": "https://github.com/starryrbs/awesome-ai-tools",
+        "chain_type": "AWESOME_AI_TOOLS_DISCOVERY",
+        "depth": 5,
+        "nodes": [
+          "https://github.com/starryrbs/awesome-ai-tools",
+          "curated external AI tool links/categories",
+          "tool taxonomy and candidate discovery",
+          "CFA3 Donor & Reference discovery/index refresh",
+          "linked tools are not recursively admitted and require independent intake"
+        ]
+      },
+      {
+        "source": "https://github.com/topics/tileset-generator",
+        "chain_type": "TILESET_GENERATOR_TOPIC",
+        "depth": 5,
+        "nodes": [
+          "https://github.com/topics/tileset-generator",
+          "representative autotileset/tileset-editor repositories",
+          "pixel terrain/tile generation and export patterns",
+          "CFA3 2D game asset and level-authoring workflows",
+          "child code/assets require independent license/provenance review"
+        ]
+      },
+      {
+        "source": "https://github.com/meetpateltech/ai-infinity",
+        "chain_type": "AI_INFINITY_DISCOVERY",
+        "depth": 5,
+        "nodes": [
+          "https://github.com/meetpateltech/ai-infinity",
+          "large AI tools directory and linked catalog sources",
+          "category/pricing/description discovery metadata",
+          "CFA3 Donor & Reference discovery and category index",
+          "linked services/tools remain non-admitted until independent intake"
+        ]
+      },
+      {
+        "source": "https://github.com/tile-ai",
+        "chain_type": "TILE_AI_KERNEL_ECOSYSTEM",
+        "depth": 5,
+        "nodes": [
+          "https://github.com/tile-ai",
+          "tile-ai/tilelang + TileOPs family",
+          "TVM-backed multi-backend GPU/CPU/NPU kernel DSL/operator patterns",
+          "CFA3 CUDA Compatibility Fabric + Hardware-Adaptive compute",
+          "runtime/compiler adoption requires independent exact-source and hardware/coexistence gates"
+        ]
+      },
+      {
+        "source": "https://github.com/tesslio/spec-driven-development-tile",
+        "chain_type": "SPEC_DRIVEN_TILE",
+        "depth": 5,
+        "nodes": [
+          "https://github.com/tesslio/spec-driven-development-tile",
+          "Tessl tile skills/rules/evals",
+          "requirements -> approved spec -> implementation -> verification workflow",
+          "CFA3 development governance / Agent Skills pattern",
+          "tile/CLI installation is not admitted; only reference metadata is registered"
+        ]
+      },
+      {
+        "source": "https://github.com/topics/tilemap-editor",
+        "chain_type": "TILEMAP_EDITOR_TOPIC",
+        "depth": 5,
+        "nodes": [
+          "https://github.com/topics/tilemap-editor",
+          "representative Aseprite/tilemap-studio/editor repositories",
+          "tilemap/sprite/level editing interaction and export patterns",
+          "CFA3 game-creation editor and asset pipeline",
+          "child repositories/assets remain non-admitted pending rights/security review"
+        ]
+      },
+      {
+        "source": "https://atlas.design/",
+        "chain_type": "ATLAS_3D_PIPELINE",
+        "depth": 5,
+        "nodes": [
+          "https://atlas.design/",
+          "Atlas AI 3D asset workflows + Blender Agent node",
+          "concept -> reconstruction -> cleanup/retopo -> PBR/rig/LOD -> engine export/provenance",
+          "CFA3 3D/Character/Blender/Engine bridge planning",
+          "hosted service/model/API or assets require separate rights/provider/runtime admission"
+        ]
+      },
+      {
+        "source": "https://github.com/TheOrcDev/videorc",
+        "chain_type": "VIDEORC_CAPTURE_STREAMING",
+        "depth": 5,
+        "nodes": [
+          "https://github.com/TheOrcDev/videorc",
+          "Electron/React shell + Rust backend + authenticated localhost protocol + FFmpeg",
+          "capture/composition/record/RTMP/captions/AI-producer patterns",
+          "CFA3 Capture/Streaming/Voice/Agent shared layers",
+          "AGPL rights + dependency + cloud AI + Current Host admission remain separate"
+        ]
+      },
+      {
+        "source": "https://vivago.ai/agent/home",
+        "chain_type": "VIVAGO_CREATIVE_AGENT",
+        "depth": 5,
+        "nodes": [
+          "https://vivago.ai/agent/home",
+          "VivaGo Agent + SkillHub + image/video creation surfaces",
+          "skill discovery + project/assets + multimodal generation workflow",
+          "CFA3 creative agent / shared skill / media orchestration UX reference",
+          "hosted models/services/API/assets remain non-admitted until exact rights/provider review"
+        ]
+      }
+    ],
+    "observed_non_admitted_references": [
+      "deepseek-ai/deepseek-harness",
+      "deepseek-ai/DeepSeek-V3",
+      "deepseek-ai/DeepGEMM",
+      "deepseek-ai/DeepEP",
+      "huggingface/trl",
+      "argilla-io/distilabel",
+      "lascent/autotileset-generator",
+      "aseprite/aseprite",
+      "tile-ai/tilelang",
+      "TileOPs family",
+      "Atlas Blender Agent",
+      "VivaGo SkillHub"
+    ],
+    "special_risk_observations": [
+      "huggingface/open-r1 upstream README states the project is no longer maintained and points current GRPO/SFT/distillation work to TRL; historical Open-R1 remains reference-only.",
+      "doxdk/deepseek-desktop has conflicting license declarations: LICENSE and README indicate MIT while package metadata declares ISC; direct material reuse is fail-closed pending License & Rights reconciliation.",
+      "TheOrcDev/videorc declares AGPL-3.0-only; architecture/pattern analysis is allowed as a reference, while any code reuse requires explicit License & Rights disposition.",
+      "Organization/topic/catalog/service references do not recursively admit linked repositories, models, APIs, assets, plugins or hosted services."
+    ],
+    "disposition": "ALL_20_OWNER_AUTHORIZED_MISSING_SOURCES_HAVE_FIVE_LEVEL_REFERENCE_LINEAGE_COVERAGE; CHILD_SOURCES_REMAIN_NON_ADMITTED"
+  },
+  "requirements": [
+    "Reference registration only; no code import, dependency install, runtime activation, provider/model admission or hosted-service activation.",
+    "Every organization/topic/catalog/service identity is a discovery/reference source only and does not recursively register children.",
+    "Actual adoption requires a typed usage edge and all applicable License & Rights, provenance, Security, Software Coexistence, Hardware Safety, HRB, Model Router and provider/runtime admission gates.",
+    "CPU-only CFA3 path remains mandatory; no donor creates a GPU-only platform baseline.",
+    "FA3-AUTH-MODEL-ROUTER-001 remains the sole model/provider routing authority and no silent local-to-cloud fallback is introduced.",
+    "Capability baseline remains 175; capability delta is 0; architectural authority delta is 0.",
+    "The source batch must be appended only through the existing single-writer rolling donor finalizer PR #727 with exact-head revalidation."
+  ],
+  "boundaries": {
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "automatic_code_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "usage_edge_created": false,
+    "capability_count_change": false,
+    "authority_change": false,
+    "runtime_change": false,
+    "current_host_pass_claimed": false,
+    "application_implementation_started": false
+  },
+  "serialization_scope": "SINGLE_WRITER_ROLLING_DONOR_FINALIZER",
+  "serialization_order": "STAGE_SOURCE_BATCH_THEN_APPEND_TO_PR_727_WITH_EXACT_HEAD_REVALIDATION",
+  "batch_finalizer_pr": 727
+}
