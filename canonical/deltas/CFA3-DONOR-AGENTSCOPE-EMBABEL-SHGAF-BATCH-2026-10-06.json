@@ -7,9 +7,9 @@
   "parent_main": "35a6f54b968d65564e0d2f829531cff688189f76",
   "parent_registry_blob_sha": "2bb6a74dd415b6374e4a6d5adce1bc9265229b63",
   "parent_entry_count": 1792,
-  "resulting_registry_blob_sha": "b1bbf84a1bf7049c4be9b10132ab2680b875eac5",
-  "resulting_entry_count": 1830,
-  "new_source_count": 38,
+  "resulting_registry_blob_sha": "f09d9fa51d359df2ff7b67c192926562044c5365",
+  "resulting_entry_count": 1835,
+  "new_source_count": 43,
   "capability_baseline": 175,
   "capability_delta": 0,
   "authority_delta": 0,
@@ -31,6 +31,12 @@
       "pr": 735,
       "head": "29973baabe6cd8b09b5b537dc52b83c63cd4efb5",
       "contribution": 6,
+      "mode": "EXACT_OWNER_AUTHORIZED_SOURCE_INTAKE"
+    },
+    {
+      "pr": 738,
+      "head": "26b780f32a61645079af192796591c57bdfc63f6",
+      "contribution": 5,
       "mode": "EXACT_OWNER_AUTHORIZED_SOURCE_INTAKE"
     }
   ],
@@ -268,11 +274,41 @@
       "normalized_key": "github:dagherbou",
       "locator": "https://github.com/Dagherbou",
       "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GROQ-ORGANIZATION-001",
+      "normalized_key": "github:groq",
+      "locator": "https://github.com/groq",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-GROQ-CLOUD-TOPIC-UPDATED-ASC-001",
+      "normalized_key": "github:topics/groq-cloud?o=asc&s=updated",
+      "locator": "https://github.com/topics/groq-cloud?o=asc&s=updated",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-GROQ-AI-TOPIC-001",
+      "normalized_key": "github:topics/groq-ai",
+      "locator": "https://github.com/topics/groq-ai",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-GROQ-API-TOPIC-GO-001",
+      "normalized_key": "github:topics/groq-api?l=go",
+      "locator": "https://github.com/topics/groq-api?l=go",
+      "status": "ACCEPTED_REFERENCE"
+    },
+    {
+      "donor_id": "FA3-DONOR-GITHUB-GROQ-AI-REAL-TIME-TOPIC-001",
+      "normalized_key": "github:topics/groq-ai-real-time",
+      "locator": "https://github.com/topics/groq-ai-real-time",
+      "status": "ACCEPTED_REFERENCE"
     }
   ],
   "reconciled_existing_identities": [],
   "invariants": [
-    "SOURCE_KEY_UNION_IS_EXACTLY_38_NEW_IDENTITIES_OVER_PUBLISHED_1792_PARENT",
+    "SOURCE_KEY_UNION_IS_EXACTLY_43_NEW_IDENTITIES_OVER_PUBLISHED_1792_PARENT",
     "ALL_20_OWNER_SUBMITTED_SHGAF_URLS_REMAIN_IN_SOURCE_DELTA_PROVENANCE",
     "ALL_6_OWNER_SUBMITTED_OPTISCALER_NEURAL_RENDERING_URLS_REMAIN_IN_SOURCE_DELTA_PROVENANCE",
     "DONOR_IDS_AND_SOURCE_KEYS_ARE_UNIQUE",
@@ -280,15 +316,16 @@
     "NO_NEW_ARCHITECTURAL_AUTHORITY",
     "NO_USAGE_EDGE_OR_RUNTIME_PROVIDER_MODEL_ADMISSION",
     "EXISTING_AUTHORITATIVE_DETERMINISTIC_FACT_VERIFICATION_RULE_IS_REUSED_NOT_RECREATED",
-    "ORIGINAL_SOURCE_PR_HEADS_REMAIN_HISTORICAL_PROVENANCE"
+    "ORIGINAL_SOURCE_PR_HEADS_REMAIN_HISTORICAL_PROVENANCE",
+    "ALL_5_OWNER_SUBMITTED_GROQ_SOURCE_IDENTITIES_REMAIN_IN_SOURCE_DELTA_PROVENANCE"
   ],
   "batch_role": "CANONICAL_ROLLING_BATCH_FINALIZER",
   "batch_finalizer_pr": 727,
   "decision_ref": "canonical/decisions/CFA3-DEC-DONOR-INTAKE-BATCH-ACCELERATION-2026-10-04.json",
   "source_union_proof": {
     "mode": "EXACT_SOURCE_PR_HEADS_PLUS_CANDIDATE_REGISTRY_BLOB_AND_IDENTITY_BINDING",
-    "materialized_identity_count": 38,
+    "materialized_identity_count": 43,
     "reconciled_existing_identity_count": 0,
-    "source_pr_count": 3
+    "source_pr_count": 4
   }
 }
