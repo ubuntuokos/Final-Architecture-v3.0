@@ -36,7 +36,15 @@
     "new_runtime_rule_is_constraint_not_automatic_main_task": true,
     "parallel_task_or_pr_is_observation_dependency_or_followup_not_automatic_main_task": true,
     "blocker_may_stop_but_not_reassign_main_task": true,
-    "owner_main_task_switch_requires_new_or_explicitly_rebound_task_control": true
+    "owner_main_task_switch_requires_new_or_explicitly_rebound_task_control": true,
+    "requested_result_is_exclusive_execution_target": true,
+    "action_admission": "DIRECTLY_REQUIRED_FOR_REQUESTED_RESULT_OR_MINIMUM_NECESSARY_BLOCKER_RESOLUTION",
+    "self_generated_subtask": "FORBIDDEN",
+    "blocker_resolution_scope": "MINIMUM_NECESSARY_FOR_REQUESTED_RESULT_ONLY",
+    "blocker_resolution_may_expand_scope": false,
+    "completion_after_requested_result": "STOP",
+    "automatic_post_completion_work": false,
+    "requested_result_scope_guard_id": "CFA3-REQUESTED-RESULT-ONLY-SCOPE-GUARD-001"
   },
   "authority_and_baseline": {
     "durable_workflow_authority": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY",
@@ -69,5 +77,8 @@
     "current_host_status": "PENDING_EXISTING_CURRENT_HOST_GOVERNANCE",
     "historical_evidence_reused": false
   },
-  "extension_decision_ref": "canonical/decisions/CFA3-DEC-MAIN-TASK-CONTINUITY-2026-10-05.json"
+  "extension_decision_refs": [
+    "canonical/decisions/CFA3-DEC-MAIN-TASK-CONTINUITY-2026-10-05.json",
+    "canonical/decisions/CFA3-DEC-REQUESTED-RESULT-ONLY-SCOPE-GUARD-2026-10-06.json"
+  ]
 }

@@ -50,6 +50,15 @@ class Cfa3DevelopmentAiBehaviorTests(unittest.TestCase):
         self.assertEqual(RULE_IDS, observed)
         self.assertTrue(policy["composition"]["layers_are_distinct"])
         self.assertEqual("BLOCKER", policy["composition"]["contradiction_result"])
+        guard = policy["requested_result_scope_guard"]
+        self.assertEqual("CFA3-REQUESTED-RESULT-ONLY-SCOPE-GUARD-001", guard["rule_id"])
+        self.assertTrue(guard["requested_result_is_exclusive_execution_target"])
+        self.assertEqual("FORBIDDEN", guard["self_generated_subtask"])
+        self.assertEqual(
+            "MINIMUM_NECESSARY_FOR_REQUESTED_RESULT_ONLY",
+            guard["blocker_resolution_scope"],
+        )
+        self.assertFalse(guard["automatic_post_completion_work"])
 
     def test_basic_read_allowed(self):
         result = authorize_action(base_context("READ"))
