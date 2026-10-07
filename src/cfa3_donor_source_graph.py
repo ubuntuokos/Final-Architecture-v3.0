@@ -74,7 +74,7 @@ def _load(path: Path) -> dict[str, Any]:
 
 def _write(path: Path, value: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\\n", encoding="utf-8")
+    path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 def normalize_url(url: str) -> str:
     value = url.strip().rstrip(".,;:")
