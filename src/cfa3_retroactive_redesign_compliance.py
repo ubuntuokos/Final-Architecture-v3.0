@@ -4,11 +4,16 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
+import subprocess
 from pathlib import Path
 from typing import Any
 
+from fa3_donor_registry import _normalized_key
+
 POLICY_REL = "canonical/CFA3-RETROACTIVE-REDESIGN-COMPLIANCE-POLICY-001.json"
 REGISTRY_REL = "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"
+REAL_RECORD_ROOT = "canonical/retroactive-redesign-records"
 
 
 def _load(path: Path) -> dict[str, Any]:
@@ -18,16 +23,143 @@ def _load(path: Path) -> dict[str, Any]:
     return value
 
 
-def _sha256(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+def _valid_sha(value: Any) -> bool:
+    return (
+        isinstance(value, str)
+        and len(value) == 40
+        and all(ch in "0123456789abcdef" for ch in value)
+    )
+
+
+def _git(root: Path, *args: str, check: bool = True) -> str:
+    proc = subprocess.run(
+        ["git", "-C", str(root), *args],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if check and proc.returncode != 0:
+        raise RuntimeError("git " + " ".join(args) + " failed: " + proc.stderr.strip())
+    return proc.stdout.strip()
+
+
+def _published_main_sha(root: Path) -> str:
+    override = os.environ.get("CFA3_PUBLISHED_MAIN_SHA", "").strip()
+    if _valid_sha(override):
+        return override
+
+    event_path = os.environ.get("GITHUB_EVENT_PATH")
+    if event_path:
+        try:
+            event = json.loads(Path(event_path).read_text(encoding="utf-8"))
+            if isinstance(event, dict):
+                pr_base = event.get("pull_request", {}).get("base", {}).get("sha")
+                if _valid_sha(pr_base):
+                    return pr_base
+                if event.get("ref") == "refs/heads/main" and _valid_sha(event.get("after")):
+                    return event["after"]
+        except (OSError, json.JSONDecodeError, TypeError):
+            pass
+
+    for ref in ("refs/remotes/origin/main", "refs/heads/main"):
+        value = _git(root, "rev-parse", "--verify", ref, check=False)
+        if _valid_sha(value):
+            return value
+
+    branch = _git(root, "branch", "--show-current", check=False)
+    head = _git(root, "rev-parse", "HEAD", check=False)
+    if branch == "main" and _valid_sha(head):
+        return head
+    raise RuntimeError("PUBLISHED_CANONICAL_MAIN_UNAVAILABLE")
+
+
+def _ensure_commit(root: Path, sha: str) -> None:
+    proc = subprocess.run(
+        ["git", "-C", str(root), "cat-file", "-e", sha + "^{commit}"],
+        capture_output=True,
+        check=False,
+    )
+    if proc.returncode == 0:
+        return
+    fetch = subprocess.run(
+        ["git", "-C", str(root), "fetch", "--no-tags", "--depth=1", "origin", sha],
+        capture_output=True,
+        check=False,
+    )
+    if fetch.returncode != 0:
+        raise RuntimeError("PUBLISHED_MAIN_FETCH_FAILED")
+    verify = subprocess.run(
+        ["git", "-C", str(root), "cat-file", "-e", sha + "^{commit}"],
+        capture_output=True,
+        check=False,
+    )
+    if verify.returncode != 0:
+        raise RuntimeError("PUBLISHED_MAIN_COMMIT_UNAVAILABLE")
+
+
+def _git_show_bytes(root: Path, sha: str, rel: str) -> bytes:
+    _ensure_commit(root, sha)
+    proc = subprocess.run(
+        ["git", "-C", str(root), "show", f"{sha}:{rel}"],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+    if proc.returncode != 0:
+        raise RuntimeError("PUBLISHED_MAIN_FILE_UNAVAILABLE:" + rel)
+    return proc.stdout
+
+
+def _published_registry(root: Path, main_sha: str) -> tuple[dict[str, Any], bytes]:
+    raw = _git_show_bytes(root, main_sha, REGISTRY_REL)
+    value = json.loads(raw.decode("utf-8"))
+    if not isinstance(value, dict) or value.get("id") != "FA3-DONOR-REFERENCE-REGISTRY-001":
+        raise ValueError("PUBLISHED_MAIN_DONOR_REGISTRY_INVALID")
+    return value, raw
+
+
+def _is_ancestor(root: Path, older: str, newer: str) -> bool:
+    _ensure_commit(root, older)
+    _ensure_commit(root, newer)
+    proc = subprocess.run(
+        ["git", "-C", str(root), "merge-base", "--is-ancestor", older, newer],
+        capture_output=True,
+        check=False,
+    )
+    if proc.returncode not in (0, 1):
+        raise RuntimeError("CANONICAL_MAIN_ANCESTRY_CHECK_FAILED")
+    return proc.returncode == 0
+
+
+def _report(findings: list[dict[str, str]], *, final: bool, disposition: str | None = None) -> dict[str, Any]:
+    return {
+        "schema": "cfa3.retroactive-redesign-compliance-report.v1",
+        "result": "PASS" if not findings else "FAIL",
+        "disposition": disposition or (
+            "REDESIGN_FINAL"
+            if final and not findings
+            else "REDESIGN_ALLOWED"
+            if not final and not findings
+            else "BLOCKED"
+        ),
+        "findings": findings,
+        "current_host_runtime_promotion_claim": False,
+    }
+
+
+def canonical_record_path(root: Path, path: Path) -> bool:
+    candidate = path if path.is_absolute() else root / path
+    try:
+        candidate.resolve().relative_to((root / REAL_RECORD_ROOT).resolve())
+        return True
+    except ValueError:
+        return False
 
 
 def evaluate_record(root: Path, record: dict[str, Any]) -> dict[str, Any]:
     root = Path(root).resolve()
     findings: list[dict[str, str]] = []
     policy = _load(root / POLICY_REL)
-    registry_path = root / REGISTRY_REL
-    registry = _load(registry_path)
 
     def fail(code: str, message: str) -> None:
         findings.append({"code": code, "message": message})
@@ -49,19 +181,18 @@ def evaluate_record(root: Path, record: dict[str, Any]) -> dict[str, Any]:
 
     designed_before = component.get("designed_before_mandatory_donor_policy")
     if designed_before is not True:
-        if (
+        normal_case = (
             designed_before is False
             and component.get("donor_policy_applicable_at_original_design") is True
             and isinstance(evidence, list)
-            and evidence
-        ):
-            return {
-                "schema": "cfa3.retroactive-redesign-compliance-report.v1",
-                "result": "PASS",
-                "disposition": "NOT_APPLICABLE_NORMAL_DONOR_RULES",
-                "findings": [],
-                "current_host_runtime_promotion_claim": False,
-            }
+            and bool(evidence)
+        )
+        if normal_case:
+            return _report(
+                findings,
+                final=False,
+                disposition="NOT_APPLICABLE_NORMAL_DONOR_RULES" if not findings else "BLOCKED",
+            )
         fail("RR-006", "legacy pre-donor trigger not proven")
 
     phase = record.get("phase")
@@ -73,6 +204,15 @@ def evaluate_record(root: Path, record: dict[str, Any]) -> dict[str, Any]:
     if record.get("legacy_source_discovery_complete") is not True:
         fail("RR-008", "legacy source discovery incomplete")
 
+    published_main: str | None = None
+    registry: dict[str, Any] = {"entries": []}
+    registry_raw = b""
+    try:
+        published_main = _published_main_sha(root)
+        registry, registry_raw = _published_registry(root, published_main)
+    except Exception as exc:
+        fail("RR-031", "published canonical-main donor snapshot unavailable: " + str(exc))
+
     entries = registry.get("entries", [])
     if not isinstance(entries, list):
         fail("RR-009", "canonical donor registry entries invalid")
@@ -82,17 +222,33 @@ def evaluate_record(root: Path, record: dict[str, Any]) -> dict[str, Any]:
         for row in entries
         if isinstance(row, dict) and isinstance(row.get("source"), dict)
     }
+
+    legacy_sources = record.get("legacy_sources")
+    if not isinstance(legacy_sources, list):
+        fail("RR-032", "legacy_sources must be an explicit list")
+        legacy_sources = []
+
     allowed_states = set(policy.get("legacy_source_policy", {}).get("canonical_acceptable_states", []))
-    for index, source in enumerate(record.get("legacy_sources", [])):
+    temporary_states = set(policy.get("legacy_source_policy", {}).get("temporary_use_states", []))
+    for index, source in enumerate(legacy_sources):
         if not isinstance(source, dict):
             fail("RR-010", f"legacy source {index} invalid")
             continue
+        locator = source.get("locator")
         key = source.get("normalized_key")
         if not isinstance(key, str) or not key:
             fail("RR-011", f"legacy source {index} normalized key missing")
             continue
+        if not isinstance(locator, str) or not locator.strip():
+            fail("RR-033", f"legacy source {index} locator missing")
+            continue
+        derived_key = _normalized_key("WEBSITE", locator)
+        if derived_key != key:
+            fail("RR-033", f"legacy source locator/key mismatch: {key}")
+            continue
         if not isinstance(source.get("origin_refs"), list) or not source.get("origin_refs"):
             fail("RR-012", f"legacy source {key} provenance missing")
+
         donor = by_key.get(key)
         canonical = isinstance(donor, dict) and donor.get("status") in allowed_states
         if not canonical:
@@ -100,7 +256,9 @@ def evaluate_record(root: Path, record: dict[str, Any]) -> dict[str, Any]:
                 fail("RR-013", f"legacy source not canonical at finalization: {key}")
             elif source.get("temporary_planning_use") is not True:
                 fail("RR-014", f"unregistered legacy source lacks temporary planning-use declaration: {key}")
-        elif source.get("canonical_donor_id") not in (None, donor.get("donor_id")):
+            elif phase not in temporary_states:
+                fail("RR-034", f"temporary planning use not allowed in phase {phase}: {key}")
+        elif source.get("canonical_donor_id") != donor.get("donor_id"):
             fail("RR-015", f"canonical donor id mismatch: {key}")
 
     baseline = record.get("current_rule_baseline")
@@ -110,8 +268,16 @@ def evaluate_record(root: Path, record: dict[str, Any]) -> dict[str, Any]:
     if baseline.get("captured_from_canonical_main") is not True:
         fail("RR-017", "rule baseline must come from canonical main")
     main_sha = baseline.get("captured_main_sha")
-    if not isinstance(main_sha, str) or len(main_sha) != 40 or any(ch not in "0123456789abcdef" for ch in main_sha):
+    if not _valid_sha(main_sha):
         fail("RR-018", "captured main SHA invalid")
+    elif published_main is not None:
+        try:
+            if not _is_ancestor(root, main_sha, published_main):
+                fail("RR-035", "captured main SHA is not canonical-main lineage")
+            if final and main_sha != published_main:
+                fail("RR-036", "finalization requires exact current canonical-main SHA")
+        except Exception as exc:
+            fail("RR-035", "captured main SHA cannot be verified: " + str(exc))
     refs = baseline.get("mandatory_rule_refs")
     if not isinstance(refs, list) or not refs:
         fail("RR-019", "mandatory rule references missing")
@@ -152,15 +318,11 @@ def evaluate_record(root: Path, record: dict[str, Any]) -> dict[str, Any]:
             if checks.get(name) != "PASS":
                 fail("RR-029", "finalization check not PASS: " + name)
         digest = record.get("donor_registry_sha256")
-        if digest != _sha256(registry_path):
-            fail("RR-030", "donor registry digest mismatch")
-    return {
-        "schema": "cfa3.retroactive-redesign-compliance-report.v1",
-        "result": "PASS" if not findings else "FAIL",
-        "disposition": "REDESIGN_FINAL" if final and not findings else "REDESIGN_ALLOWED" if not final and not findings else "BLOCKED",
-        "findings": findings,
-        "current_host_runtime_promotion_claim": False,
-    }
+        expected_digest = hashlib.sha256(registry_raw).hexdigest() if registry_raw else None
+        if expected_digest is None or digest != expected_digest:
+            fail("RR-030", "donor registry digest mismatch against published canonical main")
+
+    return _report(findings, final=final)
 
 
 def main() -> int:
@@ -168,8 +330,16 @@ def main() -> int:
     parser.add_argument("record", type=Path)
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[1])
     args = parser.parse_args()
-    record = _load(args.record)
-    report = evaluate_record(args.root, record)
+    root = args.root.resolve()
+    record = _load(args.record if args.record.is_absolute() else root / args.record)
+    report = evaluate_record(root, record)
+    if record.get("phase") == "REDESIGN_FINAL" and not canonical_record_path(root, args.record):
+        report["result"] = "FAIL"
+        report["disposition"] = "BLOCKED"
+        report["findings"].append({
+            "code": "RR-037",
+            "message": "REDESIGN_FINAL record must be stored under " + REAL_RECORD_ROOT,
+        })
     print(json.dumps(report, indent=2, ensure_ascii=False))
     return 0 if report["result"] == "PASS" else 2
 

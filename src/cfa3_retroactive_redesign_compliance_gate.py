@@ -7,7 +7,12 @@ import json
 from pathlib import Path
 from typing import Any
 
-from cfa3_retroactive_redesign_compliance import evaluate_record
+from cfa3_retroactive_redesign_compliance import (
+    REAL_RECORD_ROOT,
+    _published_main_sha,
+    _published_registry,
+    evaluate_record,
+)
 
 GATE_ID = "CFA3-RETROACTIVE-REDESIGN-COMPLIANCE-GATESET-001"
 POLICY = "canonical/CFA3-RETROACTIVE-REDESIGN-COMPLIANCE-POLICY-001.json"
@@ -18,7 +23,6 @@ DEV_POLICY = "canonical/CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001.json"
 APP_LINKS = "canonical/FA3-APPLICATION-DONOR-LINKS-001.json"
 GATE_REGISTRY = "canonical/FA3-GATE-REGISTRY-001.json"
 ENFORCEMENT = "canonical/enforcement-policy.json"
-DONOR_REGISTRY = "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"
 CH_IMPACT = "canonical/current-host-impact/FA3-CH-IMPACT-CFA3-RETROACTIVE-REDESIGN-COMPLIANCE-20261007.json"
 
 
@@ -29,7 +33,16 @@ def _load(root: Path, rel: str) -> dict[str, Any]:
     return value
 
 
+def real_record_paths(root: Path) -> list[Path]:
+    record_root = root / REAL_RECORD_ROOT
+    if not record_root.is_dir():
+        return []
+    return sorted(path for path in record_root.rglob("*.json") if path.is_file())
+
+
 def _fixture(policy: dict[str, Any], root: Path, phase: str) -> dict[str, Any]:
+    published_main = _published_main_sha(root)
+    _registry, registry_raw = _published_registry(root, published_main)
     return {
         "schema": "cfa3.retroactive-redesign-record.v1",
         "component": {
@@ -43,7 +56,7 @@ def _fixture(policy: dict[str, Any], root: Path, phase: str) -> dict[str, Any]:
         "legacy_sources": [],
         "current_rule_baseline": {
             "captured_from_canonical_main": True,
-            "captured_main_sha": "a" * 40,
+            "captured_main_sha": published_main,
             "mandatory_rule_refs": ["canonical:CFA3-current-rule-baseline"]
         },
         "rule_delta": [
@@ -53,7 +66,7 @@ def _fixture(policy: dict[str, Any], root: Path, phase: str) -> dict[str, Any]:
         "finalization_checks": {
             name: "PASS" for name in policy["finalization_gate"]["required_checks"]
         },
-        "donor_registry_sha256": hashlib.sha256((root / DONOR_REGISTRY).read_bytes()).hexdigest(),
+        "donor_registry_sha256": hashlib.sha256(registry_raw).hexdigest(),
         "capability_baseline": 175,
         "capability_delta": 0,
         "architectural_authority_delta": 0
@@ -88,6 +101,13 @@ def gate(root: Path) -> dict[str, Any]:
         findings.append("CAPABILITY_BASELINE_DRIFT")
     if policy.get("architectural_authority_delta") != 0:
         findings.append("AUTHORITY_DELTA_DRIFT")
+    storage = policy.get("record_storage", {})
+    if (
+        storage.get("canonical_root") != REAL_RECORD_ROOT
+        or storage.get("finalization_requires_canonical_record") is not True
+        or storage.get("mandatory_gate_validates_all_records") is not True
+    ):
+        findings.append("REAL_RECORD_STORAGE_BINDING_INVALID")
     if decision.get("policy_id") != policy.get("id") or decision.get("status") != "CANONICAL_CLOSED":
         findings.append("DECISION_BINDING_INVALID")
     if contract.get("title") != "CFA3-RETROACTIVE-REDESIGN-RECORD-001":
@@ -115,33 +135,54 @@ def gate(root: Path) -> dict[str, Any]:
     if enforcement.get("retroactive_redesign_compliance_gate_id") != GATE_ID:
         findings.append("ENFORCEMENT_GATE_BINDING_MISSING")
 
-    plan = _fixture(policy, root, "REDESIGN_IN_PROGRESS")
-    missing_source = {
-        "locator": "https://example.invalid/cfa3-legacy-source",
-        "normalized_key": "https://example.invalid/cfa3-legacy-source",
-        "origin_refs": ["fixture:historical-plan"],
-        "registry_status_at_discovery": "MISSING",
-        "temporary_planning_use": True,
-        "canonical_donor_id": None,
-        "registration_evidence_refs": []
-    }
-    plan["legacy_sources"] = [missing_source]
-    if evaluate_record(root, plan).get("result") != "PASS":
-        findings.append("TEMPORARY_PLANNING_USE_REGRESSION")
+    real_records = real_record_paths(root)
+    for path in real_records:
+        rel = path.relative_to(root).as_posix()
+        try:
+            row = json.loads(path.read_text(encoding="utf-8"))
+            if not isinstance(row, dict):
+                raise ValueError("record must be object")
+            report = evaluate_record(root, row)
+        except Exception as exc:
+            findings.append("REAL_RECORD_LOAD_FAILED:" + rel + ":" + str(exc))
+            continue
+        if report.get("result") != "PASS":
+            codes = ",".join(str(item.get("code")) for item in report.get("findings", []) if isinstance(item, dict))
+            findings.append("REAL_RECORD_NONCOMPLIANT:" + rel + ":" + codes)
 
-    final_missing = copy.deepcopy(plan)
-    final_missing["phase"] = "REDESIGN_FINAL"
-    if evaluate_record(root, final_missing).get("result") != "FAIL":
-        findings.append("MISSING_DONOR_FINALIZATION_NOT_BLOCKED")
+    try:
+        plan = _fixture(policy, root, "REDESIGN_IN_PROGRESS")
+    except Exception as exc:
+        findings.append("PUBLISHED_MAIN_FIXTURE_UNAVAILABLE:" + str(exc))
+        plan = None
 
-    final_clean = _fixture(policy, root, "REDESIGN_FINAL")
-    if evaluate_record(root, final_clean).get("result") != "PASS":
-        findings.append("CLEAN_FINALIZATION_REGRESSION")
+    if plan is not None:
+        missing_source = {
+            "locator": "https://example.invalid/cfa3-legacy-source",
+            "normalized_key": "https://example.invalid/cfa3-legacy-source",
+            "origin_refs": ["fixture:historical-plan"],
+            "registry_status_at_discovery": "MISSING",
+            "temporary_planning_use": True,
+            "canonical_donor_id": None,
+            "registration_evidence_refs": []
+        }
+        plan["legacy_sources"] = [missing_source]
+        if evaluate_record(root, plan).get("result") != "PASS":
+            findings.append("TEMPORARY_PLANNING_USE_REGRESSION")
 
-    unresolved = copy.deepcopy(final_clean)
-    unresolved["rule_delta"][0]["status"] = "REQUIRES_CHANGE"
-    if evaluate_record(root, unresolved).get("result") != "FAIL":
-        findings.append("UNRESOLVED_RULE_DELTA_NOT_BLOCKED")
+        final_missing = copy.deepcopy(plan)
+        final_missing["phase"] = "REDESIGN_FINAL"
+        if evaluate_record(root, final_missing).get("result") != "FAIL":
+            findings.append("MISSING_DONOR_FINALIZATION_NOT_BLOCKED")
+
+        final_clean = _fixture(policy, root, "REDESIGN_FINAL")
+        if evaluate_record(root, final_clean).get("result") != "PASS":
+            findings.append("CLEAN_FINALIZATION_REGRESSION")
+
+        unresolved = copy.deepcopy(final_clean)
+        unresolved["rule_delta"][0]["status"] = "REQUIRES_CHANGE"
+        if evaluate_record(root, unresolved).get("result") != "FAIL":
+            findings.append("UNRESOLVED_RULE_DELTA_NOT_BLOCKED")
 
     if ch.get("physical_requalification_required") is not False or ch.get("current_host_runtime_promotion_claim") is not False:
         findings.append("CURRENT_HOST_BOUNDARY_INVALID")
@@ -151,6 +192,7 @@ def gate(root: Path) -> dict[str, Any]:
         "gate_id": GATE_ID,
         "result": "PASS" if not findings else "FAIL",
         "findings": findings,
+        "real_record_count": len(real_records),
         "capability_count": 175,
         "new_capabilities": 0,
         "new_architectural_authorities": 0,
