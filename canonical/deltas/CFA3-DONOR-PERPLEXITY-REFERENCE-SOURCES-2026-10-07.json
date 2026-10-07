@@ -1,0 +1,236 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "CFA3-DONOR-PERPLEXITY-REFERENCE-SOURCES-2026-10-07",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "STAGED_PENDING_ROLLING_BATCH_APPEND",
+  "mode": "EXACT_OWNER_AUTHORIZED_REFERENCE_REGISTRATION",
+  "parent_main": "c2e2ab2aa1c34ef555e2324e9b67af9d8723f76a",
+  "parent_registry_blob_sha": "2bb6a74dd415b6374e4a6d5adce1bc9265229b63",
+  "parent_entry_count": 1792,
+  "authorization": {
+    "owner_command": "donornak",
+    "exact_owner_message_marker": "a beküldöt linkeket donornak",
+    "execution_command": "végezd el a donor felvételt",
+    "explicit_user_approval": true,
+    "scope": "ALL_FIVE_PERPLEXITY_SOURCE_IDENTITIES_SUBMITTED_IN_THIS_CONVERSATION",
+    "conversation_lineage_ref": "chat:cfa3-perplexity-reference-sources:2026-10-07"
+  },
+  "submitted_url_count": 5,
+  "submitted_urls": [
+    "https://github.com/perplexityai",
+    "https://github.com/helallao/perplexity-ai",
+    "https://github.com/topics/perplexity-ai-api",
+    "https://github.com/topics/perplexity-clone",
+    "https://github.com/topics/perplexity?l=rust&o=desc&s=stars"
+  ],
+  "unique_source_count": 5,
+  "new_source_count": 5,
+  "canonical_identities": [
+    {
+      "source": "https://github.com/perplexityai",
+      "normalized_key": "github:perplexityai",
+      "donor_id": "FA3-DONOR-PERPLEXITYAI-ORGANIZATION-001",
+      "name": "Perplexity AI GitHub organization",
+      "kind": "GITHUB_ORGANIZATION",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "OFFICIAL_PERPLEXITY_API_SEARCH_AGENT_MCP_ECOSYSTEM_REFERENCE",
+      "group": "PERPLEXITY_OFFICIAL_RESEARCH_SEARCH_AND_AGENT_PATTERNS",
+      "license_observation": "ORGANIZATION_LEVEL_LICENSE_NOT_APPLICABLE_CHILD_LICENSE_REVIEW_REQUIRED",
+      "target_hints": [
+        "CFA3 Research & Search Fabric",
+        "CFA3 MCP interoperability",
+        "CFA3 citation / provenance handling",
+        "FA3-AUTH-MODEL-ROUTER-001 provider adaptation"
+      ]
+    },
+    {
+      "source": "https://github.com/helallao/perplexity-ai",
+      "normalized_key": "github:helallao/perplexity-ai",
+      "donor_id": "FA3-DONOR-HELALLAO-PERPLEXITY-AI-001",
+      "name": "helallao/perplexity-ai",
+      "kind": "GITHUB_REPOSITORY",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "UNOFFICIAL_PERPLEXITY_CLIENT_MCP_STREAMING_REFERENCE_WITH_RESTRICTED_BYPASS_PATTERNS",
+      "group": "PERPLEXITY_UNOFFICIAL_CLIENT_AND_TRANSPORT_PATTERNS",
+      "license_observation": "REPOSITORY_DECLARATION_MIT_REQUIRES_EXACT_LICENSE_PROVENANCE_REVIEW_BEFORE_MATERIAL_REUSE",
+      "target_hints": [
+        "CFA3 sync / async provider client patterns",
+        "CFA3 streaming and retry/error normalization",
+        "CFA3 MCP transport reference",
+        "CFA3 provider adapter isolation"
+      ]
+    },
+    {
+      "source": "https://github.com/topics/perplexity-ai-api",
+      "normalized_key": "github:topics/perplexity-ai-api",
+      "donor_id": "FA3-DONOR-GITHUB-PERPLEXITY-AI-API-TOPIC-001",
+      "name": "GitHub perplexity-ai-api topic",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "PERPLEXITY_API_CLIENT_COMPATIBILITY_DISCOVERY_REFERENCE",
+      "group": "PERPLEXITY_API_CLIENT_AND_SCHEMA_PATTERNS",
+      "license_observation": "TOPIC_INDEX_NO_CODE_LICENSE_CHILD_REVIEW_REQUIRED",
+      "target_hints": [
+        "CFA3 Provider Compatibility Adapter",
+        "OpenAI-compatible schema translation",
+        "streaming and async client patterns",
+        "provider error and timeout normalization"
+      ]
+    },
+    {
+      "source": "https://github.com/topics/perplexity-clone",
+      "normalized_key": "github:topics/perplexity-clone",
+      "donor_id": "FA3-DONOR-GITHUB-PERPLEXITY-CLONE-TOPIC-001",
+      "name": "GitHub perplexity-clone topic",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "PERPLEXITY_STYLE_RAG_SEARCH_CITATION_UI_DISCOVERY_REFERENCE",
+      "group": "PERPLEXITY_RESEARCH_WORKSPACE_AND_RAG_UX_PATTERNS",
+      "license_observation": "TOPIC_INDEX_NO_CODE_LICENSE_CHILD_REVIEW_REQUIRED",
+      "target_hints": [
+        "CFA3 Research Workspace",
+        "search-to-context-to-answer workflow",
+        "citation/source presentation",
+        "research session and follow-up UX"
+      ]
+    },
+    {
+      "source": "https://github.com/topics/perplexity?l=rust&o=desc&s=stars",
+      "normalized_key": "github:topics/perplexity?l=rust&o=desc&s=stars",
+      "donor_id": "FA3-DONOR-GITHUB-PERPLEXITY-TOPIC-RUST-STARS-DESC-001",
+      "name": "GitHub perplexity topic — Rust, stars descending",
+      "kind": "GITHUB_TOPIC",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "RUST_PERPLEXITY_MULTI_PROVIDER_SEARCH_AND_MCP_DISCOVERY_REFERENCE",
+      "group": "PERPLEXITY_RUST_SEARCH_FEDERATION_AND_TRANSPORT_PATTERNS",
+      "license_observation": "TOPIC_INDEX_NO_CODE_LICENSE_CHILD_REVIEW_REQUIRED",
+      "target_hints": [
+        "CFA3 Search Federation",
+        "multi-provider ranking and deduplication",
+        "Rust async transport and service patterns",
+        "CFA3 MCP/search adapter implementation patterns"
+      ]
+    }
+  ],
+  "lineage_observations": {
+    "max_reference_depth_policy": 5,
+    "child_auto_admission": false,
+    "analysis_depth_applied": 5,
+    "representative_reference_chains": [
+      {
+        "chain_type": "OFFICIAL_AGENT_MCP_SEARCH_REFERENCE",
+        "depth": 5,
+        "nodes": [
+          "https://github.com/perplexityai",
+          "https://github.com/perplexityai/modelcontextprotocol",
+          "Perplexity Agent API plus Search API",
+          "MCP search / ask / research / reason tools with streaming transport",
+          "CFA3 Research & Search Fabric plus MCP/provider-adapter pattern"
+        ]
+      },
+      {
+        "chain_type": "OFFICIAL_RESEARCH_CITATION_REFERENCE",
+        "depth": 5,
+        "nodes": [
+          "https://github.com/perplexityai",
+          "https://github.com/perplexityai/api-cookbook",
+          "Agent API web access / citations / code execution / subagents / durable work",
+          "research result provenance and long-running research workflow",
+          "CFA3 evidence-aware research workflow pattern"
+        ]
+      },
+      {
+        "chain_type": "UNOFFICIAL_CLIENT_TRANSPORT_REFERENCE",
+        "depth": 5,
+        "nodes": [
+          "https://github.com/helallao/perplexity-ai",
+          "curl_cffi / websocket-client plus optional Playwright / MCP",
+          "sync-async client / streaming / retry / rate-limit / file handling surfaces",
+          "restricted separation of reusable transport patterns from account/query-limit bypass behavior",
+          "CFA3 provider-client isolation and error-normalization pattern only"
+        ]
+      },
+      {
+        "chain_type": "API_COMPATIBILITY_REFERENCE",
+        "depth": 5,
+        "nodes": [
+          "https://github.com/topics/perplexity-ai-api",
+          "https://github.com/gweidart/pyplexityai",
+          "requests / aiohttp plus typed OpenAI-compatible streaming client",
+          "provider-specific response/error normalization behind a generic client contract",
+          "CFA3 Provider Compatibility Adapter pattern"
+        ]
+      },
+      {
+        "chain_type": "RAG_RESEARCH_WORKSPACE_REFERENCE",
+        "depth": 5,
+        "nodes": [
+          "https://github.com/topics/perplexity-clone",
+          "https://github.com/JonniTech/Perplexity-Clone",
+          "SerpAPI retrieval plus context extraction plus LLM synthesis",
+          "streamed answer with citation/source UI and persistent research session state",
+          "CFA3 Research Workspace / citation UX pattern"
+        ]
+      },
+      {
+        "chain_type": "RUST_MULTI_PROVIDER_SEARCH_REFERENCE",
+        "depth": 5,
+        "nodes": [
+          "https://github.com/topics/perplexity?l=rust&o=desc&s=stars",
+          "https://github.com/paperfoot/search-cli",
+          "Tokio parallel provider fan-out plus timeout/cancellation",
+          "deterministic deduplication and reciprocal-rank fusion with synthesized answers separated",
+          "CFA3 Search Federation / Ranker pattern"
+        ]
+      }
+    ],
+    "observed_non_admitted_references": [
+      "https://github.com/perplexityai/modelcontextprotocol",
+      "https://github.com/perplexityai/api-cookbook",
+      "https://github.com/perplexityai/perplexity-py",
+      "https://github.com/perplexityai/perplexity-node",
+      "https://github.com/perplexityai/search_evals",
+      "https://github.com/gweidart/pyplexityai",
+      "https://github.com/JonniTech/Perplexity-Clone",
+      "https://github.com/paperfoot/search-cli",
+      "https://github.com/mishamyrt/perplexity-web-api-mcp",
+      "https://github.com/AndresDevvv/Perplexity-AI-API"
+    ],
+    "archival_observations": [
+      "mishamyrt/perplexity-web-api-mcp was observed archived and is historical/architectural reference only"
+    ],
+    "restricted_pattern_observations": [
+      "Account generation, query-limit bypass, cookie/session extraction, browser/TLS impersonation, anonymous proxying or other service-access circumvention patterns observed in unofficial lineage are not admitted for CFA3 reuse by this intake.",
+      "Only transport, schema, streaming, retry, error-normalization, MCP, RAG, ranking and UI architecture patterns may proceed to later independent review."
+    ],
+    "disposition": "FIVE_LEVEL_REFERENCE_LINEAGE_ANALYZED_FOR_REPRESENTATIVE_PATHS; CHILD_SOURCES_REMAIN_NON_ADMITTED; RESTRICTED_BYPASS_PATTERNS_EXCLUDED_FROM_ADMISSIBLE_REUSE"
+  },
+  "requirements": [
+    "Reference registration only; no code import, runtime dependency, provider/model admission or activation.",
+    "The Perplexity organization and GitHub topic pages are discovery/reference indexes and do not recursively admit child repositories, packages, services or models.",
+    "Official Perplexity API/MCP material may inform protocol and research patterns, but CFA3 architectural authority remains unchanged and upstream contracts must be reverified at material-use time.",
+    "Unofficial repositories are non-authoritative references; account generation, query-limit bypass, cookie/session extraction, impersonation, anonymous proxy or access-circumvention behavior is excluded from admissible CFA3 reuse by this intake.",
+    "Community repositories require independent License & Rights, provenance, Security, Software Coexistence and supply-chain review before any material reuse.",
+    "The fixed CFA3 capability baseline remains 175 and no architectural authority is added.",
+    "FA3-AUTH-MODEL-ROUTER-001 remains the sole provider/model routing authority; FA3-LLM-GATEWAY-001 remains the LLM data plane; no silent local-to-cloud fallback is introduced.",
+    "Actual adoption requires an explicit usage edge plus all applicable fail-closed gates."
+  ],
+  "boundaries": {
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "automatic_code_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "usage_edge_created": false,
+    "capability_count_change": false,
+    "authority_change": false,
+    "runtime_change": false,
+    "current_host_pass_claimed": false,
+    "application_implementation_started": false
+  },
+  "serialization_scope": "ROLLING_FIVE_SLOT_DONOR_MAINTENANCE",
+  "serialization_order": "SINGLE_CANONICAL_WRITER_WITH_BATCH_APPEND_AND_EXACT_HEAD_REVALIDATION",
+  "batch_finalizer_pr": 727
+}
