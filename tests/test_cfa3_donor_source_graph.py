@@ -98,6 +98,32 @@ class SourceGraphTests(unittest.TestCase):
         self.assertLess(value["crawl"]["network_fetches"], value["crawl"]["expanded_parent_root_pairs"])
         self.assertEqual(len(value["edges"]), 4)
 
+    def test_crawl_records_generic_web_links_without_recursive_expansion(self):
+        registry = {"entries": [
+            {"donor_id": "D-ROOT", "status": "ACCEPTED_REFERENCE", "source": {"normalized_key": "https://root.example/", "locator": "https://root.example/", "kind": "WEBSITE"}},
+        ]}
+        calls = []
+
+        def fake_discover(url, token):
+            calls.append(url)
+            if url == "https://root.example/":
+                return ([
+                    {"url": "https://noise.example/page", "normalized_key": "https://noise.example/page", "context": "community page"},
+                    {"url": "https://docs.example/guide", "normalized_key": "https://docs.example/guide", "context": "documentation guide"},
+                    {"url": "https://github.com/example/tool", "normalized_key": "github:example/tool", "context": "related project"},
+                ], {})
+            return ([], {})
+
+        with mock.patch.object(graph, "discover_url", side_effect=fake_discover):
+            value = graph.crawl(registry, workers=4)
+
+        self.assertEqual(value["validation"]["result"], "PASS")
+        self.assertIn("https://noise.example/page", value["nodes"])
+        self.assertNotIn("https://noise.example/page", calls[1:])
+        self.assertIn("https://docs.example/guide", calls)
+        self.assertIn("https://github.com/example/tool", calls)
+        self.assertGreaterEqual(value["crawl"]["expansion_filtered_edges"], 1)
+
     def test_root_shards_partition_canonical_roots(self):
         registry = self.registry()
         seen = {0: [], 1: []}

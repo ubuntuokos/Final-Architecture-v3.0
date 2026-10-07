@@ -32,6 +32,11 @@ REFERENCE_RELATIONS = {
     "DOCUMENTATION", "SPECIFICATION", "RESEARCH", "ORGANIZATION_INDEX",
     "TOPIC_INDEX", "DISCOVERY_INDEX", "EXAMPLE", "SAMPLE", "RELATED_PROJECT",
 }
+EXPANSION_RELATIONS = (
+    FOUNDATIONAL_RELATIONS
+    | HIGH_RELATIONS
+    | (REFERENCE_RELATIONS - {"EXAMPLE", "SAMPLE", "RELATED_PROJECT"})
+)
 UNKNOWN_RIGHTS = {"NOASSERTION", "NONE", "UNKNOWN", ""}
 URL_RE = re.compile(r"""https?://[^\s<>\]\[()"']+""", re.I)
 GITHUB_REPO_RE = re.compile(r"^https?://github\.com/([^/]+)/([^/#?]+?)(?:\.git)?/?$", re.I)
@@ -132,6 +137,14 @@ def classify_relation(context: str, url: str) -> str:
     if kind == "GITHUB_ORGANIZATION_OR_PROFILE":
         return "ORGANIZATION_INDEX"
     return "RELATED_PROJECT"
+
+def should_expand_discovered_source(url: str, relation_type: str) -> bool:
+    """Record every discovered source, but recurse only through donor/reference candidates."""
+    kind = source_kind(url)
+    if kind.startswith("GITHUB_"):
+        return True
+    return relation_type.upper() in EXPANSION_RELATIONS
+
 
 def classify_priority(
     relation_type: str,
@@ -596,6 +609,7 @@ def crawl(
     discovery_cache: dict[str, tuple[list[dict[str, str]], dict[str, Any]] | Exception] = {}
     network_fetches = 0
     cache_hits = 0
+    expansion_filtered_edges = 0
     stopped_by_limit = False
     worker_count = max(1, min(int(workers), 64))
     batch_size = max(worker_count, worker_count * 2)
@@ -676,7 +690,10 @@ def crawl(
                         canonical_record=identities.get(child_key),
                         edge_fingerprints=edge_fingerprints,
                     )
-                    if child_depth < MAX_DEPTH and (created or (child_key, root) not in expanded):
+                    expand_child = should_expand_discovered_source(child["url"], relation)
+                    if child_depth < MAX_DEPTH and not expand_child:
+                        expansion_filtered_edges += 1
+                    if child_depth < MAX_DEPTH and expand_child and (created or (child_key, root) not in expanded):
                         queue.append({
                             "normalized_key": child_key,
                             "url": child["url"],
@@ -702,6 +719,7 @@ def crawl(
                         "network_fetches": network_fetches,
                         "discovery_cache_entries": len(discovery_cache),
                         "cache_hits": cache_hits,
+                        "expansion_filtered_edges": expansion_filtered_edges,
                     }
                 }), flush=True)
             if stopped_by_limit:
@@ -718,6 +736,7 @@ def crawl(
         "network_fetches": network_fetches,
         "discovery_cache_entries": len(discovery_cache),
         "cache_hits": cache_hits,
+        "expansion_filtered_edges": expansion_filtered_edges,
         "errors": errors,
         "complete": not stopped_by_limit,
         "stopped_by_limit": stopped_by_limit,
