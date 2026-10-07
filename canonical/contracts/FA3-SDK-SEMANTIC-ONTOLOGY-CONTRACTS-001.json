@@ -1,0 +1,78 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-SDK-SEMANTIC-ONTOLOGY-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "OWNER_APPROVED_MATERIALIZATION",
+  "parent_profile": "FA3-SHARED-SEMANTIC-ONTOLOGY-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "namespaces": [
+    "cfa3.semantic",
+    "cfa3.semantic.core",
+    "cfa3.semantic.graph",
+    "cfa3.semantic.entity",
+    "cfa3.semantic.relationship",
+    "cfa3.semantic.ingest",
+    "cfa3.semantic.profile",
+    "cfa3.semantic.extract",
+    "cfa3.semantic.taxonomy",
+    "cfa3.semantic.synthesis",
+    "cfa3.semantic.ontology",
+    "cfa3.semantic.authoring",
+    "cfa3.semantic.pattern",
+    "cfa3.semantic.competency",
+    "cfa3.semantic.validation",
+    "cfa3.semantic.reasoning",
+    "cfa3.semantic.proof",
+    "cfa3.semantic.quality",
+    "cfa3.semantic.identity",
+    "cfa3.semantic.alignment",
+    "cfa3.semantic.resolution",
+    "cfa3.semantic.provenance",
+    "cfa3.semantic.change",
+    "cfa3.semantic.diff",
+    "cfa3.semantic.migration",
+    "cfa3.semantic.query",
+    "cfa3.semantic.rag",
+    "cfa3.semantic.storage",
+    "cfa3.semantic.provider",
+    "cfa3.semantic.export"
+  ],
+  "provider_spis": [
+    "SemanticReasonerProvider",
+    "SemanticValidationProvider",
+    "SemanticExtractionProvider",
+    "SemanticAlignmentProvider",
+    "SemanticEmbeddingProvider",
+    "SemanticStorageProvider",
+    "SemanticGraphStoreProvider",
+    "SemanticInterchangeProvider"
+  ],
+  "application_manifest_contract": {
+    "key": "semantic",
+    "fields": [
+      "consumes",
+      "produces",
+      "optional",
+      "required_contract_versions",
+      "data_classification",
+      "offline_requirement"
+    ],
+    "unknown_capability": "FAIL_CLOSED",
+    "direct_provider_endpoint": "FORBIDDEN"
+  },
+  "routing_policy": {
+    "model_router": "FA3-AUTH-MODEL-ROUTER-001",
+    "provider_selection_outside_model_router": "FORBIDDEN",
+    "silent_fallback": "FORBIDDEN",
+    "cpu_only_reference_path": "REQUIRED"
+  },
+  "donor_sdk_policy": {
+    "donor_design_input_is_sdk_materialization": false,
+    "runtime_dependency_from_donor_status": false,
+    "code_import_requires_independent_rights_security_compatibility_review": true,
+    "actual_use_requires_first_class_canonical_source_promotion": true
+  }
+}
