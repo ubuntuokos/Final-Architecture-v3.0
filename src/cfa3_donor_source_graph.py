@@ -32,11 +32,7 @@ REFERENCE_RELATIONS = {
     "DOCUMENTATION", "SPECIFICATION", "RESEARCH", "ORGANIZATION_INDEX",
     "TOPIC_INDEX", "DISCOVERY_INDEX", "EXAMPLE", "SAMPLE", "RELATED_PROJECT",
 }
-EXPANSION_RELATIONS = (
-    FOUNDATIONAL_RELATIONS
-    | HIGH_RELATIONS
-    | (REFERENCE_RELATIONS - {"EXAMPLE", "SAMPLE", "RELATED_PROJECT"})
-)
+CANDIDATE_RELATIONS = FOUNDATIONAL_RELATIONS | HIGH_RELATIONS | REFERENCE_RELATIONS
 UNKNOWN_RIGHTS = {"NOASSERTION", "NONE", "UNKNOWN", ""}
 URL_RE = re.compile(r"""https?://[^\s<>\]\[()"']+""", re.I)
 GITHUB_REPO_RE = re.compile(r"^https?://github\.com/([^/]+)/([^/#?]+?)(?:\.git)?/?$", re.I)
@@ -71,6 +67,8 @@ RELATION_PATTERNS: list[tuple[str, tuple[str, ...]]] = [
     ("SAMPLE", ("sample",)),
     ("DOCUMENTATION", ("docs", "documentation", "guide")),
     ("RESEARCH", ("paper", "research")),
+    ("UPSTREAM", ("upstream", "dependency", "dependencies", "depends on", "requires", "based on", "built on", "powered by")),
+    ("RELATED_PROJECT", ("related project", "related projects", "see also", "alternative", "alternatives")),
 ]
 
 def _load(path: Path) -> dict[str, Any]:
@@ -128,6 +126,8 @@ def source_kind(url: str) -> str:
 
 def classify_relation(context: str, url: str) -> str:
     text = " " + context.casefold() + " "
+    if "github topic member" in text or "github organization/profile member" in text:
+        return "DISCOVERY_INDEX"
     for relation, patterns in RELATION_PATTERNS:
         if any(pattern in text for pattern in patterns):
             return relation
@@ -136,14 +136,20 @@ def classify_relation(context: str, url: str) -> str:
         return "TOPIC_INDEX"
     if kind == "GITHUB_ORGANIZATION_OR_PROFILE":
         return "ORGANIZATION_INDEX"
-    return "RELATED_PROJECT"
+    return "UNRELATED_LINK"
 
-def should_expand_discovered_source(url: str, relation_type: str) -> bool:
-    """Record every discovered source, but recurse only through donor/reference candidates."""
-    kind = source_kind(url)
-    if kind.startswith("GITHUB_"):
-        return True
-    return relation_type.upper() in EXPANSION_RELATIONS
+def classify_discovery_candidate(
+    context: str,
+    url: str,
+    canonical_record: dict[str, Any] | None = None,
+) -> tuple[bool, str]:
+    """Admit only relevant donor/reference candidates to the graph."""
+    relation = classify_relation(context, url)
+    if canonical_record is not None:
+        if relation == "UNRELATED_LINK":
+            relation = "RELATED_PROJECT"
+        return True, relation
+    return relation in CANDIDATE_RELATIONS, relation
 
 
 def classify_priority(
@@ -446,6 +452,8 @@ def validate_graph(graph: dict[str, Any]) -> dict[str, Any]:
             findings.append("BROKEN_EDGE:" + str(i))
         if not isinstance(edge.get("depth"), int) or not 1 <= edge["depth"] <= MAX_DEPTH:
             findings.append("EDGE_DEPTH_INVALID:" + str(i))
+        if edge.get("relation_type") not in CANDIDATE_RELATIONS:
+            findings.append("NON_CANDIDATE_EDGE:" + str(i))
     return {"result": "PASS" if not findings else "FAIL", "node_count": len(nodes), "edge_count": len(edges), "findings": findings}
 
 def _http_timeout() -> float:
@@ -609,7 +617,7 @@ def crawl(
     discovery_cache: dict[str, tuple[list[dict[str, str]], dict[str, Any]] | Exception] = {}
     network_fetches = 0
     cache_hits = 0
-    expansion_filtered_edges = 0
+    ignored_non_candidate_links = 0
     stopped_by_limit = False
     worker_count = max(1, min(int(workers), 64))
     batch_size = max(worker_count, worker_count * 2)
@@ -673,7 +681,15 @@ def crawl(
                     child_key = child["normalized_key"]
                     if child_key == parent_key:
                         continue
-                    relation = classify_relation(child.get("context", ""), child["url"])
+                    canonical_record = identities.get(child_key)
+                    relevant, relation = classify_discovery_candidate(
+                        child.get("context", ""),
+                        child["url"],
+                        canonical_record,
+                    )
+                    if not relevant:
+                        ignored_non_candidate_links += 1
+                        continue
                     child_depth = parent_depth + 1
                     created = add_discovery(
                         graph,
@@ -687,13 +703,10 @@ def crawl(
                             "context": child.get("context", "")[:500],
                             "observed_at": dt.date.today().isoformat(),
                         },
-                        canonical_record=identities.get(child_key),
+                        canonical_record=canonical_record,
                         edge_fingerprints=edge_fingerprints,
                     )
-                    expand_child = should_expand_discovered_source(child["url"], relation)
-                    if child_depth < MAX_DEPTH and not expand_child:
-                        expansion_filtered_edges += 1
-                    if child_depth < MAX_DEPTH and expand_child and (created or (child_key, root) not in expanded):
+                    if child_depth < MAX_DEPTH and (created or (child_key, root) not in expanded):
                         queue.append({
                             "normalized_key": child_key,
                             "url": child["url"],
@@ -719,7 +732,7 @@ def crawl(
                         "network_fetches": network_fetches,
                         "discovery_cache_entries": len(discovery_cache),
                         "cache_hits": cache_hits,
-                        "expansion_filtered_edges": expansion_filtered_edges,
+                        "ignored_non_candidate_links": ignored_non_candidate_links,
                     }
                 }), flush=True)
             if stopped_by_limit:
@@ -736,7 +749,7 @@ def crawl(
         "network_fetches": network_fetches,
         "discovery_cache_entries": len(discovery_cache),
         "cache_hits": cache_hits,
-        "expansion_filtered_edges": expansion_filtered_edges,
+        "ignored_non_candidate_links": ignored_non_candidate_links,
         "errors": errors,
         "complete": not stopped_by_limit,
         "stopped_by_limit": stopped_by_limit,

@@ -8,7 +8,7 @@
   "capability_delta": 0,
   "architectural_authority_delta": 0,
   "registry_v2_policy_id": "FA3-DONOR-REGISTRY-V2-POLICY-001",
-  "purpose": "Expand canonical donor/reference sources through typed dependency/reference links to five levels while preserving provenance and surfacing high-value, integration-ready sources early.",
+  "purpose": "Identify canonical donors that expose further potentially usable donor/reference sources and expand only those typed candidate chains up to five levels while preserving provenance and surfacing high-value, integration-ready sources early.",
   "invariants": {
     "max_discovery_depth": 5,
     "depth_is_provenance_not_priority": true,
@@ -20,7 +20,11 @@
     "no_automatic_dependency": true,
     "no_automatic_provider_or_model_admission": true,
     "no_runtime_activation": true,
-    "actual_use_requires_existing_usage_and_promotion_rules": true
+    "actual_use_requires_existing_usage_and_promotion_rules": true,
+    "max_depth_is_upper_bound_not_required_depth": true,
+    "only_relevant_candidate_links_become_graph_nodes": true,
+    "generic_navigation_and_unrelated_links_are_excluded": true,
+    "branch_stops_when_no_relevant_child": true
   },
   "dimensions": {
     "discovery_depth": [
@@ -83,6 +87,7 @@
     "broken_parent_child_edge_target": 0,
     "capability_baseline": 175,
     "capability_delta": 0,
-    "authority_delta": 0
+    "authority_delta": 0,
+    "non_candidate_materialized_target": 0
   }
 }

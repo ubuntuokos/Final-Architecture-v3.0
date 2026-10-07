@@ -2,7 +2,7 @@
 
 Status: owner-approved materialization, 2026-10-07.
 
-This layer extends the published Registry v2 identity/index architecture without creating a second donor authority. The canonical donor registry remains the registration source; the source graph records discovery and provenance.
+This layer extends the published Registry v2 identity/index architecture without creating a second donor authority. The canonical donor registry remains the registration source. Every canonical donor is inspected at L0 specifically to determine whether it exposes further potentially usable donor/reference sources; only those relevant child chains are materialized and followed.
 
 ## Three independent dimensions
 
@@ -30,8 +30,8 @@ Seed the graph from all published canonical donors:
 
     ./bin/cfa3-donor-source-graph seed --output /tmp/cfa3-source-graph
 
-Run network discovery recursively through exactly five levels:
+Run targeted donor/reference-chain discovery recursively up to five levels. A branch stops immediately when the current source exposes no further relevant donor/reference candidates:
 
     GITHUB_TOKEN=... ./bin/cfa3-donor-source-graph crawl --output /tmp/cfa3-source-graph
 
-The network crawl emits source-graph.json plus integration-priority, strategic-value, relation-type and depth indexes. The P0/P1 index exists to make high-value building blocks rapidly visible during the current CFA3 planning phase.
+The network crawl emits source-graph.json plus integration-priority, strategic-value, relation-type and depth indexes. Only relevant donor/reference candidates become graph nodes and provenance edges; generic navigation, social, homepage and unrelated HTTP/GitHub links are ignored rather than materialized. L5 is a hard maximum, not a target depth. The P0/P1 index exists to make high-value building blocks rapidly visible during the current CFA3 planning phase.

@@ -98,7 +98,7 @@ class SourceGraphTests(unittest.TestCase):
         self.assertLess(value["crawl"]["network_fetches"], value["crawl"]["expanded_parent_root_pairs"])
         self.assertEqual(len(value["edges"]), 4)
 
-    def test_crawl_records_generic_web_links_without_recursive_expansion(self):
+    def test_crawl_ignores_non_candidate_links_and_expands_relevant_chain(self):
         registry = {"entries": [
             {"donor_id": "D-ROOT", "status": "ACCEPTED_REFERENCE", "source": {"normalized_key": "https://root.example/", "locator": "https://root.example/", "kind": "WEBSITE"}},
         ]}
@@ -109,8 +109,12 @@ class SourceGraphTests(unittest.TestCase):
             if url == "https://root.example/":
                 return ([
                     {"url": "https://noise.example/page", "normalized_key": "https://noise.example/page", "context": "community page"},
-                    {"url": "https://docs.example/guide", "normalized_key": "https://docs.example/guide", "context": "documentation guide"},
-                    {"url": "https://github.com/example/tool", "normalized_key": "github:example/tool", "context": "related project"},
+                    {"url": "https://github.com/example/unrelated", "normalized_key": "github:example/unrelated", "context": "community page"},
+                    {"url": "https://github.com/example/sdk", "normalized_key": "github:example/sdk", "context": "agent sdk"},
+                ], {})
+            if url == "https://github.com/example/sdk":
+                return ([
+                    {"url": "https://github.com/example/plugin", "normalized_key": "github:example/plugin", "context": "plugin framework"},
                 ], {})
             return ([], {})
 
@@ -118,11 +122,42 @@ class SourceGraphTests(unittest.TestCase):
             value = graph.crawl(registry, workers=4)
 
         self.assertEqual(value["validation"]["result"], "PASS")
-        self.assertIn("https://noise.example/page", value["nodes"])
-        self.assertNotIn("https://noise.example/page", calls[1:])
-        self.assertIn("https://docs.example/guide", calls)
-        self.assertIn("https://github.com/example/tool", calls)
-        self.assertGreaterEqual(value["crawl"]["expansion_filtered_edges"], 1)
+        self.assertNotIn("https://noise.example/page", value["nodes"])
+        self.assertNotIn("github:example/unrelated", value["nodes"])
+        self.assertIn("github:example/sdk", value["nodes"])
+        self.assertIn("github:example/plugin", value["nodes"])
+        self.assertIn("https://github.com/example/sdk", calls)
+        self.assertIn("https://github.com/example/plugin", calls)
+        self.assertGreaterEqual(value["crawl"]["ignored_non_candidate_links"], 2)
+
+    def test_branch_stops_when_source_has_no_relevant_children(self):
+        registry = {"entries": [
+            {"donor_id": "D-ROOT", "status": "ACCEPTED_REFERENCE", "source": {"normalized_key": "https://root.example/", "locator": "https://root.example/", "kind": "WEBSITE"}},
+        ]}
+        calls = []
+
+        def fake_discover(url, token):
+            calls.append(url)
+            return ([
+                {"url": "https://noise.example/page", "normalized_key": "https://noise.example/page", "context": "navigation"},
+            ], {})
+
+        with mock.patch.object(graph, "discover_url", side_effect=fake_discover):
+            value = graph.crawl(registry, workers=2)
+
+        self.assertEqual(calls, ["https://root.example/"])
+        self.assertEqual(len(value["edges"]), 0)
+        self.assertEqual(set(value["nodes"]), {"https://root.example/"})
+        self.assertEqual(value["validation"]["result"], "PASS")
+
+    def test_discovery_index_members_are_candidates_not_automatic_donors(self):
+        relevant, relation = graph.classify_discovery_candidate(
+            "GitHub topic member",
+            "https://github.com/example/tool",
+            None,
+        )
+        self.assertTrue(relevant)
+        self.assertEqual(relation, "DISCOVERY_INDEX")
 
     def test_root_shards_partition_canonical_roots(self):
         registry = self.registry()

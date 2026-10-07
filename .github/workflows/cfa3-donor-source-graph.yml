@@ -14,8 +14,32 @@ on:
 
 permissions:
   contents: read
+  pull-requests: read
+
+concurrency:
+  group: cfa3-donor-source-graph-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
+  current-pr-head:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 743 }}
+    runs-on: ubuntu-latest
+    outputs:
+      current: ${{ steps.guard.outputs.current }}
+    steps:
+      - name: Verify this run still targets the live PR head
+        id: guard
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          live_head="$(gh api repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }} --jq .head.sha)"
+          if [ "$live_head" = "$GITHUB_SHA" ]; then
+            echo "current=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "current=false" >> "$GITHUB_OUTPUT"
+            echo "STALE_SOURCE_GRAPH_RUN: live=$live_head run=$GITHUB_SHA"
+          fi
+
   source-graph-regression:
     runs-on: ubuntu-latest
     steps:
@@ -41,7 +65,10 @@ jobs:
           PY
 
   owner-approved-network-materialization-shard:
-    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 743 }}
+    needs:
+      - source-graph-regression
+      - current-pr-head
+    if: ${{ needs.current-pr-head.outputs.current == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 120
     strategy:
@@ -78,6 +105,7 @@ jobs:
     if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 743 }}
     needs:
       - source-graph-regression
+      - current-pr-head
       - owner-approved-network-materialization-shard
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -115,6 +143,7 @@ jobs:
               'P0': len(idx.get('integration_priority',{}).get('P0',[])),
               'P1': len(idx.get('integration_priority',{}).get('P1',[])),
               'L5': len(idx.get('discovery_depth',{}).get('L5',[])),
+              'ignored_non_candidate_links': crawl.get('ignored_non_candidate_links'),
           }
           print(json.dumps(summary,indent=2))
           assert g.get('validation',{}).get('result') == 'PASS', g.get('validation')
