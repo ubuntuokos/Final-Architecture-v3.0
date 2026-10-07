@@ -125,3 +125,14 @@ A structural change must either:
 - provide a justified `NO_RUNTIME_IMPACT` record when the change genuinely cannot alter runtime/evidence behavior.
 
 Historical Current Host evidence is immutable and cannot be inherited as proof for a structurally changed active release.
+
+### PR #68 modernized FFmpeg shared-runtime reconciliation
+
+FFmpeg is a **shared CFA3 media runtime component** (`FA3-PROVIDER-FFMPEG-001`), not an application-local engine. Applications consume the existing shared provider/profile/contract surface and must not create duplicate FFmpeg runtime cores.
+
+The CPU-only media path remains valid without an accelerator lease. The optional NVIDIA/CUDA execution-conformance path is workload-scoped and requires an active `FA3-HOST-RESOURCE-BROKER-001/AcceleratorExecutionLease@1` plus broker validation. Its synthetic Identity-ONNX and BT.709 fixtures prove execution conformance only; they never constitute production neural-media E2E or global promotion.
+
+FFmpeg build trust v2 is a provider-specific projection of the shared `FA3-SCS-001` supply-chain authority. It binds stable immutable identity, observed FFmpeg version, signature-verifier identity, artifact/binary digest, SBOM and provenance-attestation digest. Historical Current Host evidence is not inherited.
+
+By explicit owner order for PR #68, historical source-link donor registration and CFA3 SDK registration are deferred until after successful PR #68 closure. PR #68 itself does not mutate the donor registry or SDK.
+

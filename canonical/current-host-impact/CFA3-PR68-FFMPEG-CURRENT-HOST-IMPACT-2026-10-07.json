@@ -1,0 +1,32 @@
+{
+  "schema": "fa3.current-host-structural-impact.v1",
+  "id": "CFA3-PR68-FFMPEG-CURRENT-HOST-IMPACT-2026-10-07",
+  "status": "RECONCILED",
+  "structural_changes": [
+    "canonical/providers/FA3-PROVIDER-FFMPEG-001.json",
+    "canonical/FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001.json",
+    "canonical/contracts/FA3-FFMPEG-BUILD-TRUST-CONTRACTS-001.json",
+    "canonical/ffmpeg-ai-runtime-admission.json",
+    "src/fa3_ffmpeg_ai_gate.py"
+  ],
+  "current_host_changes": [
+    ".github/workflows/fa3-ffmpeg-ai-current-host.yml",
+    "bin/fa3-ffmpeg-ai-current-host.sh",
+    "canonical/FA3-GATE-FFMPEG-AI-CURRENT-HOST-001.json",
+    "canonical/decisions/FA3-DEC-FFMPEG-AI-CURRENT-HOST-AUDIT-2026-09-03.json",
+    "canonical/ffmpeg-ai-current-host-enforcement.json",
+    "evidence/collect-ffmpeg-ai-current-host.py",
+    "fa3-current-host/README.md",
+    "fa3-current-host/manifest.json",
+    "src/fa3_ffmpeg_ai_current_host.py",
+    "src/fa3_ffmpeg_ai_current_host_gate.py"
+  ],
+  "rationale": "PR #68 changes the semantics and validation of the existing FFmpeg Current Host execution-conformance path, replacing the weaker legacy placement receipt and broad synthetic E2E claim with canonical HRB lease/broker validation and separate smoke-vs-production evidence classes.",
+  "physical_requalification_required": true,
+  "historical_evidence_reused": false,
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}

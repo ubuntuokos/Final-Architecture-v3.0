@@ -1,0 +1,86 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-PR68-FFMPEG-REUSE-ASSESSMENT-2026-10-07",
+  "project_id": "FA3-PROVIDER-FFMPEG-001",
+  "intent_id": "PR-68-FFMPEG-CURRENT-HOST-AUDIT-MODERNIZATION",
+  "intent_path": "canonical/decisions/FA3-DEC-FFMPEG-AI-CURRENT-HOST-AUDIT-2026-09-03.json",
+  "covered_ids": [
+    "FA3-PROVIDER-FFMPEG-001",
+    "FA3-NEURAL-MEDIA-EXECUTION-001",
+    "FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001"
+  ],
+  "project_status": "OWNER_ORDERED_PR68_MODERNIZATION",
+  "result": "PASS",
+  "reuse_disposition": "REUSE_AND_HARDEN_EXISTING_SHARED_FFMPEG_MEDIA_RUNTIME",
+  "assessment_provenance": {
+    "type": "EXACT_MAIN_RETROACTIVE_REASSESSMENT",
+    "reviewed_on": "2026-10-07",
+    "planning_basis": "CURRENT_PUBLISHED_MAIN_DONOR_REGISTRY_ONLY",
+    "published_main_commit": "61ea39772a1eb7ac8d11b05303895cab5dfbb022",
+    "owner_approved_materialization": true
+  },
+  "selected_reuse": [
+    {
+      "id": "FA3-PROVIDER-FFMPEG-001",
+      "use": "EXISTING_SHARED_MEDIA_EXECUTOR"
+    },
+    {
+      "id": "FA3-NEURAL-MEDIA-EXECUTION-001",
+      "use": "EXISTING_SHARED_MEDIA_PROFILE"
+    },
+    {
+      "id": "FA3-HOST-RESOURCE-BROKER-001",
+      "use": "EXCLUSIVE_ACCELERATOR_ADMISSION_AND_PLACEMENT"
+    },
+    {
+      "id": "FA3-SCS-001",
+      "use": "SHARED_SUPPLY_CHAIN_TRUST_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "EXISTING_EVIDENCE_AUTHORITY"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "APPLICATION_LOCAL_FFMPEG_CORE",
+      "reason": "FFMPEG_IS_MULTI_APPLICATION_SHARED_DEPENDENCY"
+    },
+    {
+      "id": "NEW_BUILD_TRUST_AUTHORITY",
+      "reason": "USE_SHARED_FA3_SCS_AUTHORITY"
+    }
+  ],
+  "donor_planning_snapshot": {
+    "published_main_commit": "61ea39772a1eb7ac8d11b05303895cab5dfbb022",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "062b7b27aeeaf74819ac315f30c5cbde4ed2c95b",
+    "donor_registry_sha256": "4798642f9a8dd6dd9181eadb31b28f4071c9d45251b9b659d22e005c21cd4e4f",
+    "donor_registry_entry_count": 1919
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "retrospective_consumer_impact_reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "rationale": "FFmpeg is consumed across CFA3 media, editorial, conversion, audio/video and production workflows; one shared provider/runtime surface avoids duplicated cores.",
+    "shared_component_ids": [
+      "FA3-PROVIDER-FFMPEG-001",
+      "FA3-NEURAL-MEDIA-EXECUTION-001"
+    ],
+    "consumer_scope": [
+      "all CFA3 applications requiring FFmpeg media execution"
+    ],
+    "local_duplicate_created": false
+  },
+  "pending_or_unmerged_donors_consumed": false,
+  "donor_usage_edges_created": 0,
+  "donor_adoption_authorized": false,
+  "adoption_authorized": false,
+  "implementation_readiness": "READY_FOR_PR68_IMPLEMENTATION_WITH_OWNER_ORDERED_POST_CLOSURE_DONOR_SDK_FOLLOWUP",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}
