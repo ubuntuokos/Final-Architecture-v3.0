@@ -2,19 +2,19 @@
   "schema": "fa3.provider-record.v1",
   "id": "FA3-PROVIDER-OPENCUT-001",
   "name": "OpenCut",
-  "status": "REQUIRED_SUPPORTED_REFERENCE_ADAPTER_RUNTIME_NOT_ADMITTED",
+  "status": "HISTORICAL_REFERENCE_OPTIONAL_ADAPTER_RUNTIME_NOT_ADMITTED",
   "classification": [
-    "REQ_ADAPTER_PLUS_REFERENCE",
-    "PROGRAMMABLE_LOCAL_FIRST_EDITOR_REFERENCE",
-    "HUMAN_FACING_BROWSER_DESKTOP_EDITOR_PROVIDER",
-    "FUTURE_AGENT_NATIVE_EDITOR_BACKEND_CANDIDATE",
+    "OPTIONAL_REFERENCE_ADAPTER",
+    "OPENCUT_UPSTREAM_ARCHITECTURE_PATTERN",
+    "PLUGIN_FIRST_EDITOR_API_HEADLESS_SCRIPTING_MCP_PATTERN",
     "REPLACEABLE_PROVIDER"
   ],
   "profile": "FA3-PROGRAMMABLE-VIDEO-EDITING-001",
   "contract": "FA3-VIDEO-TIMELINE-PROVIDER-CONTRACTS-001",
   "capability_projection": [
     "CAP-121",
-    "CAP-126"
+    "CAP-126",
+    "CAP-171"
   ],
   "canonical_root": false,
   "architectural_authority": false,
@@ -49,14 +49,15 @@
     "provider_runtime_required_for_global_promotion_when_disabled": false
   },
   "authority_boundaries": {
-    "human_finishing_authority": "KDENLIVE_REMAINS_PRIMARY_HUMAN_FINISHING_NLE",
+    "human_finishing_authority": "CFA3_VIDEO_EDITOR_ONLY_FULL_EDITOR_AUTHORITY",
     "agentic_pipeline_role": "OPENMONTAGE_REMAINS_HIGHER_LEVEL_PRODUCTION_PLANNING_PROVIDER",
     "durable_orchestration": "TEMPORAL_REMAINS_AUTHORITY",
     "event_fabric": "NATS_JETSTREAM_REMAINS_AUTHORITY",
     "runtime_state_cache": "VALKEY_REMAINS_AUTHORITY",
     "mcp_gateway": "FA3_CENTRAL_MCP_GATEWAY_REMAINS_AUTHORITY",
     "host_resources": "FA3_HOST_RESOURCE_BROKER_REMAINS_AUTHORITY",
-    "timeline_interchange": "OPENTIMELINEIO_REMAINS_CANONICAL_IR"
+    "timeline_interchange": "OPENTIMELINEIO_INTERCHANGE_ONLY",
+    "native_project_state": "CFA3_NATIVE_NOT_UPSTREAM_PROVIDER"
   },
   "forbidden_authorities": [
     "IDENTITY_AUTHORITY",
@@ -70,6 +71,8 @@
     "ARTIFACT_REGISTRY_AUTHORITY",
     "FINAL_HUMAN_EDITORIAL_AUTHORITY"
   ],
-  "normative_constraint": "OpenCut SHALL remain a replaceable provider adapter behind FA3 contracts and SHALL NOT become an identity, authorization, global MCP, workflow, event, cache, host-resource, evidence, artifact-registry or final-human-editorial authority.",
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "normative_constraint": "OpenCut upstream is a historical reference and optional adapter only. CFA3 OpenCut is a native fast editor with .fa3clip state, not a full NLE; CFA3 Video Editor alone owns full-editor authority. Upstream does not own central MCP, OpenVid Shared, Shared Motion Designer or CFA3 SDK workstreams.",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "cfa3_native_application_not_owned_by_provider": true,
+  "runtime_dependency_for_cfa3_opencut": false
 }

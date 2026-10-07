@@ -31,6 +31,29 @@ class OpenCutGateTests(unittest.TestCase):
         self.assertTrue(all(case["positive"] for case in cases))
         self.assertTrue(all(case["negative_refusal"] for case in cases))
 
+    def test_canonical_opencut_role_contract(self):
+        decision = json.loads((ROOT / PATHS["decision"]).read_text(encoding="utf-8"))
+        profile = json.loads((ROOT / PATHS["profile"]).read_text(encoding="utf-8"))
+        contract = json.loads((ROOT / PATHS["contract"]).read_text(encoding="utf-8"))
+        provider = json.loads((ROOT / PATHS["provider"]).read_text(encoding="utf-8"))
+        assert decision["application_definition"]["native_project_extension"] == ".fa3clip"
+        assert decision["application_definition"]["openvid_integration"]["default_linking"] == "EDITABLE_REFERENCE"
+        assert decision["application_definition"]["openvid_integration"]["automatic_flatten_or_render"] is False
+        assert profile["application_roles"]["CFA3 Video Editor"]["sole_full_editor"] is True
+        assert profile["application_roles"]["CFA3 OpenVid Shared"]["project"] == ".fa3openvid"
+        assert profile["authority_boundaries"]["advanced_motion"] == "CFA3 Shared Motion Designer"
+        assert contract["interchange_role"] == "IMPORT_EXPORT_ONLY_NOT_NATIVE_PROJECT_STATE"
+        assert contract["required_adapter_families"] == []
+        assert provider["cfa3_native_application_not_owned_by_provider"] is True
+        assert "KDENLIVE_REMAINS_PRIMARY_HUMAN_FINISHING_NLE" not in decision["mandatory_rules"]
+
+    def test_final_model_uses_no_additional_capabilities_or_authorities(self):
+        decision = json.loads((ROOT / PATHS["decision"]).read_text(encoding="utf-8"))
+        self.assertEqual(175, decision["capability_count_after"])
+        self.assertEqual(0, decision["new_capabilities"])
+        self.assertEqual(0, decision["new_architectural_authorities"])
+        self.assertEqual(["CAP-121", "CAP-126", "CAP-171"], decision["capability_projection"])
+
     def test_ui_automation_is_not_primary_mutation_boundary(self):
         operation = {
             "schema": "fa3.structured-timeline-operation.v1",
