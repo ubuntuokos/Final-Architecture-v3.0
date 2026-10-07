@@ -21,7 +21,64 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  retire-obsolete-runs:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 743 }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      actions: write
+      contents: read
+      pull-requests: read
+    steps:
+      - name: Force-cancel obsolete Source Graph runs before any new work
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mapfile -t stale_ids < <(
+            gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/cfa3-donor-source-graph.yml/runs?branch=${GITHUB_HEAD_REF}&event=pull_request&per_page=100"               --jq '.workflow_runs[] | select((.status == "queued" or .status == "in_progress" or .status == "waiting" or .status == "pending")) | .id'
+          )
+
+          targets=()
+          for id in "${stale_ids[@]}"; do
+            if [ "$id" != "$GITHUB_RUN_ID" ]; then
+              targets+=("$id")
+            fi
+          done
+
+          if [ "${#targets[@]}" -eq 0 ]; then
+            echo "NO_OBSOLETE_SOURCE_GRAPH_RUNS"
+            exit 0
+          fi
+
+          printf 'OBSOLETE_SOURCE_GRAPH_RUNS=%s\n' "${targets[*]}"
+          for id in "${targets[@]}"; do
+            echo "FORCE_CANCEL:$id"
+            gh api --method POST               -H "Accept: application/vnd.github+json"               -H "X-GitHub-Api-Version: 2026-03-10"               "repos/${GITHUB_REPOSITORY}/actions/runs/$id/force-cancel" >/dev/null
+          done
+
+          for attempt in $(seq 1 30); do
+            remaining=()
+            for id in "${targets[@]}"; do
+              status="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/$id" --jq '.status')"
+              if [ "$status" != "completed" ]; then
+                remaining+=("$id:$status")
+              fi
+            done
+            if [ "${#remaining[@]}" -eq 0 ]; then
+              echo "OBSOLETE_SOURCE_GRAPH_RUNS_RETIRED"
+              exit 0
+            fi
+            printf 'WAITING_FOR_RETIREMENT=%s\n' "${remaining[*]}"
+            sleep 2
+          done
+
+          echo "::error::OBSOLETE_SOURCE_GRAPH_RUNS_STILL_ACTIVE"
+          exit 1
+
   current-pr-head:
+    needs:
+      - retire-obsolete-runs
     if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 743 }}
     runs-on: ubuntu-latest
     outputs:
@@ -41,6 +98,8 @@ jobs:
           fi
 
   source-graph-regression:
+    needs:
+      - retire-obsolete-runs
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
