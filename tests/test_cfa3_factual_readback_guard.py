@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import unittest
 
-from src.cfa3_factual_readback_guard import POLICY_ID, evaluate_readback
+from cfa3_factual_readback_guard import POLICY_ID, evaluate_readback
 
 
 class FactualReadbackGuardTests(unittest.TestCase):
