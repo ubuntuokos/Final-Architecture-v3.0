@@ -25,3 +25,21 @@ The source PRs are historical provenance and may already be merged. Their exact 
 The Perplexity source intake remains reference-only. Child repositories are not recursively admitted, and account/query-limit/session bypass, cookie extraction, browser/TLS impersonation, anonymous proxying or other service-access circumvention patterns are excluded from admissible CFA3 reuse.
 
 No application implementation, code import, dependency installation, provider/model/runtime admission, hardware mutation or Current Host PASS is authorized. The already-existing CFA3 authoritative/deterministic fact-verification rule is reused unchanged and is not recreated here.
+
+
+## Rolling append — 2026-10-07
+
+The owner ordered the sources reported as missing by the CFA3 donor-baseline exact-state closure to be registered as donors and included in the running finalization process.
+
+The single-writer union is extended with exact source heads:
+
+- PR #731 `3c379c5ded8e34576722a98b2d29d3c8d90495c2` — 48 Webdesign / Code Engineering / NVIDIA PAIDF identities;
+- PR #737 `6fbd5e809ec068747482f6eaa2dc485f12fbda05` — 10 claims / identity / provenance identities;
+- PR #740 `92460387ed3539f2ab84c3e59d3c84630f17b44d` — 1 Microsoft Chat Copilot identity;
+- PR #742 `5f688d86848daf7c06d59dd6017a4335b3489d08` — 20 exact-state missing baseline identities.
+
+The complete finalizer now materializes **127** new source identities over the published **1792** parent, producing candidate registry count **1919**. Exact union reconciliation found no donor-ID or normalized-source-key collisions with the published parent or between the source batches.
+
+PR #742 contains five-level dependency/reference coverage for all 20 newly recovered missing sources. Its Open-R1 maintenance warning, DeepSeek Desktop license-declaration conflict and Videorc AGPL-3.0-only observation remain fail-closed material-reuse constraints. This publication is still reference metadata only: no code, runtime, provider, model, hosted service, asset, usage edge, capability or architectural authority is admitted.
+
+The previous candidate-registry backfill count drift is corrected by binding `backfill.entry_count` to the resulting **1919** entry cardinality. Final publication remains subject to fresh exact-head donor serialization, reuse discovery, application-donor inventory, canonical/promotion and all other required checks.
