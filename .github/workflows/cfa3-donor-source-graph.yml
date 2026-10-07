@@ -39,3 +39,54 @@ jobs:
           assert g['capability_baseline']==175
           assert g['max_depth']==5
           PY
+
+  owner-approved-network-materialization:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 743 }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Materialize owner-approved L0-L5 network discovery
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: ./bin/cfa3-donor-source-graph crawl --output /tmp/cfa3-source-graph-materialized
+      - name: Summarize network materialization
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json, pathlib
+          root=pathlib.Path('/tmp/cfa3-source-graph-materialized')
+          graph_path=root/'source-graph.json'
+          if not graph_path.exists():
+              raise SystemExit('source-graph.json missing')
+          g=json.load(open(graph_path,encoding='utf-8'))
+          crawl=g.get('crawl',{})
+          val=g.get('validation',{})
+          idx=g.get('indexes',{})
+          summary={
+              'nodes': len(g.get('nodes',{})),
+              'edges': len(g.get('edges',[])),
+              'expanded_parent_root_pairs': crawl.get('expanded_parent_root_pairs'),
+              'errors': len(crawl.get('errors',[])),
+              'complete': crawl.get('complete'),
+              'stopped_by_limit': crawl.get('stopped_by_limit'),
+              'validation': val.get('result'),
+              'P0': len(idx.get('integration_priority',{}).get('P0',[])),
+              'P1': len(idx.get('integration_priority',{}).get('P1',[])),
+              'L5': len(idx.get('discovery_depth',{}).get('L5',[])),
+          }
+          print(json.dumps(summary,indent=2))
+          assert val.get('result') == 'PASS', val
+          assert crawl.get('stopped_by_limit') is False, crawl
+          PY
+      - name: Upload materialized source graph
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cfa3-donor-source-graph-materialized
+          path: /tmp/cfa3-source-graph-materialized
+          if-no-files-found: error
+          retention-days: 7
