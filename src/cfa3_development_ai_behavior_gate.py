@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Any
 
 from cfa3_development_ai_behavior_guard import RULE_IDS, authorize_action
+from cfa3_factual_readback_guard import evaluate_readback
 from fa3_agent_workload import WorkloadContractError, compile_execution_plan
 from fa3_release_baseline import active_capability_count
 from fa3_task_scope_closure import goal_scope_binding, start_task_control
@@ -17,6 +18,7 @@ GATE_REGISTRY = Path("canonical/FA3-GATE-REGISTRY-001.json")
 ENFORCEMENT_POLICY = Path("canonical/enforcement-policy.json")
 CURRENT_HOST_IMPACT = Path("canonical/current-host-impact/FA3-CH-IMPACT-CFA3-DEVELOPMENT-AI-BEHAVIOR-20261005.json")
 REUSE_ASSESSMENT = Path("canonical/assessments/CFA3-DEVELOPMENT-AI-BEHAVIOR-REUSE-ASSESSMENT-2026-10-05.json")
+FACTUAL_READBACK_POLICY = Path("canonical/CFA3-FACTUAL-READBACK-CONTINUITY-POLICY-001.json")
 GATE_ID = "CFA3-DEVELOPMENT-AI-BEHAVIOR-GATESET-001"
 
 EXPECTED_DEV = {f"DEV-{i:02d}" for i in range(1, 12)}
@@ -95,7 +97,7 @@ def _runtime_wiring_check() -> dict[str, Any]:
 
 def evaluate(root: Path) -> dict[str, Any]:
     root = root.resolve()
-    required = [POLICY, DECISION, GATE_RECORD, GATE_REGISTRY, ENFORCEMENT_POLICY, CURRENT_HOST_IMPACT, REUSE_ASSESSMENT]
+    required = [POLICY, DECISION, GATE_RECORD, GATE_REGISTRY, ENFORCEMENT_POLICY, CURRENT_HOST_IMPACT, REUSE_ASSESSMENT, FACTUAL_READBACK_POLICY]
     missing = [str(p) for p in required if not (root / p).exists()]
     if missing:
         return {
@@ -112,7 +114,31 @@ def evaluate(root: Path) -> dict[str, Any]:
     enforcement = _load(root, ENFORCEMENT_POLICY)
     ch = _load(root, CURRENT_HOST_IMPACT)
     reuse = _load(root, REUSE_ASSESSMENT)
+    factual_readback_policy = _load(root, FACTUAL_READBACK_POLICY)
     active_count = active_capability_count(root)
+
+    factual_readback_valid = evaluate_readback({
+        "task_id": "behavior-gate-readback-valid",
+        "prior_state_required": True,
+        "source_refs": ["canonical-main:test-source"],
+        "readback_complete": True,
+        "reanalysis_complete": True,
+        "current_state_verified": True,
+        "contradictions": [],
+        "unknown_facts": [],
+        "scope_guard_passed": True,
+    })
+    factual_readback_unknown = evaluate_readback({
+        "task_id": "behavior-gate-readback-unknown",
+        "prior_state_required": True,
+        "source_refs": ["canonical-main:test-source"],
+        "readback_complete": True,
+        "reanalysis_complete": True,
+        "current_state_verified": True,
+        "contradictions": [],
+        "unknown_facts": ["unverified prior state"],
+        "scope_guard_passed": True,
+    })
 
     dev_ids = {row.get("id") for row in policy.get("development_rules", [])}
     ai_ids = {row.get("id") for row in policy.get("ai_behavior_rules", [])}
@@ -195,6 +221,15 @@ def evaluate(root: Path) -> dict[str, Any]:
         "guard-rule-set": RULE_IDS == EXPECTED_DEV | EXPECTED_AI,
         "policy-semantics": observed_semantics == EXPECTED_POLICY_SEMANTICS,
         "runtime-enforcement-binding": runtime_wiring.get("pass") is True,
+        "factual-readback-policy-composed": factual_readback_policy.get("id") == "CFA3-FACTUAL-READBACK-CONTINUITY-POLICY-001"
+            and factual_readback_policy.get("mandatory") is True
+            and factual_readback_policy.get("authority_boundary", {}).get("memory_role") == "DISCOVERY_HINT_ONLY"
+            and "CFA3-FACTUAL-READBACK-CONTINUITY-POLICY-001" in policy.get("composed_development_policies", []),
+        "factual-readback-guard-valid-path": factual_readback_valid.get("decision") == "ALLOW_CONTINUATION"
+            and factual_readback_valid.get("pass") is True
+            and factual_readback_valid.get("effect_authority_granted") is False,
+        "factual-readback-guard-unknown-blocks": factual_readback_unknown.get("decision") == "BLOCKER_STOP"
+            and factual_readback_unknown.get("reason") == "UNKNOWN_FACTS_REMAIN",
         "reuse-assessment": reuse.get("result") == "PASS"
             and reuse.get("donor_planning_snapshot") == EXPECTED_DONOR_SNAPSHOT
             and reuse.get("pending_or_unmerged_donors_consumed") is False
