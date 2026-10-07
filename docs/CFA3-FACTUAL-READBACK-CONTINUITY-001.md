@@ -1,8 +1,8 @@
 # CFA3 Factual Readback Continuity
 
-**Policy:** `CFA3-FACTUAL-READBACK-CONTINUITY-POLICY-001`  
-**Parent governance:** `CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001`  
-**Capability delta:** 0  
+**Policy:** `CFA3-FACTUAL-READBACK-CONTINUITY-POLICY-001`
+**Parent governance:** `CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001`
+**Capability delta:** 0
 **Architectural-authority delta:** 0
 
 ## Purpose
