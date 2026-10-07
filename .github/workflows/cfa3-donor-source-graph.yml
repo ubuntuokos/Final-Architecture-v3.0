@@ -88,13 +88,14 @@ jobs:
         id: guard
         env:
           GH_TOKEN: ${{ github.token }}
+          EVENT_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           live_head="$(gh api repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }} --jq .head.sha)"
-          if [ "$live_head" = "$GITHUB_SHA" ]; then
+          if [ "$live_head" = "$EVENT_HEAD_SHA" ]; then
             echo "current=true" >> "$GITHUB_OUTPUT"
           else
             echo "current=false" >> "$GITHUB_OUTPUT"
-            echo "STALE_SOURCE_GRAPH_RUN: live=$live_head run=$GITHUB_SHA"
+            echo "STALE_SOURCE_GRAPH_RUN: live=$live_head event_head=$EVENT_HEAD_SHA"
           fi
 
   source-graph-regression:
