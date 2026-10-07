@@ -1,0 +1,164 @@
+{
+  "schema": "fa3.donor-intake-delta.v1",
+  "delta_id": "CFA3-DONOR-MICROSOFT-CHAT-COPILOT-2026-10-07",
+  "target_registry": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+  "status": "STAGED_PENDING_ROLLING_BATCH_APPEND",
+  "mode": "EXACT_OWNER_AUTHORIZED_REFERENCE_REGISTRATION",
+  "parent_main": "c2e2ab2aa1c34ef555e2324e9b67af9d8723f76a",
+  "parent_registry_blob_sha": "2bb6a74dd415b6374e4a6d5adce1bc9265229b63",
+  "parent_entry_count": 1792,
+  "authorization": {
+    "owner_command": "donornak",
+    "exact_owner_message_marker": "a linket donornak",
+    "explicit_user_approval": true,
+    "scope": "EXACT_MICROSOFT_CHAT_COPILOT_SOURCE_SUBMITTED_IN_THIS_CONVERSATION",
+    "conversation_lineage_ref": "chat:cfa3-microsoft-chat-copilot:2026-10-07"
+  },
+  "submitted_url_count": 1,
+  "submitted_urls": [
+    "https://github.com/microsoft/chat-copilot"
+  ],
+  "unique_source_count": 1,
+  "new_source_count": 1,
+  "canonical_identities": [
+    {
+      "source": "https://github.com/microsoft/chat-copilot",
+      "normalized_key": "github:microsoft/chat-copilot",
+      "donor_id": "FA3-DONOR-MICROSOFT-CHAT-COPILOT-001",
+      "name": "microsoft/chat-copilot",
+      "kind": "GITHUB_REPOSITORY",
+      "status": "ACCEPTED_REFERENCE",
+      "mode": "ARCHIVED_CHAT_APPLICATION_MEMORY_IDENTITY_ARCHITECTURE_REFERENCE",
+      "group": "AGENT_CHAT_MEMORY_PLUGIN_AND_DELEGATED_IDENTITY_PATTERNS",
+      "license_observation": "MIT_DECLARED_AT_REVIEWED_UPSTREAM_HEAD",
+      "upstream_review": {
+        "default_branch": "main",
+        "reviewed_head": "23b27821baa11b2a1639070434628e5b151ce706",
+        "reviewed_head_date": "2024-11-13",
+        "archived": true,
+        "production_disposition": "UPSTREAM_EXPLICITLY_SAMPLE_NOT_FOR_PRODUCTION",
+        "reviewed_at": "2026-10-07"
+      },
+      "target_hints": [
+        "CFA3 Messenger / Agent Workspace",
+        "CFA3 Application Agent Adapter",
+        "CFA3 Agent Runtime",
+        "CFA3 Knowledge / Memory Fabric",
+        "CFA3 Capture & Inbox Fabric",
+        "CFA3 CapabilityGrant and delegated identity",
+        "FA3-AUTH-MODEL-ROUTER-001 provider adaptation",
+        "CFA3 Temporal durable ingestion/workflow separation"
+      ]
+    }
+  ],
+  "lineage_observations": {
+    "max_reference_depth_policy": 5,
+    "child_auto_admission": false,
+    "analysis_depth_applied": 5,
+    "representative_reference_chains": [
+      {
+        "chain_type": "CHAT_APPLICATION_LAYERING_REFERENCE",
+        "depth": 5,
+        "nodes": [
+          "https://github.com/microsoft/chat-copilot",
+          "React webapp presentation layer",
+          ".NET webapi service boundary",
+          "Semantic Kernel orchestration and plugin invocation",
+          "CFA3 Messenger -> Application Agent Adapter -> Agent Runtime layering pattern"
+        ]
+      },
+      {
+        "chain_type": "ASYNC_MEMORY_PIPELINE_REFERENCE",
+        "depth": 5,
+        "nodes": [
+          "https://github.com/microsoft/chat-copilot",
+          "Microsoft Kernel Memory integration",
+          "separate asynchronous memorypipeline service",
+          "queue + content storage + vector database provider separation",
+          "CFA3 Capture & Inbox -> Knowledge/Memory Fabric -> Temporal durable ingestion pattern"
+        ]
+      },
+      {
+        "chain_type": "DELEGATED_IDENTITY_REFERENCE",
+        "depth": 5,
+        "nodes": [
+          "https://github.com/microsoft/chat-copilot",
+          "plugins/OBO native Semantic Kernel function",
+          "Microsoft Identity / Entra On-Behalf-Of flow",
+          "Microsoft Graph delegated user permissions",
+          "CFA3 CapabilityGrant-scoped delegated external-service authority pattern"
+        ]
+      },
+      {
+        "chain_type": "MODEL_PROVIDER_ABSTRACTION_REFERENCE",
+        "depth": 5,
+        "nodes": [
+          "https://github.com/microsoft/chat-copilot",
+          "Microsoft.SemanticKernel 1.28.0 abstractions",
+          "OpenAI / Azure OpenAI connector and configuration boundary",
+          "explicit provider/model service binding",
+          "FA3-AUTH-MODEL-ROUTER-001 + FA3-LLM-GATEWAY-001 adapter pattern without authority transfer"
+        ]
+      },
+      {
+        "chain_type": "PLUGIN_TOOL_BOUNDARY_REFERENCE",
+        "depth": 5,
+        "nodes": [
+          "https://github.com/microsoft/chat-copilot",
+          "Semantic Kernel plugin/function layer",
+          "OpenAPI / Web / Microsoft Graph plugin surfaces",
+          "tool execution behind application/backend authorization boundary",
+          "CFA3 Skill / Plugin Fabric + Application Agent Adapter capability-gated tool pattern"
+        ]
+      }
+    ],
+    "observed_non_admitted_references": [
+      "https://github.com/microsoft/semantic-kernel",
+      "https://github.com/microsoft/kernel-memory",
+      "Microsoft.SemanticKernel.Connectors.AzureAISearch",
+      "Microsoft.SemanticKernel.Connectors.Qdrant",
+      "Microsoft.SemanticKernel.Plugins.MsGraph",
+      "Microsoft.Identity.Web",
+      "Microsoft.Identity.Client",
+      "Azure Queue",
+      "RabbitMQ",
+      "Qdrant",
+      "Azure AI Search",
+      "Microsoft Graph"
+    ],
+    "archival_observations": [
+      "microsoft/chat-copilot is archived at intake time.",
+      "The upstream README and component documentation explicitly classify the application as an educational sample and not recommended for production deployments.",
+      "The reviewed default-branch head is 23b27821baa11b2a1639070434628e5b151ce706 from 2024-11-13."
+    ],
+    "disposition": "FIVE_LEVEL_REFERENCE_LINEAGE_ANALYZED; SOURCE_ACCEPTED_AS_ARCHITECTURAL_REFERENCE_ONLY; RELATED_REPOSITORIES_PACKAGES_SERVICES_AND_PROVIDERS_REMAIN_NON_ADMITTED"
+  },
+  "requirements": [
+    "Reference registration only; no code import, dependency install, provider/model admission, service activation or runtime promotion.",
+    "Archived/sample upstream status requires material-use revalidation and prevents treating this repository as a production runtime baseline.",
+    "MIT declaration is recorded for the reviewed repository head, but exact file/dependency/assets and transitive rights still require License & Rights review before material reuse.",
+    "Semantic Kernel, Kernel Memory, Microsoft Graph, Entra identity, queues, vector databases and provider connectors observed through the source are not recursively admitted as donors or dependencies.",
+    "FA3-AUTH-MODEL-ROUTER-001 remains the sole model/provider routing authority; FA3-LLM-GATEWAY-001 remains the LLM data plane.",
+    "CFA3 native Application Agent Adapter, Skill/Plugin Fabric, CapabilityGrant, Knowledge/Memory Fabric and Temporal authorities are preserved; donor patterns do not replace them.",
+    "The fixed CFA3 capability baseline remains 175 and architectural authority delta remains zero.",
+    "Actual adoption requires an explicit usage edge plus applicable License & Rights, provenance, Security, Software Coexistence, Hardware Safety and Current Host gates."
+  ],
+  "boundaries": {
+    "automatic_fetch": false,
+    "automatic_install": false,
+    "automatic_activation": false,
+    "automatic_code_import": false,
+    "automatic_dependency": false,
+    "automatic_provider_admission": false,
+    "automatic_model_selection": false,
+    "usage_edge_created": false,
+    "capability_count_change": false,
+    "authority_change": false,
+    "runtime_change": false,
+    "current_host_pass_claimed": false,
+    "application_implementation_started": false
+  },
+  "serialization_scope": "ROLLING_FIVE_SLOT_DONOR_MAINTENANCE",
+  "serialization_order": "SINGLE_CANONICAL_WRITER_WITH_BATCH_APPEND_AND_EXACT_HEAD_REVALIDATION",
+  "batch_finalizer_pr": 727
+}
