@@ -754,9 +754,24 @@ def validate_batch_finalizer(root,pending,candidate,inspect,get=None,require_com
     live={p.get("number"):p for p in pending if isinstance(p,dict)}
     for number,head in covered.items():
         current=live.get(number)
-        if current is None:
-            findings.append("BATCH_SOURCE_PR_NOT_OPEN:"+str(number))
-        elif current.get("head_sha")!=head:
+        if current is not None:
+            if current.get("head_sha")!=head:
+                findings.append("BATCH_SOURCE_HEAD_MISMATCH:"+str(number))
+            continue
+        # Batch policy preserves exact historical source-PR provenance. A source
+        # PR may already be closed/merged when its donor-only delta is rehydrated
+        # into the single canonical finalizer; prove the immutable PR head live.
+        if get is None:
+            findings.append("PROOF_UNAVAILABLE:BATCH_SOURCE_PR:"+str(number))
+            continue
+        try:
+            historical=get(f"/repos/{REPO}/pulls/{number}")
+        except Exception:
+            findings.append("PROOF_UNAVAILABLE:BATCH_SOURCE_PR:"+str(number))
+            continue
+        historical_head=(historical.get("head",{}).get("sha")
+                         if isinstance(historical,dict) else None)
+        if historical_head!=head:
             findings.append("BATCH_SOURCE_HEAD_MISMATCH:"+str(number))
     if require_complete:
         extras=sorted(p["number"] for p in pending
