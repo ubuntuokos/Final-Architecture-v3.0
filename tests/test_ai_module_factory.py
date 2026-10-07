@@ -28,7 +28,7 @@ class AIModuleFactoryStructureTest(unittest.TestCase):
     def test_application_and_gui_are_registered(self):
         a=load("canonical/FA3-APPLICATION-DONOR-LINKS-001.json")
         app=next(x for x in a["applications"] if x["application_id"]=="fa3.ai-module-factory")
-        self.assertEqual(app["lifecycle"],"PLANNED")
+        self.assertEqual(app["lifecycle"],"EXISTING")
         shared=next(x for x in a["shared_capabilities"] if x["id"]=="FA3-SHARED-WORK-DERIVED-AI-001")
         self.assertIn("fa3.video-editor",shared["consumer_applications"])
         self.assertIn("fa3.story-screenplay",shared["consumer_applications"])

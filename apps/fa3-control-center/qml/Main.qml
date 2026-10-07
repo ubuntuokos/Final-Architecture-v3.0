@@ -79,6 +79,8 @@ ApplicationWindow {
         "models.engines": 43,
         "create.voice-studio": 41,
         "create.quick-voice-plugin": 42
+,
+        "product.my-fa3": 44
     })
 
     function routeIndex(routeId) {
@@ -153,6 +155,7 @@ ApplicationWindow {
 
     property var uiSearchIndex: [
         {title: "Dashboard", detail: "Command Center és rendszerállapot", category: "FUNCTION", routeId: "home.command-center"},
+        {title: "My FA3", detail: "Operating Level, egyedi alkalmazás-entitlementek és opcionális Domain Packok read-only projekciója", category: "FUNCTION", routeId: "product.my-fa3"},
         {title: "Remote AI Hub", detail: "Távoli AI-kapacitás és hosted execution", category: "FUNCTION", routeId: "models.remote-ai"},
         {title: "RTD Providers", detail: "Real-Time Data provider-ek, frissesség, policy és provenance", category: "FUNCTION", routeId: "models.rtd"},
         {title: "Projects & Workspaces", detail: "Projektek, assetek és knowledge-contextus", category: "FUNCTION", routeId: "home.projects"},
@@ -687,6 +690,7 @@ ApplicationWindow {
                         Item { Layout.preferredHeight: 8 }
                         Label { text: "HOME"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
                         NavButton { iconText: "⌂"; label: "Dashboard"; routeId: "home.command-center" }
+                        NavButton { iconText: "◆"; label: "My FA3"; routeId: "product.my-fa3" }
                         NavButton { iconText: "▣"; label: "Projects"; routeId: "home.projects" }
                         NavButton { iconText: "✓"; label: "Work Management"; routeId: "home.work-management" }
 
@@ -1808,6 +1812,10 @@ ApplicationWindow {
 
                 EngineManagerPage {
                     engineController: fa3EngineSelector
+                }
+
+                ProductEntitlementsPage {
+                    controller: fa3ProductEntitlements
                 }
             }
 

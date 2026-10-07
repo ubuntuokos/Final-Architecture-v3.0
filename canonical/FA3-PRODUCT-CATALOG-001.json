@@ -1,0 +1,120 @@
+{
+  "schema": "fa3.product-catalog.v1",
+  "id": "FA3-PRODUCT-CATALOG-001",
+  "status": "CANONICAL_STATIC",
+  "authority": false,
+  "individual_application_selection_default": true,
+  "bundles": [
+    {
+      "id": "FA3-BUNDLE-CREATIVE-MEDIA",
+      "name": "Creative / Media",
+      "domain": "CREATIVE_MEDIA",
+      "optional": true,
+      "applications": [
+        "fa3.photo-image-studio",
+        "fa3.video-editor",
+        "fa3.quickclip",
+        "fa3.vector-studio",
+        "fa3.vfx-studio",
+        "fa3.subtitle-studio",
+        "fa3.digital-human-studio",
+        "fa3.opencut",
+        "fa3.openvid-shared",
+        "fa3.animation-motion-studio"
+      ]
+    },
+    {
+      "id": "FA3-BUNDLE-STUDIO-FILM",
+      "name": "Studio / Film",
+      "domain": "STUDIO_FILM",
+      "optional": true,
+      "applications": [
+        "fa3.story-screenplay",
+        "fa3.scene-shot-designer",
+        "fa3.world-environment-studio",
+        "fa3.character-studio",
+        "fa3.choreography-studio",
+        "fa3.production-studio",
+        "fa3.review-studio"
+      ]
+    },
+    {
+      "id": "FA3-BUNDLE-3D",
+      "name": "3D / DCC",
+      "domain": "THREED_DCC",
+      "optional": true,
+      "applications": [
+        "fa3.threed-dcc-studio",
+        "fa3.render-manager",
+        "fa3.spatial-reconstruction"
+      ]
+    },
+    {
+      "id": "FA3-BUNDLE-COLLABORATION",
+      "name": "Communication / Collaboration",
+      "domain": "COMMUNICATION_COLLABORATION",
+      "optional": true,
+      "applications": [
+        "fa3.email-contact-manager",
+        "fa3.unified-messenger",
+        "fa3.meeting-manager"
+      ]
+    }
+  ],
+  "optional_addons": [
+    {
+      "class": "ENGINE",
+      "display_name": "Engine",
+      "optional": true,
+      "authority": false,
+      "registry_ref": "FA3-ENGINE-REGISTRY-001",
+      "selection_fabric_ref": "FA3-ENGINE-SELECTION-FABRIC-001",
+      "grants_application_entitlement": false,
+      "runtime_activation_grant": false,
+      "upstream_rights_grant": false
+    },
+    {
+      "class": "PROVIDER",
+      "display_name": "Provider",
+      "optional": true,
+      "authority": false,
+      "routing_authority_ref": "FA3-AUTH-MODEL-ROUTER-001",
+      "inventory_mode": "DYNAMIC_EXISTING_PROVIDER_INVENTORY",
+      "grants_application_entitlement": false,
+      "runtime_activation_grant": false,
+      "upstream_rights_grant": false
+    },
+    {
+      "class": "CAPACITY",
+      "display_name": "Capacity",
+      "optional": true,
+      "authority": false,
+      "resource_authority_ref": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "semantics": "COMMERCIAL_OR_DEPLOYMENT_ALLOWANCE_NOT_RESOURCE_ADMISSION",
+      "grants_application_entitlement": false,
+      "runtime_activation_grant": false,
+      "upstream_rights_grant": false
+    },
+    {
+      "class": "SUPPORT",
+      "display_name": "Support",
+      "optional": true,
+      "authority": false,
+      "semantics": "SERVICE_CONTRACT_ONLY_NOT_RUNTIME_PERMISSION",
+      "grants_application_entitlement": false,
+      "runtime_activation_grant": false,
+      "upstream_rights_grant": false
+    }
+  ],
+  "rules": {
+    "bundle_is_never_runtime_dependency": true,
+    "bundle_does_not_override_minimum_operating_level": true,
+    "bundle_does_not_bypass_rights_security_or_hardware": true,
+    "optional_engine_provider_capacity_support_independent": true,
+    "optional_addon_never_bypasses_existing_authority": true,
+    "optional_addon_does_not_grant_upstream_rights": true
+  },
+  "capability_count": 175,
+  "new_capability": false,
+  "new_architectural_authority": false
+}
