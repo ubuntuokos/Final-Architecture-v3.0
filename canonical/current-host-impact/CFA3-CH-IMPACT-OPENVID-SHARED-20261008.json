@@ -1,0 +1,23 @@
+{
+  "schema": "fa3.current-host-structural-impact.v1",
+  "id": "CFA3-CH-IMPACT-OPENVID-SHARED-20261008",
+  "date": "2026-10-08",
+  "status": "NO_RUNTIME_IMPACT",
+  "capability_count": 175,
+  "structural_changes": [
+    "canonical/contracts/FA3-BROWSER-LOCAL-VIDEO-COMPOSITING-CONTRACTS-001.json",
+    "canonical/decisions/FA3-DEC-OPENVID-BROWSER-LOCAL-COMPOSITING-2026-09-04.json",
+    "canonical/providers/FA3-PROVIDER-OPENVID-001.json",
+    "canonical/FA3-GATE-OPENVID-001.json",
+    "canonical/openvid-enforcement.json",
+    "canonical/openvid-runtime-admission.json",
+    "canonical/releases/FA3-RELEASE-PROJECTION-OPENVID-2026-09-04.json",
+    "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
+    "src/fa3_openvid_gate.py"
+  ],
+  "current_host_changes": [],
+  "physical_requalification_required": false,
+  "historical_evidence_reused": false,
+  "global_promotion_claim": false,
+  "rationale": "Canonical/static #69 native FAST COMPOSE contracts, application links and gate only; no deployed executable binary, driver, hardware discovery, device lease, provider activation, Model Router or Current Host surface changes. Noncommercial upstream remains denied; native runtime remains not admitted; historical evidence not reused."
+}
