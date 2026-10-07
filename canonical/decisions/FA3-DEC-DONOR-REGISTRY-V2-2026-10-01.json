@@ -1,0 +1,50 @@
+{
+  "schema": "fa3.decision.v1",
+  "id": "FA3-DEC-DONOR-REGISTRY-V2-2026-10-01",
+  "date": "2026-10-01",
+  "status": "OWNER_APPROVED_MATERIALIZATION",
+  "subject": "Donor & Capability Registry v2 sharding, locality, migration and growth management",
+  "decision": "MATERIALIZE",
+  "policy_id": "FA3-DONOR-REGISTRY-V2-POLICY-001",
+  "preserve": {
+    "canonical_donor_identity": true,
+    "legacy_donor_data": true,
+    "legacy_usage_data": true,
+    "historical_provenance": true,
+    "capability_baseline": 175,
+    "capability_ids": "UNCHANGED",
+    "architectural_authorities": "UNCHANGED"
+  },
+  "approved_storage_rules": {
+    "initial_free_reserve_percent": 30,
+    "normal_target_fill_percent": 70,
+    "rollover_percent": 90,
+    "rebalance_percent": 95,
+    "rebalance_target_fill_percent": 70,
+    "growth_aware_donor_locality": true,
+    "frequently_growing_donor_kept_in_dedicated_series": true
+  },
+  "approved_migration_rules": {
+    "manual_reentry_required": false,
+    "migration_time_refresh_allowed": true,
+    "refresh_is_auditable_and_non_destructive": true,
+    "shadow_migration_before_cutover": true,
+    "legacy_snapshot_preserved": true,
+    "conflict_resolution": "FAIL_CLOSED_REVIEW_REQUIRED"
+  },
+  "current_materialization_scope": {
+    "registry_v2_engine": true,
+    "schemas": true,
+    "shadow_migration": true,
+    "volume_planning": true,
+    "growth_profile": true,
+    "derived_usage_projection": true,
+    "tests_and_ci": true,
+    "canonical_donor_data_cutover": false,
+    "reason": "The donor-lifecycle/intake baseline was published to main before Registry v2 cutover work; this change does not create a competing donor-intake authority."
+  },
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "runtime_promotion": false,
+  "current_host_pass_claimed": false
+}
