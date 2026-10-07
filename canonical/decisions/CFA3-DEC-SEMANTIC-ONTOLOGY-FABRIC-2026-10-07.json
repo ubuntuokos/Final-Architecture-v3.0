@@ -1,0 +1,27 @@
+{
+  "schema": "cfa3.decision.v1",
+  "id": "CFA3-DEC-SEMANTIC-ONTOLOGY-FABRIC-2026-10-07",
+  "date": "2026-10-07",
+  "status": "OWNER_APPROVED_MATERIALIZATION",
+  "subject": "Shared Semantic, Ontology & Operational Knowledge Fabric and CFA3 SDK integration",
+  "decision": "MATERIALIZE_STATIC_PROVIDER_NEUTRAL_FOUNDATION",
+  "profile_id": "FA3-SHARED-SEMANTIC-ONTOLOGY-001",
+  "rules": {
+    "reuse_existing_capabilities": true,
+    "capability_baseline": 175,
+    "capability_delta": 0,
+    "authority_delta": 0,
+    "donor_intake_remains_separate": true,
+    "runtime_admission_remains_separate": true,
+    "ai_output_is_proposal_only": true,
+    "model_router_remains_exclusive": true,
+    "cpu_only_path_required": true,
+    "gui_required": true,
+    "application_integration_is_sdk_contract_first": true
+  },
+  "blocked_subscope": {
+    "canonical_donor_registry_mutation": "BLOCKED_BY_ACTIVE_PARALLEL_DONOR_INTAKE",
+    "l0_l5_materialization": "BLOCKED_BY_PR_743",
+    "runtime_provider_admission": "NOT_AUTHORIZED_BY_REFERENCE_STATUS"
+  }
+}
