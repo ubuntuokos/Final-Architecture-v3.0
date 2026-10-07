@@ -1,0 +1,93 @@
+{
+  "schema": "cfa3.donor-source-graph-policy.v1",
+  "id": "CFA3-DONOR-SOURCE-GRAPH-POLICY-001",
+  "status": "OWNER_APPROVED_MATERIALIZATION",
+  "date": "2026-10-07",
+  "authority": false,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "architectural_authority_delta": 0,
+  "registry_v2_policy_id": "FA3-DONOR-REGISTRY-V2-POLICY-001",
+  "purpose": "Identify canonical donors that expose further potentially usable donor/reference sources and expand only those typed candidate chains up to five levels while preserving provenance and surfacing high-value, integration-ready sources early.",
+  "invariants": {
+    "max_discovery_depth": 5,
+    "depth_is_provenance_not_priority": true,
+    "normalized_source_identity_global": true,
+    "one_source_node_many_provenance_edges": true,
+    "existing_canonical_donor_identity_wins": true,
+    "discovered_unregistered_source_is_not_canonical_donor": true,
+    "no_automatic_code_import": true,
+    "no_automatic_dependency": true,
+    "no_automatic_provider_or_model_admission": true,
+    "no_runtime_activation": true,
+    "actual_use_requires_existing_usage_and_promotion_rules": true,
+    "max_depth_is_upper_bound_not_required_depth": true,
+    "only_relevant_candidate_links_become_graph_nodes": true,
+    "generic_navigation_and_unrelated_links_are_excluded": true,
+    "branch_stops_when_no_relevant_child": true
+  },
+  "dimensions": {
+    "discovery_depth": [
+      "L0",
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5"
+    ],
+    "strategic_value": [
+      "CRITICAL",
+      "HIGH",
+      "MEDIUM",
+      "LOW",
+      "HISTORICAL"
+    ],
+    "integration_priority": [
+      "P0",
+      "P1",
+      "P2",
+      "P3",
+      "P4"
+    ]
+  },
+  "integration_priority_semantics": {
+    "P0": "IMMEDIATE_INTEGRATION_SOURCE",
+    "P1": "NEAR_TERM_INTEGRATION_OR_REQUIRED_REVIEW",
+    "P2": "PLANNED_CAPABILITY_SOURCE",
+    "P3": "DISCOVERY_REFERENCE",
+    "P4": "BLOCKED_HISTORICAL_OR_LOW_ACTIONABILITY"
+  },
+  "fast_path_relation_types": [
+    "SDK",
+    "AGENT_SDK",
+    "PLUGIN_SDK",
+    "ENGINE_SDK",
+    "HARDWARE_SDK",
+    "API_SDK",
+    "SKILL",
+    "SKILL_FRAMEWORK",
+    "AGENT",
+    "AGENT_FRAMEWORK",
+    "PLUGIN",
+    "PLUGIN_FRAMEWORK",
+    "CODEC",
+    "MEDIA_FRAMEWORK",
+    "PROTOCOL",
+    "INTEROPERABILITY_TOOLKIT",
+    "SHARED_LIBRARY",
+    "REFERENCE_IMPLEMENTATION"
+  ],
+  "gates": {
+    "unprocessed_discovered_source_target": 0,
+    "unclassified_relevant_source_target": 0,
+    "missing_provenance_edge_target": 0,
+    "duplicate_canonical_source_target": 0,
+    "unresolved_identity_conflict_target": 0,
+    "p0_without_reason_target": 0,
+    "broken_parent_child_edge_target": 0,
+    "capability_baseline": 175,
+    "capability_delta": 0,
+    "authority_delta": 0,
+    "non_candidate_materialized_target": 0
+  }
+}

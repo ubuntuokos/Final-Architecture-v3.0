@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "CFA3-DONOR-SOURCE-GRAPH-001",
+  "title": "CFA3 donor L0-L5 source graph",
+  "type": "object",
+  "required": [
+    "schema",
+    "authority",
+    "capability_baseline",
+    "max_depth",
+    "nodes",
+    "edges"
+  ],
+  "properties": {
+    "schema": {
+      "const": "cfa3.donor-source-graph.v1"
+    },
+    "authority": {
+      "const": false
+    },
+    "capability_baseline": {
+      "const": 175
+    },
+    "max_depth": {
+      "const": 5
+    },
+    "nodes": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "normalized_key",
+          "min_depth",
+          "registration_state",
+          "root_donor_ids",
+          "relation_types",
+          "assessment"
+        ]
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "parent_key",
+          "child_key",
+          "depth",
+          "relation_type",
+          "root_donor_id",
+          "evidence"
+        ],
+        "properties": {
+          "depth": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5
+          }
+        }
+      }
+    }
+  }
+}

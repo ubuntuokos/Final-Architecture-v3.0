@@ -1,0 +1,218 @@
+name: CFA3 Donor Source Graph
+
+on:
+  pull_request:
+    paths:
+      - 'src/cfa3_donor_source_graph.py'
+      - 'tests/test_cfa3_donor_source_graph.py'
+      - 'canonical/CFA3-DONOR-SOURCE-GRAPH-POLICY-001.json'
+      - 'canonical/decisions/CFA3-DEC-DONOR-SOURCE-GRAPH-L1-L5-2026-10-07.json'
+      - 'canonical/schemas/CFA3-DONOR-SOURCE-GRAPH-001.schema.json'
+      - '.github/workflows/cfa3-donor-source-graph.yml'
+      - 'bin/cfa3-donor-source-graph'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: cfa3-donor-source-graph-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  retire-obsolete-runs:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 743 }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      actions: write
+      contents: read
+      pull-requests: read
+    steps:
+      - name: Force-cancel obsolete Source Graph runs before any new work
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mapfile -t stale_ids < <(
+            gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/cfa3-donor-source-graph.yml/runs?branch=${GITHUB_HEAD_REF}&event=pull_request&per_page=100"               --jq '.workflow_runs[] | select((.status == "queued" or .status == "in_progress" or .status == "waiting" or .status == "pending")) | .id'
+          )
+
+          targets=()
+          for id in "${stale_ids[@]}"; do
+            if [ "$id" != "$GITHUB_RUN_ID" ]; then
+              targets+=("$id")
+            fi
+          done
+
+          if [ "${#targets[@]}" -eq 0 ]; then
+            echo "NO_OBSOLETE_SOURCE_GRAPH_RUNS"
+            exit 0
+          fi
+
+          printf 'OBSOLETE_SOURCE_GRAPH_RUNS=%s\n' "${targets[*]}"
+          for id in "${targets[@]}"; do
+            echo "FORCE_CANCEL:$id"
+            gh api --method POST               -H "Accept: application/vnd.github+json"               -H "X-GitHub-Api-Version: 2026-03-10"               "repos/${GITHUB_REPOSITORY}/actions/runs/$id/force-cancel" >/dev/null
+          done
+
+          for attempt in $(seq 1 30); do
+            remaining=()
+            for id in "${targets[@]}"; do
+              status="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/$id" --jq '.status')"
+              if [ "$status" != "completed" ]; then
+                remaining+=("$id:$status")
+              fi
+            done
+            if [ "${#remaining[@]}" -eq 0 ]; then
+              echo "OBSOLETE_SOURCE_GRAPH_RUNS_RETIRED"
+              exit 0
+            fi
+            printf 'WAITING_FOR_RETIREMENT=%s\n' "${remaining[*]}"
+            sleep 2
+          done
+
+          echo "::error::OBSOLETE_SOURCE_GRAPH_RUNS_STILL_ACTIVE"
+          exit 1
+
+  current-pr-head:
+    needs:
+      - retire-obsolete-runs
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 743 }}
+    runs-on: ubuntu-latest
+    outputs:
+      current: ${{ steps.guard.outputs.current }}
+    steps:
+      - name: Verify this run still targets the live PR head
+        id: guard
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          live_head="$(gh api repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }} --jq .head.sha)"
+          if [ "$live_head" = "$EVENT_HEAD_SHA" ]; then
+            echo "current=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "current=false" >> "$GITHUB_OUTPUT"
+            echo "STALE_SOURCE_GRAPH_RUN: live=$live_head event_head=$EVENT_HEAD_SHA"
+          fi
+
+  source-graph-regression:
+    needs:
+      - retire-obsolete-runs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile
+        run: python3 -m py_compile src/cfa3_donor_source_graph.py
+      - name: Unit regressions
+        run: PYTHONPATH=src python3 -m unittest tests.test_cfa3_donor_source_graph -v
+      - name: Seed all canonical roots and validate invariants
+        run: |
+          ./bin/cfa3-donor-source-graph seed --output /tmp/cfa3-source-graph
+          python3 - <<'PY'
+          import json
+          p='/tmp/cfa3-source-graph/reports/validation.json'
+          r=json.load(open(p,encoding='utf-8'))
+          assert r['result']=='PASS', r
+          g=json.load(open('/tmp/cfa3-source-graph/source-graph.json',encoding='utf-8'))
+          assert g['capability_baseline']==175
+          assert g['max_depth']==5
+          PY
+
+  owner-approved-network-materialization-shard:
+    needs:
+      - source-graph-regression
+      - current-pr-head
+    if: ${{ needs.current-pr-head.outputs.current == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Materialize owner-approved L0-L5 network discovery shard
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          CFA3_SOURCE_GRAPH_HTTP_TIMEOUT: '6'
+          CFA3_SOURCE_GRAPH_GITHUB_METADATA: '0'
+        run: |
+          ./bin/cfa3-donor-source-graph crawl \
+            --workers 12 \
+            --root-shard-count 16 \
+            --root-shard-index ${{ matrix.shard }} \
+            --output /tmp/cfa3-source-graph-shard
+      - name: Upload source graph shard
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cfa3-donor-source-graph-shard-${{ matrix.shard }}
+          path: /tmp/cfa3-source-graph-shard
+          if-no-files-found: error
+          retention-days: 7
+
+  owner-approved-network-materialization-merge:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 743 }}
+    needs:
+      - source-graph-regression
+      - current-pr-head
+      - owner-approved-network-materialization-shard
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Download all source graph shards
+        uses: actions/download-artifact@v4
+        with:
+          pattern: cfa3-donor-source-graph-shard-*
+          path: /tmp/cfa3-source-graph-shards
+      - name: Merge and validate all 16 shards
+        run: |
+          ./bin/cfa3-donor-source-graph merge \
+            --input-root /tmp/cfa3-source-graph-shards \
+            --expected-shards 16 \
+            --output /tmp/cfa3-source-graph-materialized
+      - name: Summarize merged network materialization
+        run: |
+          python3 - <<'PY'
+          import json
+          g=json.load(open('/tmp/cfa3-source-graph-materialized/source-graph.json',encoding='utf-8'))
+          crawl=g.get('crawl',{})
+          idx=g.get('indexes',{})
+          summary={
+              'nodes': len(g.get('nodes',{})),
+              'edges': len(g.get('edges',[])),
+              'expanded_parent_root_pairs': crawl.get('expanded_parent_root_pairs'),
+              'errors': len(crawl.get('errors',[])),
+              'complete': crawl.get('complete'),
+              'missing_root_shards': crawl.get('missing_root_shards'),
+              'validation': g.get('validation',{}).get('result'),
+              'P0': len(idx.get('integration_priority',{}).get('P0',[])),
+              'P1': len(idx.get('integration_priority',{}).get('P1',[])),
+              'L5': len(idx.get('discovery_depth',{}).get('L5',[])),
+              'ignored_non_candidate_links': crawl.get('ignored_non_candidate_links'),
+          }
+          print(json.dumps(summary,indent=2))
+          assert g.get('validation',{}).get('result') == 'PASS', g.get('validation')
+          assert crawl.get('complete') is True, crawl
+          PY
+      - name: Upload merged materialized source graph
+        uses: actions/upload-artifact@v4
+        with:
+          name: cfa3-donor-source-graph-materialized
+          path: /tmp/cfa3-source-graph-materialized
+          if-no-files-found: error
+          retention-days: 7
