@@ -1,0 +1,18 @@
+{
+  "schema": "fa3.current-host-structural-impact.v1",
+  "id": "FA3-CH-IMPACT-CFA3-FACTUAL-READBACK-CONTINUITY-20261007",
+  "date": "2026-10-07",
+  "status": "NO_RUNTIME_IMPACT",
+  "capability_count": 175,
+  "structural_changes": [
+    "canonical/CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001.json",
+    "canonical/CFA3-FACTUAL-READBACK-CONTINUITY-POLICY-001.json",
+    "src/cfa3_development_ai_behavior_gate.py"
+  ],
+  "current_host_changes": [],
+  "physical_requalification_required": false,
+  "historical_evidence_reused": false,
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "rationale": "This change adds factual-readback governance and fail-closed static/development preflight validation. It does not create or modify a provider, model, daemon, scheduler, driver, hardware path, host lease, runtime service, credential flow or physical Current Host proof path. The Control Center Fact Readback page is not bound into the active shared GUI route in this changeset because overlapping GUI work remains blocked under DEV-05. Capability baseline remains 175 and no physical requalification is required."
+}

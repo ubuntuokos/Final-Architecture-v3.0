@@ -1,0 +1,173 @@
+{
+  "schema": "cfa3.factual-readback-continuity-policy.v1",
+  "id": "CFA3-FACTUAL-READBACK-CONTINUITY-POLICY-001",
+  "status": "CANONICAL_CANDIDATE",
+  "priority": "P0",
+  "date": "2026-10-07",
+  "mandatory": true,
+  "retroactive": true,
+  "forward_applicable": true,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "architectural_authority_delta": 0,
+  "purpose": "Prevent reconstruction, continuation, gap filling, verification or execution from memory alone. Prior state must be reacquired from factual sources, reconstructed, re-analyzed and re-verified before continuation.",
+  "authority_boundary": {
+    "creates_new_architectural_authority": false,
+    "parent_policy": "CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001",
+    "memory_is_authority": false,
+    "memory_role": "DISCOVERY_HINT_ONLY",
+    "live_verified_state_outranks_memory": true,
+    "pending_pr_is_authority": false
+  },
+  "trigger": {
+    "required_when": [
+      "CONTINUE_PRIOR_TASK",
+      "RECONSTRUCT_PRIOR_PLAN",
+      "FILL_MISSING_PRIOR_CONTENT",
+      "VERIFY_PRIOR_STATE",
+      "RECOVER_PRIOR_DECISION",
+      "COMPARE_WITH_PRIOR_WORK",
+      "RESUME_INTERRUPTED_EXECUTION"
+    ],
+    "not_required_when": [
+      "SELF_CONTAINED_NEW_TASK_WITH_NO_PRIOR_STATE_DEPENDENCY"
+    ]
+  },
+  "source_priority": [
+    "LIVE_DETERMINISTIC_SYSTEM_STATE",
+    "CURRENT_CANONICAL_REPOSITORY_STATE",
+    "CURRENT_EXPLICIT_OWNER_DIRECTIVE",
+    "FACTUALLY_RETRIEVED_PRIOR_CONVERSATION_OR_ARTIFACT",
+    "PRIOR_AI_STATEMENT",
+    "MEMORY"
+  ],
+  "non_authoritative_sources": [
+    "PRIOR_AI_STATEMENT",
+    "MEMORY"
+  ],
+  "lifecycle": [
+    "TASK_SCOPE_BOUND",
+    "PRIOR_STATE_REQUIREMENT_CLASSIFIED",
+    "SOURCE_DISCOVERY",
+    "FACTUAL_READBACK",
+    "STATE_RECONSTRUCTION",
+    "CONTRADICTION_CHECK",
+    "CURRENT_STATE_VERIFICATION",
+    "RE_ANALYSIS",
+    "SCOPE_GUARD",
+    "AUTHORIZED_EXECUTION",
+    "SELF_VERIFICATION",
+    "AUTHORITATIVE_VERIFICATION",
+    "COMPLETE_OR_BLOCKED"
+  ],
+  "state_classification": [
+    "REQUESTED",
+    "PROPOSED",
+    "APPROVED",
+    "IN_PROGRESS",
+    "VERIFIED",
+    "BLOCKED",
+    "PENDING",
+    "SUPERSEDED",
+    "REJECTED",
+    "UNKNOWN"
+  ],
+  "mandatory_invariants": {
+    "memory_may_locate_sources": true,
+    "memory_may_supply_execution_fact": false,
+    "summary_alone_is_sufficient_when_primary_source_available": false,
+    "plan_is_execution_fact": false,
+    "approval_is_execution_fact": false,
+    "unknown_fact_may_be_invented": false,
+    "unknown_fact_state": "UNKNOWN",
+    "unresolved_contradiction_result": "BLOCKER",
+    "repository_task_requires_fresh_external_state": true,
+    "fact_readback_does_not_expand_scope": true,
+    "scope_guard_after_reanalysis": true,
+    "completion_requires_self_verification": true,
+    "completion_requires_authoritative_verification": true
+  },
+  "repository_exact_state": {
+    "required_before_mutation": true,
+    "required_before_merge": true,
+    "facts": [
+      "DEFAULT_BRANCH_HEAD",
+      "TARGET_BRANCH_HEAD",
+      "TARGET_PR_STATE_WHEN_PRESENT",
+      "RELEVANT_REQUIRED_CHECKS",
+      "RELEVANT_REVIEW_THREADS",
+      "RELEVANT_CANONICAL_FILES",
+      "OVERLAPPING_OPEN_WORK"
+    ],
+    "drift_result": "BLOCKER_STOP_REPORT"
+  },
+  "gap_reconstruction": {
+    "trigger_examples": [
+      "WHAT_WAS_MISSED",
+      "WHAT_IS_STILL_MISSING",
+      "CONTINUE_FROM_WHERE_WE_STOPPED"
+    ],
+    "procedure": [
+      "READ_RELEVANT_PRIMARY_SOURCE_RANGE",
+      "EXTRACT_COMMITMENTS_DECISIONS_OPEN_ITEMS",
+      "COMPARE_WITH_VERIFIED_DELIVERED_STATE",
+      "REPORT_ONLY_VERIFIED_DELTA"
+    ],
+    "memory_reconstruction_forbidden": true
+  },
+  "readback_record_contract": {
+    "required_fields": [
+      "task_id",
+      "prior_state_required",
+      "source_refs",
+      "readback_complete",
+      "reanalysis_complete",
+      "current_state_verified",
+      "contradictions",
+      "unknown_facts",
+      "scope_guard_passed",
+      "decision"
+    ],
+    "allowed_decisions": [
+      "ALLOW_CONTINUATION",
+      "BLOCKER_STOP",
+      "NEW_TASK_NO_READBACK_REQUIRED"
+    ]
+  },
+  "application_projection": {
+    "surface": "CFA3 Control Center / Governance / Fact Readback",
+    "mode": "READ_ONLY_AND_PREEXECUTION_STATUS",
+    "must_show": [
+      "TASK_SCOPE",
+      "SOURCE_SET",
+      "SOURCE_PRIORITY",
+      "READBACK_STATUS",
+      "REANALYSIS_STATUS",
+      "CURRENT_STATE_VERIFICATION",
+      "CONTRADICTIONS",
+      "UNKNOWN_FACTS",
+      "SCOPE_GUARD_RESULT",
+      "CONTINUATION_DECISION"
+    ],
+    "must_not": [
+      "TURN_MEMORY_INTO_FACT",
+      "SILENTLY_MARK_UNKNOWN_AS_VERIFIED",
+      "BYPASS_SECURITY_OR_EFFECT_AUTHORITY",
+      "AUTO_RESOLVE_CONTRADICTIONS",
+      "EXPAND_TASK_SCOPE"
+    ],
+    "control_center_binding": "FA3-FACTUAL-READBACK-CONTROL-CENTER-BINDING-001"
+  },
+  "runtime_enforcement": {
+    "guard": "src/cfa3_factual_readback_guard.py",
+    "fail_closed": true,
+    "allow_means_effect_authority": false,
+    "security_governance_remains_authorization_authority": true,
+    "unified_action_fabric_remains_effect_boundary": true,
+    "temporal_remains_durable_workflow_authority": true,
+    "model_router_remains_model_routing_authority": true,
+    "host_resource_broker_remains_resource_authority": true
+  },
+  "current_host_runtime_promotion_claim": false,
+  "physical_current_host_pass_claimed": false
+}

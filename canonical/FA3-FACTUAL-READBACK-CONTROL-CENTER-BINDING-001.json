@@ -1,0 +1,49 @@
+{
+  "schema": "fa3.gui-projection.v1",
+  "id": "FA3-FACTUAL-READBACK-CONTROL-CENTER-BINDING-001",
+  "status": "CANONICAL_CANDIDATE",
+  "priority": "P0",
+  "policy_id": "CFA3-FACTUAL-READBACK-CONTINUITY-POLICY-001",
+  "target_application": "FA3 Control Center",
+  "target_group": "Governance",
+  "route_id": "governance.factual-readback",
+  "qml_component": "apps/fa3-control-center/qml/FactualReadbackPage.qml",
+  "mode": "READ_ONLY_AND_PREEXECUTION_STATUS",
+  "authority": false,
+  "capability_delta": 0,
+  "architectural_authority_delta": 0,
+  "required_fields": [
+    "TASK_SCOPE",
+    "SOURCE_SET",
+    "SOURCE_PRIORITY",
+    "READBACK_STATUS",
+    "REANALYSIS_STATUS",
+    "CURRENT_STATE_VERIFICATION",
+    "CONTRADICTIONS",
+    "UNKNOWN_FACTS",
+    "SCOPE_GUARD_RESULT",
+    "CONTINUATION_DECISION"
+  ],
+  "allowed_user_actions": [
+    "REFRESH_FROM_AUTHORITATIVE_SOURCE",
+    "OPEN_SOURCE_REFERENCE",
+    "COPY_READBACK_RECORD"
+  ],
+  "forbidden_user_actions": [
+    "MARK_MEMORY_AS_VERIFIED_FACT",
+    "FORCE_ALLOW_WITH_UNKNOWN_FACTS",
+    "AUTO_RESOLVE_CONTRADICTIONS",
+    "BYPASS_SCOPE_GUARD",
+    "BYPASS_SECURITY_OR_EFFECT_AUTHORITY"
+  ],
+  "integration": {
+    "direct_main_qml_binding_required": true,
+    "direct_cmake_resource_binding_required": true,
+    "current_materialization_state": "COMPONENT_READY_BINDING_DEFERRED_DUE_OPEN_GUI_OVERLAP",
+    "overlap_policy": "DEV-05",
+    "binding_must_use_reconciled_control_center_head": true,
+    "parallel_overwrite_forbidden": true
+  },
+  "current_host_runtime_promotion_claim": false,
+  "physical_current_host_pass_claimed": false
+}
