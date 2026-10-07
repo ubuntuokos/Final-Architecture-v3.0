@@ -121,3 +121,12 @@ The gateset is registered in the canonical gate registry and mirrored into the c
 ## Current Host
 
 This change does not create a new provider, model, daemon, scheduler, driver, hardware path, lease or Current Host evidence class. Static or policy PASS cannot be interpreted as a physical Current Host PASS.
+
+
+## Retroactive redesign compliance
+
+Legacy CFA3 applications, services and other components that were designed before mandatory donor use are governed by `CFA3-RETROACTIVE-REDESIGN-COMPLIANCE-POLICY-001` whenever they enter redesign, major revision, modernization, migration, reimplementation or rematerialization.
+
+Historical external links must be recovered and preserved with provenance. Missing sources may be used temporarily for analysis and redesign planning, but that temporary state grants no donor/runtime/adoption authority and cannot pass finalization. Finalization requires canonical donor availability and a complete review of all currently mandatory CFA3 rule categories.
+
+This policy is composed at the L1 development-discipline layer. It does not alter the DEV-01..11 / AI-01..11 authority model and creates no new architectural authority.
