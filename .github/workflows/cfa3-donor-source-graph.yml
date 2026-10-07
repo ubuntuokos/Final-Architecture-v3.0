@@ -40,33 +40,69 @@ jobs:
           assert g['max_depth']==5
           PY
 
-  owner-approved-network-materialization:
+  owner-approved-network-materialization-shard:
     if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 743 }}
     runs-on: ubuntu-latest
-    timeout-minutes: 330
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Materialize owner-approved L0-L5 network discovery
+      - name: Materialize owner-approved L0-L5 network discovery shard
         env:
           GITHUB_TOKEN: ${{ github.token }}
           CFA3_SOURCE_GRAPH_HTTP_TIMEOUT: '6'
           CFA3_SOURCE_GRAPH_GITHUB_METADATA: '0'
-        run: ./bin/cfa3-donor-source-graph crawl --workers 32 --output /tmp/cfa3-source-graph-materialized
-      - name: Summarize network materialization
+        run: |
+          ./bin/cfa3-donor-source-graph crawl \
+            --workers 12 \
+            --root-shard-count 16 \
+            --root-shard-index ${{ matrix.shard }} \
+            --output /tmp/cfa3-source-graph-shard
+      - name: Upload source graph shard
         if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cfa3-donor-source-graph-shard-${{ matrix.shard }}
+          path: /tmp/cfa3-source-graph-shard
+          if-no-files-found: error
+          retention-days: 7
+
+  owner-approved-network-materialization-merge:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 743 }}
+    needs:
+      - source-graph-regression
+      - owner-approved-network-materialization-shard
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Download all source graph shards
+        uses: actions/download-artifact@v4
+        with:
+          pattern: cfa3-donor-source-graph-shard-*
+          path: /tmp/cfa3-source-graph-shards
+      - name: Merge and validate all 16 shards
+        run: |
+          ./bin/cfa3-donor-source-graph merge \
+            --input-root /tmp/cfa3-source-graph-shards \
+            --expected-shards 16 \
+            --output /tmp/cfa3-source-graph-materialized
+      - name: Summarize merged network materialization
         run: |
           python3 - <<'PY'
-          import json, pathlib
-          root=pathlib.Path('/tmp/cfa3-source-graph-materialized')
-          graph_path=root/'source-graph.json'
-          if not graph_path.exists():
-              raise SystemExit('source-graph.json missing')
-          g=json.load(open(graph_path,encoding='utf-8'))
+          import json
+          g=json.load(open('/tmp/cfa3-source-graph-materialized/source-graph.json',encoding='utf-8'))
           crawl=g.get('crawl',{})
-          val=g.get('validation',{})
           idx=g.get('indexes',{})
           summary={
               'nodes': len(g.get('nodes',{})),
@@ -74,18 +110,17 @@ jobs:
               'expanded_parent_root_pairs': crawl.get('expanded_parent_root_pairs'),
               'errors': len(crawl.get('errors',[])),
               'complete': crawl.get('complete'),
-              'stopped_by_limit': crawl.get('stopped_by_limit'),
-              'validation': val.get('result'),
+              'missing_root_shards': crawl.get('missing_root_shards'),
+              'validation': g.get('validation',{}).get('result'),
               'P0': len(idx.get('integration_priority',{}).get('P0',[])),
               'P1': len(idx.get('integration_priority',{}).get('P1',[])),
               'L5': len(idx.get('discovery_depth',{}).get('L5',[])),
           }
           print(json.dumps(summary,indent=2))
-          assert val.get('result') == 'PASS', val
-          assert crawl.get('stopped_by_limit') is False, crawl
+          assert g.get('validation',{}).get('result') == 'PASS', g.get('validation')
+          assert crawl.get('complete') is True, crawl
           PY
-      - name: Upload materialized source graph
-        if: always()
+      - name: Upload merged materialized source graph
         uses: actions/upload-artifact@v4
         with:
           name: cfa3-donor-source-graph-materialized

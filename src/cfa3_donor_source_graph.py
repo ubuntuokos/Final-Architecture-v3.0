@@ -570,10 +570,21 @@ def crawl(
     token: str | None = None,
     max_nodes: int = 0,
     workers: int = 24,
+    root_shard_index: int = 0,
+    root_shard_count: int = 1,
 ) -> dict[str, Any]:
     graph = seed_graph(registry)
     identities = registry_identity_map(registry)
-    queue = deque(graph.pop("queue"))
+    queue_items = graph.pop("queue")
+    if root_shard_count < 1:
+        raise ValueError("ROOT_SHARD_COUNT_INVALID")
+    if not 0 <= root_shard_index < root_shard_count:
+        raise ValueError("ROOT_SHARD_INDEX_INVALID")
+    queue = deque(
+        item for index, item in enumerate(queue_items)
+        if index % root_shard_count == root_shard_index
+    )
+    root_count = len(queue)
     expanded: set[tuple[str, str]] = set()
     errors: list[dict[str, Any]] = []
     stopped_by_limit = False
@@ -668,6 +679,9 @@ def crawl(
     graph["crawl"] = {
         "max_depth": MAX_DEPTH,
         "workers": worker_count,
+        "root_shard_index": root_shard_index,
+        "root_shard_count": root_shard_count,
+        "root_count": root_count,
         "expanded_parent_root_pairs": len(expanded),
         "errors": errors,
         "complete": not stopped_by_limit,
@@ -676,6 +690,118 @@ def crawl(
     }
     graph["validation"] = validate_graph(graph)
     return graph
+
+def merge_graphs(graphs: list[dict[str, Any]], *, expected_shards: int) -> dict[str, Any]:
+    if expected_shards < 1:
+        raise ValueError("EXPECTED_SHARDS_INVALID")
+    if not graphs:
+        raise ValueError("NO_SOURCE_GRAPHS")
+
+    ordered = sorted(graphs, key=lambda value: int(value.get("crawl", {}).get("root_shard_index", -1)))
+    shard_indexes = [int(value.get("crawl", {}).get("root_shard_index", -1)) for value in ordered]
+    if len(set(shard_indexes)) != len(shard_indexes):
+        raise ValueError("DUPLICATE_ROOT_SHARD")
+    expected_indexes = list(range(expected_shards))
+
+    merged: dict[str, Any] = {
+        "schema": "cfa3.donor-source-graph.v1",
+        "authority": False,
+        "capability_baseline": 175,
+        "capability_delta": 0,
+        "architectural_authority_delta": 0,
+        "max_depth": MAX_DEPTH,
+        "nodes": {},
+        "edges": [],
+    }
+    priority_rank = {"P0": 0, "P1": 1, "P2": 2, "P3": 3, "P4": 4, "UNASSESSED": 9}
+    strategic_rank = {"CRITICAL": 0, "HIGH": 1, "MEDIUM": 2, "LOW": 3, "HISTORICAL": 4, "UNASSESSED": 9}
+
+    def copy_value(value: Any) -> Any:
+        return json.loads(json.dumps(value, ensure_ascii=False))
+
+    for graph in ordered:
+        if graph.get("capability_baseline") != 175 or graph.get("capability_delta") != 0:
+            raise ValueError("SHARD_CAPABILITY_INVARIANT_DRIFT")
+        if graph.get("architectural_authority_delta") != 0 or graph.get("max_depth") != MAX_DEPTH:
+            raise ValueError("SHARD_AUTHORITY_OR_DEPTH_DRIFT")
+        crawl_info = graph.get("crawl", {})
+        if int(crawl_info.get("root_shard_count", -1)) != expected_shards:
+            raise ValueError("SHARD_COUNT_DRIFT")
+
+        for key, incoming in graph.get("nodes", {}).items():
+            existing = merged["nodes"].get(key)
+            if existing is None:
+                merged["nodes"][key] = copy_value(incoming)
+                continue
+            old_id = existing.get("canonical_donor_id")
+            new_id = incoming.get("canonical_donor_id")
+            if old_id and new_id and old_id != new_id:
+                raise ValueError("CANONICAL_DONOR_IDENTITY_CONFLICT:" + key)
+            if not old_id and new_id:
+                existing["canonical_donor_id"] = new_id
+                existing["canonical_lifecycle"] = incoming.get("canonical_lifecycle")
+                existing["registration_state"] = "CANONICAL_DONOR"
+            existing["min_depth"] = min(int(existing.get("min_depth", MAX_DEPTH)), int(incoming.get("min_depth", MAX_DEPTH)))
+            existing["root_donor_ids"] = sorted(set(existing.get("root_donor_ids", [])) | set(incoming.get("root_donor_ids", [])))
+            existing["relation_types"] = sorted(set(existing.get("relation_types", [])) | set(incoming.get("relation_types", [])))
+
+            old_assessment = existing.get("assessment", {})
+            new_assessment = incoming.get("assessment", {})
+            old_key = (
+                priority_rank.get(old_assessment.get("integration_priority"), 9),
+                strategic_rank.get(old_assessment.get("strategic_value"), 9),
+            )
+            new_key = (
+                priority_rank.get(new_assessment.get("integration_priority"), 9),
+                strategic_rank.get(new_assessment.get("strategic_value"), 9),
+            )
+            if new_key < old_key:
+                existing["assessment"] = copy_value(new_assessment)
+
+            old_obs = existing.setdefault("upstream_observation", {})
+            new_obs = incoming.get("upstream_observation", {})
+            for field in ("license_spdx", "archived", "updated_at", "pushed_at"):
+                if old_obs.get(field) in (None, "", "UNKNOWN") and new_obs.get(field) not in (None, "", "UNKNOWN"):
+                    old_obs[field] = new_obs.get(field)
+
+    edge_map: dict[str, dict[str, Any]] = {}
+    error_map: dict[str, dict[str, Any]] = {}
+    all_complete = True
+    any_stopped = False
+    for graph in ordered:
+        for edge in graph.get("edges", []):
+            fingerprint = json.dumps(edge, sort_keys=True, ensure_ascii=False)
+            edge_map[fingerprint] = copy_value(edge)
+        crawl_info = graph.get("crawl", {})
+        shard = crawl_info.get("root_shard_index")
+        all_complete = all_complete and crawl_info.get("complete") is True
+        any_stopped = any_stopped or crawl_info.get("stopped_by_limit") is True
+        for error in crawl_info.get("errors", []):
+            row = copy_value(error)
+            row["root_shard_index"] = shard
+            fingerprint = json.dumps(row, sort_keys=True, ensure_ascii=False)
+            error_map[fingerprint] = row
+
+    merged["edges"] = [edge_map[key] for key in sorted(edge_map)]
+    merged["indexes"] = build_indexes(merged)
+    missing_shards = sorted(set(expected_indexes) - set(shard_indexes))
+    merged["crawl"] = {
+        "max_depth": MAX_DEPTH,
+        "root_shard_count": expected_shards,
+        "root_shards_merged": shard_indexes,
+        "missing_root_shards": missing_shards,
+        "expanded_parent_root_pairs": sum(int(g.get("crawl", {}).get("expanded_parent_root_pairs", 0)) for g in ordered),
+        "errors": [error_map[key] for key in sorted(error_map)],
+        "complete": all_complete and not any_stopped and not missing_shards and len(shard_indexes) == expected_shards,
+        "stopped_by_limit": any_stopped,
+        "network_discovery_does_not_register_donors": True,
+    }
+    validation = validate_graph(merged)
+    if missing_shards or len(shard_indexes) != expected_shards:
+        validation["result"] = "FAIL"
+        validation.setdefault("findings", []).append("ROOT_SHARDS_INCOMPLETE")
+    merged["validation"] = validation
+    return merged
 
 def write_outputs(graph: dict[str, Any], output: Path) -> None:
     output = output.resolve()
@@ -706,8 +832,22 @@ def main(argv: list[str] | None = None) -> int:
     crawl_p.add_argument("--max-depth", type=int, default=5, choices=[5])
     crawl_p.add_argument("--max-nodes", type=int, default=0)
     crawl_p.add_argument("--workers", type=int, default=24)
+    crawl_p.add_argument("--root-shard-index", type=int, default=0)
+    crawl_p.add_argument("--root-shard-count", type=int, default=1)
+    merge_p = sub.add_parser("merge")
+    merge_p.add_argument("--root", default=".")
+    merge_p.add_argument("--input-root", required=True)
+    merge_p.add_argument("--expected-shards", type=int, required=True)
+    merge_p.add_argument("--output", required=True)
     args = parser.parse_args(argv)
     root = Path(args.root).resolve()
+    if args.command == "merge":
+        graph_paths = sorted(Path(args.input_root).resolve().rglob("source-graph.json"))
+        graphs = [_load(path) for path in graph_paths]
+        graph = merge_graphs(graphs, expected_shards=args.expected_shards)
+        write_outputs(graph, Path(args.output))
+        return 0 if graph["validation"]["result"] == "PASS" else 1
+
     registry = _load(root / REGISTRY_REL)
     if args.command == "seed":
         graph = seed_graph(registry)
@@ -721,6 +861,8 @@ def main(argv: list[str] | None = None) -> int:
         token=os.getenv("GITHUB_TOKEN"),
         max_nodes=args.max_nodes,
         workers=args.workers,
+        root_shard_index=args.root_shard_index,
+        root_shard_count=args.root_shard_count,
     )
     write_outputs(graph, Path(args.output))
     return 0 if graph["validation"]["result"] == "PASS" else 1

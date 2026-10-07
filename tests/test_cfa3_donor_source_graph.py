@@ -78,6 +78,47 @@ class SourceGraphTests(unittest.TestCase):
         self.assertLessEqual(value["nodes"]["github:b/existing"]["min_depth"], 2)
         self.assertEqual(value["crawl"]["workers"], 4)
 
+    def test_root_shards_partition_canonical_roots(self):
+        registry = self.registry()
+        seen = {0: [], 1: []}
+
+        def run_shard(index):
+            def fake_discover(url, token):
+                seen[index].append(url)
+                return ([], {})
+            with mock.patch.object(graph, "discover_url", side_effect=fake_discover):
+                return graph.crawl(registry, workers=2, root_shard_index=index, root_shard_count=2)
+
+        left = run_shard(0)
+        right = run_shard(1)
+        roots = {"https://github.com/a/root", "https://github.com/b/existing"}
+        self.assertEqual(set(seen[0]) | set(seen[1]), roots)
+        self.assertFalse(set(seen[0]) & set(seen[1]))
+        self.assertEqual(left["crawl"]["root_shard_count"], 2)
+        self.assertEqual(right["crawl"]["root_shard_count"], 2)
+
+    def test_merge_shards_preserves_discovered_provenance(self):
+        registry = self.registry()
+
+        def fake_discover(url, token):
+            if url == "https://github.com/a/root":
+                return ([{"url": "https://github.com/x/a", "normalized_key": "github:x/a", "context": "agent sdk"}], {})
+            if url == "https://github.com/b/existing":
+                return ([{"url": "https://github.com/x/b", "normalized_key": "github:x/b", "context": "shared library"}], {})
+            return ([], {})
+
+        shards = []
+        for index in range(2):
+            with mock.patch.object(graph, "discover_url", side_effect=fake_discover):
+                shards.append(graph.crawl(registry, workers=2, root_shard_index=index, root_shard_count=2))
+        merged = graph.merge_graphs(list(reversed(shards)), expected_shards=2)
+        self.assertEqual(merged["validation"]["result"], "PASS")
+        self.assertTrue(merged["crawl"]["complete"])
+        self.assertEqual(merged["crawl"]["root_shards_merged"], [0, 1])
+        self.assertIn("github:x/a", merged["nodes"])
+        self.assertIn("github:x/b", merged["nodes"])
+        self.assertEqual(len(merged["edges"]), 2)
+
     def test_graph_validation(self):
         value = graph.seed_graph(self.registry()); value.pop("queue")
         graph.add_discovery(value, parent_key="github:a/root", child_url="https://github.com/x/y", depth=1, relation_type="AGENT_SDK", root_donor_id="D-A", evidence={})
