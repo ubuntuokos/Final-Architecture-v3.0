@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "47abe5da7bf0a02693e31345c7dd45a0eeb5fa77",
-    "pre_projection_root_tree_sha": "3fc009b8490e0d4a5ac1b31cd499acfaf33f755f",
-    "pre_projection_canonical_tree_sha": "4c6079899d1d1ce925b9bc242a47e42ea3598024",
-    "commits_ahead_of_v3_0_11_conformance_commit": 3522,
-    "total_post_baseline_commits": 3522,
-    "delta_file_count": 3128,
-    "delta_added_files": 3122,
+    "pre_projection_head_sha": "e6245446c45a2b1211e7f40670528d9fe419d563",
+    "pre_projection_root_tree_sha": "e5679692a560bd08f187fe03e97b0a1b6d208bce",
+    "pre_projection_canonical_tree_sha": "7b4cd7fa2db4a8ec75e341b458969c8e7b019bea",
+    "commits_ahead_of_v3_0_11_conformance_commit": 3527,
+    "total_post_baseline_commits": 3527,
+    "delta_file_count": 3137,
+    "delta_added_files": 3131,
     "delta_modified_files": 6,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,10 +46,10 @@
     "previous_canonical_capability_count": 143
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 1481,
+    "canonical_files_in_post_baseline_delta": 1486,
     "evidence_files_in_post_baseline_delta": 172,
-    "source_files_in_post_baseline_delta": 398,
-    "test_files_in_post_baseline_delta": 375,
+    "source_files_in_post_baseline_delta": 400,
+    "test_files_in_post_baseline_delta": 376,
     "workflow_files_in_post_baseline_delta": 146,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -306,6 +306,7 @@
       "canonical/profiles/FA3-WORKLOAD-MODE-FRAMEWORK-001.json"
     ],
     "contract_records": [
+      "canonical/contracts/CFA3-RETROACTIVE-REDESIGN-RECORD-001.schema.json",
       "canonical/contracts/FA3-ACCEL-GUARD-CONTRACTS-001.json",
       "canonical/contracts/FA3-AGENCY-AGENTS-PROJECTION-CONTRACTS-001.json",
       "canonical/contracts/FA3-AGENT-APPLICATION-BLUEPRINT-CONTRACTS-001.json",
@@ -499,6 +500,7 @@
       "canonical/decisions/CFA3-DEC-DONOR-INTAKE-BATCH-ACCELERATION-2026-10-04.json",
       "canonical/decisions/CFA3-DEC-KHRONOS-REVIEW-DERIVATION-2026-10-05.json",
       "canonical/decisions/CFA3-DEC-MAIN-TASK-CONTINUITY-2026-10-05.json",
+      "canonical/decisions/CFA3-DEC-RETROACTIVE-REDESIGN-COMPLIANCE-2026-10-07.json",
       "canonical/decisions/FA3-DEC-ACE-STEP-2026-08-30.json",
       "canonical/decisions/FA3-DEC-ACE-STEP-HARDENING-2026-09-10.json",
       "canonical/decisions/FA3-DEC-ADK2-DERIVED-AGENT-RUNTIME-SEMANTICS-2026-09-24.json",
@@ -982,7 +984,8 @@
     "FA3-SHARED-HAIR-GROOM-GATESET-001",
     "FA3-CUDA-COMPAT-NATIVE-GATESET-001",
     "CFA3-DEVELOPMENT-AI-BEHAVIOR-GATESET-001",
-    "FA3-RAY-PATH-TRACING-GATESET-001"
+    "FA3-RAY-PATH-TRACING-GATESET-001",
+    "CFA3-RETROACTIVE-REDESIGN-COMPLIANCE-GATESET-001"
   ],
   "evidence_registry": {
     "path": "evidence/evidence-registry.json",
@@ -1108,7 +1111,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 3118,
+  "manifest_entry_count": 3127,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -2952,7 +2955,12 @@
     },
     {
       "path": "canonical/CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001.json",
-      "git_blob_sha": "09c7a2a731708d10f2df902c71faac8b635ac3d4",
+      "git_blob_sha": "622408f842d684f60de9590fddbf136110005675",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/CFA3-RETROACTIVE-REDESIGN-COMPLIANCE-POLICY-001.json",
+      "git_blob_sha": "4496a98324d1f0f5cde535ddc38fbedf558cfc0c",
       "baseline_delta_status": "added"
     },
     {
@@ -2997,7 +3005,7 @@
     },
     {
       "path": "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
-      "git_blob_sha": "1f88ac737816322a3d1f85b0d2c3c5d07cbd7a6b",
+      "git_blob_sha": "12bb96fe4578f74eee59057fcc4b4d42ba29c3cb",
       "baseline_delta_status": "added"
     },
     {
@@ -3268,6 +3276,11 @@
     {
       "path": "canonical/FA3-GATE-CFA3-DEVELOPMENT-AI-BEHAVIOR-001.json",
       "git_blob_sha": "c98c4a01c26238e9706662083deea76c28325f58",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-GATE-CFA3-RETROACTIVE-REDESIGN-COMPLIANCE-001.json",
+      "git_blob_sha": "ffbcd245a275b54d9e9e622fde8f75431b80a923",
       "baseline_delta_status": "added"
     },
     {
@@ -3597,7 +3610,7 @@
     },
     {
       "path": "canonical/FA3-GATE-REGISTRY-001.json",
-      "git_blob_sha": "c0bcbc8212ae2e71c4f65fd9ee337d63fd405550",
+      "git_blob_sha": "6ac335250ea399ea575ff3d2e21f7572338241d1",
       "baseline_delta_status": "added"
     },
     {
@@ -5126,6 +5139,11 @@
       "baseline_delta_status": "modified"
     },
     {
+      "path": "canonical/contracts/CFA3-RETROACTIVE-REDESIGN-RECORD-001.schema.json",
+      "git_blob_sha": "54da07160a30416a9ea21878e249cc9cf72e966b",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-ACCEL-GUARD-CONTRACTS-001.json",
       "git_blob_sha": "c677a3e9780ce940885829266f0961807cfaec41",
       "baseline_delta_status": "added"
@@ -6141,6 +6159,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/current-host-impact/FA3-CH-IMPACT-CFA3-RETROACTIVE-REDESIGN-COMPLIANCE-20261007.json",
+      "git_blob_sha": "c8cf9be64729c776ebd6f3edab549f7716f106d2",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/current-host-impact/FA3-CH-IMPACT-CUDA-COMPAT-NATIVE-20261004.json",
       "git_blob_sha": "20e547ad368ac9a09eab87868c2dbaa2020c73e2",
       "baseline_delta_status": "added"
@@ -6238,6 +6261,11 @@
     {
       "path": "canonical/decisions/CFA3-DEC-MAIN-TASK-CONTINUITY-2026-10-05.json",
       "git_blob_sha": "fc541eb521b1d5bf5094f87919a9ff7df903daeb",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/CFA3-DEC-RETROACTIVE-REDESIGN-COMPLIANCE-2026-10-07.json",
+      "git_blob_sha": "32cf88e64939a636f87c910da14c76064affd6da",
       "baseline_delta_status": "added"
     },
     {
@@ -7452,7 +7480,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "b510f6769fb6688cf4238d18858d204773c60d25",
+      "git_blob_sha": "b7be92b5446ba550a8ecb64f4b33feeaf9131ad0",
       "baseline_delta_status": "modified"
     },
     {
@@ -10567,12 +10595,17 @@
     },
     {
       "path": "docs/CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-001.md",
-      "git_blob_sha": "6519bf1858c2163f6db122298740da7d60d8405d",
+      "git_blob_sha": "e2feb8d0bedad5da246a04b31f2c5e86ac41eff7",
       "baseline_delta_status": "added"
     },
     {
       "path": "docs/CFA3-NEURAL-RENDERING-RECONSTRUCTION-FABRIC-2026-10-06.md",
       "git_blob_sha": "be02edfd77e73a3202d3b85c1b21301572939e76",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/CFA3-RETROACTIVE-REDESIGN-COMPLIANCE-001.md",
+      "git_blob_sha": "0650437178fe0afb0d12db8d37c94ce207010d8e",
       "baseline_delta_status": "added"
     },
     {
@@ -12756,6 +12789,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/cfa3_retroactive_redesign_compliance.py",
+      "git_blob_sha": "a757349ace21b2de1ab778d4f14f9a6342d26462",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/cfa3_retroactive_redesign_compliance_gate.py",
+      "git_blob_sha": "d63d6ec5e0fb52162b551c9e0bbcee76cded35dd",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_accelerator_backend_probe.py",
       "git_blob_sha": "49ca18c19dff63369301aa7a7ab0ae4c2541b044",
       "baseline_delta_status": "added"
@@ -13442,7 +13485,7 @@
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "9cbd61609acdd39e3d3613a1b52f23083f5384b7",
+      "git_blob_sha": "eec199c3a500f75f4d3345a00d886e9e62aad7b3",
       "baseline_delta_status": "modified"
     },
     {
@@ -15023,6 +15066,11 @@
     {
       "path": "tests/test_cfa3_development_ai_behavior.py",
       "git_blob_sha": "c2a45d8ae4fa4ba43e51d1e82a997add81022299",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_cfa3_retroactive_redesign_compliance.py",
+      "git_blob_sha": "5436a9e23b1f9586b80af56faa72d3dd1932f9f6",
       "baseline_delta_status": "added"
     },
     {
@@ -16906,7 +16954,7 @@
     "new_architectural_authorities": 0,
     "capability_count_after": 175
   },
-  "last_reconciled_at": "2026-10-06",
+  "last_reconciled_at": "2026-10-07",
   "inference_portability_reconciliation": {
     "profile_id": "FA3-INFERENCE-PORTABILITY-001",
     "contract_id": "FA3-INFERENCE-PORTABILITY-CONTRACTS-001",
