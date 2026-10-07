@@ -1,0 +1,99 @@
+{
+  "schema": "fa3.donor-registry-v2-policy.v1",
+  "id": "FA3-DONOR-REGISTRY-V2-POLICY-001",
+  "status": "CANONICAL_CANDIDATE",
+  "date": "2026-10-01",
+  "authority": false,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "architectural_authority_delta": 0,
+  "purpose": "Shard donor/reference storage by relevant application/category while preserving one canonical donor identity, locality for active donors, derived capability/usage indexes, lossless legacy migration and bounded growth.",
+  "legacy_inputs": [
+    "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+    "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
+    "canonical/FA3-CAPABILITY-MODEL-175-001.json",
+    "canonical/FA3-REUSE-CATALOG-001.json"
+  ],
+  "identity_invariants": {
+    "donor_id_stable": true,
+    "source_normalized_key_stable": true,
+    "capability_ids_stable": true,
+    "canonical_capability_count": 175,
+    "physical_volume_is_not_an_identity": true,
+    "one_canonical_donor_record": true,
+    "category_membership_may_be_multi_value": true
+  },
+  "migration": {
+    "zero_manual_reentry": true,
+    "legacy_snapshot_immutable": true,
+    "shadow_first": true,
+    "canonical_cutover_atomic": true,
+    "rollback_required": true,
+    "silent_merge_forbidden": true,
+    "silent_governance_change_forbidden": true,
+    "conflicts_fail_closed": true,
+    "refresh_may_run_during_migration": true,
+    "refresh_requires_source_backing": true,
+    "previous_and_observed_values_preserved": true,
+    "refresh_cannot_admit_runtime_or_provider": true
+  },
+  "storage": {
+    "application_category_sharding": true,
+    "cross_category_indexing": true,
+    "donor_locality_required": true,
+    "active_or_high_growth_donor_dedicated_series": true,
+    "shared_volume_for_low_or_unknown_growth": true,
+    "handling_limit_bytes": null,
+    "handling_limit_source": "MEASURED_BENCHMARK_REQUIRED_BEFORE_CANONICAL_CUTOVER",
+    "initial_target_fill_percent": 70,
+    "minimum_free_growth_reserve_percent": 30,
+    "rollover_percent": 90,
+    "rebalance_percent": 95,
+    "rebalance_target_fill_percent": 70,
+    "remaining_after_rollover_is_not_normal_new_record_capacity": true,
+    "capacity_formula": "planned_capacity_bytes >= ceil(current_used_bytes / 0.70)"
+  },
+  "growth_profile": {
+    "assess_at_intake_when_upstream_history_is_available": true,
+    "reassess_on_refresh": true,
+    "upstream_activity_and_registry_growth_are_separate": true,
+    "storage_classes": [
+      "SHARED_VOLUME",
+      "DEDICATED_SERIES"
+    ],
+    "activity_classes": [
+      "UNKNOWN",
+      "STATIC",
+      "LOW",
+      "NORMAL",
+      "HIGH",
+      "BURSTY"
+    ],
+    "dedicated_series_when": [
+      "UPSTREAM_ACTIVITY_HIGH_OR_BURSTY",
+      "REGISTRY_GROWTH_IMPACT_HIGH_OR_BURSTY",
+      "RECORD_TOO_LARGE_FOR_SHARED_TARGET"
+    ],
+    "dedicated_series_keeps_donor_payload_and_future_annexes_co_located": true
+  },
+  "indexes": {
+    "global_manifest_required": true,
+    "donor_location_index_required": true,
+    "source_key_index_required": true,
+    "category_index_required": true,
+    "capability_to_donor_index_required": true,
+    "donor_to_capability_index_required": true,
+    "donor_to_consumer_index_required": true,
+    "consumer_to_donor_index_required": true,
+    "usage_views_are_derived_not_authoritative": true
+  },
+  "runtime_and_safety": {
+    "hardware_mutation": false,
+    "runtime_delta_for_shadow_engine": "NONE",
+    "provider_or_model_admission": false,
+    "automatic_donor_adoption": false,
+    "current_host_alignment_required_before_canonical_cutover": true,
+    "software_coexistence_required": true,
+    "hardware_safety_envelope_required": true
+  }
+}
