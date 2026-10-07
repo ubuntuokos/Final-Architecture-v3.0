@@ -107,6 +107,54 @@ class DonorBatchFinalizerBootstrapTests(unittest.TestCase):
                 result["findings"],
             )
 
+    def test_closed_historical_source_pr_is_accepted_by_exact_head(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            manifest_rel = "canonical/deltas/CFA3-DONOR-HISTORICAL-SOURCE-TEST.json"
+            (root / "canonical/deltas").mkdir(parents=True)
+            (root / "canonical/decisions").mkdir(parents=True)
+            (root / REGISTRY).write_text("{}", encoding="utf-8")
+            (root / BATCH_DECISION).write_text(
+                json.dumps({
+                    "id": "CFA3-DEC-DONOR-INTAKE-BATCH-ACCELERATION-2026-10-04",
+                    "status": "APPROVED",
+                    "explicit_user_approval": True,
+                    "rules": {
+                        "canonical_mutation_mode": "ROLLING_BATCH_SINGLE_WRITER",
+                        "max_active_canonical_registry_mutation_prs": 1,
+                    },
+                }), encoding="utf-8")
+            (root / manifest_rel).write_text(
+                json.dumps({
+                    "batch_role": BATCH_ROLE,
+                    "batch_finalizer_pr": 727,
+                    "decision_ref": BATCH_DECISION,
+                    "status": "MATERIALIZED_PENDING_EXACT_HEAD_GATES",
+                    "capability_baseline": 175,
+                    "capability_delta": 0,
+                    "authority_delta": 0,
+                    "source_prs": [{"pr": 726, "head": "a" * 40, "contribution": 1}],
+                    "new_source_count": 1,
+                    "resulting_registry_blob_sha": "b" * 40,
+                }), encoding="utf-8")
+            pending = [{"number": 727, "head_sha": "c" * 40, "registry_mutation": True}]
+            candidate = {
+                "number": 727, "head_sha": "c" * 40, "registry_mutation": True,
+                "registry_blob_sha": "b" * 40, "file_paths": [manifest_rel],
+            }
+            def fake_get(path):
+                if path.endswith("/pulls/726"):
+                    return {"state": "closed", "merged_at": "2026-10-06T10:15:08Z",
+                            "head": {"sha": "a" * 40}}
+                raise AssertionError(path)
+            result = validate_batch_finalizer(
+                root, pending, candidate, {"count": 0, "registry": {"entries": []}},
+                get=fake_get, require_complete=False)
+            self.assertNotIn("BATCH_SOURCE_PR_NOT_OPEN:726", result["findings"])
+            self.assertNotIn("PROOF_UNAVAILABLE:BATCH_SOURCE_PR:726", result["findings"])
+            self.assertNotIn("BATCH_SOURCE_HEAD_MISMATCH:726", result["findings"])
+
     def test_revalidation_refuses_blocked_gate_results(self):
         text = (ROOT / ".github/workflows/fa3-donor-intake-revalidation.yml").read_text()
         self.assertIn('report.get("result")=="BLOCKED"', text)

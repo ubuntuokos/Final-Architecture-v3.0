@@ -1,0 +1,19 @@
+{
+  "schema": "fa3.current-host-structural-impact.v1",
+  "id": "FA3-CH-IMPACT-DONOR-REGISTRY-V2-20261007",
+  "date": "2026-10-07",
+  "status": "NO_RUNTIME_IMPACT",
+  "capability_count": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "structural_changes": [
+    ".github/workflows/fa3-donor-registry-v2.yml",
+    "canonical/FA3-DONOR-REGISTRY-V2-POLICY-001.json",
+    "canonical/decisions/FA3-DEC-DONOR-REGISTRY-V2-2026-10-01.json"
+  ],
+  "current_host_changes": [],
+  "historical_evidence_reused": false,
+  "physical_requalification_required": false,
+  "canonical_cutover": false,
+  "rationale": "Registry v2 remains a shadow, non-authoritative migration and indexing layer. This changes no runtime, provider, resource, hardware or Current Host execution behavior, performs no canonical donor-data cutover, and preserves the current canonical donor registry and release projection inherited from current main."
+}
