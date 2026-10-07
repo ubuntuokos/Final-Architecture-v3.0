@@ -1,0 +1,157 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "FA3-VOICE-TRANSFORMATION-GIST-REUSE-ASSESSMENT-2026-10-03",
+  "project_id": "FA3-VOICE-001",
+  "intent_id": "FA3-VOICE-TRANSFORMATION-APPLICATION-INTENT-2026-10-03",
+  "intent_path": "canonical/intents/FA3-VOICE-TRANSFORMATION-APPLICATION-INTENT-2026-10-03.json",
+  "covered_ids": [
+    "FA3-VOICE-001",
+    "FA3-VOICE-CONTRACTS-001"
+  ],
+  "project_status": "STATIC_MATERIALIZATION_APPROVED",
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "MANDATORY_EXISTING_REUSE_DISCOVERY"
+    },
+    {
+      "id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+      "use": "PUBLISHED_MAIN_DONOR_PLANNING_INPUT"
+    },
+    {
+      "id": "FA3-VOICE-001",
+      "use": "EXISTING_PROVIDER_NEUTRAL_VOICE_FABRIC"
+    },
+    {
+      "id": "FA3-VOICE-CONTRACTS-001",
+      "use": "EXISTING_VOICE_CONTRACT_SET"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "EXCLUSIVE_AI_PROVIDER_MODEL_ROUTING_AUTHORITY"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "EXCLUSIVE_HOST_RESOURCE_AUTHORITY"
+    },
+    {
+      "id": "FA3-LICENSE-RIGHTS-001",
+      "use": "EXISTING_LICENSE_AND_RIGHTS_GATE"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "EXISTING_OBSERVABILITY_AND_EVIDENCE_AUTHORITY"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "SECOND_VOICE_AUTHORITY",
+      "reason": "FA3-VOICE-001_ALREADY_OWNS_PROVIDER_NEUTRAL_VOICE_FABRIC"
+    },
+    {
+      "id": "SECOND_PROVIDER_ROUTER",
+      "reason": "MODEL_ROUTER_ALREADY_OWNS_AI_PROVIDER_MODEL_ROUTING"
+    },
+    {
+      "id": "SECOND_RESOURCE_ROUTER",
+      "reason": "HRB_ALREADY_OWNS_DEVICE_AND_RESOURCE_PLACEMENT"
+    },
+    {
+      "id": "RECURSIVE_CHILD_DONOR_ADMISSION",
+      "reason": "GIST_CHILDREN_REQUIRE_INDEPENDENT_OWNER_MARKER_AND_REVIEW"
+    },
+    {
+      "id": "SILENT_FALLBACK",
+      "reason": "EXISTING_FA3_POLICY_REQUIRES_EXPLICIT_APPROVAL"
+    },
+    {
+      "id": "GIST_SOURCE_COPY",
+      "reason": "GIST_LICENSE_IS_UNVERIFIED"
+    }
+  ],
+  "pattern_reuse": [
+    "FA3-PATTERN-PROVIDER-NEUTRAL-ADAPTER-001",
+    "FA3-PATTERN-FAIL-CLOSED-COMPATIBILITY-001",
+    "FA3-PATTERN-DERIVED-ARTIFACT-LINEAGE-001"
+  ],
+  "gaps": [
+    "NO_TRANSFORMATION_PROVIDER_ADMITTED_IN_THIS_CHANGE",
+    "PHYSICAL_CURRENT_HOST_RUNTIME_EVIDENCE_REMAINS_PROVIDER_SPECIFIC"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hrb_bound": true,
+    "display_gpu_automatic_ai_use": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_hijack": false,
+    "existing_voice_providers_preserved": true
+  },
+  "donor_planning_snapshot": {
+    "published_main_commit": "fd8adf5ab2ef12882c47250ecb5d5f22ff8e796b",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "6ca92f89dba92910b202d51e607b68cfee0cb488",
+    "donor_registry_entry_count": 1423,
+    "donor_registry_sha256": "f20260dc85bf9bf78f6456a2f2fbce426991832412a82cb8c66e8c347819488f"
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "retrospective_consumer_impact_reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "shared_component_ids": [
+      "FA3-VOICE-001",
+      "FA3-VOICE-CONTRACTS-001",
+      "VoiceTransformationPanel.qml"
+    ],
+    "consumer_scope": [
+      "PLANNED:fa3.music-studio",
+      "PLANNED:fa3.character-studio",
+      "PLANNED:fa3.story-screenplay",
+      "PLANNED:fa3.video-editor",
+      "PLANNED:fa3.quickclip",
+      "MATERIALIZED_GUI:create.narration-studio"
+    ],
+    "local_duplicate_created": false
+  },
+  "mandatory_source_reviews": [
+    {
+      "source_family_id": "FA3-KHRONOS-OPEN-STANDARDS-001",
+      "review_status": "REVIEWED_NO_MATCH",
+      "available_candidate_ids": [],
+      "matched_candidate_ids": [],
+      "roles": [
+        "VOICE_TRANSFORMATION_AND_AUDIO_INTERCHANGE_BOUNDARY_REVIEW"
+      ],
+      "authority": false,
+      "automatic_selection": false,
+      "automatic_activation": false
+    }
+  ],
+  "pending_or_unmerged_donors_consumed": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "implementation_readiness": "READY_FOR_STATIC_MATERIALIZATION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "donor_id": "FA3-DONOR-0XDEVALIAS-AI-VOICE-CLONING-GIST-001",
+  "reference_only_donor_input": {
+    "donor_id": "FA3-DONOR-0XDEVALIAS-AI-VOICE-CLONING-GIST-001",
+    "usage_edge_id": "FA3-USAGE-AI-VOICE-CLONING-GIST-VOICE-TRANSFORMATION-001",
+    "disposition": "REFERENCE_BINDING_ONLY",
+    "material_adoption": false,
+    "code_copy": false,
+    "runtime_dependency": false,
+    "provider_admission": false,
+    "rights_status": "UNKNOWN_FAIL_CLOSED_FOR_MATERIAL_USE"
+  }
+}

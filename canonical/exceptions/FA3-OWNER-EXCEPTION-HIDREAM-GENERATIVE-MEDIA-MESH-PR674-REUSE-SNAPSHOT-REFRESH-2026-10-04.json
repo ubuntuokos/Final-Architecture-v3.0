@@ -1,0 +1,43 @@
+{
+  "schema": "fa3.owner-exception.v1",
+  "id": "FA3-OWNER-EXCEPTION-HIDREAM-GENERATIVE-MEDIA-MESH-PR674-REUSE-SNAPSHOT-REFRESH-2026-10-04",
+  "status": "ACTIVE_SINGLE_PR_REUSE_SNAPSHOT_REFRESH_EXCEPTION",
+  "owner": "ubuntuokos",
+  "owner_instruction": "Folytasd ha lehetséges",
+  "prior_owner_approval": "jóváhagyom",
+  "recorded_date": "2026-10-04",
+  "repository": "ubuntuokos/Final-Architecture-v3.0",
+  "pull_request": 674,
+  "authorized_transition_parent_head": "e95cfb66fcb144baca564673ef6de550cfba2161",
+  "triggering_authoritative_ci": {
+    "permanent_gate_run": 37199625278,
+    "canonical_regression_job": 111428635331,
+    "failed_step": "Reuse Discovery mandatory pre-implementation gate",
+    "finding_code": "REUSE-SNAPSHOT-002",
+    "expected_published_main_commit": "07518f8a55c49fec5efa010ea285ff0a736e9524",
+    "declared_published_main_commit": "6be38def0d6a56b4e8fded74fb3c5ed2e3c1506f"
+  },
+  "reason": "Main advanced during PR #674 finalization. The donor registry blob, SHA-256 and entry count are already exact; only the required published-main commit binding is stale.",
+  "scope": "AUTHORIZE_EXACT_PR674_REUSE_SNAPSHOT_COMMIT_REFRESH_AND_ONE_REPOSITORY_GENERATED_PROJECTION_ADOPTION",
+  "authorized_administrative_commit_chain": {
+    "allowed_paths": [
+      "canonical/exceptions/FA3-OWNER-EXCEPTION-HIDREAM-GENERATIVE-MEDIA-MESH-PR674-REUSE-SNAPSHOT-REFRESH-2026-10-04.json",
+      "canonical/assessments/FA3-HIDREAM-GENERATIVE-MEDIA-MESH-REUSE-ASSESSMENT-2026-10-04.json",
+      "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json"
+    ],
+    "assessment_change_limit": "Change only donor_planning_snapshot.published_main_commit to the exact published main required by authoritative CI.",
+    "projection_must_be_repository_generated": true,
+    "any_other_path_change_invalidates_exception": true
+  },
+  "invariants": {
+    "capability_baseline": 175,
+    "capability_delta": 0,
+    "authority_delta": 0,
+    "material_feature_scope_delta": 0,
+    "donor_adoption_delta": 0,
+    "required_status_checks_still_mandatory": true,
+    "branch_protection_still_mandatory": true,
+    "runtime_promotion_claim": false,
+    "physical_current_host_pass_claim": false
+  }
+}

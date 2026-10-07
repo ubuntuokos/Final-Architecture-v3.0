@@ -76,7 +76,9 @@ ApplicationWindow {
         "create.narration-studio": 38,
         "agents.orchestration-monitor": 39,
         "create.ai-module-factory": 40,
-        "models.engines": 41
+        "models.engines": 43,
+        "create.voice-studio": 41,
+        "create.quick-voice-plugin": 42
     })
 
     function routeIndex(routeId) {
@@ -163,6 +165,8 @@ ApplicationWindow {
         {title: "AI Module Factory", detail: "Jóváhagyott FA3 munkákból rights- és provenance-gated modultervek CAP-095 handoffal", category: "FUNCTION", routeId: "create.ai-module-factory"},
         {title: "Subtitle Studio", detail: "Fókuszált felirat authoring, sync, QC és formátumkezelés", category: "FUNCTION", routeId: "create.subtitle-studio"},
         {title: "Narration Studio", detail: "Feliratból narráció, voice-over és dubbing tervezés", category: "FUNCTION", routeId: "create.narration-studio"},
+        {title: "Voice Studio", detail: "Shared Voice I/O: generálás, profilok, capture, transform, Stories és dubbing", category: "FUNCTION", routeId: "create.voice-studio"},
+        {title: "Quick Voice Plugin", detail: "QuickClip / gyorsvideó voice plugin, Fit-to-Clip, takes és Quick Dub", category: "FUNCTION", routeId: "create.quick-voice-plugin"},
         {title: "Image", detail: "AI Studio kép pipeline", category: "FUNCTION", routeId: "create.ai-studio"},
         {title: "Video", detail: "AI Studio videó pipeline", category: "FUNCTION", routeId: "create.ai-studio"},
         {title: "Animation", detail: "AI Studio animáció", category: "FUNCTION", routeId: "create.ai-studio"},
@@ -692,6 +696,8 @@ ApplicationWindow {
                         NavButton { iconText: "AI"; label: "AI Module Factory"; routeId: "create.ai-module-factory" }
                         NavButton { iconText: "CC"; label: "Subtitle Studio"; routeId: "create.subtitle-studio" }
                         NavButton { iconText: "VO"; label: "Narration Studio"; routeId: "create.narration-studio" }
+                        NavButton { iconText: "VS"; label: "Voice Studio"; routeId: "create.voice-studio" }
+                        NavButton { iconText: "QV"; label: "Quick Voice Plugin"; routeId: "create.quick-voice-plugin" }
                         NavButton { iconText: "⌘"; label: "Knowledge & Retrieval"; routeId: "create.knowledge" }
 
                         Item { Layout.preferredHeight: 8 }
@@ -990,7 +996,7 @@ ApplicationWindow {
                     cards: [
                         {title: "Interactive Agents", subtitle: "Goose és desktop agent projection.", badge: "ROUTED", tone: window.accent},
                         {title: "Durable Workflows", subtitle: "Temporal authority állapot és futások.", badge: "READ", tone: window.green},
-                        {title: "Tasks", subtitle: "Current tasks, approvals és blockers.", badge: "QUEUE", tone: window.orange},
+                        {title: "Tasks", subtitle: "Csak explicit vagy jóváhagyott célhoz szükséges scope-ból származó taskok, approvals és blockers.", badge: "QUEUE", tone: window.orange},
                         {title: "Tool Execution", subtitle: "Central MCP mediation és policy outcome.", badge: "GATED", tone: window.magenta},
                         {title: "RTD Data Sources", subtitle: "Workflow-szintű élő adatforrás-kötések az RTD Providers policy- és freshness-határán keresztül.", badge: "DATA", tone: window.cyan},
                         {title: "Imported Packs · Agency Agents", subtitle: "12 canonical FA3 role + 5 canonical template · upstream body nincs vendorizálva · runtime/provider külön admission. Kattintás csak az Agent Action Centerhez navigál; nincs közvetlen provider execution.", badge: "CANONICAL", tone: window.cyan, routeId: "agents.action-center"},
@@ -1778,6 +1784,28 @@ ApplicationWindow {
                     ]
                 }
 
+                VoiceStudioPage {
+                    panel: window.panel
+                    panelRaised: window.panelRaised
+                    border: window.border
+                    textPrimary: window.textPrimary
+                    textMuted: window.textMuted
+                    accent: window.magenta
+                    green: window.green
+                    orange: window.orange
+                }
+
+                QuickVoicePluginPage {
+                    panel: window.panel
+                    panelRaised: window.panelRaised
+                    border: window.border
+                    textPrimary: window.textPrimary
+                    textMuted: window.textMuted
+                    accent: window.accent
+                    green: window.green
+                    orange: window.orange
+                }
+
                 EngineManagerPage {
                     engineController: fa3EngineSelector
                 }
@@ -1804,6 +1832,23 @@ ApplicationWindow {
                 }
             }
         }
+    }
+
+    VoiceActivityOverlay {
+        id: voiceActivityOverlay
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.rightMargin: 22
+        anchors.bottomMargin: window.statusStripVisible ? 56 : 22
+        activityState: "IDLE"
+        applicationName: "QuickClip"
+        actorName: "Assistant"
+        voiceName: "Narrator (hu-HU)"
+        panel: "#111318"
+        border: window.border
+        textPrimary: window.textPrimary
+        textMuted: window.textMuted
+        accent: window.accent
     }
 
     Dialog {

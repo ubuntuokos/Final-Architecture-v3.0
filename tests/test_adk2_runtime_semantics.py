@@ -2,8 +2,38 @@ import unittest
 from pathlib import Path
 from fa3_adk2_runtime_gate import gate,regression_cases
 from fa3_agent_runtime_semantics import RuntimeSemanticsError,consume_budget,make_execution_ledger,normalize_mcp_result,plan_resume,validate_artifact_write,validate_session_append,validate_tool_confirmation
-from fa3_agent_workload import WorkloadContractError, compile_execution_plan
+from fa3_agent_workload import WorkloadContractError, compile_execution_plan, validate_execution_admission
+from fa3_task_scope_closure import blocker_fingerprint, goal_scope_binding, record_blocker_failure, start_task_control
 ROOT=Path(__file__).resolve().parents[1]
+
+def _behavior_context(scope_ref: str, *, action: str = "EXTERNAL_ACTION"):
+    ctx = {
+        "action": action,
+        "current_owner_restriction_allows": True,
+        "scope_bound": True,
+        "scope_allows_action": True,
+        "scope_origin": "REQUIRED_FOR_APPROVED_GOAL",
+        "scope_refs": [scope_ref],
+        "uncertain_state": False,
+        "blocker_kind": None,
+        "autonomous_workaround": False,
+        "silent_redesign_or_repair": False,
+    }
+    if action in {"WRITE", "COMMIT", "PUSH", "PR", "WORKFLOW", "GATE", "MERGE", "RELEASE", "EXTERNAL_ACTION"}:
+        ctx.update({
+            "fresh_state_verified": True,
+            "mutation_report_pending": False,
+            "side_effect_permission": action,
+        })
+    if action in {"WORKFLOW", "GATE"}:
+        ctx.update({
+            "workflow_or_gate_required_for_closure": True,
+            "equivalent_run_active": False,
+        })
+    if action == "MERGE":
+        ctx.update({"exact_head_match": True, "exact_base_match": True})
+    return ctx
+
 class Adk2DerivedRuntimeSemanticsTests(unittest.TestCase):
     def test_canonical_gate_passes(self):
         r=gate(ROOT); self.assertEqual("PASS",r["result"],r.get("findings"))
@@ -23,10 +53,23 @@ class Adk2DerivedRuntimeSemanticsTests(unittest.TestCase):
     def test_artifact_version_cannot_skip(self):
         with self.assertRaises(RuntimeSemanticsError): validate_artifact_write("out/a.bin",1,2,previous_version=1,requested_version=3)
     def test_execution_plan_compiler_binds_task_graph_model_and_budget(self):
-        task={"schema":"fa3.agent-workload-task.v1","task_id":"t","root_task_id":"t","action_ref":"orchestration.execute","agent_definition_ref":"a","workspace_refs":[],"resource_requirements":{},"network_envelope_ref":"n","model_intent":{"required_capabilities":["tools"]},"authorized_ai_participants":["a"],"fanout_limits":{"max_children":1,"max_depth":1,"max_concurrent_children":1,"max_runtime_seconds":60,"max_retries":1,"max_tool_calls":2,"max_model_requests":2},"provenance_refs":[]}
+        binding=goal_scope_binding({"goal_id":"t","revision":1,"scope":{"in_scope":["approved:t"],"out_of_scope":[]}})
+        control=start_task_control(binding,task_id="t",root_task_id="t")
+        task={"schema":"fa3.agent-workload-task.v1","task_id":"t","root_task_id":"t","scope_origin":"REQUIRED_FOR_APPROVED_GOAL","scope_refs":["approved:t"],"goal_scope_binding":binding,"action_ref":"orchestration.execute","agent_definition_ref":"a","workspace_refs":[],"resource_requirements":{},"network_envelope_ref":"n","model_intent":{"required_capabilities":["tools"]},"authorized_ai_participants":["a"],"fanout_limits":{"max_children":1,"max_depth":1,"max_concurrent_children":1,"max_runtime_seconds":60,"max_retries":1,"max_tool_calls":2,"max_model_requests":2},"provenance_refs":[]}
         graph={"schema":"fa3.agent-workflow-graph.v1","graph_id":"g","entry_node":"n1","yaml_is_canonical":False,"nodes":[{"node_id":"n1","kind":"AGENT","side_effecting":False}],"edges":[]}
         model={"schema":"fa3.model-capability-descriptor.v1","logical_model_id":"default","source":"PROVIDER_DECLARED","router_authority":"FA3-AUTH-MODEL-ROUTER-001","model_id_heuristic":False,"capabilities":{"tools":True,"structured_output":False,"media_input":False,"media_output":False,"streaming":True}}
-        plan=compile_execution_plan(task,graph,model,task_spec_digest="sha256:t",max_transfer_hops=2)
+        plan=compile_execution_plan(task,graph,model,task_spec_digest="sha256:t",max_transfer_hops=2,behavior_context=_behavior_context("approved:t", action="READ"),task_control=control)
+        admission=validate_execution_admission(plan,task_control=control)
+        self.assertTrue(plan["behavior_preflight"]["policy_preflight_passed"])
+        self.assertFalse(plan["behavior_preflight"]["side_effect_authorized"])
         self.assertEqual("fa3.agent-execution-plan.v1",plan["schema"])
         self.assertEqual(2,plan["ledger"]["limits"]["transfer_hops"])
+        self.assertEqual("REQUIRED_FOR_APPROVED_GOAL",plan["scope_origin"])
+        self.assertEqual(["approved:t"],plan["scope_refs"])
+        self.assertTrue(plan["task_scope_control_required"])
+        self.assertTrue(admission["fresh_revalidation"])
+        blocker=blocker_fingerprint("TEST",["adk2"])
+        frozen=record_blocker_failure(record_blocker_failure(record_blocker_failure(control,blocker,"fail"),blocker,"fail"),blocker,"fail")
+        with self.assertRaises(WorkloadContractError):
+            validate_execution_admission(plan,task_control=frozen)
 if __name__=="__main__": unittest.main()

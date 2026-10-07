@@ -1,0 +1,48 @@
+{
+  "schema": "fa3.owner-exception.v1",
+  "id": "FA3-OWNER-EXCEPTION-HIDREAM-GENERATIVE-MEDIA-MESH-PR674-PROJECTION-ADOPTION-2026-10-04",
+  "status": "ACTIVE_SINGLE_PR_PROJECTION_ADOPTION_EXCEPTION",
+  "owner": "ubuntuokos",
+  "owner_instruction": "Folytasd autonóm módon az FA3 ubuntuokos/Final-Architecture-v3.0 repository #674 PR-jének teljes lezárását a jelenlegi GitHub-állapotból.",
+  "prior_owner_approval": "jóváhagyom",
+  "recorded_date": "2026-10-04",
+  "repository": "ubuntuokos/Final-Architecture-v3.0",
+  "pull_request": 674,
+  "authorized_transition_parent_head": "ec53fb97d991e2e1469bebd07bb42060fc582c91",
+  "triggering_authoritative_ci": {
+    "reuse_discovery_run": 37195376794,
+    "finding_codes": [
+      "FA3-RELEASE-PROJECTION-010",
+      "FA3-RELEASE-PROJECTION-014"
+    ],
+    "generator_workflow": "FA3 Release Projection Reconcile",
+    "first_validated_recovery_branch": "automation/release-projection-pr-ec53fb97d991",
+    "first_validated_recovery_commit": "be9ba6ae1a1a7082ad0a702edd1b0c36619d05d2"
+  },
+  "reason": "Authoritative CI requires deterministic unified release-projection regeneration. Because the exception record itself is release-surface content, record this authorization first, then adopt exactly the projection-only commit generated from this exception head by the repository-owned reconciler.",
+  "scope": "AUTHORIZE_ONE_EXCEPTION_RECORD_COMMIT_FOLLOWED_BY_ONE_REPOSITORY_GENERATED_PROJECTION_ONLY_COMMIT_FOR_PR674",
+  "authorized_chain": {
+    "max_commits": 2,
+    "first_commit_allowed_paths": [
+      "canonical/exceptions/FA3-OWNER-EXCEPTION-HIDREAM-GENERATIVE-MEDIA-MESH-PR674-PROJECTION-ADOPTION-2026-10-04.json"
+    ],
+    "second_commit_allowed_paths": [
+      "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json"
+    ],
+    "second_commit_must_be_generated_by": "scripts/fa3_reconcile_release_projection.py via FA3 Release Projection Reconcile",
+    "projection_commit_message": "FA3: reconcile unified release projection [projection]",
+    "any_other_path_change_invalidates_exception": true
+  },
+  "invariants": {
+    "capability_baseline": 175,
+    "capability_delta": 0,
+    "authority_delta": 0,
+    "material_feature_scope_delta": 0,
+    "required_status_checks_still_mandatory": true,
+    "branch_protection_still_mandatory": true,
+    "unresolved_review_threads_forbidden": true,
+    "runtime_promotion_claim": false,
+    "physical_current_host_pass_claim": false,
+    "historical_current_host_evidence_reuse": false
+  }
+}

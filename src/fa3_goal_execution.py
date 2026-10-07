@@ -15,6 +15,7 @@ from typing import Any
 
 from fa3_agent_workload import validate_task as validate_workload_task
 from fa3_orchestration_workforce import route_task
+from fa3_task_scope_closure import TaskScopeClosureError, goal_scope_binding, scope_digest
 
 GOAL_SCHEMA = "fa3.goal-contract.v1"
 PLAN_SCHEMA = "fa3.goal-plan.v1"
@@ -23,6 +24,7 @@ CONTRACT_ID = "FA3-GOAL-EXECUTION-CONTRACTS-001"
 MODE = frozenset({"AUTO", "APPROVAL", "HYBRID"})
 EFFECT = frozenset({"READ", "WRITE", "DESTRUCTIVE"})
 CHECK = frozenset({"DETERMINISTIC", "HUMAN", "SEMANTIC_ADVISORY_WITH_INDEPENDENT_CHECK"})
+SCOPE_ORIGIN = frozenset({"EXPLICIT_USER_SCOPE", "REQUIRED_FOR_APPROVED_GOAL", "EXPLICIT_USER_SCOPE_EXTENSION"})
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
 _FORBIDDEN_FIELDS = frozenset({
     "api_key", "password", "secret", "secret_value", "token", "bearer_token",
@@ -71,6 +73,20 @@ def _reject_forbidden(value: Any) -> None:
             _reject_forbidden(child)
 
 
+
+def validate_task_scope_provenance(goal: dict[str, Any], step: dict[str, Any]) -> tuple[str, list[str]]:
+    """Require deterministic provenance from every executable task candidate to user-owned scope."""
+    origin = _required(step.get("scope_origin"), "scope_origin")
+    if origin not in SCOPE_ORIGIN:
+        raise GoalContractError("task scope origin is not executable")
+    refs = _unique_strings(step.get("scope_refs"), "scope_refs")
+    in_scope = set(goal["scope"]["in_scope"])
+    if not set(refs).issubset(in_scope):
+        raise GoalContractError("task scope reference outside approved goal scope")
+    if origin == "EXPLICIT_USER_SCOPE_EXTENSION" and goal["revision"] < 2:
+        raise GoalContractError("explicit scope extension requires a revised goal")
+    return origin, refs
+
 def digest(payload: dict[str, Any]) -> str:
     return hashlib.sha256(
         json.dumps(payload, sort_keys=True, ensure_ascii=False, separators=(",", ":")).encode()
@@ -91,6 +107,10 @@ def validate_goal(value: dict[str, Any]) -> dict[str, Any]:
         raise GoalContractError("explicit scope required")
     _unique_strings(scope.get("in_scope"), "scope.in_scope")
     _unique_strings(scope.get("out_of_scope", []), "scope.out_of_scope", empty=True)
+    try:
+        scope_digest(scope)
+    except TaskScopeClosureError as exc:
+        raise GoalContractError(str(exc)) from exc
     criteria = goal.get("acceptance_criteria")
     if not isinstance(criteria, list) or not criteria:
         raise GoalContractError("at least one independently verifiable criterion required")
@@ -152,6 +172,7 @@ def prepare_goal(value: dict[str, Any]) -> dict[str, Any]:
         "authority": False,
         "execution_performed": False,
         "canonical_goal_owner": "USER",
+        "goal_scope_binding": goal_scope_binding(goal),
     }
 
 
@@ -164,6 +185,7 @@ def compile_plan(root: Path | str, goal_value: dict[str, Any], steps: list[dict[
     receipt immediately before an effect or a resumed execution.
     """
     goal = validate_goal(goal_value)
+    immutable_scope_binding = goal_scope_binding(goal)
     if not isinstance(preflight, dict):
         raise GoalContractError("preflight receipt references required")
     if preflight.get("reuse_profile") != _REUSE_AUTH:
@@ -191,6 +213,7 @@ def compile_plan(root: Path | str, goal_value: dict[str, Any], steps: list[dict[
             raise GoalContractError("step must be object")
         _reject_forbidden(step)
         tid = _required(step.get("task_id"), "task_id")
+        scope_origin, scope_refs = validate_task_scope_provenance(goal, step)
         if tid in seen:
             raise GoalContractError("duplicate task id")
         seen.add(tid)
@@ -228,6 +251,9 @@ def compile_plan(root: Path | str, goal_value: dict[str, Any], steps: list[dict[
             "schema": "fa3.agent-workload-task.v1",
             "task_id": tid,
             "root_task_id": goal["goal_id"],
+            "scope_origin": scope_origin,
+            "scope_refs": list(scope_refs),
+            "goal_scope_binding": copy.deepcopy(immutable_scope_binding),
             "action_ref": action,
             "agent_definition_ref": agent,
             "resource_requirements": copy.deepcopy(step.get("resource_requirements", {})),
@@ -239,6 +265,8 @@ def compile_plan(root: Path | str, goal_value: dict[str, Any], steps: list[dict[
         checked = validate_workload_task(workload)
         planned.append({
             "task_id": tid, "criterion_ids": cids, "effect": effect,
+            "scope_origin": scope_origin,
+            "scope_refs": scope_refs, "goal_scope_binding": copy.deepcopy(immutable_scope_binding),
             "uaf_action_ref": action, "workload_candidate": checked,
             "design_route": routing,
             "requires_effect_authorization": effect != "READ" or policy["mode"] != "AUTO",
@@ -324,12 +352,34 @@ def propose_repair(goal_value: dict[str, Any], assessment: dict[str, Any],
                    attempted_retries: int) -> dict[str, Any]:
     """Return a finite, nonexecuting repair proposal, not a right to retry."""
     goal = validate_goal(goal_value)
-    if assessment.get("schema") != ASSESS_SCHEMA or assessment.get("goal_digest") != digest(goal):
+    if (assessment.get("schema") != ASSESS_SCHEMA or
+            assessment.get("goal_id") != goal["goal_id"] or
+            assessment.get("goal_revision") != goal["revision"] or
+            assessment.get("goal_digest") != digest(goal)):
         raise GoalContractError("assessment does not match immutable goal revision")
+    rows = assessment.get("criteria")
+    if not isinstance(rows, list):
+        raise GoalContractError("assessment criteria must be list")
+    expected_ids = [c["criterion_id"] for c in goal["acceptance_criteria"]]
+    seen: set[str] = set()
+    allowed_statuses = {"MISSING", "BLOCKED", "UNPROVEN", "READY_FOR_CANONICAL_VERIFICATION"}
+    for row in rows:
+        if not isinstance(row, dict):
+            raise GoalContractError("assessment criterion must be object")
+        cid = _required(row.get("criterion_id"), "assessment.criterion_id")
+        if cid in seen:
+            raise GoalContractError("duplicate assessment criterion")
+        if cid not in expected_ids:
+            raise GoalContractError("assessment refers to unknown criterion")
+        if row.get("status") not in allowed_statuses:
+            raise GoalContractError("assessment criterion status invalid")
+        seen.add(cid)
+    if seen != set(expected_ids):
+        raise GoalContractError("assessment criterion set incomplete")
     if type(attempted_retries) is not int or attempted_retries < 0:
         raise GoalContractError("invalid retry count")
     remaining = goal["execution_policy"]["limits"]["max_retries"] - attempted_retries
-    failed = [r["criterion_id"] for r in assessment.get("criteria", [])
+    failed = [r["criterion_id"] for r in rows
               if r["status"] != "READY_FOR_CANONICAL_VERIFICATION"]
     return {
         "schema": "fa3.goal-repair-proposal.v1", "goal_digest": digest(goal),
@@ -338,5 +388,8 @@ def propose_repair(goal_value: dict[str, Any], assessment: dict[str, Any],
                    "ESCALATE_BUDGET_EXHAUSTED" if remaining <= 0 else
                    "PROPOSE_AUTHORIZED_REPAIR"),
         "effect_authorization": False, "execution_performed": False,
+        "scope_refs": list(goal["scope"]["in_scope"]),
+        "scope_expansion_allowed": False, "new_criteria_allowed": False,
+        "successor_task_allowed": False if not failed else None,
         "require_fresh_policy_and_admission": True,
     }

@@ -17,6 +17,8 @@ SOURCES = (
     "canonical/FA3-GUI-SURFACE-REGISTRY-001.json",
     "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
     "canonical/FA3-APPLICATION-DONOR-LINKS-001.json",
+    "canonical/FA3-PRODUCT-FAMILY-REGISTRY-001.json",
+    "canonical/FA3-RELEASE-CAPABILITY-BASELINE-001.json",
     "canonical/profiles/FA3-SHARED-AI-INTERACTION-001.json",
     "canonical/contracts/FA3-SHARED-AI-INTERACTION-CONTRACTS-001.json",
     "canonical/profiles/FA3-SHARED-KNOWLEDGE-RETRIEVAL-001.json",
@@ -29,6 +31,12 @@ SOURCES = (
     "canonical/contracts/FA3-SHARED-TOOL-ACTION-MEDIATION-CONTRACTS-001.json",
     "canonical/profiles/FA3-AI-MODULE-FACTORY-001.json",
     "canonical/contracts/FA3-AI-MODULE-FACTORY-CONTRACTS-001.json",
+    "canonical/profiles/FA3-SHARED-HAIR-GROOM-001.json",
+    "canonical/contracts/FA3-SHARED-HAIR-GROOM-CONTRACTS-001.json",
+    "canonical/profiles/FA3-SHARED-RAY-PATH-TRACING-001.json",
+    "canonical/contracts/FA3-SHARED-RAY-PATH-TRACING-CONTRACTS-001.json",
+    "canonical/profiles/FA3-NEURAL-RENDERING-001.json",
+    "canonical/contracts/FA3-NEURAL-RENDERING-CONTRACTS-001.json",
 )
 
 
@@ -120,6 +128,44 @@ class ApplicationDonorIndexTests(unittest.TestCase):
             self.assertIn("studio.future-safe", by_id)
             self.assertEqual(by_id["studio.future-safe"]["donor_assessment"],
                              "NOT_AUTOMATICALLY_ASSESSED")
+            findings = {row["code"] for row in index["validation"]["findings"]}
+            self.assertIn("UNCLASSIFIED_APPLICATION_PRODUCT_FAMILY", findings)
+
+    def test_all_existing_applications_have_product_family_placement(self):
+        report = build_index(ROOT)
+        self.assertEqual(report["validation"]["result"], "PASS", report["validation"]["findings"])
+        self.assertEqual(report["counts"]["product_families"], 5)
+        self.assertEqual(report["counts"]["classified_apps"], report["counts"]["total_apps"])
+        self.assertEqual(report["platform_placement"]["platform_id"], "FA3-PLATFORM-001")
+        self.assertFalse(report["platform_placement"]["authority"])
+        self.assertFalse(report["platform_placement"]["permission_grant"])
+        for app in report["applications"]:
+            self.assertEqual(app["platform"]["classification"], "CLASSIFIED")
+            self.assertTrue(app["product_family"]["primary"].startswith("FA3-FAMILY-"))
+            self.assertTrue(app["product_family"]["context_only"])
+            self.assertFalse(app["product_family"]["permission_grant"])
+            self.assertFalse(app["product_family"]["execution_authority"])
+
+    def test_orphaned_product_family_placement_fails_closed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            fixture(root)
+            path = root / "canonical/FA3-PRODUCT-FAMILY-REGISTRY-001.json"
+            registry = json.loads(path.read_text())
+            registry["application_placements"].append({
+                "application_id": "fa3.not-in-inventory",
+                "platform_id": "FA3-PLATFORM-001",
+                "primary_family": "FA3-FAMILY-AI-WORKSTATION-001",
+                "secondary_families": [],
+                "classification_status": "CLASSIFIED",
+                "placement_kind": "TEST",
+                "authority": False,
+                "automatic_permission_grant": False,
+                "automatic_runtime_activation": False,
+            })
+            path.write_text(json.dumps(registry))
+            findings = {row["code"] for row in build_index(root)["validation"]["findings"]}
+            self.assertIn("ORPHANED_APPLICATION_PRODUCT_FAMILY_PLACEMENT", findings)
 
     def test_declared_internal_and_reference_applications(self):
         report = build_index(ROOT)

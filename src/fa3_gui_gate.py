@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 
 from fa3_release_baseline import module_active_capability_count
+from fa3_generative_media_mesh_gate import run as run_generative_media_mesh_gate
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -32,8 +33,12 @@ REQUIRED = {
     "qml": ROOT / "apps/fa3-control-center/qml/Main.qml",
     "models_providers_qml": ROOT / "apps/fa3-control-center/qml/ModelsProvidersPage.qml",
     "studio_qml": ROOT / "apps/fa3-control-center/qml/AiStudioPage.qml",
+    "generative_media_mesh_qml": ROOT / "apps/shared/generative-media/qml/GenerativeMediaMeshPanel.qml",
     "subtitle_studio_qml": ROOT / "apps/fa3-control-center/qml/SubtitleStudioPage.qml",
     "narration_studio_qml": ROOT / "apps/fa3-control-center/qml/NarrationStudioPage.qml",
+    "voice_studio_qml": ROOT / "apps/fa3-control-center/qml/VoiceStudioPage.qml",
+    "quick_voice_plugin_qml": ROOT / "apps/fa3-control-center/qml/QuickVoicePluginPage.qml",
+    "voice_activity_overlay_qml": ROOT / "apps/fa3-control-center/qml/VoiceActivityOverlay.qml",
     "settings_qml": ROOT / "apps/fa3-control-center/qml/SystemSettingsPage.qml",
     "rtd_qml": ROOT / "apps/fa3-control-center/qml/RtdProvidersPage.qml",
     "chat_qml": ROOT / "apps/fa3-control-center/qml/ChatWorkspace.qml",
@@ -56,7 +61,7 @@ REQUIRED = {
     "installer": ROOT / "deployment/fa3-gui/install.sh",
 }
 
-NAVIGATION = ["Dashboard", "Projects", "Work Management", "AI Studio", "Subtitle Studio", "Narration Studio", "Knowledge & Retrieval", "Agent Action Center", "Agents & Workflows", "Models & Providers", "Model Manager", "Checkpoint Manager", "Remote AI Hub", "RTD Providers", "External Providers Setup", "Decision Fabric", "Decision Inspector", "Context Inspector", "External Project Radar", "Integrations", "MCP Gateway", "FA3 OS", "Security & Approvals", "Token Control Center", "Trust & Certificates", "Session Vault / Kulcsvault", "Evidence", "Observability", "Architecture", "Napló / Journal", "Resources", "Accelerator Guard", "Update Center", "Rendszerbeállítások", "System"]
+NAVIGATION = ["Dashboard", "Projects", "Work Management", "AI Studio", "Subtitle Studio", "Narration Studio", "Voice Studio", "Quick Voice Plugin", "Knowledge & Retrieval", "Agent Action Center", "Agents & Workflows", "Models & Providers", "Model Manager", "Checkpoint Manager", "Remote AI Hub", "RTD Providers", "External Providers Setup", "Decision Fabric", "Decision Inspector", "Context Inspector", "External Project Radar", "Integrations", "MCP Gateway", "FA3 OS", "Security & Approvals", "Token Control Center", "Trust & Certificates", "Session Vault / Kulcsvault", "Evidence", "Observability", "Architecture", "Napló / Journal", "Resources", "Accelerator Guard", "Update Center", "Rendszerbeállítások", "System"]
 NAVIGATION_GROUPS = ["HOME", "CREATE", "AGENTS", "MODELS & DATA", "DECISION & CONTEXT", "INTEGRATIONS", "GOVERNANCE", "SYSTEM"]
 FORBIDDEN_BACKEND_TOKENS = ["QProcess", "std::system(", "popen(", "/bin/sh", "/bin/bash", "pkexec", "setuid("]
 
@@ -168,6 +173,10 @@ def validate() -> list[str]:
         if module not in studio_qml: failures.append(f"qml-studio-module-missing:{module}")
     for office_surface in ["Writer", "Calc", "Impress", "Preview", "Apply/UNO", "Undo"]:
         if office_surface not in studio_qml: failures.append(f"qml-office-surface-missing:{office_surface}")
+    generative_mesh_qml = REQUIRED["generative_media_mesh_qml"].read_text(encoding="utf-8")
+    for token in ["Generative Media Capability Mesh", "RUNTIME GATED", "Model Router", "HRB", "175", "HiDream child providers: not admitted"]:
+        if token not in generative_mesh_qml: failures.append(f"qml-generative-media-mesh-boundary-missing:{token}")
+    if "GenerativeMediaMeshPanel" not in studio_qml: failures.append("qml-generative-media-mesh-studio-wiring-missing")
     if "createDraftChangeSet" not in qml: failures.append("qml-changeset-intent-missing")
     if "id: askButton" not in qml or "id: askMenu" not in qml or "y: parent.height" not in qml: failures.append("qml-ask-menu-anchor-missing")
     if "id: modulePage" not in qml or "model: modulePage.cards" not in qml or "width: modulePage.availableWidth" not in qml: failures.append("qml-module-page-render-contract-missing")
@@ -204,6 +213,23 @@ def validate() -> list[str]:
         if token not in subtitle_qml: failures.append(f"qml-subtitle-studio-boundary-missing:{token}")
     for token in ["delegates synthesis to FA3-VOICE-001", "Model Router + FA3-VOICE-001", "HUMAN REVIEW"]:
         if token not in narration_qml: failures.append(f"qml-narration-studio-boundary-missing:{token}")
+
+    voice_studio_qml = REQUIRED["voice_studio_qml"].read_text(encoding="utf-8")
+    quick_voice_qml = REQUIRED["quick_voice_plugin_qml"].read_text(encoding="utf-8")
+    voice_overlay_qml = REQUIRED["voice_activity_overlay_qml"].read_text(encoding="utf-8")
+    for token in ["Voice Studio", "FA3-VOICE-001", "Model Router", "HRB", "175 capabilities", "Original asset is never overwritten", "RUNTIME GATED"]:
+        if token not in voice_studio_qml: failures.append(f"qml-voice-studio-boundary-missing:{token}")
+    for token in ["QuickClip · Shared Voice Plugin", "Fit to Clip", "Generate & Insert", "Quick Dub", "UAF → FA3-VOICE-001 → Model Router → HRB", "RUNTIME GATED"]:
+        if token not in quick_voice_qml: failures.append(f"qml-quick-voice-boundary-missing:{token}")
+    for token in ["visible voice activity required", "activityState", "applicationName", "voiceName"]:
+        if token not in voice_overlay_qml: failures.append(f"qml-voice-activity-overlay-missing:{token}")
+    for token in ['routeId: "create.voice-studio"', 'routeId: "create.quick-voice-plugin"', '"create.voice-studio": 41', '"create.quick-voice-plugin": 42', "VoiceStudioPage {", "QuickVoicePluginPage {", "VoiceActivityOverlay {"]:
+        if token not in qml: failures.append(f"qml-shared-voice-route-wiring-missing:{token}")
+    cmake_text = REQUIRED["cmake"].read_text(encoding="utf-8")
+    for token in ["qml/VoiceStudioPage.qml", "qml/QuickVoicePluginPage.qml", "qml/VoiceActivityOverlay.qml"]:
+        if token not in cmake_text: failures.append(f"cmake-shared-voice-qml-missing:{token}")
+    for token in ["FA3_GENERATIVE_MEDIA_MESH_PANEL_QML", "GenerativeMediaMeshPanel.qml"]:
+        if token not in cmake_text: failures.append(f"cmake-generative-media-mesh-qml-missing:{token}")
 
     rtd_qml = REQUIRED["rtd_qml"].read_text(encoding="utf-8")
     integrations_qml = REQUIRED["integrations_qml"].read_text(encoding="utf-8")
@@ -360,6 +386,8 @@ def validate() -> list[str]:
     if "qml6-module-qtquick-dialogs" not in installer: failures.append("chat-file-installer-dialogs-missing")
     desktop = REQUIRED["desktop"].read_text(encoding="utf-8")
     if "Exec=fa3-control-center" not in desktop: failures.append("desktop-entry-exec-missing")
+    for finding in run_generative_media_mesh_gate():
+        failures.append(f"generative-media-mesh:{finding}")
     return failures
 
 

@@ -69,11 +69,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           persist-credentials: false
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: '3.12'
       - name: Syntax check
@@ -118,7 +118,7 @@ jobs:
     runs-on: [self-hosted, linux, x64, fa3-current-host]
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           persist-credentials: false
@@ -153,7 +153,7 @@ jobs:
             --output reports/resource-admission-current-host-acceptance.json
       - name: Upload scoped evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: fa3-resource-admission-current-host
           if-no-files-found: warn
@@ -174,13 +174,13 @@ jobs:
       contents: write
       pull-requests: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: '3.12'
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
           name: fa3-resource-admission-current-host
           path: artifact
@@ -246,4 +246,4 @@ jobs:
             --base main \
             --head "$FA3_RECONCILIATION_BRANCH" \
             --title 'FA3: reconcile real current-host resource admission evidence' \
-            --body 'Automated reconciliation of a real self-hosted CURRENT_HOST_RESOURCE_ADMISSION_PASS. The raw receipt remains runtime/artifact-only; this PR carries sanitized digest-bound archival acceptance metadata. It does not claim GLOBAL_FA3_PROMOTION or PROVIDER_RUNTIME_E2E, does not change the 143-capability count, and future workloads still require fresh HRB authorization and, when an accelerator is requested, a fresh HRB accelerator lease and fresh admission.'
+            --body 'Automated reconciliation of a real self-hosted CURRENT_HOST_RESOURCE_ADMISSION_PASS. The raw receipt remains runtime/artifact-only; this PR carries sanitized digest-bound archival acceptance metadata. It does not claim GLOBAL_FA3_PROMOTION or PROVIDER_RUNTIME_E2E, does not change the active 175-capability baseline, and future workloads still require fresh HRB authorization and, when an accelerator is requested, a fresh HRB accelerator lease and fresh admission.'

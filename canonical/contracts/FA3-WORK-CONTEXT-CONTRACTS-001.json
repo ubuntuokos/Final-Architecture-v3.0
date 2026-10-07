@@ -1,0 +1,67 @@
+{
+  "schema": "fa3.work-context-contracts.v1",
+  "id": "FA3-WORK-CONTEXT-CONTRACTS-001",
+  "title": "CFA3 Shared Work Context Contracts",
+  "status": "P0_MUST",
+  "parent_profile": "FA3-OS-001",
+  "work_management_parent": "FA3-WORK-MANAGEMENT-PROJECTION-001",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "authority": false,
+  "context_is_projection": true,
+  "required_fields": [
+    "context_id",
+    "application_id",
+    "project_workspace_scope",
+    "provenance_refs"
+  ],
+  "reference_fields": [
+    "organization_ref",
+    "production_ref",
+    "goal_ref",
+    "project_ref",
+    "workstream_ref",
+    "milestone_ref",
+    "task_ref",
+    "workspace_ref",
+    "workflow_ref",
+    "actor_ref",
+    "agent_ref",
+    "budget_ref"
+  ],
+  "collection_fields": [
+    "asset_refs",
+    "artifact_refs",
+    "approval_refs"
+  ],
+  "ownership": {
+    "project_goal_task_truth": "FA3-WORK-MANAGEMENT-PROJECTION-001",
+    "historical_event_truth": "FA3-JOURNAL-001",
+    "durable_workflow_truth": "Temporal",
+    "workspace_runtime_truth": "FA3-AGENT-WORKLOAD-RUNTIME-001_OR_APPLICATION_OWNER",
+    "fa3_os_role": "REFERENCE_CORRELATION_CONTEXT_COMPOSITION_ONLY"
+  },
+  "invariants": [
+    "WORK_CONTEXT_MUST_NOT_DUPLICATE_PROJECT_OR_TASK_STATE",
+    "WORK_CONTEXT_MUST_STORE_REFERENCES_NOT_SHADOW_AUTHORITIES",
+    "WORK_CONTEXT_MAY_BE_REBUILT_FROM_CANONICAL_SOURCES",
+    "CONTEXT_MUST_BE_PERMISSION_FILTERED_BEFORE_EXPOSURE",
+    "AGENT_CONTEXT_MUST_NOT_EXPAND_CAPABILITY_GRANT_SCOPE",
+    "CONTEXT_HANDOFF_MUST_PRESERVE_PROVENANCE",
+    "UNKNOWN_REFERENCE_OWNER_FAILS_CLOSED"
+  ],
+  "application_contract": {
+    "all_current_and_future_cfa3_applications_may_consume": true,
+    "application_may_ignore_non_applicable_refs": true,
+    "application_may_not_replace_shared_work_context_with_incompatible_local_core": true,
+    "native_project_file_remains_application_owned": true
+  },
+  "fa3_os_event_binding": {
+    "event_contract": "FA3-OS-EVENT-001",
+    "workstream_id_maps_to": "workstream_ref",
+    "application_id_maps_to": "application_id",
+    "workflow_reference_maps_to": "workflow_ref",
+    "context_payload_is_not_outer_event_envelope": true
+  }
+}

@@ -1,0 +1,134 @@
+{
+  "schema": "fa3.cuda-portability-shared-function-policy.v1",
+  "id": "FA3-CUDA-PORTABILITY-SHARED-FUNCTION-POLICY-001",
+  "date": "2026-10-04",
+  "status": "CANONICAL_POLICY_STAGED",
+  "priority": "P0",
+  "requirement": "MUST",
+  "authority": false,
+  "scope": {
+    "development_line": "FA3_CFA3_DEVELOPMENT",
+    "product_families": [
+      "FA3",
+      "CFA3"
+    ],
+    "applies_to": [
+      "STRONGLY_CUDA_ORIENTED_DONORS",
+      "STRONGLY_CUDA_ORIENTED_LIBRARIES",
+      "STRONGLY_CUDA_ORIENTED_MODELS",
+      "STRONGLY_CUDA_ORIENTED_RUNTIME_COMPONENTS",
+      "STRONGLY_CUDA_ORIENTED_ALGORITHMS_AND_FEATURE_PATHS"
+    ]
+  },
+  "trigger": {
+    "classification": "STRONGLY_CUDA_ORIENTED",
+    "examples": [
+      "CUDA_ONLY_OR_CUDA_FIRST_UPSTREAM_EXECUTION_PATH",
+      "CUDA_SPECIFIC_KERNEL_OR_EXTENSION_DEPENDENCY",
+      "NVIDIA_SPECIFIC_ACCELERATOR_ASSUMPTION",
+      "CUDA_ONLY_BUILD_OR_RUNTIME_REQUIREMENT",
+      "CUDA_FEATURE_PATH_WITH_NO_PROVEN_TARGET_HARDWARE_EQUIVALENT"
+    ],
+    "classification_is_vendor_ban": false
+  },
+  "mandatory_portability_assessment": {
+    "required_before_application_integration": true,
+    "required_before_runtime_admission": true,
+    "target_hardware_source": "LIVE_DISCOVERED_TARGET_HARDWARE_PLUS_APPROVED_DEPLOYMENT_TARGETS",
+    "reference_vendor_families": [
+      "NVIDIA",
+      "AMD",
+      "INTEL"
+    ],
+    "paths_to_evaluate": [
+      "NATIVE_BACKEND",
+      "PORTABLE_BACKEND",
+      "TRANSLATION_OR_COMPATIBILITY_BACKEND",
+      "ALTERNATIVE_IMPLEMENTATION_OR_PROVIDER"
+    ],
+    "no_assumed_equivalence": true,
+    "no_silent_backend_substitution": true,
+    "assessment_result_enum": [
+      "FULL_EQUIVALENCE",
+      "FUNCTIONALLY_REDUCED",
+      "UNAVAILABLE"
+    ],
+    "evidence_required": [
+      "TARGET_DEVICE_OR_DEVICE_FAMILY",
+      "EXECUTION_BACKEND",
+      "FEATURE_COVERAGE",
+      "KNOWN_LIMITATIONS",
+      "PERFORMANCE_OR_MEMORY_CONSTRAINTS_WHEN_MATERIAL",
+      "LICENSE_AND_RUNTIME_CONSTRAINTS",
+      "HARDWARE_SAFETY_AND_HRB_ADMISSION_STATUS"
+    ]
+  },
+  "shared_placement_policy": {
+    "strongly_cuda_oriented_function_core": "SHARED_LAYER_ONLY",
+    "application_local_functional_core": "FORBIDDEN",
+    "vendor_specific_backends": "SHARED_PROVIDER_OR_BACKEND_ADAPTERS_ONLY",
+    "application_local_allowed": [
+      "UI_INTEGRATION",
+      "WORKFLOW_ADAPTER",
+      "APPLICATION_CONTEXT",
+      "PRESENTATION",
+      "LIMITATION_DISCLOSURE"
+    ],
+    "duplicate_application_local_backend_implementations": "FORBIDDEN_UNLESS_EXPLICIT_REVIEWED_EXCEPTION",
+    "shared_contract_must_be_vendor_neutral": true,
+    "existing_authorities_preserved": [
+      "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "FA3-AUTH-MODEL-ROUTER-001"
+    ]
+  },
+  "product_runtime_and_ux_policy": {
+    "hardware_aware_capability_resolution": true,
+    "full_equivalence_behavior": "NORMAL_AVAILABLE",
+    "functionally_reduced_behavior": "AVAILABLE_WITH_EXPLICIT_USER_VISIBLE_LIMITATION",
+    "unavailable_behavior": "DISABLED_OR_UNAVAILABLE_FAIL_CLOSED",
+    "limitation_disclosure_required": true,
+    "disclosure_surfaces": [
+      "APPLICATION_FEATURE_UI",
+      "MODEL_OR_PROVIDER_SELECTOR_WHEN_APPLICABLE",
+      "TASK_OR_JOB_PREVIEW_WHEN_APPLICABLE",
+      "DIAGNOSTICS_OR_COMPATIBILITY_VIEW"
+    ],
+    "disclosure_must_include": [
+      "TARGET_HARDWARE",
+      "SELECTED_BACKEND_OR_ALTERNATIVE",
+      "MISSING_OR_REDUCED_FUNCTIONS",
+      "MATERIAL_PERFORMANCE_OR_MEMORY_LIMITATION_WHEN_KNOWN"
+    ],
+    "may_claim_full_feature_parity_without_evidence": false,
+    "may_hide_reduced_functionality": false,
+    "may_silently_fallback_to_cuda_or_other_backend": false
+  },
+  "development_policy": {
+    "donor_or_source_analysis_must_flag_strong_cuda_orientation": true,
+    "target_hardware_alternative_assessment_mandatory": true,
+    "amd_and_intel_paths_must_not_be_skipped_when_targeted": true,
+    "implementation_plan_must_place_core_in_shared_layer": true,
+    "application_specific_cuda_core_direct_integration": "FORBIDDEN",
+    "reduced_or_unavailable_target_support_must_be_recorded": true,
+    "test_matrix_required_for_material_runtime_admission": true,
+    "current_host_evidence_required_when_runtime_or_host_behavior_changes": true
+  },
+  "compatibility": {
+    "global_hardware_baseline": "FA3-HARDWARE-BASELINE-001",
+    "hardware_discovery_contract": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+    "host_resource_broker": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_router": "FA3-AUTH-MODEL-ROUTER-001",
+    "execution_path_classes": [
+      "native",
+      "portable",
+      "translation"
+    ],
+    "display_gpu_policy_unchanged": true,
+    "cpu_only_platform_baseline_unchanged": true
+  },
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "current_host_runtime_promotion_claim": false
+}

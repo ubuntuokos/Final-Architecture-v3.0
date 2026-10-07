@@ -8,10 +8,15 @@ from datetime import date
 from pathlib import Path
 from typing import Any
 
+from fa3_platform_placement import apply_product_family_placement, validate_product_family_registry
+from fa3_donor_registry import resolve_donor_reference
+from fa3_release_baseline import load_active_release_baseline
+
 APP = "canonical/FA3-AI-STUDIO-APP-CATALOG-001.json"
 GUI = "canonical/FA3-GUI-SURFACE-REGISTRY-001.json"
 DONOR = "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"
 LINKS = "canonical/FA3-APPLICATION-DONOR-LINKS-001.json"
+PLATFORM = "canonical/FA3-PRODUCT-FAMILY-REGISTRY-001.json"
 AUTO = ("automatic_selection", "automatic_fetch", "automatic_install",
         "automatic_activation", "automatic_dependency", "automatic_code_import",
         "automatic_provider_admission", "automatic_model_selection")
@@ -169,8 +174,12 @@ def capability_refresh_status(registry: dict[str, Any], today: date | None = Non
 
 def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str, Any]:
     root = root.resolve()
-    catalog, surfaces, registry, declaration = (load(root / rel) for rel in (APP, GUI, DONOR, LINKS))
+    catalog, surfaces, registry, declaration, platform = (
+        load(root / rel) for rel in (APP, GUI, DONOR, LINKS, PLATFORM)
+    )
+    capability_count = load_active_release_baseline(root).capability_count
     errors: list[dict[str, str]] = []
+    errors.extend(validate_product_family_registry(platform, capability_count))
     if declaration.get("id") != "FA3-APPLICATION-DONOR-LINKS-001" or declaration.get("authority") is not False:
         errors.append({"code": "LINK_POLICY_INVALID", "detail": LINKS})
     required_policy = {
@@ -193,6 +202,17 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
         "explicit_canonical_donor_use_requires_usage_edge": True,
         "shared_capability_donor_adoption_requires_usage_edge": True,
         "reference_only_pattern_is_not_adoption_without_usage_evidence": True,
+        "universal_capability_access_required_for_material_adoption": True,
+        "restricted_donor_requires_global_substitute": True,
+        "restricted_donor_may_not_be_sole_capability_implementation": True,
+        "unknown_access_rights_block_material_adoption": True,
+        "restriction_circumvention_forbidden": True,
+        "platform_product_family_classification_required": True,
+        "unclassified_application_fail_closed": True,
+        "orphaned_product_family_placement_fail_closed": True,
+        "product_family_is_context_not_authority": True,
+        "product_family_membership_does_not_grant_permission": True,
+        "retroactive_platform_placement_required": True,
     }
     for key, expected in required_policy.items():
         if declaration.get("policy", {}).get(key) is not expected:
@@ -248,6 +268,9 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
             "source_ref": item.get("source_ref"), "source_catalog": LINKS,
             "donor_assessment": "NOT_AUTOMATICALLY_ASSESSED",
         }
+
+    product_family_views = apply_product_family_placement(applications, platform, errors)
+
     gui_surfaces = []
     seen_surfaces: set[str] = set()
     for surface in surfaces.get("surfaces", []):
@@ -264,6 +287,7 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
         usage_records = []
     usage_by_donor: dict[str, list[dict[str, Any]]] = {}
     usage_by_app: dict[str, list[dict[str, Any]]] = {}
+    resolved_usage_donor: dict[str, str] = {}
     seen_usage: set[str] = set()
     allowed_usage = {"CAPABILITY_PATTERN", "ALGORITHM_PATTERN", "WORKFLOW_PATTERN",
                      "ARCHITECTURE_PATTERN", "UI_UX_PATTERN", "CODE_REUSE",
@@ -293,13 +317,20 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
                 and (kind != "APPLICATION" or consumer_id in applications)
                 and (kind != "GUI_SURFACE" or consumer_id in seen_surfaces)
             )
-        if (not uid or uid in seen_usage or not primary_valid or did not in donor_ids
+        resolved_did = did
+        if isinstance(did, str):
+            try:
+                resolved_did = resolve_donor_reference(registry, did)["resolved_donor_id"]
+            except ValueError:
+                resolved_did = None
+        if (not uid or uid in seen_usage or not primary_valid or resolved_did not in donor_ids
                 or usage.get("usage_kind") not in allowed_usage
                 or usage.get("status") not in allowed_usage_status):
             errors.append({"code": "INVALID_DONOR_USAGE_RECORD", "detail": str(uid)})
             continue
         seen_usage.add(uid)
-        usage_by_donor.setdefault(did, []).append(usage)
+        resolved_usage_donor[uid] = str(resolved_did)
+        usage_by_donor.setdefault(str(resolved_did), []).append(usage)
         if has_application:
             usage_by_app.setdefault(aid, []).append(usage)
 
@@ -320,7 +351,7 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
             continue
         aid = usage.get("application_id")
         primary_consumer = usage.get("primary_consumer")
-        did = usage["donor_id"]
+        did = resolved_usage_donor.get(uid, usage["donor_id"])
         fa3_bindings = usage.get("fa3_bindings") or {}
         if not isinstance(fa3_bindings, dict):
             errors.append({"code": "INVALID_FA3_BINDINGS", "detail": uid})
@@ -512,6 +543,9 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
             "capability_non_regression_on_donor_change": True,
             "capability_loss_only_for_verified_fa3_risk": True,
             "current_host_alignment_for_structural_or_runtime_change": True,
+            "product_family_classification_required": True,
+            "product_family_is_context_not_authority": True,
+            "product_family_membership_does_not_grant_permission": True,
         }
         app["authority"] = False
         app["automatic_activation"] = False
@@ -782,7 +816,7 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
     return {
         "schema": "fa3.application-donor-index.v1", "derived": True,
         "authority": False, "runtime_promotion": False,
-        "source_catalogs": [APP, GUI, DONOR, LINKS],
+        "source_catalogs": [APP, GUI, DONOR, LINKS, PLATFORM],
         "hardware_audit": {
             "vendor_neutral": True, "cpu_only_viable": True,
             "accelerator_cardinality": "0..N", "global_accelerator_requirement": False,
@@ -793,6 +827,11 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
         "counts": {"curated_apps": curated_count,
                    "declared_apps": len(applications) - curated_count,
                    "total_apps": len(applications),
+                   "classified_apps": sum(
+                       1 for app in applications.values()
+                       if app.get("platform", {}).get("classification") == "CLASSIFIED"
+                   ),
+                   "product_families": len(platform.get("product_families", [])),
                    "gui_surfaces_not_apps": len(gui_surfaces),
                    "donor_records": len(donors),
                    "proposed_cross_app_links": len(edges),
@@ -802,6 +841,13 @@ def build_index(root: Path, previous: dict[str, Any] | None = None) -> dict[str,
                    "verified_explicit_usage_expectations": len(explicit_usage_expectations),
                    "changed_donor_sources": len(reevaluation)},
         "applications": [applications[k] for k in sorted(applications)],
+        "platform_placement": {
+            "platform_id": platform.get("platform_id"),
+            "product_family_registry_id": platform.get("id"),
+            "authority": False,
+            "permission_grant": False,
+            "views": {"by_family": product_family_views},
+        },
         "gui_surfaces": sorted(gui_surfaces, key=lambda x: x["surface_id"]),
         "cross_application_links": sorted(edges, key=lambda x: x["id"]),
         "shared_capabilities": sorted(shared_capabilities, key=lambda x: x["id"]),

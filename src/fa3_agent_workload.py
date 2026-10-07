@@ -2,10 +2,23 @@
 from __future__ import annotations
 
 import copy
+import hashlib
+import json
 import re
+from collections.abc import Mapping
 from typing import Any
 
+from cfa3_development_ai_behavior_guard import MUTATING_ACTIONS, authorize_action
 from fa3_agent_runtime_semantics import capabilities_satisfy, make_execution_ledger, validate_graph, validate_model_capability_descriptor
+from fa3_task_scope_closure import (
+    MAIN_TASK_CONTINUITY_ID,
+    POLICY_ID as TASK_SCOPE_POLICY_ID,
+    TaskScopeClosureError,
+    assert_execution_allowed,
+    task_control_digest,
+    validate_goal_scope_binding,
+    validate_task_control,
+)
 
 TASK_SCHEMA = "fa3.agent-workload-task.v1"
 WORKSPACE_SCHEMA = "fa3.agent-workspace.v1"
@@ -39,6 +52,11 @@ FORBIDDEN_KEYS={
     "gpu_index","gpu_ordinal","cuda_visible_devices","rocr_visible_devices",
 }
 HEX40=re.compile(r"^[0-9a-f]{40}$")
+TASK_SCOPE_ORIGINS=frozenset({
+    "EXPLICIT_USER_SCOPE",
+    "REQUIRED_FOR_APPROVED_GOAL",
+    "EXPLICIT_USER_SCOPE_EXTENSION",
+})
 
 class WorkloadContractError(ValueError):
     pass
@@ -71,12 +89,18 @@ def validate_fanout_limits(limits: dict[str, Any]) -> None:
 def validate_task(task: dict[str, Any]) -> dict[str, Any]:
     if task.get("schema") != TASK_SCHEMA:
         raise WorkloadContractError("task schema mismatch")
-    required=("task_id","root_task_id","action_ref","agent_definition_ref","resource_requirements","network_envelope_ref","model_intent","authorized_ai_participants","fanout_limits")
+    required=("task_id","root_task_id","scope_origin","scope_refs","action_ref","agent_definition_ref","resource_requirements","network_envelope_ref","model_intent","authorized_ai_participants","fanout_limits")
     if any(k not in task for k in required):
         raise WorkloadContractError("task missing required field")
     for key in ("task_id","root_task_id","action_ref","agent_definition_ref","network_envelope_ref"):
         if not _nonempty(task.get(key)):
             raise WorkloadContractError(f"invalid {key}")
+    if task.get("scope_origin") not in TASK_SCOPE_ORIGINS:
+        raise WorkloadContractError("task scope_origin missing, unknown or open-ended")
+    scope_refs=task.get("scope_refs")
+    if (not isinstance(scope_refs,list) or not scope_refs or
+            any(not _nonempty(x) for x in scope_refs) or len(set(scope_refs)) != len(scope_refs)):
+        raise WorkloadContractError("task scope_refs must be a non-empty unique string list")
     if not isinstance(task.get("resource_requirements"), dict) or not isinstance(task.get("model_intent"), dict):
         raise WorkloadContractError("resource_requirements/model_intent must be objects")
     if any(k in task["model_intent"] for k in ("provider","provider_id","endpoint","model_id")):
@@ -84,6 +108,20 @@ def validate_task(task: dict[str, Any]) -> dict[str, Any]:
     participants=task.get("authorized_ai_participants")
     if not isinstance(participants,list) or not all(_nonempty(x) for x in participants):
         raise WorkloadContractError("authorized_ai_participants invalid")
+    binding = task.get("goal_scope_binding")
+    scope_control_required = task.get("scope_origin") in TASK_SCOPE_ORIGINS
+    if scope_control_required:
+        if not isinstance(binding, dict):
+            raise WorkloadContractError("goal-bound workload requires immutable goal_scope_binding")
+        try:
+            validate_goal_scope_binding(binding, expected_root_task_id=task["root_task_id"])
+        except TaskScopeClosureError as exc:
+            raise WorkloadContractError(str(exc)) from exc
+    elif binding is not None:
+        try:
+            validate_goal_scope_binding(binding, expected_root_task_id=task["root_task_id"])
+        except TaskScopeClosureError as exc:
+            raise WorkloadContractError(str(exc)) from exc
     validate_fanout_limits(task["fanout_limits"])
     _walk_forbidden(task)
     return copy.deepcopy(task)
@@ -214,8 +252,11 @@ def compile_orchestration_workload(
     network_envelope_ref: str,
     model_intent: dict[str, Any],
     fanout_limits: dict[str, Any],
+    scope_origin: str,
+    scope_refs: list[str],
     root_task_id: str | None = None,
     work_item_ref: str | None = None,
+    goal_scope_binding: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     if route_decision.get("schema") != "fa3.orchestration-route-decision.v1":
         raise WorkloadContractError("orchestration route schema mismatch")
@@ -231,6 +272,9 @@ def compile_orchestration_workload(
         "schema": TASK_SCHEMA,
         "task_id": task_id,
         "root_task_id": root_task_id or task_id,
+        "scope_origin": scope_origin,
+        "scope_refs": list(scope_refs),
+        "goal_scope_binding": copy.deepcopy(goal_scope_binding),
         "parent_task_id": None,
         "work_item_ref": work_item_ref,
         "action_ref": "orchestration.execute",
@@ -246,6 +290,49 @@ def compile_orchestration_workload(
     return validate_task(task)
 
 
+
+def _compile_behavior_preflight(
+    task: dict[str, Any],
+    workflow_graph: dict[str, Any],
+    behavior_context: Mapping[str, Any] | None,
+) -> dict[str, Any]:
+    if not isinstance(behavior_context, Mapping):
+        raise WorkloadContractError("CFA3 behavior preflight context required")
+    if behavior_context.get("scope_origin") != task.get("scope_origin"):
+        raise WorkloadContractError("behavior preflight scope_origin must match workload task")
+    if behavior_context.get("scope_refs") != task.get("scope_refs"):
+        raise WorkloadContractError("behavior preflight scope_refs must exactly match workload task")
+    result = authorize_action(behavior_context)
+    if result.get("decision") != "ALLOW" or result.get("policy_preflight_passed") is not True:
+        raise WorkloadContractError(
+            "CFA3 behavior preflight blocked execution plan: " + str(result.get("reason", "UNKNOWN"))
+        )
+    side_effecting = any(
+        isinstance(node, dict) and node.get("side_effecting") is True
+        for node in workflow_graph.get("nodes", [])
+    )
+    if side_effecting and result.get("action") not in MUTATING_ACTIONS:
+        raise WorkloadContractError(
+            "side-effecting workflow requires mutating CFA3 behavior action classification"
+        )
+    receipt = {
+        "schema": "cfa3.behavior-preflight-receipt.v1",
+        "policy_id": "CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001",
+        "decision": "ALLOW",
+        "action": result["action"],
+        "policy_preflight_passed": True,
+        "side_effect_authorized": False,
+        "effect_authority_required": bool(result.get("effect_authority_required", False)),
+        "scope_origin": task["scope_origin"],
+        "scope_refs": copy.deepcopy(task["scope_refs"]),
+        "applied_owner_overrides": list(result.get("applied_owner_overrides", [])),
+        "self_correction_authorized": bool(result.get("self_correction_authorized", False)),
+        "post_correction_report_required": bool(result.get("post_correction_report_required", False)),
+    }
+    if result.get("post_correction_report_fields"):
+        receipt["post_correction_report_fields"] = list(result["post_correction_report_fields"])
+    return receipt
+
 def compile_execution_plan(
     task: dict[str, Any],
     workflow_graph: dict[str, Any],
@@ -253,11 +340,35 @@ def compile_execution_plan(
     *,
     task_spec_digest: str,
     max_transfer_hops: int,
+    behavior_context: Mapping[str, Any] | None = None,
+    task_control: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     checked_task = validate_task(task)
     if not _nonempty(task_spec_digest):
         raise WorkloadContractError("task_spec_digest required for execution plan")
     checked_graph = validate_graph(workflow_graph)
+    behavior_preflight = _compile_behavior_preflight(checked_task, checked_graph, behavior_context)
+    scope_control_required = checked_task.get("scope_origin") in TASK_SCOPE_ORIGINS
+    checked_control = None
+    binding = checked_task.get("goal_scope_binding")
+    if scope_control_required:
+        if task_control is None:
+            raise WorkloadContractError("active task scope control required for goal-bound execution plan")
+        try:
+            checked_control = assert_execution_allowed(
+                task_control,
+                expected_task_id=checked_task["task_id"],
+                expected_root_task_id=checked_task["root_task_id"],
+                expected_binding=binding,
+            )
+        except TaskScopeClosureError as exc:
+            raise WorkloadContractError(str(exc)) from exc
+    binding_digest = (
+        hashlib.sha256(
+            json.dumps(binding, sort_keys=True, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+        ).hexdigest()
+        if binding is not None else None
+    )
     checked_model = validate_model_capability_descriptor(model_capability_descriptor)
     required_caps = checked_task.get("model_intent", {}).get("required_capabilities", [])
     if not isinstance(required_caps, list) or any(not _nonempty(x) for x in required_caps):
@@ -271,10 +382,22 @@ def compile_execution_plan(
     return {
         "schema": "fa3.agent-execution-plan.v1",
         "task_id": checked_task["task_id"],
+        "scope_origin": checked_task["scope_origin"],
+        "scope_refs": copy.deepcopy(checked_task["scope_refs"]),
         "task_spec_digest": task_spec_digest,
         "workflow_graph": checked_graph,
         "model_capability_descriptor": checked_model,
         "required_model_capabilities": sorted(set(required_caps)),
+        "behavior_preflight": behavior_preflight,
+        "task_scope_control_required": scope_control_required,
+        "task_scope_policy_id": TASK_SCOPE_POLICY_ID if scope_control_required else None,
+        "task_scope_control_revision": checked_control["control_revision"] if checked_control else None,
+        "task_scope_control_digest": task_control_digest(checked_control) if checked_control else None,
+        "goal_scope_binding_digest": binding_digest,
+        "main_task_continuity_id": MAIN_TASK_CONTINUITY_ID if scope_control_required else None,
+        "main_task_id": checked_control["main_task_id"] if checked_control else None,
+        "main_task_binding_revision": checked_control["main_task_binding_revision"] if checked_control else None,
+        "main_task_binding_digest": binding_digest,
         "ledger": ledger,
         "authorities": {
             "durable_workflow": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY",
@@ -282,4 +405,77 @@ def compile_execution_plan(
             "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
             "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
         },
+    }
+
+
+def validate_execution_admission(
+    execution_plan: dict[str, Any],
+    *,
+    task_control: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Fresh start/resume admission; cached compilation cannot bypass later freeze/closure."""
+    if not isinstance(execution_plan, dict) or execution_plan.get("schema") != "fa3.agent-execution-plan.v1":
+        raise WorkloadContractError("execution plan schema mismatch")
+    required = execution_plan.get("task_scope_control_required")
+    if type(required) is not bool:
+        raise WorkloadContractError("execution plan task_scope_control_required marker missing")
+    if not required:
+        if any(execution_plan.get(key) is not None for key in (
+            "task_scope_policy_id",
+            "task_scope_control_revision",
+            "task_scope_control_digest",
+            "main_task_continuity_id",
+            "main_task_id",
+            "main_task_binding_revision",
+            "main_task_binding_digest",
+        )):
+            raise WorkloadContractError("uncontrolled execution plan carries scope-control state")
+        return {
+            "schema": "fa3.task-scope-admission.v1",
+            "task_id": execution_plan.get("task_id"),
+            "decision": "ALLOW",
+            "fresh_revalidation": True,
+            "task_scope_control_required": False,
+            "task_scope_policy_id": None,
+            "validated_control_revision": None,
+            "validated_control_digest": None,
+            "authority": False,
+        }
+    if execution_plan.get("task_scope_policy_id") != TASK_SCOPE_POLICY_ID:
+        raise WorkloadContractError("execution plan task scope policy mismatch")
+    if execution_plan.get("main_task_continuity_id") != MAIN_TASK_CONTINUITY_ID:
+        raise WorkloadContractError("execution plan main-task continuity policy mismatch")
+    if execution_plan.get("main_task_binding_digest") != execution_plan.get("goal_scope_binding_digest"):
+        raise WorkloadContractError("execution plan main-task binding digest drift")
+    if task_control is None:
+        raise WorkloadContractError("fresh task scope control required at start/resume")
+    try:
+        checked = assert_execution_allowed(
+            task_control,
+            expected_task_id=str(execution_plan.get("task_id", "")),
+        )
+    except TaskScopeClosureError as exc:
+        raise WorkloadContractError(str(exc)) from exc
+    if checked["main_task_id"] != execution_plan.get("main_task_id"):
+        raise WorkloadContractError("cached execution plan main-task identity is stale")
+    if checked["main_task_binding_revision"] != execution_plan.get("main_task_binding_revision"):
+        raise WorkloadContractError("cached execution plan main-task binding revision is stale")
+    if checked["control_revision"] != execution_plan.get("task_scope_control_revision"):
+        raise WorkloadContractError("cached execution plan task-control revision is stale")
+    digest = task_control_digest(checked)
+    if digest != execution_plan.get("task_scope_control_digest"):
+        raise WorkloadContractError("cached execution plan task-control digest is stale")
+    return {
+        "schema": "fa3.task-scope-admission.v1",
+        "task_id": checked["task_id"],
+        "decision": "ALLOW",
+        "fresh_revalidation": True,
+        "task_scope_control_required": True,
+        "task_scope_policy_id": TASK_SCOPE_POLICY_ID,
+        "validated_control_revision": checked["control_revision"],
+        "validated_control_digest": digest,
+        "main_task_continuity_id": MAIN_TASK_CONTINUITY_ID,
+        "main_task_id": checked["main_task_id"],
+        "main_task_binding_revision": checked["main_task_binding_revision"],
+        "authority": False,
     }

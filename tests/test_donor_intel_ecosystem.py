@@ -96,7 +96,14 @@ class IntelEcosystemDonorTests(unittest.TestCase):
     def test_all_intel_sources_remain_non_authoritative_and_unadmitted(self):
         for row in self.new:
             with self.subTest(row=row["donor_id"]):
-                self.assertEqual(row["status"], "CANDIDATE")
+                if row["status"] == "ACCEPTED_REFERENCE":
+                    review = row.get("submission_review", {})
+                    self.assertEqual(review.get("basis"), "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK")
+                    self.assertEqual(review.get("scope"), "REFERENCE_REGISTRATION_ONLY")
+                    self.assertIs(review.get("second_registry_approval_required"), False)
+                    self.assertTrue(row.get("intake_provenance"))
+                else:
+                    self.assertEqual(row["status"], "CANDIDATE")
                 self.assertTrue(row["discoverable_for_planning"])
                 self.assertTrue(row["target_hints"])
                 if row["source"]["normalized_key"] == "github:openvinotoolkit/openvino":

@@ -2,7 +2,7 @@
   "schema": "fa3.contract-set.v1",
   "id": "FA3-AGENT-WORKLOAD-RUNTIME-CONTRACTS-001",
   "name": "Agent Workload Task, Workspace, Runner, Network and Checkpoint Contracts",
-  "version": "1.3.0",
+  "version": "1.5.1",
   "status": "CANONICAL",
   "profile_id": "FA3-AGENT-WORKLOAD-RUNTIME-001",
   "provider_neutral": true,
@@ -30,7 +30,29 @@
     "work_item_reference_optional": true,
     "physical_provider_pin_forbidden": true,
     "physical_accelerator_ordinal_forbidden": true,
-    "raw_secret_material_forbidden": true
+    "raw_secret_material_forbidden": true,
+    "task_scope_provenance_required": true,
+    "allowed_scope_origins": [
+      "EXPLICIT_USER_SCOPE",
+      "REQUIRED_FOR_APPROVED_GOAL",
+      "EXPLICIT_USER_SCOPE_EXTENSION"
+    ],
+    "open_ended_task_generation": "DENY",
+    "completed_task_auto_successor": "DENY",
+    "scope_refs_nonempty": true,
+    "goal_bound_scope_binding_required": true,
+    "task_scope_policy_id": "FA3-TASK-SCOPE-CLOSURE-POLICY-2026-10-03",
+    "same_blocker_attempt_limit": 3,
+    "fourth_same_blocker_attempt": "DENY",
+    "third_same_blocker_failure": "FREEZE_AND_REQUIRE_HUMAN_INTERVENTION",
+    "start_resume_fresh_scope_admission_required": true,
+    "cached_plan_control_revision_revalidation_required": true,
+    "closed_task_reexecution": "DENY",
+    "out_of_scope_followup_requires_new_task_id": true,
+    "automatic_followup_execution": false,
+    "verified_closure_requires_evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001",
+    "executable_scope_binding_required": true,
+    "all_allowed_scope_origins_require_task_control": true
   },
   "runner_spi": [
     "probe",
@@ -107,7 +129,16 @@
     "GOOGLE_AX_IMMUTABLE_GIT_SCHEMA_GAP_FAILS_CLOSED",
     "GOOGLE_AX_MODEL_RESOURCE_NOT_EMITTED",
     "GOOGLE_AX_NATIVE_MCP_AND_SKILL_DISCOVERY_NOT_USED_AS_FA3_AUTHORITIES",
-    "GOOGLE_AX_CUSTOM_RUNNER_MATERIALIZES_IMMUTABLE_GIT_WITHOUT_AUTHORITY_BYPASS"
+    "GOOGLE_AX_CUSTOM_RUNNER_MATERIALIZES_IMMUTABLE_GIT_WITHOUT_AUTHORITY_BYPASS",
+    "GOAL_BOUND_WORKLOAD_REQUIRES_IMMUTABLE_SCOPE_BINDING",
+    "SAME_BLOCKER_THIRD_FAILURE_FREEZES_EXECUTION",
+    "FOURTH_SAME_BLOCKER_ATTEMPT_FORBIDDEN",
+    "OUT_OF_SCOPE_FOLLOWUP_REQUIRES_NEW_TASK_AND_EXPLICIT_USER_START",
+    "START_AND_RESUME_REQUIRE_FRESH_TASK_SCOPE_ADMISSION",
+    "CACHED_EXECUTION_PLAN_CANNOT_BYPASS_SCOPE_CONTROL_REVISION",
+    "VERIFIED_CLOSURE_REQUIRES_EVIDENCE_AUTHORITY_RECEIPT",
+    "CLOSED_TASK_REEXECUTION_FORBIDDEN",
+    "ALL_EXECUTABLE_SCOPE_ORIGINS_REQUIRE_IMMUTABLE_BINDING_AND_TASK_CONTROL"
   ],
   "failure_policy": {
     "malformed_task": "FAIL_CLOSED",
@@ -118,7 +149,10 @@
     "checkpoint_secret_detected": "FAIL_CLOSED",
     "checkpoint_incompatible": "FAIL_CLOSED",
     "network_destination_not_allowed": "FAIL_CLOSED",
-    "runner_failure": "REPORT_AND_EXISTING_ORCHESTRATION_RETRY_POLICY"
+    "runner_failure": "REPORT_AND_EXISTING_ORCHESTRATION_RETRY_POLICY",
+    "task_scope_control_missing": "FAIL_CLOSED",
+    "task_scope_control_stale": "FAIL_CLOSED",
+    "task_scope_human_intervention_required": "STOP_NO_AUTOMATIC_CONTINUATION"
   },
   "runtime_semantics_contract": "FA3-AGENT-RUNTIME-SEMANTICS-CONTRACTS-001",
   "capability_baseline_release": "2026-09-26/v3.1.0",

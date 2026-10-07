@@ -4,12 +4,15 @@ import copy
 import unittest
 
 from fa3_google_ax_custom_runner import AxCustomRunnerError, compile_custom_runner_plan
+from fa3_task_scope_closure import goal_scope_binding
 
 
 class GoogleAxCustomRunnerTests(unittest.TestCase):
     def fixtures(self):
+        scope_binding=goal_scope_binding({"goal_id":"agent-task-1","revision":1,"scope":{"in_scope":["approved:agent-task-1"],"out_of_scope":[]}})
         task={
             "schema":"fa3.agent-workload-task.v1","task_id":"agent-task-1","root_task_id":"agent-task-1",
+            "scope_origin":"REQUIRED_FOR_APPROVED_GOAL","scope_refs":["approved:agent-task-1"],"goal_scope_binding":scope_binding,
             "action_ref":"orchestration.execute","agent_definition_ref":"agent:def:1","workspace_refs":["workspace-1"],
             "resource_requirements":{"cpu_physical_cores":1},"network_envelope_ref":"net:1",
             "model_intent":{"capability":"coding","locality":"prefer_local"},"authorized_ai_participants":["agent:def:1"],

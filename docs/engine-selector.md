@@ -10,7 +10,7 @@ The governing rule is: **the project belongs to FA3; engines are selectable impl
 
 MLT and future FA3-native media composition remain parallel options. MLT is not deprecated by the existence of an FA3-native engine. The same pattern applies to Digital Human: the FA3-native engine may coexist with admitted external providers.
 
-Selection can be scoped at global, application, workspace, project, sequence, scene, track, clip, node or task level. Every non-global selection carries an explicit `scope_target_id`, so two project/clip/node preferences cannot collapse into the same serialized intent.
+Selection can be scoped at global, product-family, application, workspace, project, sequence, scene, track, clip, node or task level. `PRODUCT_FAMILY` is a context/preference scope backed by `FA3-PRODUCT-FAMILY-REGISTRY-001`; it grants no execution or permission authority. Every non-global selection carries an explicit `scope_target_id`, so two project/clip/node preferences cannot collapse into the same serialized intent.
 
 ## Authority boundaries
 

@@ -1,0 +1,198 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "CFA3-AGENTSCOPE-EMBABEL-DONOR-REUSE-ASSESSMENT-2026-10-06",
+  "project_id": "CFA3-AGENTSCOPE-EMBABEL-INTEGRATION-001",
+  "result": "PASS",
+  "donor_review": {
+    "status": "REVIEWED_MATCH"
+  },
+  "donor_planning_snapshot": {
+    "published_main_commit": "7540da8be67fe587a0a017a23318136e05fc8c76",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "2bb6a74dd415b6374e4a6d5adce1bc9265229b63",
+    "donor_registry_sha256": "4c3609314b55dc00adb5132297d89f13908c9e7efb7c3c4e750ac94fcef7e04a",
+    "donor_registry_entry_count": 1792
+  },
+  "planning_donor_analysis_exception": {
+    "decision_ref": "canonical/decisions/FA3-DEC-IMPLEMENTATION-PLAN-DONOR-EXCEPTION-2026-10-04.json",
+    "scope": "ORIGINATING_CONVERSATION_AND_DIRECT_CONTINUATIONS_ONLY",
+    "planning_only": true,
+    "cross_conversation_reuse": false,
+    "lineage_ref": "chat:cfa3-agentscope-embabel-plan:2026-10-06"
+  },
+  "planning_processed_donors": [
+    {
+      "normalized_key": "github:agentscope-ai",
+      "source": "https://github.com/agentscope-ai",
+      "role": "AGENT_ECOSYSTEM_DISCOVERY_INDEX",
+      "registry_state_at_snapshot": "ABSENT",
+      "registration_required_before_execution": true
+    },
+    {
+      "normalized_key": "github:agentscope-ai/agentscope",
+      "source": "https://github.com/agentscope-ai/agentscope",
+      "role": "AGENT_RUNTIME_FRAMEWORK_MCP_A2A_PERMISSION_WORKSPACE_REFERENCE",
+      "registry_state_at_snapshot": "ABSENT",
+      "registration_required_before_execution": true
+    },
+    {
+      "normalized_key": "github:agentscope-ai/agentscope-samples",
+      "source": "https://github.com/agentscope-ai/agentscope-samples",
+      "role": "AGENT_APPLICATION_BROWSER_RESEARCH_TUNING_INTEGRATION_PATTERN_REFERENCE",
+      "registry_state_at_snapshot": "ABSENT",
+      "registration_required_before_execution": true
+    },
+    {
+      "normalized_key": "github:agentscope-ai/agentscope-runtime",
+      "source": "https://github.com/agentscope-ai/agentscope-runtime",
+      "role": "LEGACY_AGENT_RUNTIME_SANDBOX_AAAS_OBSERVABILITY_MIGRATION_REFERENCE",
+      "registry_state_at_snapshot": "ABSENT",
+      "registration_required_before_execution": true
+    },
+    {
+      "normalized_key": "github:agentscope-ai/agentteams",
+      "source": "https://github.com/agentscope-ai/AgentTeams",
+      "role": "MULTI_AGENT_MANAGER_WORKER_FEDERATION_HITL_AUDIT_REFERENCE",
+      "registry_state_at_snapshot": "ABSENT",
+      "registration_required_before_execution": true
+    },
+    {
+      "normalized_key": "github:agentscope-ai/reme",
+      "source": "https://github.com/agentscope-ai/ReMe",
+      "role": "LOCAL_FIRST_FILE_NATIVE_AGENT_MEMORY_AND_RETRIEVAL_REFERENCE",
+      "registry_state_at_snapshot": "ABSENT",
+      "registration_required_before_execution": true
+    },
+    {
+      "normalized_key": "github:agentscope-ai/openjudge",
+      "source": "https://github.com/agentscope-ai/OpenJudge",
+      "role": "SEMANTIC_EVALUATION_JUDGE_AND_TRAINING_REWARD_REFERENCE",
+      "registry_state_at_snapshot": "ABSENT",
+      "registration_required_before_execution": true
+    },
+    {
+      "normalized_key": "github:agentscope-ai/trinity-rft",
+      "source": "https://github.com/agentscope-ai/Trinity-RFT",
+      "role": "REINFORCEMENT_FINE_TUNING_PIPELINE_REFERENCE",
+      "registry_state_at_snapshot": "ABSENT",
+      "registration_required_before_execution": true
+    },
+    {
+      "normalized_key": "github:agentscope-ai/tuft",
+      "source": "https://github.com/agentscope-ai/TuFT",
+      "role": "MULTI_TENANT_LOCAL_LLM_FINE_TUNING_INFRA_REFERENCE",
+      "registry_state_at_snapshot": "ABSENT",
+      "registration_required_before_execution": true
+    },
+    {
+      "normalized_key": "https://agentscope.io/",
+      "source": "https://agentscope.io/",
+      "role": "OFFICIAL_AGENT_ECOSYSTEM_PRODUCT_AND_ARCHITECTURE_DOCUMENTATION_REFERENCE",
+      "registry_state_at_snapshot": "ABSENT",
+      "registration_required_before_execution": true
+    },
+    {
+      "normalized_key": "github:embabel",
+      "source": "https://github.com/embabel",
+      "role": "AGENT_PLANNING_ECOSYSTEM_DISCOVERY_INDEX",
+      "registry_state_at_snapshot": "ABSENT",
+      "registration_required_before_execution": true
+    },
+    {
+      "normalized_key": "github:embabel/embabel-agent",
+      "source": "https://github.com/embabel/embabel-agent",
+      "role": "STRONGLY_TYPED_GOAL_ACTION_CONDITION_DYNAMIC_PLANNING_REFERENCE",
+      "registry_state_at_snapshot": "ABSENT",
+      "registration_required_before_execution": true
+    },
+    {
+      "normalized_key": "github:embabel/embabel-agent-examples",
+      "source": "https://github.com/embabel/embabel-agent-examples",
+      "role": "JVM_SPRING_MCP_AGENT_IMPLEMENTATION_EXAMPLES_REFERENCE",
+      "registry_state_at_snapshot": "ABSENT",
+      "registration_required_before_execution": true
+    },
+    {
+      "normalized_key": "github:embabel/tripper",
+      "source": "https://github.com/embabel/tripper",
+      "role": "DETERMINISTIC_PLANNING_MULTI_MODEL_MCP_APPLICATION_REFERENCE",
+      "registry_state_at_snapshot": "ABSENT",
+      "registration_required_before_execution": true
+    }
+  ],
+  "selected_existing_cfa3_reuse": [
+    "FA3-GOAL-EXECUTION-CONTRACTS-001",
+    "FA3-AGENT-APPLICATION-BLUEPRINT-CONTRACTS-001",
+    "FA3-ORCHESTRATION-WORKFORCE-001",
+    "FA3-AGENT-FEDERATION-001",
+    "FA3-AGENT-WORKLOAD-RUNTIME-001",
+    "FA3-UNIFIED-ACTION-FABRIC-001",
+    "FA3-MCP-GATEWAY-001",
+    "FA3-SKILL-FABRIC-001",
+    "FA3-DECISION-FABRIC-001",
+    "FA3-AUTH-SECURITY-GOV-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-MODEL-ROUTER-001",
+    "FA3-AUTH-OBS-EVIDENCE-001",
+    "FA3-JOURNAL-001",
+    "CFA3-APPLICATION-WORK-CAPABILITY-001"
+  ],
+  "shared_capability_placement": {
+    "reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "local_duplicate_created": false,
+    "consumer_scope": [
+      "CFA3",
+      "Assistant",
+      "Coach",
+      "Mentor",
+      "Manager",
+      "Agent Workspace",
+      "Developer Agent",
+      "Research",
+      "Browser/Computer Interaction",
+      "Unified Messenger",
+      "Control Center",
+      "Story/Screenplay",
+      "World/Character/Shot/Production",
+      "future CFA3 agentic applications"
+    ],
+    "retrospective_consumer_impact_reviewed": true,
+    "shared_component_ids": [
+      "FA3-GOAL-EXECUTION-CONTRACTS-001",
+      "FA3-AGENT-APPLICATION-BLUEPRINT-CONTRACTS-001",
+      "FA3-ORCHESTRATION-WORKFORCE-001",
+      "FA3-AGENT-FEDERATION-001",
+      "FA3-AGENT-WORKLOAD-RUNTIME-001",
+      "FA3-UNIFIED-ACTION-FABRIC-001",
+      "FA3-MCP-GATEWAY-001",
+      "FA3-SKILL-FABRIC-001",
+      "FA3-DECISION-FABRIC-001",
+      "CFA3-APPLICATION-WORK-CAPABILITY-001"
+    ]
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "new_physical_capability_requirement": false,
+    "runtime_promotion_claim": false
+  },
+  "authority_reconciliation": {
+    "capability_baseline": 175,
+    "capability_delta": 0,
+    "architectural_authority_delta": 0,
+    "temporal_remains_global_durable_authority": true,
+    "uaf_remains_effect_boundary": true,
+    "model_router_remains_sole_model_provider_runtime_router": true,
+    "hrb_remains_sole_resource_authority": true,
+    "mcp_gateway_remains_tool_boundary": true,
+    "security_remains_authorization_authority": true,
+    "evidence_remains_promotion_authority": true
+  },
+  "adopted_donors": [],
+  "pending_or_unmerged_donors_consumed": false,
+  "execution_allowed": false,
+  "execution_blocker": "PROCESSED_PLANNING_DONORS_NOT_PUBLISHED_IN_VERIFIED_MAIN"
+}

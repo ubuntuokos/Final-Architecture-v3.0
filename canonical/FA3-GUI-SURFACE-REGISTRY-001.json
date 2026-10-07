@@ -70,7 +70,45 @@
       "title": "AI Studio",
       "group": "CREATE",
       "projection": "CREATIVE_OFFICE_PUBLISHING",
-      "agent_native": "CONSUMER"
+      "agent_native": "CONSUMER",
+      "children": [
+        {
+          "surface_id": "create.ai-studio.generative-media-mesh",
+          "title": "Generative Media Capability Mesh",
+          "projection": "PROVIDER_NEUTRAL_GENERATIVE_MEDIA_PLANNING_AND_STATUS",
+          "profile_id": "FA3-GENERATIVE-MEDIA-MESH-001",
+          "contract_id": "FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001",
+          "mode": "STATIC_MATERIALIZED_RUNTIME_GATED",
+          "direct_provider_execution": false,
+          "direct_model_execution": false,
+          "direct_device_selection": false,
+          "direct_workflow_authority": false,
+          "authority": false,
+          "runtime_promotion_claim": false,
+          "model_router_authority": "FA3-AUTH-MODEL-ROUTER-001",
+          "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+          "application_menu_bindings": [
+            "Image / Photo Studio > Create > Generate",
+            "Image / Photo Studio > Edit > AI Edit",
+            "Image / Photo Studio > Edit > Constraints > Physical Consistency",
+            "Story / Screenplay > Visualize > Storyboard",
+            "Shot Designer > Motion > Trajectory",
+            "Shot Designer > Camera > Generated Motion",
+            "Video Editor > AI > Generate",
+            "Video Editor > AI > Regional Edit",
+            "Video Editor > AI > Refine / Enhance",
+            "Quick Video > Generate > Visual",
+            "Quick Video > Generate > Motion",
+            "Character Studio > Animation > Motion Transfer",
+            "Character Studio > Appearance > Virtual Try-On (rights-gated)",
+            "AI Module Factory > Experiments > Generative Media",
+            "Model Manager > Models > Generative Media",
+            "FA3 Control Center > Models > Engines"
+          ],
+          "child_provider_status": "NOT_ADMITTED",
+          "physical_current_host_requalification_required": true
+        }
+      ]
     },
     {
       "route_id": "create.narration-studio",

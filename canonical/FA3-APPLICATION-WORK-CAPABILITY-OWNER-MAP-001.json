@@ -1,0 +1,118 @@
+{
+  "schema": "fa3.application-work-capability-owner-map.v1",
+  "id": "FA3-APPLICATION-WORK-CAPABILITY-OWNER-MAP-001",
+  "title": "CFA3 Application, Work and Capability Canonical Owner Map",
+  "status": "CANONICAL_COMPOSITION_MAP",
+  "authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "purpose": "Prevent parallel authorities and cross-layer duplication while materializing application, work, capability, lifecycle and task-capsule semantics.",
+  "owners": {
+    "application_effectful_operation": {
+      "owner": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "consumers": [
+        "GUI",
+        "CLI",
+        "AGENT",
+        "MCP",
+        "A2A",
+        "AUTOMATION"
+      ]
+    },
+    "work_goal_project_task_truth": {
+      "owner": "FA3-WORK-MANAGEMENT-PROJECTION-001",
+      "contracts": [
+        "FA3-WORK-ITEM-PROJECTION-CONTRACTS-001",
+        "FA3-WORK-MANAGEMENT-SEMANTIC-CONTRACTS-001"
+      ]
+    },
+    "work_context_projection": {
+      "owner": "FA3-OS-001",
+      "contract": "FA3-WORK-CONTEXT-CONTRACTS-001",
+      "may_own_work_truth": false
+    },
+    "application_provisioning_lifecycle": {
+      "owner": "FA3-APP-LIFECYCLE-001",
+      "runtime_extension": "FA3-APPLICATION-RUNTIME-LIFECYCLE-CONTRACTS-001"
+    },
+    "agent_task_local_execution": {
+      "owner": "FA3-AGENT-WORKLOAD-RUNTIME-001",
+      "task_capsule_contract": "FA3-TASK-CAPSULE-CONTRACTS-001"
+    },
+    "agent_application_blueprint": {
+      "owner": "FA3-AGENT-APPLICATION-BLUEPRINT-CONTRACTS-001",
+      "extension": "FA3-AGENT-APPLICATION-BLUEPRINT-EXTENSION-CONTRACTS-001"
+    },
+    "authorization_and_capability_grant": {
+      "owner": "FA3-AUTH-SECURITY-GOV-001",
+      "scope_contract": "FA3-CAPABILITY-GRANT-SCOPE-CONTRACTS-001",
+      "uaf_is_permission_authority": false
+    },
+    "durable_workflow": {
+      "owner": "Temporal",
+      "parallel_global_workflow_authority_forbidden": true
+    },
+    "model_provider_routing": {
+      "owner": "FA3-AUTH-MODEL-ROUTER-001"
+    },
+    "host_resource_admission": {
+      "owner": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+    },
+    "tool_mcp_mediation": {
+      "owner": "FA3-AUTH-MCP-GATEWAY-001"
+    },
+    "secrets": {
+      "owner": "FA3-AUTH-SECRETS-001"
+    },
+    "evidence": {
+      "owner": "FA3-AUTH-OBS-EVIDENCE-001"
+    },
+    "history_activity": {
+      "owner": "FA3-JOURNAL-001"
+    },
+    "updates": {
+      "owner": "FA3-UPDATE-FABRIC-001"
+    },
+    "plugin_extension": {
+      "platform_service": "PLUGIN_EXTENSION_FABRIC",
+      "owner_materialization": "FA3-SHARED-PLUGIN-EXTENSION-FABRIC-001",
+      "binding_status": "PENDING_EXISTING_OWNER_PR_564",
+      "parallel_replacement_forbidden": true
+    },
+    "collaboration": {
+      "platform_service": "COLLABORATION_FABRIC",
+      "composition_only": true,
+      "existing_main_bindings": [
+        "FA3-AI-COMMS-001",
+        "FA3-WORK-MANAGEMENT-PROJECTION-001"
+      ],
+      "pending_existing_owner_prs": [
+        566,
+        590
+      ],
+      "new_collaboration_runtime_authority_forbidden": true
+    },
+    "inter_application_operation_handoff": {
+      "owner": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "contract": "FA3-APPLICATION-OPERATION-HANDOFF-CONTRACTS-001",
+      "communication_policy": "FA3-AI-COMMS-001_WHEN_AI_COMMUNICATION_APPLIES",
+      "workspace_artifact_capability": "CAP-152",
+      "handoff_is_authorization": false
+    }
+  },
+  "anti_cross_layer_rules": [
+    "WORK_CONTEXT_REFERENCES_WORK_TRUTH_BUT_DOES_NOT_DUPLICATE_IT",
+    "TASK_CAPSULE_COMPOSES_EXISTING_OWNERS_BUT_OWNS_NONE_OF_THEM",
+    "BLUEPRINT_REQUESTS_CAPABILITIES_BUT_DOES_NOT_GRANT_THEM",
+    "CAPABILITY_GRANT_SCOPES_AUTHORIZATION_BUT_DOES_NOT_ROUTE_MODELS_OR_ALLOCATE_HARDWARE",
+    "APPLICATION_LIFECYCLE_COORDINATES_STATE_BUT_DELEGATES_EFFECTS_TO_EXISTING_AUTHORITIES",
+    "COLLABORATION_IS_COMPOSITION_CATEGORY_NOT_RUNTIME_AUTHORITY",
+    "PLUGIN_EXTENSION_OWNER_MUST_BE_EXISTING_SHARED_FABRIC_WHEN_MATERIALIZED",
+    "NO_SECOND_APPLICATION_REGISTRY",
+    "NO_SECOND_WORK_REGISTRY",
+    "NO_SECOND_PERMISSION_AUTHORITY",
+    "NO_SECOND_WORKFLOW_AUTHORITY",
+    "APPLICATION_HANDOFF_DOES_NOT_CREATE_SECOND_COMMUNICATION_OR_EXECUTION_AUTHORITY"
+  ]
+}

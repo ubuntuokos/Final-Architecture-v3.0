@@ -17,7 +17,7 @@ from fa3_engine_selector import (
     materialize_catalog,
     selection_intent,
 )
-from fa3_engine_selector_gate import donor_registry_fingerprint, gate
+from fa3_engine_selector_gate import donor_registry_fingerprint, donor_snapshot_findings, gate
 
 class EngineSelectorTests(unittest.TestCase):
     @classmethod
@@ -40,12 +40,10 @@ class EngineSelectorTests(unittest.TestCase):
             row=json.loads((ROOT/rel).read_text(encoding="utf-8"))
             self.assertEqual(row["capability_count"],175,rel)
 
-    def test_donor_snapshot_fingerprint_matches_live_registry(self):
+    def test_donor_snapshot_fingerprint_matches_declared_published_main(self):
         assessment=json.loads((ROOT/"canonical/assessments/FA3-ENGINE-SELECTION-REUSE-ASSESSMENT-2026-10-03.json").read_text(encoding="utf-8"))
         snap=assessment["donor_planning_snapshot"]
-        live=donor_registry_fingerprint(ROOT/"canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json")
-        for key,value in live.items():
-            self.assertEqual(snap[key],value,key)
+        self.assertEqual(donor_snapshot_findings(ROOT,snap),[])
 
     def test_donor_snapshot_changes_on_registry_mutation(self):
         source=ROOT/"canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"
@@ -130,6 +128,30 @@ class EngineSelectorTests(unittest.TestCase):
         self.assertIn("FA3-ENGINE-FA3-DIGITAL-HUMAN-NATIVE-001",ids)
         self.assertNotIn("FA3-ENGINE-MLT-001",ids)
 
+    def test_product_family_scope_is_explicit_context(self):
+        intent = selection_intent(
+            self.catalog,
+            engine_id="FA3-ENGINE-MLT-001",
+            scope="PRODUCT_FAMILY",
+            scope_target_id="FA3-FAMILY-CREATIVE-MEDIA-001",
+            required_capabilities=["CAP-121"],
+            valid_product_family_ids={"FA3-FAMILY-CREATIVE-MEDIA-001"},
+        )
+        self.assertEqual(intent["scope"], "PRODUCT_FAMILY")
+        self.assertEqual(intent["scope_target_id"], "FA3-FAMILY-CREATIVE-MEDIA-001")
+        self.assertFalse(intent["execution_requested"])
+        self.assertFalse(intent["silent_fallback"])
+
+        with self.assertRaises(EngineSelectionError):
+            selection_intent(
+                self.catalog,
+                engine_id="FA3-ENGINE-MLT-001",
+                scope="PRODUCT_FAMILY",
+                scope_target_id="FA3-FAMILY-NOT-REGISTERED-001",
+                required_capabilities=["CAP-121"],
+                valid_product_family_ids={"FA3-FAMILY-CREATIVE-MEDIA-001"},
+            )
+
     def test_non_global_scope_requires_target(self):
         with self.assertRaises(EngineSelectionError):
             selection_intent(
@@ -194,6 +216,7 @@ class EngineSelectorTests(unittest.TestCase):
         self.assertIn("EngineSelectorService.cpp",cmake)
         self.assertIn("compatibilityReport",service)
         self.assertIn("scopeTarget",qml)
+        self.assertIn("PRODUCT_FAMILY",qml)
         self.assertIn("compareIds.indexOf",qml)
 
     def test_static_compare_includes_compatibility_without_execution(self):

@@ -1,0 +1,47 @@
+name: CFA3 Shared Ray Path Tracing Fabric
+
+on:
+  pull_request:
+    paths:
+      - 'canonical/profiles/FA3-SHARED-RAY-PATH-TRACING-001.json'
+      - 'canonical/contracts/FA3-SHARED-RAY-PATH-TRACING-CONTRACTS-001.json'
+      - 'canonical/intents/FA3-SHARED-RAY-PATH-TRACING-APPLICATION-INTENT-2026-10-05.json'
+      - 'canonical/assessments/FA3-SHARED-RAY-PATH-TRACING-REUSE-ASSESSMENT-2026-10-05.json'
+      - 'canonical/assessments/FA3-SHARED-RAY-PATH-TRACING-DECISION-ASSESSMENT-2026-10-05.json'
+      - 'canonical/decisions/FA3-DEC-*-RAY-PATH-TRACING-*-2026-10-05.json'
+      - 'canonical/FA3-GATE-RAY-PATH-TRACING-001.json'
+      - 'canonical/FA3-GATE-REGISTRY-001.json'
+      - 'canonical/enforcement-policy.json'
+      - 'canonical/FA3-ENGINE-REGISTRY-001.json'
+      - 'canonical/FA3-APPLICATION-DONOR-LINKS-001.json'
+      - 'canonical/current-host-impact/FA3-CH-IMPACT-SHARED-RAY-PATH-TRACING-20261005.json'
+      - 'src/fa3_ray_path_tracing_fabric.py'
+      - 'src/fa3_ray_path_tracing_gate.py'
+      - 'src/fa3_enforce.py'
+      - 'tests/test_ray_path_tracing_fabric.py'
+      - 'tests/test_ray_path_tracing_gate.py'
+      - 'docs/CFA3-SHARED-RAY-PATH-TRACING-001.md'
+      - '.github/workflows/fa3-ray-path-tracing-fabric.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  ray-path-tracing-static:
+    name: ray-path-tracing / static
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+      - name: Python syntax
+        run: python -m py_compile src/fa3_ray_path_tracing_fabric.py src/fa3_ray_path_tracing_gate.py tests/test_ray_path_tracing_fabric.py tests/test_ray_path_tracing_gate.py
+      - name: Shared ray/path tracing regressions
+        env:
+          PYTHONPATH: src
+        run: python -m unittest tests.test_ray_path_tracing_fabric tests.test_ray_path_tracing_gate
+      - name: Canonical shared ray/path tracing gate
+        env:
+          PYTHONPATH: src
+        run: python src/fa3_ray_path_tracing_gate.py --root "$GITHUB_WORKSPACE"

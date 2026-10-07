@@ -41,6 +41,15 @@ Item {
     ]
 
     function stateLabel(state) {
+        if (state === "RUNNING") return "FUT"
+        if (state === "SUSPENDED") return "FELFÜGGESZTVE"
+        if (state === "STOPPED") return "LEÁLLÍTVA"
+        if (state === "STARTING") return "INDUL…"
+        if (state === "STOPPING") return "LEÁLL…"
+        if (state === "UPDATING") return "FRISSÍTÉS…"
+        if (state === "ROLLBACK_PENDING" || state === "ROLLING_BACK") return "ROLLBACK"
+        if (state === "FAILED") return "RUNTIME HIBA"
+        if (state === "READY") return "RUNTIME READY"
         if (state === "INSTALLED") return "TELEPÍTVE"
         if (state === "READY_TO_INSTALL") return "TELEPÍTÉSRE KÉSZ"
         if (state === "INSTALLING") return "TELEPÍTÉS…"
@@ -51,6 +60,10 @@ Item {
     }
 
     function stateColor(state) {
+        if (state === "RUNNING" || state === "READY") return root.green
+        if (state === "SUSPENDED" || state === "STOPPED") return root.cyan
+        if (state === "STARTING" || state === "STOPPING" || state === "UPDATING" || state === "ROLLBACK_PENDING" || state === "ROLLING_BACK") return root.orange
+        if (state === "FAILED") return root.red
         if (state === "INSTALLED") return root.green
         if (state === "READY_TO_INSTALL") return root.accent
         if (state === "INSTALLING") return root.orange
@@ -254,6 +267,11 @@ Item {
                                 wrapMode: Text.WordWrap
                             }
 
+                            GenerativeMediaMeshPanel {
+                                Layout.fillWidth: true
+                                visible: ["Image", "Video", "Animation", "Story / Screenplay"].indexOf(root.modules[root.selectedIndex].title) >= 0
+                            }
+
                             Rectangle { Layout.fillWidth: true; height: 1; color: root.border }
                             Label { text: "Elérhető felületek / műveletek"; color: root.textPrimary; font.pixelSize: 13; font.bold: true }
 
@@ -444,6 +462,30 @@ Item {
                                     text: root.selectedApp.recipe_available ? "Materializálva" : "Még nincs materializálva"
                                     color: root.selectedApp.recipe_available ? root.green : root.orange
                                     font.pixelSize: 9
+                                }
+                            }
+
+                            Rectangle {
+                                Layout.fillWidth: true
+                                implicitHeight: lifecycleText.implicitHeight + 26
+                                radius: 6
+                                color: root.panelRaised
+                                border.color: root.border
+                                ColumnLayout {
+                                    anchors.fill: parent
+                                    anchors.margins: 10
+                                    spacing: 4
+                                    Label { text: "Application Runtime Lifecycle v2"; color: root.textPrimary; font.pixelSize: 10; font.bold: true }
+                                    Label {
+                                        id: lifecycleText
+                                        Layout.fillWidth: true
+                                        wrapMode: Text.WordWrap
+                                        color: root.textMuted
+                                        font.pixelSize: 9
+                                        text: ["READY", "STARTING", "RUNNING", "SUSPENDING", "SUSPENDED", "RESUMING", "STOPPING", "STOPPED", "UPDATING", "ROLLBACK_PENDING", "ROLLING_BACK", "REMOVING", "REMOVED", "FAILED"].indexOf(root.selectedApp.runtime_state) >= 0
+                                              ? "Observed runtime state: " + root.stateLabel(root.selectedApp.runtime_state) + ". A state nem ad execution authority-t; művelethez UAF + Security + Temporal/HRB/Update/Evidence határok érvényesek."
+                                              : "Runtime control: ADAPTER-GATED. A jelenlegi katalógus first-use provisioning állapotot ad; RUNNING/SUSPENDED/STOPPED státuszt a GUI nem talál ki runtime adapter/evidence nélkül."
+                                    }
                                 }
                             }
 

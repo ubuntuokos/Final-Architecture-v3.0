@@ -200,7 +200,17 @@
       "every_donor_change_requires_processing": true,
       "donor_to_application_reverse_traceability_required": true,
       "capability_non_regression_on_donor_change": true,
-      "capability_loss_only_for_verified_fa3_risk": true
+      "capability_loss_only_for_verified_fa3_risk": true,
+      "owner_marker_semantics": "NORMALIZED_EXACT_OWNER_COMMAND_MARKER",
+      "approved_owner_commands": [
+        "donornak",
+        "vedd fel donornak",
+        "add a donorlistához"
+      ],
+      "command_equivalence_decision_ref": "FA3-DEC-DONOR-INTAKE-COMMAND-EQUIVALENCE-2026-10-04",
+      "implementation_plan_exception_decision_ref": "FA3-DEC-IMPLEMENTATION-PLAN-DONOR-EXCEPTION-2026-10-04",
+      "approved_plan_processed_set_registration_allowed": true,
+      "approved_plan_registration_requires_committed_hash_and_lineage_binding": true
     },
     "DonorPlanningSnapshot": {
       "schema": "fa3.donor-planning-snapshot.v1",
@@ -255,7 +265,7 @@
     "EXTERNAL_SKILL_RADAR_IS_REFERENCE_ONLY_NOT_INSTALLATION_OR_ADMISSION",
     "KHRONOS_OPEN_STANDARDS_SOURCE_REVIEW_REQUIRED_BEFORE_NEW_APPLICATION_IMPLEMENTATION",
     "KHRONOS_REUSE_SELECTION_IS_MATCH_ONLY_NON_AUTHORITATIVE",
-    "ONLY_EXPLICIT_OWNER_DONORNAK_MARKED_LINKS_ENTER_DONOR_REGISTRY",
+    "DONOR_REGISTRATION_REQUIRES_EXPLICIT_OWNER_COMMAND_OR_COMMITTED_APPROVED_PLAN_PROCESSED_SET",
     "DONOR_REGISTRY_IS_CENTRAL_PLANNING_INPUT_NOT_ARCHITECTURAL_AUTHORITY",
     "DONOR_CANDIDATE_CAPTURE_IS_NOT_DEPENDENCY_CODE_IMPORT_PROVIDER_OR_MODEL_ADMISSION",
     "DONOR_REGISTRY_QUERY_REQUIRED_BEFORE_NEW_OR_MATERIALLY_MODIFIED_APPLICATION_CAPABILITY_OR_MODULE_DESIGN",

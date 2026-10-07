@@ -34,7 +34,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: fa3-decision-fabric-current-host-${{ github.ref }}
+  group: fa3-current-host-physical-${{ github.event.pull_request.head.ref || github.ref_name }}
   cancel-in-progress: true
 
 permissions:
@@ -46,7 +46,7 @@ jobs:
     runs-on: [self-hosted, linux, x64, fa3-current-host]
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
           clean: true
@@ -72,7 +72,7 @@ jobs:
           assert d["checks"]["hardware"]["pass"] is True
           assert d["checks"]["system_one_reflex"]["pass"] is True
           PY
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: fa3-decision-fabric-current-host
           path: evidence/current-host/decision-fabric-current-host.json

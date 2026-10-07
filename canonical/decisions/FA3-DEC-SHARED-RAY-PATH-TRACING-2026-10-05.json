@@ -1,0 +1,22 @@
+{
+  "schema": "fa3.architecture-decision.v1",
+  "id": "FA3-DEC-SHARED-RAY-PATH-TRACING-2026-10-05",
+  "status": "OWNER_APPROVED_MATERIALIZATION",
+  "date": "2026-10-05",
+  "title": "Materialize one provider-neutral Shared Ray/Path Tracing Fabric",
+  "decision": "Create one CFA3-native shared, non-authoritative ray/path tracing resolver and typed contract surface bound to existing CAP-127, Engine Selection, HRB, Render Fabric and Neural Rendering boundaries. Preserve explicit CPU software and NVIDIA/AMD/Intel accelerator paths. Do not admit a runtime provider, model, driver or Current Host PASS in this change.",
+  "owner_approval_basis": "User approved the next task: Shared Ray/Path Tracing Fabric materialization.",
+  "invariants": {
+    "capability_baseline": 175,
+    "capability_delta": 0,
+    "architectural_authority_delta": 0,
+    "donor_registry_modified": false,
+    "donor_usage_edges_created": 7,
+    "code_imported": false,
+    "runtime_dependencies_added": false,
+    "runtime_activation_by_this_change": false,
+    "physical_current_host_pass_claimed": false
+  },
+  "runtime_effect": "STATIC_SHARED_RESOLVER_AND_CONTRACT_MATERIALIZATION_ONLY_NO_HARDWARE_EXECUTION",
+  "current_host_freeze": "CURRENT_HOST_STABILIZATION_FREEZE_CROSS_PR_PREREQUISITE"
+}

@@ -37,7 +37,7 @@ jobs:
   reference-gate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Syntax
         run: python -m py_compile src/fa3_model_router_provider_execution.py src/fa3_model_router_provider_execution_gate.py bin/fa3-model-router-provider-execution-current-host.py bin/fa3-openai-loopback-bridge.py
       - name: Shell syntax

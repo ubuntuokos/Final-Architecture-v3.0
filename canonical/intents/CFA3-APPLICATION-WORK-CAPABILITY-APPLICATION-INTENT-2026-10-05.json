@@ -1,0 +1,77 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "CFA3-APPLICATION-WORK-CAPABILITY-APPLICATION-INTENT-2026-10-05",
+  "project_id": "CFA3-APPLICATION-WORK-CAPABILITY-001",
+  "project_type": "MATERIAL_EXTENSION",
+  "goal": "Materialize a shared CFA3 Application / Work / Capability operating model that reuses existing lifecycle, work-management, UAF, Temporal, HRB, security, evidence and agent-workload authorities without creating a competing authority plane.",
+  "required_capabilities": [],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "application-runtime-lifecycle",
+    "work-context",
+    "work-management-semantics",
+    "capability-grant-scope",
+    "task-capsule",
+    "application-handoff",
+    "shared-cross-application-runtime"
+  ],
+  "input_modalities": [
+    "CANONICAL_METADATA",
+    "APPLICATION_RUNTIME_STATE",
+    "WORK_CONTEXT"
+  ],
+  "output_modalities": [
+    "CANONICAL_CONTRACTS",
+    "SHARED_RUNTIME_PROJECTION",
+    "GUI_PROJECTION"
+  ],
+  "execution_classes": [
+    "CPU_LIGHTWEIGHT"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-application-work-capability",
+    "service_prefix": "fa3-application-work-capability",
+    "config_root": "$XDG_CONFIG_HOME/fa3/application-work-capability",
+    "cache_root": "$XDG_CACHE_HOME/fa3/application-work-capability",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/application-work-capability",
+    "data_root": "$XDG_DATA_HOME/fa3/application-work-capability",
+    "desktop_prefix": "org.fa3.application-work-capability",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  },
+  "security_requirements": [
+    "EXISTING_UAF_AND_SECURITY_AUTHORITIES_ONLY",
+    "NO_INHERITED_FULL_USER_AUTHORITY_FOR_AGENT_DELEGATION"
+  ],
+  "integration_requirements": [
+    "FA3-AGENT-WORKLOAD-RUNTIME-001",
+    "FA3-TASK-SCOPE-CLOSURE-POLICY-2026-10-03",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-OBS-EVIDENCE-001"
+  ],
+  "gui_requirements": [
+    "CONTROL_CENTER_WORK_MANAGEMENT_PROJECTION",
+    "CONTROL_CENTER_APPLICATION_RUNTIME_PROJECTION",
+    "CONTROL_CENTER_SCOPED_DELEGATION_PROJECTION"
+  ],
+  "task_classes": [
+    "architecture",
+    "work-management",
+    "application-runtime"
+  ],
+  "skill_triggers": [],
+  "mandatory_source_families": [
+    "FA3-KHRONOS-OPEN-STANDARDS-001"
+  ]
+}

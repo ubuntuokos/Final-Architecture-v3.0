@@ -38,8 +38,7 @@ def _git(root: Path, *args: str, check: bool=True) -> subprocess.CompletedProces
 def _blob_sha(data: bytes) -> str:
     return hashlib.sha1(f"blob {len(data)}\0".encode("ascii")+data).hexdigest()
 
-def donor_registry_fingerprint(path: Path) -> dict[str, Any]:
-    data=path.read_bytes()
+def donor_registry_fingerprint_bytes(data: bytes) -> dict[str, Any]:
     obj=json.loads(data.decode("utf-8"))
     entries=obj.get("entries")
     if not isinstance(entries,list):
@@ -51,14 +50,12 @@ def donor_registry_fingerprint(path: Path) -> dict[str, Any]:
         "donor_registry_sha256":hashlib.sha256(data).hexdigest(),
     }
 
+def donor_registry_fingerprint(path: Path) -> dict[str, Any]:
+    return donor_registry_fingerprint_bytes(path.read_bytes())
+
 def donor_snapshot_findings(root: Path, snapshot: dict[str, Any]) -> list[str]:
     findings=[]
-    registry_path=root/DONOR_REL
     try:
-        live=donor_registry_fingerprint(registry_path)
-        for key in ("donor_registry_id","donor_registry_blob_sha","donor_registry_entry_count","donor_registry_sha256"):
-            if snapshot.get(key)!=live.get(key):
-                findings.append(f"donor planning snapshot live mismatch:{key}")
         commit=str(snapshot.get("published_main_commit","")).strip()
         if not commit:
             findings.append("donor planning snapshot published main commit missing")
@@ -66,12 +63,19 @@ def donor_snapshot_findings(root: Path, snapshot: dict[str, Any]) -> list[str]:
         ancestor=_git(root,"merge-base","--is-ancestor",commit,"HEAD",check=False)
         if ancestor.returncode != 0:
             findings.append("donor planning snapshot commit is not an ancestor of HEAD")
+        show=subprocess.run(
+            ["git","-C",str(root),"show",f"{commit}:{DONOR_REL}"],
+            capture_output=True,check=False)
+        if show.returncode != 0:
+            findings.append("donor planning snapshot published-main registry unavailable")
+            return findings
+        published=donor_registry_fingerprint_bytes(show.stdout)
+        for key in ("donor_registry_id","donor_registry_blob_sha","donor_registry_entry_count","donor_registry_sha256"):
+            if snapshot.get(key)!=published.get(key):
+                findings.append(f"donor planning snapshot published-main mismatch:{key}")
         snap_blob=_git(root,"rev-parse",f"{commit}:{DONOR_REL}").stdout.strip()
-        head_blob=_git(root,"rev-parse",f"HEAD:{DONOR_REL}").stdout.strip()
         if snap_blob != snapshot.get("donor_registry_blob_sha"):
             findings.append("donor planning snapshot commit/blob mismatch")
-        if head_blob != snapshot.get("donor_registry_blob_sha"):
-            findings.append("donor planning snapshot is stale versus checked-out registry")
     except Exception as exc:
         findings.append(f"donor planning snapshot verification failed:{exc}")
     return findings
@@ -82,6 +86,7 @@ def gate(root: Path) -> dict[str, Any]:
         "profile":root/"canonical/profiles/FA3-ENGINE-SELECTION-FABRIC-001.json",
         "contract":root/"canonical/contracts/FA3-ENGINE-SELECTION-CONTRACTS-001.json",
         "registry":root/"canonical/FA3-ENGINE-REGISTRY-001.json",
+        "product_family_registry":root/"canonical/FA3-PRODUCT-FAMILY-REGISTRY-001.json",
         "decision":root/"canonical/decisions/FA3-DEC-ENGINE-SELECTION-FABRIC-2026-10-03.json",
         "assessment":root/"canonical/assessments/FA3-ENGINE-SELECTION-REUSE-ASSESSMENT-2026-10-03.json",
         "decision_assessment":root/"canonical/assessments/FA3-ENGINE-SELECTION-DECISION-ASSESSMENT-2026-10-03.json",
@@ -103,6 +108,7 @@ def gate(root: Path) -> dict[str, Any]:
         return {"schema":"fa3.engine-selection-gate-report.v1","gate_id":GATE_ID,"result":"FAIL","findings":findings}
 
     profile=_load(paths["profile"]); contract=_load(paths["contract"]); registry=_load(paths["registry"])
+    family_registry=_load(paths["product_family_registry"])
     decision=_load(paths["decision"]); assessment=_load(paths["assessment"])
     decision_assessment=_load(paths["decision_assessment"]); enforcement=_load(paths["enforcement"])
 
@@ -128,6 +134,16 @@ def gate(root: Path) -> dict[str, Any]:
         findings.append("registry authority/capability invariant")
     if registry.get("default_engine") is not None or registry.get("default_fallback_mode")!="OFF":
         findings.append("default engine/fallback mandate forbidden")
+    if (
+        "PRODUCT_FAMILY" not in registry.get("scopes",[])
+        or registry.get("scope_precedence",[])[:3] != ["GLOBAL","PRODUCT_FAMILY","APPLICATION"]
+        or registry.get("product_family_scope",{}).get("execution_authority") is not False
+        or registry.get("product_family_scope",{}).get("permission_grant") is not False
+        or family_registry.get("id") != "FA3-PRODUCT-FAMILY-REGISTRY-001"
+        or family_registry.get("authority") is not False
+        or len(family_registry.get("product_families",[])) != 5
+    ):
+        findings.append("product-family selector scope invariant")
     if registry.get("provider_projection_missing_required_record")!="FAIL_CLOSED":
         findings.append("required provider projection fail-closed invariant")
     if decision.get("id")!=DECISION_ID or decision.get("capability_count_after")!=CAPABILITY_COUNT or decision.get("new_capabilities")!=0 or decision.get("new_architectural_authorities")!=0:
@@ -170,7 +186,7 @@ def gate(root: Path) -> dict[str, Any]:
     selector_text=paths["selector"].read_text(encoding="utf-8")
     gui_registry=_load(paths["gui_registry"])
     gui_surface=next((x for x in gui_registry.get("surfaces",[]) if x.get("route_id")=="models.engines"), {})
-    for token in ["filterEngines", "prepareSelection", "prepareComparison", "compatibilityReport", "FA3-AUTH-MODEL-ROUTER-001", "FA3-AUTH-HOST-RESOURCE-BROKER-001"]:
+    for token in ["filterEngines", "prepareSelection", "prepareComparison", "compatibilityReport", "FA3-AUTH-MODEL-ROUTER-001", "FA3-AUTH-HOST-RESOURCE-BROKER-001", "UNKNOWN_PRODUCT_FAMILY", "FA3-PRODUCT-FAMILY-REGISTRY-001"]:
         if token not in service_text:
             findings.append(f"Control Center service missing:{token}")
     if "EngineSelectorPanel" not in page_text or "fa3EngineSelector" not in main_text or '"models.engines"' not in main_text:
@@ -181,7 +197,7 @@ def gate(root: Path) -> dict[str, Any]:
         findings.append("Control Center Engine Manager build wiring invariant")
     if gui_surface.get("profile_id")!=PROFILE_ID or gui_surface.get("authority") is not False or gui_surface.get("direct_provider_execution") is not False:
         findings.append("GUI surface registry engine manager boundary invariant")
-    for token in ["scopeTarget", "requiredCaps", "compatibilityReport", "compareIds.indexOf"]:
+    for token in ["scopeTarget", "requiredCaps", "compatibilityReport", "compareIds.indexOf", "PRODUCT_FAMILY"]:
         if token not in qml_text:
             findings.append(f"Engine Selector QML review hardening missing:{token}")
     for token in ["--approved-fallback-engine","--scope-target","compare"]:
@@ -216,6 +232,14 @@ def gate(root: Path) -> dict[str, Any]:
         intent=selection_intent(
             catalog,engine_id="FA3-ENGINE-MLT-001",scope="PROJECT",scope_target_id="project:test",
             required_capabilities=["CAP-121"],fallback_mode="OFF")
+        family_ids={row["family_id"] for row in family_registry.get("product_families",[])}
+        family_intent=selection_intent(
+            catalog,engine_id="FA3-ENGINE-MLT-001",scope="PRODUCT_FAMILY",
+            scope_target_id="FA3-FAMILY-CREATIVE-MEDIA-001",
+            required_capabilities=["CAP-121"],fallback_mode="OFF",
+            valid_product_family_ids=family_ids)
+        if family_intent.get("scope_target_id")!="FA3-FAMILY-CREATIVE-MEDIA-001":
+            findings.append("product-family selector intent invariant")
         if intent.get("execution_requested") is not False or intent.get("silent_fallback") is not False:
             findings.append("selection intent crossed execution/fallback boundary")
         if intent.get("scope_target_id")!="project:test":

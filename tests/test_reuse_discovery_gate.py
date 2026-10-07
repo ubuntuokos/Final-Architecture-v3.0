@@ -13,6 +13,7 @@ from fa3_reuse_assessment import assess_intent
 from fa3_reuse_catalog import build_catalog
 from fa3_reuse_resolver import bounded_rank, resolve
 from fa3_reuse_gate import (
+    _khronos_review_findings,
     validate_assessment_donor_usage_edges,
     validate_donor_planning_snapshot,
     validate_shared_capability_placement,
@@ -91,6 +92,46 @@ class ReuseDiscoveryTests(unittest.TestCase):
         self.assertFalse(review["authority"])
         self.assertFalse(review["automatic_selection"])
 
+    def test_khronos_review_is_derived_when_committed_mirror_is_omitted(self):
+        assessment = {
+            "id": "TEST-REUSE-ASSESSMENT",
+            "intent_id": self.intent["id"],
+            "result": "PASS",
+        }
+        self.assertEqual([], _khronos_review_findings(ROOT, self.intent, assessment))
+
+    def test_khronos_historical_mirror_candidate_drift_is_non_authoritative(self):
+        generated = assess_intent(ROOT, self.intent)
+        review = copy.deepcopy(next(
+            row for row in generated["mandatory_source_reviews"]
+            if row["source_family_id"] == "FA3-KHRONOS-OPEN-STANDARDS-001"
+        ))
+        review["available_candidate_ids"] = ["historical.snapshot"]
+        review["matched_candidate_ids"] = []
+        assessment = {
+            "id": "TEST-REUSE-ASSESSMENT",
+            "intent_id": self.intent["id"],
+            "result": "PASS",
+            "mandatory_source_reviews": [review],
+        }
+        self.assertEqual([], _khronos_review_findings(ROOT, self.intent, assessment))
+
+    def test_khronos_historical_mirror_cannot_claim_authority(self):
+        generated = assess_intent(ROOT, self.intent)
+        review = copy.deepcopy(next(
+            row for row in generated["mandatory_source_reviews"]
+            if row["source_family_id"] == "FA3-KHRONOS-OPEN-STANDARDS-001"
+        ))
+        review["authority"] = True
+        assessment = {
+            "id": "TEST-REUSE-ASSESSMENT",
+            "intent_id": self.intent["id"],
+            "result": "PASS",
+            "mandatory_source_reviews": [review],
+        }
+        findings = _khronos_review_findings(ROOT, self.intent, assessment)
+        self.assertEqual(["REUSE-KHRONOS-ADOPT-006"], [row["code"] for row in findings])
+
     def test_donor_registry_backfill_is_central_and_non_authoritative(self):
         registry = json.loads((ROOT / "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json").read_text(encoding="utf-8"))
         entries = registry["entries"]
@@ -112,12 +153,33 @@ class ReuseDiscoveryTests(unittest.TestCase):
         profile = json.loads((ROOT / "canonical/profiles/FA3-REUSE-DISCOVERY-001.json").read_text(encoding="utf-8"))
         contract = json.loads((ROOT / "canonical/contracts/FA3-REUSE-DISCOVERY-CONTRACTS-001.json").read_text(encoding="utf-8"))
         enforcement = json.loads((ROOT / "canonical/enforcement-policy.json").read_text(encoding="utf-8"))
-        self.assertEqual(decision["capture_rule"], "ONLY_LINKS_EXPLICITLY_PRECEDED_BY_OWNER_DONORNAK_MARKER_MAY_ENTER_REGISTRY")
+        self.assertEqual(
+            decision["capture_rule"],
+            "ONLY_AUTHENTICATED_OWNER_APPROVED_DONOR_COMMANDS_OR_COMMITTED_APPROVED_PLAN_PROCESSED_SET_MAY_ENTER_REGISTRY",
+        )
+        self.assertEqual(
+            decision["approved_owner_donor_commands"],
+            ["donornak", "vedd fel donornak", "add a donorlistához"],
+        )
         self.assertFalse(profile["donor_reference_binding"]["potential_donor_signal_requires_capture"])
         self.assertTrue(profile["donor_reference_binding"]["published_main_registry_only"])
         self.assertEqual(profile["donor_reference_binding"]["owner_marker_required"], "donornak")
+        self.assertEqual(
+            profile["donor_reference_binding"]["approved_owner_commands"],
+            ["donornak", "vedd fel donornak", "add a donorlistához"],
+        )
+        self.assertTrue(
+            profile["donor_reference_binding"]["approved_plan_exact_processed_set_registration_allowed"]
+        )
         self.assertFalse(contract["contracts"]["DonorReferenceProjection"]["potential_signal_capture_required"])
         self.assertTrue(contract["contracts"]["DonorReferenceProjection"]["unmarked_links_analysis_only"])
+        self.assertEqual(
+            contract["contracts"]["DonorReferenceProjection"]["command_equivalence_decision_ref"],
+            "FA3-DEC-DONOR-INTAKE-COMMAND-EQUIVALENCE-2026-10-04",
+        )
+        self.assertTrue(
+            contract["contracts"]["DonorReferenceProjection"]["approved_plan_processed_set_registration_allowed"]
+        )
         self.assertFalse(enforcement["donor_registry_serialization"]["deny_when_maintenance_or_open_donor_pr"])
         self.assertEqual(enforcement["donor_registry_serialization"]["planning_registry_source"],
                          "LATEST_VERIFIED_COMMITTED_MAIN_ONLY")

@@ -225,6 +225,10 @@
     "new_capability": false,
     "new_architectural_authority": false,
     "natural_language_direct_execution": false,
+    "implicit_task_scope_expansion": false,
+    "task_scope_provenance_required": true,
+    "open_ended_followup_task_generation": "DENY",
+    "completed_task_auto_successor": "DENY",
     "temporal": "SOLE_GLOBAL_DURABLE_LIFECYCLE_OWNER",
     "model_route_authority": "FA3-AUTH-MODEL-ROUTER-001",
     "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
@@ -232,6 +236,21 @@
     "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
     "cpu_only_viable": true,
     "vendor_neutral": true,
-    "accelerator_cardinality": "0..N"
+    "accelerator_cardinality": "0..N",
+    "task_scope_binding_required_for_goal_bound_workloads": true,
+    "in_scope_out_of_scope_overlap": "DENY",
+    "same_blocker_attempt_limit": 3,
+    "third_same_blocker_failure": "HUMAN_INTERVENTION_REQUIRED_AND_EXECUTION_FROZEN",
+    "fourth_same_blocker_attempt": "DENY",
+    "out_of_scope_followup": "PERSISTED_HANDOFF_NEW_TASK_REQUIRED",
+    "start_resume_fresh_task_scope_admission": true,
+    "cached_execution_plan_scope_revision_bypass": "DENY",
+    "verified_closure_requires_evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001",
+    "closed_task_reexecution": "DENY",
+    "main_task_identity": "IMMUTABLE_FOR_ACTIVE_TASK_SESSION",
+    "main_task_switch_authority": "EXPLICIT_OWNER_ONLY",
+    "new_rule_or_parallel_work_can_replace_main_task": false,
+    "blocker_can_stop_but_not_reassign_main_task": true,
+    "out_of_scope_followup_auto_becomes_main_task": false
   }
 }

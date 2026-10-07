@@ -1,0 +1,80 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "CFA3-RETROACTIVE-REDESIGN-COMPLIANCE-REUSE-ASSESSMENT-2026-10-07",
+  "project_id": "CFA3-RETROACTIVE-REDESIGN-COMPLIANCE-POLICY-001",
+  "intent_id": "CFA3-RETROACTIVE-REDESIGN-COMPLIANCE-POLICY-001",
+  "intent_path": "canonical/CFA3-RETROACTIVE-REDESIGN-COMPLIANCE-POLICY-001.json",
+  "covered_ids": [
+    "CFA3-RETROACTIVE-REDESIGN-COMPLIANCE-POLICY-001",
+    "CFA3-RETROACTIVE-REDESIGN-RECORD-001",
+    "CFA3-RETROACTIVE-REDESIGN-COMPLIANCE-GATESET-001"
+  ],
+  "project_status": "OWNER_APPROVED_RETROACTIVE_REDESIGN_COMPLIANCE_MATERIALIZATION",
+  "result": "PASS",
+  "reuse_disposition": "REUSE_EXISTING_DONOR_REUSE_DISCOVERY_AND_GOVERNANCE_LAYERS",
+  "assessment_provenance": {
+    "type": "OWNER_APPROVED_REUSE_REASSESSMENT",
+    "reviewed_on": "2026-10-07",
+    "planning_basis": "CURRENT_PUBLISHED_MAIN_DONOR_REGISTRY_ONLY",
+    "published_main_commit": "fe8964026d9db75e8f573bfbde358c56f213102a",
+    "owner_approved_materialization": true
+  },
+  "selected_reuse": [
+    {
+      "id": "FA3-REUSE-DISCOVERY-001",
+      "use": "EXISTING_DONOR_AND_REUSE_DISCOVERY_GATE"
+    },
+    {
+      "id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+      "use": "EXISTING_CANONICAL_DONOR_IDENTITY_SOURCE"
+    },
+    {
+      "id": "FA3-APPLICATION-DONOR-LINKS-001",
+      "use": "EXISTING_USAGE_EDGE_AUTHORITY"
+    },
+    {
+      "id": "FA3-CURRENT-HOST-STRUCTURAL-CHANGE-POLICY-001",
+      "use": "EXISTING_CURRENT_HOST_STRUCTURAL_COVERAGE"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "NEW_DONOR_AUTHORITY",
+      "reason": "EXISTING_CANONICAL_DONOR_REGISTRY_AND_LIFECYCLE_REMAIN_AUTHORITATIVE"
+    },
+    {
+      "id": "NEW_RUNTIME_ADMISSION_PATH",
+      "reason": "RETROACTIVE_REDESIGN_COMPLIANCE_IS_GOVERNANCE_ONLY"
+    }
+  ],
+  "donor_planning_snapshot": {
+    "published_main_commit": "fe8964026d9db75e8f573bfbde358c56f213102a",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "062b7b27aeeaf74819ac315f30c5cbde4ed2c95b",
+    "donor_registry_sha256": "4798642f9a8dd6dd9181eadb31b28f4071c9d45251b9b659d22e005c21cd4e4f",
+    "donor_registry_entry_count": 1919
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "retrospective_consumer_impact_reviewed": true,
+    "multi_application_reuse_detected": false,
+    "disposition": "NOT_APPLICABLE",
+    "rationale": "This change materializes a shared governance rule and record schema; it does not create a duplicate runtime capability or application-local implementation.",
+    "shared_component_ids": [],
+    "consumer_scope": [
+      "CFA3 redesign governance",
+      "current and future CFA3 applications"
+    ],
+    "local_duplicate_created": false
+  },
+  "pending_or_unmerged_donors_consumed": false,
+  "donor_usage_edges_created": 0,
+  "donor_adoption_authorized": false,
+  "adoption_authorized": false,
+  "implementation_readiness": "READY_FOR_GOVERNANCE_FINALIZATION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}

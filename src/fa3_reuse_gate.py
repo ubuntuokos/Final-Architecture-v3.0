@@ -44,6 +44,8 @@ APPLICATION_DONOR_LINKS = "canonical/FA3-APPLICATION-DONOR-LINKS-001.json"
 DONOR_PLANNING_SNAPSHOT_GATESET = "FA3-DONOR-PLANNING-SNAPSHOT-GATESET-001"
 EXPECTED_REUSE_RULE_COUNT = 38
 DONOR_DECISION = "canonical/decisions/FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28.json"
+DONOR_COMMAND_DECISION = "canonical/decisions/FA3-DEC-DONOR-INTAKE-COMMAND-EQUIVALENCE-2026-10-04.json"
+DONOR_PLAN_EXCEPTION_DECISION = "canonical/decisions/FA3-DEC-IMPLEMENTATION-PLAN-DONOR-EXCEPTION-2026-10-04.json"
 DONOR_CAPTURE = "src/fa3_donor_registry.py"
 DONOR_CAPTURE_BIN = "bin/fa3-donor-capture"
 AGENT_INSTRUCTIONS = "AGENTS.md"
@@ -516,6 +518,81 @@ def post_adoption_new_project_check(root: Path) -> dict[str, Any]:
     return {"result": "PASS" if not findings else "FAIL", "state": "ENFORCED", "marker_commit": marker, "checked": checked, "findings": findings}
 
 
+def _khronos_review_findings(
+    root: Path,
+    intent: dict[str, Any],
+    assessment: dict[str, Any],
+) -> list[dict[str, Any]]:
+    """Validate the mandatory Khronos review from canonical resolver output.
+
+    Reuse Discovery is a global P0 cross-cutting requirement, so every
+    ApplicationIntent is reviewed whether or not it repeats the profile id in
+    integration_requirements.  The canonical resolver is the single source of
+    truth for the source-family review.  A committed review row is an optional
+    historical mirror; dynamic candidate/status drift is non-authoritative, while
+    its non-authoritative safety invariants remain fail-closed.
+    """
+    findings: list[dict[str, Any]] = []
+    generated = assess_intent(root, intent)
+    review = next((
+        row for row in generated.get("mandatory_source_reviews", [])
+        if isinstance(row, dict)
+        and row.get("source_family_id") == "FA3-KHRONOS-OPEN-STANDARDS-001"
+    ), None)
+    if not isinstance(review, dict) or not (
+        review.get("review_status") in {"MATCHED", "REVIEWED_NO_MATCH"}
+        and review.get("authority") is False
+        and review.get("automatic_selection") is False
+        and review.get("automatic_activation") is False
+    ):
+        findings.append(finding(
+            "REUSE-KHRONOS-ADOPT-003",
+            "canonical Reuse Resolver failed to produce a valid mandatory Khronos source-family review",
+            intent_id=intent.get("id"),
+        ))
+        return findings
+
+    if assessment.get("result") != "PASS":
+        findings.append(finding(
+            "REUSE-KHRONOS-ADOPT-004",
+            "matching committed Reuse Assessment is not PASS",
+            intent_id=intent.get("id"),
+            assessment_id=assessment.get("id"),
+        ))
+        return findings
+
+    committed_reviews = [
+        row for row in assessment.get("mandatory_source_reviews", [])
+        if isinstance(row, dict)
+        and row.get("source_family_id") == "FA3-KHRONOS-OPEN-STANDARDS-001"
+    ]
+    if not committed_reviews:
+        return findings
+
+    if len(committed_reviews) != 1:
+        findings.append(finding(
+            "REUSE-KHRONOS-ADOPT-005",
+            "committed Reuse Assessment contains duplicate Khronos review mirrors",
+            intent_id=intent.get("id"),
+            assessment_id=assessment.get("id"),
+        ))
+        return findings
+
+    committed = committed_reviews[0]
+    if not (
+        committed.get("review_status") in {"MATCHED", "REVIEWED_NO_MATCH"}
+        and committed.get("authority") is False
+        and committed.get("automatic_selection") is False
+    ):
+        findings.append(finding(
+            "REUSE-KHRONOS-ADOPT-006",
+            "committed Khronos review mirror violates non-authoritative safety invariants",
+            intent_id=intent.get("id"),
+            assessment_id=assessment.get("id"),
+        ))
+    return findings
+
+
 def post_khronos_source_adoption_check(root: Path) -> dict[str, Any]:
     history = _git(root, "log", "--format=%H", "--reverse", "--", KHRONOS_REUSE_DECISION)
     if not history:
@@ -527,6 +604,7 @@ def post_khronos_source_adoption_check(root: Path) -> dict[str, Any]:
     assessments = _assessment_by_intent_index(root)
     findings = []
     checked = []
+    derived_reviews = []
     for rel in [x for x in changed.splitlines() if x.endswith(".json")]:
         try:
             intent = load(root, rel)
@@ -540,35 +618,51 @@ def post_khronos_source_adoption_check(root: Path) -> dict[str, Any]:
             findings.append(finding("REUSE-KHRONOS-ADOPT-002", "ApplicationIntent missing id", path=rel))
             continue
         checked.append(intent_id)
-        discovery_declared = (
-            intent.get("project_id") == "FA3-REUSE-DISCOVERY-001"
-            or "FA3-REUSE-DISCOVERY-001" in intent.get("integration_requirements", [])
-        )
-        valid_assessment = False
-        for match in assessments.get(intent_id, []):
-            assessment = match["row"]
-            review = next((
-                row for row in assessment.get("mandatory_source_reviews", [])
-                if isinstance(row, dict) and row.get("source_family_id") == "FA3-KHRONOS-OPEN-STANDARDS-001"
-            ), {})
-            if (
-                assessment.get("result") == "PASS"
-                and review.get("review_status") in {"MATCHED", "REVIEWED_NO_MATCH"}
-                and review.get("authority") is False
-                and review.get("automatic_selection") is False
-            ):
-                valid_assessment = True
-                break
-        if not discovery_declared or not valid_assessment:
+
+        matches = [
+            match["row"] for match in assessments.get(intent_id, [])
+            if match["row"].get("result") == "PASS"
+        ]
+        if not matches:
             findings.append(finding(
-                "REUSE-KHRONOS-ADOPT-003",
-                "post-adoption ApplicationIntent lacks mandatory Khronos source-family review",
+                "REUSE-KHRONOS-ADOPT-004",
+                "post-adoption ApplicationIntent lacks matching PASS Reuse Assessment",
                 intent_id=intent_id,
                 path=rel,
-                reuse_discovery_declared=discovery_declared,
-                matching_assessment=valid_assessment,
             ))
-    return {"result": "PASS" if not findings else "FAIL", "state": "ENFORCED", "marker_commit": marker, "checked": checked, "findings": findings}
+            continue
+
+        review_findings = _khronos_review_findings(root, intent, matches[0])
+        findings.extend(review_findings)
+        if not review_findings:
+            generated = assess_intent(root, intent)
+            review = next(
+                row for row in generated.get("mandatory_source_reviews", [])
+                if isinstance(row, dict)
+                and row.get("source_family_id") == "FA3-KHRONOS-OPEN-STANDARDS-001"
+            )
+            derived_reviews.append({
+                "intent_id": intent_id,
+                "assessment_id": matches[0].get("id"),
+                "review_status": review.get("review_status"),
+                "evidence_mode": "CANONICAL_REUSE_RESOLVER_DERIVED",
+                "committed_mirror_present": any(
+                    isinstance(row, dict)
+                    and row.get("source_family_id") == "FA3-KHRONOS-OPEN-STANDARDS-001"
+                    for row in matches[0].get("mandatory_source_reviews", [])
+                ),
+            })
+
+    return {
+        "result": "PASS" if not findings else "FAIL",
+        "state": "ENFORCED",
+        "marker_commit": marker,
+        "checked": checked,
+        "review_scope": "GLOBAL_MANDATORY_REUSE_DISCOVERY",
+        "review_evidence_mode": "CANONICAL_REUSE_RESOLVER_DERIVED",
+        "derived_reviews": derived_reviews,
+        "findings": findings,
+    }
 
 
 def gate(root: Path) -> dict[str, Any]:
@@ -587,7 +681,8 @@ def gate(root: Path) -> dict[str, Any]:
         "src/fa3_reuse_catalog.py", "src/fa3_reuse_resolver.py", "src/fa3_reuse_assessment.py",
         "bin/fa3-reuse-assess", "tests/test_reuse_discovery_gate.py", DECISION_DOC,
         SKILL_REGISTRY, EXTERNAL_SKILL_RADAR, GUI_INTENT, GUI_REUSE_ASSESSMENT,
-        DONOR_REGISTRY, DONOR_DECISION, DONOR_CAPTURE, DONOR_CAPTURE_BIN, AGENT_INSTRUCTIONS,
+        DONOR_REGISTRY, DONOR_DECISION, DONOR_COMMAND_DECISION, DONOR_PLAN_EXCEPTION_DECISION,
+        DONOR_CAPTURE, DONOR_CAPTURE_BIN, AGENT_INSTRUCTIONS,
     ]
     for rel in required:
         if not (root / rel).is_file():
@@ -620,6 +715,8 @@ def gate(root: Path) -> dict[str, Any]:
     donor_rejection_audit = load(root, DONOR_REJECTION_AUDIT)
     donor_lifecycle_decision = load(root, DONOR_LIFECYCLE_DECISION)
     donor_decision = load(root, DONOR_DECISION)
+    donor_command_decision = load(root, DONOR_COMMAND_DECISION)
+    donor_plan_exception = load(root, DONOR_PLAN_EXCEPTION_DECISION)
     gui_intent = load(root, GUI_INTENT)
     gui_reuse_assessment = load(root, GUI_REUSE_ASSESSMENT)
 
@@ -750,7 +847,22 @@ def gate(root: Path) -> dict[str, Any]:
         and donor_registry.get("new_capability") is False
         and donor_registry.get("new_architectural_authority") is False
         and donor_registry.get("capability_count") == capability_count
-        and donor_decision.get("capture_rule") == "ONLY_LINKS_EXPLICITLY_PRECEDED_BY_OWNER_DONORNAK_MARKER_MAY_ENTER_REGISTRY"
+        and donor_decision.get("capture_rule") == "ONLY_AUTHENTICATED_OWNER_APPROVED_DONOR_COMMANDS_OR_COMMITTED_APPROVED_PLAN_PROCESSED_SET_MAY_ENTER_REGISTRY"
+        and donor_decision.get("approved_owner_donor_commands") == ["donornak", "vedd fel donornak", "add a donorlistához"]
+        and donor_decision.get("donor_intake_command_equivalence_ref") == DONOR_COMMAND_DECISION
+        and donor_decision.get("implementation_planning_donor_analysis_exception_ref") == DONOR_PLAN_EXCEPTION_DECISION
+        and donor_command_decision.get("id") == "FA3-DEC-DONOR-INTAKE-COMMAND-EQUIVALENCE-2026-10-04"
+        and donor_command_decision.get("status") == "CANONICAL"
+        and donor_command_decision.get("rules", {}).get("equivalent_owner_commands") == ["donornak", "vedd fel donornak", "add a donorlistához"]
+        and donor_command_decision.get("rules", {}).get("exact_command_set_only") is True
+        and donor_command_decision.get("rules", {}).get("command_inside_url_authorization") is False
+        and donor_command_decision.get("rules", {}).get("clause_negation_denies_authorization") is True
+        and donor_plan_exception.get("id") == "FA3-DEC-IMPLEMENTATION-PLAN-DONOR-EXCEPTION-2026-10-04"
+        and donor_plan_exception.get("status") == "CANONICAL"
+        and donor_plan_exception.get("scope", {}).get("conversation_scope") == "ORIGINATING_CONVERSATION_AND_DIRECT_CONTINUATIONS_ONLY"
+        and donor_plan_exception.get("scope", {}).get("active_lineage_must_be_supplied_to_gate") is True
+        and donor_plan_exception.get("post_approval_barrier", {}).get("execution_before_registration") is False
+        and donor_plan_exception.get("trust_binding", {}).get("approval_processed_set_must_exactly_equal_assessment_processed_set") is True
         and "AUTOMATIC_POTENTIAL_DONOR_CANDIDATE_CAPTURE" in donor_decision.get("policy_supersedes", [])
         and donor_capture_policy.get("potential_donor_signal_requires_capture") is False
         and donor_capture_policy.get("trigger_semantics") == "ONLY_EXPLICIT_OWNER_DONORNAK_MARKED_LINKS_MAY_ENTER_REGISTRY"
@@ -775,6 +887,11 @@ def gate(root: Path) -> dict[str, Any]:
         and donor_binding.get("registry_id") == "FA3-DONOR-REFERENCE-REGISTRY-001"
         and donor_binding.get("potential_donor_signal_requires_capture") is False
         and donor_binding.get("owner_marker_required") == "donornak"
+        and donor_binding.get("approved_owner_commands") == ["donornak", "vedd fel donornak", "add a donorlistához"]
+        and donor_binding.get("command_equivalence_decision_ref") == "FA3-DEC-DONOR-INTAKE-COMMAND-EQUIVALENCE-2026-10-04"
+        and donor_binding.get("implementation_plan_exception_decision_ref") == "FA3-DEC-IMPLEMENTATION-PLAN-DONOR-EXCEPTION-2026-10-04"
+        and donor_binding.get("approved_plan_exact_processed_set_registration_allowed") is True
+        and donor_binding.get("execution_requires_processed_donors_on_published_main") is True
         and donor_binding.get("published_main_registry_only") is True
         and donor_binding.get("authority") is False
         and donor_catalog_binding.get("registry_id") == "FA3-DONOR-REFERENCE-REGISTRY-001"
@@ -782,6 +899,11 @@ def gate(root: Path) -> dict[str, Any]:
         and donor_catalog_binding.get("authority") is False
         and donor_contract.get("potential_signal_capture_required") is False
         and donor_contract.get("owner_marker_required") == "donornak"
+        and donor_contract.get("approved_owner_commands") == ["donornak", "vedd fel donornak", "add a donorlistához"]
+        and donor_contract.get("command_equivalence_decision_ref") == "FA3-DEC-DONOR-INTAKE-COMMAND-EQUIVALENCE-2026-10-04"
+        and donor_contract.get("implementation_plan_exception_decision_ref") == "FA3-DEC-IMPLEMENTATION-PLAN-DONOR-EXCEPTION-2026-10-04"
+        and donor_contract.get("approved_plan_processed_set_registration_allowed") is True
+        and donor_contract.get("approved_plan_registration_requires_committed_hash_and_lineage_binding") is True
         and donor_contract.get("unmarked_links_analysis_only") is True
         and donor_contract.get("rejected_sources_archived_outside_active_registry") is True
         and donor_contract.get("rejection_audit_id") == "FA3-DONOR-REJECTION-AUDIT-001"
@@ -841,7 +963,7 @@ def gate(root: Path) -> dict[str, Any]:
     capture_source = (root / DONOR_CAPTURE).read_text(encoding="utf-8")
     capture_bin = (root / DONOR_CAPTURE_BIN).read_text(encoding="utf-8")
     if not (
-        "## FA3 donor capture rule" in agent_instructions
+        "## CFA3 donor capture rule" in agent_instructions
         and "./bin/fa3-donor-capture" in agent_instructions
         and "capture_candidate(" in capture_source
         and "default=\"conversation\"" in capture_source

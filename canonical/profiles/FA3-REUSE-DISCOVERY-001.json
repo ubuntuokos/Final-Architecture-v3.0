@@ -138,7 +138,18 @@
     "planning_snapshot_registry_blob_sha_required": true,
     "planning_snapshot_registry_sha256_required": true,
     "planning_snapshot_registry_entry_count_required": true,
-    "stale_snapshot_requires_reassessment_before_finalization": true
+    "stale_snapshot_requires_reassessment_before_finalization": true,
+    "owner_marker_semantics": "NORMALIZED_MARKER_FOR_EXACT_APPROVED_OWNER_COMMAND_SET",
+    "approved_owner_commands": [
+      "donornak",
+      "vedd fel donornak",
+      "add a donorlistához"
+    ],
+    "command_equivalence_decision_ref": "FA3-DEC-DONOR-INTAKE-COMMAND-EQUIVALENCE-2026-10-04",
+    "implementation_plan_exception_decision_ref": "FA3-DEC-IMPLEMENTATION-PLAN-DONOR-EXCEPTION-2026-10-04",
+    "approved_plan_exact_processed_set_registration_allowed": true,
+    "approved_plan_registration_is_reference_only": true,
+    "execution_requires_processed_donors_on_published_main": true
   },
   "shared_capability_placement_review": {
     "required_for_material_change": true,

@@ -1,0 +1,85 @@
+{
+  "schema": "fa3.platform-binding-reconciliation.v1",
+  "id": "FA3-PLATFORM-BINDING-RECONCILIATION-001",
+  "title": "CFA3 Platform Fabric Binding Reconciliation",
+  "status": "PARTIAL_STAGED_EXISTING_OWNER_PRS",
+  "platform_registry": "FA3-PLATFORM-001",
+  "authority": false,
+  "source_of_execution_truth": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "rule": "A platform Fabric/service entry is taxonomy/composition only. Execution authority remains in its bound canonical owners.",
+  "bindings": [
+    {
+      "service_id": "RUNTIME_RESOURCE_FABRIC",
+      "state": "BOUND",
+      "canonical_owners": ["FA3-AUTH-HOST-RESOURCE-BROKER-001"]
+    },
+    {
+      "service_id": "ORCHESTRATION_WORKFLOW_FABRIC",
+      "state": "BOUND",
+      "canonical_owners": ["FA3-ORCHESTRATION-WORKFORCE-REGISTRY-001", "Temporal"]
+    },
+    {
+      "service_id": "SECURITY_IDENTITY_SECRETS",
+      "state": "BINDING_RECONCILIATION_READY",
+      "canonical_owners": ["FA3-AUTH-SECURITY-GOV-001", "FA3-AUTH-SECRETS-001"],
+      "new_security_fabric_forbidden": true
+    },
+    {
+      "service_id": "RIGHTS_LICENSE_AUDIT",
+      "state": "BOUND",
+      "canonical_owners": ["FA3-LICENSE-RIGHTS-001", "FA3-AUTH-OBS-EVIDENCE-001"]
+    },
+    {
+      "service_id": "MODEL_PROVIDER_FABRIC",
+      "state": "BOUND",
+      "canonical_owners": ["FA3-AUTH-MODEL-ROUTER-001"]
+    },
+    {
+      "service_id": "COLLABORATION_FABRIC",
+      "state": "PARTIAL_EXISTING_OWNER_MATERIALIZATION",
+      "canonical_owners_on_main": ["FA3-AI-COMMS-001", "FA3-WORK-MANAGEMENT-PROJECTION-001"],
+      "pending_existing_owner_prs": [566, 590],
+      "composition_only": true,
+      "new_collaboration_runtime_authority_forbidden": true
+    },
+    {
+      "service_id": "PLUGIN_EXTENSION_FABRIC",
+      "state": "PENDING_EXISTING_OWNER_MATERIALIZATION",
+      "target_owner": "FA3-SHARED-PLUGIN-EXTENSION-FABRIC-001",
+      "pending_existing_owner_prs": [564],
+      "parallel_plugin_extension_fabric_forbidden": true
+    },
+    {
+      "service_id": "KNOWLEDGE_DATA_ASSET_FABRIC",
+      "state": "PARTIAL_EXISTING_BINDINGS",
+      "canonical_owners": ["FA3-SHARED-KNOWLEDGE-RETRIEVAL-001"],
+      "future_binding_must_reuse_existing_asset_data_owners": true
+    },
+    {
+      "service_id": "GOVERNANCE_EVIDENCE_UPDATE_FABRIC",
+      "state": "BINDING_RECONCILIATION_READY",
+      "canonical_owners": ["FA3-GATE-REGISTRY-001", "FA3-AUTH-OBS-EVIDENCE-001", "FA3-UPDATE-FABRIC-001"]
+    }
+  ],
+  "application_work_capability_bindings": {
+    "effectful_operations": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "work_truth": "FA3-WORK-MANAGEMENT-PROJECTION-001",
+    "work_semantics": "FA3-WORK-MANAGEMENT-SEMANTIC-CONTRACTS-001",
+    "work_context": "FA3-WORK-CONTEXT-CONTRACTS-001",
+    "application_lifecycle": [
+      "FA3-APP-LIFECYCLE-001",
+      "FA3-APPLICATION-RUNTIME-LIFECYCLE-CONTRACTS-001"
+    ],
+    "task_capsule": "FA3-TASK-CAPSULE-CONTRACTS-001",
+    "capability_grant": "FA3-CAPABILITY-GRANT-SCOPE-CONTRACTS-001"
+  },
+  "finalization_rule": {
+    "do_not_edit_platform_placeholders_to_nonexistent_owner_ids": true,
+    "after_existing_owner_pr_merges": "UPDATE_FA3_PLATFORM_001_BINDINGS_ONLY_AS_DELTA",
+    "duplicate_runtime_or_authority": "FORBIDDEN",
+    "current_host": "DEFER_TO_FINAL_STABLE_EXACT_HEAD"
+  }
+}

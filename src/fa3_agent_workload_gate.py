@@ -17,6 +17,7 @@ from fa3_google_ax_custom_runner import AxCustomRunnerError, compile_custom_runn
 from fa3_release_baseline import load_active_release_baseline
 from fa3_adk2_runtime_gate import gate as adk2_runtime_semantics_gate
 from fa3_uaf import ActionRegistry
+from fa3_task_scope_closure import goal_scope_binding
 
 PROFILE_ID="FA3-AGENT-WORKLOAD-RUNTIME-001"
 CONTRACT_ID="FA3-AGENT-WORKLOAD-RUNTIME-CONTRACTS-001"
@@ -27,6 +28,16 @@ REGISTRY_ID="FA3-AGENT-RUNTIME-PROVIDER-REGISTRY-001"
 GATE_ID="FA3-GATE-AGENT-WORKLOAD-RUNTIME-001"
 GATESET_ID="FA3-AGENT-WORKLOAD-RUNTIME-GATESET-001"
 AX_COMMIT="e6211f84a9e30dd309304167b8f1d51cbdaf8dab"
+TASK_SCOPE_RULES=[
+ "GOAL_BOUND_WORKLOAD_REQUIRES_IMMUTABLE_SCOPE_BINDING",
+ "SAME_BLOCKER_THIRD_FAILURE_FREEZES_EXECUTION",
+ "FOURTH_SAME_BLOCKER_ATTEMPT_FORBIDDEN",
+ "OUT_OF_SCOPE_FOLLOWUP_REQUIRES_NEW_TASK_AND_EXPLICIT_USER_START",
+ "START_AND_RESUME_REQUIRE_FRESH_TASK_SCOPE_ADMISSION",
+ "CACHED_EXECUTION_PLAN_CANNOT_BYPASS_SCOPE_CONTROL_REVISION",
+ "VERIFIED_CLOSURE_REQUIRES_EVIDENCE_AUTHORITY_RECEIPT",
+ "CLOSED_TASK_REEXECUTION_FORBIDDEN",
+]
 ACTIONS={
  "agent.workload.declare","agent.workload.start","agent.workload.pause","agent.workload.suspend",
  "agent.workload.resume","agent.workload.terminate","agent.workload.inspect","agent.workload.debug.exec",
@@ -57,7 +68,8 @@ def expect_ax_runner_error(fn) -> bool:
     return False
 
 def regression_cases() -> dict[str, Any]:
-    task={"schema":"fa3.agent-workload-task.v1","task_id":"t1","root_task_id":"t1","action_ref":"orchestration.execute",
+    binding=goal_scope_binding({"goal_id":"t1","revision":1,"scope":{"in_scope":["approved:test-scope"],"out_of_scope":[]}})
+    task={"schema":"fa3.agent-workload-task.v1","task_id":"t1","root_task_id":"t1","scope_origin":"REQUIRED_FOR_APPROVED_GOAL","scope_refs":["approved:test-scope"],"goal_scope_binding":binding,"action_ref":"orchestration.execute",
           "agent_definition_ref":"agent:def:1","workspace_refs":["ws:1"],"resource_requirements":{"cpu_physical_cores":1},
           "network_envelope_ref":"net:1","model_intent":{"capability":"coding","locality":"prefer_local"},
           "authorized_ai_participants":["agent:def:1"],
@@ -73,9 +85,11 @@ def regression_cases() -> dict[str, Any]:
     bad_ws=copy.deepcopy(ws); bad_ws["sources"][0].pop("commit"); bad_ws["sources"][0]["branch"]="main"
     bad_cp=copy.deepcopy(cp); bad_cp["secret_material_present"]=True
     bad_fan=copy.deepcopy(task); bad_fan["fanout_limits"].pop("max_depth")
+    bad_scope_missing=copy.deepcopy(task); bad_scope_missing.pop("scope_origin")
+    bad_scope_open=copy.deepcopy(task); bad_scope_open["scope_origin"]="WHAT_NEXT"
     projection=project_to_ax(task,ws,net)
     ax_ws={"schema":"fa3.agent-workspace.v1","workspace_id":"workspace-1","sources":[],"bootstrap_mode":"NONE"}
-    ax_task=copy.deepcopy(task); ax_task["task_id"]="agent-task-1"; ax_task["root_task_id"]="agent-task-1"; ax_task["workspace_refs"]=["workspace-1"]
+    ax_task=copy.deepcopy(task); ax_task["task_id"]="agent-task-1"; ax_task["root_task_id"]="agent-task-1"; ax_task["goal_scope_binding"]=goal_scope_binding({"goal_id":"agent-task-1","revision":1,"scope":{"in_scope":["approved:test-scope"],"out_of_scope":[]}}); ax_task["workspace_refs"]=["workspace-1"]
     ax_net=copy.deepcopy(net); ax_net["egress"]=[{"host":"router.fa3.internal","port":443}]
     ax_binding={
       "schema":"fa3.google-ax-provider-binding.v1","provider_id":"FA3-PROVIDER-GOOGLE-AX-001","atespace":"fa3",
@@ -96,7 +110,7 @@ def regression_cases() -> dict[str, Any]:
     ax_debug=copy.deepcopy(ax_binding); ax_debug["debug"]=True
     ax_wild=copy.deepcopy(ax_net); ax_wild["egress"]=[{"host":"*","port":443}]
     cases=[
-      ("VALID_TASK", not bool(validate_task(task) is None)),
+      ("VALID_TASK", not bool(validate_task(task) is None) and expect_error(lambda: validate_task(bad_scope_missing)) and expect_error(lambda: validate_task(bad_scope_open))),
       ("RAW_SECRET_REJECTED", expect_error(lambda: validate_task(bad_secret))),
       ("DIRECT_MODEL_PROVIDER_REJECTED", expect_error(lambda: validate_task(bad_model))),
       ("NETWORK_DEFAULT_ALLOW_REJECTED", expect_error(lambda: validate_network_envelope(bad_net))),
@@ -124,6 +138,8 @@ def regression_cases() -> dict[str, Any]:
           agent_definition_ref="agent:def:1",workspace_refs=["ws:1"],network_envelope_ref="net:1",
           model_intent={"capability":"coding"},
           fanout_limits={"max_children":2,"max_depth":1,"max_concurrent_children":1,"max_runtime_seconds":300,"max_retries":1,"max_tool_calls":10,"max_model_requests":10},
+          scope_origin="REQUIRED_FOR_APPROVED_GOAL",scope_refs=["approved:orch-1"],
+          goal_scope_binding=goal_scope_binding({"goal_id":"orch-1","revision":1,"scope":{"in_scope":["approved:orch-1"],"out_of_scope":[]}}),
        )["action_ref"]=="orchestration.execute"),
     ]
     return {"result":"PASS" if all(ok for _,ok in cases) else "FAIL","cases":[{"id":cid,"pass":bool(ok)} for cid,ok in cases]}
@@ -168,7 +184,7 @@ def gate(root: Path) -> dict[str, Any]:
       (p.get("id")==PROFILE_ID and p.get("priority")=="P0" and p.get("requirement")=="MUST","AWR-010","profile identity/priority drift"),
       (p.get("new_capability") is False and p.get("new_architectural_authority") is False and p.get("capability_count")==cap and p.get("capability_bindings")==["CAP-028"],"AWR-011","capability/authority baseline drift"),
       (p.get("authority_boundaries",{}).get("durable_workflow")=="TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY" and p.get("authority_boundaries",{}).get("host_resources")=="FA3-AUTH-HOST-RESOURCE-BROKER-001" and p.get("authority_boundaries",{}).get("model_routing")=="FA3-AUTH-MODEL-ROUTER-001" and p.get("authority_boundaries",{}).get("tool_mediation")=="FA3-AUTH-MCP-GATEWAY-001","AWR-012","authority boundary drift"),
-      (c.get("id")==CONTRACT_ID and c.get("capability_count")==cap and c.get("provider_neutral") is True and c.get("fail_closed") is True,"AWR-013","contract baseline drift"),
+      (c.get("id")==CONTRACT_ID and c.get("capability_count")==cap and c.get("provider_neutral") is True and c.get("fail_closed") is True and c.get("task_contract",{}).get("task_scope_provenance_required") is True and c.get("task_contract",{}).get("goal_bound_scope_binding_required") is True and c.get("task_contract",{}).get("executable_scope_binding_required") is True and c.get("task_contract",{}).get("all_allowed_scope_origins_require_task_control") is True and c.get("task_contract",{}).get("same_blocker_attempt_limit")==3 and c.get("task_contract",{}).get("start_resume_fresh_scope_admission_required") is True and c.get("task_contract",{}).get("verified_closure_requires_evidence_authority")=="FA3-AUTH-OBS-EVIDENCE-001" and c.get("task_contract",{}).get("open_ended_task_generation")=="DENY" and c.get("task_contract",{}).get("completed_task_auto_successor")=="DENY","AWR-013","contract baseline or task-scope governance drift"),
       (d.get("id")==DECISION_ID and d.get("new_capabilities")==0 and d.get("new_architectural_authorities")==0 and d.get("current_host_runtime_promotion_claim") is False,"AWR-014","decision promotion/baseline drift"),
       (a.get("project_id")==ASSESSMENT_ID and a.get("assessment")=="RECOMMENDED" and a.get("project_radar_checked") is True and a.get("capability_delta")==0 and a.get("authority_delta")==0,"AWR-015","Decision Fabric assessment invalid"),
       (r.get("id")==REFERENCE_ID and r.get("commit")==AX_COMMIT and r.get("license")=="Apache-2.0" and r.get("observed_repository_facts",{}).get("api_version")=="ax.io/v1alpha1" and r.get("observed_repository_facts",{}).get("upstream_breaking_changes_warning") is True and r.get("observed_repository_facts",{}).get("workspace_git_immutable_commit_supported") is False and r.get("fa3_interpretation",{}).get("architectural_authority") is False,"AWR-016","Google AX immutable provenance or interpretation drift"),
@@ -177,7 +193,7 @@ def gate(root: Path) -> dict[str, Any]:
       (ax.get("activation_mode")=="OPTIONAL_DISABLED_BY_DEFAULT" and ax.get("translation",{}).get("canonical_ax_schema") is False and ax.get("translation",{}).get("ax_model_to_fa3_model_resource") is False and ax.get("translation",{}).get("fa3_agent_workspace_to_ax_workspace")=="PARTIAL_FAIL_CLOSED" and ax.get("runner_bridge",{}).get("manifest_compiler_materialized") is True and ax.get("runner_bridge",{}).get("custom_runner_source_materialized") is True and ax.get("runner_bridge",{}).get("custom_runner_materialized") is False and ax.get("runner_bridge",{}).get("runner_image_build_evidence") is False,"AWR-019","Google AX boundary drift"),
       (enf.get("gateset_id")==GATESET_ID and enf.get("fail_closed") is True and "STATIC_REFERENCE_PASS_NOT_CURRENT_HOST_PROMOTION" in enf.get("mandatory_rules",[]),"AWR-020","enforcement rules incomplete"),
       (g.get("id")==GATE_ID and g.get("gateset_id")==GATESET_ID and g.get("regression_case_count")==21 and g.get("current_host_runtime_evidence") is False,"AWR-021","executable gate record drift"),
-      (GATESET_ID in set(pol.get("mandatory_reference_gates",[])) and pol.get("agent_workload_runtime_profile_id")==PROFILE_ID and pol.get("agent_workload_runtime_reference_id")==REFERENCE_ID,"AWR-022","global enforcement policy binding missing"),
+      (GATESET_ID in set(pol.get("mandatory_reference_gates",[])) and pol.get("agent_workload_runtime_profile_id")==PROFILE_ID and pol.get("agent_workload_runtime_reference_id")==REFERENCE_ID and pol.get("task_scope_closure_policy_id")=="FA3-TASK-SCOPE-CLOSURE-POLICY-2026-10-03" and pol.get("task_scope_closure_mandatory_p0_rules")==TASK_SCOPE_RULES and pol.get("task_scope_closure_capability_count")==175 and pol.get("task_scope_closure_new_architectural_authority") is False,"AWR-022","global enforcement policy binding or complete task-scope rule set missing"),
       (ev.get("status")=="PASS" and ev.get("evidence_class")=="REFERENCE_STATIC_CONFORMANCE" and ev.get("current_host_runtime_promotion_claim") is False,"AWR-023","reference evidence semantics drift"),
       ("FA3-AGENT-WORKLOAD-RUNTIME-CONTRACTS-001" in orch.get("contracts",[]) and orch.get("authority_boundaries",{}).get("workload_execution")=="FA3-AGENT-WORKLOAD-RUNTIME-001_NON_AUTHORITY_TASK_LOCAL_EXECUTION_PROJECTION" and "AGENT_WORKLOAD_RUNTIME_IS_TASK_LOCAL_EXECUTION_PROJECTION_NOT_DURABLE_WORKFLOW_AUTHORITY" in orch.get("invariants",[]),"AWR-032","Orchestration Workforce workload-runtime binding drift"),
       (wm.get("agent_workload_projection",{}).get("profile_id")==PROFILE_ID and wm.get("agent_workload_projection",{}).get("work_item_identity_distinct") is True and wm.get("agent_workload_projection",{}).get("mutation_semantics")=="DRAFT_UAF_INTENT_ONLY" and wm.get("agent_workload_projection",{}).get("direct_runner_execution_from_gui") is False,"AWR-033","Work Management workload projection boundary drift"),
@@ -212,6 +228,14 @@ def gate(root: Path) -> dict[str, Any]:
     for aid in ("agent.workload.start","agent.workload.resume"):
         if amap.get(aid) and amap[aid].resources.get("hrb_required") is not True:
             findings.append(finding("AWR-029","start/resume must enter HRB admission",action_id=aid))
+        raw_action=load(root/"canonical/actions"/f"{aid}.json")
+        if (
+            "task_scope_admission_ref" not in raw_action.get("input_schema",{}).get("required",[])
+            or raw_action.get("semantics",{}).get("fresh_task_scope_admission_required") is not True
+            or raw_action.get("semantics",{}).get("cached_execution_plan_scope_control_revision_must_match") is not True
+            or raw_action.get("semantics",{}).get("closed_or_frozen_task_scope_admission") != "DENY"
+        ):
+            findings.append(finding("AWR-043","start/resume task-scope freshness guard missing",action_id=aid))
     records={x.get("subject_id"):x for x in dr.get("records",[])}
     if records.get(REFERENCE_ID,{}).get("class")!="REFERENCE_ONLY" or records.get("FA3-PROVIDER-GOOGLE-AX-001",{}).get("class")!="EXTERNAL_REDISTRIBUTABLE":
         findings.append(finding("AWR-030","distribution registry binding missing"))

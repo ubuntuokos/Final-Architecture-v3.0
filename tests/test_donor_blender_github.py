@@ -41,7 +41,15 @@ class BlenderGithubDonorTests(unittest.TestCase):
         rows = {r["source"]["normalized_key"]: r for r in registry()["entries"]}
         for key in EXPECTED:
             row = rows[key]
-            self.assertEqual(row["status"], "CANDIDATE")
+            reconciliation = row.get("baseline_reconciliation", {})
+            if reconciliation.get("id") == "CFA3-DONOR-BASELINE-USER-SOURCE-UNION-2026-10-05":
+                self.assertEqual(row["status"], "ACCEPTED_REFERENCE")
+                self.assertEqual(
+                    row["submission_review"]["basis"],
+                    "OWNER_PRE_REVIEWED_DIRECT_DONOR_LINK",
+                )
+            else:
+                self.assertEqual(row["status"], "CANDIDATE")
             self.assertTrue(row["discoverable_for_planning"])
             self.assertEqual(
                 row["code_reuse_policy"], "SOURCE_COPY_BLOCKED_PENDING_LICENSE_REVIEW"

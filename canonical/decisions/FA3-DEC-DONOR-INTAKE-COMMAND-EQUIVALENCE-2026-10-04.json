@@ -1,0 +1,65 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-DONOR-INTAKE-COMMAND-EQUIVALENCE-2026-10-04",
+  "date": "2026-10-04",
+  "status": "CANONICAL",
+  "title": "Exact equivalent owner commands for canonical donor intake",
+  "decision": "ACCEPT_AND_MANDATE",
+  "scope": "CFA3_DEVELOPMENT_DONOR_INTAKE_COMMAND_INTERPRETATION",
+  "rules": {
+    "equivalent_owner_commands": [
+      "donornak",
+      "vedd fel donornak",
+      "add a donorlistához"
+    ],
+    "normalized_marker": "donornak",
+    "exact_command_set_only": true,
+    "near_match_authorization": false,
+    "command_inside_url_authorization": false,
+    "clause_negation_denies_authorization": true,
+    "assistant_or_untrusted_command_authorization": false,
+    "same_message_targeting": "ALL_OWNER_SUBMITTED_LINKS_IN_THE_COMMAND_MESSAGE",
+    "command_before_link_allowed": true,
+    "command_after_link_allowed": true,
+    "followup_targeting": "COMMAND_WITHOUT_LINKS_MAY_TARGET_ONLY_LINKS_FROM_THE_IMMEDIATELY_PREVIOUS_OWNER_MESSAGE_WITH_NO_INTERVENING_OWNER_MESSAGE",
+    "skipped_or_unreadable_owner_message_clears_followup_target": true,
+    "supplied_source_must_match_command_message_url_when_message_contains_urls": true,
+    "external_source_allowed_only_for_genuinely_link_free_followup": true,
+    "uncommanded_link_disposition": "ANALYSIS_ONLY_NO_REGISTRY_MUTATION",
+    "successful_publication_state": "ACCEPTED_REFERENCE",
+    "registry_target": "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"
+  },
+  "authority_and_safety": {
+    "command_authorizes_reference_registration_only": true,
+    "donor_adoption_authorized": false,
+    "code_reuse_authorized": false,
+    "dependency_installation_authorized": false,
+    "provider_or_model_admission_authorized": false,
+    "runtime_activation_authorized": false,
+    "published_main_registry_only_for_planning": true,
+    "pending_donor_not_planning_input": true,
+    "existing_serialization_and_batch_rules_preserved": true,
+    "capability_baseline": 175,
+    "capability_delta": 0,
+    "architectural_authority_delta": 0
+  },
+  "compatibility": {
+    "legacy_owner_marker_fields_may_remain": "donornak",
+    "legacy_marker_semantics": "NORMALIZED_CANONICAL_MARKER_AFTER_EXACT_APPROVED_COMMAND_RECOGNITION",
+    "literal_donornak_only_interpretation_superseded": true
+  },
+  "supersedes_policy_clauses": [
+    "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28:STRICT_OWNER_DONORNAK_MARKER_MUST_PRECEDE_REGISTERED_LINK",
+    "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28:capture_rule:LITERAL_ONLY_INTERPRETATION",
+    "FA3-DEC-DONOR-REFERENCE-REGISTRY-2026-09-28:effective_capture_authority:LITERAL_ONLY_INTERPRETATION"
+  ],
+  "implementation": {
+    "contract": "canonical/contracts/FA3-DONOR-CHAT-INGEST-001.json",
+    "capture": "src/fa3_donor_registry.py",
+    "chat_import": "src/fa3_donor_chat_import.py",
+    "reuse_gate": "src/fa3_reuse_gate.py",
+    "donor_readiness": "src/fa3_donor_readiness.py",
+    "documentation": "docs/donor-reference-registry.md"
+  },
+  "current_host_runtime_promotion_claim": false
+}

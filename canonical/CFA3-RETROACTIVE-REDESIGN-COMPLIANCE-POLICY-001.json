@@ -1,0 +1,173 @@
+{
+  "schema": "cfa3.retroactive-redesign-compliance-policy.v1",
+  "id": "CFA3-RETROACTIVE-REDESIGN-COMPLIANCE-POLICY-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "date": "2026-10-07",
+  "mandatory": true,
+  "retroactive": true,
+  "forward_applicable": true,
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "architectural_authority_delta": 0,
+  "purpose": "Make redesign of CFA3 components created before mandatory donor use recover their historical source links, route missing links into the existing canonical donor process, and apply all currently mandatory CFA3 development/application rules before finalization.",
+  "scope": {
+    "component_kinds": [
+      "APPLICATION",
+      "SERVICE",
+      "SHARED_FABRIC",
+      "SHARED_LAYER",
+      "MODULE",
+      "PLUGIN",
+      "EXTENSION",
+      "PROVIDER_BACKEND",
+      "WORKFLOW",
+      "AGENT_SKILL",
+      "ADAPTER",
+      "INFRASTRUCTURE_COMPONENT",
+      "USER_FUNCTION",
+      "PROTOCOL_COMPATIBILITY_LAYER"
+    ],
+    "trigger": {
+      "legacy_design_before_mandatory_donor_policy": true,
+      "redesign_or_major_revision_or_rematerialization": true,
+      "content_based_not_label_based": true,
+      "aliases_that_do_not_bypass_trigger": [
+        "refresh",
+        "v2",
+        "modernization",
+        "reimplementation",
+        "migration",
+        "compatibility update"
+      ]
+    },
+    "existing_legacy_component_without_redesign": "NOT_AUTOMATICALLY_INVALIDATED",
+    "post_donor_policy_new_component": "NORMAL_DONOR_RULES_APPLY"
+  },
+  "legacy_source_policy": {
+    "recovery_required": true,
+    "source_provenance_preserved": true,
+    "existing_canonical_donor_requires_reintake": false,
+    "missing_source_requires_canonical_donor_registration": true,
+    "temporary_planning_use_allowed": true,
+    "temporary_use_states": [
+      "LEGACY_SOURCE_DISCOVERY",
+      "DONOR_GAP_ANALYSIS",
+      "RULE_DELTA_ANALYSIS",
+      "REDESIGN_IN_PROGRESS",
+      "DONOR_CANONICALIZATION_PENDING",
+      "RULE_DELTA_RESOLUTION"
+    ],
+    "temporary_use_does_not_authorize": [
+      "CANONICAL_DONOR_ADOPTION",
+      "CODE_COPY",
+      "DEPENDENCY_INSTALLATION",
+      "PROVIDER_ADMISSION",
+      "MODEL_ADMISSION",
+      "RUNTIME_ACTIVATION",
+      "ARCHITECTURAL_AUTHORITY",
+      "FINALIZATION"
+    ],
+    "canonical_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "canonical_acceptable_states": [
+      "ACCEPTED_REFERENCE",
+      "ANALYZED"
+    ],
+    "donor_intake_authority_unchanged": true,
+    "approved_plan_registration_path_preserved": true,
+    "explicit_owner_donor_command_path_preserved": true,
+    "parallel_donor_registry_forbidden": true
+  },
+  "current_rule_delta_review": {
+    "mandatory": true,
+    "authoritative_source": "CURRENT_CANONICAL_MAIN",
+    "required_categories": [
+      "ARCHITECTURE",
+      "APPLICATION_INTEGRATION",
+      "DONOR_POLICY",
+      "AI",
+      "HARDWARE",
+      "WORKLOAD_MODE",
+      "SECURITY",
+      "RIGHTS_LICENSING",
+      "COMPATIBILITY",
+      "PLUGIN_EXTENSION",
+      "COMMUNICATION",
+      "WORKFLOW",
+      "GUI",
+      "TELEMETRY",
+      "FUTURE_ADMISSION",
+      "DEVELOPMENT_PROCESS"
+    ],
+    "allowed_review_statuses": [
+      "APPLICABLE",
+      "NOT_APPLICABLE",
+      "ALREADY_COMPLIANT",
+      "REQUIRES_CHANGE",
+      "BLOCKED"
+    ],
+    "not_applicable_requires_rationale": true,
+    "final_resolved_statuses": [
+      "NOT_APPLICABLE",
+      "ALREADY_COMPLIANT"
+    ],
+    "final_unresolved_statuses": [
+      "APPLICABLE",
+      "REQUIRES_CHANGE",
+      "BLOCKED"
+    ],
+    "every_category_must_be_reviewed": true,
+    "exact_state_capture_required_at_redesign_start": true,
+    "exact_state_capture_required_before_finalization": true
+  },
+  "lifecycle": [
+    "LEGACY_COMPONENT_IDENTIFIED",
+    "LEGACY_SOURCE_DISCOVERY",
+    "CURRENT_RULE_BASELINE_CAPTURE",
+    "DONOR_GAP_ANALYSIS",
+    "RULE_DELTA_ANALYSIS",
+    "REDESIGN_IN_PROGRESS",
+    "DONOR_CANONICALIZATION_PENDING",
+    "RULE_DELTA_RESOLUTION",
+    "RETROACTIVE_REDESIGN_FINALIZATION_GATE",
+    "REDESIGN_FINAL"
+  ],
+  "finalization_gate": {
+    "fail_closed": true,
+    "final_state": "REDESIGN_FINAL",
+    "required_checks": [
+      "ARCHITECTURAL_AUTHORITY",
+      "INTEGRATION",
+      "SECURITY",
+      "HARDWARE",
+      "AI",
+      "DEVELOPMENT_POLICY"
+    ],
+    "all_legacy_sources_must_resolve_to_canonical_donor": true,
+    "all_rule_delta_categories_must_be_resolved": true,
+    "current_rule_baseline_must_be_bound": true,
+    "donor_registry_digest_must_match_current_bytes": true,
+    "missing_or_uncertain_fact": "BLOCK"
+  },
+  "integration": {
+    "development_governance_policy": "CFA3-DEVELOPMENT-AI-BEHAVIOR-GOVERNANCE-POLICY-001",
+    "application_donor_links": "FA3-APPLICATION-DONOR-LINKS-001",
+    "record_contract": "CFA3-RETROACTIVE-REDESIGN-RECORD-001",
+    "gate_id": "CFA3-RETROACTIVE-REDESIGN-COMPLIANCE-GATESET-001",
+    "ordinary_donor_intake_policy_preserved": true
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "hardware_mutation": false
+  },
+  "current_host_runtime_promotion_claim": false,
+  "physical_current_host_pass_claimed": false,
+  "record_storage": {
+    "canonical_root": "canonical/retroactive-redesign-records",
+    "finalization_requires_canonical_record": true,
+    "mandatory_gate_validates_all_records": true,
+    "noncanonical_finalization_forbidden": true
+  }
+}

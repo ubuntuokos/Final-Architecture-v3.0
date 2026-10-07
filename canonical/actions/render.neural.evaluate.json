@@ -1,12 +1,13 @@
 {
   "schema": "fa3.uaf.action-contract.v1",
   "id": "render.neural.evaluate",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Evaluate a bounded set of neural-rendering provider/execution candidates through deterministic policy and optional Jev advisory ranking.",
   "input_schema": {
     "type": "object",
     "required": [
-      "operation_id"
+      "operation_id",
+      "feature_class"
     ],
     "properties": {
       "operation_id": {
@@ -31,6 +32,45 @@
         ]
       },
       "requested_execution_class": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "feature_class": {
+        "type": "string",
+        "enum": [
+          "NEURAL_RENDER",
+          "SUPER_RESOLUTION",
+          "NATIVE_RESOLUTION_AA",
+          "RAY_RECONSTRUCTION",
+          "DENOISE",
+          "TEMPORAL_RECONSTRUCTION",
+          "FRAME_GENERATION",
+          "LOW_LATENCY_PRESENTATION"
+        ]
+      },
+      "output_class": {
+        "type": "string",
+        "enum": [
+          "INTERACTIVE_PREVIEW",
+          "VIEWPORT",
+          "PREVIZ",
+          "VP_MONITOR",
+          "PLAYBACK",
+          "FINAL_MASTER",
+          "ARCHIVAL_MASTER",
+          "EXR_SEQUENCE",
+          "VFX_HANDOFF"
+        ]
+      },
+      "application_id": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "frame_surface_ref": {
         "type": [
           "string",
           "null"

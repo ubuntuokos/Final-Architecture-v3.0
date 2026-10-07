@@ -1,0 +1,42 @@
+{
+  "schema": "fa3.current-host-structural-impact.v1",
+  "id": "FA3-SHARED-HAIR-GROOM-CURRENT-HOST-IMPACT-001",
+  "status": "NO_RUNTIME_IMPACT",
+  "subject_id": "FA3-SHARED-HAIR-GROOM-001",
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "structural_change": true,
+  "structural_alignment_performed": true,
+  "runtime_change": false,
+  "runtime_delta": "NONE",
+  "service_change": false,
+  "daemon_change": false,
+  "port_or_socket_change": false,
+  "package_dependency_change": false,
+  "provider_or_model_activation": false,
+  "hardware_mutation": false,
+  "credential_path_change": false,
+  "physical_application_binding": false,
+  "current_host_runtime_promotion_claim": false,
+  "physical_current_host_pass_claimed": false,
+  "host_requalification_required_now": false,
+  "alignment_scope": {
+    "profile": "FA3-SHARED-HAIR-GROOM-001",
+    "contract": "FA3-SHARED-HAIR-GROOM-CONTRACTS-001",
+    "application_impact_map": "FA3-APPLICATION-DONOR-LINKS-001.shared_capabilities",
+    "capability_binding_semantics": "DERIVED_FROM_PROFILE_CONTRACT_ONLY",
+    "executable_current_host_path_added": false
+  },
+  "escalation_triggers": [
+    "NEW_EXECUTABLE_SERVICE_OR_DAEMON",
+    "NEW_PORT_SOCKET_OR_IPC_ENDPOINT",
+    "NEW_PACKAGE_OR_RUNTIME_DEPENDENCY",
+    "PROVIDER_OR_MODEL_ACTIVATION",
+    "HOST_RESOURCE_EXECUTION_PATH",
+    "CREDENTIAL_DELIVERY_PATH",
+    "MUTATING_TOOL_OR_ACTION_EXECUTION_PATH",
+    "PHYSICAL_GUI_OR_APPLICATION_RUNTIME_BINDING"
+  ],
+  "future_rule": "Any escalation trigger requires Current Host alignment plus physical non-simulated positive, negative and rollback evidence before promotion."
+}

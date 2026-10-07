@@ -1,12 +1,19 @@
 """FA3 donor readiness negative and source-identity regressions."""
+import hashlib
 import json
+import subprocess
 import tempfile
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"src"))
-from fa3_donor_readiness import (inspect_registry,pending_prs,gate,is_donor_pr,
-    is_donor_intake_pr,REGISTRY,REJECTION_AUDIT,git_blob_sha,planning_snapshot_findings)
+import fa3_donor_readiness as readiness
+from fa3_donor_readiness import (inspect_registry,pending_prs,pending_prs_graphql,gate,is_donor_pr,
+    is_donor_intake_pr,effective_donor_intake_pr,donor_intake_workload,
+    MAX_ACTIVE_DONOR_INTAKES,REGISTRY,REJECTION_AUDIT,git_blob_sha,planning_snapshot_findings,
+    planning_processed_donor_findings)
+from fa3_donor_registry import capture_candidate
 
 def source():
     v={"donor_id":"FA3-DONOR-X-001","source":{"normalized_key":"github:x/y"},
@@ -101,6 +108,15 @@ class Tests(unittest.TestCase):
             {"title": "Generic media feature"},
             [{"filename": "canonical/assessments/FA3-MEDIA-REUSE-ASSESSMENT-001.json"}]))
         self.assertTrue(is_donor_pr({"title": "Donor source review"}, []))
+        for path in (
+            "canonical/decisions/FA3-DEC-DONOR-INTAKE-COMMAND-EQUIVALENCE-2026-10-04.json",
+            "canonical/decisions/FA3-DEC-IMPLEMENTATION-PLAN-DONOR-EXCEPTION-2026-10-04.json",
+            "canonical/current-host-impact/FA3-CH-IMPACT-DONOR-COMMAND-EQUIVALENCE-20261004.json",
+            "canonical/current-host-impact/FA3-CH-IMPACT-IMPLEMENTATION-PLAN-DONOR-EXCEPTION-20261004.json",
+            "docs/implementation-plan-donor-exception-2026-10-04.md",
+        ):
+            with self.subTest(governance_path=path):
+                self.assertTrue(is_donor_pr({"title":"Generic policy update"},[{"filename":path}]))
 
     def test_governance_and_reference_only_prs_do_not_claim_intake(self):
         governance = [{"filename":"src/fa3_donor_readiness.py"},
@@ -137,8 +153,9 @@ class Tests(unittest.TestCase):
                     return [{"filename":REGISTRY}]
                 raise AssertionError(s)
             allowed=gate(root,"intake",get=get,pr_number=548)
-            self.assertEqual(allowed["result"],"EXCLUSIVE_DONOR_INTAKE_READY")
+            self.assertEqual(allowed["result"],"DONOR_INTAKE_READY_TO_FINALIZE")
             self.assertEqual(allowed["active_donor_pr"],548)
+            self.assertEqual(allowed["active_donor_prs"],[548])
             self.assertEqual([p["number"] for p in allowed["pending_intake_prs"]],[548])
             self.assertEqual([p["number"] for p in allowed["pending_prs"]],[547,548])
             blocked=gate(root,"intake",get=get,pr_number=547)
@@ -158,9 +175,10 @@ class Tests(unittest.TestCase):
                     return [{"filename":"src/fa3_donor_readiness.py"}]
                 raise AssertionError(s)
             ready=gate(root,"intake",get=get)
-            self.assertEqual(ready["result"],"EXCLUSIVE_DONOR_INTAKE_READY")
+            self.assertEqual(ready["result"],"DONOR_INTAKE_SLOT_AVAILABLE")
             self.assertIsNone(ready["active_donor_pr"])
             self.assertEqual(ready["pending_intake_prs"],[])
+            self.assertEqual(ready["available_intake_slots"],MAX_ACTIVE_DONOR_INTAKES)
             denied=gate(root,"intake",get=get,pr_number=547)
             self.assertIn("INTAKE_PR_NOT_OPEN_OR_NOT_DONOR",denied["findings"])
 
@@ -190,6 +208,41 @@ class Tests(unittest.TestCase):
             raise AssertionError(url)
         self.assertEqual([x["number"] for x in pending_prs(get)],[31,999])
 
+    def test_stale_base_byte_identical_donor_file_does_not_steal_intake_slot(self):
+        donor_sha="a"*40
+        files=[{"filename":REGISTRY,"sha":donor_sha}]
+        def get(url):
+            if "/contents/"+REGISTRY in url:
+                return {"sha":donor_sha}
+            raise AssertionError(url)
+        self.assertTrue(is_donor_intake_pr({"title":"stale current-host"},files))
+        self.assertFalse(effective_donor_intake_pr(
+            {"title":"stale current-host","head":{"sha":"b"*40}},files,get))
+
+    def test_real_donor_delta_still_claims_intake_slot(self):
+        files=[{"filename":REGISTRY,"sha":"b"*40}]
+        def get(url):
+            if "/contents/"+REGISTRY in url:
+                return {"sha":"a"*40}
+            raise AssertionError(url)
+        self.assertTrue(effective_donor_intake_pr(
+            {"title":"Donor intake","head":{"sha":"c"*40}},files,get))
+
+    def test_stale_base_pr_remains_visible_but_not_pending_intake(self):
+        donor_sha="a"*40
+        def get(url):
+            if "pulls?state=open" in url:
+                return [{"number":559,"title":"Current Host stale base",
+                         "head":{"sha":"b"*40}}]
+            if "/pulls/559/files?" in url:
+                return [{"filename":REGISTRY,"sha":donor_sha}]
+            if "/contents/"+REGISTRY in url:
+                return {"sha":donor_sha}
+            raise AssertionError(url)
+        rows=pending_prs(get)
+        self.assertEqual([r["number"] for r in rows],[559])
+        self.assertFalse(rows[0]["intake"])
+
     def test_hidden_reference_in_live_scan(self):
         def get(url):
             if "pulls?state=open" in url:
@@ -207,6 +260,46 @@ class Tests(unittest.TestCase):
             if "/pulls/8/files?" in s:return [{"filename":REGISTRY}]
             raise AssertionError(s)
         self.assertEqual([p["number"] for p in pending_prs(get)],[8])
+
+    def test_graphql_live_scan_batches_inventory_and_keeps_hidden_donor_detection(self):
+        head_sha="b"*40
+        head_blob="c"*40
+        main_blob="d"*40
+        calls={"graphql":0,"rest":[]}
+        def graphql(_query,variables):
+            calls["graphql"]+=1
+            self.assertEqual(variables["owner"],"ubuntuokos")
+            self.assertEqual(variables["name"],"Final-Architecture-v3.0")
+            return {"repository":{"pullRequests":{
+                "pageInfo":{"hasNextPage":False,"endCursor":None},
+                "nodes":[
+                    {"number":801,"title":"Generic editor","headRefOid":head_sha,
+                     "headRefName":"feature/generic",
+                     "headRepository":{"nameWithOwner":"ubuntuokos/Final-Architecture-v3.0"},
+                     "files":{"totalCount":1,
+                              "pageInfo":{"hasNextPage":False,"endCursor":None},
+                              "nodes":[{"path":REGISTRY,"additions":3,"deletions":1}]}},
+                    {"number":802,"title":"Ordinary feature","headRefOid":"e"*40,
+                     "headRefName":"feature/ordinary",
+                     "headRepository":{"nameWithOwner":"ubuntuokos/Final-Architecture-v3.0"},
+                     "files":{"totalCount":1,
+                              "pageInfo":{"hasNextPage":False,"endCursor":None},
+                              "nodes":[{"path":"src/example.py","additions":2,"deletions":0}]}}
+                ]}}}
+        def get(url):
+            calls["rest"].append(url)
+            if f"?ref={head_sha}" in url:
+                return {"sha":head_blob}
+            if "?ref=main" in url:
+                return {"sha":main_blob}
+            raise AssertionError(url)
+        rows=pending_prs_graphql("token",graphql=graphql,get=get)
+        self.assertEqual([r["number"] for r in rows],[801])
+        self.assertTrue(rows[0]["intake"])
+        self.assertEqual(rows[0]["workload_units"],4)
+        self.assertEqual(rows[0]["head_ref"],"feature/generic")
+        self.assertEqual(calls["graphql"],1)
+        self.assertEqual(len(calls["rest"]),2)
     def test_pending_edit_allows_published_main_for_planning_preflight(self):
         t,root,p=fixture()
         with t:
@@ -224,27 +317,154 @@ class Tests(unittest.TestCase):
             self.assertNotIn("PENDING_DONOR_MAINTENANCE",x["findings"])
             self.assertFalse(x["planning_allowed"])
 
-    def test_second_conversation_intake_waits_for_oldest_donor_pr(self):
+    def test_active_intakes_finalize_by_size_then_fifo(self):
         t,root,p=fixture()
         with t:
             def get(s):
                 if "/branches/main" in s:return {"commit":{"sha":"a"*40}}
                 if "pulls?state=open" in s:return [
-                    {"number":8,"title":"donor intake from conversation A",
-                     "head":{"sha":"a"*40}},
-                    {"number":9,"title":"donor intake from conversation B",
-                     "head":{"sha":"b"*40}}]
-                if "/pulls/" in s and "/files?" in s:return [{"filename":REGISTRY}]
+                    {"number":8,"title":"large donor intake","head":{"sha":"a"*40}},
+                    {"number":9,"title":"small donor intake A","head":{"sha":"b"*40}},
+                    {"number":10,"title":"small donor intake B","head":{"sha":"c"*40}}]
+                if "/pulls/8/files?" in s:return [{"filename":REGISTRY,"changes":50}]
+                if "/pulls/9/files?" in s:return [{"filename":REGISTRY,"changes":5}]
+                if "/pulls/10/files?" in s:return [{"filename":REGISTRY,"changes":5}]
                 raise AssertionError(s)
-            first=gate(root,"intake",get=get,pr_number=8)
-            self.assertEqual(first["result"],"EXCLUSIVE_DONOR_INTAKE_READY")
-            second=gate(root,"intake",get=get,pr_number=9)
-            self.assertEqual(second["result"],"BLOCKED")
-            self.assertEqual(second["active_donor_pr"],8)
-            self.assertIn("DONOR_INTAKE_IN_PROGRESS_WAIT_FOR_COMPLETION",
-                          second["findings"])
+            small=gate(root,"intake",get=get,pr_number=9)
+            self.assertEqual(small["result"],"DONOR_INTAKE_READY_TO_FINALIZE")
+            self.assertEqual(small["finalization_order"],[9,10,8])
+            self.assertEqual(small["intake_workload_units"],5)
+            tied=gate(root,"intake",get=get,pr_number=10)
+            self.assertEqual(tied["result"],"BLOCKED")
+            self.assertEqual(tied["next_finalizable_donor_pr"],9)
+            self.assertIn("DONOR_INTAKE_ACTIVE_WAIT_FOR_SMALLER_FINALIZATION",
+                          tied["findings"])
+            large=gate(root,"intake",get=get,pr_number=8)
+            self.assertEqual(large["result"],"BLOCKED")
             unclaimed=gate(root,"intake",get=get)
-            self.assertEqual(unclaimed["result"],"BLOCKED")
+            self.assertEqual(unclaimed["result"],"DONOR_INTAKE_SLOT_AVAILABLE")
+            self.assertEqual(unclaimed["available_intake_slots"],2)
+
+    def test_rolling_five_slot_window_refills_from_fifo_wait_queue(self):
+        t,root,p=fixture()
+        with t:
+            state={"include_first":True}
+            def open_prs():
+                nums=[20,21,22,23,24,25] if state["include_first"] else [21,22,23,24,25]
+                return [{"number":n,"title":"donor intake","head":{"sha":str(n)[-1]*40}}
+                        for n in nums]
+            def get(s):
+                if "/branches/main" in s:return {"commit":{"sha":"a"*40}}
+                if "pulls?state=open" in s:return open_prs()
+                if "/pulls/" in s and "/files?" in s:
+                    n=int(s.split("/pulls/")[1].split("/")[0])
+                    return [{"filename":REGISTRY,"changes":n-19}]
+                raise AssertionError(s)
+            sixth=gate(root,"intake",get=get,pr_number=25)
+            self.assertEqual(sixth["result"],"BLOCKED")
+            self.assertEqual(sixth["active_donor_prs"],[20,21,22,23,24])
+            self.assertEqual(sixth["waiting_donor_prs"],[25])
+            self.assertIn("DONOR_INTAKE_ACTIVE_WINDOW_FULL_WAIT_FOR_SLOT",
+                          sixth["findings"])
+            state["include_first"]=False
+            refilled=gate(root,"intake",get=get,pr_number=25)
+            self.assertEqual(refilled["active_donor_prs"],[21,22,23,24,25])
+            self.assertEqual(refilled["waiting_donor_prs"],[])
+            self.assertNotIn("DONOR_INTAKE_ACTIVE_WINDOW_FULL_WAIT_FOR_SLOT",
+                             refilled["findings"])
+            self.assertIn("DONOR_INTAKE_ACTIVE_WAIT_FOR_SMALLER_FINALIZATION",
+                          refilled["findings"])
+
+    def test_owner_approved_active_intake_limit_is_five(self):
+        self.assertEqual(MAX_ACTIVE_DONOR_INTAKES,5)
+
+    def test_intake_workload_uses_canonical_mutation_stats_only(self):
+        files=[
+            {"filename":REGISTRY,"changes":7},
+            {"filename":"canonical/deltas/FA3-DONOR-X.json","additions":3,"deletions":2},
+            {"filename":"docs/donor-x.md","changes":1000},
+        ]
+        self.assertEqual(donor_intake_workload(files),12)
+        self.assertEqual(donor_intake_workload([{"filename":REGISTRY}]),1)
+
+    def test_pr_file_api_cap_fails_closed_before_workload_estimation(self):
+        def get(url):
+            if "pulls?state=open" in url:
+                return [{"number":77,"title":"Donor intake at file cap",
+                         "head":{"sha":"a"*40,"ref":"fa3/donor-77",
+                                 "repo":{"full_name":"ubuntuokos/Final-Architecture-v3.0"}}}]
+            if "/pulls/77/files?" in url:
+                page=int(url.rsplit("page=",1)[1])
+                if page<=30:
+                    start=(page-1)*100
+                    return [{"filename":REGISTRY if start+i==0 else f"docs/donor-{start+i}.md",
+                             "changes":1} for i in range(100)]
+                self.fail("PR file scan must fail closed at GitHub's 3000-file cap")
+            raise AssertionError(url)
+        with self.assertRaisesRegex(ValueError,"PR_FILE_LIST_AT_GITHUB_API_CAP:77"):
+            pending_prs(get)
+
+    def test_stale_base_files_are_excluded_from_live_workload(self):
+        stale_delta="canonical/deltas/FA3-DONOR-STALE.json"
+        def get(url):
+            if "pulls?state=open" in url:
+                return [{"number":77,"title":"Donor intake",
+                         "head":{"sha":"d"*40,"ref":"fa3/donor-77",
+                                 "repo":{"full_name":"ubuntuokos/Final-Architecture-v3.0"}}}]
+            if "/pulls/77/files?" in url:
+                return [
+                    {"filename":REGISTRY,"sha":"b"*40,"changes":7},
+                    {"filename":stale_delta,"sha":"c"*40,"changes":500},
+                ]
+            if "/contents/"+REGISTRY in url:
+                return {"sha":"a"*40}
+            if "/contents/"+stale_delta in url:
+                return {"sha":"c"*40}
+            raise AssertionError(url)
+        row=pending_prs(get)[0]
+        self.assertTrue(row["intake"])
+        self.assertEqual(row["workload_units"],7)
+        self.assertEqual(row["head_ref"],"fa3/donor-77")
+        self.assertEqual(row["head_repo_full_name"],"ubuntuokos/Final-Architecture-v3.0")
+
+    def test_cli_ready_results_return_success(self):
+        for result in ("DONOR_BATCH_APPEND_PREFLIGHT_PASS","DONOR_BATCH_FINALIZER_SELECTED",
+                       "DONOR_INTAKE_SLOT_AVAILABLE","DONOR_INTAKE_READY_TO_FINALIZE"):
+            with self.subTest(result=result), \
+                 patch.object(readiness,"gate",return_value={"result":result}), \
+                 patch.object(sys,"argv",["fa3_donor_readiness.py"]):
+                self.assertEqual(readiness.main(),0)
+
+    def test_cross_pr_revalidation_and_operator_docs_match_rolling_window(self):
+        root=Path(__file__).resolve().parents[1]
+        workflow=(root/".github/workflows/fa3-donor-intake-revalidation.yml").read_text()
+        serialization=(root/".github/workflows/fa3-donor-serialization.yml").read_text()
+        permanent=(root/".github/workflows/fa3-permanent-enforcement.yml").read_text()
+        guide=(root/"docs/donor-repair/DONOR_READINESS.md").read_text()
+        self.assertIn("pull_request_target:",workflow)
+        self.assertIn("actions: write",workflow)
+        self.assertIn("checks: write",workflow)
+        self.assertIn("canonical-regression / P0",workflow)
+        self.assertIn("/actions/runs/{current_id}/rerun",workflow)
+        self.assertIn("/actions/runs/{current_id}",workflow)
+        self.assertIn("time.monotonic()+480",workflow)
+        self.assertIn("datetime.now(timezone.utc)-created.astimezone(timezone.utc)",workflow)
+        self.assertIn("timedelta(days=30)",workflow)
+        self.assertIn("rerun_count >= 50",workflow)
+        self.assertIn("refreshed=gate(Path(\".\").resolve(),\"intake\",token=token)",workflow)
+        self.assertIn("Synchronize or reopen the PR",workflow)
+        self.assertIn("/compare/{main_sha}...{head_sha}",workflow)
+        self.assertIn("event=pull_request&head_sha={head_sha}",workflow)
+        self.assertNotIn("fa3-permanent-enforcement.yml/dispatches",workflow)
+        self.assertNotIn("actions: write",serialization)
+        self.assertNotIn("checks: write",serialization)
+        self.assertIn("${{ github.workflow }}",serialization)
+        self.assertIn("--phase append",serialization)
+        self.assertIn("full_gate_required=false",serialization)
+        self.assertIn("ready_for_review",serialization)
+        self.assertIn("needs.donor-serialization.outputs.full_gate_required",permanent)
+        self.assertIn("ready_for_review",permanent)
+        self.assertNotIn("A second intake remains BLOCKED",guide)
 
     def test_intake_without_live_inventory_is_fail_closed(self):
         t,root,p=fixture()
@@ -304,5 +524,121 @@ class Tests(unittest.TestCase):
         self.assertEqual(planning_snapshot_findings(row,"c"*64,reg,"a"*40,"b"*40),[])
         stale=planning_snapshot_findings(row,"c"*64,reg,"d"*40,"b"*40)
         self.assertIn("DONOR_PLANNING_SNAPSHOT_MISMATCH:published_main_commit",stale)
+
+
+    def test_planning_exception_is_bound_to_active_conversation_lineage(self):
+        reg={"id":"FA3-DONOR-REFERENCE-REGISTRY-001","entries":[source()]}
+        row={
+            "planning_processed_donors":[
+                {"normalized_key":"github:new/planning-donor"},
+                {"normalized_key":"github:x/y"},
+            ],
+            "planning_donor_analysis_exception":{
+                "scope":"ORIGINATING_CONVERSATION_AND_DIRECT_CONTINUATIONS_ONLY",
+                "planning_only":True,
+                "cross_conversation_reuse":False,
+                "lineage_ref":"conversation:alpha",
+            },
+        }
+        allowed=planning_processed_donor_findings(
+            row,reg,allow_unregistered=True,expected_lineage_ref="conversation:alpha"
+        )
+        self.assertEqual(allowed["findings"],[])
+        self.assertEqual(allowed["unregistered_keys"],["github:new/planning-donor"])
+        wrong=planning_processed_donor_findings(
+            row,reg,allow_unregistered=True,expected_lineage_ref="conversation:beta"
+        )
+        self.assertIn("PLANNING_DONOR_EXCEPTION_SCOPE_OR_LINEAGE_INVALID",wrong["findings"])
+        execute=planning_processed_donor_findings(
+            row,reg,allow_unregistered=False,expected_lineage_ref="conversation:alpha"
+        )
+        self.assertIn(
+            "PROCESSED_PLANNING_DONOR_NOT_REGISTERED:github:new/planning-donor",
+            execute["findings"],
+        )
+
+    def test_approved_plan_registration_is_exact_hash_set_and_lineage_bound(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td)
+            (root/"canonical/decisions").mkdir(parents=True)
+            (root/"canonical/assessments").mkdir(parents=True)
+            (root/"docs").mkdir(parents=True)
+            registry=root/REGISTRY
+            registry.parent.mkdir(parents=True,exist_ok=True)
+            registry.write_text(json.dumps({
+                "id":"FA3-DONOR-REFERENCE-REGISTRY-001",
+                "capability_count":175,
+                "entries":[],
+                "backfill":{"entry_count":0},
+            }),encoding="utf-8")
+            audit=root/REJECTION_AUDIT
+            audit.write_text(json.dumps({
+                "id":"FA3-DONOR-REJECTION-AUDIT-001","entries":[]
+            }),encoding="utf-8")
+            plan_rel="docs/approved-plan.md"
+            plan_raw=b"approved implementation plan\n"
+            (root/plan_rel).write_bytes(plan_raw)
+            assessment_rel="canonical/assessments/approved-plan-donors.json"
+            assessment={
+                "planning_donor_analysis_exception":{
+                    "scope":"ORIGINATING_CONVERSATION_AND_DIRECT_CONTINUATIONS_ONLY",
+                    "planning_only":True,
+                    "cross_conversation_reuse":False,
+                    "lineage_ref":"conversation:alpha",
+                },
+                "planning_processed_donors":[
+                    {"normalized_key":"github:example/approved"}
+                ],
+            }
+            assessment_raw=(json.dumps(assessment,sort_keys=True)+"\n").encode()
+            (root/assessment_rel).write_bytes(assessment_raw)
+            approval_rel="canonical/decisions/approved-plan-registration.json"
+            approval={
+                "status":"APPROVED",
+                "explicit_user_approval":True,
+                "user_request_ref":"conversation:alpha#approval",
+                "donor_registration_authorization":"APPROVED_PLAN_PROCESSED_DONORS_ONLY",
+                "approved_processed_donor_keys":["github:example/approved"],
+                "approved_plan_path":plan_rel,
+                "approved_plan_sha256":hashlib.sha256(plan_raw).hexdigest(),
+                "approved_donor_assessment_path":assessment_rel,
+                "approved_donor_assessment_sha256":hashlib.sha256(assessment_raw).hexdigest(),
+                "conversation_lineage_ref":"conversation:alpha",
+            }
+            (root/approval_rel).write_text(json.dumps(approval)+"\n",encoding="utf-8")
+            subprocess.run(["git","init","-q"],cwd=root,check=True)
+            subprocess.run(["git","config","user.email","test@example.invalid"],cwd=root,check=True)
+            subprocess.run(["git","config","user.name","CFA3 Test"],cwd=root,check=True)
+            subprocess.run(["git","add","."],cwd=root,check=True)
+            subprocess.run(["git","commit","-q","-m","fixture"],cwd=root,check=True)
+
+            result=capture_candidate(
+                root,
+                name="approved",
+                source_kind="GITHUB",
+                source_locator="https://github.com/example/approved",
+                plan_approval_ref=approval_rel,
+            )
+            self.assertTrue(result["created"])
+            saved=json.loads(registry.read_text(encoding="utf-8"))
+            self.assertEqual(saved["entries"][0]["status"],"ACCEPTED_REFERENCE")
+            self.assertEqual(
+                saved["entries"][0]["submission_review"]["basis"],
+                "OWNER_APPROVED_IMPLEMENTATION_PLAN_PROCESSED_DONOR_SET",
+            )
+            with self.assertRaisesRegex(ValueError,"DONOR_NOT_IN_APPROVED_PLAN_PROCESSED_SET"):
+                capture_candidate(
+                    root,
+                    name="other",
+                    source_kind="GITHUB",
+                    source_locator="https://github.com/example/other",
+                    plan_approval_ref=approval_rel,
+                )
+
+    def test_entry_phase_remains_non_executing(self):
+        self.assertIn(
+            'result["execution_allowed"]=phase in ("execute","finalize")',
+            (Path(__file__).resolve().parents[1]/"src/fa3_donor_readiness.py").read_text(),
+        )
 
 if __name__=="__main__":unittest.main()

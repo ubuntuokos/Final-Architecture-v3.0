@@ -1,0 +1,35 @@
+name: FA3 Current Host Delta Authority
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fa3-current-host-delta-authority-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  current-host-delta-authority:
+    name: current-host-delta-authority / static
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+      - name: Delta authority unit tests
+        run: PYTHONPATH=src python -m unittest tests.test_current_host_delta_authority -v
+      - name: Compile delta authority
+        run: python -m py_compile src/fa3_current_host_delta_authority.py
+      - name: Static-only boundary
+        run: |
+          echo "Hosted CI validates planning/verifier logic only."
+          echo "It MUST NOT emit a physical Current Host PASS."

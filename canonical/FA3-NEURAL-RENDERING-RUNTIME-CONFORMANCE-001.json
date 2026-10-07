@@ -23,5 +23,47 @@
   "global_promotion_claim": false,
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
-  "capability_count": 143
+  "capability_count": 175,
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_host_conformant": true,
+    "accelerator_cardinality": "0..N",
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "live_discovery_and_hrb_lease_required_for_host_acceleration": true
+  },
+  "hardware_safety_envelope": {
+    "decision_id": "FA3-DEC-HARDWARE-SAFETY-2026-09-26",
+    "fail_closed": true,
+    "hardware_parameter_mutation": "DENY",
+    "safety_protection_bypass": "DENY"
+  },
+  "software_coexistence": {
+    "capability": "CAP-175",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "host_loader_or_icd_replacement": false,
+    "independently_verified_host_admission_required": true
+  },
+  "ai_execution": {
+    "model_router_authority": "FA3-AUTH-MODEL-ROUTER-001",
+    "silent_fallback": false,
+    "display_gpu_automatic_ai_recruitment_with_other_gpu_or_npu": false,
+    "display_gpu_ai_use_requires_existing_hrb_policy": true
+  },
+  "execution_classes": {
+    "CPU_SOFTWARE": {
+      "status": "ARCHITECTURAL_PATH_MATERIALIZED_RUNTIME_PROVIDER_ADMISSION_SEPARATE",
+      "explicit_selection_required": true,
+      "model_router_required_when_model_backed": true,
+      "physical_provider_e2e_required_before_promotion": true
+    },
+    "HOST_NATIVE_ACCELERATED": {
+      "status": "PROVIDER_E2E_PENDING"
+    },
+    "BROWSER_WEBGPU": {
+      "status": "REFERENCE_PATH_PENDING_FA3_BROWSER_RUNTIME_EVIDENCE"
+    }
+  }
 }

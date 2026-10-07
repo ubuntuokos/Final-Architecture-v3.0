@@ -86,6 +86,11 @@ from fa3_computer_interaction_gate import gate as computer_interaction_runtime_g
 from fa3_browser_action_gate import gate as browser_action_runtime_gate
 from fa3_browser_cdp_gate import gate as browser_cdp_provider_gate
 from fa3_neural_rendering_gate import gate as neural_rendering_gate
+from fa3_hair_groom_gate import gate as hair_groom_gate
+from fa3_cuda_compat_gate import gate as cuda_compat_native_gate
+from fa3_ray_path_tracing_gate import gate as ray_path_tracing_gate
+from cfa3_development_ai_behavior_gate import gate as cfa3_development_ai_behavior_gate
+from cfa3_retroactive_redesign_compliance_gate import gate as cfa3_retroactive_redesign_compliance_gate
 from fa3_khronos_open_standards_gate import gate as khronos_open_standards_gate
 from fa3_audacity_mcp_gate import gate as audacity_mcp_gate
 from fa3_agent_instructions_gate import gate as agent_instructions_gate
@@ -223,6 +228,25 @@ def static_check(root:Path):
     neural_rendering_ref=neural_rendering_gate(root)
     if neural_rendering_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-119","Neural Rendering / OpenDLSS-NR provider projection gate failed",neural_rendering_gate=neural_rendering_ref))
+
+    hair_groom_ref=hair_groom_gate(root)
+    if hair_groom_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-149","Shared Hair/Groom mandatory static gate failed",hair_groom_gate=hair_groom_ref))
+
+    cuda_compat_native_ref=cuda_compat_native_gate(root)
+    if cuda_compat_native_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-151","CFA3 native CUDA compatibility mandatory static gate failed",cuda_compat_native_gate=cuda_compat_native_ref))
+
+    ray_path_tracing_ref=ray_path_tracing_gate(root)
+    if ray_path_tracing_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-155","CFA3 Shared Ray/Path Tracing mandatory static gate failed",ray_path_tracing_gate=ray_path_tracing_ref))
+
+    cfa3_development_ai_behavior_ref=cfa3_development_ai_behavior_gate(root)
+    if cfa3_development_ai_behavior_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-153","CFA3 development and AI behavior mandatory governance gate failed",cfa3_development_ai_behavior_gate=cfa3_development_ai_behavior_ref))
+    cfa3_retroactive_redesign_ref=cfa3_retroactive_redesign_compliance_gate(root)
+    if cfa3_retroactive_redesign_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-156","CFA3 retroactive redesign compliance mandatory governance gate failed",cfa3_retroactive_redesign_compliance_gate=cfa3_retroactive_redesign_ref))
     agent_instructions_ref=agent_instructions_gate(root)
     if agent_instructions_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-114","Repository agent-instruction projection governance gate failed",agent_instructions_gate=agent_instructions_ref))
@@ -304,6 +328,23 @@ def static_check(root:Path):
         fs.append(finding("FA3-STATIC-121","Browser CDP provider gate is not bound into global enforcement policy"))
     if "FA3-AGENT-INSTRUCTIONS-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-113","Agent-instruction projection gate is not bound into global enforcement policy"))
+    if "FA3-SHARED-HAIR-GROOM-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-150","Shared Hair/Groom gate is not bound into global enforcement policy"))
+    if "FA3-CUDA-COMPAT-NATIVE-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-152","CFA3 native CUDA compatibility gate is not bound into global enforcement policy"))
+    if "FA3-RAY-PATH-TRACING-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-156","CFA3 Shared Ray/Path Tracing gate is not bound into global enforcement policy"))
+    if not (
+        pol.get("ray_path_tracing_profile_id") == "FA3-SHARED-RAY-PATH-TRACING-001"
+        and pol.get("ray_path_tracing_contract_id") == "FA3-SHARED-RAY-PATH-TRACING-CONTRACTS-001"
+        and pol.get("ray_path_tracing_gate_id") == "FA3-RAY-PATH-TRACING-GATESET-001"
+        and pol.get("ray_path_tracing_enforcement_class") == "P0_CROSS_CUTTING_STATIC_GATE"
+        and pol.get("ray_path_tracing_global_static_required") is True
+        and pol.get("ray_path_tracing_current_host_runtime_promotion_claim") is False
+    ):
+        fs.append(finding("FA3-STATIC-157","CFA3 Shared Ray/Path Tracing cross-cutting binding is invalid"))
+    if "CFA3-DEVELOPMENT-AI-BEHAVIOR-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-154","CFA3 development and AI behavior gate is not bound into global enforcement policy"))
     if "FA3-OPENBMB-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-070","OpenBMB provider-family boundary/hardware gate is not bound into global enforcement policy"))
     if "FA3-GPU-KERNEL-RUNTIME-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
@@ -781,7 +822,7 @@ def main():
     ap.add_argument("--root",default=str(Path(__file__).resolve().parents[1]))
     ap.add_argument("--ci-only",action="store_true",help="For Terax gate: validate immutable reference + executable regressions without claiming current-host evidence")
     ap.add_argument("--require-evidence",action="store_true",help="Require real current-host evidence for commands that expose an evidence closure mode")
-    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","work-management","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","caveman","local-generative-media-lifecycle","obsidian-knowledge-workspace","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","loop-engineering","hardware-portability","host-adaptation","pytorch3d","openfx-interoperability","openhands","openyak","creative-operations-dashboard","openbmb","gpu-kernel-runtime","gpu-kernel-runtime-current-host","tencentdb-agent-memory","video-provider-lifecycle","stability-sgm","stability-portfolio","ai-comms","developer-agent-coordination","integration-broker","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","ffmpeg-ai","ffmpeg-ai-current-host","hybrid-editorial","marketing","marketing-agent-native","caption-subtitle","caption-subtitle-current-host","marketingskills","skill-fabric","distribution-compliance","reuse-discovery","agency-agents","agent-definition","external-llm-catalog","model-router-provider-execution","agent-workload-runtime","agent-workload-runtime-current-host","agent-federation","gui-current-host","supply-runtime-hardening","supply-runtime-hardening-current-host","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","hrb-deterministic-locality","sysctl-host-tuning","cpu-numa-threading","openmp","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","fa3-os-event-privacy","runtime-hardening","modernization-integration","authenticated-approval","reproducibility","gate-registry","governance-status","khronos-open-standards","audacity-mcp","acceptance","promote","all","status"))
+    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","work-management","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","caveman","local-generative-media-lifecycle","obsidian-knowledge-workspace","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","loop-engineering","hardware-portability","host-adaptation","pytorch3d","openfx-interoperability","openhands","openyak","creative-operations-dashboard","openbmb","gpu-kernel-runtime","gpu-kernel-runtime-current-host","tencentdb-agent-memory","video-provider-lifecycle","stability-sgm","stability-portfolio","ai-comms","developer-agent-coordination","integration-broker","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","ffmpeg-ai","ffmpeg-ai-current-host","hybrid-editorial","marketing","marketing-agent-native","caption-subtitle","caption-subtitle-current-host","marketingskills","skill-fabric","distribution-compliance","reuse-discovery","agency-agents","agent-definition","external-llm-catalog","model-router-provider-execution","agent-workload-runtime","agent-workload-runtime-current-host","agent-federation","gui-current-host","supply-runtime-hardening","supply-runtime-hardening-current-host","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","hrb-deterministic-locality","sysctl-host-tuning","cpu-numa-threading","openmp","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","fa3-os-event-privacy","runtime-hardening","modernization-integration","authenticated-approval","reproducibility","gate-registry","governance-status","khronos-open-standards","audacity-mcp","cfa3-development-ai-behavior","acceptance","promote","all","status"))
     a=ap.parse_args()
     root=Path(a.root).resolve()
     try:
@@ -803,6 +844,8 @@ def main():
             x=khronos_open_standards_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="audacity-mcp":
             x=audacity_mcp_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="cfa3-development-ai-behavior":
+            x=cfa3_development_ai_behavior_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="terax":
             x=terax_gate(root,require_current_host=not a.ci_only); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="kaneo":

@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-NEURAL-RENDERING-001",
   "name": "Neural Rendering & Temporal Reconstruction Fabric",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST-PROJECTION-PROVIDER-CONDITIONAL",
@@ -23,7 +23,10 @@
     "CAP-126",
     "CAP-127",
     "CAP-135",
-    "CAP-136"
+    "CAP-136",
+    "CAP-161",
+    "CAP-162",
+    "CAP-163"
   ],
   "contracts": [
     "FA3-NEURAL-RENDERING-CONTRACTS-001"
@@ -37,7 +40,9 @@
     "FA3-MODEL-REGISTRY-001",
     "FA3-UNIFIED-ACTION-FABRIC-001",
     "FA3-AI-COMMS-001",
-    "FA3-3D-GEOM-001"
+    "FA3-3D-GEOM-001",
+    "FA3-ENGINE-SELECTION-FABRIC-001",
+    "FA3-SHARED-RAY-PATH-TRACING-001"
   ],
   "providers": [
     "FA3-PROVIDER-OPENDLSS-NR-001"
@@ -50,6 +55,7 @@
     "gpu_kernel_runtime": "HOST_ACCELERATION_CONSUMER_NOT_KERNEL_AUTHORITY"
   },
   "execution_classes": {
+    "CPU_SOFTWARE": "EXPLICIT_CPU_PROVIDER_MODEL_ROUTE_AND_RUNTIME_ADMISSION_REQUIRED",
     "HOST_NATIVE_ACCELERATED": "HRB_LEASE_AND_PROVIDER_CURRENT_HOST_E2E_REQUIRED",
     "BROWSER_WEBGPU": "FA3_WEB_AI_CAPABILITY_AND_PROVENANCE_GATE_REQUIRED"
   },
@@ -90,5 +96,56 @@
   },
   "implementation_status": "CANONICAL_CONTROL_PLANE_REFERENCE_PROVIDER_AND_BOUNDED_JEV_ADAPTER_MATERIALIZED_PROVIDER_E2E_PENDING",
   "capability_baseline_release": "2026-09-26/v3.1.0",
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "feature_classes": [
+    "NEURAL_RENDER",
+    "SUPER_RESOLUTION",
+    "NATIVE_RESOLUTION_AA",
+    "RAY_RECONSTRUCTION",
+    "DENOISE",
+    "TEMPORAL_RECONSTRUCTION",
+    "FRAME_GENERATION",
+    "LOW_LATENCY_PRESENTATION"
+  ],
+  "frame_surface_contract": "FA3-NEURAL-RENDERING-CONTRACTS-001::NeuralFrameSurfaceDescriptor",
+  "output_policy": {
+    "canonical_timeline_preserved": true,
+    "frame_generation_preview_only": true,
+    "frame_generation_forbidden_output_classes": [
+      "FINAL_MASTER",
+      "ARCHIVAL_MASTER",
+      "EXR_SEQUENCE",
+      "VFX_HANDOFF"
+    ],
+    "generated_presentation_frames_non_canonical": true
+  },
+  "provider_family_policy": {
+    "provider_neutral_contract": true,
+    "open_baseline_required": true,
+    "optional_vendor_providers_allowed": true,
+    "planned_provider_slots": [
+      "CFA3_NATIVE_CPU",
+      "OPENDLSS_NR",
+      "NVIDIA_DLSS",
+      "AMD_FSR",
+      "INTEL_XESS",
+      "BROWSER_WEBGPU"
+    ],
+    "slot_does_not_grant_donor_provider_model_or_runtime_admission": true
+  },
+  "future_consumer_policy": {
+    "bind_all_capability_compatible_applications_through_shared_fabric": true,
+    "application_local_neural_rendering_core_forbidden": true,
+    "product_family_domains": [
+      "VIDEO",
+      "IMAGE",
+      "DIGITAL_HUMAN",
+      "ANIMATION",
+      "SHOT_DESIGN",
+      "VIRTUAL_PRODUCTION",
+      "LOCATION_SET",
+      "RENDER",
+      "EDITING"
+    ]
+  }
 }

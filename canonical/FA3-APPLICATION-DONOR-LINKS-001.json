@@ -9,7 +9,8 @@
   "canonical_inputs": [
     "canonical/FA3-AI-STUDIO-APP-CATALOG-001.json",
     "canonical/FA3-GUI-SURFACE-REGISTRY-001.json",
-    "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json"
+    "canonical/FA3-DONOR-REFERENCE-REGISTRY-001.json",
+    "canonical/FA3-PRODUCT-FAMILY-REGISTRY-001.json"
   ],
   "policy": {
     "auto_register_all_curated_applications": true,
@@ -60,7 +61,23 @@
     "donor_usage_typed_primary_consumer_required": true,
     "explicit_canonical_donor_use_requires_usage_edge": true,
     "shared_capability_donor_adoption_requires_usage_edge": true,
-    "reference_only_pattern_is_not_adoption_without_usage_evidence": true
+    "reference_only_pattern_is_not_adoption_without_usage_evidence": true,
+    "universal_capability_access_required_for_material_adoption": true,
+    "restricted_donor_requires_global_substitute": true,
+    "restricted_donor_may_not_be_sole_capability_implementation": true,
+    "unknown_access_rights_block_material_adoption": true,
+    "restriction_circumvention_forbidden": true,
+    "platform_product_family_classification_required": true,
+    "unclassified_application_fail_closed": true,
+    "orphaned_product_family_placement_fail_closed": true,
+    "product_family_is_context_not_authority": true,
+    "product_family_membership_does_not_grant_permission": true,
+    "retroactive_platform_placement_required": true,
+    "legacy_pre_donor_redesign_source_recovery_required": true,
+    "legacy_source_temporary_planning_use_allowed": true,
+    "legacy_source_temporary_use_is_admission": false,
+    "legacy_redesign_finalization_requires_canonical_donor_resolution": true,
+    "legacy_redesign_current_rule_delta_required": true
   },
   "hardware_audit": {
     "vendor_neutral": true,
@@ -643,6 +660,167 @@
       "gui_surface_ids": [
         "create.ai-module-factory"
       ]
+    },
+    {
+      "id": "FA3-SHARED-HAIR-GROOM-001",
+      "owner_layer": "Creative Design, Film, DCC & Documents",
+      "consumer_applications": [
+        "fa3.character-studio",
+        "fa3.video-editor",
+        "studio.bforartists",
+        "reference.krita"
+      ],
+      "status": "MATERIALIZED_STATIC",
+      "authority": false,
+      "local_ui_adapter_only": true,
+      "retrospective_review_required": true,
+      "manual_update_required": true,
+      "capability_loss_allowed": false,
+      "current_host_alignment_required_for_structural_change": true,
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT"
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-SHARED-HAIR-GROOM-001"
+        ],
+        "contract_ids": [
+          "FA3-SHARED-HAIR-GROOM-CONTRACTS-001"
+        ],
+        "authority_ids": [
+          "FA3-3D-GEOM-001",
+          "FA3-DCC-RT3D-001",
+          "FA3-AUTH-MODEL-ROUTER-001",
+          "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+          "FA3-AUTH-DURABLE-ORCHESTRATION-001",
+          "FA3-AUTH-MCP-GATEWAY-001",
+          "FA3-UNIFIED-ACTION-FABRIC-001",
+          "FA3-LICENSE-RIGHTS-001",
+          "FA3-AUTH-SECURITY-GOV-001",
+          "FA3-AUTH-OBS-EVIDENCE-001"
+        ],
+        "shared_module_ids": [
+          "FA3-SHARED-MULTIMODAL-SOURCE-001"
+        ]
+      },
+      "pattern_catalogue_refs": [
+        "FA3-SHARED-MEDIA-ASSET-FABRIC-PATTERN-001",
+        "FA3-SHARED-CREATIVE-CANVAS-PATTERN-001",
+        "FA3-SHARED-CREATIVE-PROVENANCE-PATTERN-001",
+        "FA3-SHARED-MEDIA-REVIEW-ANNOTATION-PATTERN-001"
+      ],
+      "gui_surface_ids": []
+    },
+    {
+      "id": "FA3-SHARED-RAY-PATH-TRACING-001",
+      "owner_layer": "Creative Design, Film, DCC & Documents",
+      "consumer_applications": [
+        "studio.bforartists",
+        "studio.gaffer",
+        "fa3.character-studio",
+        "fa3.video-editor"
+      ],
+      "status": "MATERIALIZED_STATIC",
+      "authority": false,
+      "retrospective_review_required": true,
+      "manual_update_required": true,
+      "capability_loss_allowed": false,
+      "current_host_alignment_required_for_structural_change": true,
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT"
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-SHARED-RAY-PATH-TRACING-001"
+        ],
+        "contract_ids": [
+          "FA3-SHARED-RAY-PATH-TRACING-CONTRACTS-001"
+        ],
+        "authority_ids": [
+          "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+          "FA3-AUTH-MODEL-ROUTER-001",
+          "FA3-AUTH-DURABLE-ORCHESTRATION-001",
+          "FA3-LICENSE-RIGHTS-001",
+          "FA3-AUTH-SECURITY-GOV-001",
+          "FA3-AUTH-OBS-EVIDENCE-001"
+        ],
+        "shared_module_ids": []
+      },
+      "gui_surface_ids": [
+        "models.engines"
+      ],
+      "local_ui_adapter_only": true,
+      "pattern_catalogue_refs": []
+    },
+    {
+      "id": "FA3-NEURAL-RENDERING-001",
+      "owner_layer": "Creative Design, Film, DCC & Documents",
+      "consumer_applications": [
+        "fa3.video-editor",
+        "fa3.quickclip",
+        "fa3.story-screenplay",
+        "fa3.character-studio",
+        "fa3.ai-module-factory",
+        "studio.comfyui",
+        "studio.invokeai",
+        "studio.kdenlive",
+        "studio.bforartists",
+        "studio.natron",
+        "studio.gaffer",
+        "reference.krita"
+      ],
+      "status": "MATERIALIZED_STATIC",
+      "authority": false,
+      "local_ui_adapter_only": true,
+      "retrospective_review_required": true,
+      "manual_update_required": true,
+      "capability_loss_allowed": false,
+      "current_host_alignment_required_for_structural_change": true,
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT"
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-NEURAL-RENDERING-001"
+        ],
+        "contract_ids": [
+          "FA3-NEURAL-RENDERING-CONTRACTS-001"
+        ],
+        "authority_ids": [
+          "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+          "FA3-AUTH-MODEL-ROUTER-001",
+          "FA3-AUTH-OBS-EVIDENCE-001"
+        ],
+        "shared_module_ids": []
+      },
+      "pattern_catalogue_refs": [],
+      "gui_surface_ids": [],
+      "consumer_modes": {
+        "fa3.video-editor": "FRAME_TIMELINE_RECONSTRUCTION",
+        "fa3.quickclip": "SHORT_FORM_PREVIEW_AND_RECONSTRUCTION",
+        "fa3.story-screenplay": "INDIRECT_PREVIZ_RENDER_REQUEST",
+        "fa3.character-studio": "DIGITAL_HUMAN_VIEWPORT_AND_RENDER",
+        "fa3.ai-module-factory": "READ_ONLY_EVIDENCE_AND_ARTIFACT_CONSUMER",
+        "studio.comfyui": "POST_GENERATION_RECONSTRUCTION_ADAPTER",
+        "studio.invokeai": "POST_GENERATION_RECONSTRUCTION_ADAPTER",
+        "studio.kdenlive": "EDITORIAL_PREVIEW_AND_RECONSTRUCTION_ADAPTER",
+        "studio.bforartists": "DCC_RENDER_FRAME_HANDOFF",
+        "studio.natron": "COMPOSITING_FRAME_HANDOFF",
+        "studio.gaffer": "DCC_RENDER_COMPOSITING_HANDOFF",
+        "reference.krita": "IMAGE_PREVIEW_RECONSTRUCTION_REFERENCE"
+      },
+      "future_product_family_domains": [
+        "IMAGE",
+        "VIDEO",
+        "DIGITAL_HUMAN",
+        "ANIMATION",
+        "SHOT_DESIGN",
+        "VIRTUAL_PRODUCTION",
+        "LOCATION_SET",
+        "RENDER",
+        "EDITING"
+      ],
+      "future_application_binding": "AUTO_DISCOVER_CAPABILITY_COMPATIBLE_SURFACE_BUT_NEVER_AUTO_ACTIVATE_PROVIDER"
     }
   ],
   "governance_decisions": [
@@ -957,6 +1135,801 @@
       "approval_ref": "FA3-DEC-PAPERCLIP-ORCHESTRATION-GOVERNANCE-DONOR-USE-2026-10-03"
     },
     {
+      "id": "FA3-USAGE-AI-VOICE-CLONING-GIST-VOICE-TRANSFORMATION-001",
+      "donor_id": "FA3-DONOR-0XDEVALIAS-AI-VOICE-CLONING-GIST-001",
+      "donor_capability_key": "voice-transformation-discovery-reference",
+      "usage_kind": "REFERENCE_BINDING",
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-03",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-VOICE-001",
+        "relationship": "REFERENCE_ONLY_DISCOVERY_PROVENANCE"
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-VOICE-001"
+        ],
+        "contract_ids": [
+          "FA3-VOICE-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      },
+      "consumers": [
+        {
+          "kind": "GUI_SURFACE",
+          "id": "create.narration-studio",
+          "relationship": "REFERENCE_ONLY_PROVENANCE"
+        }
+      ],
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT",
+        "reason": "Reference-only donor provenance; FA3-native structural changes are governed separately."
+      },
+      "provenance": {
+        "evidence_classification": "REFERENCE_ONLY_DISCOVERY_BINDING_NO_MATERIAL_ADOPTION",
+        "evidence_paths": [
+          "canonical/assessments/FA3-VOICE-TRANSFORMATION-GIST-REUSE-ASSESSMENT-2026-10-03.json",
+          "canonical/decisions/FA3-DEC-VOICE-TRANSFORMATION-REFERENCE-PLAN-2026-10-03.json",
+          "docs/voice-transformation-reference-plan-2026-10-03.md"
+        ],
+        "approval_ref": "FA3-DEC-VOICE-TRANSFORMATION-REFERENCE-PLAN-2026-10-03"
+      },
+      "approval_ref": "FA3-DEC-VOICE-TRANSFORMATION-REFERENCE-PLAN-2026-10-03",
+      "reference_only": true,
+      "material_adoption": false,
+      "planned_application_impacts": [
+        "fa3.music-studio",
+        "fa3.character-studio",
+        "fa3.story-screenplay",
+        "fa3.video-editor",
+        "fa3.quickclip"
+      ]
+    },
+    {
+      "id": "FA3-USAGE-VISUAL-PROMPT-GENERATIVE-MEDIA-MESH-001",
+      "donor_id": "FA3-DONOR-VIGOZHAO-AI-VISUAL-PROMPT-COOKBOOK-001",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "VISUAL_PROMPT_CAMERA_STYLE_STRUCTURE",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-GENERATIVE-MEDIA-MESH-001"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-04",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "current_host_impact": {
+        "classification": "STRUCTURAL_REASSESSMENT_REQUIRED",
+        "reason": "Shared generative-media profile and GUI projection changed; runtime promotion remains separate."
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-001"
+        ],
+        "contract_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      }
+    },
+    {
+      "id": "FA3-USAGE-STICKMAN-DIRECTOR-GENERATIVE-MEDIA-MESH-001",
+      "donor_id": "FA3-DONOR-KAOMEI-STICKMAN-VIDEO-DIRECTOR-001",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "SHOT_BEAT_CONTINUITY_DURATION_CONTRACT",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-GENERATIVE-MEDIA-MESH-001"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-04",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "current_host_impact": {
+        "classification": "STRUCTURAL_REASSESSMENT_REQUIRED",
+        "reason": "Storyboard/shot projection added; runtime promotion remains separate."
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-001"
+        ],
+        "contract_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      }
+    },
+    {
+      "id": "FA3-USAGE-SEE-THROUGH-GENERATIVE-MEDIA-MESH-001",
+      "donor_id": "FA3-DONOR-SEE-THROUGH-001",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "LAYER_OCCLUSION_PREPROCESSING",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-GENERATIVE-MEDIA-MESH-001"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-04",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "current_host_impact": {
+        "classification": "STRUCTURAL_REASSESSMENT_REQUIRED",
+        "reason": "Shared image/character preprocessing semantics added; execution remains separately admitted."
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-001"
+        ],
+        "contract_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      }
+    },
+    {
+      "id": "FA3-USAGE-HIROUTE-GENERATIVE-MEDIA-MESH-001",
+      "donor_id": "FA3-DONOR-HIGRESS-GROUP-HIROUTE-001",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "BOUNDED_STAGE_AWARE_ROUTING_WITH_EXPLICIT_EXHAUSTION",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-GENERATIVE-MEDIA-MESH-001"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-04",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT",
+        "reason": "Policy pattern only; Model Router remains sole provider/model authority."
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-001"
+        ],
+        "contract_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001"
+        ],
+        "authority_ids": [
+          "FA3-AUTH-MODEL-ROUTER-001"
+        ],
+        "shared_module_ids": []
+      }
+    },
+    {
+      "id": "FA3-USAGE-TOBYFLOW-GENERATIVE-MEDIA-MESH-001",
+      "donor_id": "FA3-DONOR-TOBYFLOW-001",
+      "usage_kind": "REFERENCE_BINDING",
+      "pattern": "VISUAL_DAG_BATCH_RETRY_PROGRESS_UI_REFERENCE",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-GENERATIVE-MEDIA-MESH-001"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-04",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "reference_only": true,
+      "material_adoption": false,
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT",
+        "reason": "Reference-only UX/workflow pattern; Temporal remains workflow authority and no TobyFlow code/runtime is used."
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-001"
+        ],
+        "contract_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      }
+    },
+    {
+      "id": "FA3-USAGE-DIFFUSERS-GENERATIVE-MEDIA-MESH-001",
+      "donor_id": "FA3-DONOR-HUGGINGFACE-DIFFUSERS-001",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "PROVIDER_NEUTRAL_DIFFUSION_PIPELINE_PATTERN",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-GENERATIVE-MEDIA-MESH-001",
+        "relationship": "PATTERN_SOURCE"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-04",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "current_host_impact": {
+        "classification": "STRUCTURAL_REASSESSMENT_REQUIRED",
+        "reason": "Provider-neutral architecture pattern only; no donor runtime, model or device authority is admitted."
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-001"
+        ],
+        "contract_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      }
+    },
+    {
+      "id": "FA3-USAGE-XDIT-GENERATIVE-MEDIA-MESH-001",
+      "donor_id": "FA3-DONOR-XDIT-001",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "ZERO_TO_N_ACCELERATOR_DIT_RESOURCE_PROJECTION_PATTERN",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-GENERATIVE-MEDIA-MESH-001",
+        "relationship": "PATTERN_SOURCE"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-04",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT",
+        "reason": "Provider-neutral architecture pattern only; no donor runtime, model or device authority is admitted."
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-001"
+        ],
+        "contract_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      }
+    },
+    {
+      "id": "FA3-USAGE-VIDEOSYS-GENERATIVE-MEDIA-MESH-001",
+      "donor_id": "FA3-DONOR-VIDEOSYS-001",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "GENERATION_RUNTIME_SERVING_LIFECYCLE_PATTERN",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-GENERATIVE-MEDIA-MESH-001",
+        "relationship": "PATTERN_SOURCE"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-04",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT",
+        "reason": "Provider-neutral architecture pattern only; no donor runtime, model or device authority is admitted."
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-001"
+        ],
+        "contract_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      }
+    },
+    {
+      "id": "FA3-USAGE-SANA-GENERATIVE-MEDIA-MESH-001",
+      "donor_id": "FA3-DONOR-NVLABS-SANA-001",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "GENERATOR_REFINER_LIFECYCLE_PATTERN",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-GENERATIVE-MEDIA-MESH-001",
+        "relationship": "PATTERN_SOURCE"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-04",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "current_host_impact": {
+        "classification": "STRUCTURAL_REASSESSMENT_REQUIRED",
+        "reason": "Provider-neutral architecture pattern only; no donor runtime, model or device authority is admitted."
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-001"
+        ],
+        "contract_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      }
+    },
+    {
+      "id": "FA3-USAGE-SYSTEM-ONE-GENERATIVE-MEDIA-MESH-001",
+      "donor_id": "FA3-DONOR-SYSTEM-ONE-HARNESS-001",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "CONFIDENCE_GATE_HANDOFF_TRACE_PATTERN",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-GENERATIVE-MEDIA-MESH-001",
+        "relationship": "PATTERN_SOURCE"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-04",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT",
+        "reason": "Provider-neutral architecture pattern only; no donor runtime, model or device authority is admitted."
+      },
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-001"
+        ],
+        "contract_ids": [
+          "FA3-GENERATIVE-MEDIA-MESH-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      }
+    },
+    {
+      "id": "FA3-USAGE-GPUOPEN-OROCHI-CUDA-COMPAT-001",
+      "donor_id": "FA3-DONOR-GPUOPEN-OROCHI-001",
+      "donor_capability_key": "multi-vendor-runtime-selection",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "PROVIDER_NEUTRAL_RUNTIME_DISPATCH_BOUNDARY",
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-04",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "primary_consumer": {
+        "kind": "PROVIDER",
+        "id": "FA3-PROVIDER-CFA3-NATIVE-CUDA-COMPAT-001",
+        "relationship": "PATTERN_DERIVED_NATIVE_SHARED_PROVIDER"
+      },
+      "fa3_bindings": {
+        "profile_ids": [],
+        "contract_ids": [
+          "FA3-CUDA-COMPAT-NATIVE-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      },
+      "consumers": [],
+      "current_host_impact": {
+        "classification": "STRUCTURAL_REASSESSMENT_REQUIRED",
+        "reason": "Runtime-dispatch separation pattern informs a new shared translation/runtime-compatibility boundary; physical runtime evidence remains separate."
+      },
+      "provenance": {
+        "evidence_classification": "EXPLICIT_CANONICAL_DONOR_PATTERN_USE_NO_CODE_COPY",
+        "evidence_paths": [
+          "docs/cfa3-native-cuda-compat-final-plan-2026-10-04.md",
+          "canonical/assessments/FA3-CUDA-COMPAT-NATIVE-REUSE-ASSESSMENT-2026-10-04.json",
+          "canonical/decisions/FA3-DEC-CUDA-COMPAT-OROCHI-DONOR-USE-2026-10-04.json"
+        ],
+        "approval_ref": "FA3-DEC-CUDA-COMPAT-OROCHI-DONOR-USE-2026-10-04"
+      },
+      "approval_ref": "FA3-DEC-CUDA-COMPAT-OROCHI-DONOR-USE-2026-10-04"
+    },
+    {
+      "id": "FA3-USAGE-ROCM-EXAMPLES-CUDA-COMPAT-001",
+      "donor_id": "FA3-DONOR-ROCM-EXAMPLES-001",
+      "donor_capability_key": "portable-hip-cuda-examples",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "CUDA_HIP_PORTABILITY_TEST_MATRIX_AND_SMOKE_TEST_PATTERN",
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-04",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "primary_consumer": {
+        "kind": "PROVIDER",
+        "id": "FA3-PROVIDER-CFA3-NATIVE-CUDA-COMPAT-001",
+        "relationship": "PATTERN_DERIVED_NATIVE_SHARED_PROVIDER"
+      },
+      "fa3_bindings": {
+        "profile_ids": [],
+        "contract_ids": [
+          "FA3-CUDA-COMPAT-NATIVE-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      },
+      "consumers": [
+        {
+          "kind": "TEST_HARNESS",
+          "id": "tests/test_cuda_compat_native.py",
+          "relationship": "PORTABILITY_REGRESSION_PATTERN"
+        }
+      ],
+      "current_host_impact": {
+        "classification": "STRUCTURAL_REASSESSMENT_REQUIRED",
+        "reason": "Portability smoke-test pattern informs static validation only; it does not create physical Current Host evidence."
+      },
+      "provenance": {
+        "evidence_classification": "EXPLICIT_CANONICAL_DONOR_PATTERN_USE_NO_CODE_COPY",
+        "evidence_paths": [
+          "docs/cfa3-native-cuda-compat-final-plan-2026-10-04.md",
+          "canonical/assessments/FA3-CUDA-COMPAT-NATIVE-REUSE-ASSESSMENT-2026-10-04.json",
+          "canonical/decisions/FA3-DEC-CUDA-COMPAT-ROCM-EXAMPLES-DONOR-USE-2026-10-04.json"
+        ],
+        "approval_ref": "FA3-DEC-CUDA-COMPAT-ROCM-EXAMPLES-DONOR-USE-2026-10-04"
+      },
+      "approval_ref": "FA3-DEC-CUDA-COMPAT-ROCM-EXAMPLES-DONOR-USE-2026-10-04"
+    },
+    {
+      "id": "FA3-USAGE-PROJECT10-OPENRT-RAY-PATH-TRACING-001",
+      "donor_id": "FA3-DONOR-PROJECT-10-OPENRT-001",
+      "donor_capability_key": "PROVIDER_NEUTRAL_API_PATTERN",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "PROVIDER_NEUTRAL_RT_API_AND_EXPLICIT_BACKEND_BOUNDARY",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-SHARED-RAY-PATH-TRACING-001",
+        "relationship": "PATTERN_SOURCE"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-05",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "reference_only": false,
+      "material_adoption": true,
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-SHARED-RAY-PATH-TRACING-001"
+        ],
+        "contract_ids": [
+          "FA3-SHARED-RAY-PATH-TRACING-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      },
+      "consumers": [],
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT",
+        "reason": "Architecture/reference pattern only; no donor code, runtime, provider, model, hardware execution or Current Host PASS is admitted."
+      },
+      "provenance": {
+        "evidence_classification": "EXPLICIT_CANONICAL_DONOR_PATTERN_USE_NO_CODE_COPY",
+        "evidence_paths": [
+          "docs/CFA3-SHARED-RAY-PATH-TRACING-001.md",
+          "canonical/assessments/FA3-SHARED-RAY-PATH-TRACING-REUSE-ASSESSMENT-2026-10-05.json",
+          "canonical/decisions/FA3-DEC-PROJECT10-OPENRT-RAY-PATH-TRACING-001-2026-10-05.json"
+        ]
+      }
+    },
+    {
+      "id": "FA3-USAGE-GPUOPEN-GPURT-RAY-PATH-TRACING-001",
+      "donor_id": "FA3-DONOR-GPUOPEN-GPURT-001",
+      "donor_capability_key": "HARDWARE_TRAVERSAL_PATTERN",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "ACCELERATION_STRUCTURE_AND_HARDWARE_TRAVERSAL_BOUNDARY",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-SHARED-RAY-PATH-TRACING-001",
+        "relationship": "PATTERN_SOURCE"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-05",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "reference_only": false,
+      "material_adoption": true,
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-SHARED-RAY-PATH-TRACING-001"
+        ],
+        "contract_ids": [
+          "FA3-SHARED-RAY-PATH-TRACING-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      },
+      "consumers": [],
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT",
+        "reason": "Architecture/reference pattern only; no donor code, runtime, provider, model, hardware execution or Current Host PASS is admitted."
+      },
+      "provenance": {
+        "evidence_classification": "EXPLICIT_CANONICAL_DONOR_PATTERN_USE_NO_CODE_COPY",
+        "evidence_paths": [
+          "docs/CFA3-SHARED-RAY-PATH-TRACING-001.md",
+          "canonical/assessments/FA3-SHARED-RAY-PATH-TRACING-REUSE-ASSESSMENT-2026-10-05.json",
+          "canonical/decisions/FA3-DEC-GPUOPEN-GPURT-RAY-PATH-TRACING-001-2026-10-05.json"
+        ]
+      }
+    },
+    {
+      "id": "FA3-USAGE-GPUOPEN-RRA-RAY-PATH-TRACING-001",
+      "donor_id": "FA3-DONOR-GPUOPEN-RRA-001",
+      "donor_capability_key": "DIAGNOSTIC_EVIDENCE_PATTERN",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "ACCELERATION_STRUCTURE_DIAGNOSTICS_AND_EVIDENCE_PROJECTION",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-SHARED-RAY-PATH-TRACING-001",
+        "relationship": "PATTERN_SOURCE"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-05",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "reference_only": false,
+      "material_adoption": true,
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-SHARED-RAY-PATH-TRACING-001"
+        ],
+        "contract_ids": [
+          "FA3-SHARED-RAY-PATH-TRACING-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      },
+      "consumers": [],
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT",
+        "reason": "Architecture/reference pattern only; no donor code, runtime, provider, model, hardware execution or Current Host PASS is admitted."
+      },
+      "provenance": {
+        "evidence_classification": "EXPLICIT_CANONICAL_DONOR_PATTERN_USE_NO_CODE_COPY",
+        "evidence_paths": [
+          "docs/CFA3-SHARED-RAY-PATH-TRACING-001.md",
+          "canonical/assessments/FA3-SHARED-RAY-PATH-TRACING-REUSE-ASSESSMENT-2026-10-05.json",
+          "canonical/decisions/FA3-DEC-GPUOPEN-RRA-RAY-PATH-TRACING-001-2026-10-05.json"
+        ]
+      }
+    },
+    {
+      "id": "FA3-USAGE-INTEL-L0RT-RAY-PATH-TRACING-001",
+      "donor_id": "FA3-DONOR-INTEL-LEVEL-ZERO-RAYTRACING-SUPPORT-001",
+      "donor_capability_key": "INTEL_BACKEND_BINDING_PATTERN",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "INTEL_RT_CAPABILITY_DISCOVERY_AND_EXACT_BACKEND_BINDING",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-SHARED-RAY-PATH-TRACING-001",
+        "relationship": "PATTERN_SOURCE"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-05",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "reference_only": false,
+      "material_adoption": true,
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-SHARED-RAY-PATH-TRACING-001"
+        ],
+        "contract_ids": [
+          "FA3-SHARED-RAY-PATH-TRACING-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      },
+      "consumers": [],
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT",
+        "reason": "Architecture/reference pattern only; no donor code, runtime, provider, model, hardware execution or Current Host PASS is admitted."
+      },
+      "provenance": {
+        "evidence_classification": "EXPLICIT_CANONICAL_DONOR_PATTERN_USE_NO_CODE_COPY",
+        "evidence_paths": [
+          "docs/CFA3-SHARED-RAY-PATH-TRACING-001.md",
+          "canonical/assessments/FA3-SHARED-RAY-PATH-TRACING-REUSE-ASSESSMENT-2026-10-05.json",
+          "canonical/decisions/FA3-DEC-INTEL-L0RT-RAY-PATH-TRACING-001-2026-10-05.json"
+        ]
+      }
+    },
+    {
+      "id": "FA3-USAGE-INTEL-RTPTRF-RAY-PATH-TRACING-001",
+      "donor_id": "FA3-DONOR-INTEL-REALTIME-PATH-TRACING-RESEARCH-FRAMEWORK-001",
+      "donor_capability_key": "PATH_TRACING_PIPELINE_PATTERN",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "PROGRESSIVE_PATH_TRACING_ACCUMULATION_AND_QUALITY_POLICY",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-SHARED-RAY-PATH-TRACING-001",
+        "relationship": "PATTERN_SOURCE"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-05",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "reference_only": false,
+      "material_adoption": true,
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-SHARED-RAY-PATH-TRACING-001"
+        ],
+        "contract_ids": [
+          "FA3-SHARED-RAY-PATH-TRACING-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      },
+      "consumers": [],
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT",
+        "reason": "Architecture/reference pattern only; no donor code, runtime, provider, model, hardware execution or Current Host PASS is admitted."
+      },
+      "provenance": {
+        "evidence_classification": "EXPLICIT_CANONICAL_DONOR_PATTERN_USE_NO_CODE_COPY",
+        "evidence_paths": [
+          "docs/CFA3-SHARED-RAY-PATH-TRACING-001.md",
+          "canonical/assessments/FA3-SHARED-RAY-PATH-TRACING-REUSE-ASSESSMENT-2026-10-05.json",
+          "canonical/decisions/FA3-DEC-INTEL-RTPTRF-RAY-PATH-TRACING-001-2026-10-05.json"
+        ]
+      }
+    },
+    {
+      "id": "FA3-USAGE-RUST-RAYTRACER-CPU-PATH-001",
+      "donor_id": "FA3-DONOR-ANCIENTKINGG-RUST-RAYTRACER-001",
+      "donor_capability_key": "CPU_SOFTWARE_PATH_PATTERN",
+      "usage_kind": "ARCHITECTURE_PATTERN",
+      "pattern": "CPU_SOFTWARE_RAY_TRACING_REFERENCE_PATH",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-SHARED-RAY-PATH-TRACING-001",
+        "relationship": "PATTERN_SOURCE"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-05",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "reference_only": false,
+      "material_adoption": true,
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-SHARED-RAY-PATH-TRACING-001"
+        ],
+        "contract_ids": [
+          "FA3-SHARED-RAY-PATH-TRACING-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      },
+      "consumers": [],
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT",
+        "reason": "Architecture/reference pattern only; no donor code, runtime, provider, model, hardware execution or Current Host PASS is admitted."
+      },
+      "provenance": {
+        "evidence_classification": "EXPLICIT_CANONICAL_DONOR_PATTERN_USE_NO_CODE_COPY",
+        "evidence_paths": [
+          "docs/CFA3-SHARED-RAY-PATH-TRACING-001.md",
+          "canonical/assessments/FA3-SHARED-RAY-PATH-TRACING-REUSE-ASSESSMENT-2026-10-05.json",
+          "canonical/decisions/FA3-DEC-RUST-RAYTRACER-CPU-PATH-001-2026-10-05.json"
+        ]
+      }
+    },
+    {
+      "id": "FA3-USAGE-NVIDIA-RTX-RAY-PATH-TRACING-001",
+      "donor_id": "FA3-DONOR-NVIDIA-RTX-ORG-001",
+      "donor_capability_key": "NVIDIA_REFERENCE_BINDING",
+      "usage_kind": "REFERENCE_BINDING",
+      "pattern": "NVIDIA_RTX_NATIVE_VENDOR_PATH_REFERENCE",
+      "primary_consumer": {
+        "kind": "PROFILE",
+        "id": "FA3-SHARED-RAY-PATH-TRACING-001",
+        "relationship": "REFERENCE_SOURCE"
+      },
+      "status": "ACTIVE",
+      "adopted_at": "2026-10-05",
+      "capability_baseline": 175,
+      "code_imported": false,
+      "runtime_dependency": false,
+      "provider_admission": false,
+      "model_admission": false,
+      "automatic_activation": false,
+      "reference_only": true,
+      "material_adoption": false,
+      "fa3_bindings": {
+        "profile_ids": [
+          "FA3-SHARED-RAY-PATH-TRACING-001"
+        ],
+        "contract_ids": [
+          "FA3-SHARED-RAY-PATH-TRACING-CONTRACTS-001"
+        ],
+        "authority_ids": [],
+        "shared_module_ids": []
+      },
+      "consumers": [],
+      "current_host_impact": {
+        "classification": "NO_RUNTIME_IMPACT",
+        "reason": "Architecture/reference pattern only; no donor code, runtime, provider, model, hardware execution or Current Host PASS is admitted."
+      },
+      "provenance": {
+        "evidence_classification": "EXPLICIT_CANONICAL_DONOR_REFERENCE_BINDING_NO_CODE_COPY",
+        "evidence_paths": [
+          "docs/CFA3-SHARED-RAY-PATH-TRACING-001.md",
+          "canonical/assessments/FA3-SHARED-RAY-PATH-TRACING-REUSE-ASSESSMENT-2026-10-05.json",
+          "canonical/decisions/FA3-DEC-NVIDIA-RTX-RAY-PATH-TRACING-001-2026-10-05.json"
+        ]
+      }
+    },
+    {
       "id": "FA3-USAGE-HYPERFRAMES-MLT-EXTENDED-MEDIA-001",
       "donor_id": "FA3-DONOR-HYPERFRAMES-001",
       "donor_capability_key": "deterministic-web-to-video-editable-source-render-pattern",
@@ -1072,7 +2045,13 @@
     ],
     "capability_map_authority": false,
     "automatic_adoption": false,
-    "automatic_runtime_activation": false
+    "automatic_runtime_activation": false,
+    "universal_access_evidence_required_for_material_usage": true,
+    "restricted_material_usage_requires_classification": "OPTIONAL_RESTRICTED_WITH_GLOBAL_SUBSTITUTE",
+    "restricted_material_usage_requires_global_substitute_refs": true,
+    "unknown_access_rights_material_usage": "BLOCK",
+    "discovery_index_material_usage": "BLOCK",
+    "restriction_circumvention": "FORBIDDEN"
   },
   "shared_capability_usage_contract": {
     "schema": "fa3.shared-capability-consumer-usage.v1",

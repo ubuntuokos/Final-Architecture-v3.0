@@ -16,9 +16,13 @@ Item {
     property color magenta: "#b778ff"
 
     property var selectedAction: ({})
+    property var capabilityGrants: []
+    property var taskCapsules: []
     property string operationNotice: ""
 
     signal stageActionIntentRequested(string actionId)
+    signal inspectCapabilityGrantRequested(string grantId)
+    signal inspectTaskCapsuleRequested(string capsuleId)
     signal navigateRequested(string routeId)
 
     ColumnLayout {
@@ -184,6 +188,40 @@ Item {
                     }
 
                     Rectangle { Layout.fillWidth: true; height: 1; color: root.border }
+
+                    Rectangle {
+                        Layout.fillWidth: true
+                        implicitHeight: 116
+                        radius: 7
+                        color: root.panelRaised
+                        border.color: root.border
+                        ColumnLayout {
+                            anchors.fill: parent
+                            anchors.margins: 10
+                            spacing: 5
+                            RowLayout {
+                                Layout.fillWidth: true
+                                Label { text: "Scoped delegation"; color: root.textPrimary; font.bold: true }
+                                Item { Layout.fillWidth: true }
+                                Label { text: root.capabilityGrants.length + " grant"; color: root.accent; font.pixelSize: 9; font.bold: true }
+                                Label { text: root.taskCapsules.length + " capsule"; color: root.magenta; font.pixelSize: 9; font.bold: true }
+                            }
+                            Label {
+                                Layout.fillWidth: true
+                                wrapMode: Text.WordWrap
+                                text: "CapabilityGrant = actor + operation + resource + project/workspace + expiry + approval + budget. Agent nem örökli automatikusan a user teljes authority-jét."
+                                color: root.textMuted
+                                font.pixelSize: 9
+                            }
+                            Label {
+                                Layout.fillWidth: true
+                                wrapMode: Text.WordWrap
+                                text: "Task Capsule = Agent Workload + Workspace + Blueprint + CapabilityGrant + Work Context. Nem külön sandbox/workflow/permission authority."
+                                color: root.textMuted
+                                font.pixelSize: 9
+                            }
+                        }
+                    }
 
                     Button {
                         Layout.fillWidth: true

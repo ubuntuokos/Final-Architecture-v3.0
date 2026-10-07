@@ -11,7 +11,7 @@
 
 namespace {
 const QSet<QString> kScopes = {
-    "GLOBAL", "APPLICATION", "WORKSPACE", "PROJECT", "SEQUENCE",
+    "GLOBAL", "PRODUCT_FAMILY", "APPLICATION", "WORKSPACE", "PROJECT", "SEQUENCE",
     "SCENE", "TRACK", "CLIP", "NODE", "TASK"
 };
 const QSet<QString> kFallbackModes = {"OFF", "ASK", "APPROVED_ONLY"};
@@ -332,6 +332,21 @@ QVariantMap EngineSelectorService::prepareSelection(const QString &engineId,
         out.insert("status","REJECTED");
         out.insert("reason","SCOPE_TARGET_REQUIRED");
         return out;
+    }
+    if (normalizedScope=="PRODUCT_FAMILY") {
+        const auto familyRegistry=readObject("canonical/FA3-PRODUCT-FAMILY-REGISTRY-001.json");
+        bool knownFamily=false;
+        for (const auto &row : familyRegistry.value("product_families").toList()) {
+            if (row.toMap().value("family_id").toString()==normalizedTarget) {
+                knownFamily=true;
+                break;
+            }
+        }
+        if (!knownFamily) {
+            out.insert("status","REJECTED");
+            out.insert("reason","UNKNOWN_PRODUCT_FAMILY");
+            return out;
+        }
     }
     if (!kFallbackModes.contains(normalizedFallback)) {
         out.insert("status", "REJECTED");

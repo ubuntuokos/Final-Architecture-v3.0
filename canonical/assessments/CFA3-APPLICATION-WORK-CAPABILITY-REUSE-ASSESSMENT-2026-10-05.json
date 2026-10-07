@@ -1,0 +1,130 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "CFA3-APPLICATION-WORK-CAPABILITY-REUSE-ASSESSMENT-2026-10-05",
+  "project_id": "CFA3-APPLICATION-WORK-CAPABILITY-001",
+  "intent_id": "CFA3-APPLICATION-WORK-CAPABILITY-APPLICATION-INTENT-2026-10-05",
+  "intent_path": "canonical/intents/CFA3-APPLICATION-WORK-CAPABILITY-APPLICATION-INTENT-2026-10-05.json",
+  "covered_ids": [
+    "CFA3-APPLICATION-WORK-CAPABILITY-001",
+    "FA3-AGENT-APPLICATION-BLUEPRINT-EXTENSION-CONTRACTS-001",
+    "FA3-APPLICATION-OPERATION-HANDOFF-CONTRACTS-001",
+    "FA3-APPLICATION-RUNTIME-LIFECYCLE-CONTRACTS-001",
+    "FA3-CAPABILITY-GRANT-SCOPE-CONTRACTS-001",
+    "FA3-TASK-CAPSULE-CONTRACTS-001",
+    "FA3-WORK-CONTEXT-CONTRACTS-001",
+    "FA3-WORK-MANAGEMENT-SEMANTIC-CONTRACTS-001"
+  ],
+  "result": "PASS",
+  "selected_reuse": [
+    {
+      "id": "FA3-AGENT-WORKLOAD-RUNTIME-001",
+      "use": "shared agent workload execution and task-local admission"
+    },
+    {
+      "id": "FA3-TASK-SCOPE-CLOSURE-POLICY-2026-10-03",
+      "use": "task identity, scope and follow-up boundaries"
+    },
+    {
+      "id": "TEMPORAL_EXISTING_GLOBAL_AUTHORITY",
+      "use": "durable workflow lifecycle authority"
+    },
+    {
+      "id": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "use": "action execution and approval boundary"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "resource admission and placement authority"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "evidence authority"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "NEW_GLOBAL_WORKFLOW_AUTHORITY",
+      "reason": "Temporal already owns durable workflow lifecycle"
+    },
+    {
+      "id": "NEW_RESOURCE_AUTHORITY",
+      "reason": "HRB remains the resource admission authority"
+    },
+    {
+      "id": "APPLICATION_LOCAL_DUPLICATES",
+      "reason": "cross-application semantics must remain shared"
+    }
+  ],
+  "pattern_reuse": [
+    "SHARED_FIRST_CROSS_APPLICATION_CONTRACTS",
+    "FAIL_CLOSED_AUTHORITY_BOUNDARIES",
+    "REFERENCE_ONLY_GUI_PROJECTION",
+    "TASK_LOCAL_SCOPED_DELEGATION"
+  ],
+  "existing_authority_bindings": {
+    "workflow": "TEMPORAL_EXISTING_GLOBAL_AUTHORITY",
+    "action_execution": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001"
+  },
+  "gaps": [],
+  "hardware_audit": {
+    "result": "PASS",
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "new_physical_capability_requirement": false
+  },
+  "coexistence": {
+    "result": "PASS",
+    "shared_layer_reuse": true,
+    "local_duplicate_created": false,
+    "destructive_host_mutation": false
+  },
+  "donor_planning_snapshot": {
+    "published_main_commit": "d6c9d8cd7f764d2b4c59089cb76c8a893ef7d599",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "2bb6a74dd415b6374e4a6d5adce1bc9265229b63",
+    "donor_registry_sha256": "4c3609314b55dc00adb5132297d89f13908c9e7efb7c3c4e750ac94fcef7e04a",
+    "donor_registry_entry_count": 1792
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "retrospective_consumer_impact_reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "rationale": "Application/work/capability semantics are cross-application and must remain in the shared CFA3 runtime rather than be duplicated per application.",
+    "shared_component_ids": [
+      "FA3-APPLICATION-RUNTIME-LIFECYCLE-CONTRACTS-001",
+      "FA3-APPLICATION-OPERATION-HANDOFF-CONTRACTS-001",
+      "FA3-CAPABILITY-GRANT-SCOPE-CONTRACTS-001",
+      "FA3-TASK-CAPSULE-CONTRACTS-001",
+      "FA3-WORK-CONTEXT-CONTRACTS-001",
+      "FA3-WORK-MANAGEMENT-SEMANTIC-CONTRACTS-001"
+    ],
+    "consumer_scope": [
+      "CFA3",
+      "current CFA3 applications",
+      "future CFA3 applications",
+      "Assistant",
+      "Coach",
+      "Mentor",
+      "Manager",
+      "Agent Workload"
+    ],
+    "local_duplicate_created": false
+  },
+  "pending_or_unmerged_donors_consumed": false,
+  "adopted_donors": [],
+  "donor_pattern_reuse": [],
+  "selected_existing_donor_ids": [],
+  "donor_adoption_authorized": false,
+  "adoption_authorized": false,
+  "implementation_readiness": "READY_FOR_NORMAL_ADMISSION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}

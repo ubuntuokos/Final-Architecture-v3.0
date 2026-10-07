@@ -13,6 +13,8 @@ PROFILE = "canonical/profiles/FA3-HARDWARE-BASELINE-001.json"
 CONTRACT = "canonical/contracts/FA3-HARDWARE-DISCOVERY-CONTRACTS-001.json"
 DECISION = "canonical/decisions/FA3-DEC-HARDWARE-AUDIT-2026-09-20.json"
 SAFETY_DECISION = "canonical/decisions/FA3-DEC-HARDWARE-SAFETY-2026-09-26.json"
+CUDA_SHARED_POLICY = "canonical/FA3-CUDA-PORTABILITY-SHARED-FUNCTION-POLICY-001.json"
+CUDA_SHARED_DECISION = "canonical/decisions/FA3-DEC-CUDA-PORTABILITY-SHARED-FUNCTION-2026-10-04.json"
 ENFORCEMENT = "canonical/hardware-portability-enforcement.json"
 GATE_RECORD = "canonical/FA3-GATE-HARDWARE-PORTABILITY-001.json"
 HW_PROFILE = "canonical/profiles/FA3-HW-001.json"
@@ -32,6 +34,15 @@ CAPABILITY_COUNT = module_active_capability_count(__file__)
 
 REFERENCE_VENDOR_FAMILIES = {"NVIDIA", "AMD", "INTEL"}
 REFERENCE_PLATFORM_FAMILIES = {"NVIDIA_DGX"}
+CUDA_PORTABILITY_INVARIANTS = {
+    "STRONGLY_CUDA_ORIENTED_CAPABILITY_REQUIRES_TARGET_HARDWARE_ALTERNATIVE_ASSESSMENT",
+    "AMD_AND_INTEL_ALTERNATIVE_PATHS_MUST_NOT_BE_SKIPPED_WHEN_TARGETED",
+    "CUDA_ORIENTED_FUNCTIONAL_CORE_MUST_BE_SHARED_LAYER_ONLY",
+    "APPLICATION_LOCAL_CUDA_ORIENTED_FUNCTIONAL_CORE_IS_FORBIDDEN",
+    "TARGET_HARDWARE_FUNCTIONAL_REDUCTION_MUST_BE_USER_VISIBLE",
+    "TARGET_BACKEND_UNAVAILABLE_MUST_FAIL_CLOSED",
+    "NO_SILENT_CUDA_OR_ACCELERATOR_BACKEND_SUBSTITUTION",
+}
 CAPABILITY_BINDINGS = (
     "CAP-001", "CAP-006", "CAP-062", "CAP-063", "CAP-065",
     "CAP-130", "CAP-137", "CAP-142", "CAP-143",
@@ -39,7 +50,7 @@ CAPABILITY_BINDINGS = (
 
 RUNTIME_PREFIXES = ("src/", "bin/", "apps/", "deployment/", ".github/workflows/")
 NON_NORMATIVE_PREFIXES = ("fa3-current-host/", "evidence/", "canonical/references/", "tests/", "examples/")
-SKIP_TOP_LEVEL = {".git", "reports", "acceptance", "promotion", ".pytest_cache", ".mypy_cache"}
+SKIP_TOP_LEVEL = {".git", "reports", "acceptance", "promotion", ".pytest_cache", ".mypy_cache", ".fa3-current-host"}
 TEXT_SUFFIXES = {
     ".json", ".py", ".md", ".sh", ".yml", ".yaml", ".csv", ".toml", ".ini",
     ".conf", ".service", ".socket", ".target", ".container", ".caddy", ".sql",
@@ -235,6 +246,7 @@ def _neutral_accelerator_record(accelerator: dict[str, Any]) -> bool:
 def evaluate(root: Path) -> dict[str, Any]:
     root = root.resolve()
     profile=loadj(root,PROFILE); contract=loadj(root,CONTRACT); decision=loadj(root,DECISION); safety_decision=loadj(root,SAFETY_DECISION)
+    cuda_policy=loadj(root,CUDA_SHARED_POLICY); cuda_decision=loadj(root,CUDA_SHARED_DECISION)
     enforcement=loadj(root,ENFORCEMENT); gate_record=loadj(root,GATE_RECORD)
     hw_profile=loadj(root,HW_PROFILE); hw_contract=loadj(root,HW_CONTRACT); mgpu=loadj(root,MGPU_PROFILE)
     hrb_profile=loadj(root,HRB_PROFILE); hrb_contract=loadj(root,HRB_CONTRACT)
@@ -318,6 +330,34 @@ def evaluate(root: Path) -> dict[str, Any]:
           "current hardware-audit decision is vendor-neutral and forbids legacy host/audit inheritance",
       ),
       check("evidence-bindings", len(bound)==len(CAPABILITY_BINDINGS) and all(DECISION_ID in x.get("source_decision_ids",[]) for x in bound), "evidence bindings retained"),
+      check(
+          "cuda-portability-shared-function-policy",
+          cuda_policy.get("id")=="FA3-CUDA-PORTABILITY-SHARED-FUNCTION-POLICY-001"
+          and cuda_policy.get("requirement")=="MUST"
+          and {"FA3","CFA3"} <= set(cuda_policy.get("scope",{}).get("product_families",[]))
+          and cuda_policy.get("mandatory_portability_assessment",{}).get("required_before_application_integration") is True
+          and {"NVIDIA","AMD","INTEL"} <= set(cuda_policy.get("mandatory_portability_assessment",{}).get("reference_vendor_families",[]))
+          and set(cuda_policy.get("mandatory_portability_assessment",{}).get("assessment_result_enum",[]))=={"FULL_EQUIVALENCE","FUNCTIONALLY_REDUCED","UNAVAILABLE"}
+          and cuda_policy.get("shared_placement_policy",{}).get("strongly_cuda_oriented_function_core")=="SHARED_LAYER_ONLY"
+          and cuda_policy.get("shared_placement_policy",{}).get("application_local_functional_core")=="FORBIDDEN"
+          and cuda_policy.get("product_runtime_and_ux_policy",{}).get("limitation_disclosure_required") is True
+          and cuda_policy.get("product_runtime_and_ux_policy",{}).get("may_hide_reduced_functionality") is False
+          and cuda_policy.get("product_runtime_and_ux_policy",{}).get("may_silently_fallback_to_cuda_or_other_backend") is False
+          and cuda_decision.get("policy_id")=="FA3-CUDA-PORTABILITY-SHARED-FUNCTION-POLICY-001"
+          and cuda_decision.get("capability_count_after")==CAPABILITY_COUNT
+          and cuda_decision.get("new_architectural_authorities")==0,
+          "strong CUDA orientation triggers target-hardware alternative assessment, shared-only core placement and explicit limitation disclosure for FA3/CFA3",
+      ),
+      check(
+          "cuda-portability-enforcement-rules",
+          CUDA_PORTABILITY_INVARIANTS <= set(enforcement.get("p0_invariants",[]))
+          and CUDA_PORTABILITY_INVARIANTS <= {r.get("invariant") for r in enforcement.get("rules",[]) if r.get("mandatory") is True}
+          and enforcement.get("cuda_portability_shared_function_policy_id")=="FA3-CUDA-PORTABILITY-SHARED-FUNCTION-POLICY-001"
+          and profile.get("cuda_portability_shared_function_policy",{}).get("function_core_placement")=="SHARED_LAYER_ONLY"
+          and profile.get("cuda_portability_shared_function_policy",{}).get("reduced_functionality_disclosure")=="MANDATORY_USER_VISIBLE"
+          and profile.get("cuda_portability_shared_function_policy",{}).get("silent_backend_substitution") is False,
+          "P0 enforcement binds CUDA-oriented portability assessment, shared placement, disclosure and fail-closed behavior",
+      ),
       check("gate-record", gate_record.get("id")==EXECUTABLE_GATE_ID and gate_record.get("gateset_id")==GATE_ID and gate_record.get("fail_closed") is True, "gate record bound"),
     ]
     audit=scan_repository(root)
@@ -343,6 +383,16 @@ def evaluate(root: Path) -> dict[str, Any]:
       "fresh_current_host_evidence_required":True,
       "accelerator_floor":{"vendor_pin":"FORBIDDEN","runtime_api_pin":"FORBIDDEN","minimum_device_count":0,"cardinality":"0_TO_N","cpu_only_host_conforms":True,"cpu_only_workload_requires_lease":False,"required_workload_admission":"COMPATIBLE_DISCOVERED_DEVICE_AND_HRB_LEASE","compatibility":"WORKLOAD_PROVIDER_SCOPED"},
       "hardware_safety":{"policy":"MANDATORY_FAIL_CLOSED","unsafe_or_unknown_mutation":"FORBIDDEN","installer_override":False,"expert_mode_override":False},
+      "cuda_portability_shared_function":{
+          "policy_id":"FA3-CUDA-PORTABILITY-SHARED-FUNCTION-POLICY-001",
+          "target_hardware_assessment_required":True,
+          "reference_vendor_families":["NVIDIA","AMD","INTEL"],
+          "result_states":["FULL_EQUIVALENCE","FUNCTIONALLY_REDUCED","UNAVAILABLE"],
+          "function_core_placement":"SHARED_LAYER_ONLY",
+          "reduced_functionality_disclosure":"MANDATORY_USER_VISIBLE",
+          "unavailable_behavior":"FAIL_CLOSED_DISABLED_OR_UNAVAILABLE",
+          "silent_backend_substitution":False,
+      },
       "host_adaptation":{
           "profile_id":"FA3-HOST-ADAPTATION-001",
           "startup_revalidation_required":True,

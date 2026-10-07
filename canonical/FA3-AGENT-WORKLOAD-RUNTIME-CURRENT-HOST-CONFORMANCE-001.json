@@ -4,7 +4,7 @@
   "profile_id": "FA3-AGENT-WORKLOAD-RUNTIME-001",
   "status": "PENDING_CURRENT_HOST",
   "production_admitted": false,
-  "capability_count": 143,
+  "capability_count": 175,
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
   "required_runner_labels": [
@@ -60,5 +60,16 @@
     "VM_CHECKPOINT_SUPPORT"
   ],
   "automatic_promotion": false,
-  "global_promotion_claim": false
+  "global_promotion_claim": false,
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "task_scope_closure_requalification": {
+    "required": true,
+    "reason": "START_RESUME_TASK_SCOPE_ADMISSION_CHANGED",
+    "impact_record": "FA3-CH-IMPACT-TASK-SCOPE-CLOSURE-20261005",
+    "evidence_status": "PENDING_FRESH_PHYSICAL_CURRENT_HOST",
+    "historical_evidence_reused": false,
+    "stabilization_freeze_respected": true,
+    "manual_workflow_dispatched": false
+  }
 }

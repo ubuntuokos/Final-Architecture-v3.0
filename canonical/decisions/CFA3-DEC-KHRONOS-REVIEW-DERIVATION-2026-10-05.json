@@ -1,0 +1,35 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "CFA3-DEC-KHRONOS-REVIEW-DERIVATION-2026-10-05",
+  "date": "2026-10-05",
+  "status": "OWNER_APPROVED_CANONICAL_POLICY_REFINEMENT",
+  "title": "Derive mandatory Khronos source-family review centrally instead of requiring duplicated manual mirrors",
+  "decision": "KEEP_KHRONOS_REVIEW_MANDATORY_FOR_ALL_NEW_OR_MATERIALLY_MODIFIED_APPLICATION_INTENTS_BUT_MAKE_CANONICAL_REUSE_RESOLVER_OUTPUT_THE_AUTHORITATIVE_REVIEW_EVIDENCE",
+  "owner_approval_basis": "User identified the recurring missing Khronos-review failure and explicitly required the systemic problem to be solved.",
+  "supersedes_rollout_mechanics_only": "FA3-DEC-KHRONOS-REUSE-SOURCE-2026-09-28",
+  "invariant_preservation": {
+    "khronos_review_required": true,
+    "all_application_intents_in_scope": true,
+    "reuse_discovery_global_p0": true,
+    "authority": false,
+    "automatic_selection": false,
+    "automatic_activation": false,
+    "fail_closed": true,
+    "capability_count": 175,
+    "capability_delta": 0,
+    "architectural_authority_delta": 0
+  },
+  "evidence_model": {
+    "authoritative_review": "DETERMINISTIC_CANONICAL_REUSE_RESOLVER_OUTPUT",
+    "matching_pass_reuse_assessment_required": true,
+    "committed_review_mirror_required": false,
+    "committed_review_mirror_if_present_must_match": false,
+    "explicit_application_intent_reuse_discovery_reference_required": false,
+    "rationale": "Reuse Discovery is a global P0 MUST profile. The canonical resolver recomputes the current Khronos review for every in-scope intent. Stored review rows are historical non-authoritative mirrors: absence or candidate-set drift must not create recurring administrative failures, while any mirror that claims authority or automatic selection remains fail-closed.",
+    "committed_review_mirror_if_present_safety_invariants_must_hold": true,
+    "historical_dynamic_candidate_drift_is_authoritative": false
+  },
+  "current_host_runtime_promotion_claim": false,
+  "runtime_change": false,
+  "physical_current_host_requalification_required": false
+}

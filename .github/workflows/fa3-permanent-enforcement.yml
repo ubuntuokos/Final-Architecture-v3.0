@@ -3,6 +3,7 @@ name: FA3 Permanent Canonical + Promotion Gate
 on:
   pull_request:
     branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
   push:
     branches: [main]
   workflow_dispatch:
@@ -26,7 +27,7 @@ jobs:
   canonical-regression:
     name: canonical-regression / P0
     needs: donor-serialization
-    if: ${{ always() }}
+    if: ${{ always() && (needs.donor-serialization.result != 'success' || needs.donor-serialization.outputs.full_gate_required != 'false') }}
     runs-on: ubuntu-latest
     env:
       FA3_CHANGE_BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before || github.sha }}
@@ -46,12 +47,17 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0
-      - name: Resolve live published main for donor planning snapshot
+      - name: Resolve live main and change merge-base for canonical enforcement
         if: ${{ github.event_name == 'pull_request' }}
         run: |
-          LIVE_MAIN="$(git ls-remote origin refs/heads/main | awk '{print $1}')"
+          git fetch --no-tags origin +refs/heads/main:refs/remotes/origin/main
+          LIVE_MAIN="$(git rev-parse refs/remotes/origin/main)"
+          MERGE_BASE="$(git merge-base "$LIVE_MAIN" "$FA3_CHANGE_HEAD_SHA")"
           test -n "$LIVE_MAIN"
+          test -n "$MERGE_BASE"
           echo "FA3_PUBLISHED_MAIN_SHA=$LIVE_MAIN" >> "$GITHUB_ENV"
+          echo "FA3_CHANGE_BASE_SHA=$MERGE_BASE" >> "$GITHUB_ENV"
+          echo "Live main: $LIVE_MAIN; change merge-base: $MERGE_BASE"
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: '3.12'
@@ -72,7 +78,7 @@ jobs:
       - name: HRB generic admission authorization syntax check
         run: python -m py_compile libexec/fa3-host-resource-broker-admission.py libexec/fa3-host-resource-broker-admission-root.py src/fa3_host_bootstrap_admission_orchestrator.py evidence/collect-resource-admission-current-host.py src/fa3_resource_admission_smoke.py src/fa3_resource_admission_current_host_gate.py
       - name: Agency / Agent Definition / External LLM Catalog / Agent Workload / Federation syntax check
-        run: python -m py_compile src/fa3_agency_agents_gate.py src/fa3_agent_definition_gate.py src/fa3_external_llm_catalog.py src/fa3_external_llm_catalog_gate.py src/fa3_agent_workload.py src/fa3_agent_workload_gate.py src/fa3_agent_workload_current_host_gate.py src/fa3_agent_federation.py src/fa3_agent_federation_gate.py src/fa3_supply_chain_admission.py src/fa3_provider_runtime.py src/fa3_upstream_patchset.py src/fa3_hrb_composite_lease.py src/fa3_supply_runtime_hardening_gate.py tools/fa3_supply_chain_scan.py tools/fa3_bind_provider_runtime.py tools/fa3_prepare_upstream_patchset.py src/fa3_supply_runtime_hardening_current_host_gate.py evidence/collect-provider-runtime-current-host.py evidence/collect-hrb-composite-current-host.py evidence/collect-hu-aqc-golden-corpus-current-host.py evidence/collect-agent-workload-runtime-current-host.py
+        run: python -m py_compile src/fa3_agency_agents_gate.py src/fa3_agent_definition_gate.py src/fa3_external_llm_catalog.py src/fa3_external_llm_catalog_gate.py src/fa3_agent_workload.py src/fa3_task_scope_closure.py src/fa3_agent_workload_gate.py src/fa3_agent_workload_current_host_gate.py src/fa3_agent_federation.py src/fa3_agent_federation_gate.py src/fa3_supply_chain_admission.py src/fa3_provider_runtime.py src/fa3_upstream_patchset.py src/fa3_hrb_composite_lease.py src/fa3_supply_runtime_hardening_gate.py tools/fa3_supply_chain_scan.py tools/fa3_bind_provider_runtime.py tools/fa3_prepare_upstream_patchset.py src/fa3_supply_runtime_hardening_current_host_gate.py evidence/collect-provider-runtime-current-host.py evidence/collect-hrb-composite-current-host.py evidence/collect-hu-aqc-golden-corpus-current-host.py evidence/collect-agent-workload-runtime-current-host.py
       - name: GUI current-host closure syntax check
         run: python -m py_compile src/fa3_gui_current_host.py src/fa3_gui_current_host_gate.py evidence/collect-gui-current-host.py
       - name: Authenticated approval trust-boundary gate

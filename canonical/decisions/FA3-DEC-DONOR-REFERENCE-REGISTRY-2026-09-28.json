@@ -9,7 +9,7 @@
   "reuse_discovery_profile_id": "FA3-REUSE-DISCOVERY-001",
   "reuse_catalog_id": "FA3-REUSE-CATALOG-001",
   "gate_id": "FA3-REUSE-DISCOVERY-GATESET-001",
-  "capture_rule": "ONLY_LINKS_EXPLICITLY_PRECEDED_BY_OWNER_DONORNAK_MARKER_MAY_ENTER_REGISTRY",
+  "capture_rule": "ONLY_AUTHENTICATED_OWNER_APPROVED_DONOR_COMMANDS_OR_COMMITTED_APPROVED_PLAN_PROCESSED_SET_MAY_ENTER_REGISTRY",
   "planning_rule": "QUERY_DONOR_REGISTRY_BEFORE_NEW_OR_MATERIALLY_MODIFIED_APPLICATION_CAPABILITY_OR_MODULE_IMPLEMENTATION",
   "backfill_rule": "RETROSPECTIVE_DONOR_EXTRACTION_FROM_OLD_PRS_IS_OPTIONAL_NOT_MANDATORY",
   "new_capabilities": 0,
@@ -46,7 +46,7 @@
     "RECORDED_DONOR_DATA_SYNCHRONIZATION_IS_MAINTENANCE",
     "NO_MANDATORY_RETROSPECTIVE_PR_DONOR_EXTRACTION",
     "UNMARKED_LINKS_AND_RESEARCH_HINTS_ARE_ANALYSIS_ONLY_NO_REGISTRY_MUTATION",
-    "STRICT_OWNER_DONORNAK_MARKER_MUST_PRECEDE_REGISTERED_LINK",
+    "DONOR_REGISTRATION_REQUIRES_EXPLICIT_OWNER_COMMAND_OR_COMMITTED_APPROVED_PLAN_PROCESSED_SET",
     "ONLY_ONE_ACTIVE_DONOR_INTAKE_CONVERSATION_OLDEST_OPEN_PR_OWNS_SLOT",
     "PENDING_DONOR_CHANGES_EXCLUDED_FROM_VERIFIED_PUBLISHED_MAIN_PLANNING_SNAPSHOT",
     "PENDING_DONOR_MAINTENANCE_DOES_NOT_BLOCK_PLANNING_OR_FINALIZATION_ON_PUBLISHED_SNAPSHOT",
@@ -121,7 +121,7 @@
     434,
     438
   ],
-  "owner_direct_link_registration": "AUTHENTICATED_OWNER_DONORNAK_BEFORE_LINK_FINALIZES_ACCEPTED_REFERENCE_NO_SECOND_APPROVAL",
+  "owner_direct_link_registration": "AUTHENTICATED_APPROVED_OWNER_DONOR_COMMAND_FINALIZES_ACCEPTED_REFERENCE_NO_SECOND_APPROVAL",
   "owner_direct_link_scope": "REGISTRY_REFERENCE_ONLY_SEPARATE_ADOPTION_AND_ADMISSION",
   "owner_unmarked_link_policy": "ANALYSIS_ONLY_NO_REGISTRY_MUTATION",
   "policy_supersedes": [
@@ -129,7 +129,23 @@
     "GLOBAL_DONOR_PENDING_PR_DESIGN_AND_FINALIZATION_LOCK"
   ],
   "legacy_embedded_registry_capture_flag": "HISTORICAL_SUPERSEDED_NO_AUTO_CAPTURE",
-  "effective_capture_authority": "EXPLICIT_OWNER_DONORNAK_MARKER_ONLY",
+  "effective_capture_authority": "EXPLICIT_OWNER_DONOR_COMMAND_OR_COMMITTED_APPROVED_PLAN_PROCESSED_SET_ONLY",
   "unmarked_links_disposition": "ANALYSIS_ONLY_NO_REGISTRY_MUTATION",
-  "pending_registry_publication": "INVISIBLE_UNTIL_VERIFIED_MERGE_TO_MAIN"
+  "pending_registry_publication": "INVISIBLE_UNTIL_VERIFIED_MERGE_TO_MAIN",
+  "approved_owner_donor_commands": [
+    "donornak",
+    "vedd fel donornak",
+    "add a donorlistához"
+  ],
+  "normalized_owner_marker": "donornak",
+  "donor_intake_command_equivalence_ref": "canonical/decisions/FA3-DEC-DONOR-INTAKE-COMMAND-EQUIVALENCE-2026-10-04.json",
+  "implementation_planning_donor_analysis_exception_ref": "canonical/decisions/FA3-DEC-IMPLEMENTATION-PLAN-DONOR-EXCEPTION-2026-10-04.json",
+  "approved_plan_registration_exception": {
+    "scope": "EXACT_OWNER_APPROVED_IMPLEMENTATION_PLAN_PROCESSED_DONOR_SET",
+    "committed_plan_and_assessment_hash_binding_required": true,
+    "conversation_lineage_binding_required": true,
+    "second_owner_donor_command_required": false,
+    "reference_registration_only": true,
+    "execution_blocked_until_published_main_registration": true
+  }
 }
