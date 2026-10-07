@@ -1,0 +1,28 @@
+{
+  "schema": "fa3.current-host-structural-impact.v1",
+  "id": "CFA3-CH-IMPACT-DONOR-SOURCE-GRAPH-L1-L5-20261007",
+  "date": "2026-10-07",
+  "status": "NO_RUNTIME_IMPACT",
+  "subject_id": "CFA3-DONOR-SOURCE-GRAPH-POLICY-001",
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "structural_changes": [
+    ".github/workflows/cfa3-donor-source-graph.yml",
+    "canonical/CFA3-DONOR-SOURCE-GRAPH-POLICY-001.json",
+    "canonical/decisions/CFA3-DEC-DONOR-SOURCE-GRAPH-L1-L5-2026-10-07.json"
+  ],
+  "current_host_changes": [],
+  "physical_requalification_required": false,
+  "historical_evidence_reused": false,
+  "physical_current_host_pass_claimed": false,
+  "runtime_delta": "NONE",
+  "host_resource_delta": "NONE",
+  "service_delta": "NONE",
+  "package_delta": "NONE",
+  "port_or_socket_delta": "NONE",
+  "provider_or_model_delta": "NONE",
+  "credential_delta": "NONE",
+  "hardware_mutation": false,
+  "rationale": "This change adds repository-only donor discovery metadata, source-graph indexing, prioritization logic and CI validation. It does not add or alter any executable Current Host service, package/runtime dependency, provider or model activation, host-resource path, port/socket, credential delivery, hardware mutation, application action path, or Current Host evidence claim. Physical Current Host requalification is therefore not required."
+}
