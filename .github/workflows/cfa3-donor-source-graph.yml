@@ -1,0 +1,41 @@
+name: CFA3 Donor Source Graph
+
+on:
+  pull_request:
+    paths:
+      - 'src/cfa3_donor_source_graph.py'
+      - 'tests/test_cfa3_donor_source_graph.py'
+      - 'canonical/CFA3-DONOR-SOURCE-GRAPH-POLICY-001.json'
+      - 'canonical/decisions/CFA3-DEC-DONOR-SOURCE-GRAPH-L1-L5-2026-10-07.json'
+      - 'canonical/schemas/CFA3-DONOR-SOURCE-GRAPH-001.schema.json'
+      - '.github/workflows/cfa3-donor-source-graph.yml'
+      - 'bin/cfa3-donor-source-graph'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-graph-regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile
+        run: python3 -m py_compile src/cfa3_donor_source_graph.py
+      - name: Unit regressions
+        run: PYTHONPATH=src python3 -m unittest tests.test_cfa3_donor_source_graph -v
+      - name: Seed all canonical roots and validate invariants
+        run: |
+          ./bin/cfa3-donor-source-graph seed --output /tmp/cfa3-source-graph
+          python3 - <<'PY'
+          import json
+          p='/tmp/cfa3-source-graph/reports/validation.json'
+          r=json.load(open(p,encoding='utf-8'))
+          assert r['result']=='PASS', r
+          g=json.load(open('/tmp/cfa3-source-graph/source-graph.json',encoding='utf-8'))
+          assert g['capability_baseline']==175
+          assert g['max_depth']==5
+          PY
