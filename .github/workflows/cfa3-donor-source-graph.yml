@@ -52,7 +52,9 @@ jobs:
       - name: Materialize owner-approved L0-L5 network discovery
         env:
           GITHUB_TOKEN: ${{ github.token }}
-        run: ./bin/cfa3-donor-source-graph crawl --output /tmp/cfa3-source-graph-materialized
+          CFA3_SOURCE_GRAPH_HTTP_TIMEOUT: '6'
+          CFA3_SOURCE_GRAPH_GITHUB_METADATA: '0'
+        run: ./bin/cfa3-donor-source-graph crawl --workers 32 --output /tmp/cfa3-source-graph-materialized
       - name: Summarize network materialization
         if: always()
         run: |

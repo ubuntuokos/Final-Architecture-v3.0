@@ -2,8 +2,10 @@
 from __future__ import annotations
 
 import argparse
+import concurrent.futures
 import datetime as dt
 import hashlib
+import os
 import ipaddress
 import json
 import re
@@ -429,19 +431,26 @@ def validate_graph(graph: dict[str, Any]) -> dict[str, Any]:
             findings.append("EDGE_DEPTH_INVALID:" + str(i))
     return {"result": "PASS" if not findings else "FAIL", "node_count": len(nodes), "edge_count": len(edges), "findings": findings}
 
+def _http_timeout() -> float:
+    raw = os.getenv("CFA3_SOURCE_GRAPH_HTTP_TIMEOUT", "8")
+    try:
+        return max(1.0, min(float(raw), 30.0))
+    except ValueError:
+        return 8.0
+
 def _request_json(url: str, token: str | None = None) -> Any:
     headers = {"Accept": "application/vnd.github+json", "User-Agent": "CFA3-Donor-Source-Graph/1"}
     if token:
         headers["Authorization"] = "Bearer " + token
     req = urllib.request.Request(url, headers=headers)
-    with urllib.request.urlopen(req, timeout=20) as response:
+    with urllib.request.urlopen(req, timeout=_http_timeout()) as response:
         return json.loads(response.read(2_000_000).decode("utf-8"))
 
 def _request_text(url: str) -> str:
     if not _safe_public_http_url(url):
         raise ValueError("UNSAFE_OR_NONPUBLIC_URL")
     req = urllib.request.Request(url, headers={"User-Agent": "CFA3-Donor-Source-Graph/1"})
-    with urllib.request.urlopen(req, timeout=20) as response:
+    with urllib.request.urlopen(req, timeout=_http_timeout()) as response:
         ctype = response.headers.get("Content-Type", "")
         if not any(x in ctype for x in ("text/", "json", "xml", "markdown", "html")):
             return ""
@@ -451,26 +460,51 @@ def _github_repo(url: str) -> tuple[str, str] | None:
     m = GITHUB_REPO_RE.match(normalize_url(url))
     return (m.group(1), m.group(2)) if m else None
 
+def _github_raw_readme_links(owner: str, repo: str) -> list[dict[str, str]]:
+    for name in ("README.md", "README.MD", "README.rst", "README"):
+        raw = f"https://raw.githubusercontent.com/{owner}/{repo}/HEAD/{name}"
+        try:
+            text = _request_text(raw)
+        except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError, ValueError):
+            continue
+        if text:
+            return extract_links(text)
+    return []
+
 def discover_github_repo(url: str, token: str | None) -> tuple[list[dict[str, str]], dict[str, Any]]:
     parsed = _github_repo(url)
     if not parsed:
         return [], {}
     owner, repo = parsed
-    meta = _request_json(f"https://api.github.com/repos/{owner}/{repo}", token)
-    metadata = {
-        "license_spdx": ((meta.get("license") or {}).get("spdx_id") if isinstance(meta, dict) else None),
-        "archived": bool(meta.get("archived")) if isinstance(meta, dict) else False,
-        "updated_at": meta.get("updated_at") if isinstance(meta, dict) else None,
-        "pushed_at": meta.get("pushed_at") if isinstance(meta, dict) else None,
-    }
+    metadata_enabled = os.getenv("CFA3_SOURCE_GRAPH_GITHUB_METADATA", "1") != "0"
+    meta: dict[str, Any] = {}
+    metadata: dict[str, Any] = {}
+    if metadata_enabled:
+        try:
+            value = _request_json(f"https://api.github.com/repos/{owner}/{repo}", token)
+            if isinstance(value, dict):
+                meta = value
+                metadata = {
+                    "license_spdx": ((meta.get("license") or {}).get("spdx_id")),
+                    "archived": bool(meta.get("archived")),
+                    "updated_at": meta.get("updated_at"),
+                    "pushed_at": meta.get("pushed_at"),
+                }
+        except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError, ValueError):
+            metadata = {}
+
     links: list[dict[str, str]] = []
-    try:
-        readme = _request_json(f"https://api.github.com/repos/{owner}/{repo}/readme", token)
-        if isinstance(readme, dict) and readme.get("download_url"):
-            links = extract_links(_request_text(readme["download_url"]))
-    except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError, ValueError):
-        pass
-    homepage = meta.get("homepage") if isinstance(meta, dict) else None
+    if metadata_enabled:
+        try:
+            readme = _request_json(f"https://api.github.com/repos/{owner}/{repo}/readme", token)
+            if isinstance(readme, dict) and readme.get("download_url"):
+                links = extract_links(_request_text(readme["download_url"]))
+        except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError, ValueError):
+            pass
+    if not links:
+        links = _github_raw_readme_links(owner, repo)
+
+    homepage = meta.get("homepage") if meta else None
     if isinstance(homepage, str) and homepage.startswith(("http://", "https://")) and _safe_public_http_url(homepage):
         try:
             key = normalized_key(homepage)
@@ -530,56 +564,110 @@ def discover_url(url: str, token: str | None) -> tuple[list[dict[str, str]], dic
         return discover_github_index(url, token), {}
     return extract_links(_request_text(url)), {}
 
-def crawl(registry: dict[str, Any], *, token: str | None = None, max_nodes: int = 0) -> dict[str, Any]:
+def crawl(
+    registry: dict[str, Any],
+    *,
+    token: str | None = None,
+    max_nodes: int = 0,
+    workers: int = 24,
+) -> dict[str, Any]:
     graph = seed_graph(registry)
     identities = registry_identity_map(registry)
     queue = deque(graph.pop("queue"))
     expanded: set[tuple[str, str]] = set()
     errors: list[dict[str, Any]] = []
     stopped_by_limit = False
-    while queue:
-        item = queue.popleft()
-        parent_key = item["normalized_key"]
-        url = item["url"]
-        parent_depth = int(item["depth"])
-        root = item["root_donor_id"]
-        if parent_depth >= MAX_DEPTH:
-            continue
-        marker = (parent_key, root)
-        if marker in expanded:
-            continue
-        expanded.add(marker)
-        try:
-            children, metadata = discover_url(url, token)
-            update_node_observation(graph["nodes"][parent_key], metadata)
-        except Exception as exc:
-            errors.append({"source_key": parent_key, "url": url, "error": type(exc).__name__ + ":" + str(exc)[:300]})
-            continue
-        for child in children:
-            child_key = child["normalized_key"]
-            if child_key == parent_key:
+    worker_count = max(1, min(int(workers), 64))
+    batch_size = max(worker_count, worker_count * 2)
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=worker_count) as executor:
+        while queue:
+            batch: list[dict[str, Any]] = []
+            while queue and len(batch) < batch_size:
+                item = queue.popleft()
+                parent_key = item["normalized_key"]
+                parent_depth = int(item["depth"])
+                root = item["root_donor_id"]
+                if parent_depth >= MAX_DEPTH:
+                    continue
+                marker = (parent_key, root)
+                if marker in expanded:
+                    continue
+                expanded.add(marker)
+                batch.append(item)
+
+            if not batch:
                 continue
-            relation = classify_relation(child.get("context", ""), child["url"])
-            child_depth = parent_depth + 1
-            created = add_discovery(
-                graph,
-                parent_key=parent_key,
-                child_url=child["url"],
-                depth=child_depth,
-                relation_type=relation,
-                root_donor_id=root,
-                evidence={"source_url": url, "context": child.get("context", "")[:500], "observed_at": dt.date.today().isoformat()},
-                canonical_record=identities.get(child_key),
-            )
-            if child_depth < MAX_DEPTH and (created or (child_key, root) not in expanded):
-                queue.append({"normalized_key": child_key, "url": child["url"], "depth": child_depth, "root_donor_id": root})
-            if max_nodes and len(graph["nodes"]) >= max_nodes:
-                stopped_by_limit = True
-                queue.clear()
+
+            futures = [executor.submit(discover_url, item["url"], token) for item in batch]
+            for item, future in zip(batch, futures):
+                parent_key = item["normalized_key"]
+                url = item["url"]
+                parent_depth = int(item["depth"])
+                root = item["root_donor_id"]
+                try:
+                    children, metadata = future.result()
+                    update_node_observation(graph["nodes"][parent_key], metadata)
+                except Exception as exc:
+                    errors.append({
+                        "source_key": parent_key,
+                        "url": url,
+                        "error": type(exc).__name__ + ":" + str(exc)[:300],
+                    })
+                    continue
+
+                for child in children:
+                    child_key = child["normalized_key"]
+                    if child_key == parent_key:
+                        continue
+                    relation = classify_relation(child.get("context", ""), child["url"])
+                    child_depth = parent_depth + 1
+                    created = add_discovery(
+                        graph,
+                        parent_key=parent_key,
+                        child_url=child["url"],
+                        depth=child_depth,
+                        relation_type=relation,
+                        root_donor_id=root,
+                        evidence={
+                            "source_url": url,
+                            "context": child.get("context", "")[:500],
+                            "observed_at": dt.date.today().isoformat(),
+                        },
+                        canonical_record=identities.get(child_key),
+                    )
+                    if child_depth < MAX_DEPTH and (created or (child_key, root) not in expanded):
+                        queue.append({
+                            "normalized_key": child_key,
+                            "url": child["url"],
+                            "depth": child_depth,
+                            "root_donor_id": root,
+                            "priority": item.get("priority", 3),
+                        })
+                    if max_nodes and len(graph["nodes"]) >= max_nodes:
+                        stopped_by_limit = True
+                        queue.clear()
+                        break
+                if stopped_by_limit:
+                    break
+
+            if len(expanded) % 100 < batch_size:
+                print(json.dumps({
+                    "source_graph_progress": {
+                        "expanded_parent_root_pairs": len(expanded),
+                        "nodes": len(graph["nodes"]),
+                        "edges": len(graph["edges"]),
+                        "queue": len(queue),
+                        "errors": len(errors),
+                    }
+                }), flush=True)
+            if stopped_by_limit:
                 break
+
     graph["indexes"] = build_indexes(graph)
     graph["crawl"] = {
         "max_depth": MAX_DEPTH,
+        "workers": worker_count,
         "expanded_parent_root_pairs": len(expanded),
         "errors": errors,
         "complete": not stopped_by_limit,
@@ -617,6 +705,7 @@ def main(argv: list[str] | None = None) -> int:
     crawl_p.add_argument("--output", required=True)
     crawl_p.add_argument("--max-depth", type=int, default=5, choices=[5])
     crawl_p.add_argument("--max-nodes", type=int, default=0)
+    crawl_p.add_argument("--workers", type=int, default=24)
     args = parser.parse_args(argv)
     root = Path(args.root).resolve()
     registry = _load(root / REGISTRY_REL)
@@ -627,8 +716,12 @@ def main(argv: list[str] | None = None) -> int:
         graph["validation"] = validate_graph(graph)
         write_outputs(graph, Path(args.output))
         return 0 if graph["validation"]["result"] == "PASS" else 1
-    import os
-    graph = crawl(registry, token=os.getenv("GITHUB_TOKEN"), max_nodes=args.max_nodes)
+    graph = crawl(
+        registry,
+        token=os.getenv("GITHUB_TOKEN"),
+        max_nodes=args.max_nodes,
+        workers=args.workers,
+    )
     write_outputs(graph, Path(args.output))
     return 0 if graph["validation"]["result"] == "PASS" else 1
 

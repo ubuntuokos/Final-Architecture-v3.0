@@ -1,5 +1,6 @@
 import sys
 import unittest
+from unittest import mock
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -57,6 +58,25 @@ class SourceGraphTests(unittest.TestCase):
         value = graph.seed_graph(self.registry()); value.pop("queue")
         with self.assertRaises(ValueError):
             graph.add_discovery(value, parent_key="github:a/root", child_url="https://github.com/x/y", depth=6, relation_type="SDK", root_donor_id="D-A", evidence={})
+
+    def test_parallel_crawl_preserves_depth_and_canonical_identity(self):
+        registry = self.registry()
+
+        def fake_discover(url, token):
+            if url == "https://github.com/a/root":
+                return ([{"url": "https://github.com/x/sdk", "normalized_key": "github:x/sdk", "context": "agent sdk"}], {})
+            if url == "https://github.com/x/sdk":
+                return ([{"url": "https://github.com/b/existing", "normalized_key": "github:b/existing", "context": "shared library"}], {})
+            return ([], {})
+
+        with mock.patch.object(graph, "discover_url", side_effect=fake_discover):
+            value = graph.crawl(registry, workers=4)
+
+        self.assertEqual(value["validation"]["result"], "PASS")
+        self.assertEqual(value["nodes"]["github:x/sdk"]["min_depth"], 1)
+        self.assertEqual(value["nodes"]["github:b/existing"]["canonical_donor_id"], "D-B")
+        self.assertLessEqual(value["nodes"]["github:b/existing"]["min_depth"], 2)
+        self.assertEqual(value["crawl"]["workers"], 4)
 
     def test_graph_validation(self):
         value = graph.seed_graph(self.registry()); value.pop("queue")
