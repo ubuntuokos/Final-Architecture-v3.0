@@ -1,0 +1,62 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-SEMANTIC-STUDIO-GUI-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "OWNER_APPROVED_MATERIALIZATION",
+  "parent_profile": "FA3-SHARED-SEMANTIC-ONTOLOGY-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 175,
+  "surface_name": "CFA3 Semantic / Ontology Studio",
+  "required_views": [
+    "DASHBOARD",
+    "ONTOLOGIES",
+    "TAXONOMIES",
+    "ENTITIES",
+    "RELATIONS",
+    "AUTHORING",
+    "IMPORT",
+    "AI_PROPOSALS",
+    "ALIGNMENT",
+    "IDENTITY",
+    "VALIDATION",
+    "REASONING",
+    "DIFF_MIGRATION",
+    "PROVENANCE",
+    "DONORS",
+    "PROVIDERS",
+    "EXPORT"
+  ],
+  "graph_canvas": {
+    "required": true,
+    "editable": true,
+    "read_only_mode": true,
+    "provenance_overlay": true,
+    "validation_overlay": true,
+    "identity_conflict_overlay": true
+  },
+  "identity_review": {
+    "silent_merge": false,
+    "evidence_visible": true,
+    "source_domains_visible": true,
+    "conflict_state_visible": true,
+    "explicit_apply_required": true,
+    "undo_required": true
+  },
+  "ai_proposal_review": {
+    "direct_apply_to_canonical": false,
+    "proposal_diff_required": true,
+    "evidence_binding_required": true,
+    "explicit_accept_or_reject": true
+  },
+  "global_requirements": [
+    "CFA3_LOOK_AND_FEEL",
+    "MANDATORY_GLOBAL_WORKLOAD_MODE_INDICATOR",
+    "NO_DIRECT_PROVIDER_OR_MODEL_CONTROL",
+    "NO_SECRET_DISPLAY",
+    "PREVIEW_APPLY_UNDO_FOR_MUTATING_SEMANTIC_CHANGES",
+    "ACCESSIBILITY_AND_KEYBOARD_NAVIGATION_REQUIRED"
+  ],
+  "runtime_materialization": "STATIC_GUI_CONTRACT_ONLY_NO_PHYSICAL_GUI_PASS_CLAIM"
+}
