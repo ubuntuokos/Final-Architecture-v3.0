@@ -119,5 +119,15 @@
     "provider_runtime_admission": "PENDING_COMPATIBLE_CURRENT_HOST_E2E"
   },
   "capability_baseline_release": "2026-09-26/v3.1.0",
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "shared_runtime_components": [
+    "FA3-PROVIDER-FFMPEG-001"
+  ],
+  "shared_ffmpeg_policy": {
+    "placement": "SHARED_CFA3_MEDIA_RUNTIME",
+    "application_local_duplicate_forbidden": true,
+    "cpu_only_path_required": true,
+    "accelerator_path_optional_and_hrb_admitted": true,
+    "no_silent_provider_fallback": true
+  }
 }

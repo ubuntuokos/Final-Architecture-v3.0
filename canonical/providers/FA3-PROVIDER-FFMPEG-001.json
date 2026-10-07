@@ -7,7 +7,8 @@
     "REQUIRED_PRIMARY_LOW_LEVEL_MEDIA_EXECUTION_PROVIDER",
     "DETERMINISTIC_TRANSCODE_FILTERGRAPH_REFERENCE",
     "HARDWARE_ACCELERATED_VIDEO_EXECUTION_REFERENCE",
-    "REPLACEABLE_SUPPLEMENTABLE_NOT_ORCHESTRATION_AUTHORITY"
+    "REPLACEABLE_SUPPLEMENTABLE_NOT_ORCHESTRATION_AUTHORITY",
+    "SHARED_CFA3_MEDIA_RUNTIME_COMPONENT"
   ],
   "profile": "FA3-NEURAL-MEDIA-EXECUTION-001",
   "contract": "FA3-NEURAL-MEDIA-EXECUTION-CONTRACTS-001",
@@ -92,5 +93,15 @@
     "current_host_runtime_promotion_claimed": false
   },
   "capability_baseline_release": "2026-09-26/v3.1.0",
-  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26"
+  "capability_model_reconciliation": "FA3-DEC-CAPABILITY-MODEL-175-2026-09-26",
+  "shared_runtime": {
+    "shared_component": true,
+    "scope": "CFA3_WIDE_MEDIA_RUNTIME",
+    "application_local_duplicate_forbidden": true,
+    "consumers_use_existing_provider_record": true,
+    "cpu_only_path": "MANDATORY_SUPPORTED",
+    "accelerator_path": "OPTIONAL_WORKLOAD_SCOPED_HRB_ADMITTED",
+    "selection": "ENGINE_REGISTRY_AND_EXISTING_MEDIA_CONTRACTS",
+    "provider_is_architectural_authority": false
+  }
 }

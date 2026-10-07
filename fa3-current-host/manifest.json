@@ -98,6 +98,7 @@
     "canonical/contracts/FA3-AUTHENTICATED-APPROVAL-RECEIPT-001.schema.json",
     "canonical/contracts/FA3-AUTHORIZATION-ROLE-GRANT-001.schema.json",
     "canonical/contracts/FA3-COMPUTER-INTERACTION-RUNTIME-CONTRACTS-001.json",
+    "canonical/contracts/FA3-FFMPEG-BUILD-TRUST-CONTRACTS-001.json",
     "canonical/contracts/FA3-OPENMP-RUNTIME-GOVERNANCE-CONTRACTS-001.json",
     "canonical/contracts/FA3-ORCHESTRATION-GOVERNANCE-CONTRACTS-001.json",
     "canonical/contracts/FA3-PAGEINDEX-MCP-CONTRACTS-001.json",
@@ -108,6 +109,7 @@
     "canonical/current-host-capability-test-executors.json",
     "canonical/current-host-capability-test-qualifications.json",
     "canonical/decisions/FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03.json",
+    "canonical/decisions/FA3-DEC-FFMPEG-AI-CURRENT-HOST-AUDIT-2026-09-03.json",
     "canonical/decisions/FA3-DEC-ORCHESTRATION-GOVERNANCE-2026-09-30.json",
     "canonical/decisions/FA3-DEC-PAGEINDEX-MCP-2026-09-18.json",
     "canonical/decisions/FA3-DEC-RESOURCE-ADMISSION-CURRENT-HOST-2026-09-14.json",
@@ -115,6 +117,7 @@
     "canonical/decisions/FA3-DEC-STEP-CA-CURRENT-HOST-2026-09-20.json",
     "canonical/enforcement-policy.json",
     "canonical/ffmpeg-ai-current-host-enforcement.json",
+    "canonical/ffmpeg-ai-runtime-admission.json",
     "canonical/gui-current-host-enforcement.json",
     "canonical/hrb-systemd-manager-current-host-enforcement.json",
     "canonical/intents/FA3-ORCHESTRATION-GOVERNANCE-APPLICATION-INTENT-2026-09-30.json",
@@ -151,6 +154,7 @@
     "evidence/collect-cpu-numa-threading-current-host.py",
     "evidence/collect-current-host.sh",
     "evidence/collect-ffmpeg-ai-current-host.py",
+    "evidence/collect-ffmpeg-build-trust.py",
     "evidence/collect-gui-current-host.py",
     "evidence/collect-hrb-systemd-manager-current-host.py",
     "evidence/collect-hu-aqc-current-host.py",
@@ -358,8 +362,8 @@
       "name": "ffmpeg-neural-media",
       "collector": "evidence/collect-ffmpeg-ai-current-host.py",
       "gate": "ffmpeg-ai-current-host",
-      "activation": "WORKLOAD_SPECIFIC_HRB_LEASE_AND_FFMPEG_BUILD_TRUST_REQUIRED",
-      "collection_status": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING"
+      "activation": "OPTIONAL_ACCELERATOR_CONFORMANCE_REQUIRES_CANONICAL_HRB_LEASE_AND_SCS_BOUND_FFMPEG_BUILD_TRUST_V2",
+      "collection_status": "EXECUTION_CONFORMANCE_HARDENED_PRODUCTION_E2E_PENDING"
     },
     {
       "name": "stable-audio-3",
