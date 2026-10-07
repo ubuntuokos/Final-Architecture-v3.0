@@ -298,6 +298,7 @@ def add_discovery(
     root_donor_id: str,
     evidence: dict[str, Any],
     canonical_record: dict[str, Any] | None = None,
+    edge_fingerprints: set[str] | None = None,
 ) -> bool:
     if depth < 1 or depth > MAX_DEPTH:
         raise ValueError("DISCOVERY_DEPTH_OUT_OF_RANGE")
@@ -353,9 +354,12 @@ def add_discovery(
         "evidence": evidence,
     }
     fingerprint = json.dumps(edge, sort_keys=True, ensure_ascii=False)
-    existing = {json.dumps(row, sort_keys=True, ensure_ascii=False) for row in graph["edges"]}
-    if fingerprint not in existing:
+    fingerprints = edge_fingerprints
+    if fingerprints is None:
+        fingerprints = {json.dumps(row, sort_keys=True, ensure_ascii=False) for row in graph["edges"]}
+    if fingerprint not in fingerprints:
         graph["edges"].append(edge)
+        fingerprints.add(fingerprint)
     return created
 
 def update_node_observation(node: dict[str, Any], metadata: dict[str, Any]) -> None:
@@ -587,6 +591,11 @@ def crawl(
     root_count = len(queue)
     expanded: set[tuple[str, str]] = set()
     errors: list[dict[str, Any]] = []
+    error_fingerprints: set[str] = set()
+    edge_fingerprints: set[str] = set()
+    discovery_cache: dict[str, tuple[list[dict[str, str]], dict[str, Any]] | Exception] = {}
+    network_fetches = 0
+    cache_hits = 0
     stopped_by_limit = False
     worker_count = max(1, min(int(workers), 64))
     batch_size = max(worker_count, worker_count * 2)
@@ -610,22 +619,41 @@ def crawl(
             if not batch:
                 continue
 
-            futures = [executor.submit(discover_url, item["url"], token) for item in batch]
-            for item, future in zip(batch, futures):
+            pending_fetches: dict[str, concurrent.futures.Future] = {}
+            for item in batch:
+                parent_key = item["normalized_key"]
+                if parent_key in discovery_cache:
+                    cache_hits += 1
+                    continue
+                if parent_key not in pending_fetches:
+                    pending_fetches[parent_key] = executor.submit(discover_url, item["url"], token)
+
+            for parent_key, future in pending_fetches.items():
+                network_fetches += 1
+                try:
+                    discovery_cache[parent_key] = future.result()
+                except Exception as exc:
+                    discovery_cache[parent_key] = exc
+
+            for item in batch:
                 parent_key = item["normalized_key"]
                 url = item["url"]
                 parent_depth = int(item["depth"])
                 root = item["root_donor_id"]
-                try:
-                    children, metadata = future.result()
-                    update_node_observation(graph["nodes"][parent_key], metadata)
-                except Exception as exc:
-                    errors.append({
+                cached = discovery_cache[parent_key]
+                if isinstance(cached, Exception):
+                    error = {
                         "source_key": parent_key,
                         "url": url,
-                        "error": type(exc).__name__ + ":" + str(exc)[:300],
-                    })
+                        "error": type(cached).__name__ + ":" + str(cached)[:300],
+                    }
+                    error_fingerprint = json.dumps(error, sort_keys=True, ensure_ascii=False)
+                    if error_fingerprint not in error_fingerprints:
+                        errors.append(error)
+                        error_fingerprints.add(error_fingerprint)
                     continue
+                children, metadata = cached
+                update_node_observation(graph["nodes"][parent_key], metadata)
 
                 for child in children:
                     child_key = child["normalized_key"]
@@ -646,6 +674,7 @@ def crawl(
                             "observed_at": dt.date.today().isoformat(),
                         },
                         canonical_record=identities.get(child_key),
+                        edge_fingerprints=edge_fingerprints,
                     )
                     if child_depth < MAX_DEPTH and (created or (child_key, root) not in expanded):
                         queue.append({
@@ -670,6 +699,9 @@ def crawl(
                         "edges": len(graph["edges"]),
                         "queue": len(queue),
                         "errors": len(errors),
+                        "network_fetches": network_fetches,
+                        "discovery_cache_entries": len(discovery_cache),
+                        "cache_hits": cache_hits,
                     }
                 }), flush=True)
             if stopped_by_limit:
@@ -683,6 +715,9 @@ def crawl(
         "root_shard_count": root_shard_count,
         "root_count": root_count,
         "expanded_parent_root_pairs": len(expanded),
+        "network_fetches": network_fetches,
+        "discovery_cache_entries": len(discovery_cache),
+        "cache_hits": cache_hits,
         "errors": errors,
         "complete": not stopped_by_limit,
         "stopped_by_limit": stopped_by_limit,

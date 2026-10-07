@@ -78,6 +78,27 @@ class SourceGraphTests(unittest.TestCase):
         self.assertLessEqual(value["nodes"]["github:b/existing"]["min_depth"], 2)
         self.assertEqual(value["crawl"]["workers"], 4)
 
+    def test_parallel_crawl_caches_duplicate_source_fetches(self):
+        registry = self.registry()
+        calls = {}
+
+        def fake_discover(url, token):
+            calls[url] = calls.get(url, 0) + 1
+            if url in {"https://github.com/a/root", "https://github.com/b/existing"}:
+                return ([{"url": "https://github.com/x/shared", "normalized_key": "github:x/shared", "context": "shared library"}], {})
+            if url == "https://github.com/x/shared":
+                return ([{"url": "https://github.com/x/deep", "normalized_key": "github:x/deep", "context": "agent sdk"}], {})
+            return ([], {})
+
+        with mock.patch.object(graph, "discover_url", side_effect=fake_discover):
+            value = graph.crawl(registry, workers=4)
+
+        self.assertEqual(value["validation"]["result"], "PASS")
+        self.assertEqual(calls["https://github.com/x/shared"], 1)
+        self.assertGreaterEqual(value["crawl"]["cache_hits"], 1)
+        self.assertLess(value["crawl"]["network_fetches"], value["crawl"]["expanded_parent_root_pairs"])
+        self.assertEqual(len(value["edges"]), 4)
+
     def test_root_shards_partition_canonical_roots(self):
         registry = self.registry()
         seen = {0: [], 1: []}
