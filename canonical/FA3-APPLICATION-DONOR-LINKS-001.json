@@ -179,36 +179,6 @@
         "Audio Fabric",
         "Music Studio"
       ]
-    },
-    {
-      "application_id": "fa3.opencut",
-      "name": "CFA3 OpenCut FAST EDIT",
-      "kind": "INTERNAL_APPLICATION",
-      "lifecycle": "PLANNED",
-      "aliases": [
-        "OpenCut",
-        "OpenCut FAST EDIT"
-      ]
-    },
-    {
-      "application_id": "fa3.openvid-shared",
-      "name": "CFA3 OpenVid Shared FAST COMPOSE",
-      "kind": "INTERNAL_APPLICATION",
-      "lifecycle": "PLANNED",
-      "aliases": [
-        "OpenVid Shared",
-        "OpenVid Composer"
-      ]
-    },
-    {
-      "application_id": "fa3.webdesign",
-      "name": "CFA3 Webdesign",
-      "kind": "INTERNAL_APPLICATION",
-      "lifecycle": "PLANNED",
-      "aliases": [
-        "Webdesign",
-        "Web Editor"
-      ]
     }
   ],
   "relationships": [
@@ -381,73 +351,6 @@
         "workflow provenance"
       ],
       "integration_boundary": "Read-only approved artifact references and correction/workflow evidence; source project remains authoritative; License & Rights and consent fail closed before module use.",
-      "status": "PROPOSED",
-      "human_approval_required": true
-    },
-    {
-      "id": "CFA3-APP-LINK-OPENVID-OPENCUT",
-      "from_application": "fa3.openvid-shared",
-      "to_application": "fa3.opencut",
-      "offered_artifacts": [
-        ".fa3openvid editable composition"
-      ],
-      "integration_boundary": "Bidirectional non-flattening linked reference in .fa3clip",
-      "status": "PROPOSED",
-      "human_approval_required": true
-    },
-    {
-      "id": "CFA3-APP-LINK-OPENCUT-OPENVID",
-      "from_application": "fa3.opencut",
-      "to_application": "fa3.openvid-shared",
-      "offered_artifacts": [
-        ".fa3clip linked sequence"
-      ],
-      "integration_boundary": "Round trip OpenVid Composer embedded workspace",
-      "status": "PROPOSED",
-      "human_approval_required": true
-    },
-    {
-      "id": "CFA3-APP-LINK-OPENVID-WEBDESIGN",
-      "from_application": "fa3.openvid-shared",
-      "to_application": "fa3.webdesign",
-      "offered_artifacts": [
-        "web video asset",
-        ".fa3openvid editable link"
-      ],
-      "integration_boundary": "Explicit Webdesign export preserving project reference",
-      "status": "PROPOSED",
-      "human_approval_required": true
-    },
-    {
-      "id": "CFA3-APP-LINK-WEBDESIGN-OPENVID",
-      "from_application": "fa3.webdesign",
-      "to_application": "fa3.openvid-shared",
-      "offered_artifacts": [
-        "approved composition request"
-      ],
-      "integration_boundary": "Embedded composer invokes shared fabric",
-      "status": "PROPOSED",
-      "human_approval_required": true
-    },
-    {
-      "id": "CFA3-APP-LINK-OPENVID-EDITOR",
-      "from_application": "fa3.openvid-shared",
-      "to_application": "fa3.video-editor",
-      "offered_artifacts": [
-        "approved composition"
-      ],
-      "integration_boundary": "Explicit project.fa3video import; Video Editor sole NLE",
-      "status": "PROPOSED",
-      "human_approval_required": true
-    },
-    {
-      "id": "CFA3-APP-LINK-OPENCUT-QUICKCLIP",
-      "from_application": "fa3.opencut",
-      "to_application": "fa3.quickclip",
-      "offered_artifacts": [
-        ".fa3clip"
-      ],
-      "integration_boundary": "QuickClip compatibility, OpenCut FAST EDIT owner",
       "status": "PROPOSED",
       "human_approval_required": true
     }

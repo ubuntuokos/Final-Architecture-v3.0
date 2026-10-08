@@ -13,9 +13,9 @@
     "application_links": "FA3-APPLICATION-DONOR-LINKS-001",
     "ai_studio_catalog": "FA3-AI-STUDIO-APP-CATALOG-001",
     "application_installation_registry": "FA3-APPLICATION-INSTALLATION-REGISTRY-001",
-    "source_record_count": 52,
-    "normalized_consumer_count": 28,
-    "current_scope_count": 28,
+    "source_record_count": 46,
+    "normalized_consumer_count": 25,
+    "current_scope_count": 25,
     "pending_future_inventory_expansion_must_be_reconciled": true,
     "normalization_rules": [
       {
@@ -555,69 +555,6 @@
         "PHYSICAL_PERFORMANCE_TUNING_REMAINS_CURRENT_HOST_EVIDENCE_GATED"
       ],
       "current_host_impact": "NO_RUNTIME_IMPACT_COMPATIBILITY_RECORD_ONLY"
-    },
-    {
-      "application_id": "fa3.opencut",
-      "name": "CFA3 OpenCut FAST EDIT",
-      "kind": "INTERNAL_APPLICATION",
-      "inventory_state": "PLANNED",
-      "disposition": "SHARED_CAPABILITY_BINDING",
-      "applicable_bindings": [
-        "WORK_MANAGEMENT",
-        "WORK_CONTEXT",
-        "APPLICATION_LIFECYCLE",
-        "INTER_APP_HANDOFF"
-      ],
-      "requirements": [
-        "PRESERVE_NATIVE_PROJECT_DATA",
-        "USE_CANONICAL_WORK_CONTEXT_REFERENCES_WHERE_APPLICABLE",
-        "DO_NOT_CREATE_PARALLEL_WORK_OR_PERMISSION_AUTHORITY",
-        "RUNTIME_LIFECYCLE_SUPPORT_DECLARATION_REQUIRED_BEFORE_RUNTIME_PROMOTION",
-        "INTER_APP_EFFECTFUL_HANDOFF_MUST_USE_TYPED_UAF_AND_SCOPED_GRANT"
-      ],
-      "current_host_impact": "STRUCTURAL_REASSESSMENT_REQUIRED"
-    },
-    {
-      "application_id": "fa3.openvid-shared",
-      "name": "CFA3 OpenVid Shared FAST COMPOSE",
-      "kind": "INTERNAL_APPLICATION",
-      "inventory_state": "PLANNED",
-      "disposition": "SHARED_CAPABILITY_BINDING",
-      "applicable_bindings": [
-        "WORK_MANAGEMENT",
-        "WORK_CONTEXT",
-        "APPLICATION_LIFECYCLE",
-        "INTER_APP_HANDOFF"
-      ],
-      "requirements": [
-        "PRESERVE_NATIVE_PROJECT_DATA",
-        "USE_CANONICAL_WORK_CONTEXT_REFERENCES_WHERE_APPLICABLE",
-        "DO_NOT_CREATE_PARALLEL_WORK_OR_PERMISSION_AUTHORITY",
-        "RUNTIME_LIFECYCLE_SUPPORT_DECLARATION_REQUIRED_BEFORE_RUNTIME_PROMOTION",
-        "INTER_APP_EFFECTFUL_HANDOFF_MUST_USE_TYPED_UAF_AND_SCOPED_GRANT"
-      ],
-      "current_host_impact": "STRUCTURAL_REASSESSMENT_REQUIRED"
-    },
-    {
-      "application_id": "fa3.webdesign",
-      "name": "CFA3 Webdesign",
-      "kind": "INTERNAL_APPLICATION",
-      "inventory_state": "PLANNED",
-      "disposition": "SHARED_CAPABILITY_BINDING",
-      "applicable_bindings": [
-        "WORK_MANAGEMENT",
-        "WORK_CONTEXT",
-        "APPLICATION_LIFECYCLE",
-        "INTER_APP_HANDOFF"
-      ],
-      "requirements": [
-        "PRESERVE_NATIVE_PROJECT_DATA",
-        "USE_CANONICAL_WORK_CONTEXT_REFERENCES_WHERE_APPLICABLE",
-        "DO_NOT_CREATE_PARALLEL_WORK_OR_PERMISSION_AUTHORITY",
-        "RUNTIME_LIFECYCLE_SUPPORT_DECLARATION_REQUIRED_BEFORE_RUNTIME_PROMOTION",
-        "INTER_APP_EFFECTFUL_HANDOFF_MUST_USE_TYPED_UAF_AND_SCOPED_GRANT"
-      ],
-      "current_host_impact": "STRUCTURAL_REASSESSMENT_REQUIRED"
     }
   ],
   "continuous_rule": {
@@ -673,18 +610,6 @@
       {
         "source_id": "reference.ardour",
         "consumer_id": "reference.ardour"
-      },
-      {
-        "source_id": "fa3.opencut",
-        "consumer_id": "fa3.opencut"
-      },
-      {
-        "source_id": "fa3.openvid-shared",
-        "consumer_id": "fa3.openvid-shared"
-      },
-      {
-        "source_id": "fa3.webdesign",
-        "consumer_id": "fa3.webdesign"
       }
     ],
     "FA3-AI-STUDIO-APP-CATALOG-001": [
@@ -845,18 +770,6 @@
       {
         "source_id": "reference.ardour",
         "consumer_id": "reference.ardour"
-      },
-      {
-        "source_id": "fa3.opencut",
-        "consumer_id": "fa3.opencut"
-      },
-      {
-        "source_id": "fa3.openvid-shared",
-        "consumer_id": "fa3.openvid-shared"
-      },
-      {
-        "source_id": "fa3.webdesign",
-        "consumer_id": "fa3.webdesign"
       }
     ]
   }
