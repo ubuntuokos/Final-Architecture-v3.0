@@ -27,22 +27,52 @@ def project_handoff_allowed(value):
 
 def export_plan_allowed(value):
     return value.get("backend_order") == [
-        "CPU_ONLY_BASELINE","HRB_ADMITTED_ACCELERATOR_OPTIONAL",
+        "HRB_ADMITTED_ACCELERATOR_OPTIONAL","CPU_ONLY_BASELINE",
         "SOFTWARE_ENCODER","WASM_FALLBACK_BOUNDED"
     ] and all(value.get(k) is True for k in (
-        "bounded_memory","fallbacks_observable","direct_to_disk_preferred"))
+        "bounded_memory","fallbacks_must_be_observable","direct_to_disk_preferred"))
 
-def regression_cases():
-    results=[]
-    for index,(key,expected) in enumerate(SPEC.items()):
-        correct=copy.deepcopy(SPEC)
-        rejected=copy.deepcopy(SPEC)
-        rejected[key]=None
-        positive=correct.get(key)==expected
-        negative=rejected.get(key)!=expected
-        results.append({"rule":RULES[index],"positive":positive,
-                        "negative_refusal":negative,
-                        "result":"PASS" if positive and negative else "FAIL"})
+REGRESSION_PATHS = {
+    "fast_compose_role": ("c", "fast_compose_application", "role"),
+    "project_format": ("c", "fast_compose_application", "project_format"),
+    "handoff": ("c", "fast_compose_application", "two_way_handoff"),
+    "motion_owner": ("c", "authority_boundaries", "advanced_motion"),
+    "nle_owner": ("c", "authority_boundaries", "full_nle"),
+    "shared_fabric": ("c", "execution_architecture", "shared_fabric"),
+    "engines": ("c", "execution_architecture", "engines"),
+    "ffmpeg": ("c", "execution_architecture", "shared_ffmpeg"),
+    "webdesign": ("c", "webdesign_integration", "supported"),
+    "timeline_ir": ("c", "canonical_timeline_ir"),
+    "cpu_only": ("c", "execution_architecture", "cpu_only_baseline"),
+    "license": ("p", "upstream", "license"),
+    "runtime_status": ("p", "runtime_activation", "status"),
+    "dry_run": ("shared", "operation_requirements", "destructive_mutation_requires_dry_run"),
+    "explicit_cloud": ("c", "requirements", "explicit_cloud_escalation"),
+    "bounded_export": ("c", "requirements", "buffered_export_bounded"),
+    "capability_count": ("c", "capability_count"),
+    "historical_evidence": ("history", "evidence_id"),
+    "runtime_promotion": ("d", "current_host_runtime_promotion_claimed"),
+    "global_indicator": ("c", "fast_compose_application", "gui", "global_workload_mode_indicator"),
+}
+
+def regression_cases(root=None):
+    root = Path(root) if root is not None else Path(__file__).resolve().parents[1]
+    results = []
+    baseline = gate(root, skip_regressions=True)
+    for index, (key, _) in enumerate(SPEC.items()):
+        path = REGRESSION_PATHS[key]
+        edited = json.loads((root / PATHS[path[0]]).read_text(encoding="utf-8"))
+        node = edited
+        for part in path[1:-1]:
+            node = node[part]
+        previous = node[path[-1]]
+        node[path[-1]] = [] if key == "engines" else (not previous if isinstance(previous, bool) else None)
+        mutated = gate(root, document_overrides={path[0]: edited}, skip_regressions=True)
+        positive = baseline["status"] == "PASS"
+        negative = mutated["status"] == "FAIL"
+        results.append({"rule": RULES[index], "positive": positive,
+                        "negative_refusal": negative,
+                        "result": "PASS" if positive and negative else "FAIL"})
     return results
 
 def _report(findings,cases):
@@ -54,14 +84,15 @@ def _report(findings,cases):
             "capability_count_after":CAP,
             "current_host_runtime_promotion_claimed":False}
 
-def gate(root):
+def gate(root, *, document_overrides=None, skip_regressions=False):
     root=Path(root)
     d={}
     findings=[]
-    cases=regression_cases()
+    cases=[] if skip_regressions else regression_cases(root)
+    document_overrides=document_overrides or {}
     for key,path in PATHS.items():
         try:
-            d[key]=json.loads((root/path).read_text(encoding="utf-8"))
+            d[key]=copy.deepcopy(document_overrides[key]) if key in document_overrides else json.loads((root/path).read_text(encoding="utf-8"))
         except (OSError,ValueError) as exc:
             findings.append({"code":"OPENVID-SHARED-REQUIRED-ARTIFACT","path":path,"error":str(exc)})
     if findings:
@@ -78,7 +109,7 @@ def gate(root):
       "motion_owner":auth.get("advanced_motion"),
       "nle_owner":auth.get("full_nle"),
       "shared_fabric":exe.get("shared_fabric"),
-      "engines":"|".join(exe.get("engines",[])),
+      "engines":"|".join(exe.get("engines") or []),
       "ffmpeg":exe.get("shared_ffmpeg"),
       "webdesign":web.get("supported"),
       "timeline_ir":c.get("canonical_timeline_ir"),
@@ -129,6 +160,14 @@ def gate(root):
           **c.get("render_policy",{}),
           "bounded_memory":c.get("requirements",{}).get("bounded_memory"),
           "direct_to_disk_preferred":c.get("requirements",{}).get("direct_to_disk_preferred")}))
+    require("OPENVID-SHARED-QUALITY-PROVENANCE",
+        all(c.get("requirements", {}).get(k) is True for k in
+            ("typed_operation_descriptors", "output_qa",
+             "sha256_artifact_identity", "provenance", "audit")))
+    require("OPENVID-SHARED-FAIL-CLOSED-METADATA",
+        all(d["g"].get(k) is True for k in
+            ("fail_closed", "positive_negative_regressions_required", "global_static_integration"))
+        and d["e"].get("fail_closed") is True)
     require("OPENVID-SHARED-WEB-INTEGRATION",
         web.get("editable_link_preserved") is True
         and web.get("fast_edit_via")=="CFA3_OPENCUT_EMBEDDED"
@@ -169,8 +208,9 @@ def gate(root):
         and n.get("new_architectural_authorities")==0
         and d["r"].get("runtime_promotion") is False
         and d["intent"].get("runtime_delivery_claim") is False)
-    require("OPENVID-SHARED-NEGATIVE-REGRESSIONS",
-        len(cases)==len(RULES) and all(z["result"]=="PASS" for z in cases))
+    if not skip_regressions:
+        require("OPENVID-SHARED-NEGATIVE-REGRESSIONS",
+            len(cases)==len(RULES) and all(z["result"]=="PASS" for z in cases))
     return _report(findings,cases)
 
 def main():
@@ -179,7 +219,7 @@ def main():
     parser.add_argument("--self-test",action="store_true")
     parser.add_argument("--output")
     args=parser.parse_args()
-    cases=regression_cases()
+    cases=regression_cases(Path(args.root))
     report=_report([] if all(c["result"]=="PASS" for c in cases) else [{"code":"SELFTEST"}],cases) if args.self_test else gate(args.root)
     result=json.dumps(report,indent=2)
     if args.output:

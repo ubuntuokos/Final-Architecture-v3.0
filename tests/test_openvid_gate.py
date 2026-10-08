@@ -27,11 +27,35 @@ class OpenVidGateTests(unittest.TestCase):
         for key in good:
             self.assertFalse(gate.project_handoff_allowed({**good,key:None}))
     def test_cpu_only_baseline_and_bounded_fallbacks(self):
-        good={"backend_order":["CPU_ONLY_BASELINE","HRB_ADMITTED_ACCELERATOR_OPTIONAL","SOFTWARE_ENCODER","WASM_FALLBACK_BOUNDED"],
-              "bounded_memory":True,"fallbacks_observable":True,"direct_to_disk_preferred":True}
+        good={"backend_order":["HRB_ADMITTED_ACCELERATOR_OPTIONAL","CPU_ONLY_BASELINE","SOFTWARE_ENCODER","WASM_FALLBACK_BOUNDED"],
+              "bounded_memory":True,"fallbacks_must_be_observable":True,"direct_to_disk_preferred":True}
         self.assertTrue(gate.export_plan_allowed(good))
         for key in good:
             self.assertFalse(gate.export_plan_allowed({**good,key:None}))
+    def test_quality_and_fail_closed_metadata_mutations(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp)
+            for path in gate.PATHS.values():
+                (root/path).parent.mkdir(parents=True,exist_ok=True)
+                (root/path).write_bytes((ROOT/path).read_bytes())
+            cases=[("c", ("requirements",key)) for key in
+                ("typed_operation_descriptors","output_qa",
+                 "sha256_artifact_identity","provenance","audit")]
+            cases.extend(("g",(key,)) for key in
+                ("fail_closed","positive_negative_regressions_required","global_static_integration"))
+            for doc,path in cases:
+                full=root/gate.PATHS[doc]
+                original=json.loads(full.read_text(encoding="utf-8"))
+                mutated=json.loads(full.read_text(encoding="utf-8"))
+                node=mutated
+                for name in path[:-1]:
+                    node=node[name]
+                node[path[-1]]=False
+                full.write_text(json.dumps(mutated),encoding="utf-8")
+                report=gate.gate(root,skip_regressions=True)
+                self.assertEqual(report["status"],"FAIL",(doc,path,report["findings"]))
+                full.write_text(json.dumps(original),encoding="utf-8")
+
     def test_complete_canonical_gate(self):
         result=gate.gate(ROOT)
         self.assertEqual(result["status"],"PASS",result["findings"])
