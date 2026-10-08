@@ -1,0 +1,108 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-SHARED-WEB-ACQUISITION-STATE-CONTRACTS-001",
+  "status": "CANONICAL",
+  "capability_count": 175,
+  "profile_id": "FA3-SHARED-WEB-ACQUISITION-STATE-001",
+  "contracts": [
+    "AcquisitionRequest",
+    "RequestLease",
+    "RecoveryReceipt",
+    "AcquisitionResult",
+    "OriginPolicy",
+    "SessionLifecycleState",
+    "DurableStateSnapshot",
+    "HrbLoadObservation"
+  ],
+  "request_state_machine": {
+    "states": [
+      "PENDING",
+      "CLAIMED",
+      "RETRY_WAIT",
+      "HANDLED",
+      "FAILED",
+      "BLOCKED"
+    ],
+    "terminal_states": [
+      "HANDLED",
+      "FAILED",
+      "BLOCKED"
+    ],
+    "claim_requires": [
+      "eligible-state",
+      "worker-id",
+      "positive-lease",
+      "origin-policy",
+      "robots-allow",
+      "politeness-window"
+    ],
+    "completion_requires": [
+      "live-lease-owner",
+      "same-request-id",
+      "same-backend",
+      "same-policy-revision",
+      "same-provenance-ref",
+      "content-digest"
+    ],
+    "retry_requires": [
+      "live-lease-owner",
+      "retryable-failure",
+      "attempts-below-limit"
+    ],
+    "recovery": "expired CLAIMED lease becomes PENDING with explicit RecoveryReceipt"
+  },
+  "backend_parity": {
+    "backends": [
+      "HTTP",
+      "BROWSER"
+    ],
+    "shared_fields": [
+      "request_id",
+      "dedupe_key",
+      "policy_revision",
+      "provenance_ref",
+      "result_digest"
+    ],
+    "browser_execution_authority": "FA3-BROWSER-ACTION-RUNTIME-001",
+    "silent_backend_fallback": false
+  },
+  "origin_policy": {
+    "robots_required": true,
+    "politeness_required": true,
+    "concurrency_value_is_advisory": true,
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "session_policy": {
+    "statuses": [
+      "ACTIVE",
+      "RETIRED",
+      "BLOCKED"
+    ],
+    "replacement_source_must_be": [
+      "RETIRED",
+      "BLOCKED"
+    ],
+    "silent_session_fallback": false
+  },
+  "donor_boundary": {
+    "registered_parent_reference": "FA3-DONOR-APIFY-ORG-001",
+    "child_repository_adoption": false,
+    "child_usage_edge_created": false,
+    "usage_edge_required_for_future_material_adoption": true
+  },
+  "durable_storage": {
+    "format": "DETERMINISTIC_JSON_SNAPSHOT",
+    "write_protocol": [
+      "SAME_DIRECTORY_TEMP_FILE",
+      "FLUSH",
+      "FSYNC_FILE",
+      "ATOMIC_REPLACE"
+    ],
+    "replace_failure": "PRESERVE_PREVIOUS_COMMITTED_SNAPSHOT_AND_FAIL_CLOSED",
+    "corrupt_or_unreadable_snapshot": "FAIL_CLOSED",
+    "external_storage_dependency": false,
+    "reference_file_snapshot_scope": "SINGLE_WRITER_REFERENCE_TEST",
+    "runtime_multi_process_backend_admitted": false,
+    "runtime_multi_worker_claim_requires_atomic_compare_and_swap": true
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-SHARED-WEB-ACQUISITION-STATE-2026-10-02",
+  "date": "2026-10-02",
+  "status": "CANONICAL",
+  "title": "Shared-first durable web acquisition state hardening",
+  "decision": "MATERIALIZE_PROVIDER_NEUTRAL_SHARED_CHILD_PROFILE_WITHOUT_NEW_AUTHORITY_OR_DONOR_ADOPTION",
+  "approved_plan": "docs/FA3-APIFY-WEB-ACQUISITION-HARDENING-PLAN-2026-10-02.md",
+  "approval_ref": "canonical/decisions/FA3-DEC-APIFY-WEB-ACQUISITION-HARDENING-APPROVAL-2026-10-02.json",
+  "profile_id": "FA3-SHARED-WEB-ACQUISITION-STATE-001",
+  "capability_baseline": 175,
+  "capability_delta": 0,
+  "new_architectural_authorities": 0,
+  "shared_first": true,
+  "reasons": [
+    "durable crawl-state and recovery are cross-application concerns",
+    "existing Browser Action Runtime must remain browser execution boundary",
+    "HRB must remain sole physical resource authority",
+    "Apify child repositories are analysis-only and cannot be adopted without explicit source registration"
+  ],
+  "rejected_alternatives": [
+    "APIFY_FABRIC_AS_NEW_AUTHORITY",
+    "CRAWLEE_RUNTIME_AS_MANDATORY_DEPENDENCY",
+    "SECOND_BROWSER_ACTION_RUNTIME",
+    "SECOND_RAG_PIPELINE",
+    "AUTOMATIC_PROXY_SESSION_OR_BACKEND_FALLBACK",
+    "DEFAULT_FINGERPRINT_STEALTH"
+  ],
+  "runtime_promotion_claim": false,
+  "current_host_pass_claim": false
+}

@@ -1,0 +1,84 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-APIFY-WEB-ACQUISITION-HARDENING-APPLICATION-INTENT-001",
+  "project_id": "FA3-SHARED-WEB-ACQUISITION-STATE-001",
+  "project_type": "SHARED_PROFILE",
+  "goal": "Harden existing FA3 web acquisition with durable request leases, deterministic recovery, backend parity, origin policy and session lifecycle while preserving existing authorities.",
+  "required_capabilities": [
+    "CAP-158"
+  ],
+  "optional_capabilities": [],
+  "problem_classes": [
+    "durable-web-request-state",
+    "lease-expiry-recovery",
+    "http-browser-backend-parity",
+    "origin-robots-politeness",
+    "session-retirement-replacement",
+    "resource-load-advisory"
+  ],
+  "task_classes": [
+    "web",
+    "browser",
+    "knowledge-ingestion",
+    "agent-web",
+    "research"
+  ],
+  "input_modalities": [
+    "URL",
+    "REQUEST_STATE",
+    "ORIGIN_POLICY",
+    "SESSION_STATE"
+  ],
+  "output_modalities": [
+    "ACQUISITION_RESULT",
+    "RECOVERY_RECEIPT",
+    "STATE_SNAPSHOT",
+    "HRB_LOAD_OBSERVATION"
+  ],
+  "execution_classes": [
+    "STATIC_REFERENCE_CORE",
+    "EXISTING_BROWSER_ACTION_RUNTIME",
+    "EXISTING_HTTP_ACQUISITION_PROVIDER"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_parameter_mutation": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "namespace_claims": {
+    "package_prefix": null,
+    "service_prefix": null,
+    "config_root": null,
+    "cache_root": null,
+    "runtime_root": null,
+    "socket_namespace": null,
+    "data_root": null,
+    "desktop_prefix": null,
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false,
+    "default_port": null
+  },
+  "security_requirements": [
+    "NO_SILENT_BACKEND_FALLBACK",
+    "ROBOTS_POLICY_FAIL_CLOSED",
+    "LEASE_OWNER_BINDING",
+    "PROVENANCE_AND_POLICY_BINDING",
+    "NO_UNREGISTERED_DONOR_ADOPTION"
+  ],
+  "integration_requirements": [
+    "FA3-WEB-AI-001",
+    "FA3-BROWSER-ACTION-RUNTIME-001",
+    "FA3-KNOWLEDGE-001",
+    "FA3-MCP-GATEWAY-001",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "FA3-AUTH-OBS-EVIDENCE-001",
+    "FA3-REUSE-DISCOVERY-001"
+  ]
+}

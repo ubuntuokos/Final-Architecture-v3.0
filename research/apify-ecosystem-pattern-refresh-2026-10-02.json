@@ -1,0 +1,124 @@
+{
+  "schema": "fa3.analysis-reference.v1",
+  "id": "FA3-APIFY-ECOSYSTEM-PATTERN-REFRESH-2026-10-02",
+  "date": "2026-10-02",
+  "status": "ANALYSIS_ONLY_NO_DONOR_ADOPTION",
+  "parent_donor_id": "FA3-DONOR-APIFY-ORG-001",
+  "canonical_assessment": "FA3-APIFY-ECOSYSTEM-DONOR-ASSESSMENT-2026-10-02",
+  "child_repository_registration": false,
+  "material_adoption_authorized": false,
+  "usage_edges_created": false,
+  "upstream_refresh": [
+    {
+      "repository": "apify/crawlee",
+      "previous": "438e3419626bd070f8984566bfb86ab9355f55d6",
+      "observed": "a97a31133e7ff6eed1ad1279ac9d1d92d2e5b738",
+      "drift": "CHANGED"
+    },
+    {
+      "repository": "apify/crawlee-python",
+      "previous": "ccdb72cdffd2dee93828c7cf420b7634b965f354",
+      "observed": "1d4ae4165118dfe86ae802fde53227a3592619b4",
+      "drift": "CHANGED"
+    },
+    {
+      "repository": "apify/crawlee-storage",
+      "previous": "5bea28ede93f81ee27cc6ee4298dd2a608aa4472",
+      "observed": "5bea28ede93f81ee27cc6ee4298dd2a608aa4472",
+      "drift": "UNCHANGED"
+    },
+    {
+      "repository": "apify/apify-mcp-server",
+      "previous": "1b8d4e0236e3b4e17a51c42ebdfcb60d2d4956de",
+      "observed": "326f27854d4614590b7925a5dc4ce7f39829dc3e",
+      "drift": "CHANGED"
+    },
+    {
+      "repository": "apify/agent-skills",
+      "previous": "f5e84aa961e0ff2e890efebff64b0c5d04de1f1a",
+      "observed": "f5e84aa961e0ff2e890efebff64b0c5d04de1f1a",
+      "drift": "UNCHANGED"
+    },
+    {
+      "repository": "apify/apify-sdk-python",
+      "previous": "d1de6546b39cd213b816990373b6472c379d281b",
+      "observed": "d1de6546b39cd213b816990373b6472c379d281b",
+      "drift": "UNCHANGED"
+    },
+    {
+      "repository": "apify/browser-pool",
+      "previous": "80ab2c57934648aaf08ee9d0d3fed8c69b413ac4",
+      "observed": "80ab2c57934648aaf08ee9d0d3fed8c69b413ac4",
+      "drift": "UNCHANGED_DEPRECATED"
+    },
+    {
+      "repository": "apify/fingerprint-suite",
+      "previous": "67866a6196658076a7b61ecbe2c590a2ff3f4057",
+      "observed": "67866a6196658076a7b61ecbe2c590a2ff3f4057",
+      "drift": "UNCHANGED_SECURITY_RESTRICTED"
+    }
+  ],
+  "overlap_matrix": [
+    {
+      "subfunction": "bounded browser action execution",
+      "classification": "ALREADY_COVERED",
+      "target": "FA3-BROWSER-ACTION-RUNTIME-001"
+    },
+    {
+      "subfunction": "durable request identity and dedupe",
+      "classification": "PARTIAL_GAP",
+      "target": "FA3-SHARED-WEB-ACQUISITION-STATE-001"
+    },
+    {
+      "subfunction": "lease expiry extension reclaim and requeue",
+      "classification": "PARTIAL_GAP",
+      "target": "FA3-SHARED-WEB-ACQUISITION-STATE-001"
+    },
+    {
+      "subfunction": "crash restart snapshot recovery",
+      "classification": "PARTIAL_GAP",
+      "target": "FA3-SHARED-WEB-ACQUISITION-STATE-001"
+    },
+    {
+      "subfunction": "HTTP and browser state/provenance parity",
+      "classification": "PARTIAL_GAP",
+      "target": "FA3-SHARED-WEB-ACQUISITION-STATE-001"
+    },
+    {
+      "subfunction": "robots and origin politeness",
+      "classification": "PARTIAL_GAP",
+      "target": "FA3-SHARED-WEB-ACQUISITION-STATE-001"
+    },
+    {
+      "subfunction": "session retirement and replacement",
+      "classification": "PARTIAL_GAP",
+      "target": "FA3-SHARED-WEB-ACQUISITION-STATE-001"
+    },
+    {
+      "subfunction": "crawler autoscaling as resource authority",
+      "classification": "REJECT",
+      "target": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "replacement": "ADVISORY_TELEMETRY_ONLY"
+    },
+    {
+      "subfunction": "MCP tool exposure",
+      "classification": "ALREADY_COVERED",
+      "target": "FA3-MCP-GATEWAY-001"
+    },
+    {
+      "subfunction": "skill admission",
+      "classification": "ALREADY_COVERED",
+      "target": "FA3-SKILL-FABRIC-001"
+    },
+    {
+      "subfunction": "default fingerprint stealth",
+      "classification": "REJECT",
+      "target": "SECURITY_RESTRICTED_REFERENCE_ONLY"
+    },
+    {
+      "subfunction": "Apify Cloud Actor runtime",
+      "classification": "REJECT_AS_DEFAULT_DEPENDENCY",
+      "target": "SEPARATE_PROVIDER_ADMISSION_IF_EVER_REQUESTED"
+    }
+  ]
+}
