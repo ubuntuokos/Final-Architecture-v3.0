@@ -4,17 +4,72 @@
   "provider_neutral": true,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_count": 143,
-  "profile_projection": ["FA3-PROGRAMMABLE-VIDEO-EDITING-001", "FA3-COMPOSITING-001", "FA3-HYBRID-EDITORIAL-001", "FA3-NEURAL-MEDIA-EXECUTION-001"],
-  "canonical_timeline_ir": "OpenTimelineIO",
-  "lifecycle": ["media.admit", "media.decode.local", "timeline.load", "composition.evaluate", "overlay.render", "camera.evaluate", "audio.compose", "encode.select", "encode.hardware.attempt", "encode.software.fallback", "encode.wasm.fallback", "export.write", "output.qa", "artifact.hash", "provenance.append"],
+  "capability_count": 175,
+  "profile_projection": [
+    "FA3-PROGRAMMABLE-VIDEO-EDITING-001",
+    "FA3-COMPOSITING-001",
+    "FA3-HYBRID-EDITORIAL-001",
+    "FA3-NEURAL-MEDIA-EXECUTION-001"
+  ],
+  "canonical_timeline_ir": "CFA3_NATIVE_PROJECT_STATE",
+  "lifecycle": [
+    "media.admit",
+    "media.decode.local",
+    "timeline.load",
+    "composition.evaluate",
+    "overlay.render",
+    "camera.evaluate",
+    "audio.compose",
+    "encode.select",
+    "encode.hardware.attempt",
+    "encode.software.fallback",
+    "encode.wasm.fallback",
+    "export.write",
+    "output.qa",
+    "artifact.hash",
+    "provenance.append"
+  ],
   "operation_families": {
-    "media": ["screen.capture", "media.import", "media.probe", "media.remux"],
-    "timeline": ["timeline.inspect", "timeline.trim", "timeline.split", "timeline.speed"],
-    "composition": ["canvas.background", "overlay.image", "overlay.svg", "overlay.text", "overlay.shape", "mockup.apply", "transform.2d", "transform.3d"],
-    "camera": ["camera.zoom", "camera.tilt", "camera.rotate", "camera.easing"],
-    "audio": ["audio.track.add", "audio.trim", "audio.mix"],
-    "export": ["export.preview", "export.render", "export.cancel", "export.write_direct", "export.write_buffered"]
+    "media": [
+      "screen.capture",
+      "media.import",
+      "media.probe",
+      "media.remux"
+    ],
+    "timeline": [
+      "timeline.inspect",
+      "timeline.trim",
+      "timeline.split",
+      "timeline.speed"
+    ],
+    "composition": [
+      "canvas.background",
+      "overlay.image",
+      "overlay.svg",
+      "overlay.text",
+      "overlay.shape",
+      "mockup.apply",
+      "transform.2d",
+      "transform.3d"
+    ],
+    "camera": [
+      "camera.zoom",
+      "camera.tilt",
+      "camera.rotate",
+      "camera.easing"
+    ],
+    "audio": [
+      "audio.track.add",
+      "audio.trim",
+      "audio.mix"
+    ],
+    "export": [
+      "export.preview",
+      "export.render",
+      "export.cancel",
+      "export.write_direct",
+      "export.write_buffered"
+    ]
   },
   "requirements": {
     "local_first_processing": true,
@@ -33,7 +88,85 @@
     "provenance": true,
     "audit": true
   },
-  "privacy_policy": {"source_media_upload_required": false, "implicit_cloud_upload_forbidden": true, "cloud_backup_or_remote_processing_requires_explicit_policy_admission": true},
-  "render_policy": {"backend_order": ["HARDWARE_ACCELERATED_NATIVE_OR_WEB_CODECS", "SOFTWARE_ENCODER", "WASM_FALLBACK"], "fallbacks_must_be_observable": true, "backend_capability_receipt_required": true, "resource_budget_required": true},
-  "license_boundary": {"provider_source_license_must_be_admitted_separately": true, "contract_may_be_implemented_clean_room_or_independently": true}
+  "privacy_policy": {
+    "source_media_upload_required": false,
+    "implicit_cloud_upload_forbidden": true,
+    "cloud_backup_or_remote_processing_requires_explicit_policy_admission": true
+  },
+  "render_policy": {
+    "backend_order": [
+      "HRB_ADMITTED_ACCELERATOR_OPTIONAL",
+      "CPU_ONLY_BASELINE",
+      "SOFTWARE_ENCODER",
+      "WASM_FALLBACK_BOUNDED"
+    ],
+    "fallbacks_must_be_observable": true,
+    "backend_capability_receipt_required": true,
+    "resource_budget_required": true,
+    "implicit_accelerator_fallback_forbidden": true
+  },
+  "license_boundary": {
+    "provider_source_license_must_be_admitted_separately": true,
+    "contract_may_be_implemented_clean_room_or_independently": true
+  },
+  "interchange_ir": "OpenTimelineIO",
+  "project_state_authority": "CFA3_OPENVID_SHARED_NATIVE_PROJECT",
+  "native_project_format": ".fa3openvid",
+  "fast_compose_application": {
+    "id": "CFA3-OPENVID-SHARED-FAST-COMPOSE",
+    "role": "FAST_COMPOSE",
+    "deployment_modes": [
+      "STANDALONE",
+      "OPENCUT_EMBEDDED_WORKSPACE",
+      "WEBDESIGN_INVOKED"
+    ],
+    "project_format": ".fa3openvid",
+    "editable_reference": true,
+    "round_trip": true,
+    "two_way_handoff": "BIDIRECTIONAL_EDITABLE_REFERENCE_NO_AUTO_FLATTEN",
+    "auto_flatten": false,
+    "open_cut_project": ".fa3clip",
+    "open_cut_reference_mode": "EDITABLE_LINKED_WORKSPACE",
+    "duplicate_motion_engine": false,
+    "duplicate_timeline_core": false,
+    "handoff_to_full_editor": "EXPLICIT_PROJECT_FA3VIDEO_IMPORT",
+    "gui": {
+      "cfa3_look": true,
+      "global_workload_mode_indicator": true
+    },
+    "local_first": true,
+    "cpu_only_viable": true,
+    "implicit_cloud_escalation": false
+  },
+  "authority_boundaries": {
+    "fast_edit": "CFA3_OPENCUT",
+    "fast_compose": "CFA3_OPENVID_SHARED",
+    "advanced_motion": "CFA3_SHARED_MOTION_DESIGNER",
+    "full_nle": "CFA3_VIDEO_EDITOR",
+    "timeline_interchange": "OPENTIMELINEIO_ONLY",
+    "model_router": "CFA3_MODEL_ROUTER",
+    "host_placement": "HOST_RESOURCE_BROKER",
+    "durable_workflow": "TEMPORAL",
+    "event_fabric": "NATS_JETSTREAM"
+  },
+  "execution_architecture": {
+    "shared_fabric": "FA3-PROGRAMMABLE-VIDEO-EDITING-001",
+    "engine_selector": "CFA3_ENGINE_SELECTOR",
+    "engines": [
+      "MLT",
+      "CFA3 Native Media Composition"
+    ],
+    "shared_ffmpeg": true,
+    "cpu_only_baseline": true,
+    "accelerator_opt_in_requires_hrb": true,
+    "display_gpu_ai_default": false
+  },
+  "webdesign_integration": {
+    "supported": true,
+    "fast_edit_via": "CFA3_OPENCUT_EMBEDDED",
+    "compose_via": "CFA3_OPENVID_SHARED",
+    "motion_via": "CFA3_SHARED_MOTION_DESIGNER",
+    "editable_link_preserved": true,
+    "output": "WEB_OPTIMIZED_VIDEO_ASSET"
+  }
 }

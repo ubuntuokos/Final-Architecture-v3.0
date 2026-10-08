@@ -1,0 +1,118 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "CFA3-OPENVID-SHARED-REUSE-ASSESSMENT-2026-10-08",
+  "project_id": "FA3-BROWSER-LOCAL-VIDEO-COMPOSITING-CONTRACTS-001",
+  "intent_id": "CFA3-OPENVID-SHARED-APPLICATION-INTENT-2026-10-08",
+  "intent_path": "canonical/intents/CFA3-OPENVID-SHARED-APPLICATION-INTENT-2026-10-08.json",
+  "covered_ids": [
+    "CFA3-OPENVID-SHARED-FAST-COMPOSE",
+    "FA3-BROWSER-LOCAL-VIDEO-COMPOSITING-CONTRACTS-001",
+    "FA3-PROVIDER-OPENVID-001",
+    "FA3-PROGRAMMABLE-VIDEO-EDITING-001"
+  ],
+  "project_status": "OWNER_APPROVED_STATIC_ARCHITECTURE_CONSOLIDATION",
+  "result": "PASS",
+  "assessment_provenance": {
+    "type": "OWNER_APPROVED_69_CANONICAL_CONSOLIDATION",
+    "reviewed_on": "2026-10-08",
+    "planning_basis": "d4685845ae355f482b1dd0c82709f53d62ac8769",
+    "owner_approved_materialization": true
+  },
+  "selected_reuse": [
+    {
+      "id": "FA3-PROGRAMMABLE-VIDEO-EDITING-001",
+      "use": "SHARED_EXECUTION"
+    },
+    {
+      "id": "FA3-VIDEO-TIMELINE-PROVIDER-CONTRACTS-001",
+      "use": "CFA3_NATIVE_TIMELINE"
+    },
+    {
+      "id": "FA3-PROVIDER-OPENVID-001",
+      "use": "NONCOMMERCIAL_REFERENCE_ONLY"
+    },
+    {
+      "id": "CFA3_SHARED_MOTION_DESIGNER",
+      "use": "SOLE_ADVANCED_MOTION"
+    },
+    {
+      "id": "CFA3_VIDEO_EDITOR",
+      "use": "SOLE_FULL_NLE"
+    },
+    {
+      "id": "CFA3_ENGINE_SELECTOR",
+      "use": "SHARED_ENGINE_SELECTION"
+    },
+    {
+      "id": "CFA3_SHARED_FFMPEG",
+      "use": "SHARED_ENCODE"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "OPENVID_UPSTREAM_RUNTIME",
+      "reason": "POLYFORM_NONCOMMERCIAL_NOT_ADMITTED"
+    },
+    {
+      "id": "DUPLICATE_ADVANCED_MOTION",
+      "reason": "SHARED_MOTION_DESIGNER"
+    },
+    {
+      "id": "SECOND_NLE",
+      "reason": "CFA3_VIDEO_EDITOR"
+    }
+  ],
+  "gaps": [
+    "NATIVE_RUNTIME_AND_GUI_NOT_ADMITTED",
+    "PHYSICAL_CURRENT_HOST_NOT_RUN"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_baseline_preserved": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hrb_bound": true
+  },
+  "coexistence": {
+    "result": "PASS",
+    "namespaced": true,
+    "upstream_uninstall_required": false,
+    "global_mutation": false,
+    "default_port_hijack": false
+  },
+  "donor_planning_snapshot": {
+    "published_main_commit": "d4685845ae355f482b1dd0c82709f53d62ac8769",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "062b7b27aeeaf74819ac315f30c5cbde4ed2c95b",
+    "donor_registry_sha256": "4798642f9a8dd6dd9181eadb31b28f4071c9d45251b9b659d22e005c21cd4e4f",
+    "donor_registry_entry_count": 1919
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "retrospective_consumer_impact_reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "SHARED",
+    "shared_component_ids": [
+      "FA3-PROGRAMMABLE-VIDEO-EDITING-001",
+      "FA3-VIDEO-TIMELINE-PROVIDER-CONTRACTS-001"
+    ],
+    "consumer_scope": [
+      "PLANNED:CFA3 OpenVid Shared",
+      "PLANNED:CFA3 OpenCut",
+      "PLANNED:Webdesign",
+      "PLANNED:CFA3 Video Editor",
+      "PLANNED:CFA3 Shared Motion Designer"
+    ],
+    "local_duplicate_created": false
+  },
+  "pending_or_unmerged_donors_consumed": false,
+  "donor_adoption_authorized": false,
+  "adoption_authorized": false,
+  "donor_usage_edges_created": 0,
+  "implementation_readiness": "CANONICAL_STATIC_CONTRACT_ONLY_RUNTIME_NOT_ADMITTED",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}

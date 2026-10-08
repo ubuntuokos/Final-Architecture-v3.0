@@ -1,73 +1,231 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse,json
+import argparse
+import copy
+import json
 from pathlib import Path
 
-CAP=143
-PIN="293916f25ef48d1799bceea13b78999596a11f0b"
-PROVIDER="FA3-PROVIDER-OPENVID-001"
-CONTRACT="FA3-BROWSER-LOCAL-VIDEO-COMPOSITING-CONTRACTS-001"
-DECISION="FA3-DEC-OPENVID-BROWSER-LOCAL-COMPOSITING-2026-09-04"
-GATE="FA3-OPENVID-GATESET-001"
-REF="FA3-OPENVID-UPSTREAM-REFERENCE-2026-09-04"
-RUNTIME="DENIED_BASELINE_AND_COMMERCIAL_RUNTIME_BY_LICENSE_POLICY"
-RULES=["BROWSER_LOCAL_COMPOSITING_CONTRACT_REQUIRED","OPENVID_OPTIONAL_REFERENCE_PROVIDER_NOT_HARD_DEPENDENCY","POLYFORM_NONCOMMERCIAL_LICENSE_PRODUCTION_COMMERCIAL_RUNTIME_DENY","NO_VENDORING_OR_DERIVATIVE_RUNTIME_WITHOUT_SEPARATE_LICENSE_ADMISSION","NO_NEW_CAPABILITY_AND_CAPABILITY_COUNT_143","NO_NEW_ARCHITECTURAL_AUTHORITY","EXISTING_EDITORIAL_COMPOSITING_AUTHORITIES_REMAIN_CANONICAL","LOCAL_FIRST_MEDIA_PROCESSING_AND_EXPLICIT_CLOUD_ESCALATION","DETERMINISTIC_TIMELINE_AND_CANVAS_COMPOSITION_REQUIRED","TYPED_OVERLAY_MOCKUP_3D_CAMERA_OPERATION_DESCRIPTORS","HARDWARE_ENCODE_ATTEMPT_WITH_SOFTWARE_FALLBACK","WASM_FALLBACK_IS_BOUNDED_AND_NON_AUTHORITY","DIRECT_TO_DISK_PREFERRED_WITH_BOUNDED_BUFFER_FALLBACK","REMUX_PACKET_COPY_PREFERRED_WHEN_REENCODE_UNNECESSARY","OUTPUT_QA_HASH_PROVENANCE_AND_AUDIT_REQUIRED","IMMUTABLE_UPSTREAM_PIN_FOR_REFERENCE_EVIDENCE","FLOATING_MAIN_FORBIDDEN_AS_PROMOTION_EVIDENCE","CURRENT_HOST_RUNTIME_PROMOTION_NOT_CLAIMED"]
-PATHS={"provider":"canonical/providers/FA3-PROVIDER-OPENVID-001.json","contract":"canonical/contracts/FA3-BROWSER-LOCAL-VIDEO-COMPOSITING-CONTRACTS-001.json","decision":"canonical/decisions/FA3-DEC-OPENVID-BROWSER-LOCAL-COMPOSITING-2026-09-04.json","reference":"canonical/references/FA3-OPENVID-UPSTREAM-REFERENCE-2026-09-04.json","gate":"canonical/FA3-GATE-OPENVID-001.json","enforcement":"canonical/openvid-enforcement.json","admission":"canonical/openvid-runtime-admission.json","release":"canonical/releases/FA3-RELEASE-PROJECTION-OPENVID-2026-09-04.json"}
+CAP = 175
+PIN = "293916f25ef48d1799bceea13b78999596a11f0b"
+RUNTIME = "DENIED_BASELINE_AND_COMMERCIAL_RUNTIME_BY_LICENSE_POLICY"
+RULES = json.loads(r'''["OPENVID_NATIVE_FAST_COMPOSE_STANDALONE_AND_OPENCUT_EMBEDDED","NATIVE_FA3OPENVID_PROJECT_STATE_NOT_EXTERNAL_PROVIDER","BIDIRECTIONAL_EDITABLE_REFERENCE_NO_AUTO_FLATTEN","SHARED_MOTION_DESIGNER_EXCLUSIVE_ADVANCED_MOTION","CFA3_VIDEO_EDITOR_EXCLUSIVE_FULL_NLE","SHARED_PROGRAMMABLE_VIDEO_EDITING_FABRIC_REQUIRED","SHARED_ENGINE_SELECTOR_MLT_OR_CFA3_NATIVE","SHARED_FFMPEG_WITHOUT_DUPLICATE_CORE","WEBDESIGN_EMBEDDED_COMPOSITION_HANDOFF","OPENTIMELINEIO_INTERCHANGE_ONLY","CPU_ONLY_BASELINE_AND_HRB_ADMITTED_OPTIONAL_GPU","UPSTREAM_NONCOMMERCIAL_REFERENCE_ONLY","UPSTREAM_RUNTIME_REQUIRES_LICENSE_AND_EVIDENCE","TYPED_MUTATION_DRY_RUN_AND_PROVENANCE","EXPLICIT_CLOUD_ESCALATION_ONLY","BOUNDED_EXPORT_AND_ARTIFACT_QA","CAPABILITY_175_NO_NEW_AUTHORITY","HISTORICAL_REFERENCE_EVIDENCE_IMMUTABLE","NO_CURRENT_HOST_RUNTIME_PROMOTION","WORKLOAD_MODE_GLOBAL_INDICATOR"]''')
+SPEC = json.loads(r'''{"fast_compose_role":"FAST_COMPOSE","project_format":".fa3openvid","handoff":"BIDIRECTIONAL_EDITABLE_REFERENCE_NO_AUTO_FLATTEN","motion_owner":"CFA3_SHARED_MOTION_DESIGNER","nle_owner":"CFA3_VIDEO_EDITOR","shared_fabric":"FA3-PROGRAMMABLE-VIDEO-EDITING-001","engines":"MLT|CFA3 Native Media Composition","ffmpeg":true,"webdesign":true,"timeline_ir":"CFA3_NATIVE_PROJECT_STATE","cpu_only":true,"license":"PolyForm Noncommercial License 1.0.0","runtime_status":"DENIED_BASELINE_AND_COMMERCIAL_RUNTIME_BY_LICENSE_POLICY","dry_run":true,"explicit_cloud":true,"bounded_export":true,"capability_count":175,"historical_evidence":"FA3-EVID-OPENVID-CI-2026-09-04","runtime_promotion":false,"global_indicator":true}''')
+PATHS = json.loads(r'''{"c":"canonical/contracts/FA3-BROWSER-LOCAL-VIDEO-COMPOSITING-CONTRACTS-001.json","d":"canonical/decisions/FA3-DEC-OPENVID-BROWSER-LOCAL-COMPOSITING-2026-09-04.json","p":"canonical/providers/FA3-PROVIDER-OPENVID-001.json","g":"canonical/FA3-GATE-OPENVID-001.json","e":"canonical/openvid-enforcement.json","a":"canonical/openvid-runtime-admission.json","r":"canonical/releases/FA3-RELEASE-PROJECTION-OPENVID-2026-09-04.json","apps":"canonical/FA3-APPLICATION-DONOR-LINKS-001.json","profile":"canonical/profiles/FA3-PROGRAMMABLE-VIDEO-EDITING-001.json","shared":"canonical/contracts/FA3-VIDEO-TIMELINE-PROVIDER-CONTRACTS-001.json","reuse":"canonical/assessments/CFA3-OPENVID-SHARED-REUSE-ASSESSMENT-2026-10-08.json","intent":"canonical/intents/CFA3-OPENVID-SHARED-APPLICATION-INTENT-2026-10-08.json","impact":"canonical/current-host-impact/CFA3-CH-IMPACT-OPENVID-SHARED-20261008.json","history":"evidence/reference/openvid-ci-2026-09-04.json"}''')
 
-def runtime_admission_allowed(x):
-    return all(x.get(k) is True for k in ("license_compatible_with_intended_deployment","separate_license_or_independent_implementation","immutable_source_pin","contract_conformance_pass","current_host_e2e_pass"))
+def runtime_admission_allowed(value):
+    return all(value.get(k) is True for k in (
+        "license_compatible_with_intended_deployment",
+        "separate_license_or_independent_implementation",
+        "immutable_source_pin",
+        "contract_conformance_pass", "current_host_e2e_pass"))
 
-def export_plan_allowed(x):
-    return x.get("backend_order")==["HARDWARE_ACCELERATED_NATIVE_OR_WEB_CODECS","SOFTWARE_ENCODER","WASM_FALLBACK"] and all(x.get(k) is True for k in ("bounded_memory","fallbacks_observable","direct_to_disk_preferred"))
+def project_handoff_allowed(value):
+    return (value.get("project_format") == ".fa3openvid"
+        and value.get("editable_reference") is True
+        and value.get("round_trip") is True
+        and value.get("auto_flatten") is False)
 
-def regression_cases():
-    out=[]
-    def add(i,p,n): out.append({"rule":RULES[i],"positive":bool(p),"negative_refusal":bool(n),"result":"PASS" if p and n else "FAIL"})
-    good={"license_compatible_with_intended_deployment":True,"separate_license_or_independent_implementation":True,"immutable_source_pin":True,"contract_conformance_pass":True,"current_host_e2e_pass":True}
-    exp={"backend_order":["HARDWARE_ACCELERATED_NATIVE_OR_WEB_CODECS","SOFTWARE_ENCODER","WASM_FALLBACK"],"bounded_memory":True,"fallbacks_observable":True,"direct_to_disk_preferred":True}
-    profiles={"FA3-PROGRAMMABLE-VIDEO-EDITING-001","FA3-COMPOSITING-001","FA3-HYBRID-EDITORIAL-001","FA3-NEURAL-MEDIA-EXECUTION-001"}
-    add(0,True,not False); add(1,True,not False)
-    add(2,not runtime_admission_allowed({**good,"license_compatible_with_intended_deployment":False}),not False)
-    add(3,runtime_admission_allowed(good),not runtime_admission_allowed({**good,"separate_license_or_independent_implementation":False}))
-    add(4,CAP==143,CAP!=144); add(5,True,"OPENVID_AUTHORITY" not in profiles); add(6,len(profiles)==4,"FA3-OPENVID-AUTHORITY-001" not in profiles)
-    add(7,True,not False); add(8,True,not False); add(9,True,"ui.mouse.drag" not in {"overlay.image","mockup.apply","transform.3d","camera.zoom"})
-    add(10,export_plan_allowed(exp),not export_plan_allowed({**exp,"backend_order":["SOFTWARE_ENCODER","WASM_FALLBACK"]}))
-    add(11,exp["bounded_memory"],not export_plan_allowed({**exp,"bounded_memory":False}))
-    add(12,exp["direct_to_disk_preferred"],not export_plan_allowed({**exp,"direct_to_disk_preferred":False}))
-    add(13,True,not False); add(14,all([1,1,1,1]),not all([1,1,0,1])); add(15,len(PIN)==40,len("main")!=40); add(16,PIN!="main","main"!=PIN); add(17,True,not False)
-    return out
+def export_plan_allowed(value):
+    return value.get("backend_order") == [
+        "HRB_ADMITTED_ACCELERATOR_OPTIONAL","CPU_ONLY_BASELINE",
+        "SOFTWARE_ENCODER","WASM_FALLBACK_BOUNDED"
+    ] and all(value.get(k) is True for k in (
+        "bounded_memory","fallbacks_must_be_observable","direct_to_disk_preferred"))
 
-def report(findings,cases):
-    return {"schema":"fa3.openvid-gate-report.v1","gate_id":GATE,"status":"PASS" if not findings else "FAIL","fail_closed":True,"finding_count":len(findings),"findings":findings,"regression_count":len(cases),"regressions":cases,"capability_count_after":CAP,"current_host_runtime_promotion_claimed":False}
+REGRESSION_PATHS = {
+    "fast_compose_role": ("c", "fast_compose_application", "role"),
+    "project_format": ("c", "fast_compose_application", "project_format"),
+    "handoff": ("c", "fast_compose_application", "two_way_handoff"),
+    "motion_owner": ("c", "authority_boundaries", "advanced_motion"),
+    "nle_owner": ("c", "authority_boundaries", "full_nle"),
+    "shared_fabric": ("c", "execution_architecture", "shared_fabric"),
+    "engines": ("c", "execution_architecture", "engines"),
+    "ffmpeg": ("c", "execution_architecture", "shared_ffmpeg"),
+    "webdesign": ("c", "webdesign_integration", "supported"),
+    "timeline_ir": ("c", "canonical_timeline_ir"),
+    "cpu_only": ("c", "execution_architecture", "cpu_only_baseline"),
+    "license": ("p", "upstream", "license"),
+    "runtime_status": ("p", "runtime_activation", "status"),
+    "dry_run": ("shared", "operation_requirements", "destructive_mutation_requires_dry_run"),
+    "explicit_cloud": ("c", "requirements", "explicit_cloud_escalation"),
+    "bounded_export": ("c", "requirements", "buffered_export_bounded"),
+    "capability_count": ("c", "capability_count"),
+    "historical_evidence": ("history", "evidence_id"),
+    "runtime_promotion": ("d", "current_host_runtime_promotion_claimed"),
+    "global_indicator": ("c", "fast_compose_application", "gui", "global_workload_mode_indicator"),
+}
 
-def gate(root):
-    findings=[]; d={}
-    for k,rel in PATHS.items():
-        p=Path(root)/rel
-        try: d[k]=json.loads(p.read_text())
-        except Exception as e: findings.append({"code":"OPENVID-REF-001","severity":"P0","message":"required artifact missing/unreadable","path":rel,"error":str(e)})
-    cases=regression_cases()
-    if findings: return report(findings,cases)
-    p,c,x,r,g,e,a,rel=(d[k] for k in ("provider","contract","decision","reference","gate","enforcement","admission","release"))
-    req=c.get("requirements",{}); adm=a.get("admission",{}); obs=r.get("observed_architecture",{})
-    checks=[
-      (p.get("id")==PROVIDER and p.get("canonical_root") is False and p.get("architectural_authority") is False and p.get("new_capability") is False and p.get("hard_dependency") is False and p.get("capability_count")==CAP and p.get("upstream",{}).get("observed_commit")==PIN and p.get("upstream",{}).get("license")=="PolyForm Noncommercial License 1.0.0" and p.get("runtime_activation",{}).get("status")==RUNTIME and p.get("runtime_activation",{}).get("commercial_runtime_allowed") is False and p.get("runtime_activation",{}).get("production_baseline_runtime_allowed") is False,"OPENVID-REF-003","provider/license/authority invariant drift"),
-      (c.get("id")==CONTRACT and c.get("provider_neutral") is True and c.get("new_capability") is False and c.get("new_architectural_authority") is False and c.get("capability_count")==CAP and c.get("canonical_timeline_ir")=="OpenTimelineIO" and all(req.get(k) is True for k in ("local_first_processing","explicit_cloud_escalation","deterministic_timeline","typed_operation_descriptors","bounded_memory","hardware_encode_preferred","software_encode_fallback","wasm_fallback_bounded","direct_to_disk_preferred","buffered_export_bounded","remux_before_reencode_when_safe","output_qa","sha256_artifact_identity","provenance","audit")),"OPENVID-REF-004","contract invariant drift"),
-      (x.get("id")==DECISION and x.get("status")=="CANONICAL_CLOSED" and x.get("mandatory_rules")==RULES and x.get("new_capabilities")==0 and x.get("new_architectural_authorities")==0 and x.get("capability_count_after")==CAP and x.get("runtime_activation_status")==RUNTIME and x.get("current_host_runtime_promotion_claimed") is False,"OPENVID-REF-005","decision invariant drift"),
-      (r.get("id")==REF and r.get("commit")==PIN and r.get("license")=="PolyForm Noncommercial License 1.0.0" and r.get("promotion_use")=="REFERENCE_AND_CONTRACT_DESIGN_ONLY" and r.get("floating_branch_forbidden_as_promotion_evidence") is True and all(obs.get(k) is True for k in ("local_processing_claimed","hardware_encode_preference_observed","software_encode_fallback_observed","direct_to_disk_export_observed","buffered_export_fallback_observed","remux_packet_copy_pattern_observed")),"OPENVID-REF-006","upstream reference invariant drift"),
-      (g.get("gate_set_id")==GATE and g.get("rule_count")==18 and g.get("fail_closed") is True and g.get("global_static_integration") is True and g.get("current_host_runtime_promotion_claimed") is False and e.get("gate_id")==GATE and e.get("rules")==RULES and e.get("runtime_activation_status")==RUNTIME,"OPENVID-REF-007","gate/enforcement invariant drift"),
-      (a.get("status")==RUNTIME and adm.get("reference_design_use") is True and adm.get("source_vendoring") is False and adm.get("baseline_runtime") is False and adm.get("commercial_production_runtime") is False and a.get("new_capabilities")==0 and a.get("new_architectural_authorities")==0 and a.get("capability_count_after")==CAP,"OPENVID-REF-008","runtime admission invariant drift"),
-      (rel.get("provider_id")==PROVIDER and rel.get("capability_count_before")==CAP and rel.get("capability_count_after")==CAP and rel.get("new_capabilities")==0 and rel.get("new_architectural_authorities")==0 and rel.get("runtime_promotion") is False and rel.get("license_admission_state")=="BASELINE_AND_COMMERCIAL_RUNTIME_DENIED","OPENVID-REF-009","release projection invariant drift"),
-      (all(q["result"]=="PASS" for q in cases),"OPENVID-REF-010","regression failed")
-    ]
-    for ok,code,msg in checks:
-        if not ok: findings.append({"code":code,"severity":"P0","message":msg})
-    return report(findings,cases)
+def regression_cases(root=None):
+    root = Path(root) if root is not None else Path(__file__).resolve().parents[1]
+    results = []
+    baseline = gate(root, skip_regressions=True)
+    for index, (key, _) in enumerate(SPEC.items()):
+        path = REGRESSION_PATHS[key]
+        edited = json.loads((root / PATHS[path[0]]).read_text(encoding="utf-8"))
+        node = edited
+        for part in path[1:-1]:
+            node = node[part]
+        previous = node[path[-1]]
+        node[path[-1]] = [] if key == "engines" else (not previous if isinstance(previous, bool) else None)
+        mutated = gate(root, document_overrides={path[0]: edited}, skip_regressions=True)
+        positive = baseline["status"] == "PASS"
+        negative = mutated["status"] == "FAIL"
+        results.append({"rule": RULES[index], "positive": positive,
+                        "negative_refusal": negative,
+                        "result": "PASS" if positive and negative else "FAIL"})
+    return results
+
+def _report(findings,cases):
+    return {"schema":"fa3.openvid-shared-gate-report.v1",
+            "gate_id":"FA3-OPENVID-GATESET-001",
+            "status":"PASS" if not findings else "FAIL","fail_closed":True,
+            "finding_count":len(findings),"findings":findings,
+            "regression_count":len(cases),"regressions":cases,
+            "capability_count_after":CAP,
+            "current_host_runtime_promotion_claimed":False}
+
+def gate(root, *, document_overrides=None, skip_regressions=False):
+    root=Path(root)
+    d={}
+    findings=[]
+    cases=[] if skip_regressions else regression_cases(root)
+    document_overrides=document_overrides or {}
+    for key,path in PATHS.items():
+        try:
+            d[key]=copy.deepcopy(document_overrides[key]) if key in document_overrides else json.loads((root/path).read_text(encoding="utf-8"))
+        except (OSError,ValueError) as exc:
+            findings.append({"code":"OPENVID-SHARED-REQUIRED-ARTIFACT","path":path,"error":str(exc)})
+    if findings:
+        return _report(findings,cases)
+    c,p,n=d["c"],d["p"],d["d"]
+    app=c.get("fast_compose_application",{})
+    auth=c.get("authority_boundaries",{})
+    exe=c.get("execution_architecture",{})
+    web=c.get("webdesign_integration",{})
+    present={
+      "fast_compose_role":app.get("role"),
+      "project_format":app.get("project_format"),
+      "handoff":app.get("two_way_handoff"),
+      "motion_owner":auth.get("advanced_motion"),
+      "nle_owner":auth.get("full_nle"),
+      "shared_fabric":exe.get("shared_fabric"),
+      "engines":"|".join(exe.get("engines") or []),
+      "ffmpeg":exe.get("shared_ffmpeg"),
+      "webdesign":web.get("supported"),
+      "timeline_ir":c.get("canonical_timeline_ir"),
+      "cpu_only":exe.get("cpu_only_baseline"),
+      "license":p.get("upstream",{}).get("license"),
+      "runtime_status":p.get("runtime_activation",{}).get("status"),
+      "dry_run":d["shared"].get("operation_requirements",{}).get("destructive_mutation_requires_dry_run"),
+      "explicit_cloud":c.get("requirements",{}).get("explicit_cloud_escalation"),
+      "bounded_export":c.get("requirements",{}).get("buffered_export_bounded"),
+      "capability_count":c.get("capability_count"),
+      "historical_evidence":d["history"].get("evidence_id"),
+      "runtime_promotion":n.get("current_host_runtime_promotion_claimed"),
+      "global_indicator":app.get("gui",{}).get("global_workload_mode_indicator")}
+    for k,want in SPEC.items():
+        if present.get(k)!=want:
+            findings.append({"code":"OPENVID-SHARED-SPEC-MISMATCH",
+                             "field":k,"actual":present.get(k),"expected":want})
+    def require(label,condition):
+        if not condition:
+            findings.append({"code":label})
+    require("OPENVID-SHARED-ROUNDTRIP",
+        project_handoff_allowed(app)
+        and app.get("open_cut_project")==".fa3clip"
+        and c.get("native_project_format")==".fa3openvid")
+    require("OPENVID-SHARED-AUTHORITIES",
+        c.get("project_state_authority")=="CFA3_OPENVID_SHARED_NATIVE_PROJECT"
+        and c.get("interchange_ir")=="OpenTimelineIO"
+        and auth.get("fast_edit")=="CFA3_OPENCUT"
+        and d["profile"].get("authority_boundaries",{}).get("advanced_motion")=="CFA3_SHARED_MOTION_DESIGNER"
+        and d["profile"].get("authority_boundaries",{}).get("human_finishing_nle")=="CFA3_VIDEO_EDITOR_SOLE_FULL_EDIT"
+        and d["shared"].get("editorial_scope",{}).get("OpenVid Shared")=="FAST_COMPOSE_ONLY")
+    require("OPENVID-SHARED-UPSTREAM-DENY",
+        p.get("upstream",{}).get("observed_commit")==PIN
+        and p.get("upstream",{}).get("floating_main_allowed_for_promotion_evidence") is False
+        and p.get("runtime_activation",{}).get("source_vendoring_allowed") is False
+        and p.get("runtime_activation",{}).get("commercial_runtime_allowed") is False
+        and p.get("canonical_root") is False and p.get("architectural_authority") is False
+        and p.get("hard_dependency") is False
+        and d["a"].get("admission",{}).get("baseline_runtime") is False
+        and d["a"].get("admission",{}).get("commercial_production_runtime") is False
+        and d["a"].get("status")==RUNTIME
+        and d["a"].get("current_host_runtime_evidence")=="NOT_CLAIMED")
+    require("OPENVID-SHARED-ENGINE-ROUTE",
+        exe.get("engine_selector")=="CFA3_ENGINE_SELECTOR"
+        and exe.get("accelerator_opt_in_requires_hrb") is True
+        and exe.get("display_gpu_ai_default") is False
+        and export_plan_allowed({
+          **c.get("render_policy",{}),
+          "bounded_memory":c.get("requirements",{}).get("bounded_memory"),
+          "direct_to_disk_preferred":c.get("requirements",{}).get("direct_to_disk_preferred")}))
+    require("OPENVID-SHARED-QUALITY-PROVENANCE",
+        all(c.get("requirements", {}).get(k) is True for k in
+            ("typed_operation_descriptors", "output_qa",
+             "sha256_artifact_identity", "provenance", "audit")))
+    require("OPENVID-SHARED-FAIL-CLOSED-METADATA",
+        all(d["g"].get(k) is True for k in
+            ("fail_closed", "positive_negative_regressions_required", "global_static_integration"))
+        and d["e"].get("fail_closed") is True)
+    require("OPENVID-SHARED-WEB-INTEGRATION",
+        web.get("editable_link_preserved") is True
+        and web.get("fast_edit_via")=="CFA3_OPENCUT_EMBEDDED"
+        and app.get("auto_flatten") is False)
+    apps={x.get("application_id") for x in d["apps"].get("applications",[])}
+    edges={(x.get("from_application"),x.get("to_application")) for x in d["apps"].get("relationships",[])}
+    require("OPENVID-SHARED-APP-REGISTRY",
+        {"fa3.openvid-shared","fa3.opencut","fa3.webdesign"}.issubset(apps)
+        and {("fa3.openvid-shared","fa3.opencut"),
+             ("fa3.opencut","fa3.openvid-shared"),
+             ("fa3.openvid-shared","fa3.webdesign"),
+             ("fa3.webdesign","fa3.openvid-shared")}.issubset(edges))
+    require("OPENVID-SHARED-DONOR-REUSE",
+        d["reuse"].get("result")=="PASS"
+        and d["reuse"].get("donor_planning_snapshot",{}).get("published_main_commit")=="d4685845ae355f482b1dd0c82709f53d62ac8769"
+        and d["reuse"].get("shared_capability_placement",{}).get("disposition")=="SHARED"
+        and d["reuse"].get("donor_adoption_authorized") is False)
+    require("OPENVID-SHARED-CH-IMPACT",
+        d["impact"].get("status")=="NO_RUNTIME_IMPACT"
+        and d["impact"].get("physical_requalification_required") is False
+        and d["impact"].get("historical_evidence_reused") is False
+        and not d["impact"].get("current_host_changes"))
+    require("OPENVID-SHARED-HISTORY",
+        n.get("historical_decision",{}).get("original",{}).get("capability_count_after")==143
+        and d["history"].get("status")=="PASS"
+        and d["history"].get("capability_count_after")==143
+        and d["history"].get("regression_count")==18)
+    require("OPENVID-SHARED-GATE-SET",
+        d["g"].get("rule_count")==len(RULES)
+        and d["g"].get("capability_count")==CAP
+        and d["e"].get("rules")==RULES
+        and d["e"].get("capability_count")==CAP
+        and n.get("mandatory_rules")==RULES)
+    require("OPENVID-SHARED-175-NO-NEW-AUTHORITY",
+        all(x.get("capability_count_after",x.get("capability_count"))==CAP
+            for x in (c,n,p,d["g"],d["e"],d["a"],d["r"]))
+        and n.get("new_capabilities")==0
+        and n.get("new_architectural_authorities")==0
+        and d["r"].get("runtime_promotion") is False
+        and d["intent"].get("runtime_delivery_claim") is False)
+    if not skip_regressions:
+        require("OPENVID-SHARED-NEGATIVE-REGRESSIONS",
+            len(cases)==len(RULES) and all(z["result"]=="PASS" for z in cases))
+    return _report(findings,cases)
 
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument("--root",default="."); ap.add_argument("--self-test",action="store_true"); ap.add_argument("--output"); args=ap.parse_args()
-    cases=regression_cases(); out=report([] if all(c["result"]=="PASS" for c in cases) else [{"code":"SELFTEST","severity":"P0"}],cases) if args.self_test else gate(Path(args.root).resolve())
-    s=json.dumps(out,indent=2)
-    if args.output: Path(args.output).write_text(s+"\n")
-    print(s); raise SystemExit(0 if out["status"]=="PASS" else 1)
-if __name__=="__main__": main()
+    parser=argparse.ArgumentParser()
+    parser.add_argument("--root",default=".")
+    parser.add_argument("--self-test",action="store_true")
+    parser.add_argument("--output")
+    args=parser.parse_args()
+    cases=regression_cases(Path(args.root))
+    report=_report([] if all(c["result"]=="PASS" for c in cases) else [{"code":"SELFTEST"}],cases) if args.self_test else gate(args.root)
+    result=json.dumps(report,indent=2)
+    if args.output:
+        Path(args.output).write_text(result+"\n",encoding="utf-8")
+    print(result)
+    raise SystemExit(0 if report["status"]=="PASS" else 1)
+
+if __name__=="__main__":
+    main()
