@@ -26,7 +26,7 @@ The runner user must be non-root and have `curl`, `tar`, `sha256sum`, `python3`,
 $HOME/.local/share/fa3/actions-runner
 ```
 
-The long-running listener is managed by the user service `fa3-github-runner.service`. Boot-persistent execution after logout/reboot requires systemd user linger; the bootstrap now enables and verifies it fail-closed:
+The long-running listener is managed by the user service `fa3-github-runner.service`. The unit uses `Restart=always` with `RestartSec=10`, so an unexpected clean listener shutdown is recovered as well as a non-zero failure; an explicit `systemctl --user stop` remains an operator stop and is not automatically undone by systemd. Boot-persistent execution after logout/reboot requires systemd user linger; the bootstrap enables and verifies it fail-closed:
 
 ```bash
 sudo loginctl enable-linger "$USER"
