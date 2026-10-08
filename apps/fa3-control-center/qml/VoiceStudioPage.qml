@@ -4,6 +4,9 @@ import QtQuick.Layouts
 
 Item {
     id: root
+    property string runtimeMessage: fa3VoiceWorkspace.state + (fa3VoiceWorkspace.lastError.length ? " · " + fa3VoiceWorkspace.lastError : "")
+    Component.onCompleted: fa3VoiceWorkspace.refresh()
+    Connections { target: fa3VoiceWorkspace; function onGenerationCompleted(result) { root.runtimeMessage = "COMPLETED · " + result.job_id } function onTranscriptionCompleted(result) { root.runtimeMessage = "TRANSCRIBED · " + result.language } function onEffectsPlanCompleted(result) { root.runtimeMessage = "EFFECTS PLAN · " + result.runtime_status } }
     property color panel: "#20242a"
     property color panelRaised: "#292f38"
     property color border: "#3a424e"
@@ -52,21 +55,25 @@ Item {
                     spacing: 10
                     RowLayout {
                         ComboBox { Layout.fillWidth: true; model: ["Project: Demo Story","Project: QuickClip","Project: Narration"] }
-                        ComboBox { Layout.preferredWidth: 180; model: ["Narrator","Character A","Character B"] }
-                        ComboBox { Layout.preferredWidth: 120; model: ["hu-HU","en-US","de-DE"] }
+                        ComboBox { id: voiceBox; Layout.preferredWidth: 180; model: ["Narrator","Character A","Character B"] }
+                        ComboBox { id: languageBox; Layout.preferredWidth: 120; model: ["hu-HU","en-US","de-DE"] }
                     }
+                    TextField { id: rightsRef; Layout.fillWidth: true; placeholderText: "License & Rights evidence ref"; }
                     TextArea {
+                        id: scriptEditor
                         Layout.fillWidth: true
                         Layout.preferredHeight: 170
                         text: "Írd ide vagy illeszd be a narráció szövegét. A provider- és hardverválasztást a Model Router + HRB végzi."
                         wrapMode: TextEdit.Wrap
                     }
+                    RowLayout { Layout.fillWidth: true; TextField { id: capturePath; Layout.fillWidth: true; placeholderText: "Local 16 kHz mono PCM WAV for Capture/STT" } Button { text: "Transcribe"; enabled: fa3VoiceWorkspace.state === "READY" && capturePath.text.length > 0; onClicked: fa3VoiceWorkspace.transcribe(capturePath.text, languageBox.currentText) } }
                     RowLayout {
-                        Button { text: "Generate"; enabled: false }
+                        Button { text: "Generate"; enabled: fa3VoiceWorkspace.state === "READY" && rightsRef.text.length > 0; onClicked: fa3VoiceWorkspace.generate(scriptEditor.text, voiceBox.currentText, languageBox.currentText, rightsRef.text, 0, false, candidateAck.checked) }
+                        CheckBox { id: candidateAck; text: "Allow candidate CPU provider"; checked: false }
                         Button { text: "Preview"; enabled: false }
                         Button { text: "Add to timeline"; enabled: false }
                         Item { Layout.fillWidth: true }
-                        Label { text: "RUNTIME GATED"; color: root.orange; font.bold: true }
+                        Label { text: root.runtimeMessage; color: fa3VoiceWorkspace.state === "READY" ? root.green : root.orange; font.bold: true }
                     }
                     Rectangle {
                         Layout.fillWidth: true
@@ -107,6 +114,8 @@ Item {
                     anchors.margins: 12
                     spacing: 10
                     Label { text: "Voice Profile"; color: root.textPrimary; font.bold: true }
+                    RowLayout { Layout.fillWidth: true; TextField { id: profileId; Layout.fillWidth: true; placeholderText: "Profile ID"; text: "Narrator" } TextField { id: consentRef; Layout.fillWidth: true; placeholderText: "Consent ref (human voice)" } Button { text: "Save"; enabled: fa3VoiceWorkspace.state === "READY"; onClicked: fa3VoiceWorkspace.putProfile(profileId.text, consentRef.text, consentRef.text.length > 0) } }
+                    Label { text: "Stored profiles: " + fa3VoiceWorkspace.profiles.length + " · Jobs: " + fa3VoiceWorkspace.jobs.length; color: root.textMuted; font.pixelSize: 10 }
                     GridLayout {
                         columns: 2
                         Layout.fillWidth: true
@@ -137,6 +146,7 @@ Item {
                             anchors.fill: parent
                             Label { text: "Original → Take → Transform Chain → Derived Asset"; color: root.textPrimary }
                             Label { text: "Original asset is never overwritten."; color: root.green }
+                            RowLayout { TextField { id: effectsSource; Layout.fillWidth: true; placeholderText: "Source audio ref/path" } Button { text: "Plan effects"; enabled: fa3VoiceWorkspace.state === "READY" && effectsSource.text.length > 0; onClicked: fa3VoiceWorkspace.planEffects(effectsSource.text) } }
                             Label { text: "Voice/reference rights and consent remain bound to derived output."; color: root.textMuted; wrapMode: Text.WordWrap; Layout.fillWidth: true }
                         }
                     }
@@ -146,7 +156,7 @@ Item {
                         wrapMode: Text.WordWrap
                         color: root.textMuted
                         font.pixelSize: 10
-                        text: "This GUI is a non-authoritative intent surface. Runtime buttons stay disabled until an independently admitted voice provider/model route and current-host evidence exist."
+                        text: "This GUI is a non-authoritative client of the authenticated Shared Voice service. Provider/model/device authority remains with FA3-VOICE-001, Model Router and HRB; candidate execution never implies production promotion."
                     }
                 }
             }

@@ -7,7 +7,7 @@
     "FA3-VOICE-CONTRACTS-001",
     "FA3-PLATFORM-001"
   ],
-  "project_status": "OWNER_APPROVED_STATIC_GUI_MATERIALIZATION",
+  "project_status": "OWNER_APPROVED_FULL_APPLICATION_MATERIALIZATION",
   "result": "PASS",
   "selected_reuse": [
     {
@@ -77,7 +77,7 @@
   "gaps": [
     "VOICEBOX_CANONICAL_DONOR_PUBLICATION_PENDING",
     "VOICEBOX_USAGE_EDGE_MUST_NOT_BE_CREATED_BEFORE_CANONICAL_PUBLICATION",
-    "PROVIDER_RUNTIME_AND_PHYSICAL_CURRENT_HOST_PROMOTION_REMAIN_SEPARATE"
+    "PROVIDER_PRODUCTION_ADMISSION_AND_FRESH_PHYSICAL_CURRENT_HOST_EVIDENCE_REMAIN_SEPARATE"
   ],
   "hardware_audit": {
     "vendor_neutral": true,
@@ -114,13 +114,18 @@
       "FA3-VOICE-CONTRACTS-001",
       "VoiceStudioPage.qml",
       "QuickVoicePluginPage.qml",
-      "VoiceActivityOverlay.qml"
+      "VoiceActivityOverlay.qml",
+      "fa3_voice_workspace.py",
+      "fa3_voice_studio_server.py",
+      "VoiceWorkspaceService",
+      "fa3_piper_provider.py"
     ],
     "consumer_scope": [
       "MATERIALIZED_GUI:create.voice-studio",
       "MATERIALIZED_GUI:create.quick-voice-plugin",
+      "MATERIALIZED_RUNTIME:shared-voice-workspace",
+      "MATERIALIZED_RUNTIME:quickclip-voice-handoff",
       "EXISTING:create.narration-studio",
-      "PLANNED:fa3.quickclip",
       "PLANNED:fa3.video-editor",
       "PLANNED:fa3.story-screenplay",
       "PLANNED:fa3.audio-studio",
@@ -135,7 +140,7 @@
   "capability_count_after": 175,
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
-  "implementation_readiness": "STATIC_GUI_MATERIALIZED_RUNTIME_GATED",
+  "implementation_readiness": "FULL_APPLICATION_MATERIALIZED_PROVIDER_PROMOTION_GATED",
   "current_host_runtime_promotion_claim": false,
   "global_promotion_claim": false
 }

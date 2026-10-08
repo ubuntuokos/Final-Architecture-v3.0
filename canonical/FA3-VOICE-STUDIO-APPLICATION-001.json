@@ -1,0 +1,72 @@
+{
+  "schema": "fa3.application-record.v1",
+  "id": "FA3-VOICE-STUDIO-APPLICATION-001",
+  "name": "FA3 Voice Studio + Shared Voice Plugin Runtime",
+  "status": "CANONICAL_MATERIALIZED_CURRENT_HOST_PENDING",
+  "capability_count": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "authority_boundaries": {
+    "voice": "FA3-VOICE-001",
+    "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "stt": "FA3-STT-MEDIA-001",
+    "actions": "FA3-UNIFIED-ACTION-FABRIC-001"
+  },
+  "runtime": {
+    "bind": "127.0.0.1:18796",
+    "authentication": "ROTATED_RUNTIME_TOKEN_0600",
+    "state": "XDG_STATE_HOME/fa3/voice-studio",
+    "database": "SQLite",
+    "network_fetch": false,
+    "production_provider_claim": false,
+    "workflow_authority": "TEMPORAL",
+    "local_sqlite_role": "NON_AUTHORITATIVE_JOB_LEDGER_AND_PROFILE_CACHE",
+    "rights_evidence": "REQUIRED_CALLER_OR_PROJECT_EVIDENCE_REF_NO_SYNTHETIC_DEFAULT"
+  },
+  "surfaces": [
+    "create.voice-studio",
+    "create.quick-voice-plugin",
+    "VoiceActivityOverlay.qml"
+  ],
+  "workflows": [
+    "voice.generate",
+    "voice.profile.list",
+    "voice.profile.put",
+    "voice.capture.register",
+    "voice.fit-to-clip",
+    "voice.quick-dub.plan",
+    "quickclip.timeline-handoff",
+    "voice.capture.transcribe",
+    "voice.effects.non-destructive-plan"
+  ],
+  "provider_execution": {
+    "piper": "CPU_ONLY_CANDIDATE_EXPLICIT_ACK_REQUIRED",
+    "xtts": "ADAPTER_NOT_MATERIALIZED_BY_THIS_CHANGE",
+    "cosyvoice": "EXISTING_SEPARATE_PROVIDER_ADAPTER",
+    "silent_fallback": false,
+    "voice_transformation": "ADMITTED_PROVIDER_REQUIRED_FAIL_CLOSED",
+    "selection_receipt": "GENERATED_BY_FA3_MODEL_ROUTER_VOICE_EXTENSION",
+    "application_auto_provider_selection": false,
+    "model_router_voice_extension": "src/fa3_model_router_voice.py"
+  },
+  "current_host": {
+    "status": "PENDING_FRESH_CURRENT_HOST_REQUALIFICATION",
+    "physical_pass_claimed": false
+  },
+  "capability_baseline_release": "2026-09-26/v3.1.0",
+  "uaf_actions": [
+    "voice.speak",
+    "voice.transcribe",
+    "voice.transform.preflight",
+    "voice.effects.plan",
+    "voice.profile.put",
+    "voice.fit-to-clip",
+    "voice.quick-dub.plan"
+  ],
+  "mcp_projection": {
+    "gateway": "FA3-AUTH-MCP-GATEWAY-001",
+    "direct_mcp_server": false,
+    "direct_qml_tool_execution": false
+  }
+}
