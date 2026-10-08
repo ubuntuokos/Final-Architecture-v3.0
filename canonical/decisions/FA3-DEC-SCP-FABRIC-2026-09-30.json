@@ -1,0 +1,46 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-SCP-FABRIC-2026-09-30",
+  "date": "2026-09-30",
+  "status": "APPROVED",
+  "title": "FA3 Secure Communication & Proxy Fabric with shared settings surface",
+  "decision": "MATERIALIZE_PROVIDER_NEUTRAL_FAIL_CLOSED_SCP_FABRIC_AND_SHARED_MANAGER",
+  "profile_id": "FA3-SCP-FABRIC-001",
+  "approved_plan": "docs/FA3-SCP-FABRIC-FINAL-PLAN-2026-09-30.md",
+  "approved_plan_sha256": "b30ca81bb44ff2292ad2d4dedb380addc044199580f5b0ec793869d41bd7e8d5",
+  "explicit_user_approval": true,
+  "user_request_ref": "chat:2026-09-30:Egészítsd ki a végleges tervet és készítsd el az alkalmazást!",
+  "shared_settings_required": true,
+  "standalone_manager_required": true,
+  "control_center_same_component_required": true,
+  "default_deny": true,
+  "fail_closed": true,
+  "no_silent_fallback": true,
+  "new_capabilities": 0,
+  "capability_count_after": 175,
+  "new_architectural_authorities": 0,
+  "authority": false,
+  "runtime_promotion_claim": false,
+  "current_host_runtime_promotion_claim": false,
+  "donor_adoption": [],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "hardware_parameter_mutation": false,
+    "hrb_remains_resource_authority": true
+  },
+  "coexistence": {
+    "upstream_uninstall_required": false,
+    "namespaced_paths_required": true,
+    "port_collision_audit_required": true
+  },
+  "implementation_sequence": {
+    "shared_component_first": true,
+    "standalone_manager": true,
+    "control_center_binding": "DEFER_DIRECT_FILE_OVERWRITE_UNTIL_OPEN_GUI_PRS_557_564_RECONCILED",
+    "retroactive_application_binding_required": true
+  },
+  "plan_normalization": "TRAILING_WHITESPACE_REMOVED_NO_SEMANTIC_CHANGE"
+}

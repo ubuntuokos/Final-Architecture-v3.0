@@ -1,0 +1,32 @@
+{
+  "schema": "fa3.scp-enforcement.v1",
+  "id": "FA3-SCP-ENFORCEMENT-001",
+  "profile_id": "FA3-SCP-FABRIC-001",
+  "default_action": "DENY",
+  "fail_closed": true,
+  "failure_mode_allow": false,
+  "required_context": [
+    "authenticated_source",
+    "authenticated_destination",
+    "trusted_host",
+    "valid_layer",
+    "valid_scope",
+    "valid_capability",
+    "valid_security_state",
+    "destination_allowed"
+  ],
+  "external_required": [
+    "external_permission"
+  ],
+  "ai_external_required": [
+    "ai_enabled",
+    "provider_admitted",
+    "model_route_approved"
+  ],
+  "credential_policy": "SECRET_REFERENCE_ONLY_NO_RAW_SECRET",
+  "direct_external_bypass": "DENY",
+  "unknown_destination": "DENY",
+  "unknown_identity": "DENY",
+  "policy_unavailable": "DENY_NEW_CONNECTION",
+  "runtime_promotion_claim": false
+}
