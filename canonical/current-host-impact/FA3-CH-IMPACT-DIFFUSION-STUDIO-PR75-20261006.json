@@ -1,0 +1,28 @@
+{
+  "schema": "fa3.current-host-structural-impact.v1",
+  "id": "FA3-CH-IMPACT-DIFFUSION-STUDIO-PR75-20261006",
+  "date": "2026-10-06",
+  "status": "RECONCILED",
+  "capability_count": 175,
+  "structural_changes": [
+    ".github/workflows/fa3-diffusion-studio-linux-deb.yml",
+    "canonical/FA3-GATE-DIFFUSION-STUDIO-001.json",
+    "canonical/assessments/FA3-DIFFUSION-STUDIO-DECISION-ASSESSMENT-2026-10-06.json",
+    "canonical/decisions/FA3-DEC-DIFFUSION-STUDIO-LINUX-DESKTOP-2026-09-05.json",
+    "canonical/diffusion-studio-enforcement.json",
+    "canonical/diffusion-studio-runtime-admission.json",
+    "canonical/providers/FA3-PROVIDER-DIFFUSION-STUDIO-001.json",
+    "src/fa3_diffusion_studio_gate.py"
+  ],
+  "current_host_changes": [
+    "canonical/current-host-impact/FA3-CH-IMPACT-DIFFUSION-STUDIO-PR75-20261006.json"
+  ],
+  "physical_requalification_required": true,
+  "physical_requalification_dispatched": false,
+  "historical_evidence_reused": false,
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "stabilization_freeze_respected": true,
+  "rationale": "Diffusion Studio adds an executable adapter, Linux package build path and governed runtime-admission surface. This is a real runtime-impacting structural change, so fresh physical Current Host requalification is required before runtime promotion. No historical evidence is reused, no Current Host PASS is claimed, and physical requalification remains deferred under the repository stabilization sequence.",
+  "current_host_status": "PENDING_FRESH_PHYSICAL_CURRENT_HOST_REQUALIFICATION"
+}
