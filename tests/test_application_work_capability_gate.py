@@ -18,8 +18,8 @@ class ApplicationWorkCapabilityGateTests(unittest.TestCase):
         self.assertEqual(report["new_capabilities"], 0)
         self.assertEqual(report["new_architectural_authorities"], 0)
         self.assertFalse(report["current_host_promotion_claim"])
-        self.assertEqual(report["source_inventory_record_count"], 52)
-        self.assertEqual(report["normalized_consumer_count"], 28)
+        self.assertEqual(report["source_inventory_record_count"], 46)
+        self.assertEqual(report["normalized_consumer_count"], 25)
 
 
 if __name__ == "__main__":
