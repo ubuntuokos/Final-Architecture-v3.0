@@ -102,6 +102,15 @@ The broader production surface ties together story, planning, assets, shots, edi
 
 Other focused FA3 surfaces include **Subtitle Studio**, **Narration Studio**, audio/music and voice workflows, animation/character motion, live/broadcast workflows, review, credits/titles, spatial/reconstruction workflows and the FA3 Control Center.
 
+## Digital drawing devices — Control Center
+
+The planned **Control Center → Hardware & Peripherals → Digital Drawing Devices** panel brings drawing tablets, pen displays, styluses and built-in digitizers into one configuration surface. Its design covers device discovery, stable-driver compatibility and installation, pen pressure/tilt, buttons, touch, display mapping, calibration and diagnostics. Linux/Wayland is the primary reference; driver installation remains subject to verified OS/device compatibility and safety approval.
+
+<p align="center">
+  <img src="docs/assets/readme/cfa3-digital-drawing-control-panel.webp" alt="CFA3 Control Center digital drawing devices — approved blue-theme GUI concept" width="100%">
+  <br><sub>CFA3 Digital Drawing Devices — approved GUI design preview, not a live driver or physical-hardware test result.</sub>
+</p>
+
 ---
 
 # One connected workflow
