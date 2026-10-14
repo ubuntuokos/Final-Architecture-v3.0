@@ -1,0 +1,106 @@
+{
+  "schema": "fa3.reuse-assessment.v1",
+  "id": "CFA3-UEFF-CFF-REUSE-ASSESSMENT-2026-10-14",
+  "project_id": "FA3-PLATFORM-001",
+  "covered_ids": [
+    "FA3-PLATFORM-001",
+    "FA3-PLATFORM-BINDING-RECONCILIATION-001",
+    "FA3-ORCHESTRATION-WORKFORCE-REGISTRY-001"
+  ],
+  "project_status": "OWNER_APPROVED_STATIC_UEFF_ARCHITECTURE_ONLY",
+  "result": "DESIGN_REVIEWED_GATE_NOT_EXECUTED",
+  "selected_reuse": [
+    {
+      "id": "ORCHESTRATION_WORKFLOW_FABRIC",
+      "use": "IN_PLACE_EXISTING_COMMON_SERVICE_NOT_DUPLICATED"
+    },
+    {
+      "id": "FA3-ORCHESTRATION-WORKFORCE-REGISTRY-001",
+      "use": "EXISTING_DIRECTOR_COMPETENCY_AND_WORKFORCE_ROUTING"
+    },
+    {
+      "id": "FA3-WORK-MANAGEMENT-PROJECTION-001",
+      "use": "EXISTING_WORK_IDENTITY_NO_PARALLEL_WORK_AUTHORITY"
+    },
+    {
+      "id": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "use": "EXISTING_TYPED_EFFECT_AUTHORIZATION_PATH"
+    },
+    {
+      "id": "FA3-AUTH-SECURITY-GOV-001",
+      "use": "EXISTING_SECURITY_APPROVAL"
+    },
+    {
+      "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "use": "EXCLUSIVE_HARDWARE_RESOURCE_PLACEMENT_AND_LEASE"
+    },
+    {
+      "id": "FA3-AUTH-MODEL-ROUTER-001",
+      "use": "EXCLUSIVE_MODEL_PROVIDER_ROUTING"
+    },
+    {
+      "id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "use": "INDEPENDENT_EVIDENCE_GATE"
+    },
+    {
+      "id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+      "use": "EXACT_PUBLISHED_MAIN_PLANNING_INPUT_ONLY"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "id": "SECOND_CFF_PLATFORM_SERVICE",
+      "reason": "CFF_IS_UEFF_INTERNAL_DOMAIN"
+    },
+    {
+      "id": "SECOND_DURABLE_LIFECYCLE_AUTHORITY",
+      "reason": "CURRENT_TEMPORAL_OPERATIVE_BOUNDARY_REMAINS_UNCHANGED_FUTURE_ENGINE_OPEN"
+    },
+    {
+      "id": "UEFF_OWN_HARDWARE_RESOURCE_LEASE",
+      "reason": "HRB_IS_EXISTING_EXCLUSIVE_OWNER"
+    },
+    {
+      "id": "UEFF_OWN_MODEL_ROUTER_OR_EVIDENCE_AUTHORITY",
+      "reason": "EXISTING_AUTHORITIES_RETAIN_SCOPE"
+    },
+    {
+      "id": "AUTOMATIC_WARRANTY_FORFEITURE",
+      "reason": "STATUTORY_CLAIMS_DEPEND_ON_LAW_FACTS_CAUSATION_AND_PROOF"
+    }
+  ],
+  "donor_planning_snapshot": {
+    "published_main_commit": "a9c724da62bf49f3353c694990fc51443e634b4a",
+    "donor_registry_id": "FA3-DONOR-REFERENCE-REGISTRY-001",
+    "donor_registry_blob_sha": "062b7b27aeeaf74819ac315f30c5cbde4ed2c95b",
+    "donor_registry_sha256": "4798642f9a8dd6dd9181eadb31b28f4071c9d45251b9b659d22e005c21cd4e4f",
+    "donor_registry_entry_count": 1919
+  },
+  "shared_capability_placement": {
+    "reviewed": true,
+    "multi_application_reuse_detected": true,
+    "disposition": "EXISTING_SHARED_SERVICE_EXTENDED_IN_PLACE",
+    "shared_component_ids": [
+      "FA3-PLATFORM-001",
+      "FA3-ORCHESTRATION-WORKFORCE-REGISTRY-001"
+    ],
+    "retrospective_consumer_impact_reviewed": false,
+    "retrospective_consumer_impact_review_due": "BEFORE_EXECUTABLE_IMPLEMENTATION_OR_RUNTIME_MIGRATION",
+    "local_duplicate_created": false,
+    "rationale": "UEFF is the existing orchestration shared service target design; it embeds the CFF need/capability/fulfillment/responsibility/warranty domain and reuses current owners rather than creating another authority."
+  },
+  "donor_research": {
+    "new_donor_adopted": false,
+    "registered_temporal_references_only_are_planning_inputs": true,
+    "unregistered_or_unverified_runtime_alternatives": "ANALYSIS_ONLY_NO_CODE_IMPORT_RUNTIME_OR_ADMISSION",
+    "runtime_selection": "OPEN"
+  },
+  "pending_or_unmerged_donors_consumed": false,
+  "capability_count_after": 175,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "implementation_readiness": "NOT_AUTHORIZED",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "scope": "APPROVED_UEFF_STATIC_ARCHITECTURE_PLUS_RESPONSIBILITY_COMMITMENT_WARRANTY_ONLY"
+}
