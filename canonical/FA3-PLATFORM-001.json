@@ -26,12 +26,38 @@
     },
     {
       "service_id": "ORCHESTRATION_WORKFLOW_FABRIC",
-      "name": "Orchestration & Workflow Fabric",
+      "name": "Unified Execution & Fulfillment Fabric (UEFF)",
       "canonical_bindings": [
         "FA3-ORCHESTRATION-WORKFORCE-REGISTRY-001"
       ],
-      "durable_engine": "TEMPORAL",
-      "availability_not_authorization": true
+      "availability_not_authorization": true,
+      "architecture_plan": {
+        "status": "OWNER_APPROVED_DESIGN_NOT_IMPLEMENTED",
+        "document": "docs/CFA3-UEFF-CFF-ARCHITECTURE-2026-10-14.md",
+        "includes_cff_as_integrated_internal_domain": true,
+        "cff_domains": [
+          "NEED_SCOPE_RESOLUTION",
+          "QUALITY_AND_LIFECYCLE",
+          "COMPETENCE_AND_EVIDENCE",
+          "HUMAN_TOOL_MATERIAL_AND_CAPACITY_PLANNING",
+          "EXTERNAL_FULFILLMENT",
+          "PROPOSAL_AND_SCOPE_APPROVAL",
+          "RESPONSIBILITY_AND_COMMITMENT",
+          "ACCEPTANCE_AND_WARRANTY",
+          "CONTINGENCY_AND_REPLANNING"
+        ],
+        "responsibility_commitment_warranty_mandatory": true,
+        "creates_new_architectural_authority": false,
+        "creates_new_executable_capability": false
+      },
+      "durable_execution": {
+        "current_operational_engine": "TEMPORAL",
+        "current_operational_authority": "EXISTING_TEMPORAL_RUNTIME_UNCHANGED",
+        "target_engine_selection_status": "OPEN",
+        "target_engine": null,
+        "migration_authorized": false,
+        "runtime_admission_requires_separate_owner_approval_and_current_host_evidence": true
+      }
     },
     {
       "service_id": "SECURITY_IDENTITY_SECRETS",
@@ -103,7 +129,12 @@
     "DONOR_REGISTRY_REMAINS_NON_AUTHORITATIVE",
     "UNKNOWN_APPLICATION_PRODUCT_FAMILY_FAILS_CLOSED",
     "CAPABILITY_BASELINE_CHANGE_REQUIRES_SEPARATE_EXPLICIT_RECONCILIATION",
-    "PHYSICAL_CURRENT_HOST_PROMOTION_CANNOT_BE_INFERRED_FROM_STATIC_CLASSIFICATION"
+    "PHYSICAL_CURRENT_HOST_PROMOTION_CANNOT_BE_INFERRED_FROM_STATIC_CLASSIFICATION",
+    "UEFF_INCLUDES_CFF_AS_INTERNAL_DOMAIN_NOT_SEPARATE_FABRIC",
+    "UEFF_DESIGN_DOES_NOT_SUPERSEDE_CURRENT_TEMPORAL_RUNTIME_AUTHORITY",
+    "UEFF_TARGET_WORKFLOW_ENGINE_SELECTION_REMAINS_OPEN",
+    "UEFF_RESPONSIBILITY_AND_WARRANTY_DO_NOT_REPLACE_LEGAL_OR_EVIDENCE_AUTHORITIES",
+    "UEFF_PHYSICAL_HARDWARE_LEASES_REMAIN_HRB_OWNED"
   ],
   "current_host_impact": {
     "classification": "STRUCTURAL_REASSESSMENT_REQUIRED",
