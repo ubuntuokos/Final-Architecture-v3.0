@@ -70,6 +70,30 @@ Logikai rekordok: `party`, `party_role`, `agreement`, `agreed_baseline`, `obliga
 
 Minden releváns rekordhoz kellhet: szerződés/jogszabály eredete, érintett fél és képviseleti jogosultság, terjedelem- és definícióverzió, időbélyeg, érvényesség, bizonyíték, szerepköralapú hozzáférés, változtatási/elfogadási esemény. A jogi részletszabályok területi illetékességhez kötöttek: a rendszer nem használhat globálisan egyetlen garanciamodellt.
 
+### 4.5 Garanciális és vállalt kötelezettségek tényleges követése
+
+A UEFF nem csak nyilvántartja, hanem **esemény-, feltétel- és határidőalapon követhetővé teszi** a felek vállalásait (a tartós végrehajtási implementáció későbbi jóváhagyása után).
+
+- A kötelezettség és a jótállás/szavatosság/önkéntes garancia esetén külön rögzítendő a **jogcím, kötelezett, jogosult, tárgy, érintett alkatrész/szolgáltatás, teljesítési mérce, hatálybalépési esemény, kezdő- és záróidő, határidőszámítás, földrajzi/jogi alkalmazhatóság**.
+- Az üzembe helyezés, a sikeres funkcionális próba, a dokumentumok átadása és a szerződés szerinti átvétel **külön állapotok**. Nem minden garanciális időszak kezdődik ugyanattól az eseménytől; ezt az alkalmazandó jog és érvényes vállalás határozza meg.
+- A vállalt szervizreakció, javítás, csere, tájékoztatás és ügyintézés külön határidőket, kijelölt felet, ellenőrzési bizonyítékot, értesítési/escalációs szabályt és lezárási feltételt kap.
+- A megrendelő használati, karbantartási, energiaellátási, környezeti és tájékoztatási kötelezettségeit ugyanígy nyilvántartjuk, **de ezek elmaradása önmagában nem vonja meg automatikusan a jogszabály szerinti igényeket**. Eltérés esetén oksági és jogi értékelés szükséges.
+- Függőben lévő garanciális igény, hiányos bizonyíték, vitatott okság vagy szerződésmódosítás esetén az érintett kötelezettség **nem nyilvánítható igazoltan teljesítettnek**. A UEFF kezdeményezhet értesítést, diagnózist vagy eszkalációt, de a vita eldöntése és a jogosultság megállapítása az erre felhatalmazott fél/szerv hatásköre.
+- Teljesítési kötelezettség csak igazolt ellenőrzés és jogosult elfogadás után zárható; az átadás után fennmaradó jótállási, szavatossági, karbantartási, dokumentációs és javítási kötelezettségek saját idővonalon élnek tovább.
+- A megállapodások és feltételek verziózottak. Utólagos módosítás nem törölheti nyom nélkül a korábbi vállalást vagy már bejelentett igényt. A határidő- és állapotnapló auditra alkalmas.
+
+**Hűtőszekrény: kölcsönös felelősségi példa**
+
+| Ellenőrizendő tétel | Kötelezett az adott szerződés alapján | Bizonyíték / eredmény |
+| --- | --- | --- |
+| Komplett készülék, beépített kompresszor | Kivitelező / szállító | Alkatrészlista, szerelési és átvételi jegyzőkönyv |
+| Előírt hálózati csatlakozás | Megrendelő vagy külön üzembe helyező fél | Feszültség-/csatlakozási vizsgálat |
+| Előírt üzemi hőmérséklet | Termékért és üzembe helyezésért szerződés szerint felelős fél | Reprodukálható funkcionális mérés |
+| Használati, karbantartási útmutató átadása | Szerződésben kijelölt átadó | Verziózott dokumentumátadási bizonyíték |
+| Garanciális hibabejelentés és jogorvoslat | A vonatkozó jog/garancia szerinti felek | Bejelentés, kivizsgálás, intézkedés és határidőnapló |
+
+**Változáskezelés:** új hiányzó ügyfél-előfeltétel, hibás kivitelezői teljesítés vagy garanciális bejelentés nem írhatja át automatikusan a jóváhagyott ár-/határidő-/scope-baseline-t. A konkrét kötelezettség, hatás, változat és szükséges jóváhagyás külön rögzítendő.
+
 ## 5. Váratlan esemény és scope-korlát
 
 Új hiba esetén: észlelés és bizonyíték → érintett munka biztonságos megállítása → szükséges azonnali veszélyelhárítás a meglévő jogosultsági szabályok szerint → diagnózis → minimálisan szükséges javítási alternatívák → költség-/határidőhatás és a felek kötelezettségei → jogosult jóváhagyás → végrehajtás → ellenőrzés → eredeti munkafolyamat folytatása.
