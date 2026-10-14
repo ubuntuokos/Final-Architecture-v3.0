@@ -1,0 +1,29 @@
+{
+  "schema": "fa3.current-host-structural-impact.v1",
+  "id": "CFA3-CH-IMPACT-UEFF-CFF-ARCHITECTURE-20261014",
+  "date": "2026-10-14",
+  "status": "NO_RUNTIME_IMPACT",
+  "capability_count": 175,
+  "structural_changes": [
+    "canonical/FA3-PLATFORM-001.json",
+    "canonical/FA3-PLATFORM-BINDING-RECONCILIATION-001.json",
+    "canonical/assessments/CFA3-UEFF-CFF-REUSE-ASSESSMENT-2026-10-14.json",
+    "canonical/decisions/CFA3-DEC-UEFF-CFF-ARCHITECTURE-2026-10-14.json"
+  ],
+  "design_document": "docs/CFA3-UEFF-CFF-ARCHITECTURE-2026-10-14.md",
+  "current_host_changes": [],
+  "physical_requalification_required": false,
+  "physical_requalification_dispatched": false,
+  "historical_evidence_reused": false,
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "rationale": "This changes only static CFA3 platform taxonomy, design/binding projections, architecture approval and donor planning metadata. UEFF/CFF responsibility, mutual commitment, acceptance and warranty behavior is specified but not implemented. The current Temporal operational workflow owner and all existing Security/UAF/MCP, Model Router, HRB/Hardware Safety and Evidence authorities remain unchanged. No worker, runtime/provider, host service, hardware lease, admission rule, executable workflow, Current Host proof recipe or operational configuration is modified. A later UEFF implementation, engine migration or material runtime admission will require a separate Current Host impact assessment and fresh physical proof.",
+  "current_host_status": "NO_ACTIVE_HOST_CHANGE_BY_THIS_DESIGN",
+  "scope_origin": "EXPLICIT_USER_SCOPE",
+  "scope_refs": [
+    "UEFF_V1_APPROVAL",
+    "RESPONSIBILITY_COMMITMENT_WARRANTY_EXTENSION",
+    "CFA3_ARCHITECTURE_INTEGRATION_APPROVAL",
+    "FUTURE_DURABLE_ENGINE_SELECTION_OPEN_APPROVAL"
+  ]
+}
