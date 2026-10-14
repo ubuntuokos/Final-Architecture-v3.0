@@ -1,0 +1,51 @@
+{
+  "schema": "fa3.architecture-decision.v1",
+  "id": "CFA3-DEC-UEFF-CFF-ARCHITECTURE-2026-10-14",
+  "status": "OWNER_APPROVED_STATIC_ARCHITECTURE",
+  "date": "2026-10-14",
+  "title": "Integrate UEFF target architecture with embedded CFF, mutual obligations and warranty conditions",
+  "decision": "Integrate CFF as an internal domain of the unified UEFF within the existing ORCHESTRATION_WORKFLOW_FABRIC platform service, including actual-need analysis, competent fulfillment, time-scoped and conditional resources, contracting, mutual obligations, acceptance, statutory/voluntary warranty distinctions and dispute handling. Set future durable execution engine choice to OPEN while preserving Temporal as the existing operational engine/authority until a separately approved proven migration.",
+  "owner_approval_basis": [
+    "Owner approved UEFF v1.0 conceptual architecture in the originating conversation.",
+    "Owner explicitly requested inclusion of responsibility, mutual commitment, commissioning/acceptance and warranty-condition enforcement.",
+    "Owner explicitly approved incorporating the corrected UEFF into the CFA3 plan and approved opening the future durable engine selection while preserving current Temporal-based operation."
+  ],
+  "approved_scope": {
+    "design_artifacts_only": true,
+    "platform_taxonomy_update": true,
+    "reuse_existing_shared_orchestration_service": true,
+    "responsibility_commitment_warranty_domain": true,
+    "engine_future_selection_open": true,
+    "temporal_current_operation_unchanged": true
+  },
+  "not_authorized": [
+    "IMPLEMENT_UEFF_RUNTIME",
+    "MIGRATE_OR_DISABLE_TEMPORAL",
+    "SELECT_FINAL_DURABLE_ENGINE",
+    "ADOPT_DONOR_OR_INSTALL_EXTERNAL_RUNTIME",
+    "CHANGE_UAF_SECURITY_HRB_MODEL_ROUTER_EVIDENCE_AUTHORITY",
+    "CREATE_PARALLEL_WORK_MANAGEMENT_OR_WORKFLOW_AUTHORITY",
+    "DECLARE_CURRENT_HOST_PASS",
+    "INFER_LEGAL_LIABILITY_WITHOUT_APPLICABLE_JURISDICTION_AND_EVIDENCE",
+    "AUTOMATICALLY_EXPAND_USER_APPROVED_SCOPE"
+  ],
+  "design_reference": "docs/CFA3-UEFF-CFF-ARCHITECTURE-2026-10-14.md",
+  "reuse_assessment": "canonical/assessments/CFA3-UEFF-CFF-REUSE-ASSESSMENT-2026-10-14.json",
+  "invariants": {
+    "capability_baseline": 175,
+    "capability_delta": 0,
+    "architectural_authority_delta": 0,
+    "donor_registry_modified": false,
+    "donor_usage_edges_created": 0,
+    "runtime_dependencies_added": false,
+    "physical_current_host_pass_claimed": false,
+    "statutory_warranty_rights_cannot_be_silently_waived": true,
+    "customer_and_contractor_obligations_are_independently_evidenced": true,
+    "unknown_product_function_is_not_accepted_or_rejected_as_proven": true,
+    "non_performance_cause_and_legal_responsibility_require_verified_evidence": true,
+    "hard_eligibility_filters_precede_optimization": true,
+    "resource_reservations_for_hardware_require_HRB_authority": true
+  },
+  "runtime_effect": "NONE_STATIC_ARCHITECTURE_ONLY",
+  "current_host_requalification_required_by_this_design_only": false
+}
