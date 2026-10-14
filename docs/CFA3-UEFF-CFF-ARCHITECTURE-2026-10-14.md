@@ -14,7 +14,7 @@ A helyes rétegezés: **CFA3 alkalmazások → UEFF (CFF + durable orchestration
 ## 2. Temporal: jelenlegi működés kontra jövőbeni technológiai döntés
 
 - A **jelenlegi operatív workflow-k Temporal-függő életciklus-hatósága változatlan**, amíg külön jóváhagyott és bizonyított migráció nem történik.
-- A **UEFF célarchitektúrájának tartós végrehajtómotorja NYITOTT KIVÁLASZTÁS**. Nem rögzített végleges Temporal-választás, és nem automatikus Temporal-eltávolítás.
+- A **UEFF célarchitektúrájának tartós végrehajtómotorja OPEN – NYITOTT KIVÁLASZTÁS**. Nem rögzített végleges Temporal-választás, és nem automatikus Temporal-eltávolítás.
 - Vizsgálandó megoldási irányok: önhostolható meglévő durable runtime; beágyazható, adatbázis-központú motor; vagy indokolt esetben saját, PostgreSQL-alapú végrehajtási mag. A jelöltek nem automatikusan elfogadott donorok vagy telepíthető függőségek.
 - A célarchitektúra motorfüggetlen **viselkedési szerződést** határoz meg; a végrehajtási garanciák eltérései miatt nem ígér korlátlan motorcserélhetőséget.
 - Engine Selection preferenciát/kompatibilitást nyilvántarthat, de nem jogosult önálló runtime-admission vagy új végrehajtási hatóság létrehozására.
