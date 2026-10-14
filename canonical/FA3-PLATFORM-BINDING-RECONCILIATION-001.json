@@ -14,34 +14,60 @@
     {
       "service_id": "RUNTIME_RESOURCE_FABRIC",
       "state": "BOUND",
-      "canonical_owners": ["FA3-AUTH-HOST-RESOURCE-BROKER-001"]
+      "canonical_owners": [
+        "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+      ]
     },
     {
       "service_id": "ORCHESTRATION_WORKFLOW_FABRIC",
       "state": "BOUND",
-      "canonical_owners": ["FA3-ORCHESTRATION-WORKFORCE-REGISTRY-001", "Temporal"]
+      "canonical_owners": [
+        "FA3-ORCHESTRATION-WORKFORCE-REGISTRY-001",
+        "Temporal"
+      ],
+      "target_architecture": "UEFF_INTEGRATED_CFF_AND_DURABLE_ORCHESTRATION",
+      "approved_design_document": "docs/CFA3-UEFF-CFF-ARCHITECTURE-2026-10-14.md",
+      "current_durable_execution_owner": "Temporal",
+      "future_durable_engine_selection_status": "OPEN",
+      "future_engine_authority_created": false,
+      "current_temporal_authority_retained_until_separate_migration_approval": true,
+      "responsibility_commitment_warranty_design": "INCLUDED_IN_CFF_INTERNAL_DOMAIN_NOT_RUNTIME_ACTIVATED"
     },
     {
       "service_id": "SECURITY_IDENTITY_SECRETS",
       "state": "BINDING_RECONCILIATION_READY",
-      "canonical_owners": ["FA3-AUTH-SECURITY-GOV-001", "FA3-AUTH-SECRETS-001"],
+      "canonical_owners": [
+        "FA3-AUTH-SECURITY-GOV-001",
+        "FA3-AUTH-SECRETS-001"
+      ],
       "new_security_fabric_forbidden": true
     },
     {
       "service_id": "RIGHTS_LICENSE_AUDIT",
       "state": "BOUND",
-      "canonical_owners": ["FA3-LICENSE-RIGHTS-001", "FA3-AUTH-OBS-EVIDENCE-001"]
+      "canonical_owners": [
+        "FA3-LICENSE-RIGHTS-001",
+        "FA3-AUTH-OBS-EVIDENCE-001"
+      ]
     },
     {
       "service_id": "MODEL_PROVIDER_FABRIC",
       "state": "BOUND",
-      "canonical_owners": ["FA3-AUTH-MODEL-ROUTER-001"]
+      "canonical_owners": [
+        "FA3-AUTH-MODEL-ROUTER-001"
+      ]
     },
     {
       "service_id": "COLLABORATION_FABRIC",
       "state": "PARTIAL_EXISTING_OWNER_MATERIALIZATION",
-      "canonical_owners_on_main": ["FA3-AI-COMMS-001", "FA3-WORK-MANAGEMENT-PROJECTION-001"],
-      "pending_existing_owner_prs": [566, 590],
+      "canonical_owners_on_main": [
+        "FA3-AI-COMMS-001",
+        "FA3-WORK-MANAGEMENT-PROJECTION-001"
+      ],
+      "pending_existing_owner_prs": [
+        566,
+        590
+      ],
       "composition_only": true,
       "new_collaboration_runtime_authority_forbidden": true
     },
@@ -49,19 +75,27 @@
       "service_id": "PLUGIN_EXTENSION_FABRIC",
       "state": "PENDING_EXISTING_OWNER_MATERIALIZATION",
       "target_owner": "FA3-SHARED-PLUGIN-EXTENSION-FABRIC-001",
-      "pending_existing_owner_prs": [564],
+      "pending_existing_owner_prs": [
+        564
+      ],
       "parallel_plugin_extension_fabric_forbidden": true
     },
     {
       "service_id": "KNOWLEDGE_DATA_ASSET_FABRIC",
       "state": "PARTIAL_EXISTING_BINDINGS",
-      "canonical_owners": ["FA3-SHARED-KNOWLEDGE-RETRIEVAL-001"],
+      "canonical_owners": [
+        "FA3-SHARED-KNOWLEDGE-RETRIEVAL-001"
+      ],
       "future_binding_must_reuse_existing_asset_data_owners": true
     },
     {
       "service_id": "GOVERNANCE_EVIDENCE_UPDATE_FABRIC",
       "state": "BINDING_RECONCILIATION_READY",
-      "canonical_owners": ["FA3-GATE-REGISTRY-001", "FA3-AUTH-OBS-EVIDENCE-001", "FA3-UPDATE-FABRIC-001"]
+      "canonical_owners": [
+        "FA3-GATE-REGISTRY-001",
+        "FA3-AUTH-OBS-EVIDENCE-001",
+        "FA3-UPDATE-FABRIC-001"
+      ]
     }
   ],
   "application_work_capability_bindings": {
@@ -81,5 +115,16 @@
     "after_existing_owner_pr_merges": "UPDATE_FA3_PLATFORM_001_BINDINGS_ONLY_AS_DELTA",
     "duplicate_runtime_or_authority": "FORBIDDEN",
     "current_host": "DEFER_TO_FINAL_STABLE_EXACT_HEAD"
+  },
+  "ueff_architecture_reconciliation": {
+    "existing_shared_service_id": "ORCHESTRATION_WORKFLOW_FABRIC",
+    "new_top_level_fabric_created": false,
+    "new_architectural_authority_created": false,
+    "capability_delta": 0,
+    "workforce_and_work_management_truth_reused": true,
+    "security_uaf_hrb_model_router_evidence_rights_authorities_unchanged": true,
+    "warranty_entitlements_not_automatically_voided_by_missing_precondition": true,
+    "current_host_runtime_impact": "NONE_BY_STATIC_PLAN_ONLY",
+    "implementation_or_engine_migration_authorized": false
   }
 }
